@@ -90,30 +90,32 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px">
-              <Box display="flex" justifyContent="center" alignItems="center">
-                <img
-                  alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../assets/user.png`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
-                />
-              </Box>
-              <Box textAlign="center">
-                <Typography
-                  variant="h2"
-                  color={colors.grey[100]}
-                  fontWeight="bold"
-                  sx={{ m: "10px 0 0 0" }}
-                >
-                  Ed Roh
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
-                </Typography>
-              </Box>
-            </Box>
+            <>
+            </>
+            // <Box mb="25px">
+            //   <Box display="flex" justifyContent="center" alignItems="center">
+            //     <img
+            //       alt="profile-user"
+            //       width="100px"
+            //       height="100px"
+            //       src={`../../assets/user.png`}
+            //       style={{ cursor: "pointer", borderRadius: "50%" }}
+            //     />
+            //   </Box>
+            //   <Box textAlign="center">
+            //     <Typography
+            //       variant="h2"
+            //       color={colors.grey[100]}
+            //       fontWeight="bold"
+            //       sx={{ m: "10px 0 0 0" }}
+            //     >
+            //       Ed Roh
+            //     </Typography>
+            //     <Typography variant="h5" color={colors.greenAccent[500]}>
+            //       VP Fancy Admin
+            //     </Typography>
+            //   </Box>
+            // </Box>
           )}
 
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
@@ -146,13 +148,7 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             />
-            <Item
-              title="Invoices Balances"
-              to="/invoices"
-              icon={<ReceiptOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+         
 
             <Typography
               variant="h6"
@@ -183,41 +179,8 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Typography
-              variant="h6"
-              color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
-            >
-              Charts
-            </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
-              icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
-              icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
-              icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Geography Chart"
-              to="/geography"
-              icon={<MapOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+           
+          
           </Box>
         </Menu>
       </ProSidebar>
