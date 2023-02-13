@@ -5,6 +5,7 @@ import Topbar from "./pages/global/Topbar";
 import Dashboard from './pages/dashboard'
 import Team from './pages/team'
 import Contacts from './pages/contacts'
+import Permission from './pages/permission'
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./pages/global/Sidebar";
 import './App.css'
@@ -26,6 +27,7 @@ function App() {
               <Route path="/" element={<Dashboard />} />
               <Route path="/team" element={<Team />} />
               <Route path="/contacts" element={<Contacts />} />
+              <Route path="/permission" element={<Permission />} />
             </Routes>
           </main>
         </div>
