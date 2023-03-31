@@ -28,6 +28,7 @@ const Register = () => {
   const [userRole, setUserRole] = useState("")
   const [userName, setUserName] = useState("")
   const [password, setPassword] = useState("")
+  const [matchingPassword, setMatchingPassword] = useState("")
   const [status, setStatus] = useState("")
   const [accountCreationDate, setAccountCreationDate] = useState("")
 
@@ -41,6 +42,7 @@ const Register = () => {
       password: data.get("password"),
     });
   };
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -57,7 +59,7 @@ const Register = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Sign up 
           </Typography>
           <Box
             component="form"
@@ -87,8 +89,11 @@ const Register = () => {
                   label="First Name"
                   autoFocus
                   size="small"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
                 />
               </Grid>
+              
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -98,6 +103,8 @@ const Register = () => {
                   name="lastName"
                   autoComplete="family-name"
                   size="small"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -109,9 +116,12 @@ const Register = () => {
                   name="email"
                   autoComplete="email"
                   size="small"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -121,6 +131,22 @@ const Register = () => {
                   id="password"
                   autoComplete="new-password"
                   size="small"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  name="matchingPassword"
+                  label="Confirm Password"
+                  type="matchingPassword"
+                  id="matchingPassword"
+                  autoComplete="matching-password"
+                  size="small"
+                  value={matchingPassword}
+                  onChange={(e) => setMatchingPassword(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -146,7 +172,7 @@ const Register = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -155,6 +181,8 @@ const Register = () => {
                   id="userRole"
                   autoComplete="userRole"
                   size="small"
+                  value={userRole}
+                  onChange={(e) => setUserRole(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
