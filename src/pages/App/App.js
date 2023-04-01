@@ -1,29 +1,31 @@
-import logo from '../../logo.svg';
 import './App.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectSample } from '../../redux/selectors/sample/selectors';
-import { updateSample } from '../../redux/actions/sample/actions';
-import { Input, Card } from '@mui/material';
+import { ThemeProvider, createTheme } from '@mui/material';
+import PermissionWrapper from '../../components/Permission Wrapper/PermissionWrapper';
+import SideBar from '../../components/Side Bar/SideBar';
+import { BrowserRouter, Routes } from 'react-router-dom';
+import Router from '../../routes/router';
+import theme from "../../utils/theme/theme.json";
+
+const appTheme = createTheme(theme);
 
 const App = () => {
 
-  const dispatch = useDispatch();
-  const sample = useSelector(selectSample);
-
-  const onChange = (e) => {
-    dispatch(updateSample(e?.target?.value));
-  }
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Card>
-          <p>{sample}</p>
-          <Input onChange={onChange} />
-        </Card>
-      </header>
-    </div>
+    <ThemeProvider theme={appTheme}>
+      <div className="App">
+        <BrowserRouter>
+          <PermissionWrapper
+            component={<SideBar />}
+            withoutPermissions
+          // module="ADD_ABC"
+          // majorModule="ABC"
+          />
+          <Routes>
+            {Router}
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </ThemeProvider>
   );
 }
 

@@ -1,6 +1,13 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { Routes } from "./routes";
 
-const Router = createBrowserRouter(Routes);
+const Router = Routes.map(r => (
+    <Route
+        path={r.path}
+        element={r.element}
+        key={r.path}
+    />
+)
+);
 
 export default Router;
