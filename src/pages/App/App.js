@@ -17,7 +17,7 @@ const App = () => {
           <PermissionWrapper
             component={<SideBar />}
             withoutPermissions
-          // module="ADD_ABC"
+          // permission="ADD_ABC"
           // majorModule="ABC"
           />
           <Routes>
