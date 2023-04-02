@@ -1,13 +1,12 @@
-import App from "../pages/App/App";
 import PasswordResetPage from "../pages/Password Reset";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
+import Dashboard from "../pages/Dashboard/Dashboard";
+
+
+import DashboardIcon from '@mui/icons-material/Dashboard';
 
 export const Routes = [
-    {
-        path: "/",
-        element: <App />
-    },
     {
         path: "/password-reset",
         element: <PasswordResetPage />
@@ -19,5 +18,12 @@ export const Routes = [
     {
         path: "/register",
         element: <Register />
-    }
+    },
+    {
+        path: "/",
+        name: "Dashboard",
+        isSideBar: true,
+        element: <Dashboard />,
+        icon: DashboardIcon
+    },
 ];
