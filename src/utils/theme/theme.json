@@ -5,7 +5,8 @@
   "baseline": false,
   "extendedColors": [],
   "coreColors": {
-    "primary": "#8ABFC1"
+    "primary": "#8ABFC1",
+    "secondary": "#1C8F91"
   },
   "schemes": {
     "light": {
