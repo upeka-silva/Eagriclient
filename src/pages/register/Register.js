@@ -13,7 +13,7 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
-  Card
+  Card,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
@@ -21,14 +21,14 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
-import styled from 'styled-components';
+import styled from "styled-components";
+import FormHelperText from "@mui/material/FormHelperText";
 
 const BGImage = require("../../assets/images/background.jpg");
 
 const theme = createTheme();
 
 const Register = () => {
-
   const [formData, setFormData] = useState({
     userName: "",
     firstName: "",
@@ -41,39 +41,40 @@ const Register = () => {
     useRole: "",
     userType: "",
     nationality: "",
-    status: ""
-  })
+    status: "",
+  });
 
-  const handleSubmit = () => {
-
-  }
+  const handleSubmit = () => {};
 
   const handleChange = (event) => {
     event.preventDefault();
-    setFormData(current => ({ ...current, [event?.target?.name]: event?.target?.value || '' }))
-}
+    setFormData((current) => ({
+      ...current,
+      [event?.target?.name]: event?.target?.value || "",
+    }));
+  };
 
-useEffect(() => {
-  console.log(formData)
-}, [formData]);
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
 
-const validateInputByInput = (feild, target) => {
-  const current = { ...formData };
-  if (!feild) {
+  const validateInputByInput = (feild, target) => {
+    const current = { ...formData };
+    if (!feild) {
       return false;
-  } else {
+    } else {
       if (!!target) {
-          if (!!current[feild] && current[target] === current[feild]) {
-              return false;
-          }
+        if (!!current[feild] && current[target] === current[feild]) {
+          return false;
+        }
       } else {
-          if (!!current[feild]) {
-              return false;
-          }
+        if (!!current[feild]) {
+          return false;
+        }
       }
       return true;
-  }
-}
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <ContainerWithBG
@@ -105,7 +106,7 @@ const validateInputByInput = (feild, target) => {
               onSubmit={handleSubmit}
               sx={{ mt: 3 }}
             >
-              <Grid container spacing={1}>
+              <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
                   <TextField
                     required
@@ -116,6 +117,7 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="userName"
                     value={formData.userName}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -129,6 +131,7 @@ const validateInputByInput = (feild, target) => {
                     autoFocus
                     value={formData.firstName}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
 
@@ -142,6 +145,7 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="family-name"
                     value={formData.lastName}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -155,6 +159,7 @@ const validateInputByInput = (feild, target) => {
                     type="email"
                     value={formData.email}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -168,24 +173,43 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="new-password"
                     value={formData.password}
                     onChange={handleChange}
-                    error={validateInputByInput('newPassword', 'confirmPassword')}
+                    error={validateInputByInput(
+                      "password",
+                      "confirmPassword"
+                    )}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     fullWidth
-                    name="matchingPassword"
+                    name="confirmPassword"
                     label="Confirm Password"
                     type="password"
-                    id="matchingPassword"
-                    autoComplete="matching-password"
+                    id="confirmPassword"
+                    autoComplete="password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    error={validateInputByInput('confirmPassword', 'newPassword')}
-                    // aria-describedby="confirm-password-error"
+                    error={validateInputByInput(
+                      "confirmPassword",
+                      "password"
+                    )}
+                    aria-describedby="confirm-password-error"
+                    size="small"
                   />
                 </Grid>
+{/* 
+                {(validateInputByInput("password", "confirmPassword") ||
+                  validateInputByInput("confirmPassword", "password")) && 
+                  (
+                 
+                    <FormHelperText id="confirm-password-error" error>
+                      Passwords do not match
+                    </FormHelperText>
+      
+                )} */}
+
                 <Grid item xs={12} sm={6}>
                   <TextField
                     required
@@ -196,6 +220,7 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="gender"
                     value={formData.gender}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -209,6 +234,7 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="phone"
                     value={formData.phone}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -220,6 +246,7 @@ const validateInputByInput = (feild, target) => {
                       value={formData.userRole}
                       label="User Role"
                       onChange={handleChange}
+                      size="small"
                     >
                       <MenuItem value="Admin">Admin</MenuItem>
                       <MenuItem value="Editor">Editor</MenuItem>
@@ -236,6 +263,7 @@ const validateInputByInput = (feild, target) => {
                       value={formData.userType}
                       label="User Type"
                       onChange={handleChange}
+                      size="small"
                     >
                       <MenuItem value="Farmer">Farmer</MenuItem>
                       <MenuItem value="Extension Officer">
@@ -258,6 +286,7 @@ const validateInputByInput = (feild, target) => {
                     autoComplete="nationality"
                     value={formData.nationality}
                     onChange={handleChange}
+                    size="small"
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -269,6 +298,7 @@ const validateInputByInput = (feild, target) => {
                       value={formData.status}
                       label="Status"
                       onChange={handleChange}
+                      size="small"
                     >
                       <MenuItem value="Active">Active</MenuItem>
                       <MenuItem value="Inactive">Inactive</MenuItem>
@@ -276,84 +306,21 @@ const validateInputByInput = (feild, target) => {
                     </Select>
                   </FormControl>
                 </Grid>
-
-                {/* <Grid item xs={12} sm={12}>
-                <FormControl fullWidth size="small">
-                  <InputLabel id="securityQuestion1">Security Question 1</InputLabel>
-                  <Select
-                    labelId="securityQuestion1"
-                    id="securityQuestion1"
-                    // value={age}
-                    label="Security Question 1"
-                    // onChange={handleChange}
-                  >
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value=""></MenuItem>
-                  </Select>
-                </FormControl>
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="securityAnswer1"
-                  label="Security Answer 1"
-                  id="securityAnswer1"
-                  size="small"
-                />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-              <FormControl fullWidth size="small">
-                  <InputLabel id="securityQuestion2">Security Question 2</InputLabel>
-                  <Select
-                    labelId="securityQuestion2"
-                    id="securityQuestion2"
-                    // value={age}
-                    label="Security Question 2"
-                    // onChange={handleChange}
-                  >
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value=""></MenuItem>
-                    <MenuItem value=""></MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="securityAnswer2"
-                  label="Security Answer 2"
-                  id="securityAnswer2"
-                  size="small"
-                />
-              </Grid> */}
-                {/* 
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="flex-end"
+              >
+                <Button
+                  disabled={
+                    validateInputByInput("password", "confirmPassword") ||
+                    validateInputByInput("confirmPassword", "password")
                   }
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid> */}
-              </Grid>
-              {/* <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button> */}
-              {/* <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid> */}
+                >
+                  Next Page
+                </Button>
+              </Box>
             </Box>
           </Box>
         </CustomCard>
