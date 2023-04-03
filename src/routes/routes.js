@@ -20,8 +20,38 @@ export const Routes = [
         element: <Register />
     },
     {
-        path: "/",
+        path: "/main-dashboard",
         name: "Dashboard",
+        isSideBar: true,
+        element: <Dashboard />,
+        icon: DashboardIcon,
+        children: [
+            {
+                path: "/dashboard/1",
+                name: "Dashboard 1",
+                isSideBar: true,
+                element: <Dashboard />,
+                icon: DashboardIcon
+            },
+            {
+                path: "/dashboard/2",
+                name: "Dashboard 2",
+                isSideBar: true,
+                element: <Dashboard />,
+                icon: DashboardIcon
+            },
+            {
+                path: "/dashboard/3",
+                name: "Dashboard 3",
+                isSideBar: true,
+                element: <Dashboard />,
+                icon: DashboardIcon
+            },
+        ]
+    },
+    {
+        path: "/dashboard/4",
+        name: "Dashboard 4",
         isSideBar: true,
         element: <Dashboard />,
         icon: DashboardIcon
