@@ -46,5 +46,6 @@ const PageWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   padding-right: 12px;
+  padding-bottom: 12px;
   overflow: scroll;
 `;

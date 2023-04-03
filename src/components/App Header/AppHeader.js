@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
-import styled from 'styled-components';
+import styled, { useTheme } from 'styled-components';
 import { useLocation } from 'react-router';
 import { Routes } from '../../routes/routes';
 import { Button, IconButton, Popover, Typography } from '@mui/material';
@@ -26,6 +26,8 @@ const AppHeader = () => {
     const id = isProfileOptionsOpen ? 'simple-popover' : undefined;
 
     const location = useLocation();
+
+    const rTheme = useTheme();
 
     const getCurrentScreenName = () => {
         let screenName = '';
@@ -59,7 +61,11 @@ const AppHeader = () => {
                 <Popover
                     id={id}
                     open={isProfileOptionsOpen}
-                    anchorEl={anchorElement}
+                    {
+                    ...anchorElement && {
+                        anchorEl: anchorElement
+                    }
+                    }
                     onClose={closeProfileOptions}
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -67,11 +73,11 @@ const AppHeader = () => {
                     }}
                 >
                     <div>
-                        <Button variant={theme} startIcon={<ProfileIcon />}>
+                        <Button variant="text" startIcon={<ProfileIcon />}>
                             Profile
                         </Button>
                         <br />
-                        <Button variant={theme} startIcon={<ExitIcon />}>
+                        <Button variant="text" startIcon={<ExitIcon />}>
                             Logout
                         </Button>
                     </div>

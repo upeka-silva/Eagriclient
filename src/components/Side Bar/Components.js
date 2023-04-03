@@ -11,20 +11,20 @@ export const DrawerToggleButton = styled(IconButton)`
 export const SideBarItemButton = styled(ListItemButton)`
     display: flex;
     justify-content: space-between;
-    border-radius: ${props => props.hasChildren ? '10px 10px 0px 0px' : '10px'} !important;
-    background:  ${props => props.selected || props.hasChildren ? theme.coreColors.secondary : 'white'} !important;
-    color:  ${props => props.selected || props.hasChildren ? 'white !important' : 'unset'};
+    border-radius: ${props => props.haschildren ? '10px 10px 0px 0px' : '10px'} !important;
+    background:  ${props => props.selected || props.haschildren ? theme.coreColors.secondary : 'white'} !important;
+    color:  ${props => props.selected || props.haschildren ? 'white !important' : 'unset'};
     box-shadow: ${props => props.selected ? 'unset' : Colors.shadow};
     margin: 0px 0px 10px !important;
     transition: all 0.3s !important;
 
     &:hover{
-        background: ${props => props.selected || props.hasChildren ? 'unset' : '#FFF8  !important'};
-        transform: ${props => props.selected || props.hasChildren ? 'unset' : 'translateY(-2px)'};
+        background: ${props => props.selected || props.haschildren ? 'unset' : '#FFF8  !important'};
+        transform: ${props => props.selected || props.haschildren ? 'unset' : 'translateY(-2px)'};
     }
     
     & .MuiSvgIcon-root {
-        color:  ${props => props.selected || props.hasChildren ? 'white !important' : 'unset'};
+        color:  ${props => props.selected || props.haschildren ? 'white !important' : 'unset'};
     }
 `;
 
@@ -45,6 +45,10 @@ export const CollapseContainer = styled(Collapse)`
     margin-bottom: 10px;
     margin-top: -10px;
     border-radius: 0px 0px 10px 10px;
+    
+    & .MuiList-root {
+        padding-bottom: 0px !important;
+    }
 
     & ${SideBarItemButton} {
         box-shadow: unset !important;

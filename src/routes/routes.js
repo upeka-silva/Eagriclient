@@ -2,9 +2,14 @@ import PasswordResetPage from "../pages/Password Reset";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import Province from "../pages/Zones/Province/Province";
 
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import CropSquareIcon from '@mui/icons-material/CropSquare';
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import StreetviewIcon from '@mui/icons-material/Streetview';
+
 
 export const Routes = [
     {
@@ -23,29 +28,28 @@ export const Routes = [
         path: "/main-dashboard",
         name: "Dashboard",
         isSideBar: true,
-        element: <Dashboard />,
         icon: DashboardIcon,
+        element: <Dashboard />
+    },
+    {
+        path: "/zone",
+        name: "Zones",
+        isSideBar: true,
+        icon: AccountTreeIcon,
         children: [
             {
-                path: "/dashboard/1",
-                name: "Dashboard 1",
+                path: "/province",
+                name: "Province",
                 isSideBar: true,
-                element: <Dashboard />,
-                icon: DashboardIcon
+                element: <Province />,
+                icon: CropSquareIcon
             },
             {
-                path: "/dashboard/2",
-                name: "Dashboard 2",
+                path: "/district",
+                name: "District",
                 isSideBar: true,
-                element: <Dashboard />,
-                icon: DashboardIcon
-            },
-            {
-                path: "/dashboard/3",
-                name: "Dashboard 3",
-                isSideBar: true,
-                element: <Dashboard />,
-                icon: DashboardIcon
+                element: <Province />,
+                icon: StreetviewIcon
             },
         ]
     },
