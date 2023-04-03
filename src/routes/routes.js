@@ -2,9 +2,10 @@ import PasswordResetPage from "../pages/Password Reset";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
-
+import EmailVerificationPage from "../pages/Email Verification";
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
+
 
 export const Routes = [
     {
@@ -20,10 +21,15 @@ export const Routes = [
         element: <Register />
     },
     {
+        path: "/email-verification",
+        element: <EmailVerificationPage />
+    },
+    {
         path: "/",
         name: "Dashboard",
         isSideBar: true,
         element: <Dashboard />,
         icon: DashboardIcon
     },
+
 ];
