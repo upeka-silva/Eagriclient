@@ -4,12 +4,20 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import styled from "styled-components";
 import CssBaseline from "@mui/material/CssBaseline";
-import { Card, Box, TextField, Button, Grid, Link, Checkbox } from "@mui/material/";
+import {
+  Card,
+  Box,
+  TextField,
+  Button,
+  Grid,
+  Link,
+  Checkbox,
+} from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import Typography from "@mui/material/Typography";
-import Copyright from '../../components/Copyright';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Copyright from "../../components/Copyright";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 const BGImage = require("../../assets/images/background.jpg");
 
@@ -24,7 +32,7 @@ const Login = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data, 'data');
+    console.log(data, "data");
   };
 
   const handleChange = (event) => {
@@ -38,24 +46,24 @@ const Login = () => {
   useEffect(() => {
     console.log(formData);
   }, [formData]);
-  
+
   const validateInputByInput = (feild, target) => {
     const current = { ...formData };
     if (!feild) {
-        return false;
+      return false;
     } else {
-        if (!!target) {
-            if (!!current[feild] && current[target] === current[feild]) {
-                return false;
-            }
-        } else {
-            if (!!current[feild]) {
-                return false;
-            }
+      if (!!target) {
+        if (!!current[feild] && current[target] === current[feild]) {
+          return false;
         }
-        return true;
+      } else {
+        if (!!current[feild]) {
+          return false;
+        }
+      }
+      return true;
     }
-}
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -110,10 +118,10 @@ const Login = () => {
                 onChange={handleChange}
                 value={formData.password}
               />
-                <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
               <ButtonContainer>
                 <Button
                   variant="contained"
@@ -121,8 +129,8 @@ const Login = () => {
                   fullWidth
                   color="primary"
                   disabled={
-                    validateInputByInput('userName', null) ||
-                    validateInputByInput('password', null) 
+                    validateInputByInput("userName", null) ||
+                    validateInputByInput("password", null)
                   }
                 >
                   Sign In
@@ -130,18 +138,18 @@ const Login = () => {
               </ButtonContainer>
             </Box>
           </Box>
-          <Grid container sx={{mt: "10px"}}>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/register" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+          <Grid container sx={{ mt: "10px" }}>
+            <Grid item xs>
+              <Link href="#" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
+            <Grid item>
+              <Link href="/register" variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
           <Copyright sx={{ mt: 4, mb: 4 }} />
         </CustomCard>
       </ContainerWithBG>
