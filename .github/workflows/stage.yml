@@ -3,9 +3,7 @@
 
 name: AgriClient stage CI/CD
 
-on:
-  push:
-    branches: [ "main" ]
+on: [workflow_dispatch]
 
 env:
   CI : false
