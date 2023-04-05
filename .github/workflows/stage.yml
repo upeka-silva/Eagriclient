@@ -1,0 +1,71 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: sgClient stage CI/CD
+
+on: [workflow_dispatch]
+
+env:
+  CI : false
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: vijithakn/sgclient
+        tags: ${GITHUB_RUN_ID}, latest
+        registry: docker.io
+        dockerfile: Dockerfile
+        buildArgs: |
+          base_url=43.205.23.46
+        username: vijithakn
+        password: 0nly4@vijitha
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: 43.205.23.46
+        username: ec2-user
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEowIBAAKCAQEAjUuwS66GZ/yVOp2PQ7gVwmdudnEwkbyBIlmm/3rxKi8WX8M+
+          6CKT1WLEtOJdmkZ/yu8WFpM5toYRa9476jIn1ZIIK64BVGq1prJ1eZsCRmQzvCvT
+          FjdgD4RbCfL96yvuW1R8z0NNM7Zew0ACcM8ujItkMBLY/yHo6fzCXKMNYKtjIsoo
+          wwORAROxJ6Jmi5k0H5R23sa++rcXLwJ5D8zsQYn1lmmQU5Mdchva3dllRWZ2qADs
+          nqh7nRFd6JFVpLo9+H/rc6IcVwFJK1YatlL/9lI6rwLQcvLJxwgmbewYHvJa1B2K
+          LAmVvs6vc+nF5zndrGPhdRjL+irS92QacT+9swIDAQABAoIBAGCDC6eWTW5oBBKm
+          nr4V1p8UgUpb5F4XkWlCLaSieGplAXZl6ekr/SirL0uSt3byosWd68t9wtUe3HV+
+          thQxMC5cckJLt9LOlMeJbF6k97fXJ9NnZ+br6iyPLpQsKy7gsg4mNp5oDSq+bhoV
+          9dTSX6xWZhfEN/6FTg/Nu4EFStT1GIDyPvHmVTRsr9RPSdbF3+Ba4gOxqLjBARb2
+          6V8qze+kWn/SLbOEvg95VdQcbsTcLBMlMaXNAK7gt+CMQdnfGS+vymccQQegB//t
+          UpqqN++/LU5LNll7GCvdtXBW/85noZ4r7+RyoE+NdNckooU4w/iaYEEhkmI9NBPD
+          wSrUUxkCgYEAwiiYUibctDNTeFG7jreuGTw6mJt/eH61HLJwPipc00okBaxqSqUM
+          xKqWuxqpZ6tCaq3ZBPuD2zSHX9MezwR5ciLlRhNNEd4VX06WwmKgSL+TA1e9Kqan
+          V24HKdTmXz2ortk8jihxDqEqXPRGj6qsmsbRJtlVIM0Cwb03hCS5sJUCgYEAuky6
+          qnRjQfbRXwCmE8zOTrFmLEB6ZJRwl2u6vtmt2o+RHOn29blOzY4Z+cx/AGoALGUc
+          uFrKmWXZUxAcapSas07RpIq7pV8G0//u3txWWUFDWQEn9rEJXlOYN6ewPj6pPN2h
+          RXyEEUYtgGBwZCc5lVp2Zige5aD8i7en8OXVuycCgYAVcjR5Bo/kW7MBnE2SUxmo
+          8e0rBCoNXjmVJOSfCUDdmdfmxIetHRQO+STTH/vMVq9sZy2MjlefM+ssG37QsRbV
+          E6OtnN4rdhN4Ro8Cg7BeuMJ9YQilGGltj9q8tSaJKJ9kSNyWe0MZsZWjVNwibGDK
+          a+GYX/M2P07ppYPnVcMpDQKBgQChwZNmAs5X7P0XdtG8aVxMGV20WHusrvIfl0s7
+          AHgiR/tgVoi2DCKu+Y32RaeT7XWfFl/cdgBpNnR+2YNCyyqTO4FtU4Pf72VXV2XJ
+          HRjgQHlAY2+Wk1qmCwEkebXeJbv9/BVV5uoosX06dQHBBAnMcxJQWs+Q47nDekAY
+          OwbbiwKBgGd/PscARcr23zgm883JBnbxyyXuz9LUXfxLzO3ZzrbHNb99M+80VNDn
+          8DU19rBM+a09OJf2RXmb+LYHbRobfC4fi0dECfiPaCToz6ddyZlEHnpavuQScZLj
+          2YQORv936RE9TgQfaL1pOzgoRsDNuwF0+AU7QZHAbgdzmyp+vksc
+          -----END RSA PRIVATE KEY-----
+        script: |
+          docker login
+          docker pull vijithakn/sgclient:latest
+          docker stop sgclient
+          docker rm sgclient
+          docker run -d --name sgclient -p 80:80 vijithakn/sgclient:latest
