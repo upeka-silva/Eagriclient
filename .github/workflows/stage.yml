@@ -24,7 +24,7 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: vijithakn/agriClient
+        image: vijithakn/agriclient
         tags: ${GITHUB_RUN_ID}, latest
         registry: docker.io
         dockerfile: Dockerfile
@@ -67,7 +67,7 @@ jobs:
           -----END RSA PRIVATE KEY-----
         script: |
           docker login
-          docker pull vijithakn/agriClient:latest
-          docker stop agriClient
-          docker rm agriClient
-          docker run -d --name agriClient -p 80:80 vijithakn/agriClient:latest
+          docker pull vijithakn/agriclient:latest
+          docker stop agriclient
+          docker rm agriclient
+          docker run -d --name agriclient -p 80:80 vijithakn/agriclient:latest
