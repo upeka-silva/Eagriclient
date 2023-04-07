@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
@@ -14,15 +11,23 @@ import {
   InputLabel,
   MenuItem,
   Card,
+  TextField,
+  Button,
+  Avatar,
+  Typography
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import styled from "styled-components";
 import FormHelperText from "@mui/material/FormHelperText";
+
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 const BGImage = require("../../assets/images/background.jpg");
 
@@ -38,10 +43,9 @@ const Register = () => {
     confirmPassword: "",
     gender: "",
     phone: "",
-    useRole: "",
-    userType: "",
     nationality: "",
-    status: "",
+    dateOfBirth: "",
+    address: "",
   });
 
   const handleSubmit = () => {};
@@ -75,6 +79,7 @@ const Register = () => {
       return true;
     }
   };
+  
   return (
     <ThemeProvider theme={theme}>
       <ContainerWithBG
@@ -173,10 +178,7 @@ const Register = () => {
                     autoComplete="new-password"
                     value={formData.password}
                     onChange={handleChange}
-                    error={validateInputByInput(
-                      "password",
-                      "confirmPassword"
-                    )}
+                    error={validateInputByInput("password", "confirmPassword")}
                     size="small"
                   />
                 </Grid>
@@ -191,15 +193,12 @@ const Register = () => {
                     autoComplete="password"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    error={validateInputByInput(
-                      "confirmPassword",
-                      "password"
-                    )}
+                    error={validateInputByInput("confirmPassword", "password")}
                     aria-describedby="confirm-password-error"
                     size="small"
                   />
                 </Grid>
-{/* 
+                {/* 
                 {(validateInputByInput("password", "confirmPassword") ||
                   validateInputByInput("confirmPassword", "password")) && 
                   (
@@ -224,6 +223,20 @@ const Register = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DemoContainer components={["DatePicker"]}>
+                      <DatePicker
+                        label="Basic date picker"
+                        value={formData.dateOfBirth}
+                        onChange={handleChange}
+                        renderInput={(params) => (
+                          <TextField size="small" {...params} />
+                        )}
+                      />
+                    </DemoContainer>
+                  </LocalizationProvider>
+                </Grid>
+                <Grid item xs={12} sm={6}>
                   <TextField
                     required
                     fullWidth
@@ -237,44 +250,7 @@ const Register = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="userRole">User Role</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={formData.userRole}
-                      label="User Role"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Admin">Admin</MenuItem>
-                      <MenuItem value="Editor">Editor</MenuItem>
-                      <MenuItem value="Viewer">Viewer</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="userRole">User Type</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={formData.userType}
-                      label="User Type"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Farmer">Farmer</MenuItem>
-                      <MenuItem value="Extension Officer">
-                        Extension Officer
-                      </MenuItem>
-                      <MenuItem value="Director">Director</MenuItem>
-                      <MenuItem value="Researcher">Researcher</MenuItem>
-                      <MenuItem value="General Public">General Public</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+                
 
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -289,23 +265,20 @@ const Register = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="userRole">Status</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={formData.status}
-                      label="Status"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Active">Active</MenuItem>
-                      <MenuItem value="Inactive">Inactive</MenuItem>
-                      <MenuItem value="Suspend">Suspend</MenuItem>
-                    </Select>
-                  </FormControl>
+                <Grid item xs={12} sm={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    name="address"
+                    label="Address"
+                    id="address"
+                    autoComplete="nationality"
+                    value={formData.address}
+                    onChange={handleChange}
+                    size="small"
+                  />
                 </Grid>
+               
               </Grid>
               <Box
                 display="flex"
@@ -337,6 +310,9 @@ const CustomCard = styled(Card).attrs((props) => ({
   padding: 18px 24px;
   margin: 0px;
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   top: 50%;
   left: 50%;
   -ms-transform: translate(-50%, -50%);
