@@ -90,85 +90,13 @@ const SecondaryData = () => {
               sx={{ mt: 3 }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="userRole">User Role</InputLabel>
-                    <Select
-                      labelId="userRole"
-                      id="userRole"
-                      value={formData.userRole}
-                      label="User Role"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Admin">Admin</MenuItem>
-                      <MenuItem value="Editor">Editor</MenuItem>
-                      <MenuItem value="Viewer">Viewer</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="userType">User Type</InputLabel>
-                    <Select
-                      labelId="userType"
-                      id="userType"
-                      value={formData.userType}
-                      label="User Type"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Farmer">Farmer</MenuItem>
-                      <MenuItem value="Extension Officer">
-                        Extension Officer
-                      </MenuItem>
-                      <MenuItem value="Director">Director</MenuItem>
-                      <MenuItem value="Researcher">Researcher</MenuItem>
-                      <MenuItem value="General Public">General Public</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="status">Status</InputLabel>
-                    <Select
-                      labelId="status"
-                      id="status"
-                      value={formData.status}
-                      label="Status"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="Active">Active</MenuItem>
-                      <MenuItem value="Inactive">Inactive</MenuItem>
-                      <MenuItem value="Suspend">Suspend</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <FormControl fullWidth>
-                    <InputLabel id="language">Language</InputLabel>
-                    <Select
-                      labelId="language"
-                      id="language"
-                      value={formData.language}
-                      label="Language"
-                      onChange={handleChange}
-                      size="small"
-                    >
-                      <MenuItem value="English">English</MenuItem>
-                      <MenuItem value="Sinhala">Sinhala</MenuItem>
-                      <MenuItem value="Tamil">Tamil</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl fullWidth>
                     <InputLabel id="userRole">Security Question 1</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
+                      labelId="securityQ1"
                       id="securityQ1"
+                      name="securityQ1"
                       value={formData.securityQ1}
                       label="Security Question 1"
                       onChange={handleChange}
@@ -207,12 +135,13 @@ const SecondaryData = () => {
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl fullWidth>
-                    <InputLabel id="userRole">Security Question 1</InputLabel>
+                    <InputLabel id="userRole">Security Question 2</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
                       id="securityQ2"
-                      value={formData.securityQ1}
-                      label="Security Question 1"
+                      name="securityQ2"
+                      value={formData.securityQ2}
+                      label="Security Question 2"
                       onChange={handleChange}
                       size="small"
                     >
@@ -247,6 +176,23 @@ const SecondaryData = () => {
                     size="small"
                   />
                 </Grid>
+
+                <Grid
+                  direction="row"
+                  container
+                  style={{ justifyContent: "space-between" }}
+                  item
+                  xs={12}
+                  sm={12}
+                >
+                  <p>English</p>
+                  <Checkbox {...label} />
+                  <p>Sinhala</p>
+                  <Checkbox {...label} />
+                  <p>Tamil</p>
+                  <Checkbox {...label} />
+                </Grid>
+
                 <Grid
                   direction="row"
                   container
@@ -257,11 +203,7 @@ const SecondaryData = () => {
                 >
                   <p>Notification</p>
 
-                  <Checkbox
-                    {...label}
-                    defaultChecked
-                    sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                  />
+                  <Checkbox {...label} />
                 </Grid>
                 <Grid
                   direction="row"
@@ -273,13 +215,8 @@ const SecondaryData = () => {
                 >
                   <p>Two-Factor Authentication</p>
 
-                  <Checkbox
-                    {...label}
-                    defaultChecked
-                    sx={{ "& .MuiSvgIcon-root": { fontSize: 28 } }}
-                  />
+                  <Checkbox {...label} />
                 </Grid>
-             
               </Grid>
               <ButtonContainer>
                 <Button
@@ -291,9 +228,7 @@ const SecondaryData = () => {
                     validateInputByInput("securityQ1", null) ||
                     validateInputByInput("securityQ2", null) ||
                     validateInputByInput("answer1", null) ||
-                    validateInputByInput("answer2", null)||
                     validateInputByInput("answer2", null)
-                    
                   }
                 >
                   Sign Up

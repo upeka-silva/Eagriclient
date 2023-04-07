@@ -4,6 +4,7 @@ import Register from "../pages/register/BasicData";
 import SecondaryData from "../pages/register/SecondaryData";
 
 import Dashboard from "../pages/Dashboard/Dashboard";
+import EmailVerificationPage from "../pages/Email Verification";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 
@@ -23,6 +24,26 @@ export const Routes = [
   {
     path: "/secondary-register",
     element: <SecondaryData />,
+  },
+  {
+    path: "/email-verification",
+    element: <EmailVerificationPage />,
+  },
+  {
+    path: "/main-dashboard",
+    name: "Dashboard",
+  },
+  {
+    path: "/password-reset",
+    element: <PasswordResetPage />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/main-dashboard",
@@ -45,15 +66,16 @@ export const Routes = [
         element: <Dashboard />,
         icon: DashboardIcon,
       },
-      {
-        path: "/dashboard/3",
-        name: "Dashboard 3",
-        isSideBar: true,
-        element: <Dashboard />,
-        icon: DashboardIcon,
-      },
     ],
   },
+  {
+    path: "/dashboard/3",
+    name: "Dashboard 3",
+    isSideBar: true,
+    element: <Dashboard />,
+    icon: DashboardIcon,
+  },
+
   {
     path: "/dashboard/4",
     name: "Dashboard 4",
