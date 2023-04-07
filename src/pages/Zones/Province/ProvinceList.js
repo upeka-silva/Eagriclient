@@ -21,15 +21,17 @@ const ProvinceList = ({
     onView = (_province) => { },
     onEdit = (_province) => { },
     onDelete = (_province) => { },
+    selectedProvinces = [],
+    setSelectedProvinces,
+    selectAllProvinces,
+    removeSelectedProvinces,
 }) => {
 
     const columns = [
-        { field: 'id', headerName: 'ID', searchable: true },
-        { field: 'provinceCode', headerName: 'Province Code', searchable: true },
-        { field: 'name', headerName: 'Province Name', searchable: true },
         {
-            headerName: 'Actions',
+            // headerName: 'Actions',
             type: 'actions',
+            hidden: true,
             actions: [
                 {
                     action: 'view',
@@ -70,7 +72,10 @@ const ProvinceList = ({
                     }
                 }
             ]
-        }
+        },
+        // { field: 'id', headerName: 'ID', searchable: true },
+        { field: 'provinceCode', headerName: 'Province Code', searchable: true },
+        { field: 'name', headerName: 'Province Name', searchable: true },
     ];
 
     return (
@@ -82,6 +87,12 @@ const ProvinceList = ({
                 resetSearchOnHide
                 // loadingTable
                 loaderType="circular"
+                enableActionsOnContext
+                selectable
+                selectedRows={selectedProvinces}
+                onRowSelect={setSelectedProvinces}
+                selectAll={selectAllProvinces}
+                unSelectAll={removeSelectedProvinces}
             />
         </CardWrapper>
     );

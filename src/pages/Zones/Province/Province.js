@@ -3,6 +3,9 @@ import { Button, Typography } from '@mui/material';
 import { ActionWrapper } from '../../../components/Page Layout/ActionWrapper';
 import ProvinceList from './ProvinceList';
 import PlusIcon from '@mui/icons-material/Add';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import theme from '../../../utils/theme/theme.json';
 import PermissionWrapper from '../../../components/Permission Wrapper/PermissionWrapper';
 import CustomDialog from '../../../components/Page Layout/Dialog';
@@ -11,6 +14,7 @@ import ProvinceForm from './ProvinceForm';
 const Province = () => {
 
     const [selectedProvince, setSelectedProvince] = useState(null);
+    const [selectedProvinces, setSelectedProvinces] = useState([]);
     const [action, setAction] = useState('new');
     const [dialogState, setDialogState] = useState(false);
 
@@ -47,6 +51,24 @@ const Province = () => {
 
     const updateProvince = (value, key) => {
         setSelectedProvince(current => ({ ...current, [key]: value }))
+    }
+
+    const toggleSelectedProvinces = (province) => {
+        setSelectedProvinces((current = []) => {
+            let exists = current.findIndex(c => c?.id === province.id) > -1;
+            if (exists) {
+                return current.filter(c => c.id !== province.id);
+            }
+            return [...current, province];
+        })
+    }
+
+    const selectAllProvinces = (provinces) => {
+        setSelectedProvinces(provinces);
+    }
+
+    const removeAllSelectedProvinces = () => {
+        setSelectedProvinces([]);
     }
 
     const generatePopUpBody = () => {
@@ -114,6 +136,57 @@ const Province = () => {
                         </Button>
                     }
                 />
+                {
+                    selectedProvinces.length === 1 || selectedProvince ? (
+                        <PermissionWrapper
+                            component={
+                                <Button
+                                    variant='contained'
+                                    color='secondary'
+                                    startIcon={<FileOpenIcon />}
+                                    sx={{ ml: '5px' }}
+                                    onClick={onCreate}
+                                >
+                                    View Province
+                                </Button>
+                            }
+                        />
+                    ) : null
+                }
+                {
+                    selectedProvinces.length === 1 || selectedProvince ? (
+                        <PermissionWrapper
+                            component={
+                                <Button
+                                    variant='contained'
+                                    color='info'
+                                    startIcon={<ModeEditIcon />}
+                                    sx={{ ml: '5px' }}
+                                    onClick={onCreate}
+                                >
+                                    Update Province
+                                </Button>
+                            }
+                        />
+                    ) : null
+                }
+                {
+                    selectedProvinces.length > 0 || selectedProvince ? (
+                        <PermissionWrapper
+                            component={
+                                <Button
+                                    variant='contained'
+                                    color='error'
+                                    startIcon={<DeleteIcon />}
+                                    sx={{ ml: '5px' }}
+                                    onClick={onCreate}
+                                >
+                                    Delete Province{selectedProvinces.length > 1 ? 's' : ''}
+                                </Button>
+                            }
+                        />
+                    ) : null
+                }
             </ActionWrapper>
             <PermissionWrapper
                 component={
@@ -121,6 +194,10 @@ const Province = () => {
                         onView={onView}
                         onEdit={onEdit}
                         onDelete={onDelete}
+                        selectedProvinces={selectedProvinces}
+                        setSelectedProvinces={toggleSelectedProvinces}
+                        selectAllProvinces={selectAllProvinces}
+                        removeSelectedProvinces={removeAllSelectedProvinces}
                     />
                 }
             />

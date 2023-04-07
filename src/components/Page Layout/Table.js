@@ -18,14 +18,24 @@ import {
     CircularProgress,
     LinearProgress,
     Typography,
+    Popover,
+    Select,
+    FormControl,
+    InputLabel,
+    MenuItem,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SquareIcon from '@mui/icons-material/CheckCircle';
+import CheckBoxIcon from '@mui/icons-material/CropSquareOutlined';
+import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import PermissionWrapper from '../Permission Wrapper/PermissionWrapper';
 import { fetchDataList } from '../../redux/actions/table/table';
+import { Colors } from '../../utils/constants/Colors';
+import theme from '../../utils/theme/theme.json';
 
 
 export const DataTable = ({
@@ -35,7 +45,13 @@ export const DataTable = ({
     resetSearchOnHide = false,
     dataEndPoint = null,
     loadingTable = false,
-    loaderType = 'circular'
+    loaderType = 'circular',
+    enableActionsOnContext = false,
+    selectedRows = [],
+    selectable = false,
+    onRowSelect = (_r) => { },
+    selectAll = ([]) => { },
+    unSelectAll = () => { }
 }) => {
 
     const [rows, setRows] = useState(dataRows);
@@ -46,6 +62,7 @@ export const DataTable = ({
     const [keyword, setKeyword] = useState('');
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
+    const [showPopover, setShowPopover] = useState(null);
 
     useEffect(() => {
         if (dataEndPoint) {
@@ -132,15 +149,15 @@ export const DataTable = ({
     }
 
     const generateSearchInputPlaceHolder = () => {
-        let fieldList = columns.filter(c => c?.searchable).map(c => c?.headerName);
-        if (fieldList.length === columns.length) {
-            return 'Search from all fields';
-        }
-        return `Search from ${fieldList.join(', ')}`;
+        // let fieldList = columns.filter(c => c?.searchable).map(c => c?.headerName);
+        // if (fieldList.length === columns.length) {
+        //     return 'Search from all fields';
+        // }
+        // return `Search from ${fieldList.join(', ')}`;
+        return "Keyword"
     }
 
     const generateActionButtons = (actions = [], record = {}) => {
-        console.log(actions)
         return actions.map((a, key) => {
             switch (a.action) {
                 case 'edit':
@@ -188,6 +205,17 @@ export const DataTable = ({
         })
     }
 
+    const handleRowClick = (e) => {
+        if (enableActionsOnContext && e.type === 'contextmenu') {
+            e.preventDefault();
+            setShowPopover(e.currentTarget || null);
+            onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
+        } else if (selectable && e.type === 'click') {
+            e.preventDefault();
+            onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
+        }
+    }
+
     const renderProgress = () => {
         switch (loaderType) {
             case 'linear':
@@ -226,14 +254,39 @@ export const DataTable = ({
                                 unmountOnExit
                                 orientation='horizontal'
                             >
-                                <InputWrapper>
+                                <CollapseContentWrapper>
+                                    <FormControl sx={{ mr: '5px', minWidth: '200px' }} size='small'>
+                                        <InputLabel>Target Field</InputLabel>
+                                        <Select
+                                            // value={age}
+                                            label="Target Field"
+                                        // onChange={handleChange}
+                                        >
+                                            {
+                                                Object.keys(rows[0] || {}).filter(key => key !== 'id').map((k, key) => {
+                                                    return <MenuItem key={key} value={k}>{k.charAt(0).toUpperCase()}{k.slice(1)}</MenuItem>
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                    <FormControl sx={{ mr: '5px', minWidth: '200px' }} size='small'>
+                                        <InputLabel>Criteria</InputLabel>
+                                        <Select
+                                            // value={age}
+                                            label="Criteria"
+                                        // onChange={handleChange}
+                                        >
+                                            <MenuItem value={'equal'}>Equal =</MenuItem>
+                                            <MenuItem value={'contains'}>Contains :</MenuItem>
+                                        </Select>
+                                    </FormControl>
                                     <TextField
-                                        sx={{ minWidth: '25vw' }}
                                         value={keyword}
                                         onChange={e => setKeyword(e?.target?.value)}
-                                        placeholder={generateSearchInputPlaceHolder()}
+                                        label={generateSearchInputPlaceHolder()}
+                                        size='small'
                                     />
-                                </InputWrapper>
+                                </CollapseContentWrapper>
                             </Collapse>
                             <Button
                                 sx={{ marginLeft: "10px", minHeight: '56px' }}
@@ -246,51 +299,159 @@ export const DataTable = ({
                     )
                 }
             </TableHeaderContainer>
-            <Table>
+            <Table sx={{ borderCollapse: 'unset !important' }}>
                 <TableHead>
                     <TableRow>
                         {
-                            columns.map((c, key) => (
-                                <TableCell key={key} sx={c?.type !== 'actions' ? {} : { textAlign: 'right !important' }}>
-                                    {
-                                        c?.type !== 'actions' ? (
-                                            <TableSortLabel
-                                                active={orderByTarget === c.field}
-                                                direction={orderByTarget === c.field ? order : 'asc'}
-                                                onClick={() => setOrderBy(order === 'asc' ? 'desc' : 'asc', c.field)}
-                                            >
-                                                {c.headerName}
-                                            </TableSortLabel>
-                                        ) : c.headerName
-                                    }
-                                </TableCell>
-                            ))
+                            selectable &&
+                            <TableCell sx={{ borderBottom: 'unset !important' }}>
+                                <ActionToolTip
+                                    title={selectedRows.length === rows.length ? 'Unselect All' : 'Select All'}
+                                    placement="top"
+                                    arrow
+                                >
+                                    <IconButton
+                                        sx={{ ml: '-5px' }}
+                                        onClick={selectedRows.length === rows.length ? unSelectAll : () => selectAll(rows)}
+                                    >
+                                        {
+                                            selectedRows.length > 0 ? 
+                                            selectedRows.length < rows.length ? (
+                                                <IndeterminateCheckBoxIcon />
+                                            ) : (
+                                                <CloseIcon />
+                                            ) : (
+                                                <CheckBoxIcon sx={{ mt: '2px' }} />
+                                            )
+                                        }
+                                    </IconButton>
+                                </ActionToolTip>
+                            </TableCell>
+                        }
+                        {
+                            columns.map((c, key) => {
+                                if (!c?.hidden) {
+                                    return (
+                                        <TableCell key={key} sx={{ borderBottom: 'unset !important', ...(c?.type !== 'actions' ? {} : { textAlign: 'right !important' }) }}>
+                                            {
+                                                c?.type !== 'actions' ? (
+                                                    <TableSortLabel
+                                                        active={orderByTarget === c.field}
+                                                        direction={orderByTarget === c.field ? order : 'asc'}
+                                                        onClick={() => setOrderBy(order === 'asc' ? 'desc' : 'asc', c.field)}
+                                                    >
+                                                        {c.headerName}
+                                                    </TableSortLabel>
+                                                ) : c.headerName
+                                            }
+                                        </TableCell>
+                                    )
+                                }
+                                return null;
+                            })
                         }
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {
                         getDataRows().map((r, key) => (
-                            <TableRow key={key}>
+                            <SelectableRow
+                                key={key}
+                                onClick={handleRowClick}
+                                onContextMenu={handleRowClick}
+                                data-target={JSON.stringify(r)}
+                                contextMenu="none"
+                                selected={(selectedRows || []).findIndex(sr => sr?.id === r.id) > -1}
+                                firstChild={key === 0}
+                            >
+                                {
+                                    selectable && (
+                                        <TableCell>
+                                            {
+                                                (selectedRows || []).findIndex(sr => sr?.id === r.id) > -1 ? (
+                                                    <SquareIcon htmlColor={theme.coreColors.secondary} sx={{ transform: 'scale(1.2)', mt: '2px' }} />
+                                                ) : (
+                                                    <CheckBoxIcon sx={{ mt: '2px' }} />
+                                                )
+                                            }
+                                        </TableCell>
+                                    )
+                                }
                                 {
                                     columns.map((c, key2) => {
-                                        if (c.type === 'actions') {
+                                        if (!c?.hidden) {
+                                            if (c.type === 'actions') {
+                                                return (
+                                                    <TableCell key={`${key}-${key2}`} contextMenu="none">
+                                                        {/* <ActionWrapper> */}
+                                                        <ActionToolTip title="actions" placement="top" arrow>
+                                                            <IconButton onClick={(e) => { setShowPopover(e.currentTarget) }}>
+                                                                <MoreVertIcon />
+                                                            </IconButton>
+                                                        </ActionToolTip>
+                                                        {/* </ActionWrapper> */}
+                                                        <PopOver
+                                                            id={r.id}
+                                                            open={!!showPopover}
+                                                            {
+                                                            ...showPopover && {
+                                                                anchorEl: showPopover
+                                                            }
+                                                            }
+                                                            sx={{
+                                                                boxShadow: `${Colors.shadow} !important`
+                                                            }}
+                                                            onClose={() => { setShowPopover(null) }}
+                                                            anchorOrigin={{
+                                                                vertical: 'bottom',
+                                                                horizontal: 'left',
+                                                            }}
+                                                        >
+                                                            <ActionWrapper>
+                                                                {generateActionButtons(c.actions, r)}
+                                                            </ActionWrapper>
+                                                        </PopOver>
+                                                    </TableCell>
+                                                )
+                                            }
                                             return (
                                                 <TableCell key={`${key}-${key2}`}>
-                                                    <ActionWrapper>
-                                                        {generateActionButtons(c.actions, r)}
-                                                    </ActionWrapper>
+                                                    {r[c.field] || ''}
                                                 </TableCell>
-                                            )
+                                            );
                                         }
-                                        return (
-                                            <TableCell key={`${key}-${key2}`}>
-                                                {r[c.field] || ''}
-                                            </TableCell>
-                                        );
+                                        return null;
                                     })
                                 }
-                            </TableRow>
+                                {
+                                    columns.find(c => c.type === 'actions')?.hidden && (
+                                        <PopOver
+                                            id={r.id}
+                                            open={!!showPopover && r.id === JSON.parse(showPopover.getAttribute('data-target'))['id']}
+                                            {
+                                            ...showPopover && {
+                                                anchorEl: showPopover
+                                            }
+                                            }
+                                            sx={{
+                                                boxShadow: `${Colors.shadow} !important`
+                                            }}
+                                            onClose={() => {
+                                                setShowPopover(null);
+                                                onRowSelect(r);
+                                            }}
+                                            anchorOrigin={{
+                                                vertical: 'bottom',
+                                                horizontal: 'left',
+                                            }}
+                                        >
+                                            <ActionWrapper>
+                                                {generateActionButtons(columns.find(c => c?.hidden && c.type === 'actions')?.actions || [], r)}
+                                            </ActionWrapper>
+                                        </PopOver>
+                                    )
+                                }
+                            </SelectableRow>
                         ))
                     }
                 </TableBody>
@@ -353,4 +514,68 @@ const LoaderWrapper = styled.div`
     align-items: center;
     justify-content: center;
     min-height: 20vh;
+`;
+
+const CollapseContentWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+`;
+
+const PopOver = styled(Popover)`
+
+    & div:nth-child(3) {
+        box-shadow: ${Colors.shadow};
+    }
+`;
+
+const SelectableRow = styled(TableRow)`
+    background: ${props => props.selected ? 'white !important' : 'inehrit'};
+    border-width: ${props => props.selected ? '2px 1.5px' : '0px 0px 1px 0px'};
+    border-radius: ${props => props.selected ? '10px !important' : 'unset'};
+    border: ${props => props.selected ? 'unset !important' : 'inherit'};
+    border-collapse: collapse !important;
+    transition: 0.3s ease;
+
+    :hover {
+        background-color: ${theme.coreColors.primary} !important;
+        transform: translateX(-0px) translateY(-7px);
+        box-shadow: ${Colors.shadow};
+        cursor: pointer;
+    }
+
+    :hover td {
+        border-top: 1px solid ${theme.coreColors.primary} !important;
+        border-bottom: 1px solid ${theme.coreColors.primary} !important;
+        transition: 0.3s ease;
+    }
+
+    :hover td:first-child {
+        border-left: 1px solid ${theme.coreColors.primary} !important;
+        border-top-left-radius: 10px !important; 
+        border-bottom-left-radius: 10px !important;
+    }
+
+    :hover td:last-child {
+        border-right: 1px solid ${theme.coreColors.primary} !important;
+        border-bottom-right-radius: 10px !important;
+        border-top-right-radius: 10px !important;
+    }
+
+    & td {
+        border-top: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid #CCC !important'};
+        border-bottom: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid #CCC !important'};
+    }
+
+    & td:first-child {
+        border-left: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid transparent'};
+        border-top-left-radius: ${props => props.selected ? '10px !important' : 'unset'}; 
+        border-bottom-left-radius: ${props => props.selected ? '10px !important' : 'unset'};
+    }
+
+    & td:last-child {
+        border-right: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid transparent'};
+        border-bottom-right-radius: ${props => props.selected ? '10px !important' : 'unset'}; 
+        border-top-right-radius: ${props => props.selected ? '10px !important' : 'unset'};
+    }
 `;

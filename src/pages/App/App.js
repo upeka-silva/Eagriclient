@@ -22,7 +22,7 @@ const App = () => {
           // permission="ADD_ABC"
           // majorModule="ABC"
           />
-          <PageWrapper>
+          <PageWrapper sx={PermissionWrapper({ component: 'padding-right: 12px;' }) || ''}>
             <PermissionWrapper
               component={<AppHeader />}
             // withoutPermissions
@@ -45,7 +45,6 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-right: 12px;
-  padding-bottom: 12px;
+  ${props => props.sx}
   overflow: scroll;
 `;

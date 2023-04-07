@@ -11,41 +11,41 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 
 export const Routes = [
-  {
-    path: "/password-reset",
-    element: <PasswordResetPage />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/email-verification",
-    element: <EmailVerificationPage />,
-  },
-  {
-    path: "/password-reset",
-    element: <PasswordResetPage />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/register",
-    element: <Register />,
-  },
-  {
-    path: "/main-dashboard",
-    name: "Dashboard",
-    isSideBar: true,
-    element: <Dashboard />,
-    icon: DashboardIcon,
-  },
+    {
+        path: "/password-reset",
+        element: <PasswordResetPage />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
+    {
+        path: "/email-verification",
+        element: <EmailVerificationPage />,
+    },
+    {
+        path: "/password-reset",
+        element: <PasswordResetPage />,
+    },
+    {
+        path: "/login",
+        element: <Login />,
+    },
+    {
+        path: "/register",
+        element: <Register />,
+    },
+    {
+        path: "/main-dashboard",
+        name: "Dashboard",
+        isSideBar: true,
+        element: <Dashboard />,
+        icon: DashboardIcon,
+    },
     {
         path: "/zone",
         name: "Zones",
