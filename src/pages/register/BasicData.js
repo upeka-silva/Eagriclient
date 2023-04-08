@@ -14,7 +14,7 @@ import {
   TextField,
   Button,
   Avatar,
-  Typography
+  Typography,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
@@ -79,7 +79,7 @@ const Register = () => {
       return true;
     }
   };
-  
+
   return (
     <ThemeProvider theme={theme}>
       <ContainerWithBG
@@ -210,31 +210,44 @@ const Register = () => {
                 )} */}
 
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="gender"
-                    label="Gender"
-                    id="Gender"
-                    autoComplete="gender"
-                    value={formData.gender}
-                    onChange={handleChange}
-                    size="small"
-                  />
+                <FormControl fullWidth>
+                    <InputLabel id="gender">Gender</InputLabel>
+                    <Select
+                      labelId="gender"
+                      id="gender"
+                      name="gender"
+                      value={formData.gender}
+                      label="gender"
+                      onChange={handleChange}
+                      size="small"
+                    >
+                      <MenuItem value="Male">
+                        Male
+                      </MenuItem>
+                      <MenuItem value="Female">
+                        Female
+                      </MenuItem>
+                      <MenuItem value="Other">
+                        Other
+                      </MenuItem>
+                     
+                    </Select>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={["DatePicker"]}>
-                      <DatePicker
-                        label="Basic date picker"
-                        value={formData.dateOfBirth}
-                        onChange={handleChange}
-                        renderInput={(params) => (
-                          <TextField size="small" {...params} />
-                        )}
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date of Birth"
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        size="small"
+                        fullWidth
                       />
-                    </DemoContainer>
-                  </LocalizationProvider>
+                    )}
+                  />
+                </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -250,7 +263,6 @@ const Register = () => {
                     size="small"
                   />
                 </Grid>
-                
 
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -278,7 +290,6 @@ const Register = () => {
                     size="small"
                   />
                 </Grid>
-               
               </Grid>
               <Box
                 display="flex"
