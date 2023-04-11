@@ -328,10 +328,17 @@ export const DataTable = ({
                                     }
                                     onChange={
                                         (_e, value) => {
-                                            handleAdvanceDataChange(
-                                                value && value?.length > 0 ? data?.multiple ? value.map(v => v[data?.listTarget || k]) : value[data?.listTarget || k] : null,
-                                                data?.target || k
-                                            )
+                                            if (data?.multiple) {
+                                                handleAdvanceDataChange(
+                                                    value && value?.length > 0 ? value.map(v => v[data?.listTarget || k]) : null,
+                                                    data?.target || k
+                                                )
+                                            } else {
+                                                handleAdvanceDataChange(
+                                                    value ? value[data?.listTarget || k] : null,
+                                                    data?.target || k
+                                                )
+                                            }
                                         }
                                     }
                                     noOptionsText={`${data?.label || 'Item'}s not found`}
