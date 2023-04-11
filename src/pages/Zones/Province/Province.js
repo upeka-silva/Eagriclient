@@ -94,7 +94,7 @@ const Province = () => {
                 return (
                     <Typography>
                         <br />
-                        Are you sure? If confirmed it cannot be roll backed. Proceed with caution.
+                        Do you want to delete this record?
                     </Typography>
                 );
             default:
