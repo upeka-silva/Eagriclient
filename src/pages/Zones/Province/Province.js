@@ -132,7 +132,7 @@ const Province = () => {
                             sx={{ background: theme.coreColors.secondary }}
                             onClick={onCreate}
                         >
-                            Add Province
+                            Add
                         </Button>
                     }
                 />
@@ -147,7 +147,7 @@ const Province = () => {
                                     sx={{ ml: '5px' }}
                                     onClick={onCreate}
                                 >
-                                    View Province
+                                    View
                                 </Button>
                             }
                         />
@@ -164,7 +164,7 @@ const Province = () => {
                                     sx={{ ml: '5px' }}
                                     onClick={onCreate}
                                 >
-                                    Update Province
+                                    Update
                                 </Button>
                             }
                         />
@@ -181,7 +181,7 @@ const Province = () => {
                                     sx={{ ml: '5px' }}
                                     onClick={onCreate}
                                 >
-                                    Delete Province{selectedProvinces.length > 1 ? 's' : ''}
+                                    Delete
                                 </Button>
                             }
                         />

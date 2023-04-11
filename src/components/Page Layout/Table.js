@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from "styled-components";
 import {
     Table,
@@ -23,6 +23,12 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
+    Autocomplete,
+    FormControlLabel,
+    Checkbox,
+    FormLabel,
+    RadioGroup,
+    Radio,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
@@ -43,6 +49,10 @@ export const DataTable = ({
     columns = [],
     searchable = false,
     resetSearchOnHide = false,
+    enableAdvanceSearch = false,
+    advanceSearchProps = {},
+    advancedSearchComp = React.Component || undefined || null,
+    advancedSearchData = {},
     dataEndPoint = null,
     loadingTable = false,
     loaderType = 'circular',
@@ -59,6 +69,8 @@ export const DataTable = ({
     const [order, setOrder] = useState('asc');
     const [orderByTarget, setOrderByTarget] = useState(null);
     const [showSearchInput, setShowSearchInput] = useState(false);
+    const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+    const [advanceSearchData, setAdvanceSearchData] = useState(advancedSearchData);
     const [keyword, setKeyword] = useState('');
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -148,13 +160,12 @@ export const DataTable = ({
         });
     }
 
+    const toggleAdvancedSearch = () => {
+        setShowAdvancedSearch(current => !current);
+    }
+
     const generateSearchInputPlaceHolder = () => {
-        // let fieldList = columns.filter(c => c?.searchable).map(c => c?.headerName);
-        // if (fieldList.length === columns.length) {
-        //     return 'Search from all fields';
-        // }
-        // return `Search from ${fieldList.join(', ')}`;
-        return "Keyword"
+        return "Keyword";
     }
 
     const generateActionButtons = (actions = [], record = {}) => {
@@ -212,8 +223,197 @@ export const DataTable = ({
             onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
         } else if (selectable && e.type === 'click') {
             e.preventDefault();
-            onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
+            const { target } = e;
+            if (!target.className.includes('MuiBackdrop-root')) onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
         }
+    }
+
+    const handleAdvanceDataChange = (value, target) => {
+        setAdvanceSearchData(current => ({ ...current, [target]: value !== null ? value : undefined }));
+    }
+
+    const generateDynamicSearchForm = () => {
+        if (advanceSearchProps && typeof advanceSearchProps === 'object' && Object.keys(advanceSearchProps).length > 0) {
+            return Object.keys(advanceSearchProps).map((k, key) => {
+                let data = advanceSearchProps[k];
+                const renderClearButton = () => {
+                    if (advanceSearchData[data?.target || k])
+                        return (
+                            <ActionToolTip
+                                title={`Clear${data?.label ? ` ${data?.label}` : ''}`}
+                                placement="top"
+                                arrow
+                            >
+                                <IconButton
+                                    sx={{ ml: '5px' }}
+                                    onClick={() => handleAdvanceDataChange(null, data?.target || k)}
+                                >
+                                    <CloseIcon />
+                                </IconButton>
+                            </ActionToolTip>
+                        )
+                    return null;
+                }
+
+                switch (data.type) {
+                    case 'select':
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
+                                <FormControl sx={{ minWidth: '200px' }} size='small'>
+                                    <InputLabel>{data?.label || ''}</InputLabel>
+                                    <Select
+                                        value={data?.multiple ? advanceSearchData[data?.target || k] || [] : advanceSearchData[data?.target || k] || ''}
+                                        label={data?.label || ''}
+                                        onChange={e => handleAdvanceDataChange(e?.target?.value, data?.target || k)}
+                                        endAdornment={renderClearButton()}
+                                        multiple={data?.multiple || false}
+                                    >
+                                        {
+                                            (data?.dataList || {}).filter(d => {
+                                                if (Array.isArray(advanceSearchData[data?.dependency]) && advanceSearchData[data?.dependency].length > 0) {
+                                                    return !data?.dependency || !advanceSearchData[data?.dependency] || advanceSearchData[data?.dependency].includes(d[data?.dependency])
+                                                }
+                                                return !data?.dependency || !advanceSearchData[data?.dependency] || d[data?.dependency] === advanceSearchData[data?.dependency]
+                                            })
+                                                .map((d, key2) => {
+                                                    return <MenuItem key={key2} value={d[data?.listTarget || 'id']}>
+                                                        {
+                                                            (data?.listLabels || [])
+                                                                .map(l => d[l] || '')
+                                                                .join(data?.listLabelJoint || ' ')
+                                                        }
+                                                    </MenuItem>
+                                                })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case 'searchable':
+                        const extractValue = () => {
+                            let currentData = advanceSearchData[data?.target || k];
+                            if (data?.multiple) {
+                                if (Array.isArray(currentData) && currentData?.length > 0) {
+                                    return data?.dataList.filter(d => (currentData || []).includes(d[data?.listTarget || k]))
+                                }
+                                return [];
+                            }
+                            if (currentData) {
+                                return data?.dataList.find(d => d[data?.listTarget || k] === currentData);
+                            }
+                            return null;
+                        }
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
+                                <Autocomplete
+                                    value={extractValue()}
+                                    // disablePortal
+                                    options={
+                                        (data?.dataList || []).filter(d => {
+                                            if (Array.isArray(advanceSearchData[data?.dependency]) && advanceSearchData[data?.dependency].length > 0) {
+                                                return !data?.dependency || !advanceSearchData[data?.dependency] || advanceSearchData[data?.dependency].includes(d[data?.dependency])
+                                            }
+                                            return !data?.dependency || !advanceSearchData[data?.dependency] || d[data?.dependency] === advanceSearchData[data?.dependency]
+                                        })
+                                    }
+                                    sx={{ minWidth: "200px" }}
+                                    size="small"
+                                    getOptionLabel={(option) => (data?.listLabels || []).map(l => option[l] || '').join(data?.listLabelJoint || ' ') || ''}
+                                    renderInput={(params) => <TextField {...params} label={data?.label || ''} />}
+                                    renderOption={(props, option) => <li {...props} value={option[data?.listTarget || k]}>
+                                        {(data?.listLabels || [])
+                                            .map(l => option[l] || '')
+                                            .join(data?.listLabelJoint || ' ')}
+                                    </li>
+                                    }
+                                    onChange={
+                                        (_e, value) => {
+                                            handleAdvanceDataChange(
+                                                value && value?.length > 0 ? data?.multiple ? value.map(v => v[data?.listTarget || k]) : value[data?.listTarget || k] : null,
+                                                data?.target || k
+                                            )
+                                        }
+                                    }
+                                    noOptionsText={`${data?.label || 'Item'}s not found`}
+                                    multiple={data?.multiple || false}
+                                />
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case 'date':
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
+                                <input type="date" />
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case 'radio':
+                        return (
+                            <AdvancedSearchItemWrapper>
+                                <FormControl>
+                                    <FormLabel>{data?.label}</FormLabel>
+                                    <RadioGroup
+                                        row
+                                        defaultValue={advanceSearchData[data?.target || k]}
+                                    >
+                                        {
+                                            (data?.options || []).map(o => (
+                                                <FormControlLabel
+                                                    label={o?.label}
+                                                    value={o?.value}
+                                                    control={
+                                                        <Radio
+                                                            checked={advanceSearchData[data?.target || k] === o?.value}
+                                                            onChange={(e, checked) => handleAdvanceDataChange(checked ? o?.value : null, data?.target || k)}
+                                                        />
+                                                    }
+                                                />
+                                            ))
+                                        }
+                                    </RadioGroup>
+                                </FormControl>
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case 'checkbox':
+                        return (
+                            <AdvancedSearchItemWrapper>
+                                {
+                                    (data?.options || []).map(o => (
+                                        <FormControlLabel
+                                            label={o?.label}
+                                            value={advanceSearchData[o?.target || k] || false}
+                                            control={
+                                                <Checkbox
+                                                    checked={advanceSearchData[o?.target || k] || false}
+                                                    onChange={(e, checked) => { handleAdvanceDataChange(checked, o?.target || k) }}
+                                                />
+                                            }
+                                        />
+                                    ))
+                                }
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case 'text':
+                    default:
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
+                                <TextField
+                                    value={advanceSearchData[data?.target || k] || ''}
+                                    onChange={e => handleAdvanceDataChange(e?.target?.value, data?.target || k)}
+                                    label={data?.label || ''}
+                                    name={data?.target || k}
+                                    size='small'
+                                    InputProps={{
+                                        endAdornment: renderClearButton()
+                                    }}
+                                />
+                            </AdvancedSearchItemWrapper>
+                        )
+                }
+            })
+        }
+        if (advancedSearchComp) {
+            return advancedSearchComp;
+        }
+        return null;
     }
 
     const renderProgress = () => {
@@ -243,7 +443,49 @@ export const DataTable = ({
 
     return (
         <TableContainer>
-            <TableHeaderContainer>
+            <TableHeaderContainer type={enableAdvanceSearch ? 'column' : 'row'}>
+                {
+                    enableAdvanceSearch && (
+                        <>
+                            <Button
+                                variant='outlined'
+                                sx={{ mb: '10px' }}
+                                startIcon={showAdvancedSearch ? <CloseIcon /> : <SearchIcon />}
+                                onClick={toggleAdvancedSearch}
+                            >
+                                {showAdvancedSearch ? 'Hide Advanced Search' : 'Advanced Search'}
+                            </Button>
+                            <Collapse
+                                sx={{ mb: '10px' }}
+                                key='search-input-collapse'
+                                in={showAdvancedSearch}
+                                timeout='auto'
+                                unmountOnExit
+                                fullWidth
+                            >
+                                <AdvanceSearchFormWrapper>
+                                    {generateDynamicSearchForm()}
+                                </AdvanceSearchFormWrapper>
+                                <AdvanceSearchActionWrapper>
+                                    <Button
+                                        variant="contained"
+                                        startIcon={<SearchIcon />}
+                                        onClick={() => { }}
+                                    >
+                                        Search
+                                    </Button>
+                                    <Button
+                                        sx={{ ml: '10px' }}
+                                        startIcon={null}
+                                        onClick={() => { setAdvanceSearchData({}) }}
+                                    >
+                                        Clear Filter
+                                    </Button>
+                                </AdvanceSearchActionWrapper>
+                            </Collapse>
+                        </>
+                    )
+                }
                 {
                     searchable && (
                         <>
@@ -299,12 +541,12 @@ export const DataTable = ({
                     )
                 }
             </TableHeaderContainer>
-            <Table sx={{ borderCollapse: 'unset !important' }}>
+            <Table sx={{ borderCollapse: 'unset !important' }} size="small">
                 <TableHead>
-                    <TableRow>
+                    <TableRow sx={{ background: `${theme.coreColors.primary}77 !important` }}>
                         {
                             selectable &&
-                            <TableCell sx={{ borderBottom: 'unset !important' }}>
+                            <TableCell sx={{ border: '1px solid #CCC !important' }}>
                                 <ActionToolTip
                                     title={selectedRows.length === rows.length ? 'Unselect All' : 'Select All'}
                                     placement="top"
@@ -315,14 +557,14 @@ export const DataTable = ({
                                         onClick={selectedRows.length === rows.length ? unSelectAll : () => selectAll(rows)}
                                     >
                                         {
-                                            selectedRows.length > 0 ? 
-                                            selectedRows.length < rows.length ? (
-                                                <IndeterminateCheckBoxIcon />
-                                            ) : (
-                                                <CloseIcon />
-                                            ) : (
-                                                <CheckBoxIcon sx={{ mt: '2px' }} />
-                                            )
+                                            selectedRows.length > 0 ?
+                                                selectedRows.length < rows.length ? (
+                                                    <IndeterminateCheckBoxIcon />
+                                                ) : (
+                                                    <CloseIcon />
+                                                ) : (
+                                                    <CheckBoxIcon sx={{ mt: '2px' }} />
+                                                )
                                         }
                                     </IconButton>
                                 </ActionToolTip>
@@ -332,7 +574,7 @@ export const DataTable = ({
                             columns.map((c, key) => {
                                 if (!c?.hidden) {
                                     return (
-                                        <TableCell key={key} sx={{ borderBottom: 'unset !important', ...(c?.type !== 'actions' ? {} : { textAlign: 'right !important' }) }}>
+                                        <TableCell key={key} sx={{ border: '1px solid #CCC !important', ...(c?.type !== 'actions' ? {} : { textAlign: 'right !important' }) }}>
                                             {
                                                 c?.type !== 'actions' ? (
                                                     <TableSortLabel
@@ -401,7 +643,10 @@ export const DataTable = ({
                                                             sx={{
                                                                 boxShadow: `${Colors.shadow} !important`
                                                             }}
-                                                            onClose={() => { setShowPopover(null) }}
+                                                            onClose={() => {
+                                                                if (r.id === JSON.parse(showPopover.getAttribute('data-target'))['id']) onRowSelect(r);
+                                                                setShowPopover(null);
+                                                            }}
                                                             anchorOrigin={{
                                                                 vertical: 'bottom',
                                                                 horizontal: 'left',
@@ -437,8 +682,8 @@ export const DataTable = ({
                                                 boxShadow: `${Colors.shadow} !important`
                                             }}
                                             onClose={() => {
+                                                if (r.id === JSON.parse(showPopover.getAttribute('data-target'))['id']) onRowSelect(r);
                                                 setShowPopover(null);
-                                                onRowSelect(r);
                                             }}
                                             anchorOrigin={{
                                                 vertical: 'bottom',
@@ -456,7 +701,7 @@ export const DataTable = ({
                     }
                 </TableBody>
             </Table>
-            <TableFooterContainer>
+            <TableFooterContainer type='row'>
                 <TablePagination
                     count={rows.length}
                     page={page}
@@ -474,9 +719,7 @@ export const DataTable = ({
 }
 
 const TableHeaderContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    ${props => props.type === 'row' ? 'display: flex;\nalign-items: center;\njustify-content: flex-end;' : ''}  
 `;
 
 const TableFooterContainer = styled(TableHeaderContainer)`
@@ -496,6 +739,30 @@ const ActionWrapper = styled.span`
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
+`;
+
+const AdvanceSearchFormWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #CCC;
+    padding: 5px;
+    border-radius: 10px;
+`;
+
+const AdvancedSearchItemWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 5px;
+`;
+
+const AdvanceSearchActionWrapper = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-bottom: 5px;
 `;
 
 const ActionToolTip = styled(({ className, ...props }) => (
@@ -552,17 +819,18 @@ const SelectableRow = styled(TableRow)`
 
     :hover td:first-child {
         border-left: 1px solid ${theme.coreColors.primary} !important;
-        border-top-left-radius: 10px !important; 
-        border-bottom-left-radius: 10px !important;
+        border-top-left-radius: 5px !important; 
+        border-bottom-left-radius: 5px !important;
     }
 
     :hover td:last-child {
         border-right: 1px solid ${theme.coreColors.primary} !important;
-        border-bottom-right-radius: 10px !important;
-        border-top-right-radius: 10px !important;
+        border-bottom-right-radius: 5px !important;
+        border-top-right-radius: 5px !important;
     }
 
     & td {
+        border: ${props => props.selected ? `1px solid ${theme.coreColors.primary}00 !important` : '1px solid #CCC !important'};
         border-top: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid #CCC !important'};
         border-bottom: ${props => props.selected ? `1px solid ${theme.coreColors.primary} !important` : '1px solid #CCC !important'};
     }
