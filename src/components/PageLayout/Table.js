@@ -397,7 +397,7 @@ export const DataTable = ({
                                             control={
                                                 <Checkbox
                                                     checked={advanceSearchData[o?.target || k] || false}
-                                                    onChange={(e, checked) => { handleAdvanceDataChange(checked, o?.target || k) }}
+                                                    onChange={(e, checked) => { handleAdvanceDataChange(checked ? true : null, o?.target || k) }}
                                                 />
                                             }
                                         />
