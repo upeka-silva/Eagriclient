@@ -253,7 +253,6 @@ export const DataTable = ({
                                 arrow
                             >
                                 <IconButton
-                                    sx={{ ml: '5px' }}
                                     onClick={() => handleAdvanceDataChange(null, data?.target || k)}
                                 >
                                     <CloseIcon />
@@ -364,7 +363,7 @@ export const DataTable = ({
                         return (
                             <AdvancedSearchItemWrapper>
                                 <FormControl>
-                                    <FormLabel>{data?.label}</FormLabel>
+                                    <FormLabel>{renderClearButton()}{data?.label}</FormLabel>
                                     <RadioGroup
                                         row
                                         defaultValue={advanceSearchData[data?.target || k]}
