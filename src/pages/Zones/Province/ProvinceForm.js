@@ -20,7 +20,7 @@ const ProvinceForm = ({
             <TextField
                 variant='outlined'
                 fullWidth
-                label='Province Code'
+                label='Code'
                 id='provinceCode'
                 name='provinceCode'
                 value={selectedProvince?.provinceCode}
@@ -30,7 +30,7 @@ const ProvinceForm = ({
             <TextField
                 variant='outlined'
                 fullWidth
-                label='Province Name'
+                label='Name'
                 id='name'
                 name='name'
                 value={selectedProvince?.name}

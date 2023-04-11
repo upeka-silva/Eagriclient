@@ -38,7 +38,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SquareIcon from '@mui/icons-material/CheckCircle';
 import CheckBoxIcon from '@mui/icons-material/CropSquareOutlined';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
-import PermissionWrapper from '../Permission Wrapper/PermissionWrapper';
+import PermissionWrapper from '../PermissionWrapper/PermissionWrapper';
 import { fetchDataList } from '../../redux/actions/table/table';
 import { Colors } from '../../utils/constants/Colors';
 import theme from '../../utils/theme/theme.json';
@@ -223,8 +223,16 @@ export const DataTable = ({
             onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
         } else if (selectable && e.type === 'click') {
             e.preventDefault();
-            const { target } = e;
-            if (!target.className.includes('MuiBackdrop-root')) onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
+            if (
+                e?.target === null ||
+                e?.target?.parentNode?.tagName?.toLowerCase() === 'td' ||
+                (
+                    !['div', 'svg', 'path'].includes(e?.target?.tagName)
+                    && !(e?.target?.className || '').includes('MuiBackdrop-root')
+                )
+            ) {
+                onRowSelect(JSON.parse(e.currentTarget.getAttribute('data-target')));
+            }
         }
     }
 

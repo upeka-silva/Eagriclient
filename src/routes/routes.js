@@ -1,9 +1,9 @@
-import PasswordResetPage from "../pages/Password Reset";
+import PasswordResetPage from "../pages/PasswordReset";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Province from "../pages/Zones/Province/Province";
-import EmailVerificationPage from "../pages/Email Verification";
+import EmailVerificationPage from "../pages/EmailVerification";
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CropSquareIcon from '@mui/icons-material/CropSquare';

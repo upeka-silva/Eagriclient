@@ -1,11 +1,11 @@
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material';
-import PermissionWrapper from '../../components/Permission Wrapper/PermissionWrapper';
-import SideBar from '../../components/Side Bar/SideBar';
+import PermissionWrapper from '../../components/PermissionWrapper/PermissionWrapper';
+import SideBar from '../../components/SideBar/SideBar';
 import { BrowserRouter, Routes } from 'react-router-dom';
 import Router from '../../routes/router';
 import theme from "../../utils/theme/theme.json";
-import AppHeader from '../../components/App Header/AppHeader';
+import AppHeader from '../../components/AppHeader/AppHeader';
 import styled from 'styled-components';
 
 const appTheme = createTheme(theme);

@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react';
 import { Button, Typography } from '@mui/material';
-import { ActionWrapper } from '../../../components/Page Layout/ActionWrapper';
+import { ActionWrapper } from '../../../components/PageLayout/ActionWrapper';
 import ProvinceList from './ProvinceList';
 import PlusIcon from '@mui/icons-material/Add';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import theme from '../../../utils/theme/theme.json';
-import PermissionWrapper from '../../../components/Permission Wrapper/PermissionWrapper';
-import CustomDialog from '../../../components/Page Layout/Dialog';
+import PermissionWrapper from '../../../components/PermissionWrapper/PermissionWrapper';
+import CustomDialog from '../../../components/PageLayout/Dialog';
 import ProvinceForm from './ProvinceForm';
 
 const Province = () => {
@@ -105,7 +105,7 @@ const Province = () => {
     const generatePopUpTitle = () => {
         switch (action) {
             case 'new':
-                return 'Create New Province';
+                return 'New Province';
             case 'view':
                 return selectedProvince?.name;
             case 'edit':
@@ -137,7 +137,7 @@ const Province = () => {
                     }
                 />
                 {
-                    selectedProvinces.length === 1 || selectedProvince ? (
+                    selectedProvinces.length === 1 ? (
                         <PermissionWrapper
                             component={
                                 <Button
@@ -154,7 +154,7 @@ const Province = () => {
                     ) : null
                 }
                 {
-                    selectedProvinces.length === 1 || selectedProvince ? (
+                    selectedProvinces.length === 1 ? (
                         <PermissionWrapper
                             component={
                                 <Button
@@ -171,7 +171,7 @@ const Province = () => {
                     ) : null
                 }
                 {
-                    selectedProvinces.length > 0 || selectedProvince ? (
+                    selectedProvinces.length > 0 ? (
                         <PermissionWrapper
                             component={
                                 <Button

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CardWrapper } from '../../../components/Page Layout/Card';
-import { DataTable } from '../../../components/Page Layout/Table';
+import { CardWrapper } from '../../../components/PageLayout/Card';
+import { DataTable } from '../../../components/PageLayout/Table';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 
 const rows = [
@@ -108,7 +108,7 @@ const ProvinceList = ({
                         ]
                     },
                     provinceCode: {
-                        label: 'Province Code',
+                        label: 'Code',
                         target: 'provinceCode',
                         type: 'text'
                     },
