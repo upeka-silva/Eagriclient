@@ -59,7 +59,11 @@ const AppHeader = () => {
                 <Popover
                     id={id}
                     open={isProfileOptionsOpen}
-                    anchorEl={anchorElement}
+                    {
+                    ...anchorElement && {
+                        anchorEl: anchorElement
+                    }
+                    }
                     onClose={closeProfileOptions}
                     anchorOrigin={{
                         vertical: 'bottom',
@@ -67,11 +71,11 @@ const AppHeader = () => {
                     }}
                 >
                     <div>
-                        <Button variant={theme} startIcon={<ProfileIcon />}>
+                        <Button variant="text" startIcon={<ProfileIcon />}>
                             Profile
                         </Button>
                         <br />
-                        <Button variant={theme} startIcon={<ExitIcon />}>
+                        <Button variant="text" startIcon={<ExitIcon />}>
                             Logout
                         </Button>
                     </div>

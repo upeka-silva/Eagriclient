@@ -4,12 +4,9 @@ import MuiDrawer from '@mui/material/Drawer';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronDownIcon from '@mui/icons-material/ChevronRight';
 import ViewListIcon from '@mui/icons-material/ViewList';
 import { Routes } from '../../routes/routes';
@@ -42,9 +39,9 @@ const SideBar = () => {
             >
                 <List>
                     {
-                        children.map(r => (
+                        children.map((r, key) => (
                             <SideBarItemToolTip title={!open ? r.name : ''} placement="right" arrow>
-                                <NavLink to={`${parent.path}${r.path}`} style={{ textDecoration: 'none !important' }}>
+                                <NavLink key={key} to={`${parent.path}${r.path}`} style={{ textDecoration: 'none !important' }}>
                                     <SideBarItemButton selected={isCurrentScreen([`${parent.path}${r.path}`])}>
                                         <ListItemIcon>
                                             {r.icon && <r.icon />}
@@ -61,7 +58,7 @@ const SideBar = () => {
     }
 
     const renderSideBarRoutes = () => {
-        return Routes.filter(r => r.isSideBar === true).map((r) => {
+        return Routes.filter(r => r.isSideBar === true).map((r, key) => {
             if (r.children) {
                 const toggleCollapseState = () => {
                     setSelectedRoute(current => current === r.name ? null : r.name)
@@ -69,7 +66,12 @@ const SideBar = () => {
                 return (
                     <>
                         <SideBarItemToolTip title={!open ? r.name : ''} placement="right" arrow>
-                            <SideBarItemButton selected={isCurrentScreen(r.children.map((c) => `${r.path}${c.path}`))} onClick={toggleCollapseState} hasChildren={selectedRoute === r.name}>
+                            <SideBarItemButton
+                                key={key}
+                                selected={isCurrentScreen(r.children.map((c) => `${r.path}${c.path}`))}
+                                onClick={toggleCollapseState}
+                                haschildren={selectedRoute === r.name || undefined}
+                            >
                                 <ListItemIcon>
                                     {r.icon && <r.icon />}
                                 </ListItemIcon>
@@ -85,8 +87,8 @@ const SideBar = () => {
             }
             return (
                 <SideBarItemToolTip title={!open ? r.name : ''} placement="right" arrow>
-                    <NavLink to={r.path} style={{ textDecoration: 'none !important' }}>
-                        <SideBarItemButton selected={isCurrentScreen([r.path])} hasChildren={false} onClick={() => setSelectedRoute(null)}>
+                    <NavLink to={r.path} style={{ textDecoration: 'none !important' }} key={key}>
+                        <SideBarItemButton key={r.path + "-item-button"} selected={isCurrentScreen([r.path])} onClick={() => setSelectedRoute(null)}>
                             <ListItemIcon>
                                 {r.icon && <r.icon />}
                             </ListItemIcon>
@@ -108,9 +110,6 @@ const SideBar = () => {
                     px: [1],
                 }}
             >
-                {/* {
-                    open &&
-                } */}
                 <Typography variant="h6">Agri E Extension</Typography>
                 <SideBarItemToolTip title={!open ? 'Expand' : ''} placement="right" arrow>
                     <DrawerToggleButton onClick={toggleDrawer} sx={{ background: "white" }}>
