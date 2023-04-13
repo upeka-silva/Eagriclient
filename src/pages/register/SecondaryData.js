@@ -85,7 +85,7 @@ const SecondaryData = () => {
     language: "",
   });
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => { };
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -139,7 +139,7 @@ const SecondaryData = () => {
             >
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth size="small">
                     <InputLabel id="userRole">Security Question 1</InputLabel>
                     <Select
                       labelId="securityQ1"
@@ -148,7 +148,6 @@ const SecondaryData = () => {
                       value={formData.securityQ1}
                       label="Security Question 1"
                       onChange={handleChange}
-                      size="small"
                     >
                       <MenuItem value="What primary school did you attend?">
                         What primary school did you attend?
@@ -182,7 +181,7 @@ const SecondaryData = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth size="small">
                     <InputLabel id="userRole">Security Question 2</InputLabel>
                     <Select
                       labelId="demo-simple-select-label"
@@ -191,7 +190,6 @@ const SecondaryData = () => {
                       value={formData.securityQ2}
                       label="Security Question 2"
                       onChange={handleChange}
-                      size="small"
                     >
                       <MenuItem value="What primary school did you attend?">
                         What primary school did you attend?

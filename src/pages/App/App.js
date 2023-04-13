@@ -18,25 +18,20 @@ const App = () => {
         <BrowserRouter>
           <PermissionWrapper
             component={<SideBar />}
-            // withoutPermissions
-            // withoutPermissions
-            // permission="ADD_ABC"
-            // majorModule="ABC"
+          // withoutPermissions
+          // withoutPermissions
+          // permission="ADD_ABC"
+          // majorModule="ABC"
           />
           <PageWrapper sx={PermissionWrapper({ component: 'padding-right: 12px;' }) || ''}>
             <PermissionWrapper
               component={<AppHeader />}
-              // withoutPermissions
-              // permission="ADD_ABC"
-              // majorModule="ABC"
+            // withoutPermissions
+            // permission="ADD_ABC"
+            // majorModule="ABC"
             />
             <Routes>{Router}</Routes>
           </PageWrapper>
-        </BrowserRouter>
-      </div>
-      <div>
-        <BrowserRouter>
-          <Routes>{Router}</Routes>
         </BrowserRouter>
       </div>
     </ThemeProvider>
