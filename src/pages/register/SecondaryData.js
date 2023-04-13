@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
+import Link from "@mui/material/Link";
 import {
   Grid,
   Select,
@@ -10,22 +11,69 @@ import {
   Card,
   TextField,
   Button,
-  Avatar,
   Typography,
   Checkbox,
+  Stepper,
+  Step,
+  StepLabel,
 } from "@mui/material/";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import styled from "styled-components";
 
 const BGImage = require("../../assets/images/background.jpg");
 const theme = createTheme();
+const steps = ["Basic information", "Advance information"];
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const SecondaryData = () => {
+  const [activeStep, setActiveStep] = useState(1);
+  const [skipped, setSkipped] = useState(new Set());
+
+  const isStepOptional = (step) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Select(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((preActiveStep) => preActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   const [formData, setFormData] = useState({
     securityQ1: "",
     answer1: "",
@@ -218,7 +266,7 @@ const SecondaryData = () => {
                   <Checkbox {...label} />
                 </Grid>
               </Grid>
-              <ButtonContainer>
+              {/* <ButtonContainer>
                 <Button
                   variant="contained"
                   type="submit"
@@ -233,7 +281,75 @@ const SecondaryData = () => {
                 >
                   Sign Up
                 </Button>
-              </ButtonContainer>
+              </ButtonContainer> */}
+              <Box sx={{ width: "100%", marginTop: "20px" }}>
+                <Stepper activeStep={activeStep}>
+                  {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    if (isStepSkipped(index)) {
+                      stepProps.completed = false;
+                    }
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel {...labelProps}>{label}</StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+                {activeStep === steps.length ? (
+                  <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1, textAlign: "center", color: "green" }}>
+                      All steps completed - you&apos;re finished
+                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                      <Box sx={{ flex: "1 1 auto" }} />
+                      <Button
+                        onClick={handleReset}
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        color="primary"
+                      >
+                        Sign Up
+                      </Button>
+                    </Box>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                      <Link href="/basic-register">
+                        <Button
+                          color="inherit"
+                          disabled={activeStep === 0}
+                          onClick={handleBack}
+                          sx={{ mr: 1 }}
+                        >
+                          Back
+                        </Button>
+                      </Link>
+
+                      <Box sx={{ flex: "1 1 auto" }} />
+
+                      <Button
+                        variant="contained"
+                        onClick={handleNext}
+                        disabled={
+                          validateInputByInput("securityQ1", null) ||
+                          validateInputByInput("securityQ2", null) ||
+                          validateInputByInput("answer1", null) ||
+                          validateInputByInput("answer2", null)
+                        }
+                      >
+                        {activeStep === steps.length - 1
+                          ? "Finish"
+                          : "Next Page"}
+                      </Button>
+                    </Box>
+                  </React.Fragment>
+                )}
+                ˝
+              </Box>
             </Box>
           </Box>
         </CustomCard>

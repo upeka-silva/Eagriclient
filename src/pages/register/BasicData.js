@@ -13,18 +13,15 @@ import {
   Card,
   TextField,
   Button,
-  Avatar,
   Typography,
+  Step,
+  Stepper,
+  StepLabel,
 } from "@mui/material/";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import styled from "styled-components";
-import FormHelperText from "@mui/material/FormHelperText";
-
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -33,7 +30,54 @@ const BGImage = require("../../assets/images/background.jpg");
 
 const theme = createTheme();
 
+const steps = ["Basic information", "Advance information"];
+
 const Register = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [skipped, setSkipped] = useState(new Set());
+
+  const isStepOptional = (step) => {
+    return step === 1;
+  };
+
+  const isStepSkipped = (step) => {
+    return skipped.has(step);
+  };
+
+  const handleNext = () => {
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Select(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((preActiveStep) => preActiveStep + 1);
+    setSkipped(newSkipped);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleSkip = () => {
+    if (!isStepOptional(activeStep)) {
+      // You probably want to guard against something like this,
+      // it should never occur unless someone's actively trying to break something.
+      throw new Error("You can't skip a step that isn't optional.");
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped((prevSkipped) => {
+      const newSkipped = new Set(prevSkipped.values());
+      newSkipped.add(activeStep);
+      return newSkipped;
+    });
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
+
   const [formData, setFormData] = useState({
     userName: "",
     firstName: "",
@@ -99,11 +143,8 @@ const Register = () => {
               alignItems: "center",
             }}
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
             <Typography component="h1" variant="h5">
-              Sign up
+              Create an account
             </Typography>
             <Box
               component="form"
@@ -210,7 +251,7 @@ const Register = () => {
                 )} */}
 
                 <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
+                  <FormControl fullWidth>
                     <InputLabel id="gender">Gender</InputLabel>
                     <Select
                       labelId="gender"
@@ -221,33 +262,26 @@ const Register = () => {
                       onChange={handleChange}
                       size="small"
                     >
-                      <MenuItem value="Male">
-                        Male
-                      </MenuItem>
-                      <MenuItem value="Female">
-                        Female
-                      </MenuItem>
-                      <MenuItem value="Other">
-                        Other
-                      </MenuItem>
-                     
+                      <MenuItem value="Male">Male</MenuItem>
+                      <MenuItem value="Female">Female</MenuItem>
+                      <MenuItem value="Other">Other</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    label="Date of Birth"
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant="outlined"
-                        size="small"
-                        fullWidth
-                      />
-                    )}
-                  />
-                </LocalizationProvider>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      label="Date of Birth"
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          variant="outlined"
+                          size="small"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
@@ -291,19 +325,80 @@ const Register = () => {
                   />
                 </Grid>
               </Grid>
-              <Box
-                display="flex"
-                justifyContent="flex-end"
-                alignItems="flex-end"
-              >
-                <Button
-                  disabled={
-                    validateInputByInput("password", "confirmPassword") ||
-                    validateInputByInput("confirmPassword", "password")
-                  }
-                >
-                  Next Page
-                </Button>
+              <Box sx={{ width: "100%", marginTop: "20px" }}>
+                <Stepper activeStep={activeStep}>
+                  {steps.map((label, index) => {
+                    const stepProps = {};
+                    const labelProps = {};
+                    if (isStepSkipped(index)) {
+                      stepProps.completed = false;
+                    }
+                    return (
+                      <Step key={label} {...stepProps}>
+                        <StepLabel {...labelProps}>{label}</StepLabel>
+                      </Step>
+                    );
+                  })}
+                </Stepper>
+                {activeStep === steps.length ? (
+                  <React.Fragment>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                      All steps completed - you&apos;re finished
+                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                      <Box sx={{ flex: "1 1 auto" }} />
+                      <Button onClick={handleReset}>Reset</Button>
+                    </Box>
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                      <Button
+                        color="inherit"
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        sx={{ mr: 1 }}
+                      >
+                        Back
+                      </Button>
+                      <Box sx={{ flex: "1 1 auto" }} />
+                      {isStepOptional(activeStep) && (
+                        <Button
+                          color="inherit"
+                          onClick={handleSkip}
+                          sx={{ mr: 1 }}
+                        >
+                          Skip
+                        </Button>
+                      )}
+                      <Link href="/secondary-register">
+                        <Button
+                          onClick={handleNext}
+                          disabled={
+                            validateInputByInput(
+                              "password",
+                              "confirmPassword"
+                            ) ||
+                            validateInputByInput(
+                              "confirmPassword",
+                              "password"
+                            ) ||
+                            validateInputByInput("userName") ||
+                            validateInputByInput("firstName") ||
+                            validateInputByInput("lastName") ||
+                            validateInputByInput("email")
+                          }
+                        >
+        
+                          {activeStep === steps.length - 1
+                            ? "Finish"
+                            : "Next Page"
+                          }
+                        </Button>
+                      </Link>
+                    </Box>
+                  </React.Fragment>
+                )}
               </Box>
             </Box>
           </Box>
