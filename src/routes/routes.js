@@ -1,14 +1,15 @@
 import PasswordResetPage from "../pages/PasswordReset";
 import Login from "../pages/login/Login";
-import Register from "../pages/register/Register";
+import Register from "../pages/register/BasicData";
+import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Province from "../pages/Zones/Province/Province";
 import EmailVerificationPage from "../pages/EmailVerification";
 
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import CropSquareIcon from '@mui/icons-material/CropSquare';
-import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import StreetviewIcon from '@mui/icons-material/Streetview';
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import CropSquareIcon from "@mui/icons-material/CropSquare";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import StreetviewIcon from "@mui/icons-material/Streetview";
 
 export const Routes = [
     {
@@ -20,24 +21,16 @@ export const Routes = [
         element: <Login />,
     },
     {
-        path: "/register",
+        path: "/basic-register",
         element: <Register />,
+    },
+    {
+        path: "/secondary-register",
+        element: <SecondaryData />,
     },
     {
         path: "/email-verification",
         element: <EmailVerificationPage />,
-    },
-    {
-        path: "/password-reset",
-        element: <PasswordResetPage />,
-    },
-    {
-        path: "/login",
-        element: <Login />,
-    },
-    {
-        path: "/register",
-        element: <Register />,
     },
     {
         path: "/main-dashboard",
@@ -57,15 +50,15 @@ export const Routes = [
                 name: "Province",
                 isSideBar: true,
                 element: <Province />,
-                icon: CropSquareIcon
+                icon: CropSquareIcon,
             },
             {
                 path: "/district",
                 name: "District",
                 isSideBar: true,
                 element: <Province />,
-                icon: StreetviewIcon
+                icon: StreetviewIcon,
             },
-        ]
+        ],
     },
 ];

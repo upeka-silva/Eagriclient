@@ -1,23 +1,24 @@
-import './App.css';
-import { ThemeProvider, createTheme } from '@mui/material';
-import PermissionWrapper from '../../components/PermissionWrapper/PermissionWrapper';
-import SideBar from '../../components/SideBar/SideBar';
-import { BrowserRouter, Routes } from 'react-router-dom';
-import Router from '../../routes/router';
+import "./App.css";
+import { ThemeProvider, createTheme } from "@mui/material";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import SideBar from "../../components/SideBar/SideBar";
+import { BrowserRouter, Routes } from "react-router-dom";
+import Router from "../../routes/router";
 import theme from "../../utils/theme/theme.json";
-import AppHeader from '../../components/AppHeader/AppHeader';
-import styled from 'styled-components';
+import AppHeader from "../../components/AppHeader/AppHeader"
+import styled from "styled-components";
+import './App.css';
 
 const appTheme = createTheme(theme);
 
 const App = () => {
-
   return (
     <ThemeProvider theme={appTheme}>
       <div className="App">
         <BrowserRouter>
           <PermissionWrapper
             component={<SideBar />}
+          // withoutPermissions
           // withoutPermissions
           // permission="ADD_ABC"
           // majorModule="ABC"
@@ -29,15 +30,13 @@ const App = () => {
             // permission="ADD_ABC"
             // majorModule="ABC"
             />
-            <Routes>
-              {Router}
-            </Routes>
+            <Routes>{Router}</Routes>
           </PageWrapper>
         </BrowserRouter>
       </div>
     </ThemeProvider>
   );
-}
+};
 
 export default App;
 
