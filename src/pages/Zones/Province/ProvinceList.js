@@ -2,6 +2,7 @@ import React from 'react';
 import { CardWrapper } from '../../../components/PageLayout/Card';
 import { DataTable } from '../../../components/PageLayout/Table';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
+import { FormElementTypes } from '../../../utils/constants/formElementTypes';
 
 const rows = [
     { id: 1, provinceCode: window.btoa((new Date()).valueOf()), name: "Province 1" },
@@ -94,7 +95,7 @@ const ProvinceList = ({
                     provinceId: {
                         label: 'Province',
                         target: 'provinceId',
-                        type: 'select',
+                        type: FormElementTypes.SELECT,
                         multiple: true,
                         listTarget: 'id',
                         listLabels: ['name'],
@@ -110,15 +111,20 @@ const ProvinceList = ({
                     provinceCode: {
                         label: 'Code',
                         target: 'provinceCode',
-                        type: 'text'
+                        type: FormElementTypes.TEXT
                     },
                     createdDate: {
                         label: 'Created At',
                         target: 'createdAt',
-                        type: 'date'
+                        type: FormElementTypes.DATE
+                    },
+                    modifiedDate: {
+                        label: 'Modified At',
+                        target: 'modifiedDate',
+                        type: FormElementTypes.DATERANGE
                     },
                     checkboxes: {
-                        type: 'checkbox',
+                        type: FormElementTypes.CHECKBOX,
                         options: [
                             { label: 'Option 1', target: 'option1' },
                             { label: 'Option 2', target: 'option2' },
@@ -129,7 +135,7 @@ const ProvinceList = ({
                     },
                     radio: {
                         label: 'Options',
-                        type: 'radio',
+                        type: FormElementTypes.RADIO,
                         target: 'optionRadio',
                         options: [
                             { label: 'Option 1', value: 'option1' },
@@ -142,7 +148,7 @@ const ProvinceList = ({
                     districtId: {
                         label: 'District',
                         target: 'districtId',
-                        type: 'searchable',
+                        type: FormElementTypes.SEARCHABLE,
                         multiple: false,
                         listTarget: 'id',
                         listLabels: ['name', 'provinceId'],
@@ -170,6 +176,14 @@ const ProvinceList = ({
                             { id: 20, name: "District 20", provinceId: 2 },
                         ],
                         dependency: 'provinceId'
+                    },
+                    slider: {
+                        label: 'Slider',
+                        type: FormElementTypes.SLIDER,
+                        target: 'sliderData',
+                        isRange: true,
+                        min: 35,
+                        max: 600,
                     }
                 }}
                 advancedSearchComp={null}
