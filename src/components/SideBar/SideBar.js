@@ -39,7 +39,7 @@ const SideBar = () => {
             >
                 <List>
                     {
-                        children.map((r, key) => (
+                        children.filter(r => r.isSideBar === true).map((r, key) => (
                             <SideBarItemToolTip title={!open ? r.name : ''} placement="right" arrow>
                                 <NavLink key={key} to={`${parent.path}${r.path}`} style={{ textDecoration: 'none !important' }}>
                                     <SideBarItemButton selected={isCurrentScreen([`${parent.path}${r.path}`])}>

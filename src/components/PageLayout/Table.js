@@ -463,7 +463,11 @@ export const DataTable = ({
                                                 }),
                                             }}
                                             label={<>{data?.label}</>}
-                                            value={advanceSearchData[data?.target || k] || undefined}
+                                            {
+                                            ...advanceSearchData[data?.target || k] ? ({
+                                                value: advanceSearchData[data?.target || k]
+                                            }) : ({})
+                                            }
                                         />
                                     </FormControl>
                                     {
@@ -478,7 +482,11 @@ export const DataTable = ({
                                                 }}
                                             >
                                                 <DateRangeCalendar
-                                                    value={advanceSearchData[data?.target || k] || undefined}
+                                                    {
+                                                    ...advanceSearchData[data?.target || k] ? ({
+                                                        value: advanceSearchData[data?.target || k]
+                                                    }) : ({})
+                                                    }
                                                     onChange={(value) => {
                                                         handleAdvanceDataChange(value, data?.target || k)
                                                     }}
