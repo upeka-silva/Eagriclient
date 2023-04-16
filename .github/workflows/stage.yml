@@ -1,0 +1,71 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: AgriClient stage CI/CD
+
+on: [workflow_dispatch]
+
+env:
+  CI : false
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: vijithakn/agriclient
+        tags: ${GITHUB_RUN_ID}, latest
+        registry: docker.io
+        dockerfile: Dockerfile
+        buildArgs: |
+          base_url=43.205.23.46
+        username: vijithakn
+        password: 0nly4@vijitha
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v0.1.6
+      with:
+        host: 43.205.74.219
+        username: ec2-user
+        key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          MIIEowIBAAKCAQEAvr0i+xPnWUCJEPf+Gfk9iFjw3vajF7CeTEjatXsDVSJOzIP9
+          rLlbgn91ArjwLx+sJmr/b8Uq3U0lNPMwIFA+SxSXflvJtZUrjI6mK4TcIVER02Eh
+          /4AG7jBmjcILpEwtbX3EIZxoYiIubwI+zBuckubR873ye3Jr9HXq3URCUHsbhMPs
+          f2WCCZrZRBYW6USMHTxvaWkVyDaqS0vZTEZRs1eZpBzu+vZW5Tv8CAR9VMQLU48p
+          LIWtn8IRB5LIUzmgTbl94olL8iV3RfYTjjajx6BzfrYv62v0AFmLgFyd63sotwqW
+          /BcFnDzwPwBZXB5w4C9/F1PdJ/fdoIEmcskrDQIDAQABAoIBAH1fyUyMardqCi6T
+          M/1SrTWgcMO+DroVqBewk8JSl4AwSud3oxkTxajjqsAdXBM9mGSwVDLdwS0x9lD1
+          wR6cYDXt1R6DqvSmlrePVH6qmB92MGdnI3fUabnLKr3nXMukHwAnePI24w4ONcNW
+          EH0NcT/GZR74Lhkivv8zOywyH/zRrCAbVvv7w/Nwux/ceWuyE6NtKCTMJg3j6Mn4
+          OZQwU3Xxu9vuDkCzQyyHMtvmluHAJy+96/inGp2IZmkivjGK/FotiuJTowR6/AB8
+          atZh84iCAtTYa33qW4sl3rQH4nfZf+lZ+7FkHeVk/bMD1x1baC9Ze0eQ0rtRY/O0
+          08r5FIECgYEA5th6j/w+XYO7EcAgGo4cxIpf5maI12lxTbiJ96A/GWG7/3qOYSzv
+          LDZW2FIZ2yw2k+2SmWLaSn0ZU1OtE2PMXvan+kJA/l/cUihZKxv2ACZRRpWZi9yM
+          SEvmeZnUXiptic3fVaBxZCS8SURHID/Ey+sivssomXoTpFtGg0oFJH0CgYEA04Xd
+          O7ZsEQwmypccVRdyeLR7B6B5j3nesoFsIYSa1sYHv6/Eehst2sFHlAJnCI+nBr/A
+          I05gKzXxccgMUImV5GCZ5JykdF1fMIdg9kOoL3ig0f5zXeJ1dDb9klKyqkXWV9S6
+          B1NBzCZ2ZolgAqgScQmHxfwDXP6Ong1f9eUStdECgYEA1rBB3CMFhUb79Zguw0Oj
+          sY3XfpmhbmUcAOI9PdUEmgBxLTq3q9x0WzP2NJy2e0V1RMJP8uMijOAna32Im13X
+          NgJDWtW/SFOyvZ3Uv+jzMlRwhiqfcJmexaYBJNpRzXm8Acs7h5D9o9seWS1s0Ks9
+          xUBbQgIDMil8lwBkZbmzaqkCgYAS5AivFYqvNxOb0kUQgGiTySKXushAfRTbgl2C
+          3NHrToJQp0T31seQmuRmnpRPGm1DWAqz3IMQOOAYVlJrOu5tGAeGeErjrZcbwWty
+          cvZpTu+l8YCiKOBugZ7B26rjNBuBepkmoFPnBKRcYfZ2JkaHW9+JWgl+26knCnDA
+          iDXUkQKBgH1RKTfQ3sU70PraahY8+N+afXdtvsWF2RvRJjMb4QqwvAiMf4XQzmv3
+          +2UjLwTmoTMzptXqMkrQDJGmZ6+6PfLFT+Ll9DIJBzKyU/Gi6C2YLGvcENSuJ6Lu
+          PKpZYjVDbx9AfWXGou9qXPqHTG94Dddsy5z53VPK2cVlzVSA05gZ
+          -----END RSA PRIVATE KEY-----
+        script: |
+          docker login
+          docker pull vijithakn/agriclient:latest
+          docker stop agriclient
+          docker rm agriclient
+          docker run -d --name agriclient -p 80:80 vijithakn/agriclient:latest

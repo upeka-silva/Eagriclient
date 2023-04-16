@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom/client';
 import styled from "styled-components";
 import {
     Table,
@@ -29,7 +30,14 @@ import {
     FormLabel,
     RadioGroup,
     Radio,
+    Slider,
 } from '@mui/material';
+import { DateField } from '@mui/x-date-pickers/DateField';
+import { MultiInputDateRangeField } from '@mui/x-date-pickers-pro/MultiInputDateRangeField';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { DateRangeCalendar } from '@mui/x-date-pickers-pro/DateRangeCalendar';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import SearchIcon from '@mui/icons-material/Search';
 import CloseIcon from '@mui/icons-material/Close';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
@@ -38,10 +46,12 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SquareIcon from '@mui/icons-material/CheckCircle';
 import CheckBoxIcon from '@mui/icons-material/CropSquareOutlined';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
+import CalendarIcon from '@mui/icons-material/CalendarMonth';
 import PermissionWrapper from '../PermissionWrapper/PermissionWrapper';
 import { fetchDataList } from '../../redux/actions/table/table';
 import { Colors } from '../../utils/constants/Colors';
 import theme from '../../utils/theme/theme.json';
+import { FormElementTypes } from '../../utils/constants/formElementTypes';
 
 
 export const DataTable = ({
@@ -71,6 +81,7 @@ export const DataTable = ({
     const [showSearchInput, setShowSearchInput] = useState(false);
     const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
     const [advanceSearchData, setAdvanceSearchData] = useState(advancedSearchData);
+    const [showCalander, setShowCalander] = useState({});
     const [keyword, setKeyword] = useState('');
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
@@ -263,7 +274,7 @@ export const DataTable = ({
                 }
 
                 switch (data.type) {
-                    case 'select':
+                    case FormElementTypes.SELECT:
                         return (
                             <AdvancedSearchItemWrapper key={key}>
                                 <FormControl sx={{ minWidth: '200px' }} size='small'>
@@ -296,7 +307,7 @@ export const DataTable = ({
                                 </FormControl>
                             </AdvancedSearchItemWrapper>
                         )
-                    case 'searchable':
+                    case FormElementTypes.SEARCHABLE:
                         const extractValue = () => {
                             let currentData = advanceSearchData[data?.target || k];
                             if (data?.multiple) {
@@ -314,7 +325,6 @@ export const DataTable = ({
                             <AdvancedSearchItemWrapper key={key}>
                                 <Autocomplete
                                     value={extractValue()}
-                                    // disablePortal
                                     options={
                                         (data?.dataList || []).filter(d => {
                                             if (Array.isArray(advanceSearchData[data?.dependency]) && advanceSearchData[data?.dependency].length > 0) {
@@ -353,15 +363,160 @@ export const DataTable = ({
                                 />
                             </AdvancedSearchItemWrapper>
                         )
-                    case 'date':
+                    case FormElementTypes.DATE:
+                        const renderCalanderButton = () => {
+                            return (
+                                <IconButton
+                                    onClick={renderPopOver}
+                                >
+                                    <CalendarIcon />
+                                </IconButton>
+                            )
+                        }
+
+                        const renderPopOver = (e) => {
+                            console.log(e?.currentTarget.parentNode.children[0]);
+                            setShowCalander({ target: e?.currentTarget?.parentNode?.children[0] || e, key: data?.target || k })
+                        };
+
                         return (
                             <AdvancedSearchItemWrapper key={key}>
-                                <input type="date" />
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <FormControl size="small">
+                                        <DateField
+                                            label={<>{data?.label}</>}
+                                            value={advanceSearchData[data?.target || k] || null}
+                                            InputProps={{
+                                                endAdornment: renderCalanderButton(),
+                                            }}
+                                            size="small"
+                                        />
+                                    </FormControl>
+                                    {
+                                        showCalander && (
+                                            <Popover
+                                                open={showCalander?.key === (data?.target || k)}
+                                                anchorEl={showCalander?.target || undefined}
+                                                onClose={() => setShowCalander({})}
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'left',
+                                                }}
+                                            >
+                                                <DateCalendar
+                                                    value={advanceSearchData[data?.target || k] || undefined}
+                                                    onChange={(value) => {
+                                                        handleAdvanceDataChange(value, data?.target || k)
+                                                    }}
+                                                />
+                                                <ActionWrapper style={{ marginBottom: '10px', marginRight: '10px' }}>
+                                                    <Button
+                                                        variant='contained'
+                                                        onClick={() => setShowCalander({})}
+                                                    >
+                                                        <Typography variant="body2">Save</Typography>
+                                                    </Button>
+                                                    <Button
+                                                        variant='text'
+                                                        onClick={() => {
+                                                            setShowCalander({})
+                                                            handleAdvanceDataChange(null, data?.target || k)
+                                                        }}
+                                                    >
+                                                        <Typography variant="body2">Cancel</Typography>
+                                                    </Button>
+                                                </ActionWrapper>
+                                            </Popover>
+                                        )
+                                    }
+                                </LocalizationProvider>
                             </AdvancedSearchItemWrapper>
                         )
-                    case 'radio':
+                    case FormElementTypes.DATERANGE:
+                        const renderCalendarButton = () => {
+                            return (
+                                <IconButton
+                                    onClick={renderPopover}
+                                >
+                                    <CalendarIcon />
+                                </IconButton>
+                            )
+                        }
+
+                        const renderPopover = (e) => {
+                            console.log(e?.currentTarget.parentNode.children[0]);
+                            setShowCalander({ target: e?.currentTarget?.parentNode?.children[0] || e, key: data?.target || k })
+                        };
+
                         return (
-                            <AdvancedSearchItemWrapper>
+                            <AdvancedSearchItemWrapper key={key}>
+                                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                    <FormControl size="small">
+                                        <MultiInputDateRangeField
+                                            slotProps={{
+                                                textField: ({ position }) => ({
+                                                    label: position === 'start' ? (data?.fromLabel || 'From') : (data?.toLabel || 'To'),
+                                                    InputProps: {
+                                                        endAdornment: renderCalendarButton(),
+                                                    },
+                                                    size: 'small'
+                                                }),
+                                            }}
+                                            label={<>{data?.label}</>}
+                                            {
+                                            ...advanceSearchData[data?.target || k] ? ({
+                                                value: advanceSearchData[data?.target || k]
+                                            }) : ({})
+                                            }
+                                        />
+                                    </FormControl>
+                                    {
+                                        showCalander && (
+                                            <Popover
+                                                open={showCalander?.key === (data?.target || k)}
+                                                anchorEl={showCalander?.target || undefined}
+                                                onClose={() => setShowCalander({})}
+                                                anchorOrigin={{
+                                                    vertical: 'bottom',
+                                                    horizontal: 'left',
+                                                }}
+                                            >
+                                                <DateRangeCalendar
+                                                    {
+                                                    ...advanceSearchData[data?.target || k] ? ({
+                                                        value: advanceSearchData[data?.target || k]
+                                                    }) : ({})
+                                                    }
+                                                    onChange={(value) => {
+                                                        handleAdvanceDataChange(value, data?.target || k)
+                                                    }}
+                                                />
+                                                <ActionWrapper style={{ marginBottom: '10px', marginRight: '10px' }}>
+                                                    <Button
+                                                        variant='contained'
+                                                        onClick={() => setShowCalander({})}
+                                                    >
+                                                        <Typography variant="body2">Save</Typography>
+                                                    </Button>
+                                                    <Button
+                                                        variant='text'
+                                                        onClick={() => {
+                                                            setShowCalander({})
+                                                            handleAdvanceDataChange(null, data?.target || k)
+                                                        }}
+                                                    >
+                                                        <Typography variant="body2">Cancel</Typography>
+                                                    </Button>
+                                                </ActionWrapper>
+                                            </Popover>
+                                        )
+                                    }
+                                </LocalizationProvider>
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case FormElementTypes.RADIO:
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
                                 <FormControl>
                                     <FormLabel>{renderClearButton()}{data?.label}</FormLabel>
                                     <RadioGroup
@@ -386,9 +541,9 @@ export const DataTable = ({
                                 </FormControl>
                             </AdvancedSearchItemWrapper>
                         )
-                    case 'checkbox':
+                    case FormElementTypes.CHECKBOX:
                         return (
-                            <AdvancedSearchItemWrapper>
+                            <AdvancedSearchItemWrapper key={key}>
                                 {
                                     (data?.options || []).map(o => (
                                         <FormControlLabel
@@ -405,7 +560,26 @@ export const DataTable = ({
                                 }
                             </AdvancedSearchItemWrapper>
                         )
-                    case 'text':
+                    case FormElementTypes.SLIDER:
+                        return (
+                            <AdvancedSearchItemWrapper key={key}>
+                                <FormControl sx={{ minWidth: '240px', ml: '5px' }}>
+                                    <FormLabel>{renderClearButton()}{data?.label}</FormLabel>
+                                    <Slider
+                                        defaultValue={data?.isRange ? [data?.min || 0, data?.max || 100] : data?.min}
+                                        value={advanceSearchData[data?.target || k] || undefined}
+                                        onChange={(e) => {
+                                            handleAdvanceDataChange(e?.target?.value, data?.target || k)
+                                        }}
+                                        min={data?.min || 0}
+                                        max={data?.max || 100}
+                                        valueLabelDisplay={data?.label ? 'auto' : 'on'}
+                                        disableSwap
+                                    />
+                                </FormControl>
+                            </AdvancedSearchItemWrapper>
+                        )
+                    case FormElementTypes.TEXT:
                     default:
                         return (
                             <AdvancedSearchItemWrapper key={key}>
