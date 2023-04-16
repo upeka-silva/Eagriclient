@@ -1,19 +1,17 @@
-import React, { useCallback, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import React, { useState, useCallback } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
-import PlusIcon from "@mui/icons-material/Add";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import theme from "../../../utils/theme/theme.json";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { Button, Typography } from "@mui/material";
+import PlusIcon from "@mui/icons-material/Add";
+import theme from "../../../utils/theme/theme.json";
+import InterProvinceList from "./InterProvinceList";
+import InterProvinceForm from "./InterProvinceForm";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CustomDialog from "../../../components/PageLayout/Dialog";
-import ProvinceForm from "./ProvinceForm";
 
-const Province = () => {
-  const [selectedProvince, setSelectedProvince] = useState(null);
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
+const InterProvince = () => {
+  const [selectedInterProvince, setSelectedInterProvince] = useState(null);
+  const [selectedInterProvinces, setSelectedInterProvinces] = useState([]);
   const [action, setAction] = useState("new");
   const [dialogState, setDialogState] = useState(false);
 
@@ -31,29 +29,37 @@ const Province = () => {
   }, []);
 
   const onView = useCallback((province) => {
-    setSelectedProvince(province);
+    setSelectedInterProvince(province);
     setAction("view");
     openDialog();
   }, []);
 
   const onEdit = useCallback((province) => {
-    setSelectedProvince(province);
+    setSelectedInterProvince(province);
     setAction("edit");
     openDialog();
   }, []);
 
   const onDelete = useCallback((province) => {
-    setSelectedProvince(province);
+    setSelectedInterProvince(province);
     setAction("delete");
     openDialog();
   }, []);
 
-  const updateProvince = (value, key) => {
-    setSelectedProvince((current) => ({ ...current, [key]: value }));
+  const updateInterProvince = (value, key) => {
+    setSelectedInterProvince((current) => ({ ...current, [key]: value }));
   };
 
-  const toggleSelectedProvinces = (province) => {
-    setSelectedProvinces((current = []) => {
+  const selectAllInterProvinces = (provinces) => {
+    setSelectedInterProvinces(provinces);
+  };
+
+  const removeAllSelectedInterProvinces = () => {
+    setSelectedInterProvinces([]);
+  };
+
+  const toggleSelectedInterProvinces = (province) => {
+    setSelectedInterProvinces((current = []) => {
       let exists = current.findIndex((c) => c?.id === province.id) > -1;
       if (exists) {
         return current.filter((c) => c.id !== province.id);
@@ -62,22 +68,14 @@ const Province = () => {
     });
   };
 
-  const selectAllProvinces = (provinces) => {
-    setSelectedProvinces(provinces);
-  };
-
-  const removeAllSelectedProvinces = () => {
-    setSelectedProvinces([]);
-  };
-
   const generatePopUpBody = () => {
     switch (action) {
       case "new":
       case "edit":
         return (
-          <ProvinceForm
-            selectedProvince={selectedProvince}
-            updateProvince={updateProvince}
+          <InterProvinceForm
+            selectedInterProvince={selectedInterProvince}
+            updateInterProvince={updateInterProvince}
           />
         );
       case "view":
@@ -86,11 +84,11 @@ const Province = () => {
             <Typography>
               <br />
               <b>Province Cocde: </b>
-              {selectedProvince?.provinceCode}
+              {selectedInterProvince?.provinceCode}
             </Typography>
             <Typography>
               <b>Province Name: </b>
-              {selectedProvince?.name}
+              {selectedInterProvince?.name}
             </Typography>
           </div>
         );
@@ -105,17 +103,17 @@ const Province = () => {
         return null;
     }
   };
-
+  
   const generatePopUpTitle = () => {
     switch (action) {
       case "new":
-        return "New Province";
+        return "New Inter Province";
       case "view":
-        return selectedProvince?.name;
+        return selectedInterProvince?.name;
       case "edit":
-        return `Editing ${selectedProvince?.name}`;
+        return `Editing ${selectedInterProvince?.name}`;
       case "delete":
-        return `Deleting ${selectedProvince?.name}`;
+        return `Deleting ${selectedInterProvince?.name}`;
       default:
         return null;
     }
@@ -131,31 +129,21 @@ const Province = () => {
         <PermissionWrapper
           component={
             <Button
-              variant="contained"
+              variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
               onClick={onCreate}
             >
-              Add
+              ADD
             </Button>
           }
         />
-        {selectedProvinces.length === 1 ? (
+        {selectedInterProvinces.length === 1 ? (
           <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<FileOpenIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                View
-              </Button>
-            }
+            component={<Button variant="container" color="info" />}
           />
         ) : null}
-        {selectedProvinces.length === 1 ? (
+        {selectedInterProvinces.length === 1 ? (
           <PermissionWrapper
             component={
               <Button
@@ -170,32 +158,17 @@ const Province = () => {
             }
           />
         ) : null}
-        {selectedProvinces.length > 0 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="error"
-                startIcon={<DeleteIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                Delete
-              </Button>
-            }
-          />
-        ) : null}
       </ActionWrapper>
       <PermissionWrapper
         component={
-          <ProvinceList
+          <InterProvinceList
             onView={onView}
             onEdit={onEdit}
             onDelete={onDelete}
-            selectedProvinces={selectedProvinces}
-            setSelectedProvinces={toggleSelectedProvinces}
-            selectAllProvinces={selectAllProvinces}
-            removeSelectedProvinces={removeAllSelectedProvinces}
+            selectedInterProvinces={selectedInterProvinces}
+            setSelectedInterProvinces={toggleSelectedInterProvinces}
+            selectAllInterProvinces={selectAllInterProvinces}
+            removeSelectedInterProvinces={removeAllSelectedInterProvinces}
           />
         }
       />
@@ -218,4 +191,4 @@ const Province = () => {
   );
 };
 
-export default Province;
+export default InterProvince;
