@@ -30,3 +30,11 @@ export const setLSItem = (key = "", value) => {
     throw error;
   }
 };
+
+export const removeLSItem = async (key = '') => {
+  try {
+    localStorage.removeItem(key);
+  } catch (error) {
+    throw error;
+  }
+}

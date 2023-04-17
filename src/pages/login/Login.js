@@ -12,40 +12,56 @@ import {
   Grid,
   Link,
   Checkbox,
+  CircularProgress,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/Copyright";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import { initiateLogin } from "../../redux/actions/login/actions";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const BGImage = require("../../assets/images/background.jpg");
 
 const theme = createTheme();
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+
+  const { addSnackBar } = useSnackBars();
+
+  const onSuccess = () => {
+    addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged In' })
+    navigate('/main-dashboard');
+  }
+
+  const onError = (message) => {
+    addSnackBar({ type: SnackBarTypes.error, message: message || 'Login Failed' })
+    setLoading(false);
+  }
+
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data, "data");
+    if (event.preventDefault) event.preventDefault();
+    setLoading(true);
+    initiateLogin(formData, onSuccess, onError);
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
+    if (event.preventDefault) event.preventDefault();
     setFormData((current) => ({
       ...current,
       [event?.target?.name]: event?.target?.value || "",
     }));
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const validateInputByInput = (feild, target) => {
     const current = { ...formData };
@@ -130,10 +146,15 @@ const Login = () => {
                   color="primary"
                   disabled={
                     validateInputByInput("userName", null) ||
-                    validateInputByInput("password", null)
+                    validateInputByInput("password", null) ||
+                    loading
                   }
                 >
-                  Sign In
+                  {
+                    loading ? (
+                      <CircularProgress size={20} sx={{ mt: '8px', mb: '8px' }} />
+                    ) : 'Sign In'
+                  }
                 </Button>
               </ButtonContainer>
             </Box>
