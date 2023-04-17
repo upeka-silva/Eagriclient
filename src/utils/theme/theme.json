@@ -39,7 +39,8 @@
       "shadow": "#000000",
       "surfaceTint": "#00696c",
       "outlineVariant": "#bec8c8",
-      "scrim": "#000000"
+      "scrim": "#000000",
+      "reset": "#C0C0C0"
     },
     "dark": {
       "primary": "#4cd9df",

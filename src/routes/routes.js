@@ -11,6 +11,7 @@ import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import InterProvince from "../pages/Zones/Inter Province/InterProvince";
+import InterProvinceForm from "../pages/Zones/Inter Province/InterProvinceForm";
 
 export const Routes = [
   {
@@ -39,6 +40,10 @@ export const Routes = [
     isSideBar: true,
     element: <Dashboard />,
     icon: DashboardIcon,
+  },
+  {
+    path: "/agri-zone/inter-province-form",
+    element: <InterProvinceForm />,
   },
   {
     path: "/zone",
