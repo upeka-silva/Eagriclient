@@ -18,6 +18,10 @@ export const Routes = [
     element: <PasswordResetPage />,
   },
   {
+    path: "/",
+    element: <Login />,
+  },
+  {
     path: "/login",
     element: <Login />,
   },

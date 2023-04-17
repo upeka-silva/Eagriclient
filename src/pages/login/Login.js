@@ -23,12 +23,15 @@ import { initiateLogin } from "../../redux/actions/login/actions";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import theme from '../../utils/theme/theme.json';
+import { getUserLoggedState } from "../../utils/helpers/permission";
 
 const BGImage = require("../../assets/images/background.jpg");
 
-const theme = createTheme();
+const CustomTheme = createTheme();
 
 const Login = () => {
+  const [initializing, setInitializing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
@@ -38,6 +41,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { addSnackBar } = useSnackBars();
+
+  useEffect(() => {
+    validateUserLoggedState()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const validateUserLoggedState = async () => {
+    try {
+      const isUserLoggedIn = await getUserLoggedState();
+      if (isUserLoggedIn) {
+        navigate('/main-dashboard')
+      }
+      setInitializing(false)
+    } catch (_error) {
+      setInitializing(false)
+    }
+  }
 
   const onSuccess = () => {
     addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged In' })
@@ -82,7 +102,7 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={CustomTheme}>
       <ContainerWithBG
         background={BGImage}
         type={ContainerTypes.div}
@@ -91,87 +111,110 @@ const Login = () => {
       >
         <CssBaseline />
         <CustomCard>
-          <Box
-            maxWidth="xs"
-            sx={{
-              marginTop: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign In
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              onValidate
-              sx={{ mt: 3 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                name="userName"
-                type="text"
-                onChange={handleChange}
-                value={formData.userName}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                label="Password"
-                name="password"
-                type="password"
-                onChange={handleChange}
-                value={formData.password}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <ButtonContainer>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  fullWidth
-                  color="primary"
-                  disabled={
-                    validateInputByInput("userName", null) ||
-                    validateInputByInput("password", null) ||
-                    loading
-                  }
+          {
+            initializing ? (
+              <Box
+                maxWidth="xs"
+                sx={{
+                  minWidth: "200px",
+                  minHeight: "150px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <CircularProgress sx={{ color: theme.coreColors.secondary }} />
+                <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
+                  Initializing
+                </Typography>
+              </Box>
+            ) : (
+              <>
+                <Box
+                  maxWidth="xs"
+                  sx={{
+                    marginTop: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  {
-                    loading ? (
-                      <CircularProgress size={20} sx={{ mt: '8px', mb: '8px' }} />
-                    ) : 'Sign In'
-                  }
-                </Button>
-              </ButtonContainer>
-            </Box>
-          </Box>
-          <Grid container sx={{ mt: "10px" }}>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-          <Copyright sx={{ mt: 4, mb: 4 }} />
+                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Sign In
+                  </Typography>
+                  <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    onValidate
+                    sx={{ mt: 3 }}
+                  >
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="userName"
+                      label="User Name"
+                      name="userName"
+                      type="text"
+                      onChange={handleChange}
+                      value={formData.userName}
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="password"
+                      label="Password"
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                      value={formData.password}
+                    />
+                    {/* <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  /> */}
+                    <ButtonContainer>
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        color="primary"
+                        disabled={
+                          validateInputByInput("userName", null) ||
+                          validateInputByInput("password", null) ||
+                          loading
+                        }
+                      >
+                        {
+                          loading ? (
+                            <CircularProgress size={20} sx={{ mt: '8px', mb: '8px' }} />
+                          ) : 'Sign In'
+                        }
+                      </Button>
+                    </ButtonContainer>
+                  </Box>
+                </Box>
+                <Grid container sx={{ mt: "10px" }}>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/register" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Copyright sx={{ mt: 4, mb: 4 }} />
+              </>
+            )
+          }
         </CustomCard>
       </ContainerWithBG>
     </ThemeProvider>
