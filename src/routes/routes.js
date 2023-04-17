@@ -56,6 +56,7 @@ export const Routes = [
       {
         path: "/inter-province",
         name: "Inter Province",
+        isSideBar: true,
         icon: CropSquareIcon,
         element: <InterProvince />,
       },

@@ -8,6 +8,7 @@ import InterProvinceList from "./InterProvinceList";
 import InterProvinceForm from "./InterProvinceForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CustomDialog from "../../../components/PageLayout/Dialog";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 
 const InterProvince = () => {
   const [selectedInterProvince, setSelectedInterProvince] = useState(null);
@@ -24,6 +25,7 @@ const InterProvince = () => {
   };
 
   const onCreate = useCallback(() => {
+    console.log('add inter province')
     setAction("new");
     openDialog();
   }, []);
@@ -103,7 +105,7 @@ const InterProvince = () => {
         return null;
     }
   };
-  
+
   const generatePopUpTitle = () => {
     switch (action) {
       case "new":
@@ -162,7 +164,7 @@ const InterProvince = () => {
       <PermissionWrapper
         component={
           <InterProvinceList
-            onView={onView}
+            onView={onView} 
             onEdit={onEdit}
             onDelete={onDelete}
             selectedInterProvinces={selectedInterProvinces}
@@ -172,20 +174,20 @@ const InterProvince = () => {
           />
         }
       />
-      <CustomDialog
-        open={dialogState}
-        title={generatePopUpTitle()}
-        actions={
-          <>
-            <Button variant="contained" onClick={onConfirm}>
-              {action !== "new" ? action.toUpperCase() : "CREATE"}
-            </Button>
-            <Button variant="text" color="error" onClick={closeDialog}>
-              CANCEL
-            </Button>
-          </>
-        }
-        children={generatePopUpBody()}
+      <DialogBox
+      open={dialogState}
+      title={generatePopUpTitle()}
+      actions={
+        <>
+          <Button variant="contained" onClick={onConfirm}>
+            {action !== "new" ? action.toUpperCase() : "CREATE"}
+          </Button>
+          <Button variant="text" color="error" onClick={closeDialog}>
+            CANCEL
+          </Button>
+        </>
+      }
+      children={generatePopUpBody()}
       />
     </div>
   );
