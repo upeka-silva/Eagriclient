@@ -54,18 +54,26 @@ export const Routes = [
         icon: CropSquareIcon,
       },
       {
-        path: "/inter-province",
-        name: "Inter Province",
-        isSideBar: true,
-        icon: CropSquareIcon,
-        element: <InterProvince />,
-      },
-      {
         path: "/district",
         name: "District",
         isSideBar: true,
         element: <Province />,
         icon: StreetviewIcon,
+      },
+    ],
+  },
+  {
+    path: "/agri-zone",
+    name: "Agriculture Zones",
+    isSideBar: true,
+    icon: AccountTreeIcon,
+    children: [
+      {
+        path: "/inter-province",
+        name: "Inter Province",
+        isSideBar: true,
+        icon: CropSquareIcon,
+        element: <InterProvince />,
       },
     ],
   },
