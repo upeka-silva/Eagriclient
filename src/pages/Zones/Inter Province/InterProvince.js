@@ -9,6 +9,7 @@ import InterProvinceForm from "./InterProvinceForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import CustomDialog from "../../../components/PageLayout/Dialog";
 import DialogBox from "../../../components/PageLayout/DialogBox";
+import { Link } from "react-router-dom";
 
 const InterProvince = () => {
   const [selectedInterProvince, setSelectedInterProvince] = useState(null);
@@ -25,7 +26,6 @@ const InterProvince = () => {
   };
 
   const onCreate = useCallback(() => {
-    console.log('add inter province')
     setAction("new");
     openDialog();
   }, []);
@@ -134,7 +134,8 @@ const InterProvince = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              onClick={onCreate}
+              component={Link}
+              to="/agri-zone/inter-province-form"
             >
               ADD
             </Button>
@@ -164,7 +165,7 @@ const InterProvince = () => {
       <PermissionWrapper
         component={
           <InterProvinceList
-            onView={onView} 
+            onView={onView}
             onEdit={onEdit}
             onDelete={onDelete}
             selectedInterProvinces={selectedInterProvinces}
@@ -175,19 +176,19 @@ const InterProvince = () => {
         }
       />
       <DialogBox
-      open={dialogState}
-      title={generatePopUpTitle()}
-      actions={
-        <>
-          <Button variant="contained" onClick={onConfirm}>
-            {action !== "new" ? action.toUpperCase() : "CREATE"}
-          </Button>
-          <Button variant="text" color="error" onClick={closeDialog}>
-            CANCEL
-          </Button>
-        </>
-      }
-      children={generatePopUpBody()}
+        open={dialogState}
+        title={generatePopUpTitle()}
+        actions={
+          <>
+            <Button variant="contained" onClick={onConfirm}>
+              {action !== "new" ? action.toUpperCase() : "CREATE"}
+            </Button>
+            <Button variant="text" color="error" onClick={closeDialog}>
+              CANCEL
+            </Button>
+          </>
+        }
+        children={generatePopUpBody()}
       />
     </div>
   );
