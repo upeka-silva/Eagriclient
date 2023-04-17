@@ -42,10 +42,6 @@ export const Routes = [
     icon: DashboardIcon,
   },
   {
-    path: "/agri-zone/inter-province-form",
-    element: <InterProvinceForm />,
-  },
-  {
     path: "/zone",
     name: "Zones",
     isSideBar: true,
@@ -75,10 +71,16 @@ export const Routes = [
     children: [
       {
         path: "/inter-province",
-        name: "Inter Province",
+        name: "Inter Provinces",
         isSideBar: true,
         icon: CropSquareIcon,
         element: <InterProvince />,
+      },
+      {
+        name: "Inter Province Form",
+        path: "/inter-province-form",
+        element: <InterProvinceForm />,
+        isSideBar: false,
       },
     ],
   },
