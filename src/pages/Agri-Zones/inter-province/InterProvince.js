@@ -7,8 +7,8 @@ import theme from "../../../utils/theme/theme.json";
 import InterProvinceList from "./InterProvinceList";
 import InterProvinceForm from "./InterProvinceForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import CustomDialog from "../../../components/PageLayout/Dialog";
-import DialogBox from "../../../components/PageLayout/DialogBox";
+// import CustomDialog from "../../../../components/PageLayout/Dialog";
+// import DialogBox from "../../../../components/PageLayout/DialogBox";
 import { Link } from "react-router-dom";
 
 const InterProvince = () => {
@@ -135,7 +135,7 @@ const InterProvince = () => {
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
               component={Link}
-              to="/agri-zone/inter-province-form"
+              to="/agri-zone/inter-province-area-form"
             >
               ADD
             </Button>
@@ -175,7 +175,7 @@ const InterProvince = () => {
           />
         }
       />
-      <DialogBox
+      {/* <DialogBox
         open={dialogState}
         title={generatePopUpTitle()}
         actions={
@@ -189,7 +189,7 @@ const InterProvince = () => {
           </>
         }
         children={generatePopUpBody()}
-      />
+      /> */}
     </div>
   );
 };

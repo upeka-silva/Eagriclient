@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from '../../../components/PageLayout/Card';
+import { CardWrapper } from "../../../components/PageLayout/Card";
 
 const rows = [
   {
