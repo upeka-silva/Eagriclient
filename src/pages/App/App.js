@@ -16,7 +16,7 @@ const App = () => {
   return (
     <ThemeProvider theme={appTheme}>
       <SnackBarProvider>
-        <Wrapper className="App">
+        <Wrapper>
           <BrowserRouter>
             <PermissionWrapper
               component={<SideBar />}
