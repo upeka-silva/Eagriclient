@@ -5,9 +5,7 @@ import { StorageConstants } from '../../../services/storage/constant';
 export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val) => { }) => {
     try {
         const response = await post('user/login', body, false);
-        console.log(response)
         if (response.httpCode === '200 OK' && response.payload.jwtToken) {
-            console.log(response.payload.jwtToken);
             await setLSItem(StorageConstants.token, response.payload.jwtToken);
             onSuccess();
         } else {

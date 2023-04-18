@@ -27,7 +27,6 @@ const PermissionWrapper = ({ component, permission, withoutPermissions = false, 
     }
 
     useEffect(() => {
-        console.log(location)
         checkPermission()
             .then(result => setHasPermission(result))
             .catch(() => setHasPermission(false))
