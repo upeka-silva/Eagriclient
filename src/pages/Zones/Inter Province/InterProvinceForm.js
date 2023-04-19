@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Card from "@mui/material/Card";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 const InterProvinceForm = () => {
 
@@ -40,10 +41,9 @@ const InterProvinceForm = () => {
 
   return (
     <FromCard>
-      <BackWrapper onClick={onBack}>
-        <KeyboardBackspaceIcon style={{color: `${theme.schemes.light.onBack}`}}/>
-        <Button style={{color: `${theme.schemes.light.onBack}`}}>Back to table</Button>
-      </BackWrapper>
+      <ActionWrapper style={{justifyContent: "flex-start"}}>
+        <Button startIcon={<KeyboardBackspaceIcon />} style={{color: `${theme.schemes.light.onBack}`}} onClick={onBack}>Back to table</Button>
+      </ActionWrapper>
 
       <FormCardWrapper>
         <FormTitle>Register Inter Province Area</FormTitle>
