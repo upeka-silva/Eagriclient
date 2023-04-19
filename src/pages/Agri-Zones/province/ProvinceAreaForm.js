@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import { Button, TextField } from "@mui/material";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useNavigate } from "react-router-dom";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 const ProvinceAreaForm = () => {
   const navigation = useNavigate()
@@ -39,14 +40,11 @@ const ProvinceAreaForm = () => {
 
   return (
     <FromCard>
-      <BackWrapper onClick={onBack}>
-        <KeyboardBackspaceIcon
-          style={{ color: `${theme.schemes.light.onBack}` }}
-        />
-        <Button style={{ color: `${theme.schemes.light.onBack}` }}>
+      <ActionWrapper style={{justifyContent: "flex-start"}}>
+        <Button startIcon={<KeyboardBackspaceIcon />} style={{ color: `${theme.schemes.light.onBack}` }} onClick={onBack}>
           Back to table
         </Button>
-      </BackWrapper>
+      </ActionWrapper>
       <FormCardWrapper>
         <FormTitle>Register Province Area</FormTitle>
         <TextField
