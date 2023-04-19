@@ -9,10 +9,23 @@ import CustomDialog from "../../../components/PageLayout/Dialog";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { Link } from "react-router-dom";
 import ASCList from "./ASCList";
+import { useNavigate } from "react-router-dom";
 
 const ASC = () => {
+
+  const navigation = useNavigate()
+
   const [selectedAsc, setSelectedAsc] = useState(null);
   const [selectedAscGroup, setSelectedAscGroup] = useState([]);
+  const [action, setAction] = useState("new");
+
+
+  const onCreate = useCallback(() => {
+    setAction("new");
+    navigation("/zone/asc-area-form")
+  }, []);
+
+
   return (
     <div>
       <ActionWrapper>
@@ -22,8 +35,7 @@ const ASC = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              component={Link}
-              to="/zone/asc-area-form"
+              onClick={onCreate}
             >
               ADD
             </Button>
