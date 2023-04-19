@@ -7,42 +7,49 @@ import Router from "../../routes/router";
 import theme from "../../utils/theme/theme.json";
 import AppHeader from "../../components/AppHeader/AppHeader"
 import styled from "styled-components";
-import './App.css';
+import { SnackBarProvider } from "../../context/SnackBarContext";
+import SnackBars from "../../components/SnackBar/SnackBars";
 
 const appTheme = createTheme(theme);
 
 const App = () => {
   return (
     <ThemeProvider theme={appTheme}>
-      <div className="App">
-        <BrowserRouter>
-          <PermissionWrapper
-            component={<SideBar />}
-          // withoutPermissions
-          // permission="ADD_ABC"
-          // majorModule="ABC"
-          />
-          <PageWrapper sx={PermissionWrapper({ component: 'padding-right: 12px;' }) || ''}>
+      <SnackBarProvider>
+        <Wrapper>
+          <BrowserRouter>
             <PermissionWrapper
-              component={<AppHeader />}
-            // withoutPermissions
-            // permission="ADD_ABC"
-            // majorModule="ABC"
+              component={<SideBar />}
+              withoutPermissions
             />
-            <Routes>{Router}</Routes>
-          </PageWrapper>
-        </BrowserRouter>
-      </div>
+            <PageWrapper>
+              <PermissionWrapper
+                component={<AppHeader />}
+                withoutPermissions
+              />
+              <Routes>{Router}</Routes>
+            </PageWrapper>
+          </BrowserRouter>
+        </Wrapper>
+        <SnackBars />
+      </SnackBarProvider>
     </ThemeProvider>
   );
 };
 
 export default App;
 
+const Wrapper = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background-color: #8ABFC177;
+`;
+
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  ${props => props.sx}
+  padding-right: 12px;
   overflow: scroll;
 `;

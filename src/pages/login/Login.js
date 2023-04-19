@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
@@ -11,41 +11,62 @@ import {
   Button,
   Grid,
   Link,
-  Checkbox,
+  // Checkbox,
+  CircularProgress,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/Copyright";
-import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormControlLabel from "@mui/material/FormControlLabel";
+import { initiateLogin } from "../../redux/actions/login/actions";
+import { useLocation, useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import theme from '../../utils/theme/theme.json';
+import { useUserAccessValidation } from "../../hooks/authentication";
 
 const BGImage = require("../../assets/images/background.jpg");
 
-const theme = createTheme();
+const CustomTheme = createTheme();
 
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
     password: "",
   });
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const { addSnackBar } = useSnackBars();
+
+  const initializing = useUserAccessValidation();
+
+  const onSuccess = () => {
+    addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged In' })
+    navigate(location.state?.toPath || '/main-dashboard');
+  }
+
+  const onError = (message) => {
+    addSnackBar({ type: SnackBarTypes.error, message: message || 'Login Failed' })
+    setLoading(false);
+  }
+
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data, "data");
+    if (event.preventDefault) event.preventDefault();
+    setLoading(true);
+    initiateLogin(formData, onSuccess, onError);
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
+    if (event.preventDefault) event.preventDefault();
     setFormData((current) => ({
       ...current,
       [event?.target?.name]: event?.target?.value || "",
     }));
   };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   const validateInputByInput = (feild, target) => {
     const current = { ...formData };
@@ -66,7 +87,7 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={CustomTheme}>
       <ContainerWithBG
         background={BGImage}
         type={ContainerTypes.div}
@@ -75,82 +96,110 @@ const Login = () => {
       >
         <CssBaseline />
         <CustomCard>
-          <Box
-            maxWidth="xs"
-            sx={{
-              marginTop: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign In
-            </Typography>
-            <Box
-              component="form"
-              onSubmit={handleSubmit}
-              onValidate
-              sx={{ mt: 3 }}
-            >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="userName"
-                label="User Name"
-                name="userName"
-                type="text"
-                onChange={handleChange}
-                value={formData.userName}
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="password"
-                label="Password"
-                name="password"
-                type="password"
-                onChange={handleChange}
-                value={formData.password}
-              />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
-              <ButtonContainer>
-                <Button
-                  variant="contained"
-                  type="submit"
-                  fullWidth
-                  color="primary"
-                  disabled={
-                    validateInputByInput("userName", null) ||
-                    validateInputByInput("password", null)
-                  }
+          {
+            initializing ? (
+              <Box
+                maxWidth="xs"
+                sx={{
+                  minWidth: "200px",
+                  minHeight: "150px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <CircularProgress sx={{ color: theme.coreColors.secondary }} />
+                <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
+                  Initializing
+                </Typography>
+              </Box>
+            ) : (
+              <>
+                <Box
+                  maxWidth="xs"
+                  sx={{
+                    marginTop: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
                 >
-                  Sign In
-                </Button>
-              </ButtonContainer>
-            </Box>
-          </Box>
-          <Grid container sx={{ mt: "10px" }}>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-          <Copyright sx={{ mt: 4, mb: 4 }} />
+                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    <LockOutlinedIcon />
+                  </Avatar>
+                  <Typography component="h1" variant="h5">
+                    Sign In
+                  </Typography>
+                  <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    onValidate
+                    sx={{ mt: 3 }}
+                  >
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="userName"
+                      label="User Name"
+                      name="userName"
+                      type="text"
+                      onChange={handleChange}
+                      value={formData.userName}
+                    />
+                    <TextField
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="password"
+                      label="Password"
+                      name="password"
+                      type="password"
+                      onChange={handleChange}
+                      value={formData.password}
+                    />
+                    {/* <FormControlLabel
+                    control={<Checkbox value="remember" color="primary" />}
+                    label="Remember me"
+                  /> */}
+                    <ButtonContainer>
+                      <Button
+                        variant="contained"
+                        type="submit"
+                        fullWidth
+                        color="primary"
+                        disabled={
+                          validateInputByInput("userName", null) ||
+                          validateInputByInput("password", null) ||
+                          loading
+                        }
+                      >
+                        {
+                          loading ? (
+                            <CircularProgress size={20} sx={{ mt: '8px', mb: '8px' }} />
+                          ) : 'Sign In'
+                        }
+                      </Button>
+                    </ButtonContainer>
+                  </Box>
+                </Box>
+                <Grid container sx={{ mt: "10px" }}>
+                  <Grid item xs>
+                    <Link href="#" variant="body2">
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/register" variant="body2">
+                      {"Don't have an account? Sign Up"}
+                    </Link>
+                  </Grid>
+                </Grid>
+                <Copyright sx={{ mt: 4, mb: 4 }} />
+              </>
+            )
+          }
         </CustomCard>
       </ContainerWithBG>
     </ThemeProvider>
