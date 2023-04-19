@@ -3,8 +3,12 @@ import theme from "../../utils/theme/theme.json";
 import styled from "styled-components";
 import Card from "@mui/material/Card";
 import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
 const SoilForm = () => {
+  const navigation = useNavigate();
+
   const [formData, setFormData] = useState({
     soilTypeId: "",
     description: "",
@@ -44,7 +48,7 @@ const SoilForm = () => {
       ...prevFormData,
       soilTypeId: "",
       description: "",
-      Texture: "",
+      texture: "",
       pHLower: "",
       pHUpper: "",
       organicMatterContent: "",
@@ -62,24 +66,35 @@ const SoilForm = () => {
       waterHoldingCapacity: "",
     }));
   };
+
+  const onBack = () => {
+    navigation("/soil");
+  };
+
   return (
     <FromCard>
+      <BackWrapper onClick={onBack}>
+        <KeyboardBackspaceIcon
+          style={{ color: `${theme.schemes.light.onBack}` }}
+        />
+        <Button style={{ color: `${theme.schemes.light.onBack}` }}>
+          Back to table
+        </Button>
+      </BackWrapper>
       <FormCardWrapper>
         <FormTitle>Soil Registration</FormTitle>
         <FieldGroup>
-          <TextField
-            variant="outlined"
-            fullWidth
-            label="Soil Type"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            size="small"
-            props
-            sx={{ width: 1010 }}
-          />
           <FieldWrapper>
+            <TextField
+              variant="outlined"
+              fullWidth
+              label="Soil Type Id"
+              id="soilTypeId"
+              name="soilTypeId"
+              value={formData.soilTypeId}
+              onChange={handleChange}
+              size="small"
+            />
             <TextField
               variant="outlined"
               fullWidth
@@ -89,8 +104,6 @@ const SoilForm = () => {
               value={formData.description}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
             <TextField
               variant="outlined"
@@ -101,8 +114,6 @@ const SoilForm = () => {
               value={formData.texture}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -115,8 +126,6 @@ const SoilForm = () => {
               value={formData.pHLower}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
             <TextField
               variant="outlined"
@@ -127,11 +136,7 @@ const SoilForm = () => {
               value={formData.pHUpper}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
-          </FieldWrapper>
-          <FieldWrapper>
             <TextField
               variant="outlined"
               fullWidth
@@ -141,9 +146,9 @@ const SoilForm = () => {
               value={formData.organicMatterContent}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
+          </FieldWrapper>
+          <FieldWrapper>
             <TextField
               variant="outlined"
               fullWidth
@@ -153,11 +158,7 @@ const SoilForm = () => {
               value={formData.nitrogenPercentage}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
-          </FieldWrapper>
-          <FieldWrapper>
             <TextField
               variant="outlined"
               fullWidth
@@ -167,8 +168,6 @@ const SoilForm = () => {
               value={formData.phosphorusPercentage}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
             <TextField
               variant="outlined"
@@ -179,8 +178,6 @@ const SoilForm = () => {
               value={formData.potassiumPercentage}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 500 }}
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -193,8 +190,6 @@ const SoilForm = () => {
               value={formData.calcium}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
             <TextField
               variant="outlined"
@@ -205,8 +200,6 @@ const SoilForm = () => {
               value={formData.magnesium}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
             <TextField
               variant="outlined"
@@ -217,8 +210,6 @@ const SoilForm = () => {
               value={formData.sulfur}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -231,10 +222,8 @@ const SoilForm = () => {
               value={formData.iron}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
-             <TextField
+            <TextField
               variant="outlined"
               fullWidth
               label="Manganese"
@@ -243,10 +232,8 @@ const SoilForm = () => {
               value={formData.manganese}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
-              <TextField
+            <TextField
               variant="outlined"
               fullWidth
               label="Zinc"
@@ -255,8 +242,6 @@ const SoilForm = () => {
               value={formData.zinc}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -269,8 +254,6 @@ const SoilForm = () => {
               value={formData.copper}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
             <TextField
               variant="outlined"
@@ -281,10 +264,8 @@ const SoilForm = () => {
               value={formData.boron}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
-             <TextField
+            <TextField
               variant="outlined"
               fullWidth
               label="Water Holding Capacity"
@@ -293,13 +274,12 @@ const SoilForm = () => {
               value={formData.waterHoldingCapacity}
               onChange={handleChange}
               size="small"
-              props
-              sx={{ width: 330 }}
             />
           </FieldWrapper>
         </FieldGroup>
       </FormCardWrapper>
       <ButtonContainer>
+        <Button type="submit">Create</Button>
         <Button
           style={{ color: `${theme.schemes.light.reset}` }}
           type="reset"
@@ -307,7 +287,6 @@ const SoilForm = () => {
         >
           Reset
         </Button>
-        <Button type="submit">Create</Button>
       </ButtonContainer>
     </FromCard>
   );
@@ -315,9 +294,7 @@ const SoilForm = () => {
 
 export default SoilForm;
 
-const FromCard = styled(Card).attrs((props) => ({
-  sx: { height: "100%" },
-}))`
+const FromCard = styled(Card).attrs((props) => ({}))`
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -331,7 +308,7 @@ const FormCardWrapper = styled.div`
 
 const FormTitle = styled.p`
   font-size: 25px;
-  font-weight: 500;
+  font-weight: 600;
 `;
 
 const ButtonContainer = styled.div`
@@ -342,6 +319,7 @@ const ButtonContainer = styled.div`
 
 const FieldWrapper = styled.div`
   display: flex;
+  flex-direction: row;
   gap: 10px;
   align-items: center;
 `;
@@ -351,4 +329,10 @@ const FieldGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+`;
+
+const BackWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;

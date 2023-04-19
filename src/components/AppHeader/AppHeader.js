@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import styled from 'styled-components';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { Routes } from '../../routes/routes';
 import { Button, IconButton, Popover, Typography } from '@mui/material';
 import ProfileIcon from '@mui/icons-material/AccountCircle';
 import ExitIcon from '@mui/icons-material/ExitToApp';
 import { Colors } from '../../utils/constants/Colors';
 import theme from '../../utils/theme/theme.json';
+import { useSnackBars } from '../../context/SnackBarContext';
+import { SnackBarTypes } from '../../utils/constants/snackBarTypes';
+import { initiateLogout } from '../../redux/actions/login/actions';
 
 const AppHeader = () => {
     const [isProfileOptionsOpen, setProfileOptionsOpen] = useState(false);
@@ -40,6 +43,23 @@ const AppHeader = () => {
 
     const getPathName = () => {
         return location.pathname === '/' || !location.pathname ? "" : location.pathname;
+    }
+
+    const navigate = useNavigate();
+
+    const { addSnackBar } = useSnackBars();
+
+    const onSuccess = () => {
+        addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged Out' })
+        navigate('/login');
+    }
+
+    const onError = (message) => {
+        addSnackBar({ type: SnackBarTypes.error, message: message || 'Logout Failed' })
+    }
+
+    const logoutFunc = () => {
+        initiateLogout(onSuccess, onError);
     }
 
     return (
@@ -75,7 +95,11 @@ const AppHeader = () => {
                             Profile
                         </Button>
                         <br />
-                        <Button variant="text" startIcon={<ExitIcon />}>
+                        <Button
+                            onClick={logoutFunc}
+                            variant="text"
+                            startIcon={<ExitIcon />}
+                        >
                             Logout
                         </Button>
                     </div>

@@ -33,7 +33,9 @@ const Soil = () => {
           />
         ) : null}
       </ActionWrapper>
-      <PermissionWrapper component={<SoilList />} />
+      <PermissionWrapper component={<SoilList 
+
+      />} />
     </div>
   );
 };
