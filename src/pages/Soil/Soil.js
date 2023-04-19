@@ -3,13 +3,21 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { Button } from "@mui/material";
 import PlusIcon from "@mui/icons-material/Add";
-import { Link } from "react-router-dom";
 import theme from "../../utils/theme/theme.json";
 import SoilList from "./SoilList";
+import { useNavigate } from "react-router-dom";
 
 const Soil = () => {
+  const navigation = useNavigate();
+
   const [selectedSoil, setSelectedSoil] = useState(null);
   const [selectedSoils, setSelectedSoils] = useState([]);
+  const [action, setAction] = useState("new");
+
+  const onCreate = useCallback(() => {
+    setAction("new");
+    navigation("/soil/soil-form")
+  }, []);
 
   return (
     <div>
@@ -20,8 +28,7 @@ const Soil = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              component={Link}
-              to="/soil/soil-form"
+              onClick={onCreate}
             >
               ADD
             </Button>
@@ -33,9 +40,7 @@ const Soil = () => {
           />
         ) : null}
       </ActionWrapper>
-      <PermissionWrapper component={<SoilList 
-
-      />} />
+      <PermissionWrapper component={<SoilList />} />
     </div>
   );
 };

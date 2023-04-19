@@ -101,9 +101,7 @@ export const Routes = [
   {
     path: "/soil/soil-form",
     name: "Soil Form",
-    isSideBar: false,
     element: <SoilForm />,
-
   },
  
 ];

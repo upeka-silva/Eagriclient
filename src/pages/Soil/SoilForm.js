@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 
 const SoilForm = () => {
   const navigation = useNavigate();
@@ -73,14 +74,11 @@ const SoilForm = () => {
 
   return (
     <FromCard>
-      <BackWrapper onClick={onBack}>
-        <KeyboardBackspaceIcon
-          style={{ color: `${theme.schemes.light.onBack}` }}
-        />
-        <Button style={{ color: `${theme.schemes.light.onBack}` }}>
+      <ActionWrapper style={{justifyContent: "flex-start"}}>
+        <Button startIcon={<KeyboardBackspaceIcon />} style={{ color: `${theme.schemes.light.onBack}` }} onClick={onBack}>
           Back to table
         </Button>
-      </BackWrapper>
+      </ActionWrapper>
       <FormCardWrapper>
         <FormTitle>Soil Registration</FormTitle>
         <FieldGroup>
