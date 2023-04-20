@@ -10,6 +10,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
+
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import ASC from "../pages/Zones/ASC/ASC";
+import ASCForm from "../pages/Zones/ASC/ASCForm";
+
 import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
 import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
@@ -67,6 +72,19 @@ export const Routes = [
         isSideBar: true,
         element: <Province />,
         icon: StreetviewIcon,
+      },
+      {
+        path: "/asc-area",
+        name: "ASC",
+        isSideBar: true,
+        element: <ASC />,
+        icon: MyLocationIcon,
+      },
+      {
+        path: "/asc-area-form",
+        name: "ASC Form",
+        isSideBar: false,
+        element: <ASCForm />,
       },
     ],
   },
