@@ -19,7 +19,7 @@ const PermissionWrapper = ({ component, permission, withoutPermissions = false, 
             if (permission) {
                 return await getUserPermissionStateByAuthority(permission) || false;
             }
-            return false;
+            return true;
         } catch (error) {
             console.log(error);
             return false;
