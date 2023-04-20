@@ -5,11 +5,16 @@ import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Province from "../pages/Zones/Province/Province";
 import EmailVerificationPage from "../pages/EmailVerification";
+import WaterIcon from '@mui/icons-material/Water';
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
+
+import Soil from "../pages/Soil/Soil";
+import SoilForm from "../pages/Soil/SoilForm";
+
 
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import ASC from "../pages/Zones/ASC/ASC";
@@ -19,6 +24,7 @@ import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
 import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
 import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
+
 
 
 export const Routes = [
@@ -123,4 +129,17 @@ export const Routes = [
       },
     ],
   },
+  {
+    path: "/soil",
+    name: "Soil",
+    isSideBar: true,
+    icon: WaterIcon,
+    element: <Soil />,
+  },
+  {
+    path: "/soil/soil-form",
+    name: "Soil Form",
+    element: <SoilForm />,
+  },
+ 
 ];
