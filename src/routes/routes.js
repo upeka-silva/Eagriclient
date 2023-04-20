@@ -5,16 +5,21 @@ import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import Province from "../pages/Zones/Province/Province";
 import EmailVerificationPage from "../pages/EmailVerification";
+import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
+import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
+import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
+import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
+import Actions from "../pages/Actions/Actions";
+import Components from "../pages/Components/Components";
+import ComponentForm from "../pages/Components/ComponentForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
-import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
-import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
-import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
-import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
-
+import LockIcon from '@mui/icons-material/Lock';
+import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
 
 export const Routes = [
   {
@@ -105,4 +110,32 @@ export const Routes = [
       },
     ],
   },
+  {
+    path: '/authentication',
+    name: "Authentication",
+    isSideBar: true,
+    icon: LockIcon,
+    children: [
+      {
+        path: "/actions",
+        name: "Actions",
+        isSideBar: true,
+        icon: HighlightAltIcon,
+        element: <Actions />,
+      },
+      {
+        path: "/components",
+        name: "Components",
+        isSideBar: true,
+        icon: ViewModuleIcon,
+        element: <Components />,
+      },
+      {
+        path: "/component-form",
+        name: "Component Form",
+        isSideBar: false,
+        element: <ComponentForm />,
+      },
+    ]
+  }
 ];
