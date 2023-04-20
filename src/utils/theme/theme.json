@@ -43,6 +43,7 @@
       "reset": "#FF0000",
       "onBack": "#808080"
     },
+
     "dark": {
       "primary": "#4cd9df",
       "onPrimary": "#003738",

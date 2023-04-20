@@ -10,16 +10,25 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
-import InterProvince from "../pages/Zones/Inter Province/InterProvince";
-import InterProvinceForm from "../pages/Zones/Inter Province/InterProvinceForm";
+
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import ASC from "../pages/Zones/ASC/ASC";
 import ASCForm from "../pages/Zones/ASC/ASCForm";
+
+import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
+import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
+import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
+import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
+
 
 export const Routes = [
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
+  },
+  {
+    path: "/",
+    element: <Login />,
   },
   {
     path: "/login",
@@ -86,15 +95,29 @@ export const Routes = [
     icon: AccountTreeIcon,
     children: [
       {
-        path: "/inter-province",
-        name: "Inter Provinces",
+        path: "/province-area",
+        name: "Province Area",
+        isSideBar: true,
+        icon: CropSquareIcon,
+        element: <ProvinceArea />,
+      },
+      {
+        path: "/province-area-form",
+        name: "Province Area Form",
+        isSideBar: false,
+        icon: CropSquareIcon,
+        element: <ProvinceAreaForm />,
+      },
+      {
+        path: "/inter-province-area",
+        name: "Inter Provinces Area",
         isSideBar: true,
         icon: CropSquareIcon,
         element: <InterProvince />,
       },
       {
-        name: "Inter Province Form",
-        path: "/inter-province-form",
+        name: "Inter Province Area Form",
+        path: "/inter-province-area-form",
         element: <InterProvinceForm />,
         isSideBar: false,
       },

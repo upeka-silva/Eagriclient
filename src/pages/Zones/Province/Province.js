@@ -10,12 +10,15 @@ import theme from "../../../utils/theme/theme.json";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import CustomDialog from "../../../components/PageLayout/Dialog";
 import ProvinceForm from "./ProvinceForm";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 
 const Province = () => {
   const [selectedProvince, setSelectedProvince] = useState(null);
   const [selectedProvinces, setSelectedProvinces] = useState([]);
   const [action, setAction] = useState("new");
   const [dialogState, setDialogState] = useState(false);
+
+  useUserAccessValidation();
 
   const openDialog = () => {
     setDialogState(true);
@@ -187,6 +190,7 @@ const Province = () => {
         ) : null}
       </ActionWrapper>
       <PermissionWrapper
+        withoutPermissions
         component={
           <ProvinceList
             onView={onView}
