@@ -12,6 +12,10 @@ import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
+import ASC from "../pages/Zones/ASC/ASC";
+import ASCForm from "../pages/Zones/ASC/ASCForm";
+import Soil from "../pages/Soil/Soil";
+import SoilForm from "../pages/Soil/SoilForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -20,6 +24,9 @@ import StreetviewIcon from "@mui/icons-material/Streetview";
 import LockIcon from '@mui/icons-material/Lock';
 import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import WaterIcon from '@mui/icons-material/Water';
+
 
 export const Routes = [
   {
@@ -72,6 +79,19 @@ export const Routes = [
         isSideBar: true,
         element: <Province />,
         icon: StreetviewIcon,
+      },
+      {
+        path: "/asc-area",
+        name: "ASC",
+        isSideBar: true,
+        element: <ASC />,
+        icon: MyLocationIcon,
+      },
+      {
+        path: "/asc-area-form",
+        name: "ASC Form",
+        isSideBar: false,
+        element: <ASCForm />,
       },
     ],
   },
@@ -137,5 +157,17 @@ export const Routes = [
         element: <ComponentForm />,
       },
     ]
-  }
+  },
+  {
+    path: "/soil",
+    name: "Soil",
+    isSideBar: true,
+    icon: WaterIcon,
+    element: <Soil />,
+  },
+  {
+    path: "/soil/soil-form",
+    name: "Soil Form",
+    element: <SoilForm />,
+  },
 ];
