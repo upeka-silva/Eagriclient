@@ -28,7 +28,7 @@ const InterProvince = () => {
   const onCreate = useCallback(() => {
     setAction("new");
     openDialog();
-    navigation("/agri-zone/inter-province-form")
+    navigation("/agri-zone/inter-province-area-form")
   }, []);
 
   const onView = useCallback((province) => {
@@ -135,7 +135,7 @@ const InterProvince = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              component={onCreate}
+              onClick={onCreate}
               
             >
               ADD

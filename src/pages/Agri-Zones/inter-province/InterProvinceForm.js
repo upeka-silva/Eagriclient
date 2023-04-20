@@ -36,7 +36,7 @@ const InterProvinceForm = () => {
   };
 
   const onBack = () => {
-    navigation("/agri-zone/inter-province")
+    navigation("/agri-zone/inter-province-area")
   }
 
   return (
