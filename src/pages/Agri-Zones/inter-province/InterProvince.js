@@ -7,11 +7,11 @@ import theme from "../../../utils/theme/theme.json";
 import InterProvinceList from "./InterProvinceList";
 import InterProvinceForm from "./InterProvinceForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-// import CustomDialog from "../../../../components/PageLayout/Dialog";
-// import DialogBox from "../../../../components/PageLayout/DialogBox";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const InterProvince = () => {
+  const navigation = new useNavigate()
+
   const [selectedInterProvince, setSelectedInterProvince] = useState(null);
   const [selectedInterProvinces, setSelectedInterProvinces] = useState([]);
   const [action, setAction] = useState("new");
@@ -28,6 +28,7 @@ const InterProvince = () => {
   const onCreate = useCallback(() => {
     setAction("new");
     openDialog();
+    navigation("/agri-zone/inter-province-form")
   }, []);
 
   const onView = useCallback((province) => {
@@ -134,8 +135,8 @@ const InterProvince = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              component={Link}
-              to="/agri-zone/inter-province-area-form"
+              component={onCreate}
+              
             >
               ADD
             </Button>
@@ -175,21 +176,7 @@ const InterProvince = () => {
           />
         }
       />
-      {/* <DialogBox
-        open={dialogState}
-        title={generatePopUpTitle()}
-        actions={
-          <>
-            <Button variant="contained" onClick={onConfirm}>
-              {action !== "new" ? action.toUpperCase() : "CREATE"}
-            </Button>
-            <Button variant="text" color="error" onClick={closeDialog}>
-              CANCEL
-            </Button>
-          </>
-        }
-        children={generatePopUpBody()}
-      /> */}
+ 
     </div>
   );
 };
