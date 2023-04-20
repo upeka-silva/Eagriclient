@@ -24,6 +24,8 @@ import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
 import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
 import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
+import AI from "../pages/Zones/AI/AI";
+import AIForm from "../pages/Zones/AI/AIForm";
 
 
 
@@ -91,6 +93,19 @@ export const Routes = [
         name: "ASC Form",
         isSideBar: false,
         element: <ASCForm />,
+      },
+      {
+        path: "/ai-region",
+        name: "AI Region",
+        isSideBar: true,
+        element: <AI />,
+        icon: MyLocationIcon,
+      },
+      {
+        path: "/ai-region-form",
+        name: "ASC Form",
+        isSideBar: false,
+        element: <AIForm />,
       },
     ],
   },
