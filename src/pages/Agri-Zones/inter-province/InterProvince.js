@@ -7,11 +7,7 @@ import theme from "../../../utils/theme/theme.json";
 import InterProvinceList from "./InterProvinceList";
 import InterProvinceForm from "./InterProvinceForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import CustomDialog from "../../../components/PageLayout/Dialog";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useNavigate } from "react-router-dom";
-
-
 
 const InterProvince = () => {
   const navigation = new useNavigate()
@@ -139,7 +135,8 @@ const InterProvince = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              onClick={onCreate}
+              component={onCreate}
+              
             >
               ADD
             </Button>
@@ -179,21 +176,7 @@ const InterProvince = () => {
           />
         }
       />
-      <DialogBox
-        open={dialogState}
-        title={generatePopUpTitle()}
-        actions={
-          <>
-            <Button variant="contained" onClick={onConfirm}>
-              {action !== "new" ? action.toUpperCase() : "CREATE"}
-            </Button>
-            <Button variant="text" color="error" onClick={closeDialog}>
-              CANCEL
-            </Button>
-          </>
-        }
-        children={generatePopUpBody()}
-      />
+ 
     </div>
   );
 };

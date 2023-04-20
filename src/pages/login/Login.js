@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ContainerWithBG from "../../components/Containers/ContainerWithBG";
@@ -11,27 +11,26 @@ import {
   Button,
   Grid,
   Link,
-  Checkbox,
+  // Checkbox,
   CircularProgress,
 } from "@mui/material/";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { ContainerTypes } from "../../utils/constants/containerTypes";
 import Typography from "@mui/material/Typography";
 import Copyright from "../../components/Copyright";
-import FormControlLabel from "@mui/material/FormControlLabel";
+// import FormControlLabel from "@mui/material/FormControlLabel";
 import { initiateLogin } from "../../redux/actions/login/actions";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import theme from '../../utils/theme/theme.json';
-import { getUserLoggedState } from "../../utils/helpers/permission";
+import { useUserAccessValidation } from "../../hooks/authentication";
 
 const BGImage = require("../../assets/images/background.jpg");
 
 const CustomTheme = createTheme();
 
 const Login = () => {
-  const [initializing, setInitializing] = useState(true);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     userName: "",
@@ -39,29 +38,15 @@ const Login = () => {
   });
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { addSnackBar } = useSnackBars();
 
-  useEffect(() => {
-    validateUserLoggedState()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const validateUserLoggedState = async () => {
-    try {
-      const isUserLoggedIn = await getUserLoggedState();
-      if (isUserLoggedIn) {
-        navigate('/main-dashboard')
-      }
-      setInitializing(false)
-    } catch (_error) {
-      setInitializing(false)
-    }
-  }
+  const initializing = useUserAccessValidation();
 
   const onSuccess = () => {
     addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged In' })
-    navigate('/main-dashboard');
+    navigate(location.state?.toPath || '/main-dashboard');
   }
 
   const onError = (message) => {
