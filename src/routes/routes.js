@@ -16,6 +16,7 @@ import ASC from "../pages/Zones/ASC/ASC";
 import ASCForm from "../pages/Zones/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil";
 import SoilForm from "../pages/Soil/SoilForm";
+import Permissions from "../pages/Permissions/Permissions";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -26,6 +27,7 @@ import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
 import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
+import KeyIcon from '@mui/icons-material/Key';
 
 
 export const Routes = [
@@ -155,6 +157,13 @@ export const Routes = [
         name: "Component Form",
         isSideBar: false,
         element: <ComponentForm />,
+      },
+      {
+        path: "/permissions",
+        name: "Permissions",
+        isSideBar: true,
+        icon: KeyIcon,
+        element: <Permissions />,
       },
     ]
   },
