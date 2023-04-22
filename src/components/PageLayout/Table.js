@@ -856,21 +856,21 @@ export const DataTable = ({
                                             if (c?.type === 'datetime') {
                                                 return (
                                                     <TableCell key={`${key}-${key2}`}>
-                                                        {(new Date(r[c.field] || undefined)).toLocaleString()}
+                                                        {(new Date(r[c.field] || undefined)).toLocaleString("en-UK", { hour12: true, month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
                                                     </TableCell>
                                                 )
                                             }
                                             if (c?.type === 'date') {
                                                 return (
                                                     <TableCell key={`${key}-${key2}`}>
-                                                        {(new Date(r[c.field] || undefined)).toLocaleDateString()}
+                                                        {(new Date(r[c.field] || undefined)).toLocaleDateString("en-UK", { month: '2-digit', day: '2-digit', year: 'numeric' })}
                                                     </TableCell>
                                                 )
                                             }
                                             if (c?.type === 'time') {
                                                 return (
                                                     <TableCell key={`${key}-${key2}`}>
-                                                        {(new Date(r[c.field] || undefined)).toLocaleTimeString()}
+                                                        {(new Date(r[c.field] || undefined)).toLocaleTimeString("en-UK", { hour12: true, hour: '2-digit', minute: '2-digit' })}
                                                     </TableCell>
                                                 )
                                             }
