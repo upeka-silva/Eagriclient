@@ -15,7 +15,7 @@ export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message)
+            onError(apiError?.message || 'Something went wrong! Please try again.');
         } else {
             onError(error);
         }

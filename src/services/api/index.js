@@ -19,7 +19,7 @@ const get = async (path = '', requestToken = false, requestSecret = null) => {
     let token = "";
 
     if (requestToken) {
-        token = `Bearer ${await getLSItem(StorageConstants.token)}`;
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
     }
 
     const configHeaders = {
@@ -68,7 +68,7 @@ const post = async (path = '', req, requestToken = false, requestSecret = null) 
     let token = "";
 
     if (requestToken) {
-        token = `Bearer ${await getLSItem(StorageConstants.token)}`;
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
     }
 
     const configHeaders = {
@@ -113,7 +113,7 @@ const getFileFromApi = async (path = '', requestToken = false) => {
     let token = "";
 
     if (requestToken) {
-        token = `Bearer ${await getLSItem(StorageConstants.token)}`;
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
     }
 
     const configHeaders = {
@@ -155,7 +155,7 @@ const postUploadFile = async (path = '', requestToken = false, key, id = 0, file
     let token = "";
 
     if (requestToken) {
-        token = `Bearer ${await getLSItem(StorageConstants.token)}`;
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
     }
 
     const configHeaders = {

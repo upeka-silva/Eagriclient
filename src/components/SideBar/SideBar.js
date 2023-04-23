@@ -159,9 +159,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                     easing: theme.transitions.easing.sharp,
                     duration: theme.transitions.duration.leavingScreen,
                 }),
-                width: theme.spacing(8),
+                width: theme.spacing(6.5),
                 [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(8),
+                    width: theme.spacing(6.5),
                 },
             }),
         },
@@ -174,6 +174,21 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
                 overflowX: 'hidden',
                 width: 0,
             })
+        },
+        '& .MuiToolbar-root .MuiButtonBase-root': {
+            height: '38px',
+            width: '38px',
+        },
+        '& .MuiToolbar-root': {
+            ...(!open && {
+                padding: '0px !important',
+            })
+        },
+        '& .MuiButtonBase-root': {
+            padding: '6px 8px',
+        },
+        '& .MuiListItemIcon-root': {
+            minWidth: '40px',
         }
     }),
 );
