@@ -1,11 +1,12 @@
 import React from 'react';
 import { Card } from '@mui/material';
 import {
-    ArgumentAxis,
-    ValueAxis,
+    // ArgumentAxis,
+    // ValueAxis,
     Chart,
     AreaSeries,
 } from '@devexpress/dx-react-chart-material-ui';
+import { useUserAccessValidation } from '../../hooks/authentication';
 
 const data = [
     { argument: 1, value: 10 },
@@ -13,14 +14,18 @@ const data = [
     { argument: 3, value: 20 },
 ];
 
+
 const Dashboard = () => {
+
+    useUserAccessValidation();
+
     return (
         <div>
             <Card sx={{ width: "400px" }}>
                 <Chart
                     data={data}
-                    // width={400}
-                    // height={200}
+                // width={400}
+                // height={200}
                 >
                     {/* <ArgumentAxis /> */}
                     {/* <ValueAxis /> */}
@@ -31,8 +36,8 @@ const Dashboard = () => {
             <Card sx={{ marginTop: "12px", width: "400px" }}>
                 <Chart
                     data={data}
-                    // width={400}
-                    // height={200}
+                // width={400}
+                // height={200}
                 >
                     {/* <ArgumentAxis /> */}
                     {/* <ValueAxis /> */}

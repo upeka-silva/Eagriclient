@@ -48,7 +48,7 @@ import CheckBoxIcon from '@mui/icons-material/CropSquareOutlined';
 import IndeterminateCheckBoxIcon from '@mui/icons-material/IndeterminateCheckBox';
 import CalendarIcon from '@mui/icons-material/CalendarMonth';
 import PermissionWrapper from '../PermissionWrapper/PermissionWrapper';
-import { fetchDataList } from '../../redux/actions/table/table';
+import { get_DataList, post_DataList } from '../../redux/actions/table/table';
 import { Colors } from '../../utils/constants/Colors';
 import theme from '../../utils/theme/theme.json';
 import { FormElementTypes } from '../../utils/constants/formElementTypes';
@@ -70,7 +70,7 @@ export const DataTable = ({
     selectedRows = [],
     selectable = false,
     onRowSelect = (_r) => { },
-    selectAll = ([]) => { },
+    selectAll = (_list = []) => { },
     unSelectAll = () => { }
 }) => {
 
@@ -85,6 +85,7 @@ export const DataTable = ({
     const [keyword, setKeyword] = useState('');
     const [page, setPage] = useState(0);
     const [pageSize, setPageSize] = useState(10);
+    const [totalCount, setTotalCount] = useState(0);
     const [showPopover, setShowPopover] = useState(null);
 
     useEffect(() => {
@@ -96,16 +97,21 @@ export const DataTable = ({
     const fetchTableData = async () => {
         setLoading(true);
         try {
-            const dataList = await fetchDataList(dataEndPoint);
+            const { dataList, totalcount } = typeof advanceSearchData === 'object' && Object.keys(advanceSearchData).length > 0 ?
+                await post_DataList(dataEndPoint, page, pageSize, advanceSearchData)
+                : await get_DataList(dataEndPoint, page, pageSize);
             if (dataList) {
                 setRows(dataList);
+                setTotalCount(totalcount);
             } else {
                 setRows([]);
+                setTotalCount(0);
             }
             setLoading(false);
         } catch (error) {
             console.log(error);
             setRows([]);
+            setTotalCount(0);
             setLoading(false);
         }
     }
@@ -847,6 +853,27 @@ export const DataTable = ({
                                                     </TableCell>
                                                 )
                                             }
+                                            if (c?.type === 'datetime') {
+                                                return (
+                                                    <TableCell key={`${key}-${key2}`}>
+                                                        {(new Date(r[c.field] || undefined)).toLocaleString("en-UK", { hour12: true, month: '2-digit', day: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+                                                    </TableCell>
+                                                )
+                                            }
+                                            if (c?.type === 'date') {
+                                                return (
+                                                    <TableCell key={`${key}-${key2}`}>
+                                                        {(new Date(r[c.field] || undefined)).toLocaleDateString("en-UK", { month: '2-digit', day: '2-digit', year: 'numeric' })}
+                                                    </TableCell>
+                                                )
+                                            }
+                                            if (c?.type === 'time') {
+                                                return (
+                                                    <TableCell key={`${key}-${key2}`}>
+                                                        {(new Date(r[c.field] || undefined)).toLocaleTimeString("en-UK", { hour12: true, hour: '2-digit', minute: '2-digit' })}
+                                                    </TableCell>
+                                                )
+                                            }
                                             return (
                                                 <TableCell key={`${key}-${key2}`}>
                                                     {r[c.field] || ''}
@@ -891,10 +918,10 @@ export const DataTable = ({
             </Table>
             <TableFooterContainer type='row'>
                 <TablePagination
-                    count={rows.length}
+                    count={totalCount}
                     page={page}
                     rowsPerPage={pageSize}
-                    rowsPerPageOptions={[10, 20, 30, ...(rows.length > 30 ? [rows.length] : [])]}
+                    rowsPerPageOptions={[10, 20, 30, ...(totalCount > 30 ? [totalCount] : [])]}
                     onPageChange={(e, newPage) => {
                         console.log(newPage);
                         setPage(newPage || 0)

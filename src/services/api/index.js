@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { baseURL } from '../../utils/constants/api';
+import { getLSItem } from '../storage';
+import { StorageConstants } from '../storage/constant';
 
 axios.defaults.headers.common['requestToken'] = '';
 axios.defaults.headers.common['signature'] = '';
@@ -9,15 +11,20 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 
 
-const get = (path = '', requestToken = '', requestSecret = null) => {
+const get = async (path = '', requestToken = false, requestSecret = null) => {
     let signature = '';
     if (requestSecret) {
         signature = "generateSignature()";
     }
+    let token = "";
+
+    if (requestToken) {
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
+    }
 
     const configHeaders = {
         headers: {
-            requestToken: requestToken,
+            Authorization: token,
             signature: signature,
         }
     };
@@ -45,7 +52,7 @@ const get = (path = '', requestToken = '', requestSecret = null) => {
                 }
             }).catch(error => {
                 if (error.response) {
-                    reject({ error: error.response.statusText || 'An unexpected error has occurred.' });
+                    reject({ error: error.response || 'An unexpected error has occurred.' });
                 } else {
                     reject({ error: 'An unexpected error has occurred.' });
                 }
@@ -53,14 +60,20 @@ const get = (path = '', requestToken = '', requestSecret = null) => {
     });
 };
 
-const post = (path = '', req, requestToken = '', requestSecret = null) => {
+const post = async (path = '', req, requestToken = false, requestSecret = null) => {
     let signature = '';
     if (requestSecret) {
         signature = "generateSignature()";
     }
+    let token = "";
+
+    if (requestToken) {
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
+    }
+
     const configHeaders = {
         headers: {
-            requestToken: requestToken,
+            Authorization: token,
             signature: signature,
         }
     };
@@ -87,7 +100,7 @@ const post = (path = '', req, requestToken = '', requestSecret = null) => {
                 }
             }).catch(error => {
                 if (error.response) {
-                    reject({ error: error.response.statusText || 'An unexpected error has occurred.' });
+                    reject({ error: error.response || 'An unexpected error has occurred.' });
                 } else {
                     reject({ error: 'An unexpected error has occurred.' });
                 }
@@ -95,12 +108,17 @@ const post = (path = '', req, requestToken = '', requestSecret = null) => {
     });
 };
 
-const getFileFromApi = (path = '', requestToken = '') => {
+const getFileFromApi = async (path = '', requestToken = false) => {
 
+    let token = "";
+
+    if (requestToken) {
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
+    }
 
     const configHeaders = {
         headers: {
-            requestToken: requestToken,
+            Authorization: token,
             signature: '',
         },
         responseType: 'arraybuffer'
@@ -124,19 +142,25 @@ const getFileFromApi = (path = '', requestToken = '') => {
                 }
             }).catch(error => {
                 if (error.response) {
-                    reject({ error: error.response.statusText || 'An unexpected error has occurred.' });
+                    reject({ error: error.response || 'An unexpected error has occurred.' });
                 } else {
                     reject({ error: 'An unexpected error has occurred.' });
                 }
-                console.log(error);
             })
     });
 };
 
-const postUploadFile = (path = '', requestToken = '', key, id = 0, file) => {
+const postUploadFile = async (path = '', requestToken = false, key, id = 0, file) => {
+
+    let token = "";
+
+    if (requestToken) {
+        token = `Bearer ${(await getLSItem(StorageConstants.token))?.value || ''}`;
+    }
+
     const configHeaders = {
         headers: {
-            requestToken: requestToken,
+            Authorization: token,
             signature: '',
             id: id,
             filename: file.name || '',
@@ -171,8 +195,7 @@ const postUploadFile = (path = '', requestToken = '', key, id = 0, file) => {
                 }
             }).catch(error => {
                 if (error.response) {
-                    console.log(error);
-                    reject({ error: error.response.statusText || 'An unexpected error has occurred.' });
+                    reject({ error: error.response || 'An unexpected error has occurred.' });
                 } else {
                     reject({ error: 'An unexpected error has occurred.' });
                 }
