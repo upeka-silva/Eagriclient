@@ -11,6 +11,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitIcon from "@mui/icons-material/ExitToApp";
 import { Colors } from "../../utils/constants/Colors";
+import { Fonts } from "../../utils/constants/Fonts";
 import theme from "../../utils/theme/theme.json";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
@@ -94,8 +95,7 @@ const AppHeader = () => {
     <Wrapper>
       <ItemWrapper>
         <AppTitle>
-          <p>E-EXTENSION SYSTEM</p>
-
+          E-EXTENSION SYSTEM
           {/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
           <Typography
             variant="subtitle2"
@@ -112,12 +112,11 @@ const AppHeader = () => {
                 width: "30px",
                 border: "1px solid #899393",
                 transform: "rotate(-90deg)",
-        
               }}
             />
           </BreakLine>
 
-          <IconButton style={{marginLeft: "30px"}}>
+          <IconButton style={{ marginLeft: "30px" }}>
             <NotificationsNoneIcon />
           </IconButton>
           <IconButton>
@@ -129,7 +128,6 @@ const AppHeader = () => {
           <BreakLine>
             <hr
               style={{
-      
                 width: "30px",
                 border: "1px solid #899393",
                 transform: "rotate(-90deg)",
@@ -204,9 +202,10 @@ const IconWrapper = styled.div`
   align-items: center;
 `;
 
-const AppTitle = styled.div`
+const AppTitle = styled.p`
   display: flex;
   font-weight: bold;
+  font-family: ${Fonts.fontStyle1};
 `;
 
 const ProfileButton = styled.div`
