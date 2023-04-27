@@ -11,4 +11,5 @@ export const DEF_COMPONENTS = {
     ROLE: 'ROLE',
     PERMISSION: 'PERMISSION',
     ACTION: 'ACTION',
+    PROVINCE: 'PROVINCE'
 }

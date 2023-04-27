@@ -28,6 +28,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
+import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
 
 
 export const Routes = [
@@ -74,6 +75,12 @@ export const Routes = [
         isSideBar: true,
         element: <Province />,
         icon: CropSquareIcon,
+      },
+      {
+        path: "/province-form",
+        name: "Province",
+        isSideBar: false,
+        element: <ProvinceForm />,
       },
       {
         path: "/district",
