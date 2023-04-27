@@ -3,7 +3,7 @@ import Login from "../pages/login/Login";
 import Register from "../pages/register/BasicData";
 import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Province from "../pages/Zones/Province/Province";
+
 import EmailVerificationPage from "../pages/EmailVerification";
 import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
@@ -17,6 +17,14 @@ import ASCForm from "../pages/Zones/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil";
 import SoilForm from "../pages/Soil/SoilForm";
 import Permissions from "../pages/Permissions/Permissions";
+import Province from "../pages/Zones/Province/Province";
+import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
+import District from "../pages/Zones/District/District"
+import DistrictForm from "../pages/Zones/District/DistrictForm";
+import DsDivision from "../pages/Zones/DS/DsDivision"
+import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
+import GnDivision from "../pages/Zones/GN/GnDivision"
+import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -28,7 +36,9 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
-import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
+
+
+
 
 
 export const Routes = [
@@ -78,7 +88,7 @@ export const Routes = [
       },
       {
         path: "/province-form",
-        name: "Province",
+        name: "Province Form",
         isSideBar: false,
         element: <ProvinceForm />,
       },
@@ -86,8 +96,40 @@ export const Routes = [
         path: "/district",
         name: "District",
         isSideBar: true,
-        element: <Province />,
+        element: <District />,
         icon: StreetviewIcon,
+      },
+      {
+        path: "/district-form",
+        name: "District Form",
+        isSideBar: false,
+        element: <DistrictForm />,
+      },
+      {
+        path: "/ds-division",
+        name: "DS Division",
+        isSideBar: true,
+        element: <DsDivision />,
+        icon: StreetviewIcon,
+      },
+      {
+        path: "/ds-division-form",
+        name: "DS Division Form",
+        isSideBar: false,
+        element: <DsDivisionForm />,
+      },
+      {
+        path: "/gn-division",
+        name: "GN Division",
+        isSideBar: true,
+        element: <GnDivision />,
+        icon: StreetviewIcon,
+      },
+      {
+        path: "/gn-division-form",
+        name: "GN Division Form",
+        isSideBar: false,
+        element: <GnDivisionForm />,
       },
       {
         path: "/asc-area",
