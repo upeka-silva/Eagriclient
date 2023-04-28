@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { TextField, Button } from "@mui/material";
+import React, { useState } from "react";
+import { TextField, Button, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -8,18 +8,17 @@ import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { handleDistrict } from "../../../redux/actions/district/action";
 
-import { FormWrapper } from '../../../components/FormLayout/FormWrapper';
-import { ActionWrapper } from '../../../components/PageLayout/ActionWrapper';
-import { PathName } from '../../../components/FormLayout/PathName';
-import { FormHeader } from '../../../components/FormLayout/FormHeader';
-import { FieldWrapper } from '../../../components/FormLayout/FieldWrapper';
-import { FieldName } from '../../../components/FormLayout/FieldName';
-import { ButtonWrapper } from '../../../components/FormLayout/ButtonWrapper';
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { PathName } from "../../../components/FormLayout/PathName";
+import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 const DistrictForm = () => {
-
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -96,7 +95,6 @@ const DistrictForm = () => {
     }
   };
 
-
   const getPathName = () => {
     return location.pathname === "/" || !location.pathname
       ? ""
@@ -106,12 +104,15 @@ const DistrictForm = () => {
   return (
     <FormWrapper>
       <ActionWrapper isLeft>
-      <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
           Go back to list
         </Button>
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
-      <FormHeader>Add a District</FormHeader>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
+        District
+      </FormHeader>
       <FieldWrapper>
         <FieldName>District Code</FieldName>
         <TextField
@@ -156,7 +157,9 @@ const DistrictForm = () => {
           value={formData?.districtDTOList || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "districtDTOList")}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "districtDTOList")
+          }
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -167,7 +170,7 @@ const DistrictForm = () => {
         />
       </FieldWrapper>
       <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
+        {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>
@@ -191,7 +194,7 @@ const DistrictForm = () => {
         )}
       </ButtonWrapper>
     </FormWrapper>
-  )
-}
+  );
+};
 
-export default DistrictForm
+export default DistrictForm;

@@ -50,7 +50,7 @@ const DsDivision = () => {
     navigate("/zone/ds-division-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: setSelectedDsDivisions[0] || {},
+        target: selectedDsDivisions[0] || {},
       },
     });
   };
@@ -60,7 +60,7 @@ const DsDivision = () => {
     navigate("/zone/ds-division-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: setSelectedDsDivisions[0] || {},
+        target: selectedDsDivisions[0] || {},
       },
     });
   };

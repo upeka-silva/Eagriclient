@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import { TextField, Button } from "@mui/material";
+import React, { useState } from "react";
+import { TextField, Button, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { handleDsDivision } from "../../../redux/actions/dsDivision/action";
 
@@ -19,7 +18,6 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
@@ -106,93 +104,98 @@ const DsDivisionForm = () => {
 
   return (
     <FormWrapper>
-    <ActionWrapper isLeft>
-    <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-        Go back to list
-      </Button>
-    </ActionWrapper>
-    <PathName>{getPathName()}</PathName>
-    <FormHeader>Add a DS Division</FormHeader>
-    <FieldWrapper>
-      <FieldName>DS Division Code</FieldName>
-      <TextField
-        name="code"
-        id="code"
-        value={formData?.code || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "code")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
-      <FieldName>DS Division Name</FieldName>
-      <TextField
-        name="name"
-        id="name"
-        value={formData?.name || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "name")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
-      <FieldName>District Name</FieldName>
-      <TextField
-        name="districtDTOList"
-        id="districtDTOList"
-        value={formData?.districtDTOList || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "districtDTOList")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <ButtonWrapper>
-    {state?.action !== DEF_ACTIONS.VIEW && (
-        <ActionWrapper>
-          {saving ? (
-            <AddButton variant="contained" disabled>
-              {state?.action === DEF_ACTIONS.ADD
-                ? "ADDING..."
-                : "UPDATING..."}
-            </AddButton>
-          ) : (
-            <>
-              <AddButton
-                variant="contained"
-                disabled={!enableSave()}
-                onClick={handleFormSubmit}
-              >
-                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+      <ActionWrapper isLeft>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          Go back to list
+        </Button>
+      </ActionWrapper>
+      <PathName>{getPathName()}</PathName>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a DS
+        Division
+      </FormHeader>
+      <FieldWrapper>
+        <FieldName>DS Division Code</FieldName>
+        <TextField
+          name="code"
+          id="code"
+          value={formData?.code || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "code")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>DS Division Name</FieldName>
+        <TextField
+          name="name"
+          id="name"
+          value={formData?.name || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "name")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>District Name</FieldName>
+        <TextField
+          name="districtDTOList"
+          id="districtDTOList"
+          value={formData?.districtDTOList || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "districtDTOList")
+          }
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
               </AddButton>
-              <ResetButton onClick={resetForm}>RESET</ResetButton>
-            </>
-          )}
-        </ActionWrapper>
-      )}
-    </ButtonWrapper>
-  </FormWrapper>
-  )
-}
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
+    </FormWrapper>
+  );
+};
 
-export default DsDivisionForm
+export default DsDivisionForm;

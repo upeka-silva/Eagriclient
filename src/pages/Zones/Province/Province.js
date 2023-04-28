@@ -48,7 +48,7 @@ const Province = () => {
     navigate("/zone/province-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: setSelectedProvinces[0] || {},
+        target: selectedProvinces[0] || {},
       },
     });
   };
@@ -58,7 +58,7 @@ const Province = () => {
     navigate("/zone/province-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: setSelectedProvinces[0] || {},
+        target: selectedProvinces[0] || {},
       },
     });
   };

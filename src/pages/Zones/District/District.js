@@ -48,7 +48,7 @@ const District = () => {
     navigate("/zone/district-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: setSelectedDistricts[0] || {},
+        target: selectedDistricts[0] || {},
       },
     });
   };
@@ -58,7 +58,7 @@ const District = () => {
     navigate("/zone/district-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: setSelectedDistricts[0] || {},
+        target: selectedDistricts[0] || {},
       },
     });
   };

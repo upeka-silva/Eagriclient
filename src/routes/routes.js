@@ -12,8 +12,8 @@ import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
-import ASC from "../pages/Zones/ASC/ASC";
-import ASCForm from "../pages/Zones/ASC/ASCForm";
+import ASC from "../pages/DAD-Structure/ASC/ASC";
+import ASCForm from "../pages/DAD-Structure/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil";
 import SoilForm from "../pages/Soil/SoilForm";
 import Permissions from "../pages/Permissions/Permissions";
@@ -131,19 +131,6 @@ export const Routes = [
         isSideBar: false,
         element: <GnDivisionForm />,
       },
-      {
-        path: "/asc-area",
-        name: "ASC",
-        isSideBar: true,
-        element: <ASC />,
-        icon: MyLocationIcon,
-      },
-      {
-        path: "/asc-area-form",
-        name: "ASC Form",
-        isSideBar: false,
-        element: <ASCForm />,
-      },
     ],
   },
   {
@@ -228,4 +215,41 @@ export const Routes = [
     name: "Soil Form",
     element: <SoilForm />,
   },
+
+  {
+    path: '/dad-structure',
+    name: "DAD Structure",
+    isSideBar: true,
+    icon: AccountTreeIcon,
+    children: [
+      {
+        path: "/asc-area",
+        name: "ASC",
+        isSideBar: true,
+        element: <ASC />,
+        icon: CropSquareIcon,
+      },
+      {
+        path: "/asc-area-form",
+        name: "ASC Form",
+        isSideBar: false,
+        element: <ASCForm />,
+      },
+      {
+        path: "/arpa-area",
+        name: "ARPA Area",
+        isSideBar: true,
+        element: <ComponentForm />,
+        icon: CropSquareIcon,
+      },
+      {
+        path: "/permissions",
+        name: "Permissions",
+        isSideBar: true,
+        icon: KeyIcon,
+        element: <Permissions />,
+      },
+    ]
+  },
+
 ];

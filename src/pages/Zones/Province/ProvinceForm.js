@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -110,7 +110,10 @@ const ProvinceForm = () => {
         </Button>
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
-      <FormHeader>Add a Province</FormHeader>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
+        Province
+      </FormHeader>
       <FieldWrapper>
         <FieldName>Province Code</FieldName>
         <TextField
