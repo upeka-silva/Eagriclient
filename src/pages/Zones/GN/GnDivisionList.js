@@ -10,13 +10,24 @@ const GnDivisionList = ({
 }) => {
 
   const columns = [
-    { field: 'code', headerName: 'Province Code' },
-    { field: 'name', headerName: 'Province Name' },
+    { field: 'code', headerName: 'GN Division Code' },
+    { field: 'name', headerName: 'GN Division Name' },
 ];
 
 
   return (
-    <div>GnDivisionList</div>
+    <CardWrapper>
+      <DataTable
+        loadingTable
+        dataEndPoint={"geo-data/gn-divisions"}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
+    </CardWrapper>
   )
 }
 

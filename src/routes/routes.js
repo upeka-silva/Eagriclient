@@ -75,7 +75,7 @@ export const Routes = [
   },
   {
     path: "/zone",
-    name: "Zones",
+    name: "Geological Zone",
     isSideBar: true,
     icon: AccountTreeIcon,
     children: [

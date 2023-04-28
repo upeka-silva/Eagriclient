@@ -7,6 +7,6 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   background-color: ${Colors.white};
   font-family: ${Fonts.fontStyle1};
-  padding: 18px 24px;
+  padding: 18px 18px;
 
 `;

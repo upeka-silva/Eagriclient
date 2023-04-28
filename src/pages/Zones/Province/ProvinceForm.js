@@ -150,7 +150,7 @@ const ProvinceForm = () => {
           }}
         />
       </FieldWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper isCeneter>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (

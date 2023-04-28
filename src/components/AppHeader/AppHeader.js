@@ -187,6 +187,7 @@ const Wrapper = styled(Card)`
   padding: 0px 30px;
   box-shadow: ${Colors.shadow};
   background: ${Colors.white};
+  position: sticky;
 `;
 
 const ItemWrapper = styled.div`
