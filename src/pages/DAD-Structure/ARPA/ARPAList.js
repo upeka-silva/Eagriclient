@@ -2,23 +2,22 @@ import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
-const ASCList = ({
+const ARPAList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "ASC Code" },
-    { field: "name", headerName: "ASC Name" },
-    { field: "districtDto.id", headerName: "District Code" },
+    { field: "arpaId", headerName: "ARPA Code" },
+    { field: "name", headerName: "ARPA Name" },
+    { field: "ascDto.id", headerName: "ASC Code" },
   ];
-
   return (
-    <CardWrapper>
+<CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"asc"}
+        dataEndPoint={"arpa"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -27,7 +26,7 @@ const ASCList = ({
         unSelectAll={unSelectAll}
       />
     </CardWrapper>
-  );
+  )
 };
 
-export default ASCList;
+export default ARPAList;

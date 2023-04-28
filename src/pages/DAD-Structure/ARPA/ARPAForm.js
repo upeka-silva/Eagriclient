@@ -10,7 +10,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAsc } from "../../../redux/actions/asc/action";
+import { handleArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -20,7 +20,8 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
-const ASCForm = () => {
+const ARPAForm = () => {
+
   const navigate = useNavigate();
 
   useUserAccessValidation();
@@ -33,7 +34,7 @@ const ASCForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/dad-structure/asc-area");
+    navigate("/dad-structure/arpa-area");
   };
 
   const handleChange = (value, target) => {
@@ -90,7 +91,7 @@ const ASCForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleAsc(formData, onSuccess, onError);
+        await handleArpa(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -105,7 +106,7 @@ const ASCForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
+        <ActionWrapper isLeft>
         <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
           Go back to list
         </Button>
@@ -113,17 +114,17 @@ const ASCForm = () => {
       <PathName>{getPathName()}</PathName>
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        Add a ASC Area
+        Add a ARPA Area
       </FormHeader>
       <FieldWrapper>
-        <FieldName>ASC Area Code</FieldName>
+        <FieldName>ARPA Area Code</FieldName>
         <TextField
-          name="ascCode"
-          id="ascCode"
-          value={formData?.ascCode || ""}
+          name="arpaId"
+          id="arpaId"
+          value={formData?.arpaId || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "ascCode")}
+          onChange={(e) => handleChange(e?.target?.value || "", "arpaId")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -134,7 +135,7 @@ const ASCForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>ASC Area Name</FieldName>
+        <FieldName>ARPA Area Name</FieldName>
         <TextField
           name="name"
           id="name"
@@ -152,14 +153,14 @@ const ASCForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>District ID</FieldName>
+        <FieldName>ASC ID</FieldName>
         <TextField
-          name="districtDto"
-          id="districtDto"
-          value={formData?.districtDto || ""}
+          name="ascDto"
+          id="ascDto"
+          value={formData?.ascDto || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "districtDto")}
+          onChange={(e) => handleChange(e?.target?.value || "", "ascDto")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -194,7 +195,7 @@ const ASCForm = () => {
         )}
       </ButtonWrapper>
     </FormWrapper>
-  );
-};
+  )
+}
 
-export default ASCForm;
+export default ARPAForm

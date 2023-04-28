@@ -15,6 +15,8 @@ export const DEF_COMPONENTS = {
     DISTRICTS: 'DISTRICTS',
     DSDIVISION: 'DSDIVISION',
     GNDIVISION: 'GNDIVISION',
-    SOIL: 'SOIL'
+    SOIL: 'SOIL',
+    ASC: 'ASC',
+    ARPA: 'ARPA'
     
 }

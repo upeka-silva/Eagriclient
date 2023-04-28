@@ -25,6 +25,8 @@ import DsDivision from "../pages/Zones/DS/DsDivision"
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision"
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
+import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
+import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -36,8 +38,6 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
-
-
 
 
 
@@ -224,14 +224,14 @@ export const Routes = [
     children: [
       {
         path: "/asc-area",
-        name: "ASC",
+        name: "ASC Area",
         isSideBar: true,
         element: <ASC />,
         icon: CropSquareIcon,
       },
       {
         path: "/asc-area-form",
-        name: "ASC Form",
+        name: "ASC Area Form",
         isSideBar: false,
         element: <ASCForm />,
       },
@@ -239,15 +239,14 @@ export const Routes = [
         path: "/arpa-area",
         name: "ARPA Area",
         isSideBar: true,
-        element: <ComponentForm />,
+        element: <ARPA />,
         icon: CropSquareIcon,
       },
       {
-        path: "/permissions",
-        name: "Permissions",
-        isSideBar: true,
-        icon: KeyIcon,
-        element: <Permissions />,
+        path: "/arpa-area-form",
+        name: "ARPA Area Form",
+        isSideBar: false,
+        element: <ARPAForm />,
       },
     ]
   },
