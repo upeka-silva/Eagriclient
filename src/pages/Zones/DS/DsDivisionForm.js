@@ -5,8 +5,8 @@ import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { handleDsDivision } from "../../../redux/actions/dsDivision/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -19,7 +19,7 @@ import { PathName } from "../../../components/FormLayout/PathName";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
-const ProvinceForm = () => {
+const DsDivisionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -32,7 +32,7 @@ const ProvinceForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/province");
+    navigate("/zone/ds-division");
   };
 
   const handleChange = (value, target) => {
@@ -89,7 +89,7 @@ const ProvinceForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleProvince(formData, onSuccess, onError);
+        await handleDsDivision(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -111,11 +111,11 @@ const ProvinceForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        Province
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a DS
+        Division
       </FormHeader>
       <FieldWrapper>
-        <FieldName>Province Code</FieldName>
+        <FieldName>DS Division Code</FieldName>
         <TextField
           name="code"
           id="code"
@@ -133,7 +133,7 @@ const ProvinceForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>Province Name</FieldName>
+        <FieldName>DS Division Name</FieldName>
         <TextField
           name="name"
           id="name"
@@ -150,7 +150,27 @@ const ProvinceForm = () => {
           }}
         />
       </FieldWrapper>
-      <ButtonWrapper isCeneter>
+      <FieldWrapper>
+        <FieldName>District Name</FieldName>
+        <TextField
+          name="districtDTOList"
+          id="districtDTOList"
+          value={formData?.districtDTOList || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "districtDTOList")
+          }
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -178,4 +198,4 @@ const ProvinceForm = () => {
   );
 };
 
-export default ProvinceForm;
+export default DsDivisionForm;

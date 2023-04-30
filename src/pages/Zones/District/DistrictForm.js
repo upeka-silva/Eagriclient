@@ -3,23 +3,22 @@ import { TextField, Button, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince } from "../../../redux/actions/province/action";
-import { useSnackBars } from "../../../context/SnackBarContext";
+import { handleDistrict } from "../../../redux/actions/district/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-
-const ProvinceForm = () => {
+const DistrictForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -32,7 +31,7 @@ const ProvinceForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/province");
+    navigate("/zone/district");
   };
 
   const handleChange = (value, target) => {
@@ -89,7 +88,7 @@ const ProvinceForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleProvince(formData, onSuccess, onError);
+        await handleDistrict(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -112,10 +111,10 @@ const ProvinceForm = () => {
       <PathName>{getPathName()}</PathName>
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        Province
+        District
       </FormHeader>
       <FieldWrapper>
-        <FieldName>Province Code</FieldName>
+        <FieldName>District Code</FieldName>
         <TextField
           name="code"
           id="code"
@@ -133,7 +132,7 @@ const ProvinceForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>Province Name</FieldName>
+        <FieldName>District Name</FieldName>
         <TextField
           name="name"
           id="name"
@@ -150,7 +149,27 @@ const ProvinceForm = () => {
           }}
         />
       </FieldWrapper>
-      <ButtonWrapper isCeneter>
+      <FieldWrapper>
+        <FieldName>Province Name</FieldName>
+        <TextField
+          name="districtDTOList"
+          id="districtDTOList"
+          value={formData?.districtDTOList || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "districtDTOList")
+          }
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -178,4 +197,4 @@ const ProvinceForm = () => {
   );
 };
 
-export default ProvinceForm;
+export default DistrictForm;

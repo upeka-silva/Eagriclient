@@ -1,24 +1,25 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { Button } from "@mui/material";
+import ARPAList from "./ARPAList";
+import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useNavigate } from "react-router";
 
-const Province = () => {
+const ARPA = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
 
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [selectedArpa, setSelectedArpa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleProvinceSelect = (component) => {
-    setSelectedProvinces((current = []) => {
+  const navigate = useNavigate();
+
+  const toggleArpaSelect = (component) => {
+    setSelectedArpa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -30,36 +31,32 @@ const Province = () => {
     });
   };
 
-  const selectAllProvinces = (all = []) => {
-    setSelectedProvinces(all);
+  const selectAllArpa = (all = []) => {
+    setSelectedArpa(all);
   };
 
-  const resetSelectedProvinces = () => {
-    setSelectedProvinces([]);
+  const resetSelectedArpa = () => {
+    setSelectedArpa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/dad-structure/arpa-area-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/province-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectedProvinces[0] || {},
-      },
+    navigate("/dad-structure/arpa-area-form", {
+      state: { action: DEF_ACTIONS.EDIT, target: selectedArpa[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/province-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectedProvinces[0] || {},
-      },
+    navigate("/dad-structure/arpa-area-form", {
+      state: { action: DEF_ACTIONS.VIEW, target: selectedArpa[0] || {} },
     });
   };
 
@@ -67,7 +64,7 @@ const Province = () => {
     <div>
       <ActionWrapper>
         {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ARPA}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -78,9 +75,9 @@ const Province = () => {
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedProvinces.length === 1 && (
+        {selectedArpa.length === 1 && (
           // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
           // >
           //   <Button
           //     variant="contained"
@@ -102,9 +99,9 @@ const Province = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedProvinces.length === 1 && (
+        {selectedArpa.length === 1 && (
           //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
           //  >
           //      <Button
           //          variant='contained'
@@ -126,9 +123,10 @@ const Province = () => {
             </Button>
           </PermissionWrapper>
         )}
+      
       </ActionWrapper>
-      {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+         {/* <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ARPA}`}
       >
         <ProvinceList
           selectedRows={selectedProvinces}
@@ -138,15 +136,15 @@ const Province = () => {
         />
       </PermissionWrapper> */}
       <PermissionWrapper withoutPermissions>
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
+        <ARPAList
+          selectedRows={selectedArpa}
+          onRowSelect={toggleArpaSelect}
+          selectAll={selectAllArpa}
+          unSelectAll={resetSelectedArpa}
         />
       </PermissionWrapper>
     </div>
   );
 };
 
-export default Province;
+export default ARPA;

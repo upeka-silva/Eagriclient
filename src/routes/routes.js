@@ -3,7 +3,7 @@ import Login from "../pages/login/Login";
 import Register from "../pages/register/BasicData";
 import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
-import Province from "../pages/Zones/Province/Province";
+
 import EmailVerificationPage from "../pages/EmailVerification";
 import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
@@ -12,11 +12,21 @@ import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
-import ASC from "../pages/Zones/ASC/ASC";
-import ASCForm from "../pages/Zones/ASC/ASCForm";
+import ASC from "../pages/DAD-Structure/ASC/ASC";
+import ASCForm from "../pages/DAD-Structure/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil";
 import SoilForm from "../pages/Soil/SoilForm";
 import Permissions from "../pages/Permissions/Permissions";
+import Province from "../pages/Zones/Province/Province";
+import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
+import District from "../pages/Zones/District/District"
+import DistrictForm from "../pages/Zones/District/DistrictForm";
+import DsDivision from "../pages/Zones/DS/DsDivision"
+import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
+import GnDivision from "../pages/Zones/GN/GnDivision"
+import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
+import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
+import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -28,6 +38,7 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
+
 
 
 export const Routes = [
@@ -64,7 +75,7 @@ export const Routes = [
   },
   {
     path: "/zone",
-    name: "Zones",
+    name: "Geological Zone",
     isSideBar: true,
     icon: AccountTreeIcon,
     children: [
@@ -76,24 +87,49 @@ export const Routes = [
         icon: CropSquareIcon,
       },
       {
+        path: "/province-form",
+        name: "Province Form",
+        isSideBar: false,
+        element: <ProvinceForm />,
+      },
+      {
         path: "/district",
         name: "District",
         isSideBar: true,
-        element: <Province />,
+        element: <District />,
         icon: StreetviewIcon,
       },
       {
-        path: "/asc-area",
-        name: "ASC",
-        isSideBar: true,
-        element: <ASC />,
-        icon: MyLocationIcon,
+        path: "/district-form",
+        name: "District Form",
+        isSideBar: false,
+        element: <DistrictForm />,
       },
       {
-        path: "/asc-area-form",
-        name: "ASC Form",
+        path: "/ds-division",
+        name: "DS Division",
+        isSideBar: true,
+        element: <DsDivision />,
+        icon: StreetviewIcon,
+      },
+      {
+        path: "/ds-division-form",
+        name: "DS Division Form",
         isSideBar: false,
-        element: <ASCForm />,
+        element: <DsDivisionForm />,
+      },
+      {
+        path: "/gn-division",
+        name: "GN Division",
+        isSideBar: true,
+        element: <GnDivision />,
+        icon: StreetviewIcon,
+      },
+      {
+        path: "/gn-division-form",
+        name: "GN Division Form",
+        isSideBar: false,
+        element: <GnDivisionForm />,
       },
     ],
   },
@@ -179,4 +215,40 @@ export const Routes = [
     name: "Soil Form",
     element: <SoilForm />,
   },
+
+  {
+    path: '/dad-structure',
+    name: "DAD Structure",
+    isSideBar: true,
+    icon: AccountTreeIcon,
+    children: [
+      {
+        path: "/asc-area",
+        name: "ASC Area",
+        isSideBar: true,
+        element: <ASC />,
+        icon: CropSquareIcon,
+      },
+      {
+        path: "/asc-area-form",
+        name: "ASC Area Form",
+        isSideBar: false,
+        element: <ASCForm />,
+      },
+      {
+        path: "/arpa-area",
+        name: "ARPA Area",
+        isSideBar: true,
+        element: <ARPA />,
+        icon: CropSquareIcon,
+      },
+      {
+        path: "/arpa-area-form",
+        name: "ARPA Area Form",
+        isSideBar: false,
+        element: <ARPAForm />,
+      },
+    ]
+  },
+
 ];

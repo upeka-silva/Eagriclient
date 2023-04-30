@@ -1,30 +1,32 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import { Button, TextField, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useLocation, useNavigate } from "react-router";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
-
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { handleArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+const ARPAForm = () => {
 
-const ProvinceForm = () => {
+  const navigate = useNavigate();
+
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
@@ -32,7 +34,7 @@ const ProvinceForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/province");
+    navigate("/dad-structure/arpa-area");
   };
 
   const handleChange = (value, target) => {
@@ -89,7 +91,7 @@ const ProvinceForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleProvince(formData, onSuccess, onError);
+        await handleArpa(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -104,25 +106,25 @@ const ProvinceForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
+        <ActionWrapper isLeft>
         <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
           Go back to list
         </Button>
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        Province
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        Add a ARPA Area
       </FormHeader>
       <FieldWrapper>
-        <FieldName>Province Code</FieldName>
+        <FieldName>ARPA Area Code</FieldName>
         <TextField
-          name="code"
-          id="code"
-          value={formData?.code || ""}
+          name="arpaId"
+          id="arpaId"
+          value={formData?.arpaId || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "code")}
+          onChange={(e) => handleChange(e?.target?.value || "", "arpaId")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -133,7 +135,7 @@ const ProvinceForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>Province Name</FieldName>
+        <FieldName>ARPA Area Name</FieldName>
         <TextField
           name="name"
           id="name"
@@ -150,8 +152,26 @@ const ProvinceForm = () => {
           }}
         />
       </FieldWrapper>
-      <ButtonWrapper isCeneter>
-        {state?.action !== DEF_ACTIONS.VIEW && (
+      <FieldWrapper>
+        <FieldName>ASC ID</FieldName>
+        <TextField
+          name="ascDto"
+          id="ascDto"
+          value={formData?.ascDto || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "ascDto")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
+      {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>
@@ -175,7 +195,7 @@ const ProvinceForm = () => {
         )}
       </ButtonWrapper>
     </FormWrapper>
-  );
-};
+  )
+}
 
-export default ProvinceForm;
+export default ARPAForm

@@ -5,6 +5,8 @@ export const Colors = {
     buttonColor: "#4A6364",
     iconColor: "#899393",
     AppName: "#003738",
+    formFieldName: "#434343",
+    formButton: "#4D5F7C",
 
     shadow: "0px 4px 4px rgba(0, 0, 0, 0.25) !important"
 };

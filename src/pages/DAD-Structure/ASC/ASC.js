@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import { Button } from "@mui/material";
+import React, { useState} from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { Button } from "@mui/material";
+import ASCList from "./ASCList";
+import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useNavigate } from "react-router";
 
-const Province = () => {
+const ASC = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
 
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [selectedAsc, setSelectedAsc] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleProvinceSelect = (component) => {
-    setSelectedProvinces((current = []) => {
+  const navigate = useNavigate();
+
+  const toggleAscSelect = (component) => {
+    setSelectedAsc((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -30,36 +31,30 @@ const Province = () => {
     });
   };
 
-  const selectAllProvinces = (all = []) => {
-    setSelectedProvinces(all);
+  const selectAllAsc = (all = []) => {
+    setSelectedAsc(all);
   };
 
-  const resetSelectedProvinces = () => {
-    setSelectedProvinces([]);
+  const resetSelectedAsc = () => {
+    setSelectedAsc([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/dad-structure/asc-area-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/province-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectedProvinces[0] || {},
-      },
+    navigate("/dad-structure/asc-area-form", {
+      state: { action: DEF_ACTIONS.EDIT, target: selectedAsc[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/province-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectedProvinces[0] || {},
-      },
+    navigate("/dad-structure/asc-area-form", {
+      state: { action: DEF_ACTIONS.VIEW, target: selectedAsc[0] || {} },
     });
   };
 
@@ -67,7 +62,7 @@ const Province = () => {
     <div>
       <ActionWrapper>
         {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -78,9 +73,10 @@ const Province = () => {
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedProvinces.length === 1 && (
+
+        {selectedAsc.length === 1 && (
           // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
           // >
           //   <Button
           //     variant="contained"
@@ -102,9 +98,9 @@ const Province = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedProvinces.length === 1 && (
+          {selectedAsc.length === 1 && (
           //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
           //  >
           //      <Button
           //          variant='contained'
@@ -138,15 +134,15 @@ const Province = () => {
         />
       </PermissionWrapper> */}
       <PermissionWrapper withoutPermissions>
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
+        <ASCList
+          selectedRows={selectedAsc}
+          onRowSelect={toggleAscSelect}
+          selectAll={selectAllAsc}
+          unSelectAll={resetSelectedAsc}
         />
       </PermissionWrapper>
     </div>
   );
 };
 
-export default Province;
+export default ASC;

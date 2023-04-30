@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { Button } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
+import React, { useState } from 'react'
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -9,16 +6,20 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { useNavigate } from "react-router";
+import { Button } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DsDivisionList from "./DsDivisionList"
 
-const Province = () => {
+const DsDivision = () => {
+
   useUserAccessValidation();
   const navigate = useNavigate();
 
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [selectedDsDivisions, setSelectedDsDivisions] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleProvinceSelect = (component) => {
-    setSelectedProvinces((current = []) => {
+  const toggleDsDivisionSelect = (component) => {
+    setSelectedDsDivisions((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -30,44 +31,46 @@ const Province = () => {
     });
   };
 
-  const selectAllProvinces = (all = []) => {
-    setSelectedProvinces(all);
+  const selectAllDsDivisions = (all = []) => {
+    setSelectedDsDivisions(all);
   };
 
-  const resetSelectedProvinces = () => {
-    setSelectedProvinces([]);
+  const resetSelectedDsDivisions = () => {
+    setSelectedDsDivisions([]);
   };
+
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/province-form", {
+    navigate("/zone/ds-division-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedProvinces[0] || {},
+        target: selectedDsDivisions[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/province-form", {
+    navigate("/zone/ds-division-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedProvinces[0] || {},
+        target: selectedDsDivisions[0] || {},
       },
     });
   };
+
 
   return (
     <div>
       <ActionWrapper>
         {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DSDIVISION}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -78,9 +81,9 @@ const Province = () => {
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedProvinces.length === 1 && (
+        {selectedDsDivisions.length === 1 && (
           // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DSDIVISION}`}
           // >
           //   <Button
           //     variant="contained"
@@ -102,9 +105,9 @@ const Province = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedProvinces.length === 1 && (
+         {selectedDsDivisions.length === 1 && (
           //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DSDIVISION}`}
           //  >
           //      <Button
           //          variant='contained'
@@ -127,8 +130,8 @@ const Province = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-      {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+       {/* <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DSDIVISION}`}
       >
         <ProvinceList
           selectedRows={selectedProvinces}
@@ -138,15 +141,15 @@ const Province = () => {
         />
       </PermissionWrapper> */}
       <PermissionWrapper withoutPermissions>
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
+        <DsDivisionList
+          selectedRows={selectedDsDivisions}
+          onRowSelect={toggleDsDivisionSelect}
+          selectAll={selectAllDsDivisions}
+          unSelectAll={resetSelectedDsDivisions}
         />
       </PermissionWrapper>
     </div>
-  );
-};
+  )
+}
 
-export default Province;
+export default DsDivision
