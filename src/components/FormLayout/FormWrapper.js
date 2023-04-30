@@ -7,6 +7,10 @@ export const FormWrapper = styled.div`
   flex-direction: column;
   background-color: ${Colors.white};
   font-family: ${Fonts.fontStyle1};
-  padding: 18px 18px;
+  margin: 18px 6px;
+  padding: 0px 12px;
+  border: ${props => props?.border ? '1px solid #D2D2D2' : ''};
+  border-radius: ${props => props?.radius ? '10px' : ''};
+
 
 `;

@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import {
+  TextField,
+  Button,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -7,6 +12,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { handleDistrict } from "../../../redux/actions/district/action";
+import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -27,6 +33,10 @@ const DistrictForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
+  const [provinceList, setProvinceList] = useState([get_ProvinceList]);
+  const [province, setProvince] = useState("");
+  const [inputProvince, setInputProvince] = useState("");
+  const [open, setOpen] = useState(false);
 
   const { addSnackBar } = useSnackBars();
 
@@ -151,22 +161,26 @@ const DistrictForm = () => {
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>Province Name</FieldName>
-        <TextField
-          name="districtDTOList"
-          id="districtDTOList"
-          value={formData?.districtDTOList || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) =>
-            handleChange(e?.target?.value || "", "districtDTOList")
-          }
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
+        <Autocomplete
+          disabled
+          open={open}
+          disablePortal
+          options={provinceList}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  textAlign: "center",
+                  height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
         />
       </FieldWrapper>
       <ButtonWrapper>
