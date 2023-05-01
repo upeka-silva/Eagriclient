@@ -1,4 +1,4 @@
-import { post } from "../../../services/api";
+import { post, get } from "../../../services/api";
 
 export const handleProvince = async (
   payload = {},
@@ -30,6 +30,29 @@ export const handleProvince = async (
       onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
+    }
+  }
+};
+
+
+export const get_ProvinceList = async (
+  onSuccess = () => {},
+  onError = (_message) => {},
+) => {
+  try {
+    const {httpCode, payloadDto} = await get("geo-data/provinces", true);
+    if (httpCode === '200 Ok') {
+      return {
+        dataList: payloadDto
+      }
+    }
+    return {
+      dataList: []
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      dataList: []
     }
   }
 };
