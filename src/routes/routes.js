@@ -40,6 +40,8 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
+import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
+import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
 
 
@@ -182,6 +184,19 @@ export const Routes = [
         isSideBar: false,
       },
     ],
+  },
+  {
+    path: "/agro-eco-zone",
+    name: "Agro Eco Zone",
+    isSideBar: true,
+    element: <AgroEco />,
+    icon: AccountTreeIcon,
+  },
+  {
+    path: "/agro-eco-zone-form",
+    name: "Agro Eco Zone",
+    isSideBar: false,
+    element: <AgroEcoForm />
   },
   {
     path: '/authentication',
