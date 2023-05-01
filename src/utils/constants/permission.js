@@ -19,4 +19,5 @@ export const DEF_COMPONENTS = {
     ASC: 'ASC',
     ARPA: 'ARPA',
     AI: 'AI',
+    PROVINCE_AREA: 'PROVINCE_AREA'
 }
