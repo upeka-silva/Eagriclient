@@ -27,6 +27,8 @@ import GnDivision from "../pages/Zones/GN/GnDivision"
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
+import AI from "../pages/Agri-Zones/AI/AI";
+import AIForm from "../pages/Agri-Zones/AI/AIForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -135,10 +137,23 @@ export const Routes = [
   },
   {
     path: "/agri-zone",
-    name: "Agriculture Zones",
+    name: "Agri Admin Zone",
     isSideBar: true,
     icon: AccountTreeIcon,
     children: [
+      {
+        path: "/ai-region",
+        name: "AI Region",
+        isSideBar: true,
+        element: <AI />,
+        icon: MyLocationIcon,
+      },
+      {
+        path: "/ai-region-form",
+        name: "ASC Form",
+        isSideBar: false,
+        element: <AIForm />,
+      },
       {
         path: "/province-area",
         name: "Province Area",

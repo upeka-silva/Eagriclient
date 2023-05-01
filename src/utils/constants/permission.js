@@ -17,6 +17,6 @@ export const DEF_COMPONENTS = {
     GN_DIVISION: 'GNDIVISION',
     SOIL: 'SOIL',
     ASC: 'ASC',
-    ARPA: 'ARPA'
-    
+    ARPA: 'ARPA',
+    AI: 'AI',
 }
