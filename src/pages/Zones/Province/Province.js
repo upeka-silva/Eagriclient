@@ -1,223 +1,150 @@
-import React, { useCallback, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import React, { useState } from "react";
+import { Button } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import ProvinceList from "./ProvinceList";
-import PlusIcon from "@mui/icons-material/Add";
-import FileOpenIcon from "@mui/icons-material/FileOpen";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import theme from "../../../utils/theme/theme.json";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import CustomDialog from "../../../components/PageLayout/Dialog";
-import ProvinceForm from "./ProvinceForm";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { useNavigate } from "react-router";
 
 const Province = () => {
-  const [selectedProvince, setSelectedProvince] = useState(null);
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
-  const [action, setAction] = useState("new");
-  const [dialogState, setDialogState] = useState(false);
-
   useUserAccessValidation();
+  const navigate = useNavigate();
 
-  const openDialog = () => {
-    setDialogState(true);
-  };
+  const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const closeDialog = () => {
-    setDialogState(false);
-  };
-
-  const onCreate = useCallback(() => {
-    setAction("new");
-    openDialog();
-  }, []);
-
-  const onView = useCallback((province) => {
-    setSelectedProvince(province);
-    setAction("view");
-    openDialog();
-  }, []);
-
-  const onEdit = useCallback((province) => {
-    setSelectedProvince(province);
-    setAction("edit");
-    openDialog();
-  }, []);
-
-  const onDelete = useCallback((province) => {
-    setSelectedProvince(province);
-    setAction("delete");
-    openDialog();
-  }, []);
-
-  const updateProvince = (value, key) => {
-    setSelectedProvince((current) => ({ ...current, [key]: value }));
-  };
-
-  const toggleSelectedProvinces = (province) => {
+  const toggleProvinceSelect = (component) => {
     setSelectedProvinces((current = []) => {
-      let exists = current.findIndex((c) => c?.id === province.id) > -1;
-      if (exists) {
-        return current.filter((c) => c.id !== province.id);
+      let newList = [...current];
+      let index = newList.findIndex((c) => c?.id === component?.id);
+      if (index > -1) {
+        newList.splice(index, 1);
+      } else {
+        newList.push(component);
       }
-      return [...current, province];
+      return newList;
     });
   };
 
-  const selectAllProvinces = (provinces) => {
-    setSelectedProvinces(provinces);
+  const selectAllProvinces = (all = []) => {
+    setSelectedProvinces(all);
   };
 
-  const removeAllSelectedProvinces = () => {
+  const resetSelectedProvinces = () => {
     setSelectedProvinces([]);
   };
 
-  const generatePopUpBody = () => {
-    switch (action) {
-      case "new":
-      case "edit":
-        return (
-          <ProvinceForm
-            selectedProvince={selectedProvince}
-            updateProvince={updateProvince}
-          />
-        );
-      case "view":
-        return (
-          <div>
-            <Typography>
-              <br />
-              <b>Province Cocde: </b>
-              {selectedProvince?.provinceCode}
-            </Typography>
-            <Typography>
-              <b>Province Name: </b>
-              {selectedProvince?.name}
-            </Typography>
-          </div>
-        );
-      case "delete":
-        return (
-          <Typography>
-            <br />
-            Do you want to delete this record?
-          </Typography>
-        );
-      default:
-        return null;
-    }
+  const onCreate = () => {
+    setAction(DEF_ACTIONS.ADD);
+    navigate("/zone/province-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
-  const generatePopUpTitle = () => {
-    switch (action) {
-      case "new":
-        return "New Province";
-      case "view":
-        return selectedProvince?.name;
-      case "edit":
-        return `Editing ${selectedProvince?.name}`;
-      case "delete":
-        return `Deleting ${selectedProvince?.name}`;
-      default:
-        return null;
-    }
+  const onEdit = () => {
+    setAction(DEF_ACTIONS.EDIT);
+    navigate("/zone/province-form", {
+      state: {
+        action: DEF_ACTIONS.EDIT,
+        target: selectedProvinces[0] || {},
+      },
+    });
   };
 
-  const onConfirm = () => {
-    closeDialog();
+  const onView = () => {
+    setAction(DEF_ACTIONS.VIEW);
+    navigate("/zone/province-form", {
+      state: {
+        action: DEF_ACTIONS.VIEW,
+        target: selectedProvinces[0] || {},
+      },
+    });
   };
 
   return (
     <div>
       <ActionWrapper>
-        <PermissionWrapper
-          component={
+        {/* <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+        >
+          <Button variant="contained" onClick={onCreate}>
+            {DEF_ACTIONS.ADD}
+          </Button>
+        </PermissionWrapper> */}
+        <PermissionWrapper withoutPermissions>
+          <Button variant="contained" onClick={onCreate}>
+            {DEF_ACTIONS.ADD}
+          </Button>
+        </PermissionWrapper>
+        {selectedProvinces.length === 1 && (
+          // <PermissionWrapper
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          // >
+          //   <Button
+          //     variant="contained"
+          //     color="secondary"
+          //     onClick={onEdit}
+          //     sx={{ ml: "8px" }}
+          //   >
+          //     {DEF_ACTIONS.EDIT}
+          //   </Button>
+          // </PermissionWrapper>
+          <PermissionWrapper withoutPermissions>
             <Button
               variant="contained"
-              startIcon={<PlusIcon />}
-              sx={{ background: theme.coreColors.secondary }}
-              onClick={onCreate}
+              color="secondary"
+              onClick={onEdit}
+              sx={{ ml: "8px" }}
             >
-              Add
+              {DEF_ACTIONS.EDIT}
             </Button>
-          }
-        />
-        {selectedProvinces.length === 1 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<FileOpenIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                View
-              </Button>
-            }
-          />
-        ) : null}
-        {selectedProvinces.length === 1 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="info"
-                startIcon={<ModeEditIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                Update
-              </Button>
-            }
-          />
-        ) : null}
-        {selectedProvinces.length > 0 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="error"
-                startIcon={<DeleteIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                Delete
-              </Button>
-            }
-          />
-        ) : null}
+          </PermissionWrapper>
+        )}
+        {selectedProvinces.length === 1 && (
+          //      <PermissionWrapper
+          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //  >
+          //      <Button
+          //          variant='contained'
+          //          color='info'
+          //          onClick={onView}
+          //          sx={{ ml: '8px' }}
+          //      >
+          //          {DEF_ACTIONS.VIEW}
+          //      </Button>
+          //  </PermissionWrapper>
+          <PermissionWrapper withoutPermissions>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onView}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.VIEW}
+            </Button>
+          </PermissionWrapper>
+        )}
       </ActionWrapper>
-      <PermissionWrapper
-        withoutPermissions
-        component={
-          <ProvinceList
-            onView={onView}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            selectedProvinces={selectedProvinces}
-            setSelectedProvinces={toggleSelectedProvinces}
-            selectAllProvinces={selectAllProvinces}
-            removeSelectedProvinces={removeAllSelectedProvinces}
-          />
-        }
-      />
-      <CustomDialog
-        open={dialogState}
-        title={generatePopUpTitle()}
-        actions={
-          <>
-            <Button variant="contained" onClick={onConfirm}>
-              {action !== "new" ? action.toUpperCase() : "CREATE"}
-            </Button>
-            <Button variant="text" color="error" onClick={closeDialog}>
-              CANCEL
-            </Button>
-          </>
-        }
-        children={generatePopUpBody()}
-      />
+      {/* <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+      >
+        <ProvinceList
+          selectedRows={selectedProvinces}
+          onRowSelect={toggleProvinceSelect}
+          selectAll={selectAllProvinces}
+          unSelectAll={resetSelectedProvinces}
+        />
+      </PermissionWrapper> */}
+      <PermissionWrapper withoutPermissions>
+        <ProvinceList
+          selectedRows={selectedProvinces}
+          onRowSelect={toggleProvinceSelect}
+          selectAll={selectAllProvinces}
+          unSelectAll={resetSelectedProvinces}
+        />
+      </PermissionWrapper>
     </div>
   );
 };

@@ -7,17 +7,30 @@ import theme from "../../../utils/theme/theme.json";
 import { useNavigate } from "react-router-dom";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import AIList from "./AIList";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 
 const AI = () => {
-  const navigation = useNavigate();
-  const [selectedAi, setSelectedAi] = useState(null);
-  const [selectedAiGroup, setSelectedAiGroup] = useState([]);
-  const [action, setAction] = useState("new");
 
-  const onCreate = useCallback(() => {
-    setAction("new");
-    navigation("/zone/ai-region-form");
-  }, []);
+  useUserAccessValidation();
+  const navigate = useNavigate();
+
+  const [selectedAI, setSelectedAI] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const toggleAISelect = (component) => {
+    setSelectedAI((current = []) => {
+      let newList = [...current];
+      let index = newList.findIndex((c) => c?.id === component?.id);
+      if (index > -1) {
+        newList.splice(index, 1);
+      } else {
+        newList.push(component);
+      }
+      return newList;
+    });
+  };
+
 
   return (
     <div>
@@ -28,31 +41,13 @@ const AI = () => {
               variant="container"
               startIcon={<PlusIcon />}
               sx={{ background: theme.coreColors.secondary }}
-              onClick={onCreate}
+   
             >
               ADD
             </Button>
           }
         />
-        {selectedAiGroup.length === 1 ? (
-          <PermissionWrapper
-            component={<Button variant="container" color="info" />}
-          />
-        ) : null}
-        {selectedAiGroup.length === 1 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="info"
-                startIcon={<ModeEditIcon />}
-                sx={{ ml: "5px" }}
-              >
-                Update
-              </Button>
-            }
-          />
-        ) : null}
+       
       </ActionWrapper>
       <PermissionWrapper component={<AIList />} />
     </div>
