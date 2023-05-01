@@ -66,13 +66,6 @@ const Province = () => {
   return (
     <div>
       <ActionWrapper>
-        {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
-        >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper> */}
         <PermissionWrapper withoutPermissions>
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -80,7 +73,7 @@ const Province = () => {
         </PermissionWrapper>
         {selectedProvinces.length === 1 && (
           // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE}`}
           // >
           //   <Button
           //     variant="contained"
@@ -103,18 +96,18 @@ const Province = () => {
           </PermissionWrapper>
         )}
         {selectedProvinces.length === 1 && (
-          //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
-          //  >
-          //      <Button
-          //          variant='contained'
-          //          color='info'
-          //          onClick={onView}
-          //          sx={{ ml: '8px' }}
-          //      >
-          //          {DEF_ACTIONS.VIEW}
-          //      </Button>
-          //  </PermissionWrapper>
+          // <PermissionWrapper
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+          // >
+          //   <Button
+          //     variant="contained"
+          //     color="info"
+          //     onClick={onView}
+          //     sx={{ ml: "8px" }}
+          //   >
+          //     {DEF_ACTIONS.VIEW}
+          //   </Button>
+          // </PermissionWrapper>
           <PermissionWrapper withoutPermissions>
             <Button
               variant="contained"

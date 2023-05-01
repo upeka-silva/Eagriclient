@@ -1,12 +1,12 @@
-import { get, post } from "../../../services/api";
+import { post } from "../../../services/api";
 
-export const handleDistrict = async (
+export const handleAI = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/districts", payload, true);
+    const response = await post("ai", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -30,29 +30,6 @@ export const handleDistrict = async (
       onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
-    }
-  }
-};
-
-
-export const get_DistrictList = async (
-  onSuccess = () => {},
-  onError = (_message) => {},
-) => {
-  try {
-    const {httpCode, payloadDto} = await get("geo-data/districts", true);
-    if (httpCode === '200 Ok') {
-      return {
-        dataList: payloadDto
-      }
-    }
-    return {
-      dataList: []
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      dataList: []
     }
   }
 };

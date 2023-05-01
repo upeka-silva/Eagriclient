@@ -1,166 +1,262 @@
-import React, {useState, useEffect} from "react";
-import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import Card from "@mui/material/Card";
-import { Button, TextField } from "@mui/material";
-import theme from "../../../utils/theme/theme.json";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Button, TextField, CircularProgress, Autocomplete } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { handleAI } from "../../../redux/actions/aiRegion/action";
+
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { PathName } from "../../../components/FormLayout/PathName";
+import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
+import { AddButton } from "../../../components/FormLayout/AddButton"
+import { ResetButton } from "../../../components/FormLayout/ResetButton"
+
 
 const AIForm = () => {
-  const navigation = useNavigate();
-  const [formData, setFormData] = useState({
-    regionId: "",
-    description: "",
-    parentType: "",
-    parentValue: "",
-    ascRegionId: "",
-  })
+  useUserAccessValidation();
+  const { state } = useLocation();
+  const location = useLocation();
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    setFormData((current) => ({
-      ...current,
-      [e?.target?.name]: e?.target?.value || "",
-    }));
-  }
+  const navigate = useNavigate();
 
-  const handleReset = (e) => {
-    e.preventDefault();
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      regionId: "",
-      description: "",
-      parentType: "",
-      parentValue: "",
-      ascRegionId: "",
-    }));
+  const [formData, setFormData] = useState(state?.target || {});
+  const [saving, setSaving] = useState(false);
+  const [open, setOpen] = useState(false)
+
+  const { addSnackBar } = useSnackBars();
+
+  const goBack = () => {
+    navigate("/zone/ai-region");
   };
 
-  const onBack = () => {
-    navigation("/zone/ai-region")
-  }
+  const handleChange = (value, target) => {
+    setFormData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const resetForm = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setFormData(state?.target || {});
+    } else {
+      setFormData({});
+    }
+  };
+
+  const enableSave = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+        return true;
+      }
+    }
+    if (
+      state?.action === DEF_ACTIONS.ADD &&
+      Object.keys(formData || {}).length > 0
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        state?.action === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+    setSaving(false);
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
+  };
+
+  const handleFormSubmit = async () => {
+    if (enableSave()) {
+      setSaving(true);
+      try {
+        await handleAI(formData, onSuccess, onError);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const getPathName = () => {
+    return location.pathname === "/" || !location.pathname
+      ? ""
+      : location.pathname;
+  };
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
 
   return (
-    <FromCard>
-    <ActionWrapper style={{justifyContent: "flex-start"}}>
-      <Button startIcon={<KeyboardBackspaceIcon />} style={{ color: `${theme.schemes.light.onBack}` }} onClick={onBack}>
-      Back to table
-      </Button>
-    </ActionWrapper>
-    <FormCardWrapper>
-      <FormTitle>Register AI Region</FormTitle>
+    <FormWrapper>
+      <ActionWrapper isLeft>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          Go back to list
+        </Button>
+      </ActionWrapper>
+      <PathName>{getPathName()}</PathName>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a AI
+        Region
+      </FormHeader>
       <FieldWrapper>
+        <FieldName>
+          Region ID
+        </FieldName>
         <TextField
-          variant="outlined"
+          name="id"
+          id="id"
+          value={formData?.id || ""}
           fullWidth
-          label="Region ID"
-          id="regionId"
-          name="regionId"
-          value={formData.regionId}
-          onChange={handleChange}
-          size="small"
-          prop
-          sx={{ maxWidth: 500 }}
-        />
-        <TextField
-          variant="outlined"
-          fullWidth
-          label="Name"
-          id="description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          size="small"
-          prop
-          sx={{ maxWidth: 500 }}
-        />
-        <TextField
-          variant="outlined"
-          fullWidth
-          label="Parent Type"
-          id="parentType"
-          name="parentType"
-          value={formData.parentType}
-          onChange={handleChange}
-          size="small"
-          prop
-          sx={{ maxWidth: 500 }}
-        />
-         <TextField
-          variant="outlined"
-          fullWidth
-          label="Parent Value"
-          id="parentValue"
-          name="parentValue"
-          value={formData.parentValue}
-          onChange={handleChange}
-          size="small"
-          prop
-          sx={{ maxWidth: 500 }}
-        />
-         <TextField
-          variant="outlined"
-          fullWidth
-          label="ASC Region Id"
-          id="ascRegionId"
-          name="ascRegionId"
-          value={formData.ascRegionId}
-          onChange={handleChange}
-          size="small"
-          prop
-          sx={{ maxWidth: 500 }}
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "id")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
         />
       </FieldWrapper>
-    </FormCardWrapper>
-    <ButtonContainer>
-      <Button type="submit">Create</Button>
-      <Button
-        style={{ color: `${theme.schemes.light.reset}` }}
-        type="reset"
-        onClick={handleReset}
-      >
-        Reset
-      </Button>
-    </ButtonContainer>
-  </FromCard>
-  )
+      <FieldWrapper>
+        <FieldName>
+          Description
+        </FieldName>
+        <TextField
+          name="description"
+          id="id"
+          value={formData?.description || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>Parent Type</FieldName>
+        <Autocomplete
+          disabled
+          open={open}
+          disablePortal
+          options={""}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  textAlign: "center",
+                  height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>Parent Value</FieldName>
+        <Autocomplete
+          disabled
+          open={open}
+          disablePortal
+          options={""}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  textAlign: "center",
+                  height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>ASC Region ID</FieldName>
+        <Autocomplete
+          disabled
+          open={open}
+          disablePortal
+          options={""}
+          getOptionLabel={(option) => option.name}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  textAlign: "center",
+                  height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
+      {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </AddButton>
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
+    </FormWrapper>
+  );
 };
 
 export default AIForm;
-
-const FromCard = styled(Card).attrs((props) => ({}))`
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  padding: 10px;
-  margin: 10px;
-`;
-
-const FormCardWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const FormTitle = styled.p`
-  text-align: center;
-  font-size: 25px;
-  font-weight: 600;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: right;
-`;
-
-const FieldWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-`;
