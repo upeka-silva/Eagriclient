@@ -101,180 +101,192 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={CustomTheme}>
-      <AppName>E-EXTENSION SYSTEM</AppName>
-      <Wrapper>
-        <CssBaseline />
-        <BGImg src={BGImage} />
-        <CustomCard>
-          {initializing ? (
-            <Box
-              maxWidth="xs"
-              sx={{
-                minWidth: "200px",
-                minHeight: "150px",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <CircularProgress sx={{ color: theme.coreColors.secondary }} />
-              <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
-                Initializing
-              </Typography>
-            </Box>
-          ) : (
-            <>
+    // <ThemeProvider theme={CustomTheme}>
+      <LoginWrapper>
+        <AppName>E-EXTENSION SYSTEM</AppName>
+        <Wrapper>
+          {/* <CssBaseline /> */}
+          <BGImg src={BGImage} />
+          <CustomCard>
+            {initializing ? (
               <Box
                 maxWidth="xs"
                 sx={{
-                  marginTop: 4,
+                  minWidth: "200px",
+                  minHeight: "150px",
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
+                  justifyContent: "center",
+
                 }}
               >
-                <Typography>
-                  <Title>SIGN IN</Title>
+                <CircularProgress sx={{ color: theme.coreColors.secondary }} />
+                <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
+                  Initializing
                 </Typography>
-                <Box
-                  component="form"
-                  onSubmit={handleSubmit}
-                  onValidate
-                  sx={{ mt: 2, display: "flex", flexDirection: "column" }}
-                >
-                  <TextField
-                    margin="normal"
-                    fullWidth
-                    id="userName"
-                    placeholder="Enter your email address"
-                    name="userName"
-                    type="text"
-                    onChange={handleChange}
-                    value={formData.userName}
-                    sx={{
-                      width: 372,
-                      "& .MuiInputBase-root": {
-                        height: 45,
-                        border: "1px solid #899393",
-                        background: `${Colors.white}`,
-                      },
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <MailOutlineIcon
-                            style={{ color: `${Colors.iconColor}` }}
-                          />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <TextField
-                    margin="normal"
-                    fullWidth
-                    id="password"
-                    placeholder="Password"
-                    name="password"
-                    type={showPassword ? "text" : "password"}
-                    onChange={handleChange}
-                    value={formData.password}
-                    sx={{
-                      width: 372,
-                      "& .MuiInputBase-root": {
-                        height: 45,
-                        border: "1px solid #899393",
-                        background: `${Colors.white}`,
-                      },
-                    }}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <LockResetIcon
-                            style={{ color: `${Colors.iconColor}` }}
-                          />
-                        </InputAdornment>
-                      ),
-
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton onClick={handleClick}>
-                            {showPassword ? (
-                              <VisibilityIcon />
-                            ) : (
-                              <VisibilityOffIcon
-                                style={{ color: `${Colors.iconColor}` }}
-                              />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-
-                  <LinkWrapper>
-                    <FormControlLabel
-                      style={{
-                        color: `${Colors.buttonColor}`,
-                        fontSize: "14px",
-                        fontWeight: 400,
-                      }}
-                      control={
-                        <Checkbox
-                          value="remember"
-                          color="primary"
-                          size="small"
-                        />
-                      }
-                      label="Remember me"
-                    />
-                    <Link
-                      href="#"
-                      style={{
-                        color: `${Colors.buttonColor}`,
-                        fontSize: "14px",
-                        fontWeight: 400,
-                      }}
-                    >
-                      <ForgotPassword>Forgot password?</ForgotPassword>
-                    </Link>
-                  </LinkWrapper>
-                  <ButtonContainer
-                    type="submit"
-                    fullWidth
-                    disabled={
-                      validateInputByInput("userName", null) ||
-                      validateInputByInput("password", null) ||
-                      loading
-                    }
-                  >
-                    {loading ? (
-                      <CircularProgress
-                        size={20}
-                        sx={{ mt: "8px", mb: "8px" }}
-                      />
-                    ) : (
-                      "Sign In"
-                    )}
-                  </ButtonContainer>
-                </Box>
               </Box>
-            </>
-          )}
-        </CustomCard>
-      </Wrapper>
-    </ThemeProvider>
+            ) : (
+              <>
+                <Box
+                  maxWidth="xs"
+                  sx={{
+                    marginTop: 4,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+    
+                  }}
+                >
+                  <Typography>
+                    <Title>SIGN IN</Title>
+                  </Typography>
+                  <Box
+                    component="form"
+                    onSubmit={handleSubmit}
+                    onValidate
+                    sx={{ mt: 2, display: "flex", flexDirection: "column" }}
+                  >
+                    <TextField
+                      margin="normal"
+                      fullWidth
+                      id="userName"
+                      placeholder="Enter your email address"
+                      name="userName"
+                      type="text"
+                      onChange={handleChange}
+                      value={formData.userName}
+                      sx={{
+                        width: 372,
+                        "& .MuiInputBase-root": {
+                          height: 45,
+                          border: "1px solid #899393",
+                          background: `${Colors.white}`,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <MailOutlineIcon
+                              style={{ color: `${Colors.iconColor}` }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                    <TextField
+                      margin="normal"
+                      fullWidth
+                      id="password"
+                      placeholder="Password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      onChange={handleChange}
+                      value={formData.password}
+                      sx={{
+                        width: 372,
+                        "& .MuiInputBase-root": {
+                          height: 45,
+                          border: "1px solid #899393",
+                          background: `${Colors.white}`,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <LockResetIcon
+                              style={{ color: `${Colors.iconColor}` }}
+                            />
+                          </InputAdornment>
+                        ),
+
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleClick}>
+                              {showPassword ? (
+                                <VisibilityIcon />
+                              ) : (
+                                <VisibilityOffIcon
+                                  style={{ color: `${Colors.iconColor}` }}
+                                />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+
+                    <LinkWrapper>
+                      <FormControlLabel
+                        style={{
+                          color: `${Colors.buttonColor}`,
+                          fontSize: "14px",
+                          fontWeight: 400,
+                        }}
+                        control={
+                          <Checkbox
+                            value="remember"
+                            color="primary"
+                            size="small"
+                          />
+                        }
+                        label="Remember me"
+                      />
+                      <Link
+                        href="#"
+                        style={{
+                          color: `${Colors.buttonColor}`,
+                          fontSize: "14px",
+                          fontWeight: 400,
+                        }}
+                      >
+                        <ForgotPassword>Forgot password?</ForgotPassword>
+                      </Link>
+                    </LinkWrapper>
+                    <ButtonContainer
+                      type="submit"
+                      fullWidth
+                      disabled={
+                        validateInputByInput("userName", null) ||
+                        validateInputByInput("password", null) ||
+                        loading
+                      }
+                    >
+                      {loading ? (
+                        <CircularProgress
+                          size={20}
+                          sx={{ mt: "8px", mb: "8px" }}
+                        />
+                      ) : (
+                        "Sign In"
+                      )}
+                    </ButtonContainer>
+                  </Box>
+                </Box>
+              </>
+            )}
+          </CustomCard>
+        </Wrapper>
+      </LoginWrapper>
+    // </ThemeProvider>
   );
 };
 
 export default Login;
 
-const CustomCard = styled(Card).attrs((props) => ({
-  sx: { maxWidth: 480 },
-}))`
+const CustomCard = styled.div`
   margin: 0px;
   padding: 18px 24px;
+`;
+
+const LoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: ${Colors.white};
+  font-family: ${Fonts.fontStyle1};
+
 `;
 
 const ButtonContainer = styled.button`
@@ -305,7 +317,12 @@ const LinkWrapper = styled.div`
   margin: 20px 0px;
 `;
 
-const ForgotPassword = styled.p``;
+const ForgotPassword = styled.p`
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+
+`;
 
 const AppName = styled.p`
   display: flex;
@@ -319,6 +336,8 @@ const AppName = styled.p`
 const BGImg = styled.img`
   width: 60%;
   height: 100%;
+  left: 0;
+  border: 0;
 `;
 
 const Wrapper = styled.div`
@@ -327,4 +346,5 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding: 0px 10px;
   align-items: center;
+  background-color: ${Colors.white};
 `;
