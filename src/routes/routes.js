@@ -34,6 +34,8 @@ import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
 import CropCategory from "../pages/Crop/CropCategory/CropCategory"
 import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
+import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
+import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -48,6 +50,8 @@ import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
 import ForestIcon from '@mui/icons-material/Forest';
 import SpaIcon from '@mui/icons-material/Spa';
+import ParkIcon from '@mui/icons-material/Park';
+
 
 
 
@@ -304,6 +308,19 @@ export const Routes = [
         name: "Crop Category Form",
         isSideBar: false,
         element: <CropCategoryForm />,
+      },
+      {
+        path: "/sub-category",
+        name: "Crop Sub Category",
+        isSideBar: true,
+        element: <CropSubCategory />,
+        icon: ParkIcon,
+      },
+      {
+        path: "/sub-category-form",
+        name: "Crop Category Form",
+        isSideBar: false,
+        element: <CropSubCategoryForm />,
       },
      
     ],
