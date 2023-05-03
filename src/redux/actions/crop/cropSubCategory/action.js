@@ -1,12 +1,12 @@
-import { get,post } from "../../../../services/api";
+import { post } from "../../../../services/api";
 
-export const handleCropCategory = async (
+export const handleCropSubCategory = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/crop-categories", payload, true);
+    const response = await post("geo-data/crop-sub-categories", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -30,28 +30,6 @@ export const handleCropCategory = async (
       onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
-    }
-  }
-};
-
-export const get_CategoryList = async (
-  onSuccess = () => {},
-  onError = (_message) => {},
-) => {
-  try {
-    const {httpCode, payloadDto} = await get("geo-data/crop-categories", true);
-    if (httpCode === '200 Ok') {
-      return {
-        dataList: payloadDto
-      }
-    }
-    return {
-      dataList: []
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      dataList: []
     }
   }
 };
