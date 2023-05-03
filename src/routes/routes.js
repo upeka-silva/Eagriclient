@@ -29,6 +29,12 @@ import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
 import AI from "../pages/Agri-Zones/AI/AI";
 import AIForm from "../pages/Agri-Zones/AI/AIForm";
+import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
+import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
+
+import CropCategory from "../pages/Crop/CropCategory/CropCategory"
+import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -40,8 +46,8 @@ import ViewModuleIcon from '@mui/icons-material/ViewModule';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import WaterIcon from '@mui/icons-material/Water';
 import KeyIcon from '@mui/icons-material/Key';
-import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
-import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
+import ForestIcon from '@mui/icons-material/Forest';
+import SpaIcon from '@mui/icons-material/Spa';
 
 
 
@@ -279,6 +285,28 @@ export const Routes = [
         element: <ARPAForm />,
       },
     ]
+  },
+  {
+    path: "/crop",
+    name: "Crop",
+    isSideBar: true,
+    icon: SpaIcon,
+    children: [
+      {
+        path: "/category",
+        name: "Crop Category",
+        isSideBar: true,
+        element: <CropCategory />,
+        icon: ForestIcon,
+      },
+      {
+        path: "/category-form",
+        name: "Crop Category Form",
+        isSideBar: false,
+        element: <CropCategoryForm />,
+      },
+     
+    ],
   },
 
 ];
