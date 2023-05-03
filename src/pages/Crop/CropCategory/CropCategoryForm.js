@@ -120,6 +120,24 @@ const CropCategoryForm = () => {
           Crop Category
         </FormHeader>
         <FieldWrapper>
+          <FieldName>Category ID</FieldName>
+          <TextField
+            name="code"
+            id="code"
+            value={formData?.code || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) => handleChange(e?.target?.value || "", "code")}
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          />
+        </FieldWrapper>
+        <FieldWrapper>
           <FieldName>Category Name</FieldName>
           <TextField
             name="name"
