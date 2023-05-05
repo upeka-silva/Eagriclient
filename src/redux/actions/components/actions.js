@@ -5,7 +5,7 @@ export const handleComponent = async (payload = {}, onSuccess = () => { }, onErr
         const response = await post('components', payload, true);
         if (response.httpCode === '200 OK') {
             onSuccess();
-        }
+        } 
         console.log(response);
     } catch ({ error }) {
         if (typeof error === 'object') {

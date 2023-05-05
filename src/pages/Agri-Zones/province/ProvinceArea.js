@@ -8,173 +8,145 @@ import ProvinceAreaList from "./ProvinceAreaList";
 import ProvinceAreaForm from "./ProvinceAreaForm";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { useNavigate } from "react-router-dom";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 
 const ProvinceArea = () => {
-  const navigation = useNavigate();
+  useUserAccessValidation();
+  const navigate = useNavigate();
 
-  const [selectedProvinceArea, setSelectedProvinceArea] = useState(null);
-  const [selectedProvinceAreas, setSelectedProvinceAreas] = useState([]);
-  const [action, setAction] = useState("new");
-  const [dialogState, setDialogState] = useState(false);
+  const [selectedProvinceArea, setSelectedProvinceArea] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const openDialog = () => {
-    setDialogState(true);
-  };
-
-  const closeDialog = () => {
-    setDialogState(false);
-  };
-
-  const onCreate = useCallback(() => {
-    setAction("new");
-    openDialog();
-    navigation("/agri-zone/province-area-form")
-  }, []);
-
-  const onView = useCallback((province) => {
-    setSelectedProvinceArea(province);
-    setAction("view");
-    openDialog();
-  }, []);
-
-  const onEdit = useCallback((province) => {
-    setSelectedProvinceArea(province);
-    setAction("edit");
-    openDialog();
-  }, []);
-
-  const onDelete = useCallback((province) => {
-    setSelectedProvinceArea(province);
-    setAction("delete");
-    openDialog();
-  }, []);
-
-  const updateProvinceArea = (value, key) => {
-    setSelectedProvinceArea((current) => ({ ...current, [key]: value }));
-  };
-
-  const selectAllProvinceAreas = (provinces) => {
-    setSelectedProvinceAreas(provinces);
-  };
-
-  const removeAllSelectedProvinceAreas = () => {
-    setSelectedProvinceAreas([]);
-  };
-
-  const toggleSelectedProvinceAreas = (province) => {
-    setSelectedProvinceAreas((current = []) => {
-      let exists = current.findIndex((c) => c?.id === province.id) > -1;
-      if (exists) {
-        return current.filter((c) => c.id !== province.id);
+  const toggleProvinceAreaSelect = (component) => {
+    setSelectedProvinceArea((current = []) => {
+      let newList = [...current];
+      let index = newList.findIndex((c) => c?.id === component?.id);
+      if (index > -1) {
+        newList.splice(index, 1);
+      } else {
+        newList.push(component);
       }
-      return [...current, province];
+      return newList;
     });
   };
 
-  const generatePopUpBody = () => {
-    switch (action) {
-      case "new":
-      case "edit":
-        return (
-          <ProvinceAreaForm
-            selectedProvinceArea={selectedProvinceArea}
-            updateProvinceArea={updateProvinceArea}
-          />
-        );
-      case "view":
-        return (
-          <div>
-            <Typography>
-              <br />
-              <b>Province Cocde: </b>
-              {selectedProvinceArea?.provinceCode}
-            </Typography>
-            <Typography>
-              <b>Province Name: </b>
-              {selectedProvinceArea?.name}
-            </Typography>
-          </div>
-        );
-      case "delete":
-        return (
-          <Typography>
-            <br />
-            Do you want to delete this record?
-          </Typography>
-        );
-      default:
-        return null;
-    }
+  const selectAllProvinceArea = (all = []) => {
+    setSelectedProvinceArea(all);
   };
 
-  const generatePopUpTitle = () => {
-    switch (action) {
-      case "new":
-        return "New Inter Province";
-      case "view":
-        return selectedProvinceArea?.name;
-      case "edit":
-        return `Editing ${selectedProvinceArea?.name}`;
-      case "delete":
-        return `Deleting ${selectedProvinceArea?.name}`;
-      default:
-        return null;
-    }
+  const resetSelectedProvinceArea = () => {
+    setSelectedProvinceArea([]);
   };
 
-  const onConfirm = () => {
-    closeDialog();
+
+
+  const onCreate = () => {
+    setAction(DEF_ACTIONS.ADD);
+    navigate("/agri-zone/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
   };
+
+  const onEdit = () => {
+    setAction(DEF_ACTIONS.EDIT);
+    navigate("/agri-zone/province-area-form", {
+      state: {
+        action: DEF_ACTIONS.EDIT,
+        target: selectedProvinceArea[0] || {},
+      },
+    });
+  };
+
+  const onView = () => {
+    setAction(DEF_ACTIONS.VIEW);
+    navigate("/agri-zone/province-area-form", {
+      state: {
+        action: DEF_ACTIONS.VIEW,
+        target: selectedProvinceArea[0] || {},
+      },
+    });
+  };
+
+
 
   return (
     <div>
       <ActionWrapper>
-        <PermissionWrapper
-          component={
+      <PermissionWrapper withoutPermissions>
+          <Button variant="contained" onClick={onCreate}>
+            {DEF_ACTIONS.ADD}
+          </Button>
+        </PermissionWrapper>
+
+        {selectedProvinceArea.length === 1 && (
+          // <PermissionWrapper
+          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE_AREA}`}
+          // >
+          //   <Button
+          //     variant="contained"
+          //     color="secondary"
+          //     onClick={onEdit}
+          //     sx={{ ml: "8px" }}
+          //   >
+          //     {DEF_ACTIONS.EDIT}
+          //   </Button>
+          // </PermissionWrapper>
+          <PermissionWrapper withoutPermissions>
             <Button
-              variant="container"
-              startIcon={<PlusIcon />}
-              sx={{ background: theme.coreColors.secondary }}
-              onClick={onCreate}
+              variant="contained"
+              color="secondary"
+              onClick={onEdit}
+              sx={{ ml: "8px" }}
             >
-              ADD
+              {DEF_ACTIONS.EDIT}
             </Button>
-          }
-        />
-        {selectedProvinceAreas.length === 1 ? (
-          <PermissionWrapper
-            component={<Button variant="container" color="info" />}
-          />
-        ) : null}
-        {selectedProvinceAreas.length === 1 ? (
-          <PermissionWrapper
-            component={
-              <Button
-                variant="contained"
-                color="info"
-                startIcon={<ModeEditIcon />}
-                sx={{ ml: "5px" }}
-                onClick={onCreate}
-              >
-                Update
-              </Button>
-            }
-          />
-        ) : null}
+          </PermissionWrapper>
+        )}
+       {selectedProvinceArea.length === 1 && (
+          // <PermissionWrapper
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE_AREA}`}
+          // >
+          //   <Button
+          //     variant="contained"
+          //     color="info"
+          //     onClick={onView}
+          //     sx={{ ml: "8px" }}
+          //   >
+          //     {DEF_ACTIONS.VIEW}
+          //   </Button>
+          // </PermissionWrapper>
+          <PermissionWrapper withoutPermissions>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onView}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.VIEW}
+            </Button>
+          </PermissionWrapper>
+        )}
       </ActionWrapper>
-      <PermissionWrapper
-        component={
-          <ProvinceAreaList
-            onView={onView}
-            onEdit={onEdit}
-            onDelete={onDelete}
-            selectedProvinceAreas={selectedProvinceAreas}
-            setSelectedProvinceAreas={toggleSelectedProvinceAreas}
-            selectAllProvinceAreas={selectAllProvinceAreas}
-            removeSelectedProvinceAreas={removeAllSelectedProvinceAreas}
-          />
-        }
-      />
+       {/* <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+      >
+        <ProvinceList
+          selectedRows={selectedProvinces}
+          onRowSelect={toggleProvinceSelect}
+          selectAll={selectAllProvinces}
+          unSelectAll={resetSelectedProvinces}
+        />
+      </PermissionWrapper> */}
+      <PermissionWrapper withoutPermissions>
+        <ProvinceAreaList
+          selectedRows={selectedProvinceArea}
+          onRowSelect={toggleProvinceAreaSelect}
+          selectAll={selectAllProvinceArea}
+          unSelectAll={resetSelectedProvinceArea}
+        />
+      </PermissionWrapper>
     </div>
   );
 };

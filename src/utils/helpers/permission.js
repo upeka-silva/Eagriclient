@@ -1,5 +1,7 @@
-import { getLSItem } from "../../services/storage"
-import { StorageConstants } from "../../services/storage/constant"
+import { FormatAlignJustifyTwoTone } from "@mui/icons-material";
+import { getLSItem } from "../../services/storage";
+import { StorageConstants } from "../../services/storage/constant";
+import Pako from "pako";
 
 export const getUserLoggedState = async () => {
     try {
@@ -46,5 +48,28 @@ export const getUserPermissionStateByModule = async (module) => {
     } catch (error) {
         console.log(error);
         return false;
+    }
+}
+
+export const decompressJWT = (jwt = '') => {
+    try {
+        const strData = window.atob(jwt);
+
+        // Convert binary string to character-number array
+        const charData = strData.split('').map(function (x) { return x.charCodeAt(0); });
+
+        // Turn number array into byte-array
+        const binData = new Uint8Array(charData);
+
+        // Pako magic
+        const data = Pako.inflate(binData);
+
+        // Convert gunzipped byteArray back to ascii string:
+        const unzipData = String.fromCharCode.apply(null, new Uint16Array(data));
+
+        return unzipData;
+
+    } catch (error) {
+        console.log(error);
     }
 }

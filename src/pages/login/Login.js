@@ -1,37 +1,41 @@
 import React, { useState } from "react";
-import Avatar from "@mui/material/Avatar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import ContainerWithBG from "../../components/Containers/ContainerWithBG";
 import styled from "styled-components";
 import CssBaseline from "@mui/material/CssBaseline";
 import {
   Card,
   Box,
   TextField,
-  Button,
-  Grid,
   Link,
-  // Checkbox,
+  Checkbox,
   CircularProgress,
+  IconButton,
 } from "@mui/material/";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import { ContainerTypes } from "../../utils/constants/containerTypes";
 import Typography from "@mui/material/Typography";
-import Copyright from "../../components/Copyright";
-// import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import { initiateLogin } from "../../redux/actions/login/actions";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import theme from '../../utils/theme/theme.json';
+import theme from "../../utils/theme/theme.json";
 import { useUserAccessValidation } from "../../hooks/authentication";
+import { Colors } from "../../utils/constants/Colors";
+import { Fonts } from "../../utils/constants/Fonts";
 
-const BGImage = require("../../assets/images/background.jpg");
+import InputAdornment from "@mui/material/InputAdornment";
+import MailOutlineIcon from "@mui/icons-material/MailOutline";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const CustomTheme = createTheme();
 
+const BGImage = require("../../assets/images/backgroundImg.jpg");
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const [formData, setFormData] = useState({
     userName: "",
     password: "",
@@ -45,14 +49,20 @@ const Login = () => {
   const initializing = useUserAccessValidation();
 
   const onSuccess = () => {
-    addSnackBar({ type: SnackBarTypes.success, message: 'Successfully Logged In' })
-    navigate(location.state?.toPath || '/main-dashboard');
-  }
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Logged In",
+    });
+    navigate(location.state?.toPath || "/main-dashboard");
+  };
 
   const onError = (message) => {
-    addSnackBar({ type: SnackBarTypes.error, message: message || 'Login Failed' })
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
     setLoading(false);
-  }
+  };
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
@@ -86,18 +96,19 @@ const Login = () => {
     }
   };
 
+  const handleClick = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   return (
-    <ThemeProvider theme={CustomTheme}>
-      <ContainerWithBG
-        background={BGImage}
-        type={ContainerTypes.div}
-        component="main"
-        overlayColor="to top, rgba(245, 246, 252, 0.52), rgba(19, 117, 93, 0.73)"
-      >
-        <CssBaseline />
-        <CustomCard>
-          {
-            initializing ? (
+    // <ThemeProvider theme={CustomTheme}>
+      <LoginWrapper>
+        <AppName>E-EXTENSION SYSTEM</AppName>
+        <Wrapper>
+          {/* <CssBaseline /> */}
+          <BGImg src={BGImage} />
+          <CustomCard>
+            {initializing ? (
               <Box
                 maxWidth="xs"
                 sx={{
@@ -106,7 +117,8 @@ const Login = () => {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
+
                 }}
               >
                 <CircularProgress sx={{ color: theme.coreColors.secondary }} />
@@ -123,105 +135,216 @@ const Login = () => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
+    
                   }}
                 >
-                  <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-                    <LockOutlinedIcon />
-                  </Avatar>
-                  <Typography component="h1" variant="h5">
-                    Sign In
+                  <Typography>
+                    <Title>SIGN IN</Title>
                   </Typography>
                   <Box
                     component="form"
                     onSubmit={handleSubmit}
                     onValidate
-                    sx={{ mt: 3 }}
+                    sx={{ mt: 2, display: "flex", flexDirection: "column" }}
                   >
                     <TextField
                       margin="normal"
-                      required
                       fullWidth
                       id="userName"
-                      label="User Name"
+                      placeholder="Enter your email address"
                       name="userName"
                       type="text"
                       onChange={handleChange}
                       value={formData.userName}
+                      sx={{
+                        width: 372,
+                        "& .MuiInputBase-root": {
+                          height: 45,
+                          border: "1px solid #899393",
+                          background: `${Colors.white}`,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <MailOutlineIcon
+                              style={{ color: `${Colors.iconColor}` }}
+                            />
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                     <TextField
                       margin="normal"
-                      required
                       fullWidth
                       id="password"
-                      label="Password"
+                      placeholder="Password"
                       name="password"
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       onChange={handleChange}
                       value={formData.password}
+                      sx={{
+                        width: 372,
+                        "& .MuiInputBase-root": {
+                          height: 45,
+                          border: "1px solid #899393",
+                          background: `${Colors.white}`,
+                        },
+                      }}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <LockResetIcon
+                              style={{ color: `${Colors.iconColor}` }}
+                            />
+                          </InputAdornment>
+                        ),
+
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton onClick={handleClick}>
+                              {showPassword ? (
+                                <VisibilityIcon />
+                              ) : (
+                                <VisibilityOffIcon
+                                  style={{ color: `${Colors.iconColor}` }}
+                                />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
-                    {/* <FormControlLabel
-                    control={<Checkbox value="remember" color="primary" />}
-                    label="Remember me"
-                  /> */}
-                    <ButtonContainer>
-                      <Button
-                        variant="contained"
-                        type="submit"
-                        fullWidth
-                        color="primary"
-                        disabled={
-                          validateInputByInput("userName", null) ||
-                          validateInputByInput("password", null) ||
-                          loading
+
+                    <LinkWrapper>
+                      <FormControlLabel
+                        style={{
+                          color: `${Colors.buttonColor}`,
+                          fontSize: "14px",
+                          fontWeight: 400,
+                        }}
+                        control={
+                          <Checkbox
+                            value="remember"
+                            color="primary"
+                            size="small"
+                          />
                         }
+                        label="Remember me"
+                      />
+                      <Link
+                        href="#"
+                        style={{
+                          color: `${Colors.buttonColor}`,
+                          fontSize: "14px",
+                          fontWeight: 400,
+                        }}
                       >
-                        {
-                          loading ? (
-                            <CircularProgress size={20} sx={{ mt: '8px', mb: '8px' }} />
-                          ) : 'Sign In'
-                        }
-                      </Button>
+                        <ForgotPassword>Forgot password?</ForgotPassword>
+                      </Link>
+                    </LinkWrapper>
+                    <ButtonContainer
+                      type="submit"
+                      fullWidth
+                      disabled={
+                        validateInputByInput("userName", null) ||
+                        validateInputByInput("password", null) ||
+                        loading
+                      }
+                    >
+                      {loading ? (
+                        <CircularProgress
+                          size={20}
+                          sx={{ mt: "8px", mb: "8px" }}
+                        />
+                      ) : (
+                        "Sign In"
+                      )}
                     </ButtonContainer>
                   </Box>
                 </Box>
-                <Grid container sx={{ mt: "10px" }}>
-                  <Grid item xs>
-                    <Link href="#" variant="body2">
-                      Forgot password?
-                    </Link>
-                  </Grid>
-                  <Grid item>
-                    <Link href="/register" variant="body2">
-                      {"Don't have an account? Sign Up"}
-                    </Link>
-                  </Grid>
-                </Grid>
-                <Copyright sx={{ mt: 4, mb: 4 }} />
               </>
-            )
-          }
-        </CustomCard>
-      </ContainerWithBG>
-    </ThemeProvider>
+            )}
+          </CustomCard>
+        </Wrapper>
+      </LoginWrapper>
+    // </ThemeProvider>
   );
 };
 
 export default Login;
 
-const CustomCard = styled(Card).attrs((props) => ({
-  sx: { maxWidth: 480, borderRadius: 6 },
-}))`
-  padding: 18px 24px;
+const CustomCard = styled.div`
   margin: 0px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  padding: 18px 24px;
 `;
 
-const ButtonContainer = styled.div`
+const LoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background-color: ${Colors.white};
+  font-family: ${Fonts.fontStyle1};
+
+`;
+
+const ButtonContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 22px;
+  width: 372px;
+  height: 45px;
+  font-weight: 500;
+  font-size: 22px;
+  color: ${Colors.white};
+  background-color: ${Colors.buttonColor};
+  font-family: ${Fonts.fontStyle1};
+  border: none;
+`;
+
+const Title = styled.p`
+  font-size: 30px;
+  font-weight: 700;
+`;
+
+const LinkWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0px;
+`;
+
+const ForgotPassword = styled.p`
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 400;
+
+`;
+
+const AppName = styled.p`
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  font-family: ${Fonts.fontStyle1};
+  color: ${Colors.AppName};
+  font-weight: 700;
+`;
+
+const BGImg = styled.img`
+  width: 60%;
+  height: 100%;
+  left: 0;
+  border: 0;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 10px;
+  align-items: center;
+  background-color: ${Colors.white};
 `;
