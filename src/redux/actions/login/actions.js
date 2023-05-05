@@ -1,12 +1,14 @@
 import { post } from '../../../services/api'
 import { removeLSItem, setLSItem } from '../../../services/storage';
 import { StorageConstants } from '../../../services/storage/constant';
+import { decompressJWT } from '../../../utils/helpers/permission';
 
 export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val) => { }) => {
     try {
         const response = await post('user/login', body, false);
         if (response.httpCode === '200 OK' && response.payload.jwtToken) {
-            await setLSItem(StorageConstants.token, response.payload.jwtToken);
+            const jwtToken = decompressJWT(response.payload.jwtToken);
+            await setLSItem(StorageConstants.token, jwtToken);
             onSuccess();
         } else {
             throw response;
