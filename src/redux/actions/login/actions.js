@@ -9,6 +9,7 @@ export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val
         if (response.httpCode === '200 OK' && response.payload.jwtToken) {
             const jwtToken = decompressJWT(response.payload.jwtToken);
             await setLSItem(StorageConstants.token, jwtToken);
+            await setLSItem(StorageConstants.compress_token, response.payload.jwtToken);
             onSuccess();
         } else {
             throw response;
@@ -27,6 +28,7 @@ export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val
 export const initiateLogout = async (onSuccess = () => { }, onError = (_val) => { }) => {
     try {
         await removeLSItem(StorageConstants.token);
+        await removeLSItem(StorageConstants.compress_token);
         onSuccess();
     } catch (_error) {
         onError("Unable to logout");
