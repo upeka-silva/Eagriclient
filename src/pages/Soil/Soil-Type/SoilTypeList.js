@@ -1,8 +1,8 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
-import { DataTable } from "../../components/PageLayout/Table";
+import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const SoilList = ({
+const SoilTypeList = ({
   selectedRows = [],
   onRowSelect = (_c) => { },
   selectAll = (_list = []) => { },
@@ -30,4 +30,4 @@ const SoilList = ({
   );
 };
 
-export default SoilList;
+export default SoilTypeList;

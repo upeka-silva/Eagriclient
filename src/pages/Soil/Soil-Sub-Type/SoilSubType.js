@@ -1,23 +1,23 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper"
-import { useUserAccessValidation } from "../../hooks/authentication";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper"
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 
 import { useNavigate } from "react-router";
-import SoilList from "./SoilList";
+import SoilSubTypeList from "./SoilSubTypeList"
 
+const SoilSubType = () => {
 
-const Soil = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
 
-  const [selectedSoils, setSelectedSoils] = useState([]);
+  const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleSoilsSelect = (component) => {
-    setSelectedSoils((current = []) => {
+  const toggleSoilSubTypesSelect = (component) => {
+    setSelectedSoilSubTypes((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -29,35 +29,35 @@ const Soil = () => {
     });
   };
 
-  const selectAllSoils = (all = []) => {
-    setSelectedSoils(all);
+  const selectAllSoilSubTypes = (all = []) => {
+    setSelectedSoilSubTypes(all);
   };
 
-  const resetSelectedSoils = () => {
-    setSelectedSoils([]);
+  const resetSelectedSoilSubTypes = () => {
+    setSelectedSoilSubTypes([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/soil/soil-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/soil/soil-sub-type-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/soil/soil-form", {
+    navigate("/soil/soil-sub-type-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedSoils[0] || {},
+        target: selectedSoilSubTypes[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/soil/soil-form", {
+    navigate("/soil/soil-sub-type-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedSoils[0] || {},
+        target: selectedSoilSubTypes[0] || {},
       },
     });
   };
@@ -66,8 +66,8 @@ const Soil = () => {
   return (
     <div>
       <ActionWrapper>
-       {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL}`}
+         {/* <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -78,9 +78,9 @@ const Soil = () => {
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedSoils.length === 1 && (
+        {selectedSoilSubTypes.length === 1 && (
           // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL}`}
+          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           // >
           //   <Button
           //     variant="contained"
@@ -102,9 +102,9 @@ const Soil = () => {
             </Button>
           </PermissionWrapper>
         )}
-          {selectedSoils.length === 1 && (
+         {selectedSoilSubTypes.length === 1 && (
           //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL}`}
+          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           //  >
           //      <Button
           //          variant='contained'
@@ -127,7 +127,7 @@ const Soil = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-    {/* <PermissionWrapper
+      {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL}`}
       >
         <ProvinceList
@@ -138,15 +138,15 @@ const Soil = () => {
         />
       </PermissionWrapper> */}
       <PermissionWrapper withoutPermissions>
-        <SoilList
-          selectedRows={selectedSoils}
-          onRowSelect={toggleSoilsSelect}
-          selectAll={selectAllSoils}
-          unSelectAll={resetSelectedSoils}
+        <SoilSubTypeList
+          selectedRows={selectedSoilSubTypes}
+          onRowSelect={toggleSoilSubTypesSelect}
+          selectAll={selectAllSoilSubTypes}
+          unSelectAll={resetSelectedSoilSubTypes}
         />
       </PermissionWrapper>
     </div>
-  );
-};
+  )
+}
 
-export default Soil;
+export default SoilSubType

@@ -14,8 +14,8 @@ import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
 import ASC from "../pages/DAD-Structure/ASC/ASC";
 import ASCForm from "../pages/DAD-Structure/ASC/ASCForm";
-import Soil from "../pages/Soil/Soil";
-import SoilForm from "../pages/Soil/SoilForm";
+import Soil from "../pages/Soil/Soil-Type/SoilType";
+import SoilForm from "../pages/Soil/Soil-Type/SoilTypeForm";
 import Permissions from "../pages/Permissions/Permissions";
 import Province from "../pages/Zones/Province/Province";
 import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
@@ -51,6 +51,8 @@ import KeyIcon from '@mui/icons-material/Key';
 import ForestIcon from '@mui/icons-material/Forest';
 import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
+import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
+import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 
 
 
@@ -248,13 +250,37 @@ export const Routes = [
     name: "Soil",
     isSideBar: true,
     icon: WaterIcon,
-    element: <Soil />,
+    children: [
+      {
+        path: "/soil-type",
+        name: "Soil Type",
+        isSideBar: true,
+        element: <Soil />,
+        icon: WaterIcon,
+      },
+      {
+        path: "/soil-type-form",
+        name: "Soil Type Form",
+        isSideBar: false,
+        element: <SoilForm />,
+      },
+      {
+        path: "/soil-sub-type",
+        name: "Soil Sub Type",
+        isSideBar: true,
+        element: <SoilSubType />,
+        icon: WaterIcon,
+      },
+      {
+        path: "/soil-sub-type-form",
+        name: "Soil Type Form",
+        isSideBar: false,
+        element: <SoilSubTypeForm />,
+      },
+
+    ]
   },
-  {
-    path: "/soil/soil-form",
-    name: "Soil Form",
-    element: <SoilForm />,
-  },
+  
 
   {
     path: '/dad-structure',
