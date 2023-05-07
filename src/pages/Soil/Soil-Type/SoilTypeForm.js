@@ -1,24 +1,24 @@
 import React, { useState } from "react";
 import { Button, TextField, CircularProgress } from "@mui/material";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../hooks/authentication";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { handleSoil } from "../../redux/actions/soil/action";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { handleSoilType } from "../../../redux/actions/soil/soilType/action";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { PathName } from "../../components/FormLayout/PathName";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { PathName } from "../../../components/FormLayout/PathName";
+import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
+import { AddButton } from "../../../components/FormLayout/AddButton";
+import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
-const SoilForm = () => {
+const SoilTypeForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -31,7 +31,7 @@ const SoilForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/soil");
+    navigate("/soil/soil-type");
   };
 
   const handleChange = (value, target) => {
@@ -88,7 +88,7 @@ const SoilForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleSoil(formData, onSuccess, onError);
+        await handleSoilType(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -173,4 +173,4 @@ const SoilForm = () => {
   );
 };
 
-export default SoilForm;
+export default SoilTypeForm;

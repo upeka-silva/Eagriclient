@@ -1,6 +1,6 @@
-import { post } from "../../../services/api";
+import { get, post } from "../../../../services/api";
 
-export const handleSoil = async (
+export const handleSoilType = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -30,6 +30,28 @@ export const handleSoil = async (
       onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
+    }
+  }
+};
+
+export const get_SoilType = async (
+  onSuccess = () => {},
+  onError = (_message) => {},
+) => {
+  try {
+    const {httpCode, payloadDto} = await get("soil-types", true);
+    if (httpCode === '200 Ok') {
+      return {
+        dataList: payloadDto
+      }
+    }
+    return {
+      dataList: []
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      dataList: []
     }
   }
 };
