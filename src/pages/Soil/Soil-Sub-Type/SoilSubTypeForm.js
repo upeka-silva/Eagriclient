@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { Button, TextField, CircularProgress, Autocomplete } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { handleSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -20,7 +28,6 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
 
-
 const SoilSubTypeForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -31,12 +38,17 @@ const SoilSubTypeForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/soil/soil-sub-type");
   };
+
+  useEffect(() => {
+    get_SoilType();
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -99,7 +111,6 @@ const SoilSubTypeForm = () => {
     }
   };
 
-
   const getPathName = () => {
     return location.pathname === "/" || !location.pathname
       ? ""
@@ -108,98 +119,102 @@ const SoilSubTypeForm = () => {
 
   return (
     <FormWrapper>
-    <ActionWrapper isLeft>
-      <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-        Go back to list
-      </Button>
-    </ActionWrapper>
-    <PathName>{getPathName()}</PathName>
-    <FormHeader>
-      {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a Soil
-      sub type
-    </FormHeader>
-    <FieldWrapper>
-      <FieldName>Soil Sub Type Code</FieldName>
-      <TextField
-        name="soilSubTypeCode"
-        id="soilSubTypeCode"
-        value={formData?.soilSubTypeCode || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "soilSubTypeCode")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
-      <FieldName>Description</FieldName>
-      <TextField
-        name="description"
-        id="description"
-        value={formData?.description || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "description")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
+      <ActionWrapper isLeft>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          Go back to list
+        </Button>
+      </ActionWrapper>
+      <PathName>{getPathName()}</PathName>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a Soil
+        sub type
+      </FormHeader>
+      <FieldWrapper>
+        <FieldName>Soil Sub Type Code</FieldName>
+        <TextField
+          name="soilSubTypeCode"
+          id="soilSubTypeCode"
+          value={formData?.soilSubTypeCode || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "soilSubTypeCode")
+          }
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>Description</FieldName>
+        <TextField
+          name="description"
+          id="description"
+          value={formData?.description || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
         <FieldName>District Name</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={get_SoilType}
-          getOptionLabel={(option) => option.name}
+          // disabled
+          // open={open}
+          // disablePortal
+          options={options}
+          getOptionLabel={(option) => option.label}
+          onChange={(event, value) => {
+            // fetchOptions(value);
+          }}
+          sx={{
+            width: 264,
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
+              size="small"
               disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
         />
       </FieldWrapper>
-    <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
-        <ActionWrapper>
-          {saving ? (
-            <AddButton variant="contained" disabled>
-              {state?.action === DEF_ACTIONS.ADD
-                ? "ADDING..."
-                : "UPDATING..."}
-            </AddButton>
-          ) : (
-            <>
-              <AddButton disabled={!enableSave()} onClick={handleFormSubmit}>
-                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+      <ButtonWrapper isCenter>
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
               </AddButton>
-              <ResetButton onClick={resetForm}>RESET</ResetButton>
-            </>
-          )}
-        </ActionWrapper>
-      )}
-    </ButtonWrapper>
-  </FormWrapper>
-  )
-}
+            ) : (
+              <>
+                <AddButton disabled={!enableSave()} onClick={handleFormSubmit}>
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
+    </FormWrapper>
+  );
+};
 
-export default SoilSubTypeForm
+export default SoilSubTypeForm;

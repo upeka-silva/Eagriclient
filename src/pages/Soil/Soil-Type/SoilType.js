@@ -66,32 +66,17 @@ const SoilType = () => {
   return (
     <div>
       <ActionWrapper>
-       {/* <PermissionWrapper
+       <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TYPE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
-        </PermissionWrapper> */}
-        <PermissionWrapper withoutPermissions>
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
         </PermissionWrapper>
         {selectedSoilTypes.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -103,46 +88,28 @@ const SoilType = () => {
           </PermissionWrapper>
         )}
           {selectedSoilTypes.length === 1 && (
-          //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
-          //  >
-          //      <Button
-          //          variant='contained'
-          //          color='info'
-          //          onClick={onView}
-          //          sx={{ ml: '8px' }}
-          //      >
-          //          {DEF_ACTIONS.VIEW}
-          //      </Button>
-          //  </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
+               <PermissionWrapper
+               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
+           >
+               <Button
+                   variant='contained'
+                   color='info'
+                   onClick={onView}
+                   sx={{ ml: '8px' }}
+               >
+                   {DEF_ACTIONS.VIEW}
+               </Button>
+           </PermissionWrapper>
         )}
       </ActionWrapper>
-    {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL}`}
+    <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TYPE}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <SoilTypeList
-          selectedRows={selectedSoilTypes}
-          onRowSelect={toggleSoilTypesSelect}
-          selectAll={selectAllSoilTypes}
-          unSelectAll={resetSelectedSoilTypes}
+           selectedRows={selectedSoilTypes}
+           onRowSelect={toggleSoilTypesSelect}
+           selectAll={selectAllSoilTypes}
+           unSelectAll={resetSelectedSoilTypes}
         />
       </PermissionWrapper>
     </div>
