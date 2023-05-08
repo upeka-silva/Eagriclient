@@ -111,7 +111,7 @@ const InterProvinceForm = () => {
     <PathName>{getPathName()}</PathName>
     <FormHeader>
       {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-      Province Area
+      Inter Province Area
     </FormHeader>
     <FieldWrapper>
       <FieldName>Province ID</FieldName>

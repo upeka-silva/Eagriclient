@@ -6,7 +6,7 @@ export const handleProvinceArea = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("", payload, true);
+    const response = await post("geo-data/ag-province-area", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
