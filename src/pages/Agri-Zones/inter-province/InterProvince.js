@@ -65,25 +65,17 @@ const InterProvince = () => {
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper withoutPermissions>
+      <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
+        >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
         {selectedInterProvinceArea.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -95,19 +87,9 @@ const InterProvince = () => {
           </PermissionWrapper>
         )}
        {selectedInterProvinceArea.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="info"
-          //     onClick={onView}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.VIEW}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -119,17 +101,9 @@ const InterProvince = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-      {/* <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INTER_PROVINCE_AREA}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <InterProvinceList
           selectedRows={selectedInterProvinceArea}
           onRowSelect={toggleInterProvinceAreaSelect}
