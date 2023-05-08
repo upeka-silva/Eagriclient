@@ -34,24 +34,22 @@ export const handleSoilType = async (
   }
 };
 
-export const get_SoilType = async (
-  onSuccess = () => {},
-  onError = (_message) => {},
-) => {
+
+export const get_SoilType = async () => {
   try {
-    const {httpCode, payloadDto} = await get("soil-types", true);
-    if (httpCode === '200 Ok') {
+    const { httpCode, payloadDto } = await get("soil-types", true);
+    if (httpCode === "200 k") {
       return {
         dataList: payloadDto
-      }
+      };
     }
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   }
 };
