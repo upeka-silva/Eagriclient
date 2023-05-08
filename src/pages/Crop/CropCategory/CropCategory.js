@@ -1,14 +1,16 @@
-import React, { useState} from 'react'
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
-import CropCategoryList from "./CropCategoryList"
-import { useUserAccessValidation } from '../../../hooks/authentication';
-import { DEF_ACTIONS, DEF_COMPONENTS } from '../../../utils/constants/permission';
-import { ActionWrapper } from '../../../components/PageLayout/ActionWrapper';
+import CropCategoryList from "./CropCategoryList";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const CropCategory = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
 
@@ -28,7 +30,7 @@ const CropCategory = () => {
     });
   };
 
-  const selectAllCategories= (all = []) => {
+  const selectAllCategories = (all = []) => {
     setSelectCategory(all);
   };
 
@@ -61,29 +63,20 @@ const CropCategory = () => {
     });
   };
 
-
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper withoutPermissions>
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
         {selectCategory.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -94,20 +87,10 @@ const CropCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-           {selectCategory.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="info"
-          //     onClick={onView}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.VIEW}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+        {selectCategory.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -119,17 +102,9 @@ const CropCategory = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-        {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+      <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <CropCategoryList
           selectedRows={selectCategory}
           onRowSelect={toggleCategorySelect}
@@ -138,7 +113,7 @@ const CropCategory = () => {
         />
       </PermissionWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default CropCategory
+export default CropCategory;
