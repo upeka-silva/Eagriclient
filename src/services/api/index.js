@@ -108,6 +108,55 @@ const post = async (path = '', req, requestToken = false, requestSecret = null) 
     });
 };
 
+const api_delete = async (path = '', requestToken = false, requestSecret = null) => {
+    let signature = '';
+    if (requestSecret) {
+        signature = "generateSignature()";
+    }
+    let token = "";
+
+    if (requestToken) {
+        token = `Bearer ${(await getLSItem(StorageConstants.compress_token))?.value || ''}`;
+    }
+
+    const configHeaders = {
+        headers: {
+            Authorization: token,
+            signature: signature,
+        }
+    };
+
+    configHeaders.headers['Access-Control-Allow-Origin'] = '*';
+    configHeaders.headers['Access-Control-Allow-Credentials'] = 'true';
+
+
+    let url = baseURL + path;
+
+
+    return new Promise((resolve, reject) => {
+        axios.delete(url, configHeaders)
+            .then(response => {
+                if (response.status === 202 && response.data) {
+                    if (response.data.error) {
+                        reject(response.data);
+                    } else {
+                        resolve(response.data);
+                    }
+                } else if (response.status === 200 || response.status === 201 || response.status === 204) {
+                    reject({ error: 'Status : ' + response.status + ' no content.' });
+                } else {
+                    reject({ error: response.status ? 'An status : ' + response.status + ' has occurred.' : 'An unexpected error has occurred.' });
+                }
+            }).catch(error => {
+                if (error.response) {
+                    reject({ error: error.response || 'An unexpected error has occurred.' });
+                } else {
+                    reject({ error: 'An unexpected error has occurred.' });
+                }
+            })
+    });
+};
+
 const getFileFromApi = async (path = '', requestToken = false) => {
 
     let token = "";
@@ -203,4 +252,4 @@ const postUploadFile = async (path = '', requestToken = false, key, id = 0, file
     });
 };
 
-export { get, post, postUploadFile, getFileFromApi };
+export { get, post, postUploadFile, api_delete, getFileFromApi };
