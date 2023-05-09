@@ -610,6 +610,21 @@ export const DataTable = ({
         return null;
     }
 
+    const extractNestedData = (row = {}, keys = '') => {
+        if (typeof row[keys] === 'string') {
+            return row[keys];
+        }
+        let target = {};
+        for (let key of keys.split('.')) {
+            if (Object.keys(target).length === 0) {
+                target = row[key]
+            } else {
+                target = target[key];
+            }
+        };
+        return target;
+    }
+
     const renderProgress = () => {
         switch (loaderType) {
             case 'linear':
@@ -876,7 +891,7 @@ export const DataTable = ({
                                             }
                                             return (
                                                 <TableCell key={`${key}-${key2}`}>
-                                                    {r[c.field] || ''}
+                                                    {extractNestedData(r, c.field) || ''}
                                                 </TableCell>
                                             );
                                         }
