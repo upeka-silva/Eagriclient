@@ -47,9 +47,23 @@ const SoilSubTypeForm = () => {
   };
 
   useEffect(() => {
-    get_SoilType();
+    get_SoilType()
+      .then(({ dataList = [] }) => {
+        // setOptions(
+        //   dataList.map((i) => {
+        //     return {
+        //       label: `${i.soilTypeCode}-${i.description}`,
+        //       value: i.id,
+        //     };
+        //   })
+        // );
+        setOptions(dataList);
+      })
+      .catch(() => {
+        setOptions([]);
+      });
   }, []);
-
+  
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -168,15 +182,12 @@ const SoilSubTypeForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>District Name</FieldName>
+        <FieldName>Soil Type</FieldName>
         <Autocomplete
-          // disabled
-          // open={open}
-          // disablePortal
           options={options}
-          getOptionLabel={(option) => option.label}
+          getOptionLabel={(i) => `${i.soilTypeCode}-${i.description}`}
           onChange={(event, value) => {
-            // fetchOptions(value);
+            handleChange(value, "soilTypeDTO");
           }}
           sx={{
             width: 264,

@@ -38,7 +38,7 @@ export const handleSoilType = async (
 export const get_SoilType = async () => {
   try {
     const { httpCode, payloadDto } = await get("soil-types", true);
-    if (httpCode === "200 k") {
+    if (httpCode === "200 OK") {
       return {
         dataList: payloadDto
       };
