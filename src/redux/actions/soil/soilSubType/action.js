@@ -7,7 +7,7 @@ export const handleSoilSubType = async (
 ) => {
   try {
     const response = await post("soil-sub-types", payload, true);
-    if (response.httpCode === "200 OK") {
+    if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
       const exception = {
