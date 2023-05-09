@@ -6,13 +6,31 @@ const Router = Routes.map(r => {
         return (
             <>
                 {
-                    (r.children.map(cr => (
-                        <Route
-                            key={r.path + cr.path}
-                            path={r.path + cr.path}
-                            element={cr.element}
-                        />
-                    )))
+                    (r.children.map(cr => {
+                        if (cr.children) {
+                            return (
+                                <>
+                                    {
+                                        cr.children.map(crc =>
+                                        (
+                                            <Route
+                                                key={r.path + cr.path + crc.path}
+                                                path={r.path + cr.path + crc.path}
+                                                element={crc.element}
+                                            />
+                                        ))
+                                    }
+                                </>
+                            )
+                        }
+                        return (
+                            <Route
+                                key={r.path + cr.path}
+                                path={r.path + cr.path}
+                                element={cr.element}
+                            />
+                        )
+                    }))
                 }
             </>
         )

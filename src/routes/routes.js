@@ -96,56 +96,87 @@ export const Routes = [
     icon: AccountTreeIcon,
     children: [
       {
-        path: "/province",
-        name: "Province",
+        path: "/ga-structure",
+        name: "General Admin Structure",
         isSideBar: true,
-        element: <Province />,
-        icon: CropSquareIcon,
+        children: [
+          {
+            path: "/province",
+            name: "Province",
+            isSideBar: true,
+            element: <Province />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/province-form",
+            name: "Province Form",
+            isSideBar: false,
+            element: <ProvinceForm />,
+          },
+          {
+            path: "/district",
+            name: "District",
+            isSideBar: true,
+            element: <District />,
+            icon: StreetviewIcon,
+          },
+          {
+            path: "/district-form",
+            name: "District Form",
+            isSideBar: false,
+            element: <DistrictForm />,
+          },
+          {
+            path: "/ds-division",
+            name: "DS Division",
+            isSideBar: true,
+            element: <DsDivision />,
+            icon: StreetviewIcon,
+          },
+          {
+            path: "/ds-division-form",
+            name: "DS Division Form",
+            isSideBar: false,
+            element: <DsDivisionForm />,
+          },
+          {
+            path: "/gn-division",
+            name: "GN Division",
+            isSideBar: true,
+            element: <GnDivision />,
+            // icon: StreetviewIcon,
+          },
+          {
+            path: "/gn-division-form",
+            name: "GN Division Form",
+            isSideBar: false,
+            element: <GnDivisionForm />,
+          },
+        ],
       },
       {
-        path: "/province-form",
-        name: "Province Form",
-        isSideBar: false,
-        element: <ProvinceForm />,
-      },
-      {
-        path: "/district",
-        name: "District",
+        path: "/aa-structure",
+        name: "Agri Admin Structure",
         isSideBar: true,
-        element: <District />,
-        icon: StreetviewIcon,
+        children: [],
       },
       {
-        path: "/district-form",
-        name: "District Form",
-        isSideBar: false,
-        element: <DistrictForm />,
-      },
-      {
-        path: "/ds-division",
-        name: "DS Division",
+        path: "/dad-structure",
+        name: "DAD Structure",
         isSideBar: true,
-        element: <DsDivision />,
-        icon: StreetviewIcon,
+        children: [],
       },
       {
-        path: "/ds-division-form",
-        name: "DS Division Form",
-        isSideBar: false,
-        element: <DsDivisionForm />,
-      },
-      {
-        path: "/gn-division",
-        name: "GN Division",
+        path: "/mahaweli-structure",
+        name: "Mahaweli Structure",
         isSideBar: true,
-        element: <GnDivision />,
-        icon: StreetviewIcon,
+        children: [],
       },
       {
-        path: "/gn-division-form",
-        name: "GN Division Form",
-        isSideBar: false,
-        element: <GnDivisionForm />,
+        path: "/ez-structure",
+        name: "Ecological Zone Structure",
+        isSideBar: true,
+        children: [],
       },
     ],
   },
@@ -280,7 +311,7 @@ export const Routes = [
 
     ]
   },
-  
+
 
   {
     path: '/dad-structure',
@@ -348,7 +379,7 @@ export const Routes = [
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },
-     
+
     ],
   },
 
