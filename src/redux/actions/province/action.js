@@ -36,12 +36,10 @@ export const handleProvince = async (
 
 
 export const get_ProvinceList = async (
-  onSuccess = () => {},
-  onError = (_message) => {},
 ) => {
   try {
     const {httpCode, payloadDto} = await get("geo-data/provinces", true);
-    if (httpCode === '200 Ok') {
+    if (httpCode === '200 OK') {
       return {
         dataList: payloadDto
       }

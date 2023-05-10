@@ -33,16 +33,19 @@ const DistrictForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [provinceList, setProvinceList] = useState([get_ProvinceList]);
-  const [province, setProvince] = useState("");
-  const [inputProvince, setInputProvince] = useState("");
-  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/zone/district");
   };
+
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -57,6 +60,7 @@ const DistrictForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setOptions('')
     }
   };
 
@@ -162,22 +166,22 @@ const DistrictForm = () => {
       <FieldWrapper>
         <FieldName>Province Name</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={provinceList}
-          getOptionLabel={(option) => option.name}
+          disableClearable
+          options={options}
+          getOptionLabel={(i) => `${i.name} - ${i.code}`}
+          onChange={(event, value) => {
+            handleChange(value, "provinceDTO");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
+              size="small"
               disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
