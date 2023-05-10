@@ -66,25 +66,17 @@ const AgroEco = () => {
   return (
     <div>
       <ActionWrapper>
-        <PermissionWrapper withoutPermissions>
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRO_ECO_ZONE}`}
+        >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
         {selectedAgroEco.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRO_ECO_ZONE}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -94,21 +86,12 @@ const AgroEco = () => {
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
+        
         )}
          {selectedAgroEco.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="info"
-          //     onClick={onView}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.VIEW}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRO_ECO_ZONE}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -120,17 +103,9 @@ const AgroEco = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-        {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+        <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRO_ECO_ZONE}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <AgroEcoList
           selectedRows={selectedAgroEco}
           onRowSelect={toggleAgroEcoSelect}
@@ -138,6 +113,7 @@ const AgroEco = () => {
           unSelectAll={resetSelectedAgroEco}
         />
       </PermissionWrapper>
+     
     </div>
   );
 };

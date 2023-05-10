@@ -1,4 +1,4 @@
-import { get,post } from "../../../../services/api";
+import {put,get,post } from "../../../../services/api";
 
 export const handleCropCategory = async (
   payload = {},
@@ -40,7 +40,7 @@ export const get_CategoryList = async (
 ) => {
   try {
     const {httpCode, payloadDto} = await get("geo-data/crop-categories", true);
-    if (httpCode === '200 Ok') {
+    if (httpCode === '200 OK') {
       return {
         dataList: payloadDto
       }
@@ -52,6 +52,41 @@ export const get_CategoryList = async (
     console.log(error)
     return {
       dataList: []
+    }
+  }
+};
+
+
+export const updateCropCategory = async (
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`geo-data/crop-categories/${payload?.id || ''}`, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
     }
   }
 };

@@ -25,21 +25,31 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
+import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
+import { useEffect } from "react";
+
 const AgroEcoForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
+
+  const [options, setOptions] = useState([])
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/agro-eco-zone");
   };
+
+  useEffect(() => {
+    get_SoilType().then(({ dataList = [] }) => {
+      setOptions(dataList)
+    })
+  }, [])
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -118,8 +128,7 @@ const AgroEcoForm = () => {
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
         <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-          Agro Eco Zone
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} AGRO ECO ZONE
         </FormHeader>
         <FieldWrapper>
           <FieldName>AEZ ID</FieldName>
@@ -128,7 +137,7 @@ const AgroEcoForm = () => {
             id="id"
             value={formData?.id || ""}
             fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
+            disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
             onChange={(e) => handleChange(e?.target?.value || "", "id")}
             sx={{
               width: "264px",
@@ -238,22 +247,19 @@ const AgroEcoForm = () => {
         <FieldWrapper>
           <FieldName>Soil Type</FieldName>
           <Autocomplete
-            disabled
-            open={open}
-            disablePortal
-            options={""}
-            getOptionLabel={(option) => option.name}
+            options={options}
+            getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                borderRadius: "8px",
+              },
+            }}
             renderInput={(params) => (
               <TextField
                 {...params}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    textAlign: "center",
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
-                }}
+                size="small"
+               
                 disabled={state?.action === DEF_ACTIONS.VIEW}
               />
             )}

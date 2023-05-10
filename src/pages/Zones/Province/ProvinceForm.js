@@ -5,7 +5,7 @@ import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince } from "../../../redux/actions/province/action";
+import { handleProvince, updateProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -89,7 +89,11 @@ const ProvinceForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleProvince(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateProvince(formData, onSuccess, onError);
+        } else {
+          await handleProvince(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -111,8 +115,7 @@ const ProvinceForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        Province
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} PROVINCE
       </FormHeader>
       <FieldWrapper>
         <FieldName>Province Code</FieldName>
@@ -121,7 +124,7 @@ const ProvinceForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",

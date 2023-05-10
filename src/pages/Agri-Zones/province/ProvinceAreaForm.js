@@ -10,7 +10,10 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvinceArea } from "../../../redux/actions/provinceArea/action";
+import {
+  handleProvinceArea,
+  updateProvinceArea,
+} from "../../../redux/actions/provinceArea/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
@@ -90,7 +93,11 @@ const ProvinceAreaForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleProvinceArea(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateProvinceArea(formData, onSuccess, onError);
+        } else {
+          await handleProvinceArea(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -112,18 +119,18 @@ const ProvinceAreaForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        Province Area
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} PROVINCE AREA
       </FormHeader>
       <FieldWrapper>
         <FieldName>Province ID</FieldName>
         <TextField
-          name="id"
-          id="id"
-          value={formData?.id || ""}
+          name="agProvinceId"
+          id="agProvinceId"
+          value={formData?.agProvinceId || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "id")}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          onChange={(e) => handleChange(e?.target?.value || "", "agProvinceId")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -152,7 +159,7 @@ const ProvinceAreaForm = () => {
         />
       </FieldWrapper>
       <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
+        {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>

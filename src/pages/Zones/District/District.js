@@ -8,7 +8,7 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DistrictList from "./DistrictList"
+import DistrictList from "./DistrictList";
 
 const District = () => {
   useUserAccessValidation();
@@ -65,86 +65,53 @@ const District = () => {
 
   return (
     <div>
-    <ActionWrapper>
-      {/* <PermissionWrapper
+      <ActionWrapper>
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
-        </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <Button variant="contained" onClick={onCreate}>
-          {DEF_ACTIONS.ADD}
-        </Button>
-      </PermissionWrapper>
-      {selectedDistricts.length === 1 && (
-        // <PermissionWrapper
-        //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-        // >
-        //   <Button
-        //     variant="contained"
-        //     color="secondary"
-        //     onClick={onEdit}
-        //     sx={{ ml: "8px" }}
-        //   >
-        //     {DEF_ACTIONS.EDIT}
-        //   </Button>
-        // </PermissionWrapper>
-        <PermissionWrapper withoutPermissions>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={onEdit}
-            sx={{ ml: "8px" }}
-          >
-            {DEF_ACTIONS.EDIT}
-          </Button>
         </PermissionWrapper>
-      )}
-      {selectedDistricts.length === 1 && (
-        //      <PermissionWrapper
-        //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-        //  >
-        //      <Button
-        //          variant='contained'
-        //          color='info'
-        //          onClick={onView}
-        //          sx={{ ml: '8px' }}
-        //      >
-        //          {DEF_ACTIONS.VIEW}
-        //      </Button>
-        //  </PermissionWrapper>
-        <PermissionWrapper withoutPermissions>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={onView}
-            sx={{ ml: "8px" }}
+        {selectedDistricts.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
           >
-            {DEF_ACTIONS.VIEW}
-          </Button>
-        </PermissionWrapper>
-      )}
-    </ActionWrapper>
-     {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={onEdit}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.EDIT}
+            </Button>
+          </PermissionWrapper>
+        )}
+        {selectedDistricts.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
+          >
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onView}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.VIEW}
+            </Button>
+          </PermissionWrapper>
+        )}
+      </ActionWrapper>
+      <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <DistrictList
           selectedRows={selectedDistricts}
           onRowSelect={toggleDistrictSelect}
           selectAll={selectAllDistricts}
           unSelectAll={resetSelectedDistricts}
         />
-           </PermissionWrapper>
+      </PermissionWrapper>
     </div>
   );
 };

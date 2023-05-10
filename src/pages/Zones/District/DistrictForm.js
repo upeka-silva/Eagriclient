@@ -11,7 +11,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleDistrict } from "../../../redux/actions/district/action";
+import { handleDistrict, updateDistrict } from "../../../redux/actions/district/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -102,7 +102,12 @@ const DistrictForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleDistrict(formData, onSuccess, onError);
+       
+        if (formData?.id) {
+          await updateDistrict(formData, onSuccess, onError);
+        } else {
+          await handleDistrict(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -124,8 +129,7 @@ const DistrictForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        District
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} DISTRICT
       </FormHeader>
       <FieldWrapper>
         <FieldName>District Code</FieldName>
@@ -134,7 +138,7 @@ const DistrictForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
@@ -168,7 +172,7 @@ const DistrictForm = () => {
         <Autocomplete
           disableClearable
           options={options}
-          getOptionLabel={(i) => `${i.name} - ${i.code}`}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "provinceDTO");
           }}

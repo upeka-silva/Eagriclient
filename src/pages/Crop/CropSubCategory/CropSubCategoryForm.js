@@ -17,7 +17,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { handleCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import { handleCropSubCategory, updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -26,56 +26,59 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-
+import { useEffect } from "react";
 
 const CropSubCategoryForm = () => {
+  useUserAccessValidation();
+  const { state } = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    useUserAccessValidation();
-    const { state } = useLocation();
-    const location = useLocation();
-    const navigate = useNavigate();
-  
-    const [formData, setFormData] = useState(state?.target || {});
-    const [saving, setSaving] = useState(false);
-    const { addSnackBar } = useSnackBars();
-    const [open, setOpen] = useState(false);
-    const [categoryList, setCategoryList] = useState(get_CategoryList)
-  
-    const goBack = () => {
-      navigate("/crop/sub-category");
-    };
+  const [formData, setFormData] = useState(state?.target || {});
+  const [saving, setSaving] = useState(false);
+  const { addSnackBar } = useSnackBars();
+  const [options, setOptions] = useState([]);
 
-    const handleChange = (value, target) => {
-        setFormData((current = {}) => {
-          let newData = { ...current };
-          newData[target] = value;
-          return newData;
-        });
-      };
-    
-      const resetForm = () => {
-        if (state?.action === DEF_ACTIONS.EDIT) {
-          setFormData(state?.target || {});
-        } else {
-          setFormData({});
-        }
-      };
-    
-      const enableSave = () => {
-        if (state?.action === DEF_ACTIONS.EDIT) {
-          if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
-            return true;
-          }
-        }
-        if (
-          state?.action === DEF_ACTIONS.ADD &&
-          Object.keys(formData || {}).length > 0
-        ) {
-          return true;
-        }
-        return false;
-      };
+  const goBack = () => {
+    navigate("/crop/sub-category");
+  };
 
+  useEffect(() => {
+    get_CategoryList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
+
+  const handleChange = (value, target) => {
+    setFormData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const resetForm = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setFormData(state?.target || {});
+    } else {
+      setFormData({});
+    }
+  };
+
+  const enableSave = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+        return true;
+      }
+    }
+    if (
+      state?.action === DEF_ACTIONS.ADD &&
+      Object.keys(formData || {}).length > 0
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -100,7 +103,11 @@ const CropSubCategoryForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleCropSubCategory(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateCropSubCategory(formData, onSuccess, onError);
+        } else {
+          await handleCropSubCategory(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -115,7 +122,7 @@ const CropSubCategoryForm = () => {
 
   return (
     <div>
-        <FormWrapper>
+      <FormWrapper>
         <ActionWrapper isLeft>
           <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
             Go back to list
@@ -123,8 +130,8 @@ const CropSubCategoryForm = () => {
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
         <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-          Crop Sub Category
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+          {state?.action} CROP SUB CATEGORY
         </FormHeader>
         <FieldWrapper>
           <FieldName>Category ID</FieldName>
@@ -133,7 +140,7 @@ const CropSubCategoryForm = () => {
             id="code"
             value={formData?.code || ""}
             fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
+            disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
             onChange={(e) => handleChange(e?.target?.value || "", "code")}
             sx={{
               width: "264px",
@@ -163,31 +170,30 @@ const CropSubCategoryForm = () => {
           />
         </FieldWrapper>
         <FieldWrapper>
-        <FieldName>Category ID</FieldName>
-        <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={categoryList}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
-        />
-      </FieldWrapper>
+          <FieldName>Category ID</FieldName>
+          <Autocomplete
+            options={options}
+            getOptionLabel={(i) => `${i.code} - ${i.name}`}
+            onChange={(event, value) => {
+              handleChange(value, "cropCategoryDTO");
+            }}
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                borderRadius: "8px",
+              },
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                size="small"
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+              />
+            )}
+          />
+        </FieldWrapper>
         <ButtonWrapper>
-        {state?.action !== DEF_ACTIONS.VIEW && (
+          {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
                 <AddButton variant="contained" disabled>
@@ -212,7 +218,7 @@ const CropSubCategoryForm = () => {
         </ButtonWrapper>
       </FormWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default CropSubCategoryForm
+export default CropSubCategoryForm;

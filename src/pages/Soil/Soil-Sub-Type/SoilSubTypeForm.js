@@ -14,7 +14,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import { handleSoilSubType, updateSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -63,7 +63,7 @@ const SoilSubTypeForm = () => {
         setOptions([]);
       });
   }, []);
-  
+
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -118,7 +118,11 @@ const SoilSubTypeForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleSoilSubType(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateSoilSubType(formData, onSuccess, onError);
+        } else {
+          await handleSoilSubType(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -140,8 +144,8 @@ const SoilSubTypeForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a Soil
-        sub type
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} SOIL SUB TYPE
       </FormHeader>
       <FieldWrapper>
         <FieldName>Soil Sub Type Code</FieldName>
@@ -150,7 +154,7 @@ const SoilSubTypeForm = () => {
           id="soilSubTypeCode"
           value={formData?.soilSubTypeCode || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) =>
             handleChange(e?.target?.value || "", "soilSubTypeCode")
           }
@@ -185,7 +189,7 @@ const SoilSubTypeForm = () => {
         <FieldName>Soil Type</FieldName>
         <Autocomplete
           options={options}
-          getOptionLabel={(i) => `${i.soilTypeCode}-${i.description}`}
+          getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
           onChange={(event, value) => {
             handleChange(value, "soilTypeDTO");
           }}

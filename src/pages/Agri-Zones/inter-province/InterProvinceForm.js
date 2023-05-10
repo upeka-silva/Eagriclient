@@ -5,9 +5,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleInterProvinceArea } from "../../../redux/actions/interProvinceArea/action"
+import { handleInterProvinceArea, updateInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
@@ -19,7 +22,6 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 const InterProvinceForm = () => {
-
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -88,7 +90,11 @@ const InterProvinceForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleInterProvinceArea(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateInterProvinceArea(formData, onSuccess, onError);
+        } else {
+          await handleInterProvinceArea(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -103,79 +109,80 @@ const InterProvinceForm = () => {
 
   return (
     <FormWrapper>
-    <ActionWrapper isLeft>
-      <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-        Go back to list
-      </Button>
-    </ActionWrapper>
-    <PathName>{getPathName()}</PathName>
-    <FormHeader>
-      {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-      Inter Province Area
-    </FormHeader>
-    <FieldWrapper>
-      <FieldName>Province ID</FieldName>
-      <TextField
-        name="id"
-        id="id"
-        value={formData?.id || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "id")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
-      <FieldName>Description</FieldName>
-      <TextField
-        name="description"
-        id="description"
-        value={formData?.description || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "description")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <ButtonWrapper>
-    {state?.action !== DEF_ACTIONS.VIEW && (
-        <ActionWrapper>
-          {saving ? (
-            <AddButton variant="contained" disabled>
-              {state?.action === DEF_ACTIONS.ADD
-                ? "ADDING..."
-                : "UPDATING..."}
-            </AddButton>
-          ) : (
-            <>
-              <AddButton
-                variant="contained"
-                disabled={!enableSave()}
-                onClick={handleFormSubmit}
-              >
-                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+      <ActionWrapper isLeft>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          Go back to list
+        </Button>
+      </ActionWrapper>
+      <PathName>{getPathName()}</PathName>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} INTER PROVINCE AREA
+      </FormHeader>
+      <FieldWrapper>
+        <FieldName>Inter Province ID</FieldName>
+        <TextField
+          name="agInterProvinceId"
+          id="agInterProvinceId"
+          value={formData?.agInterProvinceId || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "agInterProvinceId")
+          }
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <FieldWrapper>
+        <FieldName>Description</FieldName>
+        <TextField
+          name="description"
+          id="description"
+          value={formData?.description || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
+      <ButtonWrapper>
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
               </AddButton>
-              <ResetButton onClick={resetForm}>RESET</ResetButton>
-            </>
-          )}
-        </ActionWrapper>
-      )}
-    </ButtonWrapper>
-  </FormWrapper>
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
+    </FormWrapper>
   );
 };
 
 export default InterProvinceForm;
-

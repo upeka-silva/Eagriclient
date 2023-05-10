@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Button, TextField, CircularProgress } from "@mui/material";
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -10,7 +15,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleArpa } from "../../../redux/actions/arpa/action";
+import { handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -20,8 +25,10 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
-const ARPAForm = () => {
+import { get_ASC } from "../../../redux/actions/asc/action";
+import { useEffect } from "react";
 
+const ARPAForm = () => {
   const navigate = useNavigate();
 
   useUserAccessValidation();
@@ -30,12 +37,18 @@ const ARPAForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-
+  const [options, setOptions] = useState([]);
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/dad-structure/arpa-area");
   };
+
+  useEffect(() => {
+    get_ASC().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -91,7 +104,11 @@ const ARPAForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleArpa(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateArpa(formData, onSuccess, onError);
+        } else {
+          await handleArpa(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -106,7 +123,7 @@ const ARPAForm = () => {
 
   return (
     <FormWrapper>
-        <ActionWrapper isLeft>
+      <ActionWrapper isLeft>
         <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
           Go back to list
         </Button>
@@ -114,7 +131,7 @@ const ARPAForm = () => {
       <PathName>{getPathName()}</PathName>
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        Add a ARPA Area
+        {state?.action} ARPA
       </FormHeader>
       <FieldWrapper>
         <FieldName>ARPA Area Code</FieldName>
@@ -123,7 +140,7 @@ const ARPAForm = () => {
           id="arpaId"
           value={formData?.arpaId || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "arpaId")}
           sx={{
             width: "264px",
@@ -154,24 +171,30 @@ const ARPAForm = () => {
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>ASC ID</FieldName>
-        <TextField
-          name="ascDto"
-          id="ascDto"
-          value={formData?.ascDto || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "ascDto")}
+        <Autocomplete
+          disableClearable
+          options={options}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          onChange={(event, value) => {
+            handleChange(value, "ascDto");
+          }}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
-              height: "30px",
               borderRadius: "8px",
             },
           }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              size="small"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
         />
       </FieldWrapper>
       <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
+        {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>
@@ -195,7 +218,7 @@ const ARPAForm = () => {
         )}
       </ButtonWrapper>
     </FormWrapper>
-  )
-}
+  );
+};
 
-export default ARPAForm
+export default ARPAForm;
