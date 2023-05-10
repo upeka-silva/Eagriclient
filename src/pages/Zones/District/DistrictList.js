@@ -11,7 +11,7 @@ const DistrictList = ({
   const columns = [
     { field: "code", headerName: "District Code" },
     { field: "name", headerName: "District Name" },
-    { field: "provinceDTO.name", headerName: "Province Name" },
+    { field: "provinceDTO", headerName: "Province Name" },
   ];
 
   return (
