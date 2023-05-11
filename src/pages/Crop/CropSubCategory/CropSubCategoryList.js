@@ -11,7 +11,7 @@ const CropSubCategoryList = ({
   const columns = [
     { field: "code", headerName: "ID" },
     { field: "name", headerName: "Sub Category Name" },
-    { field: "cropCategoryDTO", headerName: "Category Name" },
+    { field: "cropCategoryDTO.code", headerName: "Category Name" },
   ];
 
   return (

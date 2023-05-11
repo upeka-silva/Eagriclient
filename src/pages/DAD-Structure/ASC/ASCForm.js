@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField, CircularProgress } from "@mui/material";
+import { Button, TextField, CircularProgress, Autocomplete } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -10,7 +10,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAsc } from "../../../redux/actions/asc/action";
+import { handleAsc, updateAsc } from "../../../redux/actions/asc/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -19,6 +19,9 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
+
+import { get_DistrictList } from "../../../redux/actions/district/action";
+import { useEffect } from "react";
 
 const ASCForm = () => {
   const navigate = useNavigate();
@@ -29,12 +32,19 @@ const ASCForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
+  const [options, setOptions] = useState([])
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/dad-structure/asc-area");
   };
+
+  useEffect(() => {
+    get_DistrictList().then(({dataList = []}) => {
+      setOptions(dataList)
+    })
+  }, [])
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -90,7 +100,12 @@ const ASCForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleAsc(formData, onSuccess, onError);
+      
+        if (formData?.id) {
+          await updateAsc(formData, onSuccess, onError);
+        } else {
+          await handleAsc(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -112,8 +127,7 @@ const ASCForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        Add a ASC Area
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} ASC
       </FormHeader>
       <FieldWrapper>
         <FieldName>ASC Area Code</FieldName>
@@ -122,7 +136,7 @@ const ASCForm = () => {
           id="ascCode"
           value={formData?.ascCode || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "ascCode")}
           sx={{
             width: "264px",
@@ -153,20 +167,26 @@ const ASCForm = () => {
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>District ID</FieldName>
-        <TextField
-          name="districtDto"
-          id="districtDto"
-          value={formData?.districtDto || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "districtDto")}
+        <Autocomplete
+          disableClearable
+          options={options}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          onChange={(event, value) => {
+            handleChange(value, "districtDto");
+          }}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
-              height: "30px",
               borderRadius: "8px",
             },
           }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              size="small"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          )}
         />
       </FieldWrapper>
       <ButtonWrapper>
