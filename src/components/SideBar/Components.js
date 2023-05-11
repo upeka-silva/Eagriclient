@@ -11,16 +11,16 @@ export const DrawerToggleButton = styled(IconButton)`
 export const SideBarItemButton = styled(ListItemButton)`
     display: flex;
     justify-content: space-between;
-    border-radius: ${props => props.haschildren ? '10px 10px 0px 0px' : '10px'} !important;
+    /* border-radius: ${props => props.haschildren ? '10px 10px 0px 0px' : '10px'} !important; */
     background:  ${props => props.selected || props.haschildren ? theme.coreColors.secondary : 'white'} !important;
     color:  ${props => props.selected || props.haschildren ? 'white !important' : 'unset'};
-    box-shadow: ${props => props.selected ? 'unset' : Colors.shadow};
-    margin: 0px 0px 10px !important;
+    /* box-shadow: ${props => props.selected ? 'unset' : Colors.shadow}; */
+    border-bottom: ${props => props.selected ? "1px solid #FFF !important" : "1px solid #CCC !important"};
+    /* margin: 0px 0px 10px !important; */
     transition: all 0.3s !important;
 
     &:hover{
-        background: ${props => props.selected || props.haschildren ? 'unset' : '#FFF8  !important'};
-        transform: ${props => props.selected || props.haschildren ? 'unset' : 'translateY(-2px)'};
+        background: ${props => props.selected || props.haschildren ? 'unset' : theme.coreColors.primary + ' !important'};
     }
     
     & .MuiSvgIcon-root {
@@ -42,12 +42,13 @@ export const SideBarItemToolTip = styled(({ className, ...props }) => (
 
 export const CollapseContainer = styled(Collapse)`
     background: ${Colors.white};
-    margin-bottom: 10px;
-    margin-top: -10px;
-    border-radius: 0px 0px 10px 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
     
     & .MuiList-root {
-        padding-bottom: 0px !important;
+        margin-left: 16px;
+        padding: 0px !important;
+        border-left: 1px solid #ccc;
     }
 
     & ${SideBarItemButton} {
@@ -58,6 +59,6 @@ export const CollapseContainer = styled(Collapse)`
 
     & ${SideBarItemButton}:hover {
         transform: unset;
-        box-shadow: ${Colors.shadow};
+        /* box-shadow: ${Colors.shadow}; */
     }
 `;
