@@ -53,6 +53,7 @@ import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
+import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 
 
@@ -81,6 +82,10 @@ export const Routes = [
   {
     path: "/email-verification",
     element: <EmailVerificationPage />,
+  },
+  {
+    path: "/verifyRegistration?/:token",
+    element: <VerifyRegistration />,
   },
   {
     path: "/main-dashboard",
@@ -262,7 +267,7 @@ export const Routes = [
       },
     ],
   },
-  
+
   {
     path: '/authentication',
     name: "Authentication",
