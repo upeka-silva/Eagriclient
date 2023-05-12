@@ -41,7 +41,7 @@ const GnDivisionForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/gn-division");
+    navigate("/zone/ga-structure/gn-division");
   };
 
   const handleChange = (value, target) => {

@@ -36,7 +36,7 @@ const ProvinceAreaForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/agri-zone/province-area");
+    navigate("/zone/aa-structure/province-area");
   };
 
   const handleChange = (value, target) => {

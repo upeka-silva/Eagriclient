@@ -42,12 +42,12 @@ const DsDivision = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ds-division-form", {
+    navigate("/zone/ga-structure/ds-division-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedDsDivisions[0] || {},
@@ -57,7 +57,7 @@ const DsDivision = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ds-division-form", {
+    navigate("/zone/ga-structure/ds-division-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedDsDivisions[0] || {},

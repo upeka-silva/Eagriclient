@@ -40,12 +40,12 @@ const Province = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/province-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/province-form", {
+    navigate("/zone/ga-structure/province-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedProvinces[0] || {},
@@ -55,7 +55,7 @@ const Province = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/province-form", {
+    navigate("/zone/ga-structure/province-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedProvinces[0] || {},

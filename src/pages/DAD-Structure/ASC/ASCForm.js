@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { Button, TextField, CircularProgress, Autocomplete } from "@mui/material";
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -32,19 +37,19 @@ const ASCForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [options, setOptions] = useState([])
+  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/dad-structure/asc-area");
+    navigate("/zone/dad-structure/asc-area");
   };
 
   useEffect(() => {
-    get_DistrictList().then(({dataList = []}) => {
-      setOptions(dataList)
-    })
-  }, [])
+    get_DistrictList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -100,7 +105,6 @@ const ASCForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-      
         if (formData?.id) {
           await updateAsc(formData, onSuccess, onError);
         } else {
@@ -127,7 +131,8 @@ const ASCForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} ASC
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} ASC
       </FormHeader>
       <FieldWrapper>
         <FieldName>ASC Area Code</FieldName>
@@ -136,7 +141,10 @@ const ASCForm = () => {
           id="ascCode"
           value={formData?.ascCode || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "ascCode")}
           sx={{
             width: "264px",
@@ -168,8 +176,9 @@ const ASCForm = () => {
       <FieldWrapper>
         <FieldName>District ID</FieldName>
         <Autocomplete
-          disableClearable
+          disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
+          value={formData ? formData.districtDto : ""}
           getOptionLabel={(i) => `${i.code} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "districtDto");
@@ -180,17 +189,11 @@ const ASCForm = () => {
               borderRadius: "8px",
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
+        {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>

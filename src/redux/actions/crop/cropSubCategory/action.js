@@ -1,4 +1,4 @@
-import { post } from "../../../../services/api";
+import { put, post } from "../../../../services/api";
 
 export const handleCropSubCategory = async (
   payload = {},
@@ -40,7 +40,7 @@ export const updateCropSubCategory = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(`geo-data/crop-sub-categories/${payload?.id || ''}`, payload, true);
+    const response = await put(`geo-data/crop-sub-categories/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {

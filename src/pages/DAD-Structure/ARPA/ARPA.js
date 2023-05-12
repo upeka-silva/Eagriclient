@@ -41,21 +41,21 @@ const ARPA = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/dad-structure/arpa-area-form", {
+    navigate("/zone/dad-structure/arpa-area-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/dad-structure/arpa-area-form", {
+    navigate("/zone/dad-structure/arpa-area-form", {
       state: { action: DEF_ACTIONS.EDIT, target: selectedArpa[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/dad-structure/arpa-area-form", {
+    navigate("/zone/dad-structure/arpa-area-form", {
       state: { action: DEF_ACTIONS.VIEW, target: selectedArpa[0] || {} },
     });
   };

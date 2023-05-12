@@ -10,6 +10,7 @@ const ProvinceList = ({
 }) => {
 
     const columns = [
+        { field: 'id', headerName: 'ID' },
         { field: 'code', headerName: 'Province Code' },
         { field: 'name', headerName: 'Province Name' },
     ];

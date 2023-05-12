@@ -41,7 +41,7 @@ const ARPAForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/dad-structure/arpa-area");
+    navigate("/zone/dad-structure/arpa-area");
   };
 
   useEffect(() => {
@@ -140,7 +140,10 @@ const ARPAForm = () => {
           id="arpaId"
           value={formData?.arpaId || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "arpaId")}
           sx={{
             width: "264px",
@@ -172,8 +175,9 @@ const ARPAForm = () => {
       <FieldWrapper>
         <FieldName>ASC ID</FieldName>
         <Autocomplete
-          disableClearable
+          disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
+          value={formData ? formData.ascDto : ""}
           getOptionLabel={(i) => `${i.code} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "ascDto");
@@ -184,13 +188,7 @@ const ARPAForm = () => {
               borderRadius: "8px",
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>

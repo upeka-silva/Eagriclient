@@ -41,21 +41,21 @@ const ASC = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/dad-structure/asc-area-form", {
+    navigate("/zone/dad-structure/asc-area-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/dad-structure/asc-area-form", {
+    navigate("/zone/dad-structure/asc-area-form", {
       state: { action: DEF_ACTIONS.EDIT, target: selectedAsc[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/dad-structure/asc-area-form", {
+    navigate("/zone/dad-structure/asc-area-form", {
       state: { action: DEF_ACTIONS.VIEW, target: selectedAsc[0] || {} },
     });
   };

@@ -43,12 +43,12 @@ const AI = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/agri-zone/ai-region-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/ai-region-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/agri-zone/ai-region-form", {
+    navigate("/zone/aa-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedAI[0] || {},
@@ -58,7 +58,7 @@ const AI = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/agri-zone/ai-region-form", {
+    navigate("/zone/aa-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedAI[0] || {},

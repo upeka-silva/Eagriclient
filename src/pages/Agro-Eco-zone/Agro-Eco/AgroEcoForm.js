@@ -42,7 +42,7 @@ const AgroEcoForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/agro-eco-zone");
+    navigate("/zone/ez-structure/agro-eco-zone");
   };
 
   useEffect(() => {

@@ -43,12 +43,12 @@ const GnDivision = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/gn-division-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/gn-division-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/gn-division-form", {
+    navigate("/zone/ga-structure/gn-division-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedGnDivisions[0] || {},
@@ -58,7 +58,7 @@ const GnDivision = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/gn-division-form", {
+    navigate("/zone/ga-structure/gn-division-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedGnDivisions[0] || {},

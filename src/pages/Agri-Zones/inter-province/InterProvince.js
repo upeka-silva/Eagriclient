@@ -38,12 +38,12 @@ const InterProvince = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/agri-zone/inter-province-area-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/inter-province-area-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/agri-zone/inter-province-area-form", {
+    navigate("/zone/aa-structure/inter-province-area-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedInterProvinceArea[0] || {},
@@ -53,7 +53,7 @@ const InterProvince = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/agri-zone/inter-province-area-form", {
+    navigate("/zone/aa-structure/inter-province-area-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedInterProvinceArea[0] || {},

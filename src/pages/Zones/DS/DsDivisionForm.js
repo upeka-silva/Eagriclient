@@ -11,7 +11,10 @@ import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { handleDsDivision, updateDsDivision } from "../../../redux/actions/dsDivision/action";
+import {
+  handleDsDivision,
+  updateDsDivision,
+} from "../../../redux/actions/dsDivision/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -40,7 +43,7 @@ const DsDivisionForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/ds-division");
+    navigate("/zone/ga-structure/ds-division");
   };
 
   useEffect(() => {
@@ -139,7 +142,10 @@ const DsDivisionForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
@@ -171,7 +177,9 @@ const DsDivisionForm = () => {
       <FieldWrapper>
         <FieldName>District Name</FieldName>
         <Autocomplete
+          disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
+          value={formData ? formData.districtDTO : ""}
           getOptionLabel={(i) => `${i.code} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "districtDTO");
@@ -182,13 +190,7 @@ const DsDivisionForm = () => {
               borderRadius: "8px",
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>

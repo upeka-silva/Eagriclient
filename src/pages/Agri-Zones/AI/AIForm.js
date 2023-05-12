@@ -41,7 +41,7 @@ const AIForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/ai-region");
+    navigate("/zone/aa-structure/ai-region");
   };
 
   useEffect(() => {

@@ -9,9 +9,10 @@ const CropSubCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "ID" },
+    { field: "id", headerName: "ID" },
+    { field: "code", headerName: "Sub Category Code" },
     { field: "name", headerName: "Sub Category Name" },
-    { field: "cropCategoryDTO.code", headerName: "Category Name" },
+    { field: "cropCategoryDTO.code", headerName: "Category Code" },
   ];
 
   return (
@@ -19,7 +20,7 @@ const CropSubCategoryList = ({
       <CardWrapper>
         <DataTable
           loadingTable
-          dataEndPoint={"geo-data/sub-crop-categories"}
+          dataEndPoint={"geo-data/crop-sub-categories"}
           columns={columns}
           selectable
           selectedRows={selectedRows}
