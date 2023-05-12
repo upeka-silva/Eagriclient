@@ -208,8 +208,8 @@ const SideBar = () => {
                 </List>
             </Drawer>
             {
-                openSecondery && selectedSubRoute != null ? (
-                    <SubDrawer variant="permanent" open>
+                openSecondery && selectedSubRoute !== null ? (
+                    <SubDrawer variant="permanent" open={openSecondery && selectedSubRoute !== null}>
                         <Toolbar>
                             <Typography variant="h6">{selectedSubRoute?.name || ""}</Typography>
                         </Toolbar>
