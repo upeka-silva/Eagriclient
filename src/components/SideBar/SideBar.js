@@ -209,7 +209,7 @@ const SideBar = () => {
             </Drawer>
             {
                 openSecondery && selectedSubRoute !== null ? (
-                    <SubDrawer variant="permanent" open={openSecondery && selectedSubRoute !== null}>
+                    <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
                         <Toolbar>
                             <Typography variant="h6">{selectedSubRoute?.name || ""}</Typography>
                         </Toolbar>
@@ -293,6 +293,7 @@ const SubDrawer = styledComponents(Drawer)`
     padding-top: 0px !important;
     width: auto !important;
     max-width: 300px;
+    ${props => props?.open ? '' : 'max-width: 0px !important;\ntransition: 0.3 ease;'}
 
     & .MuiDrawer-paper {
         width: auto !important;
