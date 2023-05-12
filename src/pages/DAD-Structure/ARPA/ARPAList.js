@@ -9,6 +9,7 @@ const ARPAList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "id", headerName: "ID" },
     { field: "arpaId", headerName: "ARPA Code" },
     { field: "name", headerName: "ARPA Name" },
     { field: "ascDto.id", headerName: "ASC Code" },

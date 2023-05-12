@@ -9,9 +9,10 @@ const SoilSubTypeList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "id", headerName: "ID" },
     { field: "soilSubTypeCode", headerName: "Soil Sub Type Code" },
     { field: "description", headerName: "Description" },
-    { field: "soilTypeDTO", headerName: "Soil Type Code" },
+    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type Code" },
   ];
 
   return (

@@ -33,7 +33,7 @@ const InterProvinceForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/agri-zone/inter-province-area");
+    navigate("/zone/aa-structure/inter-province-area");
   };
 
   const handleChange = (value, target) => {

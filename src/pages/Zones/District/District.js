@@ -40,12 +40,12 @@ const District = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/district-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/district-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/district-form", {
+    navigate("/zone/ga-structure/district-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedDistricts[0] || {},
@@ -55,7 +55,7 @@ const District = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/district-form", {
+    navigate("/zone/ga-structure/district-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedDistricts[0] || {},

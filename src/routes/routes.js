@@ -158,13 +158,81 @@ export const Routes = [
         path: "/aa-structure",
         name: "Agri Admin Structure",
         isSideBar: true,
-        children: [],
+        children: [
+          {
+            path: "/ai-region",
+            name: "AI Region",
+            isSideBar: true,
+            element: <AI />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/ai-region-form",
+            name: "ASC Form",
+            isSideBar: false,
+            element: <AIForm />,
+          },
+          {
+            path: "/province-area",
+            name: "Province Area",
+            isSideBar: true,
+            icon: CropSquareIcon,
+            element: <ProvinceArea />,
+          },
+          {
+            path: "/province-area-form",
+            name: "Province Area Form",
+            isSideBar: false,
+            icon: CropSquareIcon,
+            element: <ProvinceAreaForm />,
+          },
+          {
+            path: "/inter-province-area",
+            name: "Inter Provinces Area",
+            isSideBar: true,
+            icon: CropSquareIcon,
+            element: <InterProvince />,
+          },
+          {
+            name: "Inter Province Area Form",
+            path: "/inter-province-area-form",
+            element: <InterProvinceForm />,
+            isSideBar: false,
+          },
+        ],
       },
       {
         path: "/dad-structure",
         name: "DAD Structure",
         isSideBar: true,
-        children: [],
+        children: [
+          {
+            path: "/asc-area",
+            name: "ASC Area",
+            isSideBar: true,
+            element: <ASC />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/asc-area-form",
+            name: "ASC Area Form",
+            isSideBar: false,
+            element: <ASCForm />,
+          },
+          {
+            path: "/arpa-area",
+            name: "ARPA Area",
+            isSideBar: true,
+            element: <ARPA />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/arpa-area-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <ARPAForm />,
+          },
+        ],
       },
       {
         path: "/mahaweli-structure",
@@ -176,71 +244,25 @@ export const Routes = [
         path: "/ez-structure",
         name: "Ecological Zone Structure",
         isSideBar: true,
-        children: [],
+        children: [
+          {
+            path: "/agro-eco-zone",
+            name: "Agro Eco Zone",
+            isSideBar: true,
+            element: <AgroEco />,
+            icon: AccountTreeIcon,
+          },
+          {
+            path: "/agro-eco-zone-form",
+            name: "Agro Eco Zone",
+            isSideBar: false,
+            element: <AgroEcoForm />
+          },
+        ],
       },
     ],
   },
-  {
-    path: "/agri-zone",
-    name: "Agri Admin Zone",
-    isSideBar: true,
-    icon: AccountTreeIcon,
-    children: [
-      {
-        path: "/ai-region",
-        name: "AI Region",
-        isSideBar: true,
-        element: <AI />,
-        icon: MyLocationIcon,
-      },
-      {
-        path: "/ai-region-form",
-        name: "ASC Form",
-        isSideBar: false,
-        element: <AIForm />,
-      },
-      {
-        path: "/province-area",
-        name: "Province Area",
-        isSideBar: true,
-        icon: CropSquareIcon,
-        element: <ProvinceArea />,
-      },
-      {
-        path: "/province-area-form",
-        name: "Province Area Form",
-        isSideBar: false,
-        icon: CropSquareIcon,
-        element: <ProvinceAreaForm />,
-      },
-      {
-        path: "/inter-province-area",
-        name: "Inter Provinces Area",
-        isSideBar: true,
-        icon: CropSquareIcon,
-        element: <InterProvince />,
-      },
-      {
-        name: "Inter Province Area Form",
-        path: "/inter-province-area-form",
-        element: <InterProvinceForm />,
-        isSideBar: false,
-      },
-    ],
-  },
-  {
-    path: "/agro-eco-zone",
-    name: "Agro Eco Zone",
-    isSideBar: true,
-    element: <AgroEco />,
-    icon: AccountTreeIcon,
-  },
-  {
-    path: "/agro-eco-zone-form",
-    name: "Agro Eco Zone",
-    isSideBar: false,
-    element: <AgroEcoForm />
-  },
+  
   {
     path: '/authentication',
     name: "Authentication",
@@ -313,40 +335,6 @@ export const Routes = [
   },
 
 
-  {
-    path: '/dad-structure',
-    name: "DAD Structure",
-    isSideBar: true,
-    icon: AccountTreeIcon,
-    children: [
-      {
-        path: "/asc-area",
-        name: "ASC Area",
-        isSideBar: true,
-        element: <ASC />,
-        icon: CropSquareIcon,
-      },
-      {
-        path: "/asc-area-form",
-        name: "ASC Area Form",
-        isSideBar: false,
-        element: <ASCForm />,
-      },
-      {
-        path: "/arpa-area",
-        name: "ARPA Area",
-        isSideBar: true,
-        element: <ARPA />,
-        icon: CropSquareIcon,
-      },
-      {
-        path: "/arpa-area-form",
-        name: "ARPA Area Form",
-        isSideBar: false,
-        element: <ARPAForm />,
-      },
-    ]
-  },
   {
     path: "/crop",
     name: "Crop",

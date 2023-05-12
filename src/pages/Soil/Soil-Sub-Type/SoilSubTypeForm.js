@@ -14,7 +14,10 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleSoilSubType, updateSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import {
+  handleSoilSubType,
+  updateSoilSubType,
+} from "../../../redux/actions/soil/soilSubType/action";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -154,7 +157,10 @@ const SoilSubTypeForm = () => {
           id="soilSubTypeCode"
           value={formData?.soilSubTypeCode || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) =>
             handleChange(e?.target?.value || "", "soilSubTypeCode")
           }
@@ -188,7 +194,9 @@ const SoilSubTypeForm = () => {
       <FieldWrapper>
         <FieldName>Soil Type</FieldName>
         <Autocomplete
+          disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
+          value={formData ? formData.soilTypeDTO : ""}
           getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
           onChange={(event, value) => {
             handleChange(value, "soilTypeDTO");
@@ -203,7 +211,6 @@ const SoilSubTypeForm = () => {
             <TextField
               {...params}
               size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
         />

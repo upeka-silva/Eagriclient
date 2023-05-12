@@ -11,7 +11,10 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleDistrict, updateDistrict } from "../../../redux/actions/district/action";
+import {
+  handleDistrict,
+  updateDistrict,
+} from "../../../redux/actions/district/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -38,7 +41,7 @@ const DistrictForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/district");
+    navigate("/zone/ga-structure/district");
   };
 
   useEffect(() => {
@@ -60,7 +63,7 @@ const DistrictForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
-      setOptions('')
+      setOptions("");
     }
   };
 
@@ -102,7 +105,6 @@ const DistrictForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-       
         if (formData?.id) {
           await updateDistrict(formData, onSuccess, onError);
         } else {
@@ -129,7 +131,8 @@ const DistrictForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} DISTRICT
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} DISTRICT
       </FormHeader>
       <FieldWrapper>
         <FieldName>District Code</FieldName>
@@ -138,7 +141,10 @@ const DistrictForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
@@ -170,8 +176,9 @@ const DistrictForm = () => {
       <FieldWrapper>
         <FieldName>Province Name</FieldName>
         <Autocomplete
-          disableClearable
+          disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
+          value={formData ? formData.provinceDTO : ""}
           getOptionLabel={(i) => `${i.code} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "provinceDTO");
@@ -182,13 +189,7 @@ const DistrictForm = () => {
               borderRadius: "8px",
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>

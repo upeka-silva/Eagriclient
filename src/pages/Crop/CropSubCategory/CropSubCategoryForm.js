@@ -17,7 +17,10 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { handleCropSubCategory, updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import {
+  handleCropSubCategory,
+  updateCropSubCategory,
+} from "../../../redux/actions/crop/cropSubCategory/action";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -134,13 +137,16 @@ const CropSubCategoryForm = () => {
           {state?.action} CROP SUB CATEGORY
         </FormHeader>
         <FieldWrapper>
-          <FieldName>Category ID</FieldName>
+          <FieldName>Sub Category ID</FieldName>
           <TextField
             name="code"
             id="code"
             value={formData?.code || ""}
             fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+            disabled={
+              state?.action === DEF_ACTIONS.VIEW ||
+              state?.action === DEF_ACTIONS.EDIT
+            }
             onChange={(e) => handleChange(e?.target?.value || "", "code")}
             sx={{
               width: "264px",
@@ -152,7 +158,7 @@ const CropSubCategoryForm = () => {
           />
         </FieldWrapper>
         <FieldWrapper>
-          <FieldName>Category Name</FieldName>
+          <FieldName>Sub Category Name</FieldName>
           <TextField
             name="name"
             id="name"
@@ -172,7 +178,9 @@ const CropSubCategoryForm = () => {
         <FieldWrapper>
           <FieldName>Category ID</FieldName>
           <Autocomplete
+            disabled={state?.action === DEF_ACTIONS.VIEW}
             options={options}
+            value={formData ? formData.cropCategoryDTO : ""}
             getOptionLabel={(i) => `${i.code} - ${i.name}`}
             onChange={(event, value) => {
               handleChange(value, "cropCategoryDTO");
@@ -183,13 +191,7 @@ const CropSubCategoryForm = () => {
                 borderRadius: "8px",
               },
             }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                size="small"
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-              />
-            )}
+            renderInput={(params) => <TextField {...params} size="small" />}
           />
         </FieldWrapper>
         <ButtonWrapper>

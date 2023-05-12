@@ -9,9 +9,10 @@ const DistrictList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "id", headerName: "ID" },
     { field: "code", headerName: "District Code" },
     { field: "name", headerName: "District Name" },
-    { field: "provinceDTO", headerName: "Province Name" },
+    { field: "provinceDTO", headerName: "Province Code" },
   ];
 
   return (

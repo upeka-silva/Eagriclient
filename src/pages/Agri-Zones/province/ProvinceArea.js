@@ -46,12 +46,12 @@ const ProvinceArea = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/agri-zone/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/agri-zone/province-area-form", {
+    navigate("/zone/aa-structure/province-area-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedProvinceArea[0] || {},
@@ -61,7 +61,7 @@ const ProvinceArea = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/agri-zone/province-area-form", {
+    navigate("/zone/aa-structure/province-area-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedProvinceArea[0] || {},

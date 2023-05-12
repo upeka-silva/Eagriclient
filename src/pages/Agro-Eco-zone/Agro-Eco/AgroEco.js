@@ -40,12 +40,12 @@ const AgroEco = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/agro-eco-zone-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ez-structure/agro-eco-zone-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/agro-eco-zone-form", {
+    navigate("/zone/ez-structure/agro-eco-zone-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedAgroEco[0] || {},
@@ -55,7 +55,7 @@ const AgroEco = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/agro-eco-zone-form", {
+    navigate("/zone/ez-structure/agro-eco-zone-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedAgroEco[0] || {},

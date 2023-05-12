@@ -32,7 +32,7 @@ const ProvinceForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/province");
+    navigate("/zone/ga-structure/province");
   };
 
   const handleChange = (value, target) => {
