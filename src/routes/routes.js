@@ -37,6 +37,9 @@ import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
 import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
+import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm"
+import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock"
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -238,7 +241,21 @@ export const Routes = [
         path: "/mahaweli-structure",
         name: "Mahaweli Structure",
         isSideBar: true,
-        children: [],
+        children: [
+          {
+            path: "/mahaweli-block",
+            name: "Mahaweli Block",
+            isSideBar: true,
+            element: <MahaweliBlock />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-block-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <MahaweliBlockForm />
+          },
+        ],
       },
       {
         path: "/ez-structure",
