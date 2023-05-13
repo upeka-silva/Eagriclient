@@ -1,12 +1,12 @@
-import { put, post, get, api_delete } from "../../../services/api";
+import { put, post, get, api_delete } from "../../../../services/api"
 
-export const handleProvince = async (
+export const handleInstitutionCat = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("geo-data/provinces", payload, true);
+    const response = await post("geo-data/institution-categories", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -35,10 +35,10 @@ export const handleProvince = async (
 };
 
 
-export const get_ProvinceList = async (
+export const get_InstitutionCatList = async (
 ) => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/provinces", true);
+    const { httpCode, payloadDto } = await get("geo-data/institution-categories", true);
     if (httpCode === '200 OK') {
       return {
         dataList: payloadDto
@@ -55,13 +55,13 @@ export const get_ProvinceList = async (
   }
 };
 
-export const deleteProvince = async (
+export const deleteInstitutionCat = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`geo-data/provinces/${id || ''}`, true);
+    const response = await api_delete(`geo-data/institution-categories/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -89,13 +89,13 @@ export const deleteProvince = async (
   }
 }
 
-export const updateProvince = async (
+export const updateInstitutionCat = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`geo-data/provinces/${payload?.id || ''}`, payload, true);
+    const response = await put(`geo-data/institution-categories/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -122,4 +122,3 @@ export const updateProvince = async (
     }
   }
 };
-

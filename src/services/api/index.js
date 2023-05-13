@@ -184,7 +184,7 @@ const api_delete = async (path = '', requestToken = false, requestSecret = null)
     return new Promise((resolve, reject) => {
         axios.delete(url, configHeaders)
             .then(response => {
-                if (response.status === 202 && response.data) {
+                if ((response.status === 202 || response.status === 200) && response.data) {
                     if (response.data.error) {
                         reject(response.data);
                     } else {

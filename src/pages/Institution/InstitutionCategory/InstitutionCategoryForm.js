@@ -7,7 +7,6 @@ import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
-
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -16,6 +15,8 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
+
+import { updateInstitutionCat, handleInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
@@ -87,20 +88,20 @@ const InstitutionCategoryForm = () => {
     setSaving(false);
   };
 
-  // const handleFormSubmit = async () => {
-  //   if (enableSave()) {
-  //     setSaving(true);
-  //     try {
-  //       if (formData?.id) {
-  //         await updateProvince(formData, onSuccess, onError);
-  //       } else {
-  //         await handleProvince(formData, onSuccess, onError);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }
-  // };
+  const handleFormSubmit = async () => {
+    if (enableSave()) {
+      setSaving(true);
+      try {
+        if (formData?.id) {
+          await updateInstitutionCat(formData, onSuccess, onError);
+        } else {
+          await handleInstitutionCat(formData, onSuccess, onError);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const getPathName = () => {
     return location.pathname === "/" || !location.pathname
@@ -110,7 +111,77 @@ const InstitutionCategoryForm = () => {
 
 
   return (
-    <div>Category</div>
+    <FormWrapper>
+    <ActionWrapper isLeft>
+      <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+        Go back to list
+      </Button>
+    </ActionWrapper>
+    <PathName>{getPathName()}</PathName>
+    <FormHeader>
+      {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} INSTITUTION CATEGORY
+    </FormHeader>
+    <FieldWrapper>
+      <FieldName>Institution Category ID</FieldName>
+      <TextField
+        name="id"
+        id="id"
+        value={formData?.id || ""}
+        fullWidth
+        disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+        onChange={(e) => handleChange(e?.target?.value || "", "id")}
+        sx={{
+          width: "264px",
+          "& .MuiInputBase-root": {
+            height: "30px",
+            borderRadius: "8px",
+          },
+        }}
+      />
+    </FieldWrapper>
+    <FieldWrapper>
+      <FieldName>Description</FieldName>
+      <TextField
+        name="description"
+        id="description"
+        value={formData?.description || ""}
+        fullWidth
+        disabled={state?.action === DEF_ACTIONS.VIEW}
+        onChange={(e) => handleChange(e?.target?.value || "", "description")}
+        sx={{
+          width: "264px",
+          "& .MuiInputBase-root": {
+            height: "30px",
+            borderRadius: "8px",
+          },
+        }}
+      />
+    </FieldWrapper>
+    <ButtonWrapper isCeneter>
+      {state?.action !== DEF_ACTIONS.VIEW && (
+        <ActionWrapper>
+          {saving ? (
+            <AddButton variant="contained" disabled>
+              {state?.action === DEF_ACTIONS.ADD
+                ? "ADDING..."
+                : "UPDATING..."}
+            </AddButton>
+          ) : (
+            <>
+              <AddButton
+                variant="contained"
+                disabled={!enableSave()}
+                onClick={handleFormSubmit}
+              >
+                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+              </AddButton>
+              <ResetButton onClick={resetForm}>RESET</ResetButton>
+            </>
+          )}
+        </ActionWrapper>
+      )}
+    </ButtonWrapper>
+  </FormWrapper>
   )
 }
 
