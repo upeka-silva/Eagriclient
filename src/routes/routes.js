@@ -38,6 +38,11 @@ import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
 
+import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
+import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
+import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
+import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/InstitutionCategoryForm";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -51,8 +56,8 @@ import KeyIcon from '@mui/icons-material/Key';
 import ForestIcon from '@mui/icons-material/Forest';
 import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
-import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
-import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
+import ApartmentIcon from '@mui/icons-material/Apartment';
+
 
 
 
@@ -368,6 +373,27 @@ export const Routes = [
         element: <CropSubCategoryForm />,
       },
 
+    ],
+  },
+  {
+    path: "/institution",
+    name: "Institution",
+    isSideBar: true,
+    icon: ApartmentIcon,
+    children: [
+      {
+        path: "/institution-category",
+        name: "Institution Category",
+        isSideBar: true,
+        element: <InstitutionCategory />,
+        icon: ApartmentIcon,
+      },
+      {
+        path: "/institution-category-form",
+        name: "Institution Category Form",
+        isSideBar: false,
+        element: <InstitutionCategoryForm />,
+      },
     ],
   },
 
