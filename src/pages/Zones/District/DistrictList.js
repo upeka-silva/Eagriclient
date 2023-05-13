@@ -12,7 +12,7 @@ const DistrictList = ({
     { field: "id", headerName: "ID" },
     { field: "code", headerName: "District Code" },
     { field: "name", headerName: "District Name" },
-    { field: "provinceDTO", headerName: "Province Code" },
+    { field: "provinceDTO.code", headerName: "Province Code" },
   ];
 
   return (
