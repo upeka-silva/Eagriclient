@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper"
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 
 import { useNavigate } from "react-router";
-import SoilSubTypeList from "./SoilSubTypeList"
+import SoilSubTypeList from "./SoilSubTypeList";
 
 const SoilSubType = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
 
@@ -39,7 +41,9 @@ const SoilSubType = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/soil/soil-sub-type-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/soil/soil-sub-type-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -62,36 +66,20 @@ const SoilSubType = () => {
     });
   };
 
-
   return (
     <div>
       <ActionWrapper>
-         {/* <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
-        </PermissionWrapper> */}
-        <PermissionWrapper withoutPermissions>
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
         </PermissionWrapper>
         {selectedSoilSubTypes.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -102,20 +90,10 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-         {selectedSoilSubTypes.length === 1 && (
-          //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
-          //  >
-          //      <Button
-          //          variant='contained'
-          //          color='info'
-          //          onClick={onView}
-          //          sx={{ ml: '8px' }}
-          //      >
-          //          {DEF_ACTIONS.VIEW}
-          //      </Button>
-          //  </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+        {selectedSoilSubTypes.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -127,17 +105,9 @@ const SoilSubType = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-      {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL}`}
+      <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
         <SoilSubTypeList
           selectedRows={selectedSoilSubTypes}
           onRowSelect={toggleSoilSubTypesSelect}
@@ -146,7 +116,7 @@ const SoilSubType = () => {
         />
       </PermissionWrapper>
     </div>
-  )
-}
+  );
+};
 
-export default SoilSubType
+export default SoilSubType;

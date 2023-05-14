@@ -46,12 +46,12 @@ const ProvinceArea = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/agri-zone/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/agri-zone/province-area-form", {
+    navigate("/zone/aa-structure/province-area-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedProvinceArea[0] || {},
@@ -61,7 +61,7 @@ const ProvinceArea = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/agri-zone/province-area-form", {
+    navigate("/zone/aa-structure/province-area-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedProvinceArea[0] || {},
@@ -74,26 +74,18 @@ const ProvinceArea = () => {
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper withoutPermissions>
+      <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE_AREA}`}
+        >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
 
         {selectedProvinceArea.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE_AREA}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -105,19 +97,9 @@ const ProvinceArea = () => {
           </PermissionWrapper>
         )}
        {selectedProvinceArea.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE_AREA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="info"
-          //     onClick={onView}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.VIEW}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE_AREA}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -129,24 +111,17 @@ const ProvinceArea = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-       {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+       <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE_AREA}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <ProvinceAreaList
+       <ProvinceAreaList
           selectedRows={selectedProvinceArea}
           onRowSelect={toggleProvinceAreaSelect}
           selectAll={selectAllProvinceArea}
           unSelectAll={resetSelectedProvinceArea}
         />
       </PermissionWrapper>
+     
     </div>
   );
 };

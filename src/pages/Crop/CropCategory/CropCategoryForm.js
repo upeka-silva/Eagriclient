@@ -16,7 +16,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { handleCropCategory } from "../../../redux/actions/crop/cropCategory/action";
+import { handleCropCategory, updateCropCategory } from "../../../redux/actions/crop/cropCategory/action";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -93,7 +93,11 @@ const CropCategoryForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleCropCategory(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateCropCategory(formData, onSuccess, onError);
+        } else {
+          await handleCropCategory(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -116,8 +120,8 @@ const CropCategoryForm = () => {
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
         <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-          Crop Category
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+          {state?.action} CROP CATEGORY
         </FormHeader>
         <FieldWrapper>
           <FieldName>Category ID</FieldName>
@@ -126,7 +130,7 @@ const CropCategoryForm = () => {
             id="code"
             value={formData?.code || ""}
             fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
+            disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
             onChange={(e) => handleChange(e?.target?.value || "", "code")}
             sx={{
               width: "264px",
@@ -156,7 +160,7 @@ const CropCategoryForm = () => {
           />
         </FieldWrapper>
         <ButtonWrapper>
-        {state?.action !== DEF_ACTIONS.VIEW && (
+          {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
                 <AddButton variant="contained" disabled>

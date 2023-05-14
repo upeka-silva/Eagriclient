@@ -1,32 +1,33 @@
 import React, { useState } from "react";
 import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useNavigate } from "react-router";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { deleteProvince } from "../../../redux/actions/province/action";
-import { useSnackBars } from "../../../context/SnackBarContext";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import MahaweliBlockList from "./MahaweliBlockList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useSnackBars } from "../../../context/SnackBarContext";
 
-const Province = () => {
+const MahaweliBlock = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
+
+  const [selectMahaweliBlocks, setSelectedMahaweliBlocks] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const { addSnackBar } = useSnackBars();
 
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [selectedProvinces, setSelectedProvinces] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const toggleProvinceSelect = (component) => {
-    setSelectedProvinces((current = []) => {
+  const toggleMahaweliBlockSelect = (component) => {
+    setSelectedMahaweliBlocks((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -38,39 +39,40 @@ const Province = () => {
     });
   };
 
-  const selectAllProvinces = (all = []) => {
-    setSelectedProvinces(all);
+  const selectAllMahaweliBlocks = (all = []) => {
+    setSelectedMahaweliBlocks(all);
   };
 
-  const resetSelectedProvinces = () => {
-    setSelectedProvinces([]);
+  const resetSelectedMahaweliBlocks = () => {
+    setSelectedMahaweliBlocks([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ga-structure/province-form", {
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedProvinces[0] || {},
+        target: selectMahaweliBlocks[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ga-structure/province-form", {
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedProvinces[0] || {},
+        target: selectMahaweliBlocks[0] || {},
       },
     });
   };
-
   const onDelete = () => {
     setOpen(true);
   }
@@ -79,11 +81,12 @@ const Province = () => {
     setOpen(false);
   }
 
+
   const renderSelectedItems = () => {
     return (
       <List>
         {
-          selectedProvinces.map((p, key) => {
+          selectMahaweliBlocks.map((p, key) => {
             return (
               <ListItem>
                 <ListItemIcon>
@@ -104,6 +107,7 @@ const Province = () => {
     )
   }
 
+
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
@@ -118,15 +122,16 @@ const Province = () => {
     });
   };
 
+
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const province of selectedProvinces) {
-        await deleteProvince(province?.id, onSuccess, onError)
+      for (const mahaweliBlock of selectMahaweliBlocks) {
+        await deleteMahaweliBlock(mahaweliBlock?.id, onSuccess, onError)
       }
       setLoading(false);
       close();
-      resetSelectedProvinces()
+      resetSelectedMahaweliBlocks()
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -137,15 +142,15 @@ const Province = () => {
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedProvinces.length === 1 && (
+        {selectMahaweliBlocks.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -157,9 +162,9 @@ const Province = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedProvinces.length === 1 && (
+        {selectMahaweliBlocks.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -170,11 +175,10 @@ const Province = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-
         )}
-        {selectedProvinces.length > 0 && (
+        {selectMahaweliBlocks.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCE}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -189,18 +193,14 @@ const Province = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
       >
-        {
-          loading === false && (
-            <ProvinceList
-              selectedRows={selectedProvinces}
-              onRowSelect={toggleProvinceSelect}
-              selectAll={selectAllProvinces}
-              unSelectAll={resetSelectedProvinces}
-            />
-          )
-        }
+        <MahaweliBlockList
+          selectedRows={selectMahaweliBlocks}
+          onRowSelect={toggleMahaweliBlockSelect}
+          selectAll={selectAllMahaweliBlocks}
+          unSelectAll={resetSelectedMahaweliBlocks}
+        />
       </PermissionWrapper>
       <DialogBox
         open={open}
@@ -236,4 +236,4 @@ const Province = () => {
   );
 };
 
-export default Province;
+export default MahaweliBlock;

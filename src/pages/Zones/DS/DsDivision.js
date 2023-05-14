@@ -42,12 +42,12 @@ const DsDivision = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ds-division-form", {
+    navigate("/zone/ga-structure/ds-division-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedDsDivisions[0] || {},
@@ -57,7 +57,7 @@ const DsDivision = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ds-division-form", {
+    navigate("/zone/ga-structure/ds-division-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedDsDivisions[0] || {},
@@ -69,32 +69,17 @@ const DsDivision = () => {
   return (
     <div>
       <ActionWrapper>
-        {/* <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DSDIVISION}`}
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper> */}
-        <PermissionWrapper withoutPermissions>
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
         {selectedDsDivisions.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DSDIVISION}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -104,44 +89,28 @@ const DsDivision = () => {
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
+      
         )}
          {selectedDsDivisions.length === 1 && (
-          //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DSDIVISION}`}
-          //  >
-          //      <Button
-          //          variant='contained'
-          //          color='info'
-          //          onClick={onView}
-          //          sx={{ ml: '8px' }}
-          //      >
-          //          {DEF_ACTIONS.VIEW}
-          //      </Button>
-          //  </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
+               <PermissionWrapper
+               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+           >
+               <Button
+                   variant='contained'
+                   color='info'
+                   onClick={onView}
+                   sx={{ ml: '8px' }}
+               >
+                   {DEF_ACTIONS.VIEW}
+               </Button>
+           </PermissionWrapper>
+      
         )}
       </ActionWrapper>
-       {/* <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DSDIVISION}`}
+       <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DS_DIVISION}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <DsDivisionList
+      <DsDivisionList
           selectedRows={selectedDsDivisions}
           onRowSelect={toggleDsDivisionSelect}
           selectAll={selectAllDsDivisions}

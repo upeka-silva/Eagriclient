@@ -10,6 +10,7 @@ const SoilTypeList = ({
 }) => {
 
   const columns = [
+    { field: 'id', headerName: 'ID' },
     { field: 'soilTypeCode', headerName: 'Soil Type Code' },
     { field: 'description', headerName: 'Description' },
 ];

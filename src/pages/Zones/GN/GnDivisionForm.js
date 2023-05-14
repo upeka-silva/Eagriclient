@@ -41,7 +41,7 @@ const GnDivisionForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/gn-division");
+    navigate("/zone/ga-structure/gn-division");
   };
 
   const handleChange = (value, target) => {
@@ -128,8 +128,7 @@ const GnDivisionForm = () => {
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
         <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-          Grama Niladari Division
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} ADD GRAMA NILADARI DIVISION
         </FormHeader>
       </div>
       <Grid direction="row" container>
@@ -141,7 +140,7 @@ const GnDivisionForm = () => {
               id="id"
               value={formData?.id || ""}
               fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
               onChange={(e) => handleChange(e?.target?.value || "", "id")}
               sx={{
                 width: "264px",

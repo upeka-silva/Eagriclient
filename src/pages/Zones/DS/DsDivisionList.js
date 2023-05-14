@@ -9,9 +9,10 @@ const DsDivisionList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "id", headerName: "ID" },
     { field: "code", headerName: "DS Division Code" },
     { field: "name", headerName: "DS Division Name" },
-    { field: "districtDTOList", headerName: "District Name" },
+    { field: "districtDTOList.id", headerName: "District Code" },
   ];
 
   return (

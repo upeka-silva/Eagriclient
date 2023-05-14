@@ -4,9 +4,12 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleSoilType } from "../../../redux/actions/soil/soilType/action";
+import { handleSoilType, updateSoilType } from "../../../redux/actions/soil/soilType/action";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -88,7 +91,11 @@ const SoilTypeForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleSoilType(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateSoilType(formData, onSuccess, onError);
+        } else {
+          await handleSoilType(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -110,8 +117,8 @@ const SoilTypeForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a Soil
-        type
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} SOIL TYPE
       </FormHeader>
       <FieldWrapper>
         <FieldName>Soil Type Code</FieldName>
@@ -120,7 +127,7 @@ const SoilTypeForm = () => {
           id="soilTypeCode"
           value={formData?.soilTypeCode || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "soilTypeCode")}
           sx={{
             width: "264px",

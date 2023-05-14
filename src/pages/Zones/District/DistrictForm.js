@@ -11,7 +11,10 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleDistrict } from "../../../redux/actions/district/action";
+import {
+  handleDistrict,
+  updateDistrict,
+} from "../../../redux/actions/district/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -33,16 +36,19 @@ const DistrictForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [provinceList, setProvinceList] = useState([get_ProvinceList]);
-  const [province, setProvince] = useState("");
-  const [inputProvince, setInputProvince] = useState("");
-  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/district");
+    navigate("/zone/ga-structure/district");
   };
+
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -57,6 +63,7 @@ const DistrictForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setOptions("");
     }
   };
 
@@ -98,7 +105,11 @@ const DistrictForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleDistrict(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateDistrict(formData, onSuccess, onError);
+        } else {
+          await handleDistrict(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -120,8 +131,8 @@ const DistrictForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a
-        District
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} DISTRICT
       </FormHeader>
       <FieldWrapper>
         <FieldName>District Code</FieldName>
@@ -130,7 +141,10 @@ const DistrictForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
@@ -162,25 +176,20 @@ const DistrictForm = () => {
       <FieldWrapper>
         <FieldName>Province Name</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={provinceList}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={options}
+          value={formData ? formData.provinceDTO : ""}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          onChange={(event, value) => {
+            handleChange(value, "provinceDTO");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>

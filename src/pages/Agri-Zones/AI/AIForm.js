@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Button, TextField, CircularProgress, Autocomplete } from "@mui/material";
+import {
+  Button,
+  TextField,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -15,9 +20,10 @@ import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton"
-import { ResetButton } from "../../../components/FormLayout/ResetButton"
+import { AddButton } from "../../../components/FormLayout/AddButton";
+import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
+import { get_ASC } from "../../../redux/actions/asc/action";
 
 const AIForm = () => {
   useUserAccessValidation();
@@ -28,13 +34,21 @@ const AIForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [open, setOpen] = useState(false)
+  const [ascList, setAscList] = useState([]);
+  const [parentType, setParentType] = useState([]);
+  const [parentValue, setParentValue] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/ai-region");
+    navigate("/zone/aa-structure/ai-region");
   };
+
+  useEffect(() => {
+    get_ASC().then(({ dataList = [] }) => {
+      setAscList(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -120,15 +134,13 @@ const AIForm = () => {
         Region
       </FormHeader>
       <FieldWrapper>
-        <FieldName>
-          Region ID
-        </FieldName>
+        <FieldName>Region ID</FieldName>
         <TextField
           name="id"
           id="id"
           value={formData?.id || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
           onChange={(e) => handleChange(e?.target?.value || "", "id")}
           sx={{
             width: "264px",
@@ -140,9 +152,7 @@ const AIForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>
-          Description
-        </FieldName>
+        <FieldName>Description</FieldName>
         <TextField
           name="description"
           id="id"
@@ -162,22 +172,21 @@ const AIForm = () => {
       <FieldWrapper>
         <FieldName>Parent Type</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={""}
+          options={parentType}
           getOptionLabel={(option) => option.name}
+          onChange={(event, value) => {
+            handleChange(value, "");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
+              size="small"
               disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
@@ -186,22 +195,21 @@ const AIForm = () => {
       <FieldWrapper>
         <FieldName>Parent Value</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={""}
+          options={parentValue}
           getOptionLabel={(option) => option.name}
+          onChange={(event, value) => {
+            handleChange(value, "");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
+              size="small"
               disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
@@ -210,29 +218,28 @@ const AIForm = () => {
       <FieldWrapper>
         <FieldName>ASC Region ID</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={""}
-          getOptionLabel={(option) => option.name}
+          options={ascList}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          onChange={(event, value) => {
+            handleChange(value, "");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
+              size="small"
               disabled={state?.action === DEF_ACTIONS.VIEW}
             />
           )}
         />
       </FieldWrapper>
       <ButtonWrapper>
-      {state?.action !== DEF_ACTIONS.VIEW && (
+        {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
               <AddButton variant="contained" disabled>

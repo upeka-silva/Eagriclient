@@ -217,21 +217,6 @@ const Login = () => {
                     />
 
                     <LinkWrapper>
-                      <FormControlLabel
-                        style={{
-                          color: `${Colors.buttonColor}`,
-                          fontSize: "14px",
-                          fontWeight: 400,
-                        }}
-                        control={
-                          <Checkbox
-                            value="remember"
-                            color="primary"
-                            size="small"
-                          />
-                        }
-                        label="Remember me"
-                      />
                       <Link
                         href="#"
                         style={{
@@ -313,7 +298,7 @@ const LinkWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   margin: 20px 0px;
 `;
 

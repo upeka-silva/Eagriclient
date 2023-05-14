@@ -37,6 +37,9 @@ import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
 import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
+import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm"
+import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock"
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -53,6 +56,7 @@ import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
+import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 
 
@@ -83,6 +87,10 @@ export const Routes = [
     element: <EmailVerificationPage />,
   },
   {
+    path: "/verifyRegistration?/:token",
+    element: <VerifyRegistration />,
+  },
+  {
     path: "/main-dashboard",
     name: "Dashboard",
     isSideBar: true,
@@ -96,120 +104,187 @@ export const Routes = [
     icon: AccountTreeIcon,
     children: [
       {
-        path: "/province",
-        name: "Province",
+        path: "/ga-structure",
+        name: "General Admin Structure",
         isSideBar: true,
-        element: <Province />,
-        icon: CropSquareIcon,
+        children: [
+          {
+            path: "/province",
+            name: "Province",
+            isSideBar: true,
+            element: <Province />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/province-form",
+            name: "Province Form",
+            isSideBar: false,
+            element: <ProvinceForm />,
+          },
+          {
+            path: "/district",
+            name: "District",
+            isSideBar: true,
+            element: <District />,
+            icon: StreetviewIcon,
+          },
+          {
+            path: "/district-form",
+            name: "District Form",
+            isSideBar: false,
+            element: <DistrictForm />,
+          },
+          {
+            path: "/ds-division",
+            name: "DS Division",
+            isSideBar: true,
+            element: <DsDivision />,
+            icon: StreetviewIcon,
+          },
+          {
+            path: "/ds-division-form",
+            name: "DS Division Form",
+            isSideBar: false,
+            element: <DsDivisionForm />,
+          },
+          {
+            path: "/gn-division",
+            name: "GN Division",
+            isSideBar: true,
+            element: <GnDivision />,
+            // icon: StreetviewIcon,
+          },
+          {
+            path: "/gn-division-form",
+            name: "GN Division Form",
+            isSideBar: false,
+            element: <GnDivisionForm />,
+          },
+        ],
       },
       {
-        path: "/province-form",
-        name: "Province Form",
-        isSideBar: false,
-        element: <ProvinceForm />,
-      },
-      {
-        path: "/district",
-        name: "District",
+        path: "/aa-structure",
+        name: "Agri Admin Structure",
         isSideBar: true,
-        element: <District />,
-        icon: StreetviewIcon,
+        children: [
+          {
+            path: "/ai-region",
+            name: "AI Region",
+            isSideBar: true,
+            element: <AI />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/ai-region-form",
+            name: "ASC Form",
+            isSideBar: false,
+            element: <AIForm />,
+          },
+          {
+            path: "/province-area",
+            name: "Province Area",
+            isSideBar: true,
+            icon: CropSquareIcon,
+            element: <ProvinceArea />,
+          },
+          {
+            path: "/province-area-form",
+            name: "Province Area Form",
+            isSideBar: false,
+            icon: CropSquareIcon,
+            element: <ProvinceAreaForm />,
+          },
+          {
+            path: "/inter-province-area",
+            name: "Inter Provinces Area",
+            isSideBar: true,
+            icon: CropSquareIcon,
+            element: <InterProvince />,
+          },
+          {
+            name: "Inter Province Area Form",
+            path: "/inter-province-area-form",
+            element: <InterProvinceForm />,
+            isSideBar: false,
+          },
+        ],
       },
       {
-        path: "/district-form",
-        name: "District Form",
-        isSideBar: false,
-        element: <DistrictForm />,
-      },
-      {
-        path: "/ds-division",
-        name: "DS Division",
+        path: "/dad-structure",
+        name: "DAD Structure",
         isSideBar: true,
-        element: <DsDivision />,
-        icon: StreetviewIcon,
+        children: [
+          {
+            path: "/asc-area",
+            name: "ASC Area",
+            isSideBar: true,
+            element: <ASC />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/asc-area-form",
+            name: "ASC Area Form",
+            isSideBar: false,
+            element: <ASCForm />,
+          },
+          {
+            path: "/arpa-area",
+            name: "ARPA Area",
+            isSideBar: true,
+            element: <ARPA />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/arpa-area-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <ARPAForm />,
+          },
+        ],
       },
       {
-        path: "/ds-division-form",
-        name: "DS Division Form",
-        isSideBar: false,
-        element: <DsDivisionForm />,
-      },
-      {
-        path: "/gn-division",
-        name: "GN Division",
+        path: "/mahaweli-structure",
+        name: "Mahaweli Structure",
         isSideBar: true,
-        element: <GnDivision />,
-        icon: StreetviewIcon,
+        children: [
+          {
+            path: "/mahaweli-block",
+            name: "Mahaweli Block",
+            isSideBar: true,
+            element: <MahaweliBlock />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-block-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <MahaweliBlockForm />
+          },
+        ],
       },
       {
-        path: "/gn-division-form",
-        name: "GN Division Form",
-        isSideBar: false,
-        element: <GnDivisionForm />,
+        path: "/ez-structure",
+        name: "Ecological Zone Structure",
+        isSideBar: true,
+        children: [
+          {
+            path: "/agro-eco-zone",
+            name: "Agro Eco Zone",
+            isSideBar: true,
+            element: <AgroEco />,
+            icon: AccountTreeIcon,
+          },
+          {
+            path: "/agro-eco-zone-form",
+            name: "Agro Eco Zone",
+            isSideBar: false,
+            element: <AgroEcoForm />
+          },
+        ],
       },
     ],
   },
-  {
-    path: "/agri-zone",
-    name: "Agri Admin Zone",
-    isSideBar: true,
-    icon: AccountTreeIcon,
-    children: [
-      {
-        path: "/ai-region",
-        name: "AI Region",
-        isSideBar: true,
-        element: <AI />,
-        icon: MyLocationIcon,
-      },
-      {
-        path: "/ai-region-form",
-        name: "ASC Form",
-        isSideBar: false,
-        element: <AIForm />,
-      },
-      {
-        path: "/province-area",
-        name: "Province Area",
-        isSideBar: true,
-        icon: CropSquareIcon,
-        element: <ProvinceArea />,
-      },
-      {
-        path: "/province-area-form",
-        name: "Province Area Form",
-        isSideBar: false,
-        icon: CropSquareIcon,
-        element: <ProvinceAreaForm />,
-      },
-      {
-        path: "/inter-province-area",
-        name: "Inter Provinces Area",
-        isSideBar: true,
-        icon: CropSquareIcon,
-        element: <InterProvince />,
-      },
-      {
-        name: "Inter Province Area Form",
-        path: "/inter-province-area-form",
-        element: <InterProvinceForm />,
-        isSideBar: false,
-      },
-    ],
-  },
-  {
-    path: "/agro-eco-zone",
-    name: "Agro Eco Zone",
-    isSideBar: true,
-    element: <AgroEco />,
-    icon: AccountTreeIcon,
-  },
-  {
-    path: "/agro-eco-zone-form",
-    name: "Agro Eco Zone",
-    isSideBar: false,
-    element: <AgroEcoForm />
-  },
+
   {
     path: '/authentication',
     name: "Authentication",
@@ -280,42 +355,8 @@ export const Routes = [
 
     ]
   },
-  
 
-  {
-    path: '/dad-structure',
-    name: "DAD Structure",
-    isSideBar: true,
-    icon: AccountTreeIcon,
-    children: [
-      {
-        path: "/asc-area",
-        name: "ASC Area",
-        isSideBar: true,
-        element: <ASC />,
-        icon: CropSquareIcon,
-      },
-      {
-        path: "/asc-area-form",
-        name: "ASC Area Form",
-        isSideBar: false,
-        element: <ASCForm />,
-      },
-      {
-        path: "/arpa-area",
-        name: "ARPA Area",
-        isSideBar: true,
-        element: <ARPA />,
-        icon: CropSquareIcon,
-      },
-      {
-        path: "/arpa-area-form",
-        name: "ARPA Area Form",
-        isSideBar: false,
-        element: <ARPAForm />,
-      },
-    ]
-  },
+
   {
     path: "/crop",
     name: "Crop",
@@ -348,7 +389,7 @@ export const Routes = [
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },
-     
+
     ],
   },
 

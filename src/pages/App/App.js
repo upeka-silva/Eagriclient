@@ -9,10 +9,14 @@ import AppHeader from "../../components/AppHeader/AppHeader"
 import styled from "styled-components";
 import { SnackBarProvider } from "../../context/SnackBarContext";
 import SnackBars from "../../components/SnackBar/SnackBars";
+import { useIsUserLoggedIn } from "../../hooks/authentication";
 
 const appTheme = createTheme(theme);
 
 const App = () => {
+
+  const userAuthenticated = useIsUserLoggedIn();
+
   return (
     <ThemeProvider theme={appTheme}>
       <SnackBarProvider>
@@ -22,7 +26,7 @@ const App = () => {
               component={<SideBar />}
               withoutPermissions
             />
-            <PageWrapper>
+            <PageWrapper sx={userAuthenticated ? 'padding-right: 12px;' : ''}>
               <PermissionWrapper
                 component={<AppHeader />}
                 withoutPermissions
@@ -50,6 +54,7 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding-right: 12px;
+  ${props => props.sx ? props.sx : ''}
+  /* padding-right: 12px; */
   overflow: scroll;
 `;

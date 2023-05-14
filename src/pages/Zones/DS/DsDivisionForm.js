@@ -1,12 +1,20 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress, Autocomplete } from "@mui/material";
+import {
+  TextField,
+  Button,
+  CircularProgress,
+  Autocomplete,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { handleDsDivision } from "../../../redux/actions/dsDivision/action";
+import {
+  handleDsDivision,
+  updateDsDivision,
+} from "../../../redux/actions/dsDivision/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
@@ -19,9 +27,9 @@ import { PathName } from "../../../components/FormLayout/PathName";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
+import { useEffect } from "react";
 
 const DsDivisionForm = () => {
-  
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -30,16 +38,19 @@ const DsDivisionForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [districtList, setDistrictList] = useState([get_DistrictList]);
-  const [district, setDistrict] = useState("");
-  const [inputDistrict, setInputDistrict] = useState("");
-  const [open, setOpen] = useState(false);
+  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/ds-division");
+    navigate("/zone/ga-structure/ds-division");
   };
+
+  useEffect(() => {
+    get_DistrictList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -95,7 +106,11 @@ const DsDivisionForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleDsDivision(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateDsDivision(formData, onSuccess, onError);
+        } else {
+          await handleDsDivision(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -127,7 +142,10 @@ const DsDivisionForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
@@ -159,25 +177,20 @@ const DsDivisionForm = () => {
       <FieldWrapper>
         <FieldName>District Name</FieldName>
         <Autocomplete
-          disabled
-          open={open}
-          disablePortal
-          options={get_DistrictList}
-          getOptionLabel={(option) => option.name}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              sx={{
-                width: "264px",
-                "& .MuiInputBase-root": {
-                  textAlign: "center",
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={options}
+          value={formData ? formData.districtDTO : ""}
+          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          onChange={(event, value) => {
+            handleChange(value, "districtDTO");
+          }}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper>

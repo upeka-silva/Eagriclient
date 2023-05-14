@@ -18,7 +18,7 @@ const ProvinceAreaList = ({
     <CardWrapper>
     <DataTable
          loadingTable
-         dataEndPoint={'agri-zone/province-area'}
+         dataEndPoint={'geo-data/ag-province-area'}
          columns={columns}
          selectable
          selectedRows={selectedRows}
