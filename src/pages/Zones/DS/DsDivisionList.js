@@ -12,7 +12,7 @@ const DsDivisionList = ({
     { field: "id", headerName: "ID" },
     { field: "code", headerName: "DS Division Code" },
     { field: "name", headerName: "DS Division Name" },
-    { field: "districtDTOList.id", headerName: "District Code" },
+    // { field: "districtDTOList.id", headerName: "District Code" },
   ];
 
   return (

@@ -6,7 +6,7 @@ export const handleAI = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("ai", payload, true);
+    const response = await post("geo-data/ai-region", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {

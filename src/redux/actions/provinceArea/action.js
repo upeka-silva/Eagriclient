@@ -1,4 +1,4 @@
-import { put, post } from "../../../services/api";
+import { put, post, api_delete } from "../../../services/api";
 
 export const handleProvinceArea = async (
   payload = {},
@@ -67,4 +67,38 @@ export const updateProvinceArea = async (
     }
   }
 };
+
+export const deleteProvinceArea = async (
+  id,
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await api_delete(`geo-data/provinces/${id || ''}`, true);
+    console.log(response)
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+}
 
