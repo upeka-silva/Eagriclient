@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -8,12 +8,21 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import { useNavigate } from "react-router";
 import SoilSubTypeList from "./SoilSubTypeList";
+import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
 
 const SoilSubType = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
+  const { addSnackBar } = useSnackBars();
+
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
@@ -66,6 +75,70 @@ const SoilSubType = () => {
     });
   };
 
+
+
+  const onDelete = () => {
+    setOpen(true);
+  }
+
+  const close = () => {
+    setOpen(false);
+  }
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {
+          selectedSoilSubTypes.map((p, key) => {
+            return (
+              <ListItem>
+                <ListItemIcon>
+                  {
+                    loading ? (
+                      <CircularProgress size={16} />
+                    ) : (
+                      <RadioButtonCheckedIcon color="info" />
+                    )
+                  }
+                </ListItemIcon>
+                <ListItemText>{p.soilSubTypeCode} - {p.description}</ListItemText>
+              </ListItem>
+            )
+          })
+        }
+      </List>
+    )
+  }
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Something went wrong.",
+    });
+  };
+
+  const onConfirm = async () => {
+    try {
+      setLoading(true);
+      for (const soilSubType of selectedSoilSubTypes) {
+        await deleteSoilSubType(soilSubType?.id, onSuccess, onError)
+      }
+      setLoading(false);
+      close();
+      resetSelectedSoilSubTypes()
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  }
+
   return (
     <div>
       <ActionWrapper>
@@ -104,6 +177,21 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
+          {selectedSoilSubTypes.length > 0 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+          >
+            <Button
+              variant="contained"
+              color="error"
+              onClick={onDelete}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.DELETE}
+            </Button>
+          </PermissionWrapper>
+
+        )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
@@ -115,6 +203,36 @@ const SoilSubType = () => {
           unSelectAll={resetSelectedSoilSubTypes}
         />
       </PermissionWrapper>
+      <DialogBox
+        open={open}
+        title="Delete Province(s)"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <Typography>Are you sure to delete the following items?</Typography>
+          <Divider sx={{ mt: '16px' }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };
