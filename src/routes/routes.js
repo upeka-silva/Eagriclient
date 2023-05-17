@@ -37,6 +37,9 @@ import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
 import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
+import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm"
+import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock"
+
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -58,6 +61,8 @@ import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 
+
+import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 
 
@@ -86,6 +91,10 @@ export const Routes = [
   {
     path: "/email-verification",
     element: <EmailVerificationPage />,
+  },
+  {
+    path: "/verifyRegistration?/:token",
+    element: <VerifyRegistration />,
   },
   {
     path: "/main-dashboard",
@@ -243,7 +252,21 @@ export const Routes = [
         path: "/mahaweli-structure",
         name: "Mahaweli Structure",
         isSideBar: true,
-        children: [],
+        children: [
+          {
+            path: "/mahaweli-block",
+            name: "Mahaweli Block",
+            isSideBar: true,
+            element: <MahaweliBlock />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-block-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <MahaweliBlockForm />
+          },
+        ],
       },
       {
         path: "/ez-structure",
@@ -267,7 +290,7 @@ export const Routes = [
       },
     ],
   },
-  
+
   {
     path: '/authentication',
     name: "Authentication",

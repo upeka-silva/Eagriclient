@@ -30,3 +30,22 @@ export const useUserAccessValidation = () => {
 
     return initilizing;
 }
+
+export const useIsUserLoggedIn = () => {
+    const [loggedIn, setLoggedIn] = useState(false);
+
+    const validateUser = async () => {
+        try {
+            const isloggedIn = await getUserLoggedState();
+            setLoggedIn(isloggedIn || false);
+        } catch (error) {
+            setLoggedIn(false);
+        }
+    }
+
+    useEffect(() => {
+        validateUser();
+    }, [])
+
+    return loggedIn;
+}

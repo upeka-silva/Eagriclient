@@ -1,12 +1,12 @@
-import { put, get, post, api_delete } from "../../../services/api";
+import {put ,post, api_delete } from "../../../../services/api";
 
-export const handleDistrict = async (
+export const handleMahaweliBlock = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/districts", payload, true);
+    const response = await post("geo-data/mahaweli-blocks", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -35,33 +35,15 @@ export const handleDistrict = async (
 };
 
 
-export const get_DistrictList = async (
-) => {
-  try {
-    const {httpCode, payloadDto} = await get("geo-data/districts", true);
-    if (httpCode === '200 OK') {
-      return {
-        dataList: payloadDto
-      }
-    }
-    return {
-      dataList: []
-    }
-  } catch (error) {
-    console.log(error)
-    return {
-      dataList: []
-    }
-  }
-};
 
-export const updateDistrict = async (
+
+export const updateMahaweliBlock = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/districts/${payload?.id || ''}`, payload, true);
+    const response = await put(`geo-data/mahaweli-blocks/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -90,13 +72,13 @@ export const updateDistrict = async (
 };
 
 
-export const deleteDistrict = async (
+export const deleteMahaweliBlock = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`geo-data/districts/${id || ''}`, true);
+    const response = await api_delete(`geo-data/mahaweli-blocks/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();

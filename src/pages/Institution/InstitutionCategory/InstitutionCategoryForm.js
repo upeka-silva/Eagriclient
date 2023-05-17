@@ -124,12 +124,12 @@ const InstitutionCategoryForm = () => {
     <FieldWrapper>
       <FieldName>Institution Category ID</FieldName>
       <TextField
-        name="id"
-        id="id"
-        value={formData?.id || ""}
+        name="code"
+        id="code"
+        value={formData?.code || ""}
         fullWidth
         disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-        onChange={(e) => handleChange(e?.target?.value || "", "id")}
+        onChange={(e) => handleChange(e?.target?.value || "", "code")}
         sx={{
           width: "264px",
           "& .MuiInputBase-root": {

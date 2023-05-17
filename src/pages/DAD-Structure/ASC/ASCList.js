@@ -12,7 +12,7 @@ const ASCList = ({
     { field: "id", headerName: "ID" },
     { field: "code", headerName: "ASC Code" },
     { field: "name", headerName: "ASC Name" },
-    { field: "districtDto.id", headerName: "District Code" },
+    { field: "districtDto", headerName: "District Code" },
   ];
 
   return (

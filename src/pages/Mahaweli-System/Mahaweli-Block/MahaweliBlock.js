@@ -1,32 +1,33 @@
 import React, { useState } from "react";
 import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import InstitutionCategoryList from "./InstitutionCategoryList";
+import MahaweliBlockList from "./MahaweliBlockList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 
-const InstitutionCategory = () => {
+const MahaweliBlock = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
+
+  const [selectMahaweliBlocks, setSelectedMahaweliBlocks] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const { addSnackBar } = useSnackBars();
 
-  const [selectInstitutionCat, setSelectInstitutionCat] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const toggleInstitutionCatSelect = (component) => {
-    setSelectInstitutionCat((current = []) => {
+  const toggleMahaweliBlockSelect = (component) => {
+    setSelectedMahaweliBlocks((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -38,41 +39,40 @@ const InstitutionCategory = () => {
     });
   };
 
-  const selectAllInstitutionCat = (all = []) => {
-    setSelectInstitutionCat(all);
+  const selectAllMahaweliBlocks = (all = []) => {
+    setSelectedMahaweliBlocks(all);
   };
 
-  const resetSelectedInstitutionCat = () => {
-    setSelectInstitutionCat([]);
+  const resetSelectedMahaweliBlocks = () => {
+    setSelectedMahaweliBlocks([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/institution/institution-category-form", {
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/institution/institution-category-form", {
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectInstitutionCat[0] || {},
+        target: selectMahaweliBlocks[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/institution/institution-category-form", {
+    navigate("/zone/mahaweli-structure/mahaweli-block-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectInstitutionCat[0] || {},
+        target: selectMahaweliBlocks[0] || {},
       },
     });
   };
-
   const onDelete = () => {
     setOpen(true);
   }
@@ -81,11 +81,12 @@ const InstitutionCategory = () => {
     setOpen(false);
   }
 
+
   const renderSelectedItems = () => {
     return (
       <List>
         {
-          selectInstitutionCat.map((p, key) => {
+          selectMahaweliBlocks.map((p, key) => {
             return (
               <ListItem>
                 <ListItemIcon>
@@ -97,7 +98,7 @@ const InstitutionCategory = () => {
                     )
                   }
                 </ListItemIcon>
-                <ListItemText>{p.code} - {p.description}</ListItemText>
+                <ListItemText>{p.code} - {p.name}</ListItemText>
               </ListItem>
             )
           })
@@ -105,6 +106,7 @@ const InstitutionCategory = () => {
       </List>
     )
   }
+
 
   const onSuccess = () => {
     addSnackBar({
@@ -120,35 +122,35 @@ const InstitutionCategory = () => {
     });
   };
 
+
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const institutionCat of selectInstitutionCat) {
-        await deleteInstitutionCat(institutionCat?.id, onSuccess, onError)
+      for (const mahaweliBlock of selectMahaweliBlocks) {
+        await deleteMahaweliBlock(mahaweliBlock?.id, onSuccess, onError)
       }
       setLoading(false);
       close();
-      resetSelectedInstitutionCat()
+      resetSelectedMahaweliBlocks()
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
 
-
   return (
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectInstitutionCat.length === 1 && (
+        {selectMahaweliBlocks.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -160,9 +162,9 @@ const InstitutionCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-         {selectInstitutionCat.length === 1 && (
+        {selectMahaweliBlocks.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -173,11 +175,10 @@ const InstitutionCategory = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-        
         )}
-        {selectInstitutionCat.length > 0 && (
+        {selectMahaweliBlocks.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
           >
             <Button
               variant="contained"
@@ -192,13 +193,13 @@ const InstitutionCategory = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
       >
-        <InstitutionCategoryList
-          selectedRows={selectInstitutionCat}
-          onRowSelect={toggleInstitutionCatSelect}
-          selectAll={selectAllInstitutionCat}
-          unSelectAll={resetSelectedInstitutionCat}
+        <MahaweliBlockList
+          selectedRows={selectMahaweliBlocks}
+          onRowSelect={toggleMahaweliBlockSelect}
+          selectAll={selectAllMahaweliBlocks}
+          unSelectAll={resetSelectedMahaweliBlocks}
         />
       </PermissionWrapper>
       <DialogBox
@@ -235,4 +236,4 @@ const InstitutionCategory = () => {
   );
 };
 
-export default InstitutionCategory;
+export default MahaweliBlock;
