@@ -45,6 +45,9 @@ import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
 import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/InstitutionCategoryForm";
+import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
+
+import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -60,9 +63,13 @@ import ForestIcon from '@mui/icons-material/Forest';
 import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
+import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 
 
-import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
+
+
 
 
 
@@ -416,6 +423,28 @@ export const Routes = [
         name: "Institution Category Form",
         isSideBar: false,
         element: <InstitutionCategoryForm />,
+      },
+    ],
+  },
+
+  {
+    path: "/tests",
+    name: "Soil and Water Tests",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/soil-test",
+        name: "Soil Test",
+        isSideBar: true,
+        element: <SoilTest />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/soil-test-form",
+        name: "Soil Test Form",
+        isSideBar: false,
+        element: <SoilTestFrom />
       },
     ],
   },
