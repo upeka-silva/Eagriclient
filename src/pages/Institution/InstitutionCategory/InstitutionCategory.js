@@ -1,34 +1,32 @@
 import React, { useState } from "react";
 import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import InstitutionCategoryList from "./InstitutionCategoryList";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { useNavigate } from "react-router";
-import SoilSubTypeList from "./SoilSubTypeList";
-import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 
-const SoilSubType = () => {
+const InstitutionCategory = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
+  const [selectInstitutionCat, setSelectInstitutionCat] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const toggleSoilSubTypesSelect = (component) => {
-    setSelectedSoilSubTypes((current = []) => {
+  const toggleInstitutionCatSelect = (component) => {
+    setSelectInstitutionCat((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -40,42 +38,40 @@ const SoilSubType = () => {
     });
   };
 
-  const selectAllSoilSubTypes = (all = []) => {
-    setSelectedSoilSubTypes(all);
+  const selectAllInstitutionCat = (all = []) => {
+    setSelectInstitutionCat(all);
   };
 
-  const resetSelectedSoilSubTypes = () => {
-    setSelectedSoilSubTypes([]);
+  const resetSelectedInstitutionCat = () => {
+    setSelectInstitutionCat([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/institution/institution-category-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/institution/institution-category-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectInstitutionCat[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/institution/institution-category-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectInstitutionCat[0] || {},
       },
     });
   };
-
-
 
   const onDelete = () => {
     setOpen(true);
@@ -89,7 +85,7 @@ const SoilSubType = () => {
     return (
       <List>
         {
-          selectedSoilSubTypes.map((p, key) => {
+          selectInstitutionCat.map((p, key) => {
             return (
               <ListItem>
                 <ListItemIcon>
@@ -101,7 +97,7 @@ const SoilSubType = () => {
                     )
                   }
                 </ListItemIcon>
-                <ListItemText>{p.soilSubTypeCode} - {p.description}</ListItemText>
+                <ListItemText>{p.code} - {p.description}</ListItemText>
               </ListItem>
             )
           })
@@ -127,31 +123,32 @@ const SoilSubType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilSubType of selectedSoilSubTypes) {
-        await deleteSoilSubType(soilSubType?.id, onSuccess, onError)
+      for (const institutionCat of selectInstitutionCat) {
+        await deleteInstitutionCat(institutionCat?.id, onSuccess, onError)
       }
       setLoading(false);
       close();
-      resetSelectedSoilSubTypes()
+      resetSelectedInstitutionCat()
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
 
+
   return (
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedSoilSubTypes.length === 1 && (
+        {selectInstitutionCat.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
           >
             <Button
               variant="contained"
@@ -163,9 +160,9 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedSoilSubTypes.length === 1 && (
+         {selectInstitutionCat.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
           >
             <Button
               variant="contained"
@@ -176,10 +173,11 @@ const SoilSubType = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
+        
         )}
-          {selectedSoilSubTypes.length > 0 && (
+        {selectInstitutionCat.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
           >
             <Button
               variant="contained"
@@ -194,13 +192,13 @@ const SoilSubType = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
       >
-        <SoilSubTypeList
-          selectedRows={selectedSoilSubTypes}
-          onRowSelect={toggleSoilSubTypesSelect}
-          selectAll={selectAllSoilSubTypes}
-          unSelectAll={resetSelectedSoilSubTypes}
+        <InstitutionCategoryList
+          selectedRows={selectInstitutionCat}
+          onRowSelect={toggleInstitutionCatSelect}
+          selectAll={selectAllInstitutionCat}
+          unSelectAll={resetSelectedInstitutionCat}
         />
       </PermissionWrapper>
       <DialogBox
@@ -237,4 +235,4 @@ const SoilSubType = () => {
   );
 };
 
-export default SoilSubType;
+export default InstitutionCategory;

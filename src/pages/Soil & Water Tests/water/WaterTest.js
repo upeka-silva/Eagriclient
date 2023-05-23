@@ -1,34 +1,41 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { useNavigate } from "react-router";
-import SoilSubTypeList from "./SoilSubTypeList";
-import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { deleteWaterTests } from "../../../redux/actions/soil & water tests/water/action";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import WaterTestList from "./WaterTestList";
 
-const SoilSubType = () => {
+const WaterTest = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
+  const { addSnackBar } = useSnackBars;
 
+  const [selectWaterTest, setSelectWaterTest] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const toggleSoilSubTypesSelect = (component) => {
-    setSelectedSoilSubTypes((current = []) => {
+  const toggleWaterTestSelect = (component) => {
+    setSelectWaterTest((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -40,75 +47,71 @@ const SoilSubType = () => {
     });
   };
 
-  const selectAllSoilSubTypes = (all = []) => {
-    setSelectedSoilSubTypes(all);
+  const selectAllWaterTests = (all = []) => {
+    setSelectWaterTest(all);
   };
 
-  const resetSelectedSoilSubTypes = () => {
-    setSelectedSoilSubTypes([]);
+  const resetSelectedWaterTests = () => {
+    setSelectWaterTest([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/Water-test-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/Water-test-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectWaterTest[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/Water-test-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectWaterTest[0] || {},
       },
     });
   };
 
-
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedSoilSubTypes.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.soilSubTypeCode} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectWaterTest.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -127,31 +130,31 @@ const SoilSubType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilSubType of selectedSoilSubTypes) {
-        await deleteSoilSubType(soilSubType?.id, onSuccess, onError)
+      for (const WaterTests of selectWaterTest) {
+        await deleteWaterTests(WaterTests?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSoilSubTypes()
+      resetSelectedWaterTests();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_TEST}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedSoilSubTypes.length === 1 && (
+        {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -163,9 +166,9 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedSoilSubTypes.length === 1 && (
+        {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -177,9 +180,9 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-          {selectedSoilSubTypes.length > 0 && (
+        {selectWaterTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -190,17 +193,16 @@ const SoilSubType = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.WATER_TEST}`}
       >
-        <SoilSubTypeList
-          selectedRows={selectedSoilSubTypes}
-          onRowSelect={toggleSoilSubTypesSelect}
-          selectAll={selectAllSoilSubTypes}
-          unSelectAll={resetSelectedSoilSubTypes}
+        <WaterTestList
+          selectedRows={selectWaterTest}
+          onRowSelect={toggleWaterTestSelect}
+          selectAll={selectAllWaterTests}
+          unSelectAll={resetSelectedWaterTests}
         />
       </PermissionWrapper>
       <DialogBox
@@ -229,7 +231,7 @@ const SoilSubType = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
@@ -237,4 +239,4 @@ const SoilSubType = () => {
   );
 };
 
-export default SoilSubType;
+export default WaterTest;

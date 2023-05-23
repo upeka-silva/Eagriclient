@@ -1,4 +1,4 @@
-import {put,get,post } from "../../../../services/api";
+import {put,get,post, api_delete } from "../../../../services/api";
 
 export const handleCropCategory = async (
   payload = {},
@@ -90,3 +90,39 @@ export const updateCropCategory = async (
     }
   }
 };
+
+
+
+export const deleteCropCategory = async (
+  id,
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await api_delete(`geo-data/crop-categories/${id || ''}`, true);
+    console.log(response)
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+}

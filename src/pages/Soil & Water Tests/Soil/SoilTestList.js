@@ -2,7 +2,7 @@ import React from "react";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
-const DsDivisionList = ({
+const SoilTestList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -10,16 +10,14 @@ const DsDivisionList = ({
 }) => {
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "code", headerName: "DS Division Code" },
-    { field: "name", headerName: "DS Division Name" },
-    // { field: "districtDTOList.id", headerName: "District Code" },
+    { field: "code", headerName: "Soil Test Code" },
+    { field: "name", headerName: "Soil Test Name" },
   ];
-
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ds-divisions"}
+        dataEndPoint={"geo-data/soil-samples"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -31,4 +29,4 @@ const DsDivisionList = ({
   );
 };
 
-export default DsDivisionList;
+export default SoilTestList;
