@@ -45,6 +45,13 @@ import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
 import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/InstitutionCategoryForm";
+import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
+
+import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
+import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
+import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
+import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -60,9 +67,14 @@ import ForestIcon from '@mui/icons-material/Forest';
 import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
+import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 
 
-import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
+
+
+
 
 
 
@@ -416,6 +428,41 @@ export const Routes = [
         name: "Institution Category Form",
         isSideBar: false,
         element: <InstitutionCategoryForm />,
+      },
+    ],
+  },
+
+  {
+    path: "/tests",
+    name: "Soil and Water Tests",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/soil-test",
+        name: "Soil Test",
+        isSideBar: true,
+        element: <SoilTest />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/soil-test-form",
+        name: "Soil Test Form",
+        isSideBar: false,
+        element: <SoilTestFrom />
+      },
+      {
+        path: "/water-test",
+        name: "Water Test",
+        isSideBar: true,
+        element: <WaterTest />,
+        icon: WaterDamageIcon,
+      },
+      {
+        path: "/water-test-form",
+        name: "Water Test Form",
+        isSideBar: false,
+        element: <WaterTestForm />
       },
     ],
   },
