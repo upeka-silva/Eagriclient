@@ -48,6 +48,10 @@ import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/In
 import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
+import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
+import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
+import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -64,8 +68,9 @@ import SpaIcon from '@mui/icons-material/Spa';
 import ParkIcon from '@mui/icons-material/Park';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
-import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
+import WaterDamageIcon from '@mui/icons-material/WaterDamage';
+
 
 
 
@@ -445,6 +450,19 @@ export const Routes = [
         name: "Soil Test Form",
         isSideBar: false,
         element: <SoilTestFrom />
+      },
+      {
+        path: "/water-test",
+        name: "Water Test",
+        isSideBar: true,
+        element: <WaterTest />,
+        icon: WaterDamageIcon,
+      },
+      {
+        path: "/water-test-form",
+        name: "Water Test Form",
+        isSideBar: false,
+        element: <WaterTestForm />
       },
     ],
   },
