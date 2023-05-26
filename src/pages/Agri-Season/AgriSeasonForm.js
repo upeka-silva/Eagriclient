@@ -33,6 +33,8 @@ const AgriSeasonForm = () => {
   const location = useLocation();
   const { addSnackBar } = useSnackBars();
 
+  const [value, setValue] = useState('')
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -125,7 +127,7 @@ const AgriSeasonForm = () => {
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} Agriculture Season
       </FormHeader>
-      <FieldWrapper>
+      {/* <FieldWrapper>
         <FieldName>Season ID</FieldName>
         <TextField
           name="id"
@@ -145,7 +147,7 @@ const AgriSeasonForm = () => {
             },
           }}
         />
-      </FieldWrapper>
+      </FieldWrapper> */}
       <FieldWrapper>
         <FieldName>Description</FieldName>
         <TextField
@@ -198,6 +200,8 @@ const AgriSeasonForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "startDate")
               }
+              type="text"
+       
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -220,7 +224,7 @@ const AgriSeasonForm = () => {
               slotProps={{ textField: { size: "small" } }}
               name="endDate"
               id="endDate"
-              value={formData?.sampleDescription || ""}
+              value={formData?.endDate || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "endDate")
