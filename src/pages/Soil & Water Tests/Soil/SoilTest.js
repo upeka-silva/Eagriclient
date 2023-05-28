@@ -1,34 +1,42 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-
-import DialogBox from "../../../components/PageLayout/DialogBox";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes"
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { useNavigate } from "react-router";
-import SoilSubTypeList from "./SoilSubTypeList";
-import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import { deleteSoilTests } from "../../../redux/actions/soil & water tests/soil/action"
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import SoilTestList from "./SoilTestList";
 
-const SoilSubType = () => {
+const SoilTest = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
+  const { addSnackBar } = useSnackBars;
 
+  const [selectSoilTest, setSelectSoilTest] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleSoilSubTypesSelect = (component) => {
-    setSelectedSoilSubTypes((current = []) => {
+  const toggleSoilTestSelect = (component) => {
+    setSelectSoilTest((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -40,41 +48,40 @@ const SoilSubType = () => {
     });
   };
 
-  const selectAllSoilSubTypes = (all = []) => {
-    setSelectedSoilSubTypes(all);
+  const selectAllSoilTests = (all = []) => {
+    setSelectSoilTest(all);
   };
 
-  const resetSelectedSoilSubTypes = () => {
-    setSelectedSoilSubTypes([]);
+  const resetSelectedSoilTests = () => {
+    setSelectSoilTest([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/soil-test-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/soil-test-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectSoilTest[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/soil/soil-sub-type-form", {
+    navigate("/tests/soil-test-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedSoilSubTypes[0] || {},
+        target: selectSoilTest[0] || {},
       },
     });
   };
-
 
 
   const onDelete = () => {
@@ -89,7 +96,7 @@ const SoilSubType = () => {
     return (
       <List>
         {
-          selectedSoilSubTypes.map((p, key) => {
+          selectSoilTest.map((p, key) => {
             return (
               <ListItem>
                 <ListItemIcon>
@@ -101,7 +108,7 @@ const SoilSubType = () => {
                     )
                   }
                 </ListItemIcon>
-                <ListItemText>{p.soilSubTypeCode} - {p.description}</ListItemText>
+                <ListItemText>{p.code} - {p.name}</ListItemText>
               </ListItem>
             )
           })
@@ -127,31 +134,34 @@ const SoilSubType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilSubType of selectedSoilSubTypes) {
-        await deleteSoilSubType(soilSubType?.id, onSuccess, onError)
+      for (const soilTests of selectSoilTest) {
+        await deleteSoilTests(soilTests?.id, onSuccess, onError)
       }
       setLoading(false);
       close();
-      resetSelectedSoilSubTypes()
+      resetSelectedSoilTests()
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   }
 
+
+
+
   return (
     <div>
-      <ActionWrapper>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+    <ActionWrapper>
+    <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TEST}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectedSoilSubTypes.length === 1 && (
+        {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SOIL_TEST}`}
           >
             <Button
               variant="contained"
@@ -163,9 +173,9 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedSoilSubTypes.length === 1 && (
+          {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TEST}`}
           >
             <Button
               variant="contained"
@@ -176,10 +186,11 @@ const SoilSubType = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
+        
         )}
-          {selectedSoilSubTypes.length > 0 && (
+          {selectSoilTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_TEST}`}
           >
             <Button
               variant="contained"
@@ -192,15 +203,15 @@ const SoilSubType = () => {
           </PermissionWrapper>
 
         )}
-      </ActionWrapper>
-      <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
+    </ActionWrapper>
+    <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TEST}`}
       >
-        <SoilSubTypeList
-          selectedRows={selectedSoilSubTypes}
-          onRowSelect={toggleSoilSubTypesSelect}
-          selectAll={selectAllSoilSubTypes}
-          unSelectAll={resetSelectedSoilSubTypes}
+        <SoilTestList
+          selectedRows={selectSoilTest}
+          onRowSelect={toggleSoilTestSelect}
+          selectAll={selectAllSoilTests}
+          unSelectAll={resetSelectedSoilTests}
         />
       </PermissionWrapper>
       <DialogBox
@@ -234,7 +245,7 @@ const SoilSubType = () => {
         </>
       </DialogBox>
     </div>
-  );
+  )
 };
 
-export default SoilSubType;
+export default SoilTest;
