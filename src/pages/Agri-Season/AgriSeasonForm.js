@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import {
+  TextField,
+  Button,
+  CircularProgress,
+  MenuItem,
+  Select,
+  FormControl,
+} from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -32,8 +39,6 @@ const AgriSeasonForm = () => {
   const { state } = useLocation();
   const location = useLocation();
   const { addSnackBar } = useSnackBars();
-
-  const [value, setValue] = useState('')
 
   const navigate = useNavigate();
 
@@ -97,11 +102,31 @@ const AgriSeasonForm = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+
+      let sdate = new Date(formData.startDate);
+      let edate = new Date(formData.endDate);
+
       try {
         if (formData?.id) {
-          await updateAgriSeason(formData, onSuccess, onError);
+          await updateAgriSeason(
+            {
+              ...formData,
+              startDate: sdate.valueOf() || null,
+              endDate: edate.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         } else {
-          await handleAgriSeason(formData, onSuccess, onError);
+          await handleAgriSeason(
+            {
+              ...formData,
+              startDate: sdate.valueOf() || null,
+              endDate: edate.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         }
       } catch (error) {
         console.log(error);
@@ -127,27 +152,6 @@ const AgriSeasonForm = () => {
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} Agriculture Season
       </FormHeader>
-      {/* <FieldWrapper>
-        <FieldName>Season ID</FieldName>
-        <TextField
-          name="id"
-          id="id"
-          value={formData?.id || ""}
-          fullWidth
-          disabled={
-            state?.action === DEF_ACTIONS.VIEW ||
-            state?.action === DEF_ACTIONS.EDIT
-          }
-          onChange={(e) => handleChange(e?.target?.value || "", "id")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper> */}
       <FieldWrapper>
         <FieldName>Description</FieldName>
         <TextField
@@ -168,40 +172,38 @@ const AgriSeasonForm = () => {
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>Climate Zone</FieldName>
-        <TextField
-          name="climateZone"
-          id="climateZone"
-          value={formData?.climateZone || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "climateZone")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
+        <FormControl>
+          <Select
+            value={formData?.climateZone || ""}
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "climateZone")
+            }
+            sx={{
+              width: "264px",
               height: "30px",
               borderRadius: "8px",
-            },
-          }}
-        />
+            }}
+            size="small"
+          >
+            <MenuItem value={"DRY"}>Dry</MenuItem>
+            <MenuItem value={"INTERMEDIATE"}>Intermediate</MenuItem>
+            <MenuItem value={"WET"}>Wet</MenuItem>
+          </Select>
+        </FormControl>
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>
-          Start Date
-        </FieldName>
+        <FieldName>Start Date</FieldName>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]}>
             <DatePicker
-              label="Basic date picker"
-              slotProps={{ textField: { size: "small" } }}
               name="startDate"
               id="startDate"
-              value={formData?.startDate || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "startDate")
-              }
-              type="text"
-       
+              slotProps={{ textField: { size: "small" } }}
+              value={formData?.startDate || ""}
+              onChange={(newValue) => handleChange(newValue || "", "startDate")}
+              in="DD-MM-YYYY"
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -214,21 +216,16 @@ const AgriSeasonForm = () => {
         </LocalizationProvider>
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>
-          End Date
-        </FieldName>
+        <FieldName>End Date</FieldName>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DemoContainer components={["DatePicker"]}>
             <DatePicker
-              label="Basic date picker"
-              slotProps={{ textField: { size: "small" } }}
               name="endDate"
               id="endDate"
-              value={formData?.endDate || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "endDate")
-              }
+              value={formData?.endDate || ""}
+              onChange={(newValue) => handleChange(newValue || "", "endDate")}
+              slotProps={{ textField: { size: "small" } }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {

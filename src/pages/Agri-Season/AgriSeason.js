@@ -62,7 +62,15 @@ const AgriSeason = () => {
     navigate("/agri-season-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectAgriSeason[0] || {},
+        target: {
+          ...(selectAgriSeason[0] || {}),
+          startDate: selectAgriSeason[0]?.startDate
+            ? new Date(selectAgriSeason[0]?.startDate)
+            : null,
+          endDate: selectAgriSeason[0]?.endDate
+            ? new Date(selectAgriSeason[0]?.endDate)
+            : null,
+        },
       },
     });
   };
@@ -72,7 +80,15 @@ const AgriSeason = () => {
     navigate("/agri-season-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectAgriSeason[0] || {},
+        target: {
+          ...(selectAgriSeason[0] || {}),
+          startDate: selectAgriSeason[0]?.startDate
+            ? new Date(selectAgriSeason[0]?.startDate)
+            : null,
+          endDate: selectAgriSeason[0]?.endDate
+            ? new Date(selectAgriSeason[0]?.endDate)
+            : null,
+        },
       },
     });
   };
@@ -161,7 +177,7 @@ const AgriSeason = () => {
             </Button>
           </PermissionWrapper>
         )}
-          {selectAgriSeason.length === 1 && (
+        {selectAgriSeason.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
@@ -174,9 +190,8 @@ const AgriSeason = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-
         )}
-         {selectAgriSeason.length > 0 && (
+        {selectAgriSeason.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
@@ -189,22 +204,19 @@ const AgriSeason = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
       >
-        {
-          loading === false && (
-            <AgriSeasonList
-              selectedRows={selectAgriSeason}
-              onRowSelect={toggleAgriSeasonSelect}
-              selectAll={selectAllAgriSeason}
-              unSelectAll={resetSelectedAgriSeason}
-            />
-          )
-        }
+        {loading === false && (
+          <AgriSeasonList
+            selectedRows={selectAgriSeason}
+            onRowSelect={toggleAgriSeasonSelect}
+            selectAll={selectAllAgriSeason}
+            unSelectAll={resetSelectedAgriSeason}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
@@ -232,7 +244,7 @@ const AgriSeason = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
