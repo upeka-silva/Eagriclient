@@ -52,6 +52,8 @@ import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
 import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 
+import Farmer from "../pages/Farmer/Farmer";
+import FarmerForm from "../pages/Farmer/FarmerForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -70,8 +72,6 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
-
-
 
 
 
@@ -108,6 +108,15 @@ export const Routes = [
     path: "/verifyRegistration?/:token",
     element: <VerifyRegistration />,
   },
+  {
+    path: "/farmer",
+    element: <Farmer />
+  },
+  {
+    path: "/farmer-form",
+    element: <FarmerForm />
+  },
+
   {
     path: "/main-dashboard",
     name: "Dashboard",
