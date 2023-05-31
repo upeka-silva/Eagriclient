@@ -23,6 +23,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -233,7 +234,7 @@ const DsDivision = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

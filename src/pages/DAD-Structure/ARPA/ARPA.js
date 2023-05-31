@@ -23,6 +23,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteARPA } from "../../../redux/actions/arpa/action"
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 
 const ARPA = () => {
@@ -231,7 +232,7 @@ const ARPA = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: '16px' }} />
           {renderSelectedItems()}
         </>

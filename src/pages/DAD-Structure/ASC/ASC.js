@@ -23,6 +23,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteASC } from "../../../redux/actions/asc/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -229,7 +230,7 @@ const ASC = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: '16px' }} />
           {renderSelectedItems()}
         </>

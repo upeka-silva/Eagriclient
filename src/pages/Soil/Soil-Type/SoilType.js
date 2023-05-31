@@ -24,6 +24,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -233,7 +234,7 @@ const SoilType = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

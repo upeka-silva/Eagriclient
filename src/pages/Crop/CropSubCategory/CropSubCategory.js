@@ -23,6 +23,7 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -232,7 +233,7 @@ const CropSubCategory = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

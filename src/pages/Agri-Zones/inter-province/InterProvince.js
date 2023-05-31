@@ -23,6 +23,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const InterProvince = () => {
   useUserAccessValidation();
@@ -238,7 +239,7 @@ const InterProvince = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

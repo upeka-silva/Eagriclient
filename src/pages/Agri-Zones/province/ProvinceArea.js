@@ -24,6 +24,7 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const ProvinceArea = () => {
   useUserAccessValidation();
@@ -235,7 +236,7 @@ const ProvinceArea = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

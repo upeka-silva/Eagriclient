@@ -23,6 +23,7 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteAI } from "../../../redux/actions/aiRegion/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const AI = () => {
   useUserAccessValidation();
@@ -234,7 +235,7 @@ const AI = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

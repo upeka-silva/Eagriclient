@@ -24,6 +24,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { useNavigate } from "react-router";
 import SoilSubTypeList from "./SoilSubTypeList";
 import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -234,7 +235,7 @@ const SoilSubType = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

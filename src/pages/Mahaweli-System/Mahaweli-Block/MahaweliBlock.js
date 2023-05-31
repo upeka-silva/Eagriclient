@@ -23,6 +23,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const MahaweliBlock = () => {
   useUserAccessValidation();
@@ -232,7 +233,7 @@ const MahaweliBlock = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
