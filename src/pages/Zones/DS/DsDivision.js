@@ -210,7 +210,7 @@ const DsDivision = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete DS Division"
         actions={
           <ActionWrapper>
             <Button

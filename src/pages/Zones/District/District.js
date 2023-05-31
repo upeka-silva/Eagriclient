@@ -211,7 +211,7 @@ const District = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete District"
         actions={
           <ActionWrapper>
             <Button

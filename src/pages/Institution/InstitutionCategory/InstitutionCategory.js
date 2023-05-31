@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -12,7 +21,7 @@ import InstitutionCategoryList from "./InstitutionCategoryList";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 
 const InstitutionCategory = () => {
@@ -75,36 +84,34 @@ const InstitutionCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectInstitutionCat.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.code} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectInstitutionCat.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -124,17 +131,16 @@ const InstitutionCategory = () => {
     try {
       setLoading(true);
       for (const institutionCat of selectInstitutionCat) {
-        await deleteInstitutionCat(institutionCat?.id, onSuccess, onError)
+        await deleteInstitutionCat(institutionCat?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedInstitutionCat()
+      resetSelectedInstitutionCat();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
-
+  };
 
   return (
     <div>
@@ -160,7 +166,7 @@ const InstitutionCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-         {selectInstitutionCat.length === 1 && (
+        {selectInstitutionCat.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
           >
@@ -173,7 +179,6 @@ const InstitutionCategory = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-        
         )}
         {selectInstitutionCat.length > 0 && (
           <PermissionWrapper
@@ -188,22 +193,23 @@ const InstitutionCategory = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
       >
-        <InstitutionCategoryList
-          selectedRows={selectInstitutionCat}
-          onRowSelect={toggleInstitutionCatSelect}
-          selectAll={selectAllInstitutionCat}
-          unSelectAll={resetSelectedInstitutionCat}
-        />
+        {loading === false && (
+          <InstitutionCategoryList
+            selectedRows={selectInstitutionCat}
+            onRowSelect={toggleInstitutionCatSelect}
+            selectAll={selectAllInstitutionCat}
+            unSelectAll={resetSelectedInstitutionCat}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Institution Category"
         actions={
           <ActionWrapper>
             <Button
@@ -227,7 +233,7 @@ const InstitutionCategory = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

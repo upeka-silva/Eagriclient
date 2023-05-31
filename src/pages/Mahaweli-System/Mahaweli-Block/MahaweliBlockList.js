@@ -9,9 +9,8 @@ const MahaweliBlockList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "code", headerName: "Block ID" },
-    { field: "name", headerName: "Block Name" },
+    { field: "code", headerName: "Code" },
+    { field: "name", headerName: "Description" },
     { field: "mahaweliSystem", headerName: "Mahaweli System"},
     { field: "description", headerName: "Description"},
     { field: "landArea", headerName: "Land Area" },

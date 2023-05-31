@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { Button } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import ARPAList from "./ARPAList";
 import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -9,12 +18,21 @@ import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { deleteARPA } from "../../../redux/actions/arpa/action"
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+
 
 const ARPA = () => {
   useUserAccessValidation();
+  const { addSnackBar } = useSnackBars();
 
   const [selectedArpa, setSelectedArpa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -60,35 +78,82 @@ const ARPA = () => {
     });
   };
 
+  const onDelete = () => {
+    setOpen(true);
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedArpa.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.arpaId} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Something went wrong.",
+    });
+  };
+
+
+  const onConfirm = async () => {
+    try {
+      setLoading(true);
+      for (const arpa of selectedArpa) {
+        await deleteARPA(arpa?.id, onSuccess, onError);
+      }
+      setLoading(false);
+      close();
+      resetSelectedArpa();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <ActionWrapper>
-        {/* <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ARPA}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
-        </PermissionWrapper> */}
-        <PermissionWrapper withoutPermissions>
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
         </PermissionWrapper>
+
         {selectedArpa.length === 1 && (
-          // <PermissionWrapper
-          //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
-          // >
-          //   <Button
-          //     variant="contained"
-          //     color="secondary"
-          //     onClick={onEdit}
-          //     sx={{ ml: "8px" }}
-          //   >
-          //     {DEF_ACTIONS.EDIT}
-          //   </Button>
-          // </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
+          >
             <Button
               variant="contained"
               color="secondary"
@@ -100,19 +165,9 @@ const ARPA = () => {
           </PermissionWrapper>
         )}
         {selectedArpa.length === 1 && (
-          //      <PermissionWrapper
-          //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
-          //  >
-          //      <Button
-          //          variant='contained'
-          //          color='info'
-          //          onClick={onView}
-          //          sx={{ ml: '8px' }}
-          //      >
-          //          {DEF_ACTIONS.VIEW}
-          //      </Button>
-          //  </PermissionWrapper>
-          <PermissionWrapper withoutPermissions>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
+          >
             <Button
               variant="contained"
               color="info"
@@ -123,26 +178,64 @@ const ARPA = () => {
             </Button>
           </PermissionWrapper>
         )}
-      
+        {selectedArpa.length > 0 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ARPA}`}
+          >
+            <Button
+              variant="contained"
+              color="error"
+              onClick={onDelete}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.DELETE}
+            </Button>
+          </PermissionWrapper>
+
+        )}
       </ActionWrapper>
-         {/* <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ARPA}`}
       >
-        <ProvinceList
-          selectedRows={selectedProvinces}
-          onRowSelect={toggleProvinceSelect}
-          selectAll={selectAllProvinces}
-          unSelectAll={resetSelectedProvinces}
-        />
-      </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <ARPAList
-          selectedRows={selectedArpa}
-          onRowSelect={toggleArpaSelect}
-          selectAll={selectAllArpa}
-          unSelectAll={resetSelectedArpa}
-        />
+        {loading === false && (
+          <ARPAList
+            selectedRows={selectedArpa}
+            onRowSelect={toggleArpaSelect}
+            selectAll={selectAllArpa}
+            unSelectAll={resetSelectedArpa}
+          />
+        )}
       </PermissionWrapper>
+      <DialogBox
+        open={open}
+        title="Delete ARPA Area"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <Typography>Are you sure to delete the following items?</Typography>
+          <Divider sx={{ mt: '16px' }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };

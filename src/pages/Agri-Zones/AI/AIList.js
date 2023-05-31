@@ -9,11 +9,11 @@ const AIList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "AI Region ID" },
+    { field: "regionId", headerName: "Code" },
     { field: "description", headerName: "Description" },
-    { field: "name", headerName: "Parent Type" },
+    { field: "parentType", headerName: "Parent Type" },
     { field: "", headerName: "Parent Value" },
-    { field: "", headerName: "ASC Region ID" },
+    { field: "ascRegionId", headerName: "ASC Region ID" },
   ];
   return (
     <CardWrapper>

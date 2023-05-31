@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -10,7 +19,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import CropSubCategoryList from "./CropSubCategoryList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
@@ -72,39 +81,36 @@ const CropSubCategory = () => {
     });
   };
 
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectSubCategory.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.code} - {p.name}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectSubCategory.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -124,21 +130,21 @@ const CropSubCategory = () => {
     try {
       setLoading(true);
       for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError)
+        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSubCategory()
+      resetSelectedSubCategory();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
         >
           <Button variant="contained" onClick={onCreate}>
@@ -158,9 +164,8 @@ const CropSubCategory = () => {
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
-        
         )}
-          {selectSubCategory.length === 1 && (
+        {selectSubCategory.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
           >
@@ -173,9 +178,8 @@ const CropSubCategory = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-        
         )}
-           {selectSubCategory.length > 0 && (
+        {selectSubCategory.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
           >
@@ -188,23 +192,24 @@ const CropSubCategory = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
-       <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
       >
-         <CropSubCategoryList
-          selectedRows={selectSubCategory}
-          onRowSelect={toggleSubCategorySelect}
-          selectAll={selectAllSubCategories}
-          unSelectAll={resetSelectedSubCategory}
-        />
+        {loading === false && (
+          <CropSubCategoryList
+            selectedRows={selectSubCategory}
+            onRowSelect={toggleSubCategorySelect}
+            selectAll={selectAllSubCategories}
+            unSelectAll={resetSelectedSubCategory}
+          />
+        )}
       </PermissionWrapper>
-    
+
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Crop Sub Category"
         actions={
           <ActionWrapper>
             <Button
@@ -228,7 +233,7 @@ const CropSubCategory = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

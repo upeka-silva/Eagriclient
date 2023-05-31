@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import InterProvinceList from "./InterProvinceList";
 import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
 
 const InterProvince = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -21,7 +32,9 @@ const InterProvince = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedInterProvinceArea, setSelectedInterProvinceArea] = useState([]);
+  const [selectedInterProvinceArea, setSelectedInterProvinceArea] = useState(
+    []
+  );
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleInterProvinceAreaSelect = (component) => {
@@ -43,11 +56,13 @@ const InterProvince = () => {
 
   const resetSelectedInterProvinceArea = () => {
     setSelectedInterProvinceArea([]);
-  }
+  };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/aa-structure/inter-province-area-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/inter-province-area-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -71,36 +86,34 @@ const InterProvince = () => {
   };
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedInterProvinceArea.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.agInterProvinceId} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedInterProvinceArea.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.agInterProvinceId} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -120,21 +133,25 @@ const InterProvince = () => {
     try {
       setLoading(true);
       for (const InterprovinceArea of selectedInterProvinceArea) {
-        await deleteInterProvinceArea(InterprovinceArea?.id, onSuccess, onError)
+        await deleteInterProvinceArea(
+          InterprovinceArea?.id,
+          onSuccess,
+          onError
+        );
       }
       setLoading(false);
       close();
-      resetSelectedInterProvinceArea()
+      resetSelectedInterProvinceArea();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
         >
           <Button variant="contained" onClick={onCreate}>
@@ -155,7 +172,7 @@ const InterProvince = () => {
             </Button>
           </PermissionWrapper>
         )}
-       {selectedInterProvinceArea.length === 1 && (
+        {selectedInterProvinceArea.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
           >
@@ -182,22 +199,23 @@ const InterProvince = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
       >
-        <InterProvinceList
-          selectedRows={selectedInterProvinceArea}
-          onRowSelect={toggleInterProvinceAreaSelect}
-          selectAll={selectAllInterProvinceArea}
-          unSelectAll={resetSelectedInterProvinceArea}
-        />
+        {loading === false && (
+          <InterProvinceList
+            selectedRows={selectedInterProvinceArea}
+            onRowSelect={toggleInterProvinceAreaSelect}
+            selectAll={selectAllInterProvinceArea}
+            unSelectAll={resetSelectedInterProvinceArea}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Inter Province Area"
         actions={
           <ActionWrapper>
             <Button
@@ -221,7 +239,7 @@ const InterProvince = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

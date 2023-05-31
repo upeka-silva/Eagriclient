@@ -11,7 +11,7 @@ const ProvinceAreaList = ({
 }) => {
  
   const columns = [
-    { field: 'id', headerName: 'Province Area ID' },
+    { field: 'agProvinceId', headerName: 'Code' },
     { field: 'description', headerName: 'Description' },
 ];
   return (
