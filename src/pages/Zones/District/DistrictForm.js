@@ -63,7 +63,6 @@ const DistrictForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
-      setOptions("");
     }
   };
 
@@ -185,7 +184,8 @@ const DistrictForm = () => {
           }}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}

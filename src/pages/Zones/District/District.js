@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Button, CircularProgress, Divider, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -11,7 +20,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import DistrictList from "./DistrictList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 
@@ -50,7 +59,9 @@ const District = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/district-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/district-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -73,40 +84,36 @@ const District = () => {
     });
   };
 
-
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedDistricts.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.code} - {p.name}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedDistricts.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -125,17 +132,17 @@ const District = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const province of selectedDistricts) {
-        await deleteDistrict(province?.id, onSuccess, onError)
+      for (const district of selectedDistricts) {
+        await deleteDistrict(district?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedDistricts()
+      resetSelectedDistricts();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -188,18 +195,19 @@ const District = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}
       >
-        <DistrictList
-          selectedRows={selectedDistricts}
-          onRowSelect={toggleDistrictSelect}
-          selectAll={selectAllDistricts}
-          unSelectAll={resetSelectedDistricts}
-        />
+        {loading === false && (
+          <DistrictList
+            selectedRows={selectedDistricts}
+            onRowSelect={toggleDistrictSelect}
+            selectAll={selectAllDistricts}
+            unSelectAll={resetSelectedDistricts}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
@@ -227,7 +235,7 @@ const District = () => {
       >
         <>
           <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

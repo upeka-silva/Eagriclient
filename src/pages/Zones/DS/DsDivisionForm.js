@@ -167,7 +167,7 @@ const DsDivisionForm = () => {
           onChange={(e) => handleChange(e?.target?.value || "", "name")}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
               height: "30px",
               borderRadius: "8px",
             },
@@ -186,7 +186,8 @@ const DsDivisionForm = () => {
           }}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}
