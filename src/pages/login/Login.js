@@ -104,7 +104,7 @@ const Login = () => {
 
   const goFarmer = () => {
     console.log("farmer")
-    navigate("/farmer");
+    navigate("farmer");
   };
 
   return (

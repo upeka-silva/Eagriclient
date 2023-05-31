@@ -1,24 +1,23 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
-import { DataTable } from "../../../components/PageLayout/Table";
+import { CardWrapper } from "../../components/PageLayout/Card";
+import { DataTable } from "../../components/PageLayout/Table";
 
-const DsDivisionList = ({
+const FarmLandList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    // { field: "districtDTOList.id", headerName: "District Code" },
+    { field: "name", headerName: "Name" },
+    { field: "address", headerName: "Address" },
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ds-divisions"}
+        dataEndPoint={""}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -30,4 +29,4 @@ const DsDivisionList = ({
   );
 };
 
-export default DsDivisionList;
+export default FarmLandList;
