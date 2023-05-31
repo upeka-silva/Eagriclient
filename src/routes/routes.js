@@ -52,6 +52,9 @@ import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
 import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 
+import FarmLand from "../pages/Farm-Land/FarmLand";
+import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -70,6 +73,9 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
+import GiIsland from '@mui/icons-material/WaterDamage';
+
+
 
 
 
@@ -465,6 +471,20 @@ export const Routes = [
         element: <WaterTestForm />
       },
     ],
+  },
+
+  {
+    path: "/farm-land",
+    name: "Farm Land",
+    isSideBar: true,
+    icon: GiIsland,
+    element: <FarmLand />
+  },
+  {
+    path: "/farm-land-form",
+    name: "Farm Land Form",
+    isSideBar: false,
+    element: <FarmLandForm />
   },
 
 ];
