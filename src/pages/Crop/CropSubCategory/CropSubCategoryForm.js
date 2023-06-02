@@ -187,7 +187,8 @@ const CropSubCategoryForm = () => {
             }}
             sx={{
               width: "264px",
-              "& .MuiInputBase-root": {
+              "& .MuiOutlinedInput-root": {
+                height: "30px",
                 borderRadius: "8px",
               },
             }}

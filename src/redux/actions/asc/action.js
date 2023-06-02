@@ -1,4 +1,4 @@
-import { put, get, post } from "../../../services/api";
+import { put, get, post, api_delete } from "../../../services/api";
 
 export const handleAsc = async (
   payload = {},
@@ -7,7 +7,7 @@ export const handleAsc = async (
 ) => {
   try {
     const response = await post("asc", payload, true);
-    if (response.httpCode === "200 OK") {
+    if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
       const exception = {
@@ -88,3 +88,37 @@ export const get_ASC = async (
       }
     }
   };
+
+  export const deleteASC = async (
+    id,
+    onSuccess = () => { },
+    onError = (_message) => { }
+  ) => {
+    try {
+      const response = await api_delete(`asc/${id || ''}`, true);
+      console.log(response)
+      if (response?.httpCode === "200 OK") {
+        onSuccess();
+      } else {
+        const exception = {
+          error: {
+            data: {
+              apiError: {
+                message:
+                  response?.message || "Something went wrong! Please try again.",
+              },
+            },
+          },
+        };
+        throw exception;
+      }
+    } catch ({ error }) {
+      if (typeof error === "object") {
+        const { data } = error;
+        const { apiError } = data;
+        onError(apiError?.message || "Something went wrong! Please try again.");
+      } else {
+        onError(error);
+      }
+    }
+  }

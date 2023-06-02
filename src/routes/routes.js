@@ -53,7 +53,6 @@ import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 
 import Farmer from "../pages/Farmer/Farmer";
-import FarmerForm from "../pages/Farmer/FarmerForm";
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 
@@ -118,10 +117,7 @@ export const Routes = [
     path: "/temp-farmer",
     element: <Farmer />
   },
-  {
-    path: "/temp-farmer-form",
-    element: <FarmerForm />
-  },
+
 
   {
     path: "/main-dashboard",

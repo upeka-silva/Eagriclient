@@ -103,8 +103,7 @@ const Login = () => {
   };
 
   const goFarmer = () => {
-    console.log("farmer")
-    navigate("farmer");
+    navigate("/temp-farmer");
   };
 
   return (
