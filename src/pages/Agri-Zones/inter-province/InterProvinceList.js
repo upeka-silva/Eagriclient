@@ -9,7 +9,7 @@ const InterProvinceList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "Inter Province Area ID" },
+    { field: "agInterProvinceId", headerName: "Code" },
     { field: "description", headerName: "Description" },
   ];
 

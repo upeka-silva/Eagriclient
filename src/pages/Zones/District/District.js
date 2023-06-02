@@ -23,6 +23,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const District = () => {
   useUserAccessValidation();
@@ -211,7 +212,7 @@ const District = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete District"
         actions={
           <ActionWrapper>
             <Button
@@ -234,7 +235,7 @@ const District = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
