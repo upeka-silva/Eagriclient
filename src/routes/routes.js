@@ -74,6 +74,7 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 import GiIsland from '@mui/icons-material/WaterDamage';
+import Organization from "../pages/Organization/Organization";
 
 
 
@@ -114,6 +115,12 @@ export const Routes = [
     path: "/verifyRegistration?/:token",
     element: <VerifyRegistration />,
   },
+
+  {
+    path: "/organization",
+    element: <Organization />,
+  },
+
   {
     path: "/main-dashboard",
     name: "Dashboard",
