@@ -9,7 +9,7 @@ const InstitutionCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "Institution Category ID" },
+    { field: "id", headerName: "Code" },
     { field: "description", headerName: "Description" },
   ];
   return (

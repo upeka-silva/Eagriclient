@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -9,12 +18,13 @@ import {
 } from "../../../utils/constants/permission";
 
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useNavigate } from "react-router";
 import SoilSubTypeList from "./SoilSubTypeList";
 import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -75,40 +85,36 @@ const SoilSubType = () => {
     });
   };
 
-
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedSoilSubTypes.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.soilSubTypeCode} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedSoilSubTypes.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.soilSubTypeCode} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -128,16 +134,16 @@ const SoilSubType = () => {
     try {
       setLoading(true);
       for (const soilSubType of selectedSoilSubTypes) {
-        await deleteSoilSubType(soilSubType?.id, onSuccess, onError)
+        await deleteSoilSubType(soilSubType?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSoilSubTypes()
+      resetSelectedSoilSubTypes();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -177,7 +183,7 @@ const SoilSubType = () => {
             </Button>
           </PermissionWrapper>
         )}
-          {selectedSoilSubTypes.length > 0 && (
+        {selectedSoilSubTypes.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           >
@@ -190,22 +196,23 @@ const SoilSubType = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
       >
-        <SoilSubTypeList
-          selectedRows={selectedSoilSubTypes}
-          onRowSelect={toggleSoilSubTypesSelect}
-          selectAll={selectAllSoilSubTypes}
-          unSelectAll={resetSelectedSoilSubTypes}
-        />
+        {loading === false && (
+          <SoilSubTypeList
+            selectedRows={selectedSoilSubTypes}
+            onRowSelect={toggleSoilSubTypesSelect}
+            selectAll={selectAllSoilSubTypes}
+            unSelectAll={resetSelectedSoilSubTypes}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Soil Subtype"
         actions={
           <ActionWrapper>
             <Button
@@ -228,8 +235,8 @@ const SoilSubType = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

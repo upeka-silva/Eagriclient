@@ -102,6 +102,10 @@ const Login = () => {
 		setShowPassword((prev) => !prev);
 	};
 
+	const goOrganization = () => {
+		navigate("/organization");
+	  };
+
 	return (
 		<LoginWrapper>
 			<Grid
@@ -116,7 +120,7 @@ const Login = () => {
 						<BGImg />
 						<OtherLinkWrapper>
 							<RegisterButtons>Register Farmer</RegisterButtons>
-							<RegisterButtons>Register Organization</RegisterButtons>
+							<RegisterButtons onClick={goOrganization}>Register Your Organization</RegisterButtons>
 						</OtherLinkWrapper>
 					</LeftWrapper>
 				</Grid>

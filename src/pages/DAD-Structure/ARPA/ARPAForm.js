@@ -178,13 +178,14 @@ const ARPAForm = () => {
           disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}
           value={formData ? formData.ascDto : ""}
-          getOptionLabel={(i) => `${i.code} - ${i.name}`}
+          getOptionLabel={(i) => `${i.ascCode} - ${i.name}`}
           onChange={(event, value) => {
             handleChange(value, "ascDto");
           }}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}

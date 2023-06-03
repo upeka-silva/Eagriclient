@@ -203,16 +203,12 @@ const SoilSubTypeForm = () => {
           }}
           sx={{
             width: 264,
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-            />
-          )}
+          renderInput={(params) => <TextField {...params} size="small" />}
         />
       </FieldWrapper>
       <ButtonWrapper isCenter>

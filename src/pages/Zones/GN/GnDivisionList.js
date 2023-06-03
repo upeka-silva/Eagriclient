@@ -10,8 +10,8 @@ const GnDivisionList = ({
 }) => {
 
   const columns = [
-    { field: 'code', headerName: 'GN Division Code' },
-    { field: 'name', headerName: 'GN Division Name' },
+    { field: 'code', headerName: 'Code' },
+    { field: 'name', headerName: 'Description' },
 ];
 
 

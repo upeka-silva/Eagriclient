@@ -1,9 +1,21 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper"
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 
 import { useNavigate } from "react-router";
 import SoilTypeList from "./SoilTypeList";
@@ -11,8 +23,8 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -72,39 +84,36 @@ const SoilType = () => {
     });
   };
 
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedSoilTypes.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.soilTypeCode} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedSoilTypes.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.soilTypeCode} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -124,22 +133,21 @@ const SoilType = () => {
     try {
       setLoading(true);
       for (const soilType of selectedSoilTypes) {
-        await deleteSoilType(soilType?.id, onSuccess, onError)
+        await deleteSoilType(soilType?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSoilTypes()
+      resetSelectedSoilTypes();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
-
+  };
 
   return (
     <div>
       <ActionWrapper>
-       <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TYPE}`}
         >
           <Button variant="contained" onClick={onCreate}>
@@ -160,21 +168,21 @@ const SoilType = () => {
             </Button>
           </PermissionWrapper>
         )}
-          {selectedSoilTypes.length === 1 && (
-               <PermissionWrapper
-               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
-           >
-               <Button
-                   variant='contained'
-                   color='info'
-                   onClick={onView}
-                   sx={{ ml: '8px' }}
-               >
-                   {DEF_ACTIONS.VIEW}
-               </Button>
-           </PermissionWrapper>
+        {selectedSoilTypes.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
+          >
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onView}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.VIEW}
+            </Button>
+          </PermissionWrapper>
         )}
-         {selectedSoilTypes.length > 0 && (
+        {selectedSoilTypes.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_TYPE}`}
           >
@@ -187,22 +195,23 @@ const SoilType = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
-    <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TYPE}`}
       >
-        <SoilTypeList
-           selectedRows={selectedSoilTypes}
-           onRowSelect={toggleSoilTypesSelect}
-           selectAll={selectAllSoilTypes}
-           unSelectAll={resetSelectedSoilTypes}
-        />
+        {loading === false && (
+          <SoilTypeList
+            selectedRows={selectedSoilTypes}
+            onRowSelect={toggleSoilTypesSelect}
+            selectAll={selectAllSoilTypes}
+            unSelectAll={resetSelectedSoilTypes}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Soil Type"
         actions={
           <ActionWrapper>
             <Button
@@ -225,8 +234,8 @@ const SoilType = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
