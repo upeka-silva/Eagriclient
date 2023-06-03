@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button } from "@mui/material";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import Divider from '@mui/material/Divider';
 
 const Organization = () => {
   const navigate = useNavigate();
@@ -35,11 +36,11 @@ const Organization = () => {
   return (
     <Wrapper>
       <div style={{ display: "flex", flexDirection: "column" }}>
-      <ActionWrapper isLeft>
-        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-          Go back to list
-        </Button>
-      </ActionWrapper>
+        <ActionWrapper isLeft>
+          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+            Go back to list
+          </Button>
+        </ActionWrapper>
         <FormHeader>Register Your Organization</FormHeader>
         <FormWrapper>
           <FieldWrapper>
@@ -104,7 +105,7 @@ const Organization = () => {
               }}
             />
           </FieldWrapper>
-          <hr style={{ border: "2px", backgroundColor: "red" }} />
+          <Divider style={{marginTop: "20px"}} />
           <ContactWrapper>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <FieldWrapper>
@@ -130,13 +131,13 @@ const Organization = () => {
                 />
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Manager Nic Number</FieldName>
+                <FieldName>Manager NIC Number</FieldName>
                 <TextField
                   name="nic"
                   id="nic"
                   value={formData?.nic || ""}
                   fullWidth
-                  placeholder="Type the organization name"
+                  placeholder="NIC Number"
                   onChange={(e) => handleChange(e?.target?.value || "", "nic")}
                   sx={{
                     width: "264px",
@@ -208,7 +209,7 @@ const Organization = () => {
                     }}
                   >
                     <FormControlLabel control={<Radio />} />
-                    <FieldName>Primary Contact</FieldName>
+                    <FieldName>Secondary Contact</FieldName>
                   </div>
                 </div>
 
@@ -254,27 +255,6 @@ const Organization = () => {
               </FieldWrapper>
             </div>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <FieldWrapper>
-                <FieldName>Email</FieldName>
-                <TextField
-                  name="email"
-                  id="email"
-                  value={formData?.email || ""}
-                  fullWidth
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "email")
-                  }
-                  sx={{
-                    width: "264px",
-                    "& .MuiInputBase-root": {
-                      height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                      fontSize: "11px",
-                    },
-                  }}
-                />
-              </FieldWrapper>
               <FieldWrapper>
                 <FieldName>Address 1</FieldName>
                 <TextField
@@ -377,13 +357,12 @@ const Organization = () => {
               />
             </FieldWrapper>
             <FieldWrapper>
-              <FieldName>Manager Nic Number</FieldName>
+              <FieldName>Manager NIC Number</FieldName>
               <TextField
                 name="nic"
                 id="nic"
                 value={formData?.nic || ""}
                 fullWidth
-                placeholder="Type the organization name"
                 onChange={(e) => handleChange(e?.target?.value || "", "nic")}
                 sx={{
                   width: "264px",
@@ -453,7 +432,7 @@ const Organization = () => {
                   }}
                 >
                   <FormControlLabel control={<Radio />} />
-                  <FieldName>Primary Contact</FieldName>
+                  <FieldName>Secondary Contact</FieldName>
                 </div>
               </div>
 
@@ -495,25 +474,6 @@ const Organization = () => {
             </FieldWrapper>
           </div>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <FieldWrapper>
-              <FieldName>Email</FieldName>
-              <TextField
-                name="email"
-                id="email"
-                value={formData?.email || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "email")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
             <FieldWrapper>
               <FieldName>Address 1</FieldName>
               <TextField

@@ -120,7 +120,7 @@ const Login = () => {
 						<BGImg />
 						<OtherLinkWrapper>
 							<RegisterButtons>Register Farmer</RegisterButtons>
-							<RegisterButtons onClick={goOrganization}>Register Organization</RegisterButtons>
+							<RegisterButtons onClick={goOrganization}>Register Your Organization</RegisterButtons>
 						</OtherLinkWrapper>
 					</LeftWrapper>
 				</Grid>
