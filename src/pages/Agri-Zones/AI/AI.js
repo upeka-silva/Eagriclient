@@ -24,6 +24,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteAI } from "../../../redux/actions/aiRegion/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const AI = () => {
   useUserAccessValidation();
@@ -124,7 +125,7 @@ const AI = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

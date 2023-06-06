@@ -24,6 +24,7 @@ import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliSystem/mahaw
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const MahaweliBlock = () => {
   useUserAccessValidation();
@@ -124,7 +125,7 @@ const MahaweliBlock = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

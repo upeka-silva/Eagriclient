@@ -3,6 +3,7 @@ import { useSnackBars } from '../../context/SnackBarContext';
 import { fetchAllRoles } from '../../redux/actions/permission/actions';
 import { SnackBarTypes } from '../../utils/constants/snackBarTypes';
 import RoleAccordion from './RoleAccordion';
+import { defaultMessages } from '../../utils/constants/apiMessages';
 
 const RoleList = () => {
 
@@ -13,7 +14,7 @@ const RoleList = () => {
     const { addSnackBar } = useSnackBars();
 
     const onError = (message, callback = () => { }) => {
-        addSnackBar({ type: SnackBarTypes.error, message: message || 'Something went wrong' });
+        addSnackBar({ type: SnackBarTypes.error, message: message || defaultMessages.apiErrorUnknown });
         callback();
     }
 

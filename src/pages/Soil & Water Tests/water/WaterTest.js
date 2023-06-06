@@ -23,6 +23,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import WaterTestList from "./WaterTestList";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const WaterTest = () => {
   useUserAccessValidation();
@@ -123,7 +124,7 @@ const WaterTest = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

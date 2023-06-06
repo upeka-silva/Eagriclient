@@ -56,5 +56,5 @@ const PageWrapper = styled.div`
   width: 100%;
   ${props => props.sx ? props.sx : ''}
   /* padding-right: 12px; */
-  overflow: scroll;
+  ${(props) => (props.sx ? 'overflow: scroll;' : '')}
 `;

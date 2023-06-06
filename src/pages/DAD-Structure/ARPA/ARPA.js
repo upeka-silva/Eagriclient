@@ -24,6 +24,7 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteARPA } from "../../../redux/actions/arpa/action"
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 
 const ARPA = () => {
@@ -120,7 +121,7 @@ const ARPA = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

@@ -1,4 +1,5 @@
 import { post } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleAgroEco = async (
   payload = {},
@@ -15,7 +16,7 @@ export const handleAgroEco = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -27,7 +28,7 @@ export const handleAgroEco = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
