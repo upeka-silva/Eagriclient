@@ -153,7 +153,7 @@ const SoilTest = () => {
     <div>
     <ActionWrapper>
     <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TEST}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -161,7 +161,7 @@ const SoilTest = () => {
         </PermissionWrapper>
         {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -175,7 +175,7 @@ const SoilTest = () => {
         )}
           {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -190,7 +190,7 @@ const SoilTest = () => {
         )}
           {selectSoilTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -205,7 +205,7 @@ const SoilTest = () => {
         )}
     </ActionWrapper>
     <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TEST}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
       >
         <SoilTestList
           selectedRows={selectSoilTest}
