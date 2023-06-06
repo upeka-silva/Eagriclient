@@ -7,7 +7,7 @@ export const handleProvince = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("geo-data/provinces2", payload, true);
+    const response = await post("geo-data/provinces", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
