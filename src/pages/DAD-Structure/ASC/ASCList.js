@@ -9,10 +9,9 @@ const ASCList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "code", headerName: "ASC Code" },
-    { field: "name", headerName: "ASC Name" },
-    { field: "districtDto", headerName: "District Code" },
+    { field: "ascCode", headerName: "Code"},
+    { field: "name", headerName: "Name"},
+    // { field: "districtDto.code", headerName: "District Code"},
   ];
 
   return (

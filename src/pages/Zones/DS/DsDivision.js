@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -6,18 +6,26 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { useNavigate } from "react-router";
-import { Button, CircularProgress, Divider, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import DsDivisionList from "./DsDivisionList"
+import DsDivisionList from "./DsDivisionList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import { deleteDsDivision } from '../../../redux/actions/dsDivision/action';
-
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const DsDivision = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -49,10 +57,11 @@ const DsDivision = () => {
     setSelectedDsDivisions([]);
   };
 
-
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/ds-division-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/ds-division-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -75,39 +84,36 @@ const DsDivision = () => {
     });
   };
 
-
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedDsDivisions.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.code} - {p.name}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedDsDivisions.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -127,17 +133,16 @@ const DsDivision = () => {
     try {
       setLoading(true);
       for (const dsDivision of selectedDsDivisions) {
-        await deleteDsDivision(dsDivision?.id, onSuccess, onError)
+        await deleteDsDivision(dsDivision?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedDsDivisions()
+      resetSelectedDsDivisions();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
-
+  };
 
   return (
     <div>
@@ -162,24 +167,22 @@ const DsDivision = () => {
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
-      
         )}
-         {selectedDsDivisions.length === 1 && (
-               <PermissionWrapper
-               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
-           >
-               <Button
-                   variant='contained'
-                   color='info'
-                   onClick={onView}
-                   sx={{ ml: '8px' }}
-               >
-                   {DEF_ACTIONS.VIEW}
-               </Button>
-           </PermissionWrapper>
-      
+        {selectedDsDivisions.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+          >
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onView}
+              sx={{ ml: "8px" }}
+            >
+              {DEF_ACTIONS.VIEW}
+            </Button>
+          </PermissionWrapper>
         )}
-            {selectedDsDivisions.length > 0 && (
+        {selectedDsDivisions.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DS_DIVISION}`}
           >
@@ -192,22 +195,23 @@ const DsDivision = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
-       <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DS_DIVISION}`}
       >
-      <DsDivisionList
-          selectedRows={selectedDsDivisions}
-          onRowSelect={toggleDsDivisionSelect}
-          selectAll={selectAllDsDivisions}
-          unSelectAll={resetSelectedDsDivisions}
-        />
+        {loading === false && (
+          <DsDivisionList
+            selectedRows={selectedDsDivisions}
+            onRowSelect={toggleDsDivisionSelect}
+            selectAll={selectAllDsDivisions}
+            unSelectAll={resetSelectedDsDivisions}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete DS Division"
         actions={
           <ActionWrapper>
             <Button
@@ -230,13 +234,13 @@ const DsDivision = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
     </div>
-  )
-}
+  );
+};
 
-export default DsDivision
+export default DsDivision;

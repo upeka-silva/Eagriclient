@@ -5,6 +5,9 @@ import {
   TextField,
   CircularProgress,
   Autocomplete,
+  FormControl,
+  Select,
+  MenuItem
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -35,7 +38,6 @@ const AIForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [ascList, setAscList] = useState([]);
-  const [parentType, setParentType] = useState([]);
   const [parentValue, setParentValue] = useState([]);
 
   const { addSnackBar } = useSnackBars();
@@ -171,26 +173,24 @@ const AIForm = () => {
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>Parent Type</FieldName>
-        <Autocomplete
-          options={parentType}
-          getOptionLabel={(option) => option.name}
-          onChange={(event, value) => {
-            handleChange(value, "");
-          }}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
+        <FormControl>
+          <Select
+            value={formData?.parentType || ""}
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "parentType")
+            }
+            sx={{
+              width: "264px",
+              height: "30px",
               borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
-        />
+            }}
+            size="small"
+          >
+            <MenuItem value={"PROVINCIAL "}>Provincial</MenuItem>
+            <MenuItem value={"INTERPROVINCIAL"}>Inter Provincial</MenuItem>
+          </Select>
+        </FormControl>
       </FieldWrapper>
       <FieldWrapper>
         <FieldName>Parent Value</FieldName>
@@ -202,7 +202,8 @@ const AIForm = () => {
           }}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}
@@ -225,7 +226,8 @@ const AIForm = () => {
           }}
           sx={{
             width: "264px",
-            "& .MuiInputBase-root": {
+            "& .MuiOutlinedInput-root": {
+              height: "30px",
               borderRadius: "8px",
             },
           }}

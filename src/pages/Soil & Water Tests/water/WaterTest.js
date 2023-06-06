@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
   Button,
   CircularProgress,
@@ -11,34 +9,33 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import ARPAList from "./ARPAList";
-import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteARPA } from "../../../redux/actions/arpa/action"
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { deleteWaterTests } from "../../../redux/actions/soil & water tests/water/action";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import WaterTestList from "./WaterTestList";
 
-
-const ARPA = () => {
+const WaterTest = () => {
   useUserAccessValidation();
-  const { addSnackBar } = useSnackBars();
+  const navigate = useNavigate();
+  const { addSnackBar } = useSnackBars;
 
-  const [selectedArpa, setSelectedArpa] = useState([]);
+  const [selectWaterTest, setSelectWaterTest] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const navigate = useNavigate();
-
-  const toggleArpaSelect = (component) => {
-    setSelectedArpa((current = []) => {
+  const toggleWaterTestSelect = (component) => {
+    setSelectWaterTest((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -50,32 +47,38 @@ const ARPA = () => {
     });
   };
 
-  const selectAllArpa = (all = []) => {
-    setSelectedArpa(all);
+  const selectAllWaterTests = (all = []) => {
+    setSelectWaterTest(all);
   };
 
-  const resetSelectedArpa = () => {
-    setSelectedArpa([]);
+  const resetSelectedWaterTests = () => {
+    setSelectWaterTest([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/dad-structure/arpa-area-form", {
+    navigate("/tests/Water-test-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/dad-structure/arpa-area-form", {
-      state: { action: DEF_ACTIONS.EDIT, target: selectedArpa[0] || {} },
+    navigate("/tests/Water-test-form", {
+      state: {
+        action: DEF_ACTIONS.EDIT,
+        target: selectWaterTest[0] || {},
+      },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/dad-structure/arpa-area-form", {
-      state: { action: DEF_ACTIONS.VIEW, target: selectedArpa[0] || {} },
+    navigate("/tests/Water-test-form", {
+      state: {
+        action: DEF_ACTIONS.VIEW,
+        target: selectWaterTest[0] || {},
+      },
     });
   };
 
@@ -90,7 +93,7 @@ const ARPA = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedArpa.map((p, key) => {
+        {selectWaterTest.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -101,7 +104,7 @@ const ARPA = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.arpaId} - {p.name}
+                {p.code} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -124,16 +127,15 @@ const ARPA = () => {
     });
   };
 
-
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const arpa of selectedArpa) {
-        await deleteARPA(arpa?.id, onSuccess, onError);
+      for (const WaterTests of selectWaterTest) {
+        await deleteWaterTests(WaterTests?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedArpa();
+      resetSelectedWaterTests();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -144,16 +146,15 @@ const ARPA = () => {
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ARPA}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_TEST}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-
-        {selectedArpa.length === 1 && (
+        {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -165,9 +166,9 @@ const ARPA = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedArpa.length === 1 && (
+        {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -179,9 +180,9 @@ const ARPA = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectedArpa.length > 0 && (
+        {selectWaterTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ARPA}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.WATER_TEST}`}
           >
             <Button
               variant="contained"
@@ -192,24 +193,21 @@ const ARPA = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ARPA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.WATER_TEST}`}
       >
-        {loading === false && (
-          <ARPAList
-            selectedRows={selectedArpa}
-            onRowSelect={toggleArpaSelect}
-            selectAll={selectAllArpa}
-            unSelectAll={resetSelectedArpa}
-          />
-        )}
+        <WaterTestList
+          selectedRows={selectWaterTest}
+          onRowSelect={toggleWaterTestSelect}
+          selectAll={selectAllWaterTests}
+          unSelectAll={resetSelectedWaterTests}
+        />
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete ARPA Area"
+        title="Delete Province(s)"
         actions={
           <ActionWrapper>
             <Button
@@ -232,8 +230,8 @@ const ARPA = () => {
         }
       >
         <>
-          <DeleteMsg />
-          <Divider sx={{ mt: '16px' }} />
+          <Typography>Are you sure to delete the following items?</Typography>
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
@@ -241,4 +239,4 @@ const ARPA = () => {
   );
 };
 
-export default ARPA;
+export default WaterTest;
