@@ -109,7 +109,7 @@ const Login = () => {
 
   return (
     <LoginWrapper>
-      <Grid container sx={{ flex: 1, border: "1px solid green" }}>
+      <Grid container sx={{ flex: 1 }}>
         <BGImg src={Vector} />
         <Grid item sm={8}>
           <LeftWrapper>
