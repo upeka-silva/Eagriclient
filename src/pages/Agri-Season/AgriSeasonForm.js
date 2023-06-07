@@ -168,7 +168,10 @@ const AgriSeasonForm = () => {
           id="code"
           value={formData?.code || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
           onChange={(e) => handleChange(e?.target?.value || "", "code")}
           sx={{
             width: "264px",
