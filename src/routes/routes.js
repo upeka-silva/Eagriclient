@@ -53,6 +53,8 @@ import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
 import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
 import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
+import AgriSeason from "../pages/Agri-Season/AgriSeason";
+import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
 
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
@@ -77,6 +79,8 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 import GiIsland from '@mui/icons-material/WaterDamage';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
 import Organization from "../pages/Organization/Organization";
 
 
@@ -495,6 +499,19 @@ export const Routes = [
         element: <WaterTestForm />
       },
     ],
+  },
+  {
+    path: "/agri-season",
+    name: "Agriculture Season",
+    element: <AgriSeason />,
+    isSideBar: true,
+    icon: WbSunnyIcon,
+  },
+  {
+    path: "/agri-season-form",
+    name: "Agriculture Season Form",
+    element: <AgriSeasonForm />,
+    isSideBar: false,
   },
 
   {
