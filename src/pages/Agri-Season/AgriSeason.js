@@ -20,6 +20,7 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import AgriSeasonList from "./AgriSeasonList";
 import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
 
 const AgriSeason = () => {
   useUserAccessValidation();
@@ -243,7 +244,7 @@ const AgriSeason = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
