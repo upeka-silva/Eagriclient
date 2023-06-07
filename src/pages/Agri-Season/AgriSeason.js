@@ -116,7 +116,7 @@ const AgriSeason = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.id} - {p.description}
+                {p.code} - {p.description}
               </ListItemText>
             </ListItem>
           );
@@ -221,7 +221,7 @@ const AgriSeason = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Agriculture Season"
         actions={
           <ActionWrapper>
             <Button
