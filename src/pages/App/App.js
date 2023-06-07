@@ -54,7 +54,9 @@ const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  background-color: aquamarine;
   ${props => props.sx ? props.sx : ''}
   /* padding-right: 12px; */
-  overflow: scroll;
+  /* ${(props) => (props.sx ? 'overflow: scroll;' : '')} */
+  overflow: auto;
 `;
