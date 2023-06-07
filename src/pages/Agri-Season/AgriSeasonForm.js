@@ -39,10 +39,19 @@ const AgriSeasonForm = () => {
   const { state } = useLocation();
   const location = useLocation();
   const { addSnackBar } = useSnackBars();
+  const dateAdapter = new AdapterDayjs();
 
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState(state?.target || {});
+  
+	const [formData, setFormData] = useState({
+		...(state?.target || {}),
+		startDate: state?.target?.startDate
+			? dateAdapter.date(state?.target?.startDate)
+			: null,
+		endDate: state?.target?.endDate
+			? dateAdapter.date(state?.target?.endDate)
+			: null,
+	});
   const [saving, setSaving] = useState(false);
 
   const goBack = () => {
@@ -152,6 +161,24 @@ const AgriSeasonForm = () => {
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} Agriculture Season
       </FormHeader>
+      <FieldWrapper>
+        <FieldName>Season ID</FieldName>
+        <TextField
+          name="code"
+          id="code"
+          value={formData?.code || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "code")}
+          sx={{
+            width: "264px",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+        />
+      </FieldWrapper>
       <FieldWrapper>
         <FieldName>Description</FieldName>
         <TextField
