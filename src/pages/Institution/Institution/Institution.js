@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   CircularProgress,
@@ -10,35 +9,35 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import CropSubCategoryList from "./CropSubCategoryList";
+
+import { useNavigate } from "react-router";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { deleteInstitution } from "../../../redux/actions/institution/institution/action";
+import InstitutionList from "./InstitutionList";
 
-const CropSubCategory = () => {
+const Institution = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [selectInstitution, setSelectInstitution] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleSubCategorySelect = (component) => {
-    setSelectSubCategory((current = []) => {
+  const toggleInstitutionSelect = (component) => {
+    setSelectInstitution((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -50,35 +49,37 @@ const CropSubCategory = () => {
     });
   };
 
-  const selectAllSubCategories = (all = []) => {
-    setSelectSubCategory(all);
+  const selectAllInstitutions = (all = []) => {
+    setSelectInstitution(all);
   };
 
-  const resetSelectedSubCategory = () => {
-    setSelectSubCategory([]);
+  const resetSelectedInstitutions = () => {
+    setSelectInstitution([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/sub-category-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/institution/institution-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/sub-category-form", {
+    navigate("/institution/institution-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectSubCategory[0] || {},
+        target: selectInstitution[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/sub-category-form", {
+    navigate("/institution/institution-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectSubCategory[0] || {},
+        target: selectInstitution[0] || {},
       },
     });
   };
@@ -94,7 +95,7 @@ const CropSubCategory = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectSubCategory.map((p, key) => {
+        {selectInstitution.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -105,7 +106,7 @@ const CropSubCategory = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {p.code} - {p.institutionName}
               </ListItemText>
             </ListItem>
           );
@@ -124,19 +125,19 @@ const CropSubCategory = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: message || "Something went wrong.",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
+      for (const institution of selectInstitution) {
+        await deleteInstitution(institution?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSubCategory();
+      resetSelectedInstitutions();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -147,15 +148,15 @@ const CropSubCategory = () => {
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectSubCategory.length === 1 && (
+        {selectInstitution.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION}`}
           >
             <Button
               variant="contained"
@@ -167,9 +168,9 @@ const CropSubCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectSubCategory.length === 1 && (
+        {selectInstitution.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION}`}
           >
             <Button
               variant="contained"
@@ -181,9 +182,9 @@ const CropSubCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectSubCategory.length > 0 && (
+        {selectInstitution.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION}`}
           >
             <Button
               variant="contained"
@@ -197,21 +198,22 @@ const CropSubCategory = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION}`}
       >
-        {loading === false && (
-          <CropSubCategoryList
-            selectedRows={selectSubCategory}
-            onRowSelect={toggleSubCategorySelect}
-            selectAll={selectAllSubCategories}
-            unSelectAll={resetSelectedSubCategory}
-          />
-        )}
+        {
+          loading === false && (
+            <InstitutionList
+              selectedRows={selectInstitution}
+              onRowSelect={toggleInstitutionSelect}
+              selectAll={selectAllInstitutions}
+              unSelectAll={resetSelectedInstitutions}
+            />
+          )
+        }
       </PermissionWrapper>
-
       <DialogBox
         open={open}
-        title="Delete Crop Sub Category"
+        title="Delete Institution"
         actions={
           <ActionWrapper>
             <Button
@@ -235,7 +237,7 @@ const CropSubCategory = () => {
       >
         <>
           <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
+          <Divider sx={{ mt: '16px' }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
@@ -243,4 +245,4 @@ const CropSubCategory = () => {
   );
 };
 
-export default CropSubCategory;
+export default Institution;

@@ -1,13 +1,12 @@
-import { put, post, get, api_delete } from "../../../services/api";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { put, post, api_delete } from "../../../../services/api"
 
-export const handleFarmLand = async (
+export const handleInstitution = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("", payload, true);
+    const response = await post("geo-data/institutions", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -16,7 +15,7 @@ export const handleFarmLand = async (
           data: {
             apiError: {
               message:
-                response?.message || defaultMessages.apiErrorUnknown,
+                response?.message || "Something went wrong! Please try again.",
             },
           },
         },
@@ -28,7 +27,7 @@ export const handleFarmLand = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+      onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
     }
@@ -38,13 +37,13 @@ export const handleFarmLand = async (
 
 
 
-export const deleteFarmLand = async (
+export const deleteInstitution = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`/${id || ''}`, true);
+    const response = await api_delete(`geo-data/institutions/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -54,7 +53,7 @@ export const deleteFarmLand = async (
           data: {
             apiError: {
               message:
-                response?.message || defaultMessages.apiErrorUnknown,
+                response?.message || "Something went wrong! Please try again.",
             },
           },
         },
@@ -65,20 +64,20 @@ export const deleteFarmLand = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+      onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
     }
   }
 }
 
-export const updateFarmLand = async (
+export const updateInstitution = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`/${payload?.id || ''}`, payload, true);
+    const response = await put(`geo-data/institutions/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -87,7 +86,7 @@ export const updateFarmLand = async (
           data: {
             apiError: {
               message:
-                response?.message || defaultMessages.apiErrorUnknown,
+                response?.message || "Something went wrong! Please try again.",
             },
           },
         },
@@ -99,7 +98,7 @@ export const updateFarmLand = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+      onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
       onError(error);
     }
