@@ -9,7 +9,7 @@ const AgriSeasonList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "Season ID" },
+    { field: "code", headerName: "Code" },
     { field: "description", headerName: "Description" },
     { field: "climateZone", headerName: "Climate Zone" },
   ];
