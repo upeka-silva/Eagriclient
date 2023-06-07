@@ -54,6 +54,9 @@ import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 import AgriSeason from "../pages/Agri-Season/AgriSeason";
 import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
 
+import FarmLand from "../pages/Farm-Land/FarmLand";
+import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -72,7 +75,11 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import GiIsland from '@mui/icons-material/WaterDamage';
+import WbSunnyIcon from '@mui/icons-material/WbSunnyIcon';
+import Organization from "../pages/Organization/Organization";
+
+
 
 
 
@@ -112,6 +119,12 @@ export const Routes = [
     path: "/verifyRegistration?/:token",
     element: <VerifyRegistration />,
   },
+
+  {
+    path: "/organization",
+    element: <Organization />,
+  },
+
   {
     path: "/main-dashboard",
     name: "Dashboard",
@@ -482,6 +495,20 @@ export const Routes = [
     name: "Agriculture Season Form",
     element: <AgriSeasonForm />,
     isSideBar: false,
+  },
+
+  {
+    path: "/farm-land",
+    name: "Farm Land",
+    isSideBar: true,
+    icon: GiIsland,
+    element: <FarmLand />
+  },
+  {
+    path: "/farm-land-form",
+    name: "Farm Land Form",
+    isSideBar: false,
+    element: <FarmLandForm />
   },
 
 ];

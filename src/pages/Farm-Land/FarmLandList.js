@@ -1,23 +1,23 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { CardWrapper } from "../../components/PageLayout/Card";
+import { DataTable } from "../../components/PageLayout/Table";
 
-const InterProvinceList = ({
+const FarmLandList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "agInterProvinceId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "name", headerName: "Name" },
+    { field: "address", headerName: "Address" },
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ag-inter-province-area"}
+        dataEndPoint={""}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -29,4 +29,4 @@ const InterProvinceList = ({
   );
 };
 
-export default InterProvinceList;
+export default FarmLandList;

@@ -267,7 +267,7 @@ const SoilTestFrom = () => {
                 slotProps={{ textField: { size: "small" } }}
                 name="dateSampled"
                 id="dateSampled"
-                value={formData?.sampleDescription || ""}
+                value={formData?.dateSampled || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "dateSampled")

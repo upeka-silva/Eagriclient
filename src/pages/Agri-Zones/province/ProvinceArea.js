@@ -1,12 +1,21 @@
 import React, { useState, useCallback } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import ProvinceAreaList from "./ProvinceAreaList";
 import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 import {
   DEF_ACTIONS,
@@ -15,6 +24,7 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const ProvinceArea = () => {
   useUserAccessValidation();
@@ -48,11 +58,11 @@ const ProvinceArea = () => {
     setSelectedProvinceArea([]);
   };
 
-
-
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/aa-structure/province-area-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/aa-structure/province-area-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -77,36 +87,34 @@ const ProvinceArea = () => {
 
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedProvinceArea.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.agProvinceId} - {p.description}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedProvinceArea.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.agProvinceId} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -126,21 +134,21 @@ const ProvinceArea = () => {
     try {
       setLoading(true);
       for (const provinceArea of selectedProvinceArea) {
-        await deleteInterProvinceArea(provinceArea?.id, onSuccess, onError)
+        await deleteInterProvinceArea(provinceArea?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedProvinceArea()
+      resetSelectedProvinceArea();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
       <ActionWrapper>
-      <PermissionWrapper
+        <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_G_PROVINCIAL_AREA}`}
         >
           <Button variant="contained" onClick={onCreate}>
@@ -162,7 +170,7 @@ const ProvinceArea = () => {
             </Button>
           </PermissionWrapper>
         )}
-       {selectedProvinceArea.length === 1 && (
+        {selectedProvinceArea.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_G_PROVINCIAL_AREA}`}
           >
@@ -176,7 +184,7 @@ const ProvinceArea = () => {
             </Button>
           </PermissionWrapper>
         )}
-             {selectedProvinceArea.length > 0 && (
+        {selectedProvinceArea.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_G_PROVINCIAL_AREA}`}
           >
@@ -189,22 +197,23 @@ const ProvinceArea = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
-       <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_G_PROVINCIAL_AREA}`}
       >
-       <ProvinceAreaList
-          selectedRows={selectedProvinceArea}
-          onRowSelect={toggleProvinceAreaSelect}
-          selectAll={selectAllProvinceArea}
-          unSelectAll={resetSelectedProvinceArea}
-        />
+        {loading === false && (
+          <ProvinceAreaList
+            selectedRows={selectedProvinceArea}
+            onRowSelect={toggleProvinceAreaSelect}
+            selectAll={selectAllProvinceArea}
+            unSelectAll={resetSelectedProvinceArea}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Province Area"
         actions={
           <ActionWrapper>
             <Button
@@ -227,8 +236,8 @@ const ProvinceArea = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: '16px' }} />
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
