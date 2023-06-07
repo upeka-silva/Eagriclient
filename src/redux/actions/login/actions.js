@@ -1,6 +1,7 @@
 import { post } from '../../../services/api'
 import { removeLSItem, setLSItem } from '../../../services/storage';
 import { StorageConstants } from '../../../services/storage/constant';
+import { defaultMessages } from '../../../utils/constants/apiMessages';
 import { decompressJWT } from '../../../utils/helpers/permission';
 
 export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val) => { }) => {
@@ -18,7 +19,7 @@ export const initiateLogin = async (body, onSuccess = () => { }, onError = (_val
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || 'Something went wrong! Please try again.');
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }

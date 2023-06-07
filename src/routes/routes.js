@@ -45,6 +45,8 @@ import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
 import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/InstitutionCategoryForm";
+import Institution from "../pages/Institution/Institution/Institution";
+import InstitutionForm from "../pages/Institution/Institution/InstitutionForm";
 import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
@@ -56,6 +58,7 @@ import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
 
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
+
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -446,6 +449,19 @@ export const Routes = [
         name: "Institution Category Form",
         isSideBar: false,
         element: <InstitutionCategoryForm />,
+      },
+      {
+        path: "/institution",
+        name: "Institution",
+        isSideBar: true,
+        element: <Institution />,
+        icon: ApartmentIcon,
+      },
+      {
+        path: "/institution-form",
+        name: "Institution Form",
+        isSideBar: false,
+        element: <InstitutionForm />,
       },
     ],
   },

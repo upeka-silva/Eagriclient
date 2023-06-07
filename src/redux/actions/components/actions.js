@@ -1,4 +1,5 @@
 import { post } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleComponent = async (payload = {}, onSuccess = () => { }, onError = (_message) => { }) => {
     try {
@@ -11,7 +12,7 @@ export const handleComponent = async (payload = {}, onSuccess = () => { }, onErr
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || 'Something went wrong! Please try again.');
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }

@@ -24,6 +24,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -125,7 +126,7 @@ const DsDivision = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

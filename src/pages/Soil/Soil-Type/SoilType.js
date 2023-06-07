@@ -25,6 +25,7 @@ import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -125,7 +126,7 @@ const SoilType = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

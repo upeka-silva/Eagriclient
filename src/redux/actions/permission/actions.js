@@ -1,4 +1,5 @@
 import { get } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const fetchAllRoles = async (onSuccess = () => { }, onError = (_message) => { }) => {
     try {
@@ -13,7 +14,7 @@ export const fetchAllRoles = async (onSuccess = () => { }, onError = (_message) 
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || 'Something went wrong! Please try again.');
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }
@@ -34,7 +35,7 @@ export const fetchAllComponents = async (onSuccess = () => { }, onError = (_mess
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || 'Something went wrong! Please try again.');
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }
@@ -55,7 +56,7 @@ export const fetchAllActions = async (onSuccess = () => { }, onError = (_message
         if (typeof error === 'object') {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || 'Something went wrong! Please try again.');
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }

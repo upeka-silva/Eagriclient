@@ -24,6 +24,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -123,7 +124,7 @@ const CropCategory = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

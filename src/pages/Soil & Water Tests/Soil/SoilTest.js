@@ -23,6 +23,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import SoilTestList from "./SoilTestList";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const SoilTest = () => {
   useUserAccessValidation();
@@ -127,7 +128,7 @@ const SoilTest = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

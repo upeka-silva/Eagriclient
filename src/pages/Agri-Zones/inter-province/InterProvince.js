@@ -24,6 +24,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const InterProvince = () => {
   useUserAccessValidation();
@@ -126,7 +127,7 @@ const InterProvince = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

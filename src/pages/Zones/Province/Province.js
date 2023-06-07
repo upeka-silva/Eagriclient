@@ -15,6 +15,7 @@ import { deleteProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const Province = () => {
   useUserAccessValidation();
@@ -115,7 +116,7 @@ const Province = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
