@@ -76,7 +76,8 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 import GiIsland from '@mui/icons-material/WaterDamage';
-import WbSunnyIcon from '@mui/icons-material/WbSunnyIcon';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
 import Organization from "../pages/Organization/Organization";
 
 
