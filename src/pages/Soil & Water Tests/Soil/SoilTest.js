@@ -23,6 +23,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import SoilTestList from "./SoilTestList";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const SoilTest = () => {
   useUserAccessValidation();
@@ -127,7 +128,7 @@ const SoilTest = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
@@ -153,7 +154,7 @@ const SoilTest = () => {
     <div>
     <ActionWrapper>
     <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TEST}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -161,7 +162,7 @@ const SoilTest = () => {
         </PermissionWrapper>
         {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -175,7 +176,7 @@ const SoilTest = () => {
         )}
           {selectSoilTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -190,7 +191,7 @@ const SoilTest = () => {
         )}
           {selectSoilTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_TEST}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -205,7 +206,7 @@ const SoilTest = () => {
         )}
     </ActionWrapper>
     <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TEST}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
       >
         <SoilTestList
           selectedRows={selectSoilTest}

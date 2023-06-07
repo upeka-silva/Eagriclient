@@ -25,6 +25,7 @@ import { useNavigate } from "react-router";
 import SoilSubTypeList from "./SoilSubTypeList";
 import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -126,7 +127,7 @@ const SoilSubType = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 

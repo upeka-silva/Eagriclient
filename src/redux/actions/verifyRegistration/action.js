@@ -1,4 +1,5 @@
 import { get } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const verifyRegistration = async (
     token = '',
@@ -15,7 +16,7 @@ export const verifyRegistration = async (
                     data: {
                         apiError: {
                             message:
-                                response?.message || "Something went wrong! Please try again.",
+                                response?.message || defaultMessages.apiErrorUnknown,
                         },
                     },
                 },
@@ -26,7 +27,7 @@ export const verifyRegistration = async (
         if (typeof error === "object") {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || "Something went wrong! Please try again.");
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }
@@ -48,7 +49,7 @@ export const resendVerificationToken = async (
                     data: {
                         apiError: {
                             message:
-                                response?.message || "Something went wrong! Please try again.",
+                                response?.message || defaultMessages.apiErrorUnknown,
                         },
                     },
                 },
@@ -59,7 +60,7 @@ export const resendVerificationToken = async (
         if (typeof error === "object") {
             const { data } = error;
             const { apiError } = data;
-            onError(apiError?.message || "Something went wrong! Please try again.");
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
         } else {
             onError(error);
         }

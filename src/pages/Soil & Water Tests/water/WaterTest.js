@@ -23,6 +23,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import WaterTestList from "./WaterTestList";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const WaterTest = () => {
   useUserAccessValidation();
@@ -123,7 +124,7 @@ const WaterTest = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
@@ -146,7 +147,7 @@ const WaterTest = () => {
     <div>
       <ActionWrapper>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_TEST}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_SAMPLE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -154,7 +155,7 @@ const WaterTest = () => {
         </PermissionWrapper>
         {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.WATER_TEST}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.WATER_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -168,7 +169,7 @@ const WaterTest = () => {
         )}
         {selectWaterTest.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.WATER_TEST}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.WATER_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -182,7 +183,7 @@ const WaterTest = () => {
         )}
         {selectWaterTest.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.WATER_TEST}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.WATER_SAMPLE}`}
           >
             <Button
               variant="contained"
@@ -196,7 +197,7 @@ const WaterTest = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.WATER_TEST}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.WATER_SAMPLE}`}
       >
         <WaterTestList
           selectedRows={selectWaterTest}

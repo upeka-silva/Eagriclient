@@ -24,6 +24,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { deleteASC } from "../../../redux/actions/asc/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -119,7 +120,7 @@ const ASC = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
