@@ -45,16 +45,21 @@ import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
 import InstitutionCategoryForm from "../pages/Institution/InstitutionCategory/InstitutionCategoryForm";
+import Institution from "../pages/Institution/Institution/Institution";
+import InstitutionForm from "../pages/Institution/Institution/InstitutionForm";
 import VerifyRegistration from "../pages/VerifyRegistration/VerifyRegistration";
 
 import SoilTest from "../pages/Soil & Water Tests/Soil/SoilTest";
 import SoilTestFrom from "../pages/Soil & Water Tests/Soil/SoilTestFrom";
 import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
+import AgriSeason from "../pages/Agri-Season/AgriSeason";
+import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
 
 import Farmer from "../pages/Farmer/Farmer";
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
+
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -75,6 +80,10 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 import GiIsland from '@mui/icons-material/WaterDamage';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+
+import Organization from "../pages/Organization/Organization";
+
 
 
 
@@ -113,6 +122,12 @@ export const Routes = [
     path: "/verifyRegistration?/:token",
     element: <VerifyRegistration />,
   },
+
+  {
+    path: "/organization",
+    element: <Organization />,
+  },
+
   {
     path: "/temp-farmer",
     element: <Farmer />
@@ -440,6 +455,19 @@ export const Routes = [
         isSideBar: false,
         element: <InstitutionCategoryForm />,
       },
+      {
+        path: "/institution",
+        name: "Institution",
+        isSideBar: true,
+        element: <Institution />,
+        icon: ApartmentIcon,
+      },
+      {
+        path: "/institution-form",
+        name: "Institution Form",
+        isSideBar: false,
+        element: <InstitutionForm />,
+      },
     ],
   },
 
@@ -476,6 +504,19 @@ export const Routes = [
         element: <WaterTestForm />
       },
     ],
+  },
+  {
+    path: "/agri-season",
+    name: "Agriculture Season",
+    element: <AgriSeason />,
+    isSideBar: true,
+    icon: WbSunnyIcon,
+  },
+  {
+    path: "/agri-season-form",
+    name: "Agriculture Season Form",
+    element: <AgriSeasonForm />,
+    isSideBar: false,
   },
 
   {

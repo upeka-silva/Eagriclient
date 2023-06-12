@@ -1,4 +1,5 @@
 import { put, post, get, api_delete } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleFarmer = async (
   payload = {},
@@ -15,7 +16,7 @@ export const handleFarmer = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -27,7 +28,7 @@ export const handleFarmer = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -52,7 +53,7 @@ export const deleteFarmer = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -63,7 +64,7 @@ export const deleteFarmer = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -85,7 +86,7 @@ export const updateFarmer = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -97,10 +98,79 @@ export const updateFarmer = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
   }
 };
 
+
+
+export const handleFarmerContact = async (
+  payload = {},
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await post("farmer-contacts", payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateFarmerContact = async (
+  payload = {},
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await put(`farmer-contacts/${payload?.id || ''}`, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};

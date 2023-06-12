@@ -34,10 +34,19 @@ const WaterTestForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
+  const dateAdapter = new AdapterDayjs();
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(state?.target || {});
+  const [formData, setFormData] = useState({
+    ...(state?.target || {}),
+    dateOfCollection: state?.target?.dateOfCollection
+      ? dateAdapter.date(state?.target?.dateOfCollection)
+      : null,
+    testDate: state?.target?.testDate
+      ? dateAdapter.date(state?.target?.testDate)
+      : null,
+  });
   const [saving, setSaving] = useState(false);
 
   const { addSnackBar } = useSnackBars();
@@ -99,11 +108,31 @@ const WaterTestForm = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+
+      let cdate = new Date(formData.dateOfCollection);
+      let tdate = new Date(formData.testDate);
+
       try {
         if (formData?.id) {
-          await updateWaterTest(formData, onSuccess, onError);
+          await updateWaterTest(
+            {
+              ...formData,
+              dateOfCollection: cdate.valueOf() || null,
+              testDate: tdate.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         } else {
-          await handleWaterTest(formData, onSuccess, onError);
+          await handleWaterTest(
+            {
+              ...formData,
+              dateOfCollection: cdate.valueOf() || null,
+              testDate: tdate.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         }
       } catch (error) {
         console.log(error);
@@ -176,10 +205,7 @@ const WaterTestForm = () => {
             id="name"
             value={formData?.name || ""}
             fullWidth
-            disabled={
-              state?.action === DEF_ACTIONS.VIEW ||
-              state?.action === DEF_ACTIONS.EDIT
-            }
+            disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) => handleChange(e?.target?.value || "", "name")}
             sx={{
               width: "264px",
@@ -215,7 +241,10 @@ const WaterTestForm = () => {
         </FieldWrapper>
 
         <FieldWrapper>
-          <FieldName>Sample<br /> Depth</FieldName>
+          <FieldName>
+            Sample
+            <br /> Depth
+          </FieldName>
           <TextField
             name="sampleDepth"
             id="sampleDepth"
@@ -284,9 +313,7 @@ const WaterTestForm = () => {
             value={formData?.remarks || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) =>
-              handleChange(e?.target?.value || "", "remarks")
-            }
+            onChange={(e) => handleChange(e?.target?.value || "", "remarks")}
             sx={{
               width: "750px",
               "& .MuiInputBase-root": {
@@ -521,7 +548,6 @@ const WaterTestForm = () => {
           </FieldWrapper>
         </FormWrapper>
         <FormWrapper>
-     
           <FieldWrapper>
             <FieldName>Phosphate</FieldName>
             <TextField
@@ -754,7 +780,6 @@ const WaterTestForm = () => {
           </FieldWrapper>
         </FormWrapper>
         <FormWrapper>
-        
           <FieldWrapper>
             <FieldName>Copper</FieldName>
             <TextField
@@ -796,7 +821,10 @@ const WaterTestForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>Total<br /> Alkalinity</FieldName>
+            <FieldName>
+              Total
+              <br /> Alkalinity
+            </FieldName>
             <TextField
               name="totalAlkalinity"
               id="totalAlkalinity"
@@ -805,7 +833,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalAlkalinity")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalAlkalinity")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -825,7 +855,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "bicarbonate")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "bicarbonate")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -845,7 +877,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "carbonate")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "carbonate")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -856,7 +890,10 @@ const WaterTestForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>Magnesium<br /> Hardness</FieldName>
+            <FieldName>
+              Magnesium
+              <br /> Hardness
+            </FieldName>
             <TextField
               name="magnesiumHardness"
               id="magnesiumHardness"
@@ -865,7 +902,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "magnesiumHardness")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "magnesiumHardness")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -876,7 +915,10 @@ const WaterTestForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>Calcium<br /> Hardness</FieldName>
+            <FieldName>
+              Calcium
+              <br /> Hardness
+            </FieldName>
             <TextField
               name="calciumHardness"
               id="calciumHardness"
@@ -885,7 +927,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "calciumHardness")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "calciumHardness")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -896,7 +940,10 @@ const WaterTestForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>Total<br /> Hardness</FieldName>
+            <FieldName>
+              Total
+              <br /> Hardness
+            </FieldName>
             <TextField
               name="totalHardness"
               id="totalHardness"
@@ -905,7 +952,9 @@ const WaterTestForm = () => {
               type="number"
               InputProps={{ inputProps: { min: 0 } }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalHardness")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalHardness")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {

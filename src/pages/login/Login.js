@@ -29,10 +29,11 @@ import MailOutlineIcon from "@mui/icons-material/MailOutline";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import Vector from "../../assets/images/Vector.png";
+import Farmer from "../../assets/images/farmer.png";
+import Factory from "../../assets/images/corporate.png";
 
 const CustomTheme = createTheme();
-
-const BGImage = require("../../assets/images/backgroundImg.jpg");
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
@@ -106,17 +107,29 @@ const Login = () => {
     navigate("/temp-farmer");
   };
 
+  const goOrganization = () => {
+    navigate("/organization");
+  };
+  
+
   return (
     <LoginWrapper>
-      <Grid container sx={{ flex: 1, border: "1px solid green" }}>
+      <Grid container sx={{ flex: 1 }}>
+        <BGImg src={Vector} />
         <Grid item sm={8}>
           <LeftWrapper>
-            <AppName>E-EXTENSION SYSTEM</AppName>
-            {/* <BGImg src={BGImage} /> */}
-            <BGImg />
+            <AppName>AGRITECH PORTAL</AppName>
+
             <OtherLinkWrapper>
-              <RegisterButtons onClick={goFarmer}>Register Farmer</RegisterButtons>
-              <RegisterButtons>Register Organization</RegisterButtons>
+              <RegisterButtons onClick={goFarmer}>
+                <img src={Farmer} /> Register Farmer
+              </RegisterButtons>
+
+              <RegisterButtons onClick={goOrganization}>
+                <img src={Factory} />
+                Register Your
+                <br /> Organization
+              </RegisterButtons>
             </OtherLinkWrapper>
           </LeftWrapper>
         </Grid>
@@ -280,6 +293,8 @@ const LeftWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  position: relative;
+  opacity: 0.97;
 `;
 
 const RightWrapper = styled.div`
@@ -290,14 +305,33 @@ const RightWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background-color: #f3f3f3;
+  position: relative;
+  opacity: 0.97;
 `;
 
 const OtherLinkWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
-  width: 100% !important;
+  justify-content: space-between;
+  background-color: #525c5c;
+  padding-left: 43px;
+  padding-top: 35px;
+  padding-right: 43px;
+  padding-bottom: 35px;
+  width: 821px;
+  height: 162px;
+  box-sizing: border-box;
+  background: rgba(82, 92, 92, 0.8);
+  mix-blend-mode: multiply;
+  border: 2px solid #000000;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 31px;
+  left: 13.49%;
+  right: 43.75%;
+  top: 41.5%;
+  bottom: 45%;
+  
 `;
 
 const CustomCard = styled.div`
@@ -332,7 +366,19 @@ const ButtonContainer = styled.button`
 
 const RegisterButtons = styled(ButtonContainer)`
   background-color: #2cb57b;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 500;
+  color: #ffffff;
+  width: 351px;
+  height: 91.07px;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+const ButtonWrapper = styled(ButtonContainer)`
+  display: flex;
+  flex-direction: row;
 `;
 
 const Title = styled.p`
@@ -367,9 +413,12 @@ const AppName = styled.p`
 
 const BGImg = styled.img`
   width: 100%;
-  height: 45%;
+  height: 100%;
   object-fit: cover;
   border: 0 !important;
+  position: absolute;
+
+  /* scale: 75; */
 `;
 
 const Wrapper = styled.div`

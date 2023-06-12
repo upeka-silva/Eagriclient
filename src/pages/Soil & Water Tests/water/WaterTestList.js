@@ -9,15 +9,14 @@ const WaterTestList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "code", headerName: "Water Test Code" },
-    { field: "name", headerName: "Water Test Name" },
+    { field: "code", headerName: "Code" },
+    { field: "name", headerName: "Description" },
   ];
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/Water-samples"}
+        dataEndPoint={"geo-data/water-samples"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

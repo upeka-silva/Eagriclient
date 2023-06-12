@@ -1,4 +1,5 @@
 import {put ,post, api_delete } from "../../../../services/api";
+import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleMahaweliBlock = async (
   payload = {},
@@ -15,7 +16,7 @@ export const handleMahaweliBlock = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -27,7 +28,7 @@ export const handleMahaweliBlock = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -52,7 +53,7 @@ export const updateMahaweliBlock = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -64,7 +65,7 @@ export const updateMahaweliBlock = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -88,7 +89,7 @@ export const deleteMahaweliBlock = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -99,7 +100,7 @@ export const deleteMahaweliBlock = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }

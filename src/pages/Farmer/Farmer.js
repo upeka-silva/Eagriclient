@@ -5,9 +5,11 @@ import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { TextField } from "@mui/material";
+import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
-import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
@@ -19,10 +21,17 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import Divider from "@mui/material/Divider";
+import ContactList from "./ContactList";
+import ContactForm from "./ContactForm";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { useLocation } from "react-router";
 
 const Farmer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState([]);
+  const [open, setOpen] = useState(false);
+  const { state } = useLocation();
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -36,6 +45,22 @@ const Farmer = () => {
     navigate("/login");
   };
 
+  const addContact = () => {
+    setOpen(true);
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const resetForm = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setFormData(state?.target || {});
+    } else {
+      setFormData({});
+    }
+  };
+
   return (
     <Wrapper>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -44,7 +69,7 @@ const Farmer = () => {
             Go back to list
           </Button>
         </ActionWrapper>
-        <FormHeader>Register Your Organization</FormHeader>
+        <FormHeader>Register Farmer</FormHeader>
         <FormWrapper>
           <div style={{ display: "flex", flexDirection: "column" }}>
             <FieldWrapper>
@@ -136,10 +161,13 @@ const Farmer = () => {
               />
             </FieldWrapper>
             <FieldWrapper>
-              <FieldName>Organization Name</FieldName>
+              <FieldName>Date of Birth</FieldName>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={["DatePicker"]}>
                   <DatePicker
+                    name="dob"
+                    id="dob"
+                    value={formData?.dob || ""}
                     sx={{
                       width: "264px",
                       "& .MuiInputBase-root": {
@@ -148,6 +176,9 @@ const Farmer = () => {
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "dob")
+                    }
                   />
                 </DemoContainer>
               </LocalizationProvider>
@@ -156,38 +187,168 @@ const Farmer = () => {
         </FormWrapper>
         <FormWrapper>
           <TypeWrapper>
-            <FieldName>Gender</FieldName>
-            <Types>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Male</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Female</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Other</FieldName>
-              </Type>
-            </Types>
+            <FormControl>
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{
+                  "&.MuiFormLabel-root": {
+                    color: "#434343",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                Gender
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.gender || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "gender")
+                }
+              >
+                <FormControlLabel
+                  value="MALE"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="FEMALE"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Female"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="OTHER"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Other"
+                />
+              </RadioGroup>
+            </FormControl>
           </TypeWrapper>
           <TypeWrapper>
-            <FieldName>Preferred Language</FieldName>
-            <Types>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Sinhala</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Tamil</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>English</FieldName>
-              </Type>
-            </Types>
+            <FormControl>
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{
+                  "&.MuiFormLabel-root": {
+                    color: "#434343",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                Preferred Language
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.nationality || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "nationality")
+                }
+              >
+                <FormControlLabel
+                  value="SINHALA"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Sinhala"
+                />
+                <FormControlLabel
+                  value="TAMIL"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Tamil"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="ENGLISH"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="English"
+                />
+              </RadioGroup>
+            </FormControl>
           </TypeWrapper>
         </FormWrapper>
         <FormWrapper>
@@ -363,12 +524,22 @@ const Farmer = () => {
             />
           </FieldWrapper>
         </div>
-        <ButtonWrapper style={{display: "flex", justifyContent: "flex-start"}}>
-        <AddButton>Save</AddButton>
-        <ResetButton>Reset</ResetButton>
-      </ButtonWrapper>
+        <ButtonWrapper
+          style={{ display: "flex", justifyContent: "flex-start" }}
+        >
+          <AddButton>Save</AddButton>
+          <ResetButton onClick={resetForm}>Reset</ResetButton>
+        </ButtonWrapper>
+        <Divider style={{ marginTop: "20px" }} />
+        <ContactWrapper>
+          <Contact>Contact</Contact>
+          <AddButton style={{ fontSize: "11px" }} onClick={addContact}>
+            ADD CONTACT
+          </AddButton>
+        </ContactWrapper>
+        <ContactForm open={open} onClose={close} />
+        <ContactList />
       </div>
-     
     </Wrapper>
   );
 };
@@ -390,6 +561,12 @@ export const FormWrapper = styled.div`
   gap: 40px;
 `;
 
+export const Contact = styled.p`
+  font-size: 20px;
+  font-weight: 400;
+  font-family: ${Fonts.fontStyle1};
+`;
+
 export const FieldWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -399,13 +576,15 @@ export const TypeWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid #d6d2d2;
+  font-family: ${Fonts.fontStyle1};
   border-radius: 5px;
   margin-top: 13px;
   margin-bottom: 13px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 13px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   width: 263px;
-  height: 75px;
+  height: 58px;
 `;
 
 export const Types = styled.div`
@@ -423,7 +602,8 @@ export const Type = styled.div`
 export const ContactWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 80px;
+  gap: 40px;
+  align-items: center;
 `;
 
 export const BranchWrapper = styled.div`

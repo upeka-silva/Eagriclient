@@ -1,4 +1,5 @@
 import { put, post, api_delete } from "../../../../services/api";
+import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleCropSubCategory = async (
   payload = {},
@@ -15,7 +16,7 @@ export const handleCropSubCategory = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -27,7 +28,7 @@ export const handleCropSubCategory = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -49,7 +50,7 @@ export const updateCropSubCategory = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -61,7 +62,7 @@ export const updateCropSubCategory = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
@@ -84,7 +85,7 @@ export const deleteCropSubCategory = async (
           data: {
             apiError: {
               message:
-                response?.message || "Something went wrong! Please try again.",
+                response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -95,7 +96,7 @@ export const deleteCropSubCategory = async (
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
-      onError(apiError?.message || "Something went wrong! Please try again.");
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
     }
