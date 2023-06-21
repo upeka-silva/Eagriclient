@@ -1,5 +1,15 @@
 import React, { useState } from "react";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import ProvinceList from "./ProvinceList";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -10,12 +20,18 @@ import {
 } from "../../../utils/constants/permission";
 import { useNavigate } from "react-router";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteProvince } from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { SearchWrapper } from "../../../components/PageLayout/SearchWrapper";
+import { Colors } from "../../../utils/constants/Colors";
+import { SearchButton } from "../../../components/PageLayout/SearchButton";
+import { ClearButton } from "../../../components/PageLayout/ClearButton";
+import SearchIcon from "@mui/icons-material/Search";
+import SearchImg from "../../../assets/images/Search.png";
 
 const Province = () => {
   useUserAccessValidation();
@@ -50,7 +66,9 @@ const Province = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/province-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/province-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -75,36 +93,34 @@ const Province = () => {
 
   const onDelete = () => {
     setOpen(true);
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedProvinces.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.code} - {p.name}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedProvinces.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.code} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -124,19 +140,51 @@ const Province = () => {
     try {
       setLoading(true);
       for (const province of selectedProvinces) {
-        await deleteProvince(province?.id, onSuccess, onError)
+        await deleteProvince(province?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedProvinces()
+      resetSelectedProvinces();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
+      <SearchWrapper>
+        <TextField
+          sx={{
+            width: "175px",
+            backgroundColor: `${Colors.white}`,
+            boxSizing: "border-box",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "3px",
+              border: "1px solid #D2D2D2",
+              fontSize: "11px",
+            },
+          }}
+          placeholder="SEARCH BY CODE"
+        />
+        <TextField
+          sx={{
+            width: "175px",
+            backgroundColor: `${Colors.white}`,
+            boxSizing: "border-box",
+            "& .MuiInputBase-root": {
+              height: "30px",
+              borderRadius: "3px",
+              border: "1px solid #D2D2D2",
+              fontSize: "11px",
+            },
+          }}
+          placeholder="SEARCH BY DESCRIPTION"
+        />
+        <SearchButton>SEARCH</SearchButton>
+        <ClearButton>CLEAR FILTER</ClearButton>
+      </SearchWrapper>
       <ActionWrapper>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
@@ -172,7 +220,6 @@ const Province = () => {
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
-
         )}
         {selectedProvinces.length > 0 && (
           <PermissionWrapper
@@ -187,22 +234,19 @@ const Province = () => {
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
       >
-        {
-          loading === false && (
-            <ProvinceList
-              selectedRows={selectedProvinces}
-              onRowSelect={toggleProvinceSelect}
-              selectAll={selectAllProvinces}
-              unSelectAll={resetSelectedProvinces}
-            />
-          )
-        }
+        {loading === false && (
+          <ProvinceList
+            selectedRows={selectedProvinces}
+            onRowSelect={toggleProvinceSelect}
+            selectAll={selectAllProvinces}
+            unSelectAll={resetSelectedProvinces}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
@@ -230,7 +274,7 @@ const Province = () => {
       >
         <>
           <DeleteMsg />
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>
