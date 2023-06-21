@@ -152,7 +152,7 @@ const InterProvince = () => {
 
   return (
     <div>
-      <ActionWrapper>
+      <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
         >
