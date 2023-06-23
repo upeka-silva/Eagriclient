@@ -9,20 +9,20 @@ const AgroEcoList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "AEZ ID"},
-    { field: "name", headerName: "AEZ Name"},
-    { field: "climateZoneId", headerName: "Climate Zone Id"},
-    { field: "avgRainfall", headerName: "Avg Rainfall"},
-    { field: "avgTemp", headerName: "Avg Temp"},
-    { field: "avgHumidity", headerName: "Avg Humidity"},
-    { field: "", headerName: "Soil Type"},
+    { field: "aeZoneId", headerName: "Code"},
+    { field: "name", headerName: "Description"},
+    { field: "climateZone", headerName: "Climate Zone"},
+    { field: "averageRainfall", headerName: "Avg Rainfall"},
+    { field: "averageTemperature", headerName: "Avg Temp"},
+    { field: "averageHumidity", headerName: "Avg Humidity"},
+    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type"},
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"agro-eco-zone"}
+        dataEndPoint={"aez"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

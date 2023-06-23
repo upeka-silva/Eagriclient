@@ -15,11 +15,16 @@ import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Button } from "@mui/material";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import Divider from '@mui/material/Divider';
+import Divider from "@mui/material/Divider";
+import BranchList from "./BranchList";
+import BranchForm from "./BranchForm";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormLabel from "@mui/material/FormLabel";
 
 const Organization = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -31,6 +36,14 @@ const Organization = () => {
 
   const goBack = () => {
     navigate("/login");
+  };
+
+  const addBranch = () => {
+    setOpen(true);
+  };
+
+  const close = () => {
+    setOpen(false);
   };
 
   return (
@@ -64,25 +77,99 @@ const Organization = () => {
             />
           </FieldWrapper>
           <TypeWrapper>
-            <FieldName>Organization Type</FieldName>
-            <Types>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Company</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Business Registraion</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Farmer Co-operative</FieldName>
-              </Type>
-              <Type>
-                <FormControlLabel control={<Radio />} />
-                <FieldName>Farmer Organization</FieldName>
-              </Type>
-            </Types>
+            <FormControl>
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{
+                  "&.MuiFormLabel-root": {
+                    color: "#434343",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                Organization Type
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+              >
+                <FormControlLabel
+                  value="COMPANY"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Company"
+                />
+                <FormControlLabel
+                  value="BUSINESS_REGISTRATION"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Business Registration"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="FARMER_CO-OPERATIVE"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Farmer Co-operative"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="FARMER_ORGANIZATION"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Farmer Organization"
+                />
+              </RadioGroup>
+            </FormControl>
           </TypeWrapper>
           <FieldWrapper>
             <FieldName>Registration Number</FieldName>
@@ -105,7 +192,7 @@ const Organization = () => {
               }}
             />
           </FieldWrapper>
-          <Divider style={{marginTop: "20px"}} />
+          <Divider style={{ marginTop: "20px" }} />
           <ContactWrapper>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <FieldWrapper>
@@ -167,7 +254,17 @@ const Organization = () => {
                       alignItems: "center",
                     }}
                   >
-                    <FormControlLabel control={<Radio />} />
+                    <FormControlLabel
+                      control={
+                        <Radio
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 15,
+                            },
+                          }}
+                        />
+                      }
+                    />
                     <FieldName>Primary Contact</FieldName>
                   </div>
                 </div>
@@ -208,7 +305,17 @@ const Organization = () => {
                       alignItems: "center",
                     }}
                   >
-                    <FormControlLabel control={<Radio />} />
+                    <FormControlLabel
+                      control={
+                        <Radio
+                          sx={{
+                            "& .MuiSvgIcon-root": {
+                              fontSize: 15,
+                            },
+                          }}
+                        />
+                      }
+                    />
                     <FieldName>Secondary Contact</FieldName>
                   </div>
                 </div>
@@ -328,226 +435,20 @@ const Organization = () => {
             <AddButton>Save</AddButton>
             <ResetButton>Reset</ResetButton>
           </ButtonWrapper>
+          <Divider style={{ marginTop: "20px" }} />
+          <BranchAction>
+            <Branch>Branches</Branch>
+            <AddButton
+              style={{ fontSize: "11px", width: "146.42px", height: "27.39px" }}
+              onClick={addBranch}
+            >
+              ADD NEW BRANCH
+            </AddButton>
+          </BranchAction>
+          <BranchForm open={open} onClose={close} />
+          <BranchList />
         </FormWrapper>
       </div>
-      <BranchWrapper>
-        <FormHeader>Add New Branch</FormHeader>
-        <BranchForm>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <FieldWrapper>
-              <FieldName>Manager Name</FieldName>
-              <TextField
-                name="managerName"
-                id="managerName"
-                value={formData?.managerName || ""}
-                fullWidth
-                placeholder="Manager Name"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "managerName")
-                }
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>Manager NIC Number</FieldName>
-              <TextField
-                name="nic"
-                id="nic"
-                value={formData?.nic || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "nic")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <FieldName>Phone 1</FieldName>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <FormControlLabel control={<Radio />} />
-                  <FieldName>Primary Contact</FieldName>
-                </div>
-              </div>
-
-              <TextField
-                name="phone1"
-                id="phone1"
-                value={formData?.phone1 || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "phone1")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <FieldName>Phone 2</FieldName>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <FormControlLabel control={<Radio />} />
-                  <FieldName>Secondary Contact</FieldName>
-                </div>
-              </div>
-
-              <TextField
-                name="phone2"
-                id="phone2"
-                value={formData?.phone2 || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "phone2")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>Email</FieldName>
-              <TextField
-                name="email"
-                id="email"
-                value={formData?.email || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "email")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <FieldWrapper>
-              <FieldName>Address 1</FieldName>
-              <TextField
-                name="address1"
-                id="address1"
-                value={formData?.address1 || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "address1")
-                }
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>Address 2</FieldName>
-              <TextField
-                name="address2"
-                id="address2"
-                value={formData?.address2 || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "address2")
-                }
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>City</FieldName>
-              <TextField
-                name="city"
-                id="city"
-                value={formData?.city || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "city")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    fontSize: "11px",
-                  },
-                }}
-              />
-            </FieldWrapper>
-          </div>
-        </BranchForm>
-        <ButtonWrapper
-          style={{
-            display: "flex",
-            justifyContent: "flex-start",
-            marginTop: "40px",
-          }}
-        >
-          <AddButton>Save</AddButton>
-          <ResetButton>Reset</ResetButton>
-        </ButtonWrapper>
-      </BranchWrapper>
     </Wrapper>
   );
 };
@@ -561,6 +462,12 @@ export const Wrapper = styled.div`
   flex-direction: row;
   background-color: ${Colors.formBackgroundColor};
   justify-content: space-between;
+`;
+
+export const Branch = styled.p`
+  font-size: 20px;
+  font-weight: 400;
+  font-family: ${Fonts.fontStyle1};
 `;
 
 export const FormWrapper = styled.div`
@@ -583,7 +490,8 @@ export const TypeWrapper = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   width: 545px;
-  height: 75px;
+  height: 58px;
+  padding-top: 2px;
 `;
 
 export const Types = styled.div`
@@ -604,19 +512,9 @@ export const ContactWrapper = styled.div`
   gap: 80px;
 `;
 
-export const BranchWrapper = styled.div`
+export const BranchAction = styled.div`
   display: flex;
-  flex-direction: column;
-  margin-top: 50px;
-  padding: 20px;
-  background-color: #eeecec;
-  border: 1px solid #000000;
-  border-radius: 13px;
-`;
-
-export const BranchForm = styled.div`
-  display: flex;
-  margin-top: 10px;
   flex-direction: row;
-  gap: 40px;
+  gap: 80px;
+  align-items: center;
 `;

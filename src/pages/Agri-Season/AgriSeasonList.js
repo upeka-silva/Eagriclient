@@ -1,8 +1,8 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
-import { DataTable } from "../../../components/PageLayout/Table";
+import { CardWrapper } from "../../components/PageLayout/Card";
+import { DataTable } from "../../components/PageLayout/Table";
 
-const WaterTestList = ({
+const AgriSeasonList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -10,13 +10,14 @@ const WaterTestList = ({
 }) => {
   const columns = [
     { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
+    { field: "description", headerName: "Description" },
+    { field: "climateZone", headerName: "Climate Zone" },
   ];
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/water-samples"}
+        dataEndPoint={"geo-data/agriculture-seasons"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +29,4 @@ const WaterTestList = ({
   );
 };
 
-export default WaterTestList;
+export default AgriSeasonList;

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { useUserAccessValidation } from "../../hooks/authentication";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
 import {
   Button,
   CircularProgress,
@@ -9,34 +12,28 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import InstitutionCategoryList from "./InstitutionCategoryList";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import DialogBox from "../../../components/PageLayout/DialogBox";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { deleteAgriSeason } from "../../redux/actions/agriSeason/action";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import AgriSeasonList from "./AgriSeasonList";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
 
-const InstitutionCategory = () => {
+const AgriSeason = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const [selectInstitutionCat, setSelectInstitutionCat] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [selectAgriSeason, setSelectAgriSeason] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleInstitutionCatSelect = (component) => {
-    setSelectInstitutionCat((current = []) => {
+  const toggleAgriSeasonSelect = (component) => {
+    setSelectAgriSeason((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -48,37 +45,51 @@ const InstitutionCategory = () => {
     });
   };
 
-  const selectAllInstitutionCat = (all = []) => {
-    setSelectInstitutionCat(all);
+  const selectAllAgriSeason = (all = []) => {
+    setSelectAgriSeason(all);
   };
 
-  const resetSelectedInstitutionCat = () => {
-    setSelectInstitutionCat([]);
+  const resetSelectedAgriSeason = () => {
+    setSelectAgriSeason([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/institution/institution-category-form", {
-      state: { action: DEF_ACTIONS.ADD },
-    });
+    navigate("/agri-season-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/institution/institution-category-form", {
+    navigate("/agri-season-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectInstitutionCat[0] || {},
+        target: {
+          ...(selectAgriSeason[0] || {}),
+          startDate: selectAgriSeason[0]?.startDate
+            ? new Date(selectAgriSeason[0]?.startDate)
+            : null,
+          endDate: selectAgriSeason[0]?.endDate
+            ? new Date(selectAgriSeason[0]?.endDate)
+            : null,
+        },
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/institution/institution-category-form", {
+    navigate("/agri-season-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectInstitutionCat[0] || {},
+        target: {
+          ...(selectAgriSeason[0] || {}),
+          startDate: selectAgriSeason[0]?.startDate
+            ? new Date(selectAgriSeason[0]?.startDate)
+            : null,
+          endDate: selectAgriSeason[0]?.endDate
+            ? new Date(selectAgriSeason[0]?.endDate)
+            : null,
+        },
       },
     });
   };
@@ -94,7 +105,7 @@ const InstitutionCategory = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectInstitutionCat.map((p, key) => {
+        {selectAgriSeason.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -124,19 +135,19 @@ const InstitutionCategory = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: message || "Something went wrong.",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const institutionCat of selectInstitutionCat) {
-        await deleteInstitutionCat(institutionCat?.id, onSuccess, onError);
+      for (const agriSeason of selectAgriSeason) {
+        await deleteAgriSeason(agriSeason?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedInstitutionCat();
+      resetSelectedAgriSeason();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -147,15 +158,15 @@ const InstitutionCategory = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectInstitutionCat.length === 1 && (
+        {selectAgriSeason.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
             <Button
               variant="contained"
@@ -167,9 +178,9 @@ const InstitutionCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectInstitutionCat.length === 1 && (
+        {selectAgriSeason.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
             <Button
               variant="contained"
@@ -181,9 +192,9 @@ const InstitutionCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectInstitutionCat.length > 0 && (
+        {selectAgriSeason.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
             <Button
               variant="contained"
@@ -197,20 +208,20 @@ const InstitutionCategory = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
       >
         {loading === false && (
-          <InstitutionCategoryList
-            selectedRows={selectInstitutionCat}
-            onRowSelect={toggleInstitutionCatSelect}
-            selectAll={selectAllInstitutionCat}
-            unSelectAll={resetSelectedInstitutionCat}
+          <AgriSeasonList
+            selectedRows={selectAgriSeason}
+            onRowSelect={toggleAgriSeasonSelect}
+            selectAll={selectAllAgriSeason}
+            unSelectAll={resetSelectedAgriSeason}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Institution Category"
+        title="Delete Agriculture Season"
         actions={
           <ActionWrapper>
             <Button
@@ -233,7 +244,7 @@ const InstitutionCategory = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
@@ -242,4 +253,4 @@ const InstitutionCategory = () => {
   );
 };
 
-export default InstitutionCategory;
+export default AgriSeason;

@@ -1,13 +1,13 @@
-import { post, put, api_delete } from "../../../services/api";
+import { put, post, get, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleAgroEco = async (
+export const handleAgriSeason = async (
   payload = {},
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
-    const response = await post("aez", payload, true);
+    const response = await post("geo-data/agriculture-seasons", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -36,13 +36,13 @@ export const handleAgroEco = async (
 };
 
 
-export const deleteAgroEco = async (
+export const deleteAgriSeason = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`aez/${id || ''}`, true);
+    const response = await api_delete(`geo-data/agriculture-seasons/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -70,14 +70,14 @@ export const deleteAgroEco = async (
   }
 }
 
-export const updateAgroEco = async (
+export const updateAgriSeason = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`aez/${payload?.id || ''}`, payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await put(`geo-data/agriculture-seasons/${payload?.id || ''}`, payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -103,3 +103,4 @@ export const updateAgroEco = async (
     }
   }
 };
+

@@ -146,7 +146,7 @@ const MahaweliBlock = () => {
 
   return (
     <div>
-      <ActionWrapper>
+      <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
         >

@@ -24,6 +24,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import WaterTestList from "./WaterTestList";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const WaterTest = () => {
   useUserAccessValidation();
@@ -145,7 +146,7 @@ const WaterTest = () => {
 
   return (
     <div>
-      <ActionWrapper>
+      <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_SAMPLE}`}
         >
@@ -199,16 +200,18 @@ const WaterTest = () => {
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.WATER_SAMPLE}`}
       >
-        <WaterTestList
-          selectedRows={selectWaterTest}
-          onRowSelect={toggleWaterTestSelect}
-          selectAll={selectAllWaterTests}
-          unSelectAll={resetSelectedWaterTests}
-        />
+        {loading === false && (
+          <WaterTestList
+            selectedRows={selectWaterTest}
+            onRowSelect={toggleWaterTestSelect}
+            selectAll={selectAllWaterTests}
+            unSelectAll={resetSelectedWaterTests}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province(s)"
+        title="Delete Water Sample"
         actions={
           <ActionWrapper>
             <Button
@@ -231,7 +234,7 @@ const WaterTest = () => {
         }
       >
         <>
-          <Typography>Are you sure to delete the following items?</Typography>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

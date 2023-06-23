@@ -43,20 +43,19 @@ const App = () => {
 
 export default App;
 
+
 const Wrapper = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: #D2D2D2;
+  background-color: #E5E4E2;
 `;
 
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  background-color: aquamarine;
   ${props => props.sx ? props.sx : ''}
   /* padding-right: 12px; */
-  /* ${(props) => (props.sx ? 'overflow: scroll;' : '')} */
-  overflow: auto;
+  overflow: scroll;
 `;

@@ -103,9 +103,14 @@ const Login = () => {
     setShowPassword((prev) => !prev);
   };
 
+  const goFarmer = () => {
+    navigate("/temp-farmer");
+  };
+
   const goOrganization = () => {
     navigate("/organization");
   };
+  
 
   return (
     <LoginWrapper>
@@ -116,7 +121,7 @@ const Login = () => {
             <AppName>AGRITECH PORTAL</AppName>
 
             <OtherLinkWrapper>
-              <RegisterButtons>
+              <RegisterButtons onClick={goFarmer}>
                 <img src={Farmer} /> Register Farmer
               </RegisterButtons>
 

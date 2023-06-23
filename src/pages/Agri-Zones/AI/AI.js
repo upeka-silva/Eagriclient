@@ -146,7 +146,7 @@ const AI = () => {
 
   return (
     <div>
-      <ActionWrapper>
+      <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
         >
