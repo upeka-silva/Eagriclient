@@ -4,6 +4,9 @@ import {
   TextField,
   CircularProgress,
   Autocomplete,
+  FormControl,
+  Select,
+  MenuItem
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -14,7 +17,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAgroEco } from "../../../redux/actions/agroEco/action";
+import { handleAgroEco, updateAgroEco } from "../../../redux/actions/agroEco/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
@@ -105,7 +108,12 @@ const AgroEcoForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleAgroEco(formData, onSuccess, onError);
+        if (formData.id) {
+          await updateAgroEco(formData, onSuccess, onError);
+        } else {
+          await handleAgroEco(formData, onSuccess, onError);
+        }
+      
       } catch (error) {
         console.log(error);
       }
@@ -133,12 +141,12 @@ const AgroEcoForm = () => {
         <FieldWrapper>
           <FieldName>AEZ ID</FieldName>
           <TextField
-            name="id"
-            id="id"
-            value={formData?.id || ""}
+            name="aeZoneId"
+            id="aeZoneId"
+            value={formData?.aeZoneId || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-            onChange={(e) => handleChange(e?.target?.value || "", "id")}
+            onChange={(e) => handleChange(e?.target?.value || "", "aeZoneId")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
@@ -167,35 +175,38 @@ const AgroEcoForm = () => {
           />
         </FieldWrapper>
         <FieldWrapper>
-          <FieldName>Climate Zone Id</FieldName>
-          <TextField
-            name="climateZoneId"
-            id="climateZoneId"
-            value={formData?.climateZoneId || ""}
-            fullWidth
+        <FieldName>Climate Zone</FieldName>
+        <FormControl>
+          <Select
+            value={formData?.climateZone || ""}
             disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) =>
-              handleChange(e?.target?.value || "", "climateZoneId")
+              handleChange(e?.target?.value || "", "climateZone")
             }
             sx={{
               width: "264px",
-              "& .MuiInputBase-root": {
-                height: "30px",
-                borderRadius: "8px",
-              },
+              height: "30px",
+              borderRadius: "8px",
             }}
-          />
-        </FieldWrapper>
+            size="small"
+          >
+            <MenuItem value={"DRY"}>Dry</MenuItem>
+            <MenuItem value={"INTERMEDIATE"}>Intermediate</MenuItem>
+            <MenuItem value={"WET"}>Wet</MenuItem>
+          </Select>
+        </FormControl>
+      </FieldWrapper>
         <FieldWrapper>
           <FieldName>Avg Rainfall</FieldName>
           <TextField
-            name="avgRainfall"
-            id="avgRainfall"
-            value={formData?.avgRainfall || ""}
+            name="averageRainfall"
+            id="averageRainfall"
+            value={formData?.averageRainfall || ""}
+            type="number"
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) =>
-              handleChange(e?.target?.value || "", "avgRainfall")
+              handleChange(e?.target?.value || "", "averageRainfall")
             }
             sx={{
               width: "264px",
@@ -209,12 +220,13 @@ const AgroEcoForm = () => {
         <FieldWrapper>
           <FieldName>Avg Temp</FieldName>
           <TextField
-            name="avgTemp"
-            id="avgTemp"
-            value={formData?.avgTemp || ""}
+            name="averageTemperature"
+            id="averageTemperature"
+            value={formData?.averageTemperature || ""}
             fullWidth
+            type="number"
             disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "avgTemp")}
+            onChange={(e) => handleChange(e?.target?.value || "", "averageTemperature")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
@@ -227,13 +239,14 @@ const AgroEcoForm = () => {
         <FieldWrapper>
           <FieldName>Avg Humidity</FieldName>
           <TextField
-            name="avgHumidity"
-            id="avgHumidity"
-            value={formData?.avgHumidity || ""}
+            name="averageHumidity"
+            id="averageHumidity"
+            value={formData?.averageHumidity || ""}
             fullWidth
+            type="number"
             disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) =>
-              handleChange(e?.target?.value || "", "avgHumidity")
+              handleChange(e?.target?.value || "", "averageHumidity")
             }
             sx={{
               width: "264px",
@@ -248,10 +261,15 @@ const AgroEcoForm = () => {
           <FieldName>Soil Type</FieldName>
           <Autocomplete
             options={options}
+            value={formData ? formData.soilTypeDTO : ""}
+            onChange={(event, value) => {
+              handleChange(value, "soilTypeDTO");
+            }}
             getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
             sx={{
               width: "264px",
-              "& .MuiInputBase-root": {
+              "& .MuiOutlinedInput-root": {
+                height: "30px",
                 borderRadius: "8px",
               },
             }}
