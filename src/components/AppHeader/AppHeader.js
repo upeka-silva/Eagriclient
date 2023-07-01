@@ -49,7 +49,7 @@ const AppHeader = () => {
       ) || {};
     if (r.children) {
       screenName =
-        `${r.name} ● ${
+        `${r.name} > ${
           (
             r.children.find(
               (cr) => `${r.path}${cr?.path}` === location.pathname
@@ -95,9 +95,8 @@ const AppHeader = () => {
     <Wrapper>
       <ItemWrapper>
         <AppTitle>
-          E-EXTENSION SYSTEM
-          {/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
-          <Typography
+          <Typography variant="h7">{getCurrentScreenName()}</Typography>
+          {/* <Typography
             variant="subtitle2"
             sx={{ color: `${theme.coreColors.primary}` }}
           >
@@ -183,11 +182,8 @@ export default AppHeader;
 const Wrapper = styled(Card)`
   display: block;
   min-height: 56px;
-  margin: 6px 0px;
   padding: 0px 30px;
-  box-shadow: ${Colors.shadow};
   background: ${Colors.white};
-  position: sticky;
 `;
 
 const ItemWrapper = styled.div`
@@ -217,7 +213,6 @@ const ProfileButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 5px;
 `;
 
 const ProfileImage = styled.img``;

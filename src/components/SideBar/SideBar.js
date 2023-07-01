@@ -267,7 +267,6 @@ export default SideBar;
 const DrawerWrapper = styledComponents.div`
     display: flex;
     flex-direction: row;
-    margin-right: 12px;
 `;
 
 const Drawer = styled(MuiDrawer, {

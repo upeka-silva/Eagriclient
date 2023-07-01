@@ -21,15 +21,9 @@ const App = () => {
       <SnackBarProvider>
         <Wrapper>
           <BrowserRouter>
-            <PermissionWrapper
-              component={<SideBar />}
-              withoutPermissions
-            />
-            <PageWrapper sx={userAuthenticated ? 'padding-right: 12px;' : ''}>
-              <PermissionWrapper
-                component={<AppHeader />}
-                withoutPermissions
-              />
+            <PermissionWrapper component={<SideBar />} withoutPermissions />
+            <PageWrapper sx={userAuthenticated}>
+              <PermissionWrapper component={<AppHeader />} withoutPermissions />
               <Routes>{Router}</Routes>
             </PageWrapper>
           </BrowserRouter>
