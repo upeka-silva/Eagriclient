@@ -110,13 +110,12 @@ const Login = () => {
   const goOrganization = () => {
     navigate("/organization");
   };
-  
 
   return (
     <LoginWrapper>
       <Grid container sx={{ flex: 1 }}>
-        <BGImg src={Vector} />
         <Grid item sm={8}>
+          <BGImg src={Vector} />
           <LeftWrapper>
             <AppName>AGRITECH PORTAL</AppName>
 
@@ -331,7 +330,6 @@ const OtherLinkWrapper = styled.div`
   right: 43.75%;
   top: 41.5%;
   bottom: 45%;
-  
 `;
 
 const CustomCard = styled.div`
