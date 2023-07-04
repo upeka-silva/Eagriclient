@@ -5,4 +5,5 @@ export const ActionWrapper = styled.div`
     align-items: center;
     justify-content: ${props => props?.isLeft ? 'flex-start' : props?.isCeneter ? 'center' : 'flex-end'};
     padding: 8px 0px;
+    gap: 5px;
 `;
