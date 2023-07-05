@@ -4,7 +4,7 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 #RUN npm ci
-RUN npm install
+RUN npm install -g npm@9.7.2
 COPY . ./
 RUN npm run build
 
