@@ -10,9 +10,7 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x]
@@ -22,14 +20,14 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: vijithakn/agriclient
+        image: oneszeros/eagriservice
         tags: ${GITHUB_RUN_ID}, latest
         registry: docker.io
         dockerfile: Dockerfile
         buildArgs: |
           base_url=43.205.23.46
-        username: vijithakn
-        password: 0nly4@vijitha
+        username: oneszeros
+        password: AstroBoy@2023
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v0.1.6
       with:
@@ -65,7 +63,7 @@ jobs:
           -----END RSA PRIVATE KEY-----
         script: |
           docker login
-          docker pull vijithakn/agriclient:latest
+          docker pull oneszeros/eagriservice:latest
           docker stop agriclient
           docker rm agriclient
-          docker run -d --name agriclient -p 80:80 vijithakn/agriclient:latest
+          docker run -d --name agriclient -p 80:80 oneszeros/eagriservice:latest
