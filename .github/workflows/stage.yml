@@ -20,14 +20,14 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: vijithakn/agriclient
+        image: oneszeros/eagriservice
         tags: ${GITHUB_RUN_ID}, latest
         registry: docker.io
         dockerfile: Dockerfile
         buildArgs: |
           base_url=43.205.23.46
-        username: vijithakn
-        password: 0nly4@vijitha
+        username: oneszeros
+        password: AstroBoy@2023
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v0.1.6
       with:
