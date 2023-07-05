@@ -904,7 +904,7 @@ export const DataTable = ({
             sx={{ background: `${theme.coreColors.primary}` }} className={classes.tableRow}
           >
             {selectable && (
-              <TableCell sx={{ border: "1px solid #CCC !important" }}>
+              <TableCell sx={{ border: "1px solid #CCC !important" , width:"50px"}}>
                 <ActionToolTip
                   title={
                     selectedRows.length === rows.length
