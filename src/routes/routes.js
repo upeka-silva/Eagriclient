@@ -19,11 +19,11 @@ import SoilForm from "../pages/Soil/Soil-Type/SoilTypeForm";
 import Permissions from "../pages/Permissions/Permissions";
 import Province from "../pages/Zones/Province/Province";
 import ProvinceForm from "../pages/Zones/Province/ProvinceForm";
-import District from "../pages/Zones/District/District"
+import District from "../pages/Zones/District/District";
 import DistrictForm from "../pages/Zones/District/DistrictForm";
-import DsDivision from "../pages/Zones/DS/DsDivision"
+import DsDivision from "../pages/Zones/DS/DsDivision";
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
-import GnDivision from "../pages/Zones/GN/GnDivision"
+import GnDivision from "../pages/Zones/GN/GnDivision";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
@@ -32,14 +32,13 @@ import AIForm from "../pages/Agri-Zones/AI/AIForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
-import CropCategory from "../pages/Crop/CropCategory/CropCategory"
-import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm"
+import CropCategory from "../pages/Crop/CropCategory/CropCategory";
+import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm";
 import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
 
-import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm"
-import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock"
-
+import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm";
+import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock";
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -55,43 +54,33 @@ import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 import AgriSeason from "../pages/Agri-Season/AgriSeason";
 import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
-
+import Services from "../pages/Services/Services";
 import Farmer from "../pages/Farmer/Farmer";
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
-
-
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
-import LockIcon from '@mui/icons-material/Lock';
-import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
-import ViewModuleIcon from '@mui/icons-material/ViewModule';
-import MyLocationIcon from '@mui/icons-material/MyLocation';
-import WaterIcon from '@mui/icons-material/Water';
-import KeyIcon from '@mui/icons-material/Key';
-import ForestIcon from '@mui/icons-material/Forest';
-import SpaIcon from '@mui/icons-material/Spa';
-import ParkIcon from '@mui/icons-material/Park';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
-import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
-import WaterDamageIcon from '@mui/icons-material/WaterDamage';
-import GiIsland from '@mui/icons-material/WaterDamage';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import LockIcon from "@mui/icons-material/Lock";
+import HighlightAltIcon from "@mui/icons-material/HighlightAlt";
+import ViewModuleIcon from "@mui/icons-material/ViewModule";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
+import WaterIcon from "@mui/icons-material/Water";
+import KeyIcon from "@mui/icons-material/Key";
+import WindPowerIcon from "@mui/icons-material/WindPower";
+import ForestIcon from "@mui/icons-material/Forest";
+import SpaIcon from "@mui/icons-material/Spa";
+import ParkIcon from "@mui/icons-material/Park";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
+import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
+import WaterDamageIcon from "@mui/icons-material/WaterDamage";
+import GiIsland from "@mui/icons-material/WaterDamage";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
 
 import Organization from "../pages/Organization/Organization";
-
-
-
-
-
-
-
-
-
 
 export const Routes = [
   {
@@ -130,9 +119,8 @@ export const Routes = [
 
   {
     path: "/temp-farmer",
-    element: <Farmer />
+    element: <Farmer />,
   },
-
 
   {
     path: "/main-dashboard",
@@ -302,7 +290,7 @@ export const Routes = [
             path: "/mahaweli-block-form",
             name: "ARPA Area Form",
             isSideBar: false,
-            element: <MahaweliBlockForm />
+            element: <MahaweliBlockForm />,
           },
         ],
       },
@@ -322,7 +310,7 @@ export const Routes = [
             path: "/agro-eco-zone-form",
             name: "Agro Eco Zone",
             isSideBar: false,
-            element: <AgroEcoForm />
+            element: <AgroEcoForm />,
           },
         ],
       },
@@ -330,7 +318,7 @@ export const Routes = [
   },
 
   {
-    path: '/authentication',
+    path: "/authentication",
     name: "Authentication",
     isSideBar: true,
     icon: LockIcon,
@@ -362,7 +350,7 @@ export const Routes = [
         icon: KeyIcon,
         element: <Permissions />,
       },
-    ]
+    ],
   },
   {
     path: "/soil",
@@ -396,10 +384,8 @@ export const Routes = [
         isSideBar: false,
         element: <SoilSubTypeForm />,
       },
-
-    ]
+    ],
   },
-
 
   {
     path: "/crop",
@@ -433,7 +419,6 @@ export const Routes = [
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },
-
     ],
   },
   {
@@ -488,7 +473,7 @@ export const Routes = [
         path: "/soil-test-form",
         name: "Soil Test Form",
         isSideBar: false,
-        element: <SoilTestFrom />
+        element: <SoilTestFrom />,
       },
       {
         path: "/water-test",
@@ -501,7 +486,7 @@ export const Routes = [
         path: "/water-test-form",
         name: "Water Test Form",
         isSideBar: false,
-        element: <WaterTestForm />
+        element: <WaterTestForm />,
       },
     ],
   },
@@ -524,13 +509,19 @@ export const Routes = [
     name: "Farm Land",
     isSideBar: true,
     icon: GiIsland,
-    element: <FarmLand />
+    element: <FarmLand />,
+  },
+  {
+    path: "/services",
+    name: "Services",
+    isSideBar: true,
+    icon: WindPowerIcon,
+    element: <FarmLand />,
   },
   {
     path: "/farm-land-form",
     name: "Farm Land Form",
     isSideBar: false,
-    element: <FarmLandForm />
+    element: <FarmLandForm />,
   },
-
 ];
