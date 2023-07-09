@@ -1,43 +1,37 @@
-import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router';
-import { getUserLoggedState, getUserPermissionStateByAuthority, getUserPermissionStateByModule } from '../../utils/helpers/permission';
+import React from 'react';
+import { useAuthContext } from '../../context/AuthContext';
 
-const PermissionWrapper = ({ component, permission, withoutPermissions = false, majorModule, children }) => {
+const PermissionWrapper = ({
+	component,
+	permission,
+	withoutPermissions = false,
+	majorModule,
+	children,
+}) => {
+	const {
+		getUserLoggedState,
+		getUserPermissionStateByModule,
+		getUserPermissionStateByAuthority,
+	} = useAuthContext();
 
-    const location = useLocation();
+	const checkPermission = () => {
+		if (withoutPermissions) {
+			return getUserLoggedState() || false;
+		}
+		if (majorModule) {
+			return getUserPermissionStateByModule(majorModule) || false;
+		}
+		if (permission) {
+			return getUserPermissionStateByAuthority(permission) || false;
+		}
+		return true;
+	};
 
-    const [hasPermission, setHasPermission] = useState(false);
+	if (checkPermission()) {
+		return component || children || null;
+	}
 
-    const checkPermission = async () => {
-        try {
-            if (withoutPermissions) {
-                return await getUserLoggedState() || false;
-            }
-            if (majorModule) {
-                return await getUserPermissionStateByModule(majorModule) || false;
-            }
-            if (permission) {
-                return await getUserPermissionStateByAuthority(permission) || false;
-            }
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-    }
-
-    useEffect(() => {
-        checkPermission()
-            .then(result => setHasPermission(result))
-            .catch(() => setHasPermission(false))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location])
-
-    if (hasPermission) {
-        return component || children || null;
-    }
-
-    return null;
-}
+	return null;
+};
 
 export default PermissionWrapper;
