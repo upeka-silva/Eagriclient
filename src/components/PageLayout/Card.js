@@ -6,6 +6,6 @@ export const CardWrapper = styled(Card)`
     display: block;
     margin: 12px 0px;
     padding: 12px;
-    border-radius: 12px !important;
-    box-shadow: ${Colors.shadow};
+    /* border-radius: 12px !important; */
+    /* box-shadow: ${Colors.shadow}; */
 `;

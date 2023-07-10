@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Paper,
   Typography,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -146,7 +147,7 @@ const SoilType = () => {
   };
 
   return (
-    <div>
+    <Paper style={{marginTop:5}}>
       <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TYPE}`}
@@ -198,9 +199,7 @@ const SoilType = () => {
           </PermissionWrapper>
         )}
       </ActionWrapper>
-      <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_TYPE}`}
-      >
+      <PermissionWrapper withoutPermissions>
         {loading === false && (
           <SoilTypeList
             selectedRows={selectedSoilTypes}
@@ -240,7 +239,7 @@ const SoilType = () => {
           {renderSelectedItems()}
         </>
       </DialogBox>
-    </div>
+    </Paper>
   );
 };
 
