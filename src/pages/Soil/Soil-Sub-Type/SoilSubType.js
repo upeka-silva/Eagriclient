@@ -26,11 +26,6 @@ import SoilSubTypeList from "./SoilSubTypeList";
 import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {ActionButton} from "../../../components/ActionButtons/ActionButton";
-import AddIcon from "../../../assets/images/AddIcon.png"
-import EditIcon from '../../../assets/images/EditIcon.png'
-import ViewIcon from '../../../assets/images/ViewIcon.png'
-import DltIcon from '../../../assets/images/DltIcon.png'
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -157,50 +152,50 @@ const SoilSubType = () => {
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
         >
-          <ActionButton variant="contained" onClick={onCreate}>
-            <img src={AddIcon} alt=""/>
-          </ActionButton>
+          <Button variant="contained" onClick={onCreate}>
+            {DEF_ACTIONS.ADD}
+          </Button>
         </PermissionWrapper>
         {selectedSoilSubTypes.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           >
-            <ActionButton
+            <Button
               variant="contained"
               color="secondary"
               onClick={onEdit}
               sx={{ ml: "8px" }}
             >
-             <img src={EditIcon} alt=""/>
-            </ActionButton>
+              {DEF_ACTIONS.EDIT}
+            </Button>
           </PermissionWrapper>
         )}
         {selectedSoilSubTypes.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           >
-            <ActionButton
+            <Button
               variant="contained"
               color="info"
               onClick={onView}
               sx={{ ml: "8px" }}
             >
-           <img src={ViewIcon} alt=""/>
-            </ActionButton>
+              {DEF_ACTIONS.VIEW}
+            </Button>
           </PermissionWrapper>
         )}
         {selectedSoilSubTypes.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_SUB_TYPE}`}
           >
-            <ActionButton
+            <Button
               variant="contained"
               color="error"
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
-            <img src={DltIcon} alt=""/>
-            </ActionButton>
+              {DEF_ACTIONS.DELETE}
+            </Button>
           </PermissionWrapper>
         )}
       </ActionWrapper>
