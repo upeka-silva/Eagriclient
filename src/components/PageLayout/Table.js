@@ -780,354 +780,360 @@ export const DataTable = ({
 		return <LoaderWrapper>{renderProgress()}</LoaderWrapper>;
 	}
 
-	return (
-		<TableContainer>
-			<TableHeaderContainer type={enableAdvanceSearch ? 'column' : 'row'}>
-				{enableAdvanceSearch && (
-					<>
-						<Button
-							variant='outlined'
-							sx={{ mb: '10px' }}
-							startIcon={showAdvancedSearch ? <CloseIcon /> : <SearchIcon />}
-							onClick={toggleAdvancedSearch}>
-							{showAdvancedSearch ? 'Hide Advanced Search' : 'Advanced Search'}
-						</Button>
-						<Collapse
-							sx={{ mb: '10px' }}
-							key='search-input-collapse'
-							in={showAdvancedSearch}
-							timeout='auto'
-							unmountOnExit
-							fullWidth>
-							<AdvanceSearchFormWrapper>
-								{generateDynamicSearchForm()}
-							</AdvanceSearchFormWrapper>
-							<AdvanceSearchActionWrapper>
-								<Button
-									variant='contained'
-									startIcon={<SearchIcon />}
-									onClick={() => {}}>
-									Search
-								</Button>
-								<Button
-									sx={{ ml: '10px' }}
-									startIcon={null}
-									onClick={() => {
-										setAdvanceSearchData({});
-									}}>
-									Clear Filter
-								</Button>
-							</AdvanceSearchActionWrapper>
-						</Collapse>
-					</>
-				)}
-				{searchable && (
-					<>
-						<Collapse
-							key='search-input-collapse'
-							in={showSearchInput}
-							timeout='auto'
-							unmountOnExit
-							orientation='horizontal'>
-							<CollapseContentWrapper>
-								<FormControl
-									sx={{ mr: '5px', minWidth: '200px' }}
-									size='small'>
-									<InputLabel>Target Field</InputLabel>
-									<Select
-										// value={age}
-										label='Target Field'
-										// onChange={handleChange}
-									>
-										{Object.keys(rows[0] || {})
-											.filter((key) => key !== 'id')
-											.map((k, key) => {
-												return (
-													<MenuItem
-														key={key}
-														value={k}>
-														{k.charAt(0).toUpperCase()}
-														{k.slice(1)}
-													</MenuItem>
-												);
-											})}
-									</Select>
-								</FormControl>
-								<FormControl
-									sx={{ mr: '5px', minWidth: '200px' }}
-									size='small'>
-									<InputLabel>Criteria</InputLabel>
-									<Select
-										// value={age}
-										label='Criteria'
-										// onChange={handleChange}
-									>
-										<MenuItem value={'equal'}>Equal =</MenuItem>
-										<MenuItem value={'contains'}>Contains :</MenuItem>
-									</Select>
-								</FormControl>
-								<TextField
-									value={keyword}
-									onChange={(e) => setKeyword(e?.target?.value)}
-									label={generateSearchInputPlaceHolder()}
-									size='small'
-								/>
-							</CollapseContentWrapper>
-						</Collapse>
-						<Button
-							sx={{ marginLeft: '10px', minHeight: '56px' }}
-							startIcon={showSearchInput ? <CloseIcon /> : <SearchIcon />}
-							onClick={toggleSearchInput}>
-							{showSearchInput ? 'Hide Search' : 'Search'}
-						</Button>
-					</>
-				)}
-			</TableHeaderContainer>
-			<Table
-				sx={{ borderCollapse: 'unset !important' }}
-				size='small'>
-				<TableHead>
-					<TableRow
-						sx={{ background: `${theme.coreColors.primary}77 !important` }}>
-						{selectable && (
-							<TableCell sx={{ border: '1px solid #CCC !important' }}>
-								<ActionToolTip
-									title={
-										selectedRows.length === rows.length
-											? 'Unselect All'
-											: 'Select All'
-									}
-									placement='top'
-									arrow>
-									<IconButton
-										sx={{ ml: '-5px' }}
-										onClick={
-											selectedRows.length === rows.length
-												? unSelectAll
-												: () => selectAll(rows)
-										}>
-										{selectedRows.length > 0 ? (
-											selectedRows.length < rows.length ? (
-												<IndeterminateCheckBoxIcon />
-											) : (
-												<CloseIcon />
-											)
-										) : (
-											<CheckBoxIcon sx={{ mt: '2px' }} />
-										)}
-									</IconButton>
-								</ActionToolTip>
-							</TableCell>
-						)}
-						{columns.map((c, key) => {
-							if (!c?.hidden) {
-								return (
-									<TableCell
-										key={key}
-										sx={{
-											border: '1px solid #CCC !important',
-											...(c?.type !== 'actions'
-												? {}
-												: { textAlign: 'right !important' }),
-										}}>
-										{c?.type !== 'actions' ? (
-											<TableSortLabel
-												active={orderByTarget === c.field}
-												direction={orderByTarget === c.field ? order : 'asc'}
-												onClick={() =>
-													setOrderBy(order === 'asc' ? 'desc' : 'asc', c.field)
-												}>
-												{c.headerName}
-											</TableSortLabel>
-										) : (
-											c.headerName
-										)}
-									</TableCell>
-								);
-							}
-							return null;
-						})}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{getDataRows().map((r, key) => (
-						<SelectableRow
-							key={key}
-							onClick={handleRowClick}
-							onContextMenu={handleRowClick}
-							data-target={JSON.stringify(r)}
-							contextMenu='none'
-							selected={
-								(selectedRows || []).findIndex((sr) => sr?.id === r.id) > -1
-							}
-							firstChild={key === 0}>
-							{selectable && (
-								<TableCell>
-									{(selectedRows || []).findIndex((sr) => sr?.id === r.id) >
-									-1 ? (
-										<SquareIcon
-											htmlColor={theme.coreColors.secondary}
-											sx={{ transform: 'scale(1.2)', mt: '2px' }}
-										/>
-									) : (
-										<CheckBoxIcon sx={{ mt: '2px' }} />
-									)}
-								</TableCell>
-							)}
-							{columns.map((c, key2) => {
-								if (!c?.hidden) {
-									if (c.type === 'actions') {
-										return (
-											<TableCell
-												key={`${key}-${key2}`}
-												contextMenu='none'>
-												{/* <ActionWrapper> */}
-												<ActionToolTip
-													title='actions'
-													placement='top'
-													arrow>
-													<IconButton
-														onClick={(e) => {
-															setShowPopover(e.currentTarget);
-														}}>
-														<MoreVertIcon />
-													</IconButton>
-												</ActionToolTip>
-												{/* </ActionWrapper> */}
-												<PopOver
-													id={r.id}
-													open={!!showPopover}
-													{...(showPopover && {
-														anchorEl: showPopover,
-													})}
-													sx={{
-														boxShadow: `${Colors.shadow} !important`,
-													}}
-													onClose={() => {
-														if (
-															r.id ===
-															JSON.parse(
-																showPopover.getAttribute('data-target')
-															)['id']
-														)
-															onRowSelect(r);
-														setShowPopover(null);
-													}}
-													anchorOrigin={{
-														vertical: 'bottom',
-														horizontal: 'left',
-													}}>
-													<ActionWrapper>
-														{generateActionButtons(c.actions, r)}
-													</ActionWrapper>
-												</PopOver>
-											</TableCell>
-										);
-									}
-									if (c?.type === 'datetime') {
-										return (
-											<TableCell key={`${key}-${key2}`}>
-												{new Date(r[c.field] || undefined).toLocaleString(
-													'en-UK',
-													{
-														hour12: true,
-														month: '2-digit',
-														day: '2-digit',
-														year: 'numeric',
-														hour: '2-digit',
-														minute: '2-digit',
-													}
-												)}
-											</TableCell>
-										);
-									}
-									if (c?.type === 'date') {
-										return (
-											<TableCell key={`${key}-${key2}`}>
-												{new Date(r[c.field] || undefined).toLocaleDateString(
-													'en-UK',
-													{ month: '2-digit', day: '2-digit', year: 'numeric' }
-												)}
-											</TableCell>
-										);
-									}
-									if (c?.type === 'time') {
-										return (
-											<TableCell key={`${key}-${key2}`}>
-												{new Date(r[c.field] || undefined).toLocaleTimeString(
-													'en-UK',
-													{ hour12: true, hour: '2-digit', minute: '2-digit' }
-												)}
-											</TableCell>
-										);
-									}
-									return (
-										<TableCell key={`${key}-${key2}`}>
-											{extractNestedData(r, c.field) || ''}
-										</TableCell>
-									);
-								}
-								return null;
-							})}
-							{columns.find((c) => c.type === 'actions')?.hidden && (
-								<PopOver
-									id={r.id}
-									open={
-										!!showPopover &&
-										r.id ===
-											JSON.parse(showPopover.getAttribute('data-target'))['id']
-									}
-									{...(showPopover && {
-										anchorEl: showPopover,
-									})}
-									sx={{
-										boxShadow: `${Colors.shadow} !important`,
-									}}
-									onClose={() => {
-										if (
-											r.id ===
-											JSON.parse(showPopover.getAttribute('data-target'))['id']
-										)
-											onRowSelect(r);
-										setShowPopover(null);
-									}}
-									anchorOrigin={{
-										vertical: 'bottom',
-										horizontal: 'left',
-									}}>
-									<ActionWrapper>
-										{generateActionButtons(
-											columns.find((c) => c?.hidden && c.type === 'actions')
-												?.actions || [],
-											r
-										)}
-									</ActionWrapper>
-								</PopOver>
-							)}
-						</SelectableRow>
-					))}
-				</TableBody>
-			</Table>
-			<TableFooterContainer type='row'>
-				<TablePagination
-					count={totalCount}
-					page={page}
-					rowsPerPage={pageSize}
-					rowsPerPageOptions={[
-						10,
-						20,
-						30,
-						...(totalCount > 30 ? [totalCount] : []),
-					]}
-					onPageChange={(e, newPage) => {
-						console.log(newPage);
-						setPage(newPage || 0);
-					}}
-					onRowsPerPageChange={(e) => setPageSize(e?.target?.value || 10)}
-				/>
-			</TableFooterContainer>
-		</TableContainer>
-	);
+  return (
+    <TableContainer>
+      <TableHeaderContainer type={enableAdvanceSearch ? "column" : "row"}>
+        {enableAdvanceSearch && (
+          <>
+            <Button
+              variant="outlined"
+              sx={{ mb: "10px" }}
+              startIcon={showAdvancedSearch ? <CloseIcon /> : <SearchIcon />}
+              onClick={toggleAdvancedSearch}
+            >
+              {showAdvancedSearch ? "Hide Advanced Search" : "Advanced Search"}
+            </Button>
+            <Collapse
+              sx={{ mb: "10px" }}
+              key="search-input-collapse"
+              in={showAdvancedSearch}
+              timeout="auto"
+              unmountOnExit
+              fullWidth
+            >
+              <AdvanceSearchFormWrapper>
+                {generateDynamicSearchForm()}
+              </AdvanceSearchFormWrapper>
+              <AdvanceSearchActionWrapper>
+                <Button
+                  variant="contained"
+                  startIcon={<SearchIcon />}
+                  onClick={() => {}}
+                >
+                  Search
+                </Button>
+                <Button
+                  sx={{ ml: "10px" }}
+                  startIcon={null}
+                  onClick={() => {
+                    setAdvanceSearchData({});
+                  }}
+                >
+                  Clear Filter
+                </Button>
+              </AdvanceSearchActionWrapper>
+            </Collapse>
+          </>
+        )}
+        {searchable && (
+          <>
+            <Collapse
+              key="search-input-collapse"
+              in={showSearchInput}
+              timeout="auto"
+              unmountOnExit
+              orientation="horizontal"
+            >
+              <CollapseContentWrapper>
+                <FormControl sx={{ mr: "5px", minWidth: "200px" }} size="small">
+                  <InputLabel>Target Field</InputLabel>
+                  <Select
+                    // value={age}
+                    label="Target Field"
+                    // onChange={handleChange}
+                  >
+                    {Object.keys(rows[0] || {})
+                      .filter((key) => key !== "id")
+                      .map((k, key) => {
+                        return (
+                          <MenuItem key={key} value={k}>
+                            {k.charAt(0).toUpperCase()}
+                            {k.slice(1)}
+                          </MenuItem>
+                        );
+                      })}
+                  </Select>
+                </FormControl>
+                <FormControl sx={{ mr: "5px", minWidth: "200px" }} size="small">
+                  <InputLabel>Criteria</InputLabel>
+                  <Select
+                    // value={age}
+                    label="Criteria"
+                    // onChange={handleChange}
+                  >
+                    <MenuItem value={"equal"}>Equal =</MenuItem>
+                    <MenuItem value={"contains"}>Contains :</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  value={keyword}
+                  onChange={(e) => setKeyword(e?.target?.value)}
+                  label={generateSearchInputPlaceHolder()}
+                  size="small"
+                />
+              </CollapseContentWrapper>
+            </Collapse>
+            <Button
+              sx={{ marginLeft: "10px", minHeight: "56px" }}
+              startIcon={showSearchInput ? <CloseIcon /> : <SearchIcon />}
+              onClick={toggleSearchInput}
+            >
+              {showSearchInput ? "Hide Search" : "Search"}
+            </Button>
+          </>
+        )}
+      </TableHeaderContainer>
+      <Table sx={{ borderCollapse: "unset !important" }} size="small">
+        <TableHead className={classes.tableHead}>
+          <TableRow
+            sx={{ background: `${theme.coreColors.primary}` }} className={classes.tableRow}
+          >
+            {selectable && (
+              <TableCell sx={{ border: "1px solid #CCC !important" , width:"50px"}}>
+                <ActionToolTip
+                  title={
+                    selectedRows.length === rows.length
+                      ? "Unselect All"
+                      : "Select All"
+                  }
+                  placement="top"
+                  arrow
+                >
+                  <IconButton
+                    sx={{ ml: "-8px" }}
+                    onClick={
+                      selectedRows.length === rows.length
+                        ? unSelectAll
+                        : () => selectAll(rows)
+                    }
+                  >
+                    {selectedRows.length > 0 ? (
+                      selectedRows.length < rows.length ? (
+                        <IndeterminateCheckBoxIcon sx={{ fontSize: "20px" }} />
+                      ) : (
+                        <CloseIcon sx={{ fontSize: "20px" }} />
+                      )
+                    ) : (
+                      <CheckBoxIcon sx={{ mt: "2px", fontSize: "20px" }} />
+                    )}
+                  </IconButton>
+                </ActionToolTip>
+              </TableCell>
+            )}
+            {columns.map((c, key) => {
+              if (!c?.hidden) {
+                return (
+                  <TableCell
+                    key={key}
+                    sx={{
+                      border: "1px solid #CCC !important",
+                      ...(c?.type !== "actions"
+                        ? {}
+                        : { textAlign: "right !important" }),
+                    }}
+                  >
+                    {c?.type !== "actions" ? (
+                      <TableSortLabel
+                        active={orderByTarget === c.field}
+                        direction={orderByTarget === c.field ? order : "asc"}
+                        onClick={() =>
+                          setOrderBy(order === "asc" ? "desc" : "asc", c.field)
+                        }
+                      >
+                        {c.headerName}
+                      </TableSortLabel>
+                    ) : (
+                      c.headerName
+                    )}
+                  </TableCell>
+                );
+              }
+              return null;
+            })}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {getDataRows().map((r, key) => (
+            <SelectableRow
+              key={key}
+              onClick={handleRowClick}
+              onContextMenu={handleRowClick}
+              data-target={JSON.stringify(r)}
+              contextMenu="none"
+              selected={
+                (selectedRows || []).findIndex((sr) => sr?.id === r.id) > -1
+              }
+              firstChild={key === 0}
+            >
+              {selectable && (
+                <TableCell>
+                  {(selectedRows || []).findIndex((sr) => sr?.id === r.id) >
+                  -1 ? (
+                    <SquareIcon
+                      htmlColor={theme.coreColors.secondary}
+                      sx={{
+                        transform: "scale(1.2)",
+                        mt: "2px",
+                        fontSize: "20px",
+                      }}
+                    />
+                  ) : (
+                    <CheckBoxIcon sx={{ mt: "2px", fontSize: "20px" }} />
+                  )}
+                </TableCell>
+              )}
+              {columns.map((c, key2) => {
+                if (!c?.hidden) {
+                  if (c.type === "actions") {
+                    return (
+                      <TableCell key={`${key}-${key2}`} contextMenu="none">
+                        {/* <ActionWrapper> */}
+                        <ActionToolTip title="actions" placement="top" arrow>
+                          <IconButton
+                            onClick={(e) => {
+                              setShowPopover(e.currentTarget);
+                            }}
+                          >
+                            <MoreVertIcon />
+                          </IconButton>
+                        </ActionToolTip>
+                        {/* </ActionWrapper> */}
+                        <PopOver
+                          id={r.id}
+                          open={!!showPopover}
+                          {...(showPopover && {
+                            anchorEl: showPopover,
+                          })}
+                          sx={{
+                            boxShadow: `${Colors.shadow} !important`,
+                          }}
+                          onClose={() => {
+                            if (
+                              r.id ===
+                              JSON.parse(
+                                showPopover.getAttribute("data-target")
+                              )["id"]
+                            )
+                              onRowSelect(r);
+                            setShowPopover(null);
+                          }}
+                          anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                          }}
+                        >
+                          <ActionWrapper>
+                            {generateActionButtons(c.actions, r)}
+                          </ActionWrapper>
+                        </PopOver>
+                      </TableCell>
+                    );
+                  }
+                  if (c?.type === "datetime") {
+                    return (
+                      <TableCell key={`${key}-${key2}`}>
+                        {new Date(r[c.field] || undefined).toLocaleString(
+                          "en-UK",
+                          {
+                            hour12: true,
+                            month: "2-digit",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
+                      </TableCell>
+                    );
+                  }
+                  if (c?.type === "date") {
+                    return (
+                      <TableCell key={`${key}-${key2}`}>
+                        {new Date(r[c.field] || undefined).toLocaleDateString(
+                          "en-UK",
+                          { month: "2-digit", day: "2-digit", year: "numeric" }
+                        )}
+                      </TableCell>
+                    );
+                  }
+                  if (c?.type === "time") {
+                    return (
+                      <TableCell key={`${key}-${key2}`}>
+                        {new Date(r[c.field] || undefined).toLocaleTimeString(
+                          "en-UK",
+                          { hour12: true, hour: "2-digit", minute: "2-digit" }
+                        )}
+                      </TableCell>
+                    );
+                  }
+                  return (
+                    <TableCell key={`${key}-${key2}`}>
+                      {extractNestedData(r, c.field) || ""}
+                    </TableCell>
+                  );
+                }
+                return null;
+              })}
+              {columns.find((c) => c.type === "actions")?.hidden && (
+                <PopOver
+                  id={r.id}
+                  open={
+                    !!showPopover &&
+                    r.id ===
+                      JSON.parse(showPopover.getAttribute("data-target"))["id"]
+                  }
+                  {...(showPopover && {
+                    anchorEl: showPopover,
+                  })}
+                  sx={{
+                    boxShadow: `${Colors.shadow} !important`,
+                  }}
+                  onClose={() => {
+                    if (
+                      r.id ===
+                      JSON.parse(showPopover.getAttribute("data-target"))["id"]
+                    )
+                      onRowSelect(r);
+                    setShowPopover(null);
+                  }}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                  }}
+                >
+                  <ActionWrapper>
+                    {generateActionButtons(
+                      columns.find((c) => c?.hidden && c.type === "actions")
+                        ?.actions || [],
+                      r
+                    )}
+                  </ActionWrapper>
+                </PopOver>
+              )}
+            </SelectableRow>
+          ))}
+        </TableBody>
+      </Table>
+      <TableFooterContainer type="row">
+        <TablePagination
+          count={totalCount}
+          page={page}
+          rowsPerPage={pageSize}
+          rowsPerPageOptions={[
+            10,
+            20,
+            30,
+            ...(totalCount > 30 ? [totalCount] : []),
+          ]}
+          onPageChange={(e, newPage) => {
+            console.log(newPage);
+            setPage(newPage || 0);
+          }}
+          onRowsPerPageChange={(e) => setPageSize(e?.target?.value || 10)}
+        />
+      </TableFooterContainer>
+    </TableContainer>
+  );
 };
 
 const TableHeaderContainer = styled.div`
