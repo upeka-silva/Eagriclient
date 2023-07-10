@@ -56,11 +56,12 @@ import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 import AgriSeason from "../pages/Agri-Season/AgriSeason";
 import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
 
-import Farmer from "../pages/Farmer/Farmer";
+import TempFarmer from "../pages/Temp-Farmer/Farmer";
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 
-
+import Farmer from "../pages/Farmer/Farmer";
+import FarmerForm from "../pages/Farmer/FarmerForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -81,8 +82,10 @@ import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
 import WaterDamageIcon from '@mui/icons-material/WaterDamage';
 import GiIsland from '@mui/icons-material/WaterDamage';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
 
 import Organization from "../pages/Organization/Organization";
+
 
 
 
@@ -130,7 +133,7 @@ export const Routes = [
 
   {
     path: "/temp-farmer",
-    element: <Farmer />
+    element: <TempFarmer />
   },
 
 
@@ -532,5 +535,20 @@ export const Routes = [
     isSideBar: false,
     element: <FarmLandForm />
   },
+
+  {
+    path: "/farmer",
+    name: "Farmer",
+    element: <Farmer />,
+    isSideBar: true,
+    icon: AccessibilityIcon,
+  },
+  {
+    path: "/farmer-form",
+    name: "Farmer Form",
+    element: <FarmerForm />,
+    isSideBar: false,
+  },
+
 
 ];
