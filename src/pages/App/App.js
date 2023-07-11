@@ -52,6 +52,12 @@ const Wrapper = styled.div`
 	background-color: #e5e4e2;
 `;
 
+// Light Gray: #D3D3D3
+// Gainsboro: #DCDCDC
+// Light Silver: #E8E8E8
+// Light Grayish Blue: #F0F0F0
+// Platinum: #E5E4E2
+
 const PageWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
