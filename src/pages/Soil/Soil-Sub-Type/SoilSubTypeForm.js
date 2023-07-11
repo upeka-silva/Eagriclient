@@ -137,7 +137,7 @@ const SoilSubTypeForm = () => {
       ? ""
       : location.pathname;
   };
-
+  
   return (
     <FormWrapper>
       <ActionWrapper isLeft>
