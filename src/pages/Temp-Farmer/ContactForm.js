@@ -20,7 +20,7 @@ import { useLocation } from "react-router";
 import {
   handleFarmerContact,
   updateFarmerContact,
-} from "../../redux/actions/farmer/action";
+} from "../../redux/actions/temp-farmer/action";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 

@@ -54,31 +54,34 @@ import WaterTest from "../pages/Soil & Water Tests/water/WaterTest";
 import WaterTestForm from "../pages/Soil & Water Tests/water/WaterTestForm";
 import AgriSeason from "../pages/Agri-Season/AgriSeason";
 import AgriSeasonForm from "../pages/Agri-Season/AgriSeasonForm";
-import Services from "../pages/Services/Services";
-import Farmer from "../pages/Farmer/Farmer";
+
+import TempFarmer from "../pages/Temp-Farmer/Farmer";
 import FarmLand from "../pages/Farm-Land/FarmLand";
 import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
+
+import Farmer from "../pages/Farmer/Farmer";
+import FarmerForm from "../pages/Farmer/FarmerForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StreetviewIcon from "@mui/icons-material/Streetview";
-import LockIcon from "@mui/icons-material/Lock";
-import HighlightAltIcon from "@mui/icons-material/HighlightAlt";
-import ViewModuleIcon from "@mui/icons-material/ViewModule";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
-import WaterIcon from "@mui/icons-material/Water";
-import KeyIcon from "@mui/icons-material/Key";
-import WindPowerIcon from "@mui/icons-material/WindPower";
-import ForestIcon from "@mui/icons-material/Forest";
-import SpaIcon from "@mui/icons-material/Spa";
-import ParkIcon from "@mui/icons-material/Park";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
-import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
-import WaterDamageIcon from "@mui/icons-material/WaterDamage";
-import GiIsland from "@mui/icons-material/WaterDamage";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import LockIcon from '@mui/icons-material/Lock';
+import HighlightAltIcon from '@mui/icons-material/HighlightAlt';
+import ViewModuleIcon from '@mui/icons-material/ViewModule';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import WaterIcon from '@mui/icons-material/Water';
+import KeyIcon from '@mui/icons-material/Key';
+import ForestIcon from '@mui/icons-material/Forest';
+import SpaIcon from '@mui/icons-material/Spa';
+import ParkIcon from '@mui/icons-material/Park';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import SouthAmericaIcon from '@mui/icons-material/SouthAmerica';
+import WaterDamageIcon from '@mui/icons-material/WaterDamage';
+import GiIsland from '@mui/icons-material/WaterDamage';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
 
 import Organization from "../pages/Organization/Organization";
 
@@ -119,7 +122,7 @@ export const Routes = [
 
   {
     path: "/temp-farmer",
-    element: <Farmer />,
+    element: <TempFarmer />
   },
 
   {
@@ -523,5 +526,19 @@ export const Routes = [
     name: "Farm Land Form",
     isSideBar: false,
     element: <FarmLandForm />,
+  },
+
+  {
+    path: "/farmer",
+    name: "Farmer",
+    element: <Farmer />,
+    isSideBar: true,
+    icon: AccessibilityIcon,
+  },
+  {
+    path: "/farmer-form",
+    name: "Farmer Form",
+    element: <FarmerForm />,
+    isSideBar: false,
   },
 ];
