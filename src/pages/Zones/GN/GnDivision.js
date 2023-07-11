@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
-import { Button } from "@mui/material";
+import { Box, Button, Paper } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -8,17 +8,15 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import GnDivisionList from "./GnDivisionList"
-
+import GnDivisionList from "./GnDivisionList";
+import { Padding } from "@mui/icons-material";
 
 const GnDivision = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
 
   const [selectedGnDivisions, setSelectedGnDivisions] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
 
   const toggleGnDivisionSelect = (component) => {
     setSelectedGnDivisions((current = []) => {
@@ -43,7 +41,9 @@ const GnDivision = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/gn-division-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ga-structure/gn-division-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -67,70 +67,71 @@ const GnDivision = () => {
   };
 
   return (
-    <div>
-      <ActionWrapper isLeft>
-      {/* <PermissionWrapper
+    <Box sx={{ p: 1 }}>
+      <Paper elevation={2} style={{ padding: "2px" }}>
+        <ActionWrapper isLeft >
+          {/* <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GNDIVISION}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <Button variant="contained" onClick={onCreate}>
-          {DEF_ACTIONS.ADD}
-        </Button>
-      </PermissionWrapper>
-      {selectedGnDivisions.length === 1 && (
-        // <PermissionWrapper
-        //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GNDIVISION}`}
-        // >
-        //   <Button
-        //     variant="contained"
-        //     color="secondary"
-        //     onClick={onEdit}
-        //     sx={{ ml: "8px" }}
-        //   >
-        //     {DEF_ACTIONS.EDIT}
-        //   </Button>
-        // </PermissionWrapper>
-        <PermissionWrapper withoutPermissions>
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={onEdit}
-            sx={{ ml: "8px" }}
-          >
-            {DEF_ACTIONS.EDIT}
-          </Button>
-        </PermissionWrapper>
-      )}
-      {selectedGnDivisions.length === 1 && (
-        //      <PermissionWrapper
-        //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GNDIVISION}`}
-        //  >
-        //      <Button
-        //          variant='contained'
-        //          color='info'
-        //          onClick={onView}
-        //          sx={{ ml: '8px' }}
-        //      >
-        //          {DEF_ACTIONS.VIEW}
-        //      </Button>
-        //  </PermissionWrapper>
-        <PermissionWrapper withoutPermissions>
-          <Button
-            variant="contained"
-            color="info"
-            onClick={onView}
-            sx={{ ml: "8px" }}
-          >
-            {DEF_ACTIONS.VIEW}
-          </Button>
-        </PermissionWrapper>
-      )}
-    </ActionWrapper>
-     {/* <PermissionWrapper
+          <PermissionWrapper withoutPermissions>
+            <Button variant="contained" onClick={onCreate}>
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
+          {selectedGnDivisions.length === 1 && (
+            // <PermissionWrapper
+            //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GNDIVISION}`}
+            // >
+            //   <Button
+            //     variant="contained"
+            //     color="secondary"
+            //     onClick={onEdit}
+            //     sx={{ ml: "8px" }}
+            //   >
+            //     {DEF_ACTIONS.EDIT}
+            //   </Button>
+            // </PermissionWrapper>
+            <PermissionWrapper withoutPermissions>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={onEdit}
+                sx={{ ml: "8px" }}
+              >
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedGnDivisions.length === 1 && (
+            //      <PermissionWrapper
+            //      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GNDIVISION}`}
+            //  >
+            //      <Button
+            //          variant='contained'
+            //          color='info'
+            //          onClick={onView}
+            //          sx={{ ml: '8px' }}
+            //      >
+            //          {DEF_ACTIONS.VIEW}
+            //      </Button>
+            //  </PermissionWrapper>
+            <PermissionWrapper withoutPermissions>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={onView}
+                sx={{ ml: "8px" }}
+              >
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+        </ActionWrapper>
+        {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GNDIVISION}`}
       >
         <ProvinceList
@@ -140,16 +141,17 @@ const GnDivision = () => {
           unSelectAll={resetSelectedProvinces}
         />
       </PermissionWrapper> */}
-      <PermissionWrapper withoutPermissions>
-        <GnDivisionList
-          selectedRows={selectedGnDivisions}
-          onRowSelect={toggleGnDivisionSelect}
-          selectAll={selectAllGnDivisions}
-          unSelectAll={resetSelectedGnDivisions}
-        />
-           </PermissionWrapper>
-    </div>
-  )
-}
+        <PermissionWrapper withoutPermissions>
+          <GnDivisionList
+            selectedRows={selectedGnDivisions}
+            onRowSelect={toggleGnDivisionSelect}
+            selectAll={selectAllGnDivisions}
+            unSelectAll={resetSelectedGnDivisions}
+          />
+        </PermissionWrapper>
+      </Paper>
+    </Box>
+  );
+};
 
-export default GnDivision
+export default GnDivision;

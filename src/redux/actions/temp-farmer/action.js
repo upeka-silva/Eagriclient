@@ -37,7 +37,6 @@ export const handleFarmer = async (
 
 
 
-
 export const deleteFarmer = async (
   id,
   onSuccess = () => { },
@@ -106,3 +105,72 @@ export const updateFarmer = async (
   }
 };
 
+
+
+export const handleFarmerContact = async (
+  payload = {},
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await post("farmer-contacts", payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateFarmerContact = async (
+  payload = {},
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await put(`farmer-contacts/${payload?.id || ''}`, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
