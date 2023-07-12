@@ -1,4 +1,4 @@
-import { post, put, api_delete } from "../../../services/api";
+import { post, put, api_delete, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleAgroEco = async (
@@ -35,6 +35,25 @@ export const handleAgroEco = async (
   }
 };
 
+export const get_agroEcoList = async (
+  ) => {
+    try {
+      const { httpCode, payloadDto } = await get("aez", true);
+      if (httpCode === '200 OK') {
+        return {
+          dataList: payloadDto
+        }
+      }
+      return {
+        dataList: []
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        dataList: []
+      }
+    }
+  };
 
 export const deleteAgroEco = async (
   id,

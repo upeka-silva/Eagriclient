@@ -187,7 +187,7 @@ const AIForm = () => {
             }}
             size="small"
           >
-            <MenuItem value={"PROVINCIAL "}>Provincial</MenuItem>
+            <MenuItem value={"PROVINCIAL"}>Provincial</MenuItem>
             <MenuItem value={"INTERPROVINCIAL"}>Inter Provincial</MenuItem>
           </Select>
         </FormControl>

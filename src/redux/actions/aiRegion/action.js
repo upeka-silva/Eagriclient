@@ -1,4 +1,4 @@
-import { post, api_delete, put } from "../../../services/api";
+import { post, api_delete, put, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleAI = async (
@@ -34,6 +34,26 @@ export const handleAI = async (
     }
   }
 };
+
+export const get_AiRegionList = async (
+  ) => {
+    try {
+      const {httpCode, payloadDto} = await get("geo-data/ai-region", true);
+      if (httpCode === '200 OK') {
+        return {
+          dataList: payloadDto
+        }
+      }
+      return {
+        dataList: []
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        dataList: []
+      }
+    }
+  };
 
 
 export const updateAI = async (

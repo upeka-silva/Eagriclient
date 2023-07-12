@@ -11,7 +11,7 @@ const ASCList = ({
   const columns = [
     { field: "ascCode", headerName: "Code"},
     { field: "name", headerName: "Name"},
-    // { field: "districtDto.code", headerName: "District Code"},
+    { field: "districtDto.code", headerName: "District Code"},
   ];
 
   return (

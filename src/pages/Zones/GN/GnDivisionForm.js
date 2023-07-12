@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
   CircularProgress,
   Grid,
+  FormControl,
+  Select,
+  MenuItem,
   Autocomplete,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -26,6 +29,11 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
+import { get_DistrictList } from "../../../redux/actions/district/action";
+import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
+import { get_AiRegionList } from "../../../redux/actions/aiRegion/action"
+
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -37,12 +45,40 @@ const GnDivisionForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mahaweliBlockList, setMahaweliBlockList] = useState([]);
+  const [dsDivisionList, setDsDivisionList] = useState([]);
+  const [agroEcoList, setAgroEcoList] = useState([]);
+  const [aiRegionList, setAiRegionList] = useState([])
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/zone/ga-structure/gn-division");
   };
+
+  useEffect(() => {
+    get_mahaweliBlockList().then(({ dataList = [] }) => {
+      setMahaweliBlockList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_DistrictList().then(({ dataList = [] }) => {
+      setDsDivisionList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_agroEcoList().then(({ dataList = [] }) => {
+      setAgroEcoList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_AiRegionList().then(({ dataList = [] }) => {
+      setAiRegionList(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -116,7 +152,7 @@ const GnDivisionForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.white}`,
+        backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
       }}
     >
@@ -128,10 +164,15 @@ const GnDivisionForm = () => {
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
         <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} ADD GRAMA NILADARI DIVISION
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+          {state?.action} ADD GRAMA NILADARI DIVISION
         </FormHeader>
       </div>
-      <Grid direction="row" container>
+      <Grid
+        direction="row"
+        container
+        style={{ backgroundColor: `${Colors.formBackgroundColor}` }}
+      >
         <FormWrapper>
           <FieldWrapper>
             <FieldName>Division ID</FieldName>
@@ -140,13 +181,17 @@ const GnDivisionForm = () => {
               id="id"
               value={formData?.id || ""}
               fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
               onChange={(e) => handleChange(e?.target?.value || "", "id")}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -167,86 +212,103 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
-              Divisional <br /> Secretariats <br /> Division ID
+              Divisional
+              <br />
+              Secretariats
+              <br />
+              Division ID
             </FieldName>
-            <TextField
-              name="dsDivisionDTO"
-              id="dsDivisionDTO"
-              value={formData?.dsDivisionDTO || ""}
-              fullWidth
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "dsDivisionDTO")}
+              options={dsDivisionList}
+              value={formData ? formData.dsDivisionDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "dsDivisionDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
               Agro <br /> ecological <br /> zone ID
             </FieldName>
-            <TextField
-              name="agroEcologicalZoneId"
-              id="agroEcologicalZoneId"
-              value={formData?.agroEcologicalZoneId || ""}
-              fullWidth
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "agroEcologicalZoneId")}
+              options={agroEcoList}
+              value={formData ? formData.agroEcoDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "agroEcoDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
               Mahaweli <br /> Block ID
             </FieldName>
-            <TextField
-              name="mahaweliBlockId"
-              id="mahaweliBlockId"
-              value={formData?.mahaweliBlockId || ""}
-              fullWidth
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "mahaweliBlockId")}
+              options={mahaweliBlockList}
+              value={formData ? formData.mahaweliBlockDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "mahaweliBlockDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>AI Region</FieldName>
-            <TextField
-              name="aiRegion"
-              id="aiRegion"
-              value={formData?.aiRegion || ""}
-              fullWidth
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "aiRegion")}
+              options={aiRegionList}
+              value={formData ? formData.aiRegionDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "aiRegionDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
         </FormWrapper>
@@ -260,13 +322,17 @@ const GnDivisionForm = () => {
               id="totalHouseholds"
               value={formData?.totalHouseholds || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalHouseholds")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalHouseholds")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -280,13 +346,17 @@ const GnDivisionForm = () => {
               id="totalPopulation"
               value={formData?.totalPopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalPopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalPopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -300,13 +370,17 @@ const GnDivisionForm = () => {
               id="malePopulation"
               value={formData?.malePopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "malePopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "malePopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -320,13 +394,17 @@ const GnDivisionForm = () => {
               id="femalePopulation"
               value={formData?.femalePopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "femalePopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "femalePopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -334,172 +412,117 @@ const GnDivisionForm = () => {
         </FormWrapper>
         <FormWrapper border radius>
           <FieldWrapper>
-            <FieldName>Land Area</FieldName>
-            <Grid direction="row" container gap="4px">
-              <TextField
-                name="landArea"
-                id="landArea"
-                value={formData?.landArea || ""}
-                fullWidth
+            <FieldName>Mahaweli System</FieldName>
+            <FormControl>
+              <Select
+                value={formData?.mahaweliSystem || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "mahaweliSystem")
+                }
                 sx={{
-                  width: "185px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
+                  width: "264px",
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 }}
-              />
-              <Autocomplete
-                disabled
-                open={open}
-                disablePortal
-                options=""
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    sx={{
-                      width: "75px",
-                      "& .MuiInputBase-root": {
-                        textAlign: "center",
-                        height: "30px",
-                        borderRadius: "8px",
-                      },
-                    }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-              />
-            </Grid>
+                size="small"
+              >
+                <MenuItem value={"SQUARE_METERS"}>Square meters</MenuItem>
+                <MenuItem value={"ACRES"}>Acres</MenuItem>
+                <MenuItem value={"HECTARES"}>Hectares</MenuItem>
+                <MenuItem value={"PERCH"}>Perch</MenuItem>
+                <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
+              </Select>
+            </FormControl>
+          </FieldWrapper>
+          <FieldWrapper>
+            <FieldName>Land Area</FieldName>
+
+            <TextField
+              name="landArea"
+              id="landArea"
+              value={formData?.landArea || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
               Agriculture <br /> Land Area
             </FieldName>
-            <Grid direction="row" container gap="4px">
-              <TextField
-                name="agriculturalLandArea"
-                id="agriculturalLandArea"
-                value={formData?.agriculturalLandArea || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "agriculturalLandArea")}
-                sx={{
-                  width: "185px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
-                }}
-              />
-              <Autocomplete
-                disabled
-                open={open}
-                disablePortal
-                options=""
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    sx={{
-                      width: "75px",
-                      "& .MuiInputBase-root": {
-                        textAlign: "center",
-                        height: "30px",
-                        borderRadius: "8px",
-                      },
-                    }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-              />
-            </Grid>
+            <TextField
+              name="agriculturalLandArea"
+              id="agriculturalLandArea"
+              value={formData?.agriculturalLandArea || ""}
+              fullWidth
+              type="number"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "agriculturalLandArea")
+              }
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
               Non - <br /> Agriculture <br /> Land Area
             </FieldName>
-            <Grid direction="row" container gap="4px">
-              <TextField
-                name="nonAgriculturalLandArea"
-                id="nonAgriculturalLandArea"
-                value={formData?.nonAgriculturalLandArea || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "nonAgriculturalLandArea")}
-                sx={{
-                  width: "185px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
-                }}
-              />
-              <Autocomplete
-                disabled
-                open={open}
-                disablePortal
-                options=""
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    sx={{
-                      width: "75px",
-                      "& .MuiInputBase-root": {
-                        textAlign: "center",
-                        height: "30px",
-                        borderRadius: "8px",
-                      },
-                    }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-              />
-            </Grid>
+            <TextField
+              name="nonAgriculturalLandArea"
+              id="nonAgriculturalLandArea"
+              value={formData?.nonAgriculturalLandArea || ""}
+              fullWidth
+              type="number"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "nonAgriculturalLandArea")
+              }
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>Crop Area</FieldName>
-            <Grid direction="row" container gap="4px">
-              <TextField
-                name="cropArea"
-                id="cropArea"
-                value={formData?.cropArea || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
-                sx={{
-                  width: "185px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
-                }}
-              />
-              <Autocomplete
-                disabled
-                open={open}
-                disablePortal
-                options=""
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    sx={{
-                      width: "75px",
-                      "& .MuiInputBase-root": {
-                        textAlign: "center",
-                        height: "30px",
-                        borderRadius: "8px",
-                      },
-                    }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-              />
-            </Grid>
+            <TextField
+              name="cropArea"
+              id="cropArea"
+              value={formData?.cropArea || ""}
+              fullWidth
+              type="number"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
           </FieldWrapper>
         </FormWrapper>
       </Grid>
