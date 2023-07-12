@@ -19,13 +19,14 @@ import { deleteFarmer } from "../../redux/actions/farmer/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { ActionButton } from "../../components/ActionButtons/ActionButton";
-import AddIcon from "../../assets/images/AddIcon.png";
-import EditIcon from "../../assets/images/EditIcon.png";
-import ViewIcon from "../../assets/images/ViewIcon.png";
-import DltIcon from "../../assets/images/DltIcon.png";
 import FarmerList from "./FarmerList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
+
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -153,7 +154,7 @@ const Farmer = () => {
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
         >
           <ActionButton variant="contained" onClick={onCreate}>
-            <img src={AddIcon} alt="" />
+            <AddIcon />
           </ActionButton>
         </PermissionWrapper>
         {selectedFarmer.length === 1 && (
@@ -164,9 +165,8 @@ const Farmer = () => {
               variant="contained"
               color="secondary"
               onClick={onEdit}
-              sx={{ ml: "8px" }}
             >
-              <img src={EditIcon} alt="" />
+              <EditIcon />
             </ActionButton>
           </PermissionWrapper>
         )}
@@ -178,9 +178,8 @@ const Farmer = () => {
               variant="contained"
               color="info"
               onClick={onView}
-              sx={{ ml: "8px" }}
             >
-              <img src={ViewIcon} alt="" />
+              <VisibilityIcon />
             </ActionButton>
           </PermissionWrapper>
         )}
@@ -192,9 +191,8 @@ const Farmer = () => {
               variant="contained"
               color="error"
               onClick={onDelete}
-              sx={{ ml: "8px" }}
             >
-              <img src={DltIcon} alt="" />
+             <DeleteForeverIcon />
             </ActionButton>
           </PermissionWrapper>
         )}

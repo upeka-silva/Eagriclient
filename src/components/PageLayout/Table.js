@@ -884,9 +884,9 @@ export const DataTable = ({
         )}
       </TableHeaderContainer>
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
-        <TableHead className={classes.tableHead}>
+        <TableHead>
           <TableRow
-            sx={{ background: `${theme.coreColors.primary}` }} className={classes.tableRow}
+            sx={{ background: `${theme.coreColors.primary}` }} 
           >
             {selectable && (
               <TableCell sx={{ border: "1px solid #CCC !important" , width:"50px"}}>
