@@ -17,7 +17,7 @@ const FarmerList = ({
     <CardWrapper>
     <DataTable
       loadingTable
-      dataEndPoint={"soil-sub-types"}
+      dataEndPoint={"farmers"}
       columns={columns}
       selectable
       selectedRows={selectedRows}
