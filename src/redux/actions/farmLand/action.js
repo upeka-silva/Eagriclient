@@ -7,7 +7,7 @@ export const handleFarmLand = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("", payload, true);
+    const response = await post("farm-land", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -44,7 +44,7 @@ export const deleteFarmLand = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`/${id || ''}`, true);
+    const response = await api_delete(`farm-land/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -78,7 +78,7 @@ export const updateFarmLand = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`/${payload?.id || ''}`, payload, true);
+    const response = await put(`farm-land/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {

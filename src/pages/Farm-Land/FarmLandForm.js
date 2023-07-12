@@ -32,6 +32,10 @@ import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_DistrictList } from "../../redux/actions/district/action";
 import { get_ProvinceList } from "../../redux/actions/province/action";
+import { get_SoilType } from "../../redux/actions/soil/soilType/action";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { AddButton } from "../../components/FormLayout/AddButton";
+import { ResetButton } from "../../components/FormLayout/ResetButton";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -44,6 +48,7 @@ const FarmLandForm = () => {
   const [gn, setGn] = useState([]);
   const [district, setDistrict] = useState([]);
   const [province, setProvince] = useState([]);
+  const [soilType, setSoilType] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
@@ -67,6 +72,16 @@ const FarmLandForm = () => {
     get_ProvinceList().then(({ dataList = [] }) => {
       setProvince(dataList);
     });
+  }, []);
+
+  useEffect(() => {
+    get_SoilType()
+      .then(({ dataList = [] }) => {
+        setSoilType(dataList);
+      })
+      .catch(() => {
+        setSoilType([]);
+      });
   }, []);
 
   const handleChange = (value, target) => {
@@ -173,15 +188,12 @@ const FarmLandForm = () => {
         <FieldWrapper>
           <FieldName>Name</FieldName>
           <TextField
-            name="code"
-            id="code"
-            value={formData?.code || ""}
+            name="name"
+            id="name"
+            value={formData?.name || ""}
             fullWidth
-            disabled={
-              state?.action === DEF_ACTIONS.VIEW ||
-              state?.action === DEF_ACTIONS.EDIT
-            }
-            onChange={(e) => handleChange(e?.target?.value || "", "code")}
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) => handleChange(e?.target?.value || "", "name")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
@@ -196,12 +208,12 @@ const FarmLandForm = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
             <FieldName>Address</FieldName>
             <TextField
-              name="code"
-              id="code"
-              value={formData?.code || ""}
+              name="address"
+              id="address"
+              value={formData?.address || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              onChange={(e) => handleChange(e?.target?.value || "", "address")}
               sx={{
                 width: "600px",
                 "& .MuiInputBase-root": {
@@ -374,7 +386,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </FormWrapper>
           </Grid>
-          <Grid
+          {/* <Grid
             style={{
               border: "1px solid #D2D2D2",
               borderRadius: "10px",
@@ -472,8 +484,9 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </FormWrapper>
-          </Grid>
+          </Grid> */}
         </Grid>
+        <Grid flexDirection="column">
         <Grid
           style={{
             border: "1px solid #D2D2D2",
@@ -485,47 +498,57 @@ const FarmLandForm = () => {
           <FormWrapper
             style={{ backgroundColor: `${Colors.formBackgroundColor}` }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <FieldName>Legal Description</FieldName>
-              <FormControl>
-                <Select
-                  value={formData?.soilTexture || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "soilTexture")
-                  }
-                  sx={{
-                    width: "640px",
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  }}
-                  size="small"
-                >
-                  <MenuItem value={"RENT "}>RENT</MenuItem>
-                  <MenuItem value={"LEASE"}>LEASE</MenuItem>
-                  <MenuItem value={"OWNED"}>OWNED</MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <div style={{ display: "flex" }}>
+            {/* <div style={{ display: "flex" }}>
               <FormWrapper
                 style={{
                   backgroundColor: `${Colors.formBackgroundColor}`,
                   padding: "0px",
-                  marginRight: "30px",
                 }}
-              >
+              > */}
+                <FieldWrapper>
+                  <FieldName>
+                    Land
+                    <br />
+                    Tenure
+                  </FieldName>
+                  <FormControl>
+                    <Select
+                      value={formData?.landTensure || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) =>
+                        handleChange(e?.target?.value || "", "landTensure")
+                      }
+                      sx={{
+                        width: "264px",
+                        height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      }}
+                      size="small"
+                    >
+                      <MenuItem value={"RENT "}>Sole ownership</MenuItem>
+                      <MenuItem value={"LEASE"}>With permit</MenuItem>
+                      <MenuItem value={"OWNED"}>Half-Share / hire</MenuItem>
+                      <MenuItem value={"OWNED"}>Partnership</MenuItem>
+                      <MenuItem value={"OWNED"}>
+                        Segmentation (clearage) system
+                      </MenuItem>
+                      <MenuItem value={"OWNED"}>Illegal</MenuItem>
+                      <MenuItem value={"OWNED"}>Other</MenuItem>
+                    </Select>
+                  </FormControl>
+                </FieldWrapper>
                 <FieldWrapper>
                   <FieldName>Latitude</FieldName>
                   <TextField
-                    name="city"
-                    id="city"
-                    value={formData?.city || ""}
+                    name="latitude"
+                    id="latitude"
+                    value={formData?.latitude || ""}
                     fullWidth
+                    type="number"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      handleChange(e?.target?.value || "", "city")
+                      handleChange(e?.target?.value || "", "latitude")
                     }
                     sx={{
                       width: "264px",
@@ -538,19 +561,20 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
                 <FieldWrapper>
-                  <FieldName>Acres</FieldName>
+                  <FieldName>Longitude</FieldName>
                   <div style={{ gap: "5px", display: "flex" }}>
                     <TextField
-                      name="soilDepth"
-                      id="soilDepth"
-                      value={formData?.soilDepth || ""}
+                      name="longitude"
+                      id="longitude"
+                      value={formData?.longitude || ""}
                       fullWidth
+                      type="number"
                       disabled={state?.action === DEF_ACTIONS.VIEW}
                       onChange={(e) =>
-                        handleChange(e?.target?.value || "", "soilDepth")
+                        handleChange(e?.target?.value || "", "longitude")
                       }
                       sx={{
-                        width: "185px",
+                        width: "264px",
                         "& .MuiInputBase-root": {
                           height: "30px",
                           borderRadius: "8px",
@@ -558,7 +582,7 @@ const FarmLandForm = () => {
                         },
                       }}
                     />
-
+                    {/* 
                     <FormControl>
                       <Select
                         value={formData?.soilTexture || ""}
@@ -578,19 +602,19 @@ const FarmLandForm = () => {
                         <MenuItem value={""}></MenuItem>
                         <MenuItem value={""}></MenuItem>
                       </Select>
-                    </FormControl>
+                    </FormControl> */}
                   </div>
                 </FieldWrapper>
                 <FieldWrapper>
-                  <FieldName>Soil Type</FieldName>
+                  <FieldName>Elevation</FieldName>
                   <TextField
-                    name="city"
-                    id="city"
-                    value={formData?.city || ""}
+                    name="elevation"
+                    id="elevation"
+                    value={formData?.elevation || ""}
                     fullWidth
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      handleChange(e?.target?.value || "", "city")
+                      handleChange(e?.target?.value || "", "elevation")
                     }
                     sx={{
                       width: "264px",
@@ -603,6 +627,76 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
                 <FieldWrapper>
+                  <FieldName>Soil Type</FieldName>
+                  <Autocomplete
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={soilType}
+                    value={formData ? formData.soilTypeDTO : ""}
+                    getOptionLabel={(i) =>
+                      `${i.soilTypeCode} - ${i.description}`
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "soilTypeDTO");
+                    }}
+                    sx={{
+                      width: 264,
+                      "& .MuiOutlinedInput-root": {
+                        height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                  />
+                </FieldWrapper>
+                <FieldWrapper>
+                  <FieldName>Area</FieldName>
+                  <TextField
+                    name="area"
+                    id="area"
+                    value={formData?.area || ""}
+                    fullWidth
+                    type="number"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "area")
+                    }
+                    sx={{
+                      width: "264px",
+                      "& .MuiInputBase-root": {
+                        height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+                <FieldWrapper>
+                  <FieldName>Status</FieldName>
+                  <FormControl>
+                    <Select
+                      value={formData?.status || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) =>
+                        handleChange(e?.target?.value || "", "status")
+                      }
+                      sx={{
+                        width: "264px",
+                        height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      }}
+                      size="small"
+                    >
+                      <MenuItem value={"VERIFIED "}>Verified</MenuItem>
+                      <MenuItem value={"NOTVERIFIED"}>Not verified</MenuItem>
+                    </Select>
+                  </FormControl>
+                </FieldWrapper>
+
+                {/* <FieldWrapper>
                   <FieldName>Rainfall</FieldName>
                   <TextField
                     name="city"
@@ -727,9 +821,9 @@ const FarmLandForm = () => {
                       },
                     }}
                   />
-                </FieldWrapper>
+                </FieldWrapper> */}
               </FormWrapper>
-              <FormWrapper
+              {/* <FormWrapper
                 style={{
                   backgroundColor: `${Colors.formBackgroundColor}`,
                   padding: "0px",
@@ -970,11 +1064,36 @@ const FarmLandForm = () => {
                     }}
                   />
                 </FieldWrapper>
-              </FormWrapper>
-            </div>
-          </FormWrapper>
+              </FormWrapper> */}
+            {/* </div> */}
+          {/* </FormWrapper> */}
+          </Grid>
         </Grid>
       </Grid>
+      <ButtonWrapper style={{ width: "95%" }}>
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </AddButton>
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
     </div>
   );
 };
