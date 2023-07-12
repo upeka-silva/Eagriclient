@@ -33,6 +33,9 @@ import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_DistrictList } from "../../redux/actions/district/action";
 import { get_ProvinceList } from "../../redux/actions/province/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { AddButton } from "../../components/FormLayout/AddButton";
+import { ResetButton } from "../../components/FormLayout/ResetButton";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -1067,6 +1070,30 @@ const FarmLandForm = () => {
           </Grid>
         </Grid>
       </Grid>
+      <ButtonWrapper style={{ width: "95%" }}>
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </AddButton>
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
     </div>
   );
 };
