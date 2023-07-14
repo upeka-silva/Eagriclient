@@ -62,6 +62,10 @@ import FarmLandForm from '../pages/Farm-Land/FarmLandForm';
 import Farmer from '../pages/Farmer/Farmer';
 import FarmerForm from '../pages/Farmer/FarmerForm';
 
+import Organization from '../pages/Organization/Organization';
+import PrivateCompanies from '../pages/PrivateCompanies/PrivateCompanies';
+import PrivateCompaniesForm from '../pages/PrivateCompanies/PrivateCompaniesForm';
+
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CropSquareIcon from '@mui/icons-material/CropSquare';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
@@ -83,8 +87,9 @@ import GiIsland from '@mui/icons-material/WaterDamage';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import WindPowerIcon from '@mui/icons-material/WindPower';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 
-import Organization from '../pages/Organization/Organization';
+
 
 export const Routes = [
 	{
@@ -540,6 +545,20 @@ export const Routes = [
 		path: '/farmer-form',
 		name: 'Farmer Form',
 		element: <FarmerForm />,
+		isSideBar: false,
+	},
+
+	{
+		path: '/private-company',
+		name: 'Private Company',
+		element: <PrivateCompanies />,
+		isSideBar: true,
+		icon: AccountBalanceIcon,
+	},
+	{
+		path: '/private-company-form',
+		name: 'Private Company Form',
+		element: <PrivateCompaniesForm />,
 		isSideBar: false,
 	},
 ];
