@@ -32,8 +32,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action"
-
+import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -48,7 +47,7 @@ const GnDivisionForm = () => {
   const [mahaweliBlockList, setMahaweliBlockList] = useState([]);
   const [dsDivisionList, setDsDivisionList] = useState([]);
   const [agroEcoList, setAgroEcoList] = useState([]);
-  const [aiRegionList, setAiRegionList] = useState([])
+  const [aiRegionList, setAiRegionList] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
@@ -327,6 +326,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "totalHouseholds")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -351,6 +353,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "totalPopulation")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -375,6 +380,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "malePopulation")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -399,6 +407,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "femalePopulation")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -412,7 +423,11 @@ const GnDivisionForm = () => {
         </FormWrapper>
         <FormWrapper border radius>
           <FieldWrapper>
-            <FieldName>Mahaweli System</FieldName>
+            <FieldName>
+              Select
+              <br />
+              measurement type
+            </FieldName>
             <FormControl>
               <Select
                 value={formData?.mahaweliSystem || ""}
@@ -444,8 +459,12 @@ const GnDivisionForm = () => {
               id="landArea"
               value={formData?.landArea || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -470,6 +489,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "agriculturalLandArea")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -494,6 +516,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "nonAgriculturalLandArea")
               }
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -514,6 +539,9 @@ const GnDivisionForm = () => {
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+              InputProps={{
+                inputProps: { min: 0 },
+              }}
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
