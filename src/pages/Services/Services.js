@@ -143,7 +143,7 @@ const Services = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SERVICE}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
@@ -151,7 +151,7 @@ const Services = () => {
         </PermissionWrapper>
         {selectServices.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SERVICE}`}
           >
             <Button
               variant="contained"
@@ -165,7 +165,7 @@ const Services = () => {
         )}
         {selectServices.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SERVICE}`}
           >
             <Button
               variant="contained"
@@ -179,7 +179,7 @@ const Services = () => {
         )}
         {selectServices.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SERVICE}`}
           >
             <Button
               variant="contained"
@@ -193,7 +193,7 @@ const Services = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SERVICE}`}
       >
         <ServicesList
           selectedRows={selectServices}
