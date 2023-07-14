@@ -33,6 +33,8 @@ import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mah
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
+import { get_arpaList } from "../../../redux/actions/arpa/action";
+
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -48,6 +50,7 @@ const GnDivisionForm = () => {
   const [dsDivisionList, setDsDivisionList] = useState([]);
   const [agroEcoList, setAgroEcoList] = useState([]);
   const [aiRegionList, setAiRegionList] = useState([]);
+  const [arpaList, setArpaList] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
@@ -76,6 +79,12 @@ const GnDivisionForm = () => {
   useEffect(() => {
     get_AiRegionList().then(({ dataList = [] }) => {
       setAiRegionList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_arpaList().then(({ dataList = [] }) => {
+      setArpaList(dataList);
     });
   }, []);
 
@@ -253,7 +262,7 @@ const GnDivisionForm = () => {
               value={formData ? formData.agroEcoDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
-                handleChange(value, "agroEcoDTO");
+                handleChange(value, "agroEcologicalZoneDTO");
               }}
               sx={{
                 width: "264px",
@@ -276,7 +285,7 @@ const GnDivisionForm = () => {
               value={formData ? formData.mahaweliBlockDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
-                handleChange(value, "mahaweliBlockDTO");
+                handleChange(value, "mahaweliUnitDTO");
               }}
               sx={{
                 width: "264px",
@@ -297,7 +306,28 @@ const GnDivisionForm = () => {
               value={formData ? formData.aiRegionDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
-                handleChange(value, "aiRegionDTO");
+                handleChange(value, "aiRegionsDTO");
+              }}
+              sx={{
+                width: "264px",
+                "& .MuiOutlinedInput-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+            />
+          </FieldWrapper>
+          <FieldWrapper>
+            <FieldName>ARPA Area</FieldName>
+            <Autocomplete
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={arpaList}
+              value={formData ? formData.arpaList : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "arpaDTO");
               }}
               sx={{
                 width: "264px",
