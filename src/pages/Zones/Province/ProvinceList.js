@@ -17,30 +17,30 @@ const ProvinceList = ({
 		{ field: 'name', headerName: 'Description' },
 	];
 
-	useEffect(() => {
-		getData();
-	}, []);
+	// useEffect(() => {
+	// 	getData();
+	// }, []);
 
-	const getData = async () => {
-		try {
-			let resposne = await post(
-				'geo-data/provinces',
-				{
-					code: '<>',
-					name: '<>',
-				},
-				true
-			);
-			console.log(resposne);
-		} catch (error) {}
-	};
+	// const getData = async () => {
+	// 	try {
+	// 		let resposne = await post(
+	// 			'geo-data/provinces',
+	// 			{
+	// 				code: '<>',
+	// 				name: '<>',
+	// 			},
+	// 			true
+	// 		);
+	// 		console.log(resposne);
+	// 	} catch (error) {}
+	// };
 
 	return (
 		<CardWrapper>
 			<DataTable
 				loadingTable
 				dataRows={data}
-				// dataEndPoint={'geo-data/provinces'}
+				dataEndPoint={'geo-data/provinces'}
 				filterEndPoint={'geo-data/provinces/filter-provinces'}
 				columns={columns}
 				selectable
