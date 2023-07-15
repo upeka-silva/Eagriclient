@@ -61,6 +61,8 @@ import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 
 import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
+import UserType from "../pages/UserType/UserType";
+import UserTypeForm from "../pages/UserType/UserTypeForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -83,9 +85,11 @@ import GiIsland from "@mui/icons-material/WaterDamage";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 
 import Organization from "../pages/Organization/Organization";
 import Services from "../pages/Services/Services";
+
 
 export const Routes = [
   {
@@ -541,6 +545,20 @@ export const Routes = [
     path: "/farmer-form",
     name: "Farmer Form",
     element: <FarmerForm />,
+    isSideBar: false,
+  },
+
+  {
+    path: "/user-type",
+    name: "User Type",
+    element: <UserType />,
+    isSideBar: true,
+    icon: ManageAccountsIcon,
+  },
+  {
+    path: "/user-type-form",
+    name: "User Type Form",
+    element: <UserTypeForm />,
     isSideBar: false,
   },
 ];
