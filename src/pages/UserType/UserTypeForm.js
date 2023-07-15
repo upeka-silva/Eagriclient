@@ -314,6 +314,7 @@ const UserTypeForm = () => {
                       "& .MuiInputBase-root": {
                         height: "30px",
                         borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
@@ -333,6 +334,7 @@ const UserTypeForm = () => {
               width: "264px",
               height: "30px",
               borderRadius: "8px",
+              backgroundColor: `${Colors.white}`,
             }}
             size="small"
           >
