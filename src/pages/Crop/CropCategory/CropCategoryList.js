@@ -8,8 +8,8 @@ const CropCategoryList = ({  selectedRows = [],
   unSelectAll = () => {},}) => {
 
     const columns = [
-      { field: "code", headerName: "Code" },
-      { field: "name", headerName: "Description" },
+      { field: "categoryId", headerName: "Category ID" },
+      { field: "description", headerName: "Description" },
     ];
 
   return (

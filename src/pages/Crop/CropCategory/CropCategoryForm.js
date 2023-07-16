@@ -126,12 +126,12 @@ const CropCategoryForm = () => {
         <FieldWrapper>
           <FieldName>Category ID</FieldName>
           <TextField
-            name="code"
-            id="code"
-            value={formData?.code || ""}
+            name="categoryId"
+            id="categoryId"
+            value={formData?.categoryId || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-            onChange={(e) => handleChange(e?.target?.value || "", "code")}
+            onChange={(e) => handleChange(e?.target?.value || "", "categoryId")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
@@ -142,14 +142,14 @@ const CropCategoryForm = () => {
           />
         </FieldWrapper>
         <FieldWrapper>
-          <FieldName>Category Name</FieldName>
+          <FieldName>Description</FieldName>
           <TextField
-            name="name"
-            id="name"
-            value={formData?.name || ""}
+            name="description"
+            id="description"
+            value={formData?.description || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "name")}
+            onChange={(e) => handleChange(e?.target?.value || "", "description")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
