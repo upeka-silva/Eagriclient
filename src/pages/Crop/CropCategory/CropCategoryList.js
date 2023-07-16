@@ -1,31 +1,32 @@
-import React from 'react'
-import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import React from 'react';
+import { DataTable } from '../../../components/PageLayout/Table';
+import { CardWrapper } from '../../../components/PageLayout/Card';
 
-const CropCategoryList = ({  selectedRows = [],
-  onRowSelect = (_c) => {},
-  selectAll = (_list = []) => {},
-  unSelectAll = () => {},}) => {
+const CropCategoryList = ({
+	selectedRows = [],
+	onRowSelect = (_c) => {},
+	selectAll = (_list = []) => {},
+	unSelectAll = () => {},
+}) => {
+	const columns = [
+		{ field: 'categoryId', headerName: 'Code' },
+		{ field: 'description', headerName: 'Description' },
+	];
 
-    const columns = [
-      { field: "code", headerName: "Code" },
-      { field: "name", headerName: "Description" },
-    ];
+	return (
+		<CardWrapper>
+			<DataTable
+				loadingTable
+				dataEndPoint={'geo-data/crop-categories'}
+				columns={columns}
+				selectable
+				selectedRows={selectedRows}
+				selectAll={selectAll}
+				onRowSelect={onRowSelect}
+				unSelectAll={unSelectAll}
+			/>
+		</CardWrapper>
+	);
+};
 
-  return (
-    <CardWrapper>
-      <DataTable
-        loadingTable
-        dataEndPoint={"geo-data/crop-categories"}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    </CardWrapper>
-  )
-}
-
-export default CropCategoryList
+export default CropCategoryList;
