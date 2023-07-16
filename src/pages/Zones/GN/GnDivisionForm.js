@@ -173,7 +173,7 @@ const GnDivisionForm = () => {
         <PathName>{getPathName()}</PathName>
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} ADD GRAMA NILADARI DIVISION
+          {state?.action} GRAMA NILADARI DIVISION
         </FormHeader>
       </div>
       <Grid
