@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Button, TextField, CircularProgress } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import {
@@ -117,10 +117,10 @@ const ProvinceAreaForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
+      {/* <PathName>{getPathName()}</PathName> */}
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {state?.action} PROVINCE AREA
+        {makeCapitalize(state?.action)} Province
       </FormHeader>
       <FieldWrapper>
         <FieldName>Province ID</FieldName>

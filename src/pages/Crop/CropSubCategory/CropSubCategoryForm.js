@@ -107,9 +107,23 @@ const CropSubCategoryForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateCropSubCategory(formData, onSuccess, onError);
+          await updateCropSubCategory(
+            {
+              ...formData,
+              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+            },
+            onSuccess,
+            onError
+          );
         } else {
-          await handleCropSubCategory(formData, onSuccess, onError);
+          await handleCropSubCategory(
+            {
+              ...formData,
+              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+            },
+            onSuccess,
+            onError
+          );
         }
       } catch (error) {
         console.log(error);
@@ -137,7 +151,7 @@ const CropSubCategoryForm = () => {
           {state?.action} CROP SUB CATEGORY
         </FormHeader>
         <FieldWrapper>
-          <FieldName>Sub Category ID</FieldName>
+          <FieldName>Sub Category Code</FieldName>
           <TextField
             name="code"
             id="code"
@@ -181,7 +195,7 @@ const CropSubCategoryForm = () => {
             disabled={state?.action === DEF_ACTIONS.VIEW}
             options={options}
             value={formData ? formData.cropCategoryDTO : ""}
-            getOptionLabel={(i) => `${i.code} - ${i.name}`}
+            getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
             onChange={(event, value) => {
               handleChange(value, "cropCategoryDTO");
             }}
