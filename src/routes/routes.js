@@ -142,7 +142,7 @@ export const Routes = [
     children: [
       {
         path: "/ga-structure",
-        name: "General Admin Structure",
+        name: "Administration Structure",
         isSideBar: true,
         children: [
           {
@@ -201,7 +201,7 @@ export const Routes = [
       },
       {
         path: "/aa-structure",
-        name: "Agri Admin Structure",
+        name: "Provincial DOA Structure",
         isSideBar: true,
         children: [
           {
