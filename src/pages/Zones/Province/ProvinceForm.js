@@ -17,7 +17,7 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
 
 const ProvinceForm = () => {
   useUserAccessValidation();
@@ -113,9 +113,10 @@ const ProvinceForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
+      {/* <PathName>{getPathName()}</PathName> */}
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} PROVINCE
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {makeCapitalize( state?.action)} Province
       </FormHeader>
       <FieldWrapper>
         <FieldName>Province Code</FieldName>

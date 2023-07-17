@@ -18,7 +18,10 @@ import {
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../../components/PageLayout/ActionWrapper";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -128,10 +131,10 @@ const DistrictForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
+      {/* <PathName>{getPathName()}</PathName> */}
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {state?.action} DISTRICT
+        {makeCapitalize(state?.action)} District
       </FormHeader>
       <FieldWrapper>
         <FieldName>District Code</FieldName>
@@ -173,7 +176,7 @@ const DistrictForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>Province Name</FieldName>
+        <FieldName>Province</FieldName>
         <Autocomplete
           disabled={state?.action === DEF_ACTIONS.VIEW}
           options={options}

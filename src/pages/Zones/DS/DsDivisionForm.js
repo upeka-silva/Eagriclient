@@ -25,7 +25,10 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { useEffect } from "react";
 
@@ -132,8 +135,8 @@ const DsDivisionForm = () => {
       </ActionWrapper>
       <PathName>{getPathName()}</PathName>
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a DS
-        Division
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {makeCapitalize(state?.action)} DS Division
       </FormHeader>
       <FieldWrapper>
         <FieldName>DS Division Code</FieldName>
