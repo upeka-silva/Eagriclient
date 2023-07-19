@@ -86,11 +86,17 @@ import WindPowerIcon from "@mui/icons-material/WindPower";
 
 import Organization from "../pages/Organization/Organization";
 import Services from "../pages/Services/Services";
+import LandingPage from "../pages/LandingPage/LandingPage";
 
 export const Routes = [
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
+  },
+  {
+    path: "/landing-page",
+    element: <LandingPage />,
+    hideSidebar: true,
   },
   {
     path: "/",

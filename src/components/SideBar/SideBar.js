@@ -118,6 +118,7 @@ const SideBar = () => {
         const toggleCollapseState = () => {
           setSelectedRoute((current) => (current === r.name ? null : r.name));
         };
+
         return (
           <>
             <SideBarItemToolTip
@@ -220,8 +221,13 @@ const SideBar = () => {
 
     return null;
   };
-
-  return (
+  let showSidebar;
+  if (location.pathname === "/landing-page") {
+    showSidebar = true;
+  } else {
+    showSidebar = false;
+  }
+  return showSidebar ? null : (
     <DrawerWrapper>
       <Drawer variant="permanent" open={open}>
         <Toolbar
