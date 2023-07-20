@@ -1,22 +1,23 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const ProvinceAreaList = ({
+const ProvincialDoaList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "agProvinceId", headerName: "Code" },
+    { field: "proDirectorId", headerName: "Code" },
     { field: "description", headerName: "Description" },
   ];
+
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ag-province-area"}
+        dataEndPoint={"geo-data/provincial-director-levels"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +29,4 @@ const ProvinceAreaList = ({
   );
 };
 
-export default ProvinceAreaList;
+export default ProvincialDoaList;
