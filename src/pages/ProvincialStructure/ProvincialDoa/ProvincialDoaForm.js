@@ -1,36 +1,25 @@
-import React, { useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  CircularProgress,
-  Autocomplete,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import React, { useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
-  handleDistrict,
-  updateDistrict,
-} from "../../../redux/actions/district/action";
-import { get_ProvinceList } from "../../../redux/actions/province/action";
-
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
+  handleProvincialDoa,
+  updateProvincialDoa,
+} from "../../../redux/actions/ProvincialDoa/action";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-const DistrictForm = () => {
+const ProvincialDoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -39,19 +28,12 @@ const DistrictForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [options, setOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/ga-structure/district");
+    navigate("/zone/provincial-structure/provincial-director");
   };
-
-  useEffect(() => {
-    get_ProvinceList().then(({ dataList = [] }) => {
-      setOptions(dataList);
-    });
-  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -108,20 +90,14 @@ const DistrictForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateDistrict(formData, onSuccess, onError);
+          await updateProvincialDoa(formData, onSuccess, onError);
         } else {
-          await handleDistrict(formData, onSuccess, onError);
+          await handleProvincialDoa(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
       }
     }
-  };
-
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
   };
 
   return (
@@ -134,20 +110,20 @@ const DistrictForm = () => {
       {/* <PathName>{getPathName()}</PathName> */}
       <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} District
+        {makeCapitalize(state?.action)} Provincial Director
       </FormHeader>
       <FieldWrapper>
-        <FieldName>District Code</FieldName>
+        <FieldName>Provincial Level ID</FieldName>
         <TextField
-          name="code"
-          id="code"
-          value={formData?.code || ""}
+          name="proDirectorId"
+          id="proDirectorId"
+          value={formData?.proDirectorId || ""}
           fullWidth
           disabled={
             state?.action === DEF_ACTIONS.VIEW ||
             state?.action === DEF_ACTIONS.EDIT
           }
-          onChange={(e) => handleChange(e?.target?.value || "", "code")}
+          onChange={(e) => handleChange(e?.target?.value || "", "proDirectorId")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -158,14 +134,14 @@ const DistrictForm = () => {
         />
       </FieldWrapper>
       <FieldWrapper>
-        <FieldName>District Name</FieldName>
+        <FieldName>Description</FieldName>
         <TextField
-          name="name"
-          id="name"
-          value={formData?.name || ""}
+          name="description"
+          id="description"
+          value={formData?.description || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "name")}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -175,27 +151,7 @@ const DistrictForm = () => {
           }}
         />
       </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Province</FieldName>
-        <Autocomplete
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          options={options}
-          value={formData ? formData.provinceDTO : ""}
-          getOptionLabel={(i) => `${i.code} - ${i.name}`}
-          onChange={(event, value) => {
-            handleChange(value, "provinceDTO");
-          }}
-          sx={{
-            width: "264px",
-            "& .MuiOutlinedInput-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => <TextField {...params} size="small" />}
-        />
-      </FieldWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper isCeneter>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -223,4 +179,4 @@ const DistrictForm = () => {
   );
 };
 
-export default DistrictForm;
+export default ProvincialDoaForm;

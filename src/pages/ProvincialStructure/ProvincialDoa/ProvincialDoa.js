@@ -1,6 +1,12 @@
-import React, { useState, useCallback } from "react";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import React, { useState } from "react";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router-dom";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   CircularProgress,
@@ -9,31 +15,22 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
-import ProvinceAreaList from "./ProvinceAreaList";
-import { useNavigate } from "react-router-dom";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { ActionButton } from "../../../components/ActionButtons/ActionButton";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ProvincialDoaList from "./ProvincialDoaList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 
-const ProvinceArea = () => {
+const ProvincialDoa = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -41,11 +38,13 @@ const ProvinceArea = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedProvinceArea, setSelectedProvinceArea] = useState([]);
+  const [search, setSearch] = useState({});
+
+  const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleProvinceAreaSelect = (component) => {
-    setSelectedProvinceArea((current = []) => {
+  const toggleProvincialDoaSelect = (component) => {
+    setSelectedProvincialDoa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -57,37 +56,37 @@ const ProvinceArea = () => {
     });
   };
 
-  const selectAllProvinceArea = (all = []) => {
-    setSelectedProvinceArea(all);
+  const selectAllProvincialDoa = (all = []) => {
+    setSelectedProvincialDoa(all);
   };
 
-  const resetSelectedProvinceArea = () => {
-    setSelectedProvinceArea([]);
+  const resetSelectedProvincialDoa = () => {
+    setSelectedProvincialDoa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedProvinceArea[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedProvinceArea[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
@@ -96,25 +95,26 @@ const ProvinceArea = () => {
     setOpen(true);
   };
 
-  const close = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedProvinceArea.map((p, key) => {
+        {selectedProvincialDoa.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
                 {loading ? (
-                  <CircularProgress size={16} />
+                  <CircularProgress size={20} />
                 ) : (
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.agProvinceId} - {p.description}
+                {" "}
+                {item?.proDirectorId} - {item?.description}
               </ListItemText>
             </ListItem>
           );
@@ -126,29 +126,29 @@ const ProvinceArea = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: "Successfully deleted",
     });
   };
 
-  const onError = (message) => {
+  const onError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: "Failed to delete",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provinceArea of selectedProvinceArea) {
-        await deleteInterProvinceArea(provinceArea?.id, onSuccess, onError);
+      for (const provincialDoa of selectedProvincialDoa) {
+        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
-      close();
-      resetSelectedProvinceArea();
+      onClose();
+      resetSelectedProvincialDoa();
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
 
@@ -156,16 +156,16 @@ const ProvinceArea = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
         >
           <ActionButton variant="contained" onClick={onCreate}>
-          <AddIcon />
+            <AddIcon />
           </ActionButton>
         </PermissionWrapper>
 
-        {selectedProvinceArea.length === 1 && (
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
             <ActionButton
               variant="contained"
@@ -177,9 +177,9 @@ const ProvinceArea = () => {
             </ActionButton>
           </PermissionWrapper>
         )}
-        {selectedProvinceArea.length === 1 && (
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
             <ActionButton
               variant="contained"
@@ -191,9 +191,9 @@ const ProvinceArea = () => {
             </ActionButton>
           </PermissionWrapper>
         )}
-        {selectedProvinceArea.length > 0 && (
+        {selectedProvincialDoa.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
             <ActionButton
               variant="contained"
@@ -201,26 +201,26 @@ const ProvinceArea = () => {
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
-             <DeleteForeverIcon />
+              <DeleteForeverIcon />
             </ActionButton>
           </PermissionWrapper>
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <ProvinceAreaList
-            selectedRows={selectedProvinceArea}
-            onRowSelect={toggleProvinceAreaSelect}
-            selectAll={selectAllProvinceArea}
-            unSelectAll={resetSelectedProvinceArea}
+          <ProvincialDoaList
+            selectedRows={selectedProvincialDoa}
+            onRowSelect={toggleProvincialDoaSelect}
+            selectAll={selectAllProvincialDoa}
+            unSelectAll={resetSelectedProvincialDoa}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province Area"
+        title="Delete Provincial Level"
         actions={
           <ActionWrapper>
             <Button
@@ -234,7 +234,7 @@ const ProvinceArea = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={onClose}
               sx={{ ml: "8px" }}
             >
               Close
@@ -252,4 +252,4 @@ const ProvinceArea = () => {
   );
 };
 
-export default ProvinceArea;
+export default ProvincialDoa;
