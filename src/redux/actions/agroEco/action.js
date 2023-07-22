@@ -8,7 +8,7 @@ export const handleAgroEco = async (
 ) => {
   try {
     const response = await post("aez", payload, true);
-    if (response.httpCode === "200 OK") {
+    if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
       const exception = {
