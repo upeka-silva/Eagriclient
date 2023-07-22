@@ -1,5 +1,12 @@
 import React, { useState } from "react";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useNavigate } from "react-router-dom";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   CircularProgress,
@@ -8,25 +15,22 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
-import CropCategoryList from "./CropCategoryList";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { ActionButton } from "../../../components/ActionButtons/ActionButton";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-const CropCategory = () => {
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ProvincialDoaList from "./ProvincialDoaList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
+
+const ProvincialDoa = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -34,11 +38,13 @@ const CropCategory = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectCategory, setSelectCategory] = useState([]);
+  const [search, setSearch] = useState({});
+
+  const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleCategorySelect = (component) => {
-    setSelectCategory((current = []) => {
+  const toggleProvincialDoaSelect = (component) => {
+    setSelectedProvincialDoa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -50,35 +56,37 @@ const CropCategory = () => {
     });
   };
 
-  const selectAllCategories = (all = []) => {
-    setSelectCategory(all);
+  const selectAllProvincialDoa = (all = []) => {
+    setSelectedProvincialDoa(all);
   };
 
-  const resetSelectedCategory = () => {
-    setSelectCategory([]);
+  const resetSelectedProvincialDoa = () => {
+    setSelectedProvincialDoa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/category-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/provincial-structure/provincial-doa-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/category-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCategory[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/category-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCategory[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
@@ -87,25 +95,26 @@ const CropCategory = () => {
     setOpen(true);
   };
 
-  const close = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCategory.map((p, key) => {
+        {selectedProvincialDoa.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
                 {loading ? (
-                  <CircularProgress size={16} />
+                  <CircularProgress size={20} />
                 ) : (
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.categoryId} - {p.description}
+                {" "}
+                {item?.proDirectorId} - {item?.description}
               </ListItemText>
             </ListItem>
           );
@@ -117,29 +126,29 @@ const CropCategory = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: "Successfully deleted",
     });
   };
 
-  const onError = (message) => {
+  const onError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: "Failed to delete",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
-        await deleteCropCategory(cropCat?.id, onSuccess, onError);
+      for (const provincialDoa of selectedProvincialDoa) {
+        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
-      close();
-      resetSelectedCategory();
+      onClose();
+      resetSelectedProvincialDoa();
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
 
@@ -147,70 +156,71 @@ const CropCategory = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
+          <ActionButton variant="contained" onClick={onCreate}>
+            <AddIcon />
+          </ActionButton>
         </PermissionWrapper>
-        {selectCategory.length === 1 && (
+
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
+            <ActionButton
               variant="contained"
               color="secondary"
               onClick={onEdit}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+              <EditIcon />
+            </ActionButton>
           </PermissionWrapper>
         )}
-        {selectCategory.length === 1 && (
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
+            <ActionButton
               variant="contained"
               color="info"
               onClick={onView}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
+              <VisibilityIcon />
+            </ActionButton>
           </PermissionWrapper>
         )}
-        {selectCategory.length > 0 && (
+        {selectedProvincialDoa.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
+            <ActionButton
               variant="contained"
               color="error"
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
+              <DeleteForeverIcon />
+            </ActionButton>
           </PermissionWrapper>
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <CropCategoryList
-            selectedRows={selectCategory}
-            onRowSelect={toggleCategorySelect}
-            selectAll={selectAllCategories}
-            unSelectAll={resetSelectedCategory}
+          <ProvincialDoaList
+            selectedRows={selectedProvincialDoa}
+            onRowSelect={toggleProvincialDoaSelect}
+            selectAll={selectAllProvincialDoa}
+            unSelectAll={resetSelectedProvincialDoa}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Crop Category)"
+        title="Delete Provincial Level"
         actions={
           <ActionWrapper>
             <Button
@@ -224,7 +234,7 @@ const CropCategory = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={onClose}
               sx={{ ml: "8px" }}
             >
               Close
@@ -242,4 +252,4 @@ const CropCategory = () => {
   );
 };
 
-export default CropCategory;
+export default ProvincialDoa;

@@ -4,6 +4,7 @@ import { Colors } from "../../utils/constants/Colors";
 export const AddButton = styled.button`
   width: 100px;
   height: 28px;
+  margin-right: 5px;
   border-radius: 22px;
   background-color: ${Colors.formButton};
   border: none;
