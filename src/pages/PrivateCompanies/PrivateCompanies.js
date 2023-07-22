@@ -1,6 +1,4 @@
-import React, { useState, useCallback } from "react";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import React, { useState } from "react";
 import {
   Button,
   CircularProgress,
@@ -11,41 +9,38 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import ProvinceAreaList from "./ProvinceAreaList";
-import { useNavigate } from "react-router-dom";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import DialogBox from "../../../components/PageLayout/DialogBox";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { deleteFarmLand } from "../../redux/actions/farmLand/action";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import { ActionButton } from "../../components/ActionButtons/ActionButton";
+import { defaultMessages } from "../../utils/constants/apiMessages";
+import PrivateCompaniesList from "./PrivateCompaniesList";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
 
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { ActionButton } from "../../../components/ActionButtons/ActionButton";
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-
-const ProvinceArea = () => {
+const PrivateCompanies = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
+  const [selectPrivateCompany, setSelectPrivateCompany] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedProvinceArea, setSelectedProvinceArea] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const toggleProvinceAreaSelect = (component) => {
-    setSelectedProvinceArea((current = []) => {
+  const togglePrivateCompanySelect = (component) => {
+    setSelectPrivateCompany((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -57,37 +52,37 @@ const ProvinceArea = () => {
     });
   };
 
-  const selectAllProvinceArea = (all = []) => {
-    setSelectedProvinceArea(all);
+  const selectAllPrivateCompanies = (all = []) => {
+    setSelectPrivateCompany(all);
   };
 
-  const resetSelectedProvinceArea = () => {
-    setSelectedProvinceArea([]);
+  const resetSelectedPrivateCompanies = () => {
+    setSelectPrivateCompany([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/private-company-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/private-company-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedProvinceArea[0] || {},
+        target: selectPrivateCompany[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/aa-structure/province-area-form", {
+    navigate("/private-company-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedProvinceArea[0] || {},
+        target: selectPrivateCompany[0] || {},
       },
     });
   };
@@ -103,7 +98,7 @@ const ProvinceArea = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedProvinceArea.map((p, key) => {
+        {selectPrivateCompany.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -114,7 +109,7 @@ const ProvinceArea = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.agProvinceId} - {p.description}
+                {p.code} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -140,12 +135,12 @@ const ProvinceArea = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provinceArea of selectedProvinceArea) {
-        await deleteInterProvinceArea(provinceArea?.id, onSuccess, onError);
+      for (const farmLand of selectPrivateCompany) {
+        await deleteFarmLand(farmLand?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedProvinceArea();
+      resetSelectedPrivateCompanies();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -156,16 +151,15 @@ const ProvinceArea = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
         >
           <ActionButton variant="contained" onClick={onCreate}>
-          <AddIcon />
+            <AddIcon />
           </ActionButton>
         </PermissionWrapper>
-
-        {selectedProvinceArea.length === 1 && (
+        {selectPrivateCompany.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <ActionButton
               variant="contained"
@@ -177,9 +171,9 @@ const ProvinceArea = () => {
             </ActionButton>
           </PermissionWrapper>
         )}
-        {selectedProvinceArea.length === 1 && (
+        {selectPrivateCompany.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <ActionButton
               variant="contained"
@@ -191,9 +185,9 @@ const ProvinceArea = () => {
             </ActionButton>
           </PermissionWrapper>
         )}
-        {selectedProvinceArea.length > 0 && (
+        {selectPrivateCompany.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <ActionButton
               variant="contained"
@@ -201,26 +195,26 @@ const ProvinceArea = () => {
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
-             <DeleteForeverIcon />
+              <DeleteForeverIcon />
             </ActionButton>
           </PermissionWrapper>
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AG_PROVINCIAL_AREA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
       >
         {loading === false && (
-          <ProvinceAreaList
-            selectedRows={selectedProvinceArea}
-            onRowSelect={toggleProvinceAreaSelect}
-            selectAll={selectAllProvinceArea}
-            unSelectAll={resetSelectedProvinceArea}
+          <PrivateCompaniesList
+            selectedRows={selectPrivateCompany}
+            onRowSelect={togglePrivateCompanySelect}
+            selectAll={selectAllPrivateCompanies}
+            unSelectAll={resetSelectedPrivateCompanies}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Province Area"
+        title="Delete Private Company"
         actions={
           <ActionWrapper>
             <Button
@@ -252,4 +246,4 @@ const ProvinceArea = () => {
   );
 };
 
-export default ProvinceArea;
+export default PrivateCompanies;

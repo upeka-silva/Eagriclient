@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import styledComponents from "styled-components";
-import MuiDrawer from "@mui/material/Drawer";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  Drawer as MuiDrawer,
+  Toolbar,
+  List,
+  Typography,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronDownIcon from "@mui/icons-material/ChevronRight";
 import ViewListIcon from "@mui/icons-material/ViewList";
@@ -18,11 +21,10 @@ import {
   SideBarItemButton,
   SideBarItemToolTip,
 } from "./Components";
-import { Divider } from "@mui/material";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
-  const [openSecondery, setOpenSecondery] = useState(false);
+  const [openSecondary, setOpenSecondary] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
 
@@ -55,17 +57,16 @@ const SideBar = () => {
                     title={!open ? r.name : ""}
                     placement="right"
                     arrow
+                    key={key}
                   >
                     <SideBarItemButton
                       selected={selectedSubRoute?.path === r.path}
                       onClick={() => {
                         setSelectedSubRoute(r);
-                        setOpenSecondery(true);
+                        setOpenSecondary(true);
                       }}
                     >
-                      {r.icon && (
-                        <ListItemIcon>{r.icon && <r.icon />}</ListItemIcon>
-                      )}
+                      {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
                         primary={r.name}
                         sx={{ textDecoration: "none !important" }}
@@ -82,22 +83,20 @@ const SideBar = () => {
                   title={!open ? r.name : ""}
                   placement="right"
                   arrow
+                  key={key}
                 >
                   <NavLink
-                    key={key}
                     to={`${parent.path}${r.path}`}
                     style={{ textDecoration: "none !important" }}
                   >
                     <SideBarItemButton
                       selected={isCurrentScreen([`${parent.path}${r.path}`])}
                       onClick={() => {
-                        setOpenSecondery(false);
+                        setOpenSecondary(false);
                         setSelectedSubRoute(null);
                       }}
                     >
-                      {r.icon && (
-                        <ListItemIcon>{r.icon && <r.icon />}</ListItemIcon>
-                      )}
+                      {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
                         primary={r.name}
                         sx={{ textDecoration: "none !important" }}
@@ -118,8 +117,9 @@ const SideBar = () => {
         const toggleCollapseState = () => {
           setSelectedRoute((current) => (current === r.name ? null : r.name));
         };
+
         return (
-          <>
+          <React.Fragment key={key}>
             <SideBarItemToolTip
               title={!open ? r.name : ""}
               placement="right"
@@ -136,7 +136,7 @@ const SideBar = () => {
                 onClick={toggleCollapseState}
                 haschildren={selectedRoute === r.name || undefined}
               >
-                {r.icon && <ListItemIcon>{r.icon && <r.icon />}</ListItemIcon>}
+                {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                 <ListItemText
                   primary={r.name}
                   sx={{ textDecoration: "none !important" }}
@@ -147,11 +147,16 @@ const SideBar = () => {
               </SideBarItemButton>
             </SideBarItemToolTip>
             {renderSideBarRouteChildren(r)}
-          </>
+          </React.Fragment>
         );
       }
       return (
-        <SideBarItemToolTip title={!open ? r.name : ""} placement="right" arrow>
+        <SideBarItemToolTip
+          title={!open ? r.name : ""}
+          placement="right"
+          arrow
+          key={key}
+        >
           <NavLink
             to={r.path}
             style={{ textDecoration: "none !important" }}
@@ -163,10 +168,10 @@ const SideBar = () => {
               onClick={() => {
                 setSelectedRoute(null);
                 setSelectedSubRoute(null);
-                setOpenSecondery(false);
+                setOpenSecondary(false);
               }}
             >
-              {r.icon && <ListItemIcon>{r.icon && <r.icon />}</ListItemIcon>}
+              {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
               <ListItemText
                 primary={r.name}
                 sx={{ textDecoration: "none !important" }}
@@ -191,9 +196,10 @@ const SideBar = () => {
         if (r.isSideBar) {
           return (
             <SideBarItemToolTip
-              title={!openSecondery ? r.name : ""}
+              title={!openSecondary ? r.name : ""}
               placement="right"
               arrow
+              key={key}
             >
               <NavLink
                 to={`${parentPath}${r.path}`}
@@ -204,7 +210,7 @@ const SideBar = () => {
                   key={`${parentPath}${r.path}-item-button`}
                   selected={isCurrentScreen([`${parentPath}${r.path}`])}
                 >
-                  <ListItemIcon></ListItemIcon>
+                  <ListItemIcon />
                   <ListItemText
                     primary={r.name}
                     sx={{ textDecoration: "none !important" }}
@@ -221,7 +227,9 @@ const SideBar = () => {
     return null;
   };
 
-  return (
+  const hideSidebar = location.pathname === "/landing-page";
+
+  return hideSidebar ? null : (
     <DrawerWrapper>
       <Drawer variant="permanent" open={open}>
         <Toolbar
@@ -249,7 +257,7 @@ const SideBar = () => {
         {/* <Divider /> */}
         <List component="nav">{renderSideBarRoutes()}</List>
       </Drawer>
-      {openSecondery && selectedSubRoute !== null ? (
+      {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
           <Toolbar>
             <Typography variant="h6">{selectedSubRoute?.name || ""}</Typography>
@@ -265,8 +273,8 @@ const SideBar = () => {
 export default SideBar;
 
 const DrawerWrapper = styledComponents.div`
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 `;
 
 const Drawer = styled(MuiDrawer, {
@@ -326,25 +334,25 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const SubDrawer = styledComponents(Drawer)`
-    background: #FFF;
-    padding-top: 0px !important;
+  background: #FFF;
+  padding-top: 0px !important;
+  width: auto !important;
+  max-width: 300px;
+  ${(props) =>
+    props?.open ? "" : "max-width: 0px !important;\ntransition: 0.3 ease;"}
+
+  & .MuiDrawer-paper {
     width: auto !important;
     max-width: 300px;
-    ${(props) =>
-      props?.open ? "" : "max-width: 0px !important;\ntransition: 0.3 ease;"}
+  }
 
-    & .MuiDrawer-paper {
-        width: auto !important;
-        max-width: 300px;
-    }
+  & .MuiToolbar-root .MuiTypography-root {
+    // overflow-x: unset !important;
+    // white-space: break-spaces;
+  }
 
-    & .MuiToolbar-root .MuiTypography-root {
-        // overflow-x: unset !important;
-        // white-space: break-spaces;
-    }
-
-    & .MuiList-root {
-        padding-top: 0px !important;
-        padding-bottom: 0px !important;
-    }
+  & .MuiList-root {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+  }
 `;
