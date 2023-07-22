@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -25,7 +25,11 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../../components/PageLayout/ActionWrapper";
+import { get_DsDivisionList } from "../../../redux/actions/dsDivision/action";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -37,6 +41,8 @@ const GnDivisionForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const [dsOptions, setDsOptions] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
@@ -111,6 +117,12 @@ const GnDivisionForm = () => {
       : location.pathname;
   };
 
+  useEffect(() => {
+    get_DsDivisionList().then(({ dataList = [] }) => {
+      setDsOptions(dataList);
+    });
+  }, []);
+
   return (
     <div
       style={{
@@ -126,9 +138,10 @@ const GnDivisionForm = () => {
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} ADD GRAMA NILADARI DIVISION
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+          {makeCapitalize(state?.action)} Grama Niladari Division
         </FormHeader>
       </div>
       <Grid direction="row" container>
@@ -140,7 +153,10 @@ const GnDivisionForm = () => {
               id="id"
               value={formData?.id || ""}
               fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
               onChange={(e) => handleChange(e?.target?.value || "", "id")}
               sx={{
                 width: "264px",
@@ -172,36 +188,37 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>
-              Divisional <br /> Secretariats <br /> Division ID
-            </FieldName>
-            <TextField
-              name="dsDivisionDTO"
-              id="dsDivisionDTO"
-              value={formData?.dsDivisionDTO || ""}
-              fullWidth
+            <FieldName>DS Division</FieldName>
+
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "dsDivisionDTO")}
+              options={dsOptions}
+              value={formData ? formData.districtDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "dsDivisionDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>
-              Agro <br /> ecological <br /> zone ID
-            </FieldName>
+            <FieldName>AEZ</FieldName>
             <TextField
               name="agroEcologicalZoneId"
               id="agroEcologicalZoneId"
               value={formData?.agroEcologicalZoneId || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "agroEcologicalZoneId")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "agroEcologicalZoneId")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -212,16 +229,16 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-            <FieldName>
-              Mahaweli <br /> Block ID
-            </FieldName>
+            <FieldName>Mahaweli Unit</FieldName>
             <TextField
               name="mahaweliBlockId"
               id="mahaweliBlockId"
               value={formData?.mahaweliBlockId || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "mahaweliBlockId")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "mahaweliBlockId")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -261,7 +278,9 @@ const GnDivisionForm = () => {
               value={formData?.totalHouseholds || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalHouseholds")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalHouseholds")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -281,7 +300,9 @@ const GnDivisionForm = () => {
               value={formData?.totalPopulation || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "totalPopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "totalPopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -301,7 +322,9 @@ const GnDivisionForm = () => {
               value={formData?.malePopulation || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "malePopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "malePopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -321,7 +344,9 @@ const GnDivisionForm = () => {
               value={formData?.femalePopulation || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "femalePopulation")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "femalePopulation")
+              }
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -342,7 +367,9 @@ const GnDivisionForm = () => {
                 value={formData?.landArea || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "landArea")
+                }
                 sx={{
                   width: "185px",
                   "& .MuiInputBase-root": {
@@ -385,7 +412,9 @@ const GnDivisionForm = () => {
                 value={formData?.agriculturalLandArea || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "agriculturalLandArea")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "agriculturalLandArea")
+                }
                 sx={{
                   width: "185px",
                   "& .MuiInputBase-root": {
@@ -428,7 +457,12 @@ const GnDivisionForm = () => {
                 value={formData?.nonAgriculturalLandArea || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "nonAgriculturalLandArea")}
+                onChange={(e) =>
+                  handleChange(
+                    e?.target?.value || "",
+                    "nonAgriculturalLandArea"
+                  )
+                }
                 sx={{
                   width: "185px",
                   "& .MuiInputBase-root": {
@@ -469,7 +503,9 @@ const GnDivisionForm = () => {
                 value={formData?.cropArea || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "cropArea")
+                }
                 sx={{
                   width: "185px",
                   "& .MuiInputBase-root": {
