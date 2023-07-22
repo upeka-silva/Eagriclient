@@ -64,6 +64,7 @@ import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
 import UserTypeForm from "../pages/UserType/UserTypeForm";
 
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -690,7 +691,6 @@ export const Routes = [
     isSideBar: false,
     element: <FarmLandForm />,
   },
-
   {
     path: "/farmer",
     name: "Farmer",
@@ -718,4 +718,17 @@ export const Routes = [
     element: <UserTypeForm />,
     isSideBar: false,
   },
+  {
+		path: '/private-company',
+		name: 'Private Company',
+		element: <PrivateCompanies />,
+		isSideBar: true,
+		icon: AccountBalanceIcon,
+	},
+	{
+		path: '/private-company-form',
+		name: 'Private Company Form',
+		element: <PrivateCompaniesForm />,
+		isSideBar: false,
+	},
 ];

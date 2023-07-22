@@ -1,9 +1,13 @@
+
 import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
   CircularProgress,
   Grid,
+  FormControl,
+  Select,
+  MenuItem,
   Autocomplete,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -25,6 +29,12 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
+import { get_DistrictList } from "../../../redux/actions/district/action";
+import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
+import { get_AiRegionList } from "../../../redux/actions/aiRegion/action"
+
 import {
   ActionWrapper,
   makeCapitalize,
@@ -41,6 +51,10 @@ const GnDivisionForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
+  const [mahaweliBlockList, setMahaweliBlockList] = useState([]);
+  const [dsDivisionList, setDsDivisionList] = useState([]);
+  const [agroEcoList, setAgroEcoList] = useState([]);
+  const [aiRegionList, setAiRegionList] = useState([])
 
   const [dsOptions, setDsOptions] = useState([]);
 
@@ -49,6 +63,30 @@ const GnDivisionForm = () => {
   const goBack = () => {
     navigate("/zone/ga-structure/gn-division");
   };
+
+  useEffect(() => {
+    get_mahaweliBlockList().then(({ dataList = [] }) => {
+      setMahaweliBlockList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_DistrictList().then(({ dataList = [] }) => {
+      setDsDivisionList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_agroEcoList().then(({ dataList = [] }) => {
+      setAgroEcoList(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_AiRegionList().then(({ dataList = [] }) => {
+      setAiRegionList(dataList);
+    });
+  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -128,7 +166,7 @@ const GnDivisionForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.white}`,
+        backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
       }}
     >
@@ -144,7 +182,11 @@ const GnDivisionForm = () => {
           {makeCapitalize(state?.action)} Grama Niladari Division
         </FormHeader>
       </div>
-      <Grid direction="row" container>
+      <Grid
+        direction="row"
+        container
+        style={{ backgroundColor: `${Colors.formBackgroundColor}` }}
+      >
         <FormWrapper>
           <FieldWrapper>
             <FieldName>Division ID</FieldName>
@@ -163,6 +205,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -183,6 +226,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -203,6 +247,7 @@ const GnDivisionForm = () => {
                 "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
               renderInput={(params) => <TextField {...params} size="small" />}
@@ -221,11 +266,13 @@ const GnDivisionForm = () => {
               }
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -241,29 +288,34 @@ const GnDivisionForm = () => {
               }
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>AI Region</FieldName>
-            <TextField
-              name="aiRegion"
-              id="aiRegion"
-              value={formData?.aiRegion || ""}
-              fullWidth
+            <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "aiRegion")}
+              options={aiRegionList}
+              value={formData ? formData.aiRegionDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "aiRegionDTO");
+              }}
               sx={{
                 width: "264px",
-                "& .MuiInputBase-root": {
+                "& .MuiOutlinedInput-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
+              renderInput={(params) => <TextField {...params} size="small" />}
             />
           </FieldWrapper>
         </FormWrapper>
@@ -277,6 +329,7 @@ const GnDivisionForm = () => {
               id="totalHouseholds"
               value={formData?.totalHouseholds || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "totalHouseholds")
@@ -286,6 +339,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -299,6 +353,7 @@ const GnDivisionForm = () => {
               id="totalPopulation"
               value={formData?.totalPopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "totalPopulation")
@@ -308,6 +363,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -321,6 +377,7 @@ const GnDivisionForm = () => {
               id="malePopulation"
               value={formData?.malePopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "malePopulation")
@@ -330,6 +387,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -343,6 +401,7 @@ const GnDivisionForm = () => {
               id="femalePopulation"
               value={formData?.femalePopulation || ""}
               fullWidth
+              type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "femalePopulation")
@@ -352,6 +411,7 @@ const GnDivisionForm = () => {
                 "& .MuiInputBase-root": {
                   height: "30px",
                   borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 },
               }}
             />
@@ -359,47 +419,49 @@ const GnDivisionForm = () => {
         </FormWrapper>
         <FormWrapper border radius>
           <FieldWrapper>
-            <FieldName>Land Area</FieldName>
-            <Grid direction="row" container gap="4px">
-              <TextField
-                name="landArea"
-                id="landArea"
-                value={formData?.landArea || ""}
-                fullWidth
+            <FieldName>Mahaweli System</FieldName>
+            <FormControl>
+              <Select
+                value={formData?.mahaweliSystem || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "landArea")
                 }
                 sx={{
-                  width: "185px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                  },
+                  width: "264px",
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
                 }}
-              />
-              <Autocomplete
-                disabled
-                open={open}
-                disablePortal
-                options=""
-                getOptionLabel={(option) => option.name}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    sx={{
-                      width: "75px",
-                      "& .MuiInputBase-root": {
-                        textAlign: "center",
-                        height: "30px",
-                        borderRadius: "8px",
-                      },
-                    }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-              />
-            </Grid>
+                size="small"
+              >
+                <MenuItem value={"SQUARE_METERS"}>Square meters</MenuItem>
+                <MenuItem value={"ACRES"}>Acres</MenuItem>
+                <MenuItem value={"HECTARES"}>Hectares</MenuItem>
+                <MenuItem value={"PERCH"}>Perch</MenuItem>
+                <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
+              </Select>
+            </FormControl>
+          </FieldWrapper>
+          <FieldWrapper>
+            <FieldName>Land Area</FieldName>
+
+            <TextField
+              name="landArea"
+              id="landArea"
+              value={formData?.landArea || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+              sx={{
+                width: "264px",
+                "& .MuiInputBase-root": {
+                  height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>
