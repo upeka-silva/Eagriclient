@@ -1,4 +1,4 @@
-import { put, post, api_delete } from "../../../services/api";
+import { put, post, api_delete, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleArpa = async (
@@ -34,6 +34,26 @@ export const handleArpa = async (
     }
   }
 };
+
+export const get_arpaList = async (
+  ) => {
+    try {
+      const { httpCode, payloadDto } = await get("arpa", true);
+      if (httpCode === '200 OK') {
+        return {
+          dataList: payloadDto
+        }
+      }
+      return {
+        dataList: []
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        dataList: []
+      }
+    }
+  };
 
 export const updateArpa = async (
   payload = {},

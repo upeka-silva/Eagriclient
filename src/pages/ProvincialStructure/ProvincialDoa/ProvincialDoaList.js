@@ -1,23 +1,23 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const ARPAList = ({
+const ProvincialDoaList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "arpaId", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    { field: "ascDto.id", headerName: "ASC Code" },
+    { field: "proDirectorId", headerName: "Code" },
+    { field: "description", headerName: "Description" },
   ];
+
   return (
-<CardWrapper>
+    <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"arpa"}
+        dataEndPoint={"geo-data/provincial-director-levels"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -26,7 +26,7 @@ const ARPAList = ({
         unSelectAll={unSelectAll}
       />
     </CardWrapper>
-  )
+  );
 };
 
-export default ARPAList;
+export default ProvincialDoaList;
