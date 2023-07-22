@@ -718,17 +718,17 @@ export const Routes = [
     element: <UserTypeForm />,
     isSideBar: false,
   },
-  {
-		path: '/private-company',
-		name: 'Private Company',
-		element: <PrivateCompanies />,
-		isSideBar: true,
-		icon: AccountBalanceIcon,
-	},
-	{
-		path: '/private-company-form',
-		name: 'Private Company Form',
-		element: <PrivateCompaniesForm />,
-		isSideBar: false,
-	},
+  // {
+	// 	path: '/private-company',
+	// 	name: 'Private Company',
+	// 	element: <PrivateCom />,
+	// 	isSideBar: true,
+	// 	icon: AccountBalanceIcon,
+	// },
+	// {
+	// 	path: '/private-company-form',
+	// 	name: 'Private Company Form',
+	// 	element: <PrivateCom />,
+	// 	isSideBar: false,
+	// },
 ];
