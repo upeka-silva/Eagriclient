@@ -42,7 +42,7 @@ export const AuthContextProvider = (props) => {
     setPermissionList(permissions.map((perm) => perm?.authority || ""));
     setUser({
       ...(data?.user || {}),
-      userName: firstName + lastName || "",
+      userName: firstName + " " + lastName || "",
     });
   };
 

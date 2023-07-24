@@ -24,6 +24,7 @@ import DistrictForm from "../pages/Zones/District/DistrictForm";
 import DsDivision from "../pages/Zones/DS/DsDivision";
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision";
+import PrivateCompanies from "../pages/PrivateCompanies/PrivateCompanies";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
@@ -64,10 +65,10 @@ import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
 import UserTypeForm from "../pages/UserType/UserTypeForm";
 
-
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import LockIcon from "@mui/icons-material/Lock";
 import HighlightAltIcon from "@mui/icons-material/HighlightAlt";
@@ -86,14 +87,14 @@ import GiIsland from "@mui/icons-material/WaterDamage";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 import Organization from "../pages/Organization/Organization";
 import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
-
+import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
 
 export const Routes = [
   {
@@ -719,16 +720,16 @@ export const Routes = [
     isSideBar: false,
   },
   {
-		path: '/private-company',
-		name: 'Private Company',
-		element: <PrivateCompanies />,
-		isSideBar: true,
-		icon: AccountBalanceIcon,
-	},
-	{
-		path: '/private-company-form',
-		name: 'Private Company Form',
-		element: <PrivateCompaniesForm />,
-		isSideBar: false,
-	},
+    path: "/private-company",
+    name: "Private Company",
+    element: <PrivateCompanies />,
+    isSideBar: true,
+    icon: AccountBalanceIcon,
+  },
+  {
+    path: "/private-company-form",
+    name: "Private Company Form",
+    element: <PrivateCompaniesForm/>,
+    isSideBar: false,
+  },
 ];

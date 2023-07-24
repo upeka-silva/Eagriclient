@@ -36,7 +36,7 @@ import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action"
 import { get_arpaList } from "../../../redux/actions/arpa/action";
 import {
-  ActionWrapper,
+
   makeCapitalize,
 } from "../../../components/PageLayout/ActionWrapper";
 import { get_DsDivisionList } from "../../../redux/actions/dsDivision/action";
@@ -505,7 +505,7 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              handleChange(e?.target?.value || "", "mahaweliSystem")
+              handleChange={(e)=>(e?.target?.value || "", "mahaweliSystem")}
               InputProps={{
                 inputProps: { min: 0 },
               }}
