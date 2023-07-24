@@ -3,8 +3,8 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleFarmLand = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("farm-land", payload, true);
@@ -15,8 +15,7 @@ export const handleFarmLand = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,17 +34,14 @@ export const handleFarmLand = async (
   }
 };
 
-
-
-
 export const deleteFarmLand = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`farm-land/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`farm-land/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -53,8 +49,7 @@ export const deleteFarmLand = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -70,15 +65,15 @@ export const deleteFarmLand = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateFarmLand = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`farm-land/${payload?.id || ''}`, payload, true);
+    const response = await put(`farm-land/${payload?.id || ""}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -86,8 +81,7 @@ export const updateFarmLand = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -105,4 +99,3 @@ export const updateFarmLand = async (
     }
   }
 };
-

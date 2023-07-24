@@ -1,23 +1,25 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { CardWrapper } from "../../components/PageLayout/Card";
+import { DataTable } from "../../components/PageLayout/Table";
 
-const CropCategoryList = ({
+const ServicesList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "categoryId", headerName: "Code" },
+    { field: "serviceId", headerName: "ServiceID" },
     { field: "description", headerName: "Description" },
+    { field: "shortName", headerName: "Short Name" },
+    { field: "serviceIcon", headerName: "Icon" },
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-categories"}
+        dataEndPoint={"app-services"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -29,4 +31,4 @@ const CropCategoryList = ({
   );
 };
 
-export default CropCategoryList;
+export default ServicesList;

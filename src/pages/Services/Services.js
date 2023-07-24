@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   Button,
   CircularProgress,
@@ -10,35 +9,30 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import CropCategoryList from "./CropCategoryList";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
+import { useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { deleteServices } from "../../redux/actions/services/action";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import ServicesList from "./ServicesList";
+import { defaultMessages } from "../../utils/constants/apiMessages";
 
-const CropCategory = () => {
+const Services = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
+  const [selectServices, setSelectServices] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectCategory, setSelectCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const toggleCategorySelect = (component) => {
-    setSelectCategory((current = []) => {
+  const toggleServicesSelect = (component) => {
+    setSelectServices((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -50,35 +44,37 @@ const CropCategory = () => {
     });
   };
 
-  const selectAllCategories = (all = []) => {
-    setSelectCategory(all);
+  const selectAllServices = (all = []) => {
+    setSelectServices(all);
   };
 
-  const resetSelectedCategory = () => {
-    setSelectCategory([]);
+  const resetSelectedServices = () => {
+    setSelectServices([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/category-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/category-form", {
+    navigate("", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCategory[0] || {},
+        target: selectServices[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/category-form", {
+    navigate("", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCategory[0] || {},
+        target: selectServices[0] || {},
       },
     });
   };
@@ -94,7 +90,7 @@ const CropCategory = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCategory.map((p, key) => {
+        {selectServices.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -105,7 +101,7 @@ const CropCategory = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.categoryId} - {p.description}
+                {p.code} - {p.description}
               </ListItemText>
             </ListItem>
           );
@@ -131,12 +127,12 @@ const CropCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
-        await deleteCropCategory(cropCat?.id, onSuccess, onError);
+      for (const Services of selectServices) {
+        await deleteServices(Services?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedCategory();
+      resetSelectedServices();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -147,15 +143,15 @@ const CropCategory = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
         >
           <Button variant="contained" onClick={onCreate}>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
-        {selectCategory.length === 1 && (
+        {selectServices.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <Button
               variant="contained"
@@ -167,9 +163,9 @@ const CropCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectCategory.length === 1 && (
+        {selectServices.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <Button
               variant="contained"
@@ -181,9 +177,9 @@ const CropCategory = () => {
             </Button>
           </PermissionWrapper>
         )}
-        {selectCategory.length > 0 && (
+        {selectServices.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
           >
             <Button
               variant="contained"
@@ -197,49 +193,17 @@ const CropCategory = () => {
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
       >
-        {loading === false && (
-          <CropCategoryList
-            selectedRows={selectCategory}
-            onRowSelect={toggleCategorySelect}
-            selectAll={selectAllCategories}
-            unSelectAll={resetSelectedCategory}
-          />
-        )}
+        <ServicesList
+          selectedRows={selectServices}
+          onRowSelect={toggleServicesSelect}
+          selectAll={selectAllServices}
+          unSelectAll={resetSelectedServices}
+        />
       </PermissionWrapper>
-      <DialogBox
-        open={open}
-        title="Delete Crop Category)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
     </div>
   );
 };
 
-export default CropCategory;
+export default Services;

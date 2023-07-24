@@ -1,14 +1,14 @@
-import { post, put, api_delete, get } from "../../../services/api";
+import { put, post, get, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleAgroEco = async (
+export const handleServices = async (
   payload = {},
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
-    const response = await post("aez", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await post("app-services", payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -35,33 +35,16 @@ export const handleAgroEco = async (
   }
 };
 
-export const get_agroEcoList = async (
-  ) => {
-    try {
-      const { httpCode, payloadDto } = await get("aez", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
-      return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
-    }
-  };
 
-export const deleteAgroEco = async (
+
+
+export const deleteServices = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`aez/${id || ''}`, true);
+    const response = await api_delete(`app-services/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -89,14 +72,14 @@ export const deleteAgroEco = async (
   }
 }
 
-export const updateAgroEco = async (
+export const updateServices = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`aez/${payload?.id || ''}`, payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await put(`app-services/${payload?.id || ''}`, payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -122,3 +105,4 @@ export const updateAgroEco = async (
     }
   }
 };
+
