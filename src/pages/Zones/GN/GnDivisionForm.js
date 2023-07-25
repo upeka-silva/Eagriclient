@@ -28,19 +28,14 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { ActionWrapper,makeCapitalize, } from "../../../components/PageLayout/ActionWrapper";
 import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
 
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action"
+import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 import { get_arpaList } from "../../../redux/actions/arpa/action";
-import {
-
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
 import { get_DsDivisionList } from "../../../redux/actions/dsDivision/action";
-
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -56,10 +51,9 @@ const GnDivisionForm = () => {
   const [dsDivisionList, setDsDivisionList] = useState([]);
   const [agroEcoList, setAgroEcoList] = useState([]);
 
-  const [aiRegionList, setAiRegionList] = useState([])
+  const [aiRegionList, setAiRegionList] = useState([]);
   const [arpaList, setArpaList] = useState([]);
   const [dsOptions, setDsOptions] = useState([]);
-
 
   const { addSnackBar } = useSnackBars();
 
@@ -262,7 +256,6 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
           <FieldWrapper>
-
             <FieldName>AEZ</FieldName>
             <TextField
               name="agroEcologicalZoneId"
@@ -325,7 +318,6 @@ const GnDivisionForm = () => {
                 },
               }}
               renderInput={(params) => <TextField {...params} size="small" />}
-
             />
           </FieldWrapper>
           <FieldWrapper>
@@ -347,7 +339,6 @@ const GnDivisionForm = () => {
                 },
               }}
               renderInput={(params) => <TextField {...params} size="small" />}
-
             />
           </FieldWrapper>
         </FormWrapper>
@@ -393,11 +384,9 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "totalPopulation")
               }
-
               InputProps={{
                 inputProps: { min: 0 },
               }}
-
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -425,7 +414,6 @@ const GnDivisionForm = () => {
               InputProps={{
                 inputProps: { min: 0 },
               }}
-
               sx={{
                 width: "264px",
                 "& .MuiInputBase-root": {
@@ -450,7 +438,6 @@ const GnDivisionForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "femalePopulation")
               }
-
               InputProps={{
                 inputProps: { min: 0 },
               }}
@@ -497,7 +484,6 @@ const GnDivisionForm = () => {
           </FieldWrapper>
           <FieldWrapper>
             <FieldName>Mahaweli System</FieldName>
-
             <TextField
               name="landArea"
               id="landArea"
@@ -505,7 +491,9 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              handleChange={(e)=>(e?.target?.value || "", "mahaweliSystem")}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "mahaweliSystem")
+              }
               InputProps={{
                 inputProps: { min: 0 },
               }}
