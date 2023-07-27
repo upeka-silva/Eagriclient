@@ -94,7 +94,7 @@ const AppHeader = () => {
 	};
 
 	return (
-		<Wrapper>
+		<Wrapper className='wrapper'>
 			<ItemWrapper>
 				<AppTitle>
 					E-EXTENSION SYSTEM
@@ -184,10 +184,8 @@ export default AppHeader;
 
 const Wrapper = styled(Card)`
 	display: block;
-	min-height: 56px;
-	margin: 6px 0px;
+	min-height: 40px;
 	padding: 0px 30px;
-	box-shadow: ${Colors.shadow};
 	background: ${Colors.white};
 	position: sticky;
 `;
