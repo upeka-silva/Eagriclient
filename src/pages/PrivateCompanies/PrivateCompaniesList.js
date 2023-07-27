@@ -1,23 +1,22 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { CardWrapper } from "../../components/PageLayout/Card";
+import { DataTable } from "../../components/PageLayout/Table";
 
-const ARPAList = ({
+const PrivateCompaniesList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "arpaId", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    { field: "ascDto.id", headerName: "ASC Code" },
+    { field: "", headerName: "Name" },
+    { field: "", headerName: "Code" },
   ];
   return (
-<CardWrapper>
+    <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"arpa"}
+        dataEndPoint={""}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -26,7 +25,7 @@ const ARPAList = ({
         unSelectAll={unSelectAll}
       />
     </CardWrapper>
-  )
+  );
 };
 
-export default ARPAList;
+export default PrivateCompaniesList;

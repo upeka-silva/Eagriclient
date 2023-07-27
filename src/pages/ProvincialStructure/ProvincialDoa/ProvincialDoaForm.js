@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Button,
-  TextField,
-  CircularProgress,
-  Autocomplete,
-  FormControl,
-  Select,
-  MenuItem
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import React, { useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAI } from "../../../redux/actions/aiRegion/action";
-
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
+import {
+  handleProvincialDoa,
+  updateProvincialDoa,
+} from "../../../redux/actions/ProvincialDoa/action";
+import { Button, CircularProgress, TextField } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-import { get_ASC } from "../../../redux/actions/asc/action";
-
-const AIForm = () => {
+const ProvincialDoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -37,20 +28,12 @@ const AIForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [ascList, setAscList] = useState([]);
-  const [parentValue, setParentValue] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/aa-structure/ai-region");
+    navigate("/zone/provincial-structure/provincial-director");
   };
-
-  useEffect(() => {
-    get_ASC().then(({ dataList = [] }) => {
-      setAscList(dataList);
-    });
-  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -106,22 +89,16 @@ const AIForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleAI(formData, onSuccess, onError);
+        if (formData?.id) {
+          await updateProvincialDoa(formData, onSuccess, onError);
+        } else {
+          await handleProvincialDoa(formData, onSuccess, onError);
+        }
       } catch (error) {
         console.log(error);
       }
     }
   };
-
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <FormWrapper>
@@ -130,20 +107,23 @@ const AIForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
+      {/* <PathName>{getPathName()}</PathName> */}
       <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a AI
-        Region
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {makeCapitalize(state?.action)} Provincial Director
       </FormHeader>
       <FieldWrapper>
-        <FieldName>Region ID</FieldName>
+        <FieldName>Provincial Level ID</FieldName>
         <TextField
-          name="id"
-          id="id"
-          value={formData?.id || ""}
+          name="proDirectorId"
+          id="proDirectorId"
+          value={formData?.proDirectorId || ""}
           fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-          onChange={(e) => handleChange(e?.target?.value || "", "id")}
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
+          onChange={(e) => handleChange(e?.target?.value || "", "proDirectorId")}
           sx={{
             width: "264px",
             "& .MuiInputBase-root": {
@@ -157,7 +137,7 @@ const AIForm = () => {
         <FieldName>Description</FieldName>
         <TextField
           name="description"
-          id="id"
+          id="description"
           value={formData?.description || ""}
           fullWidth
           disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -171,76 +151,7 @@ const AIForm = () => {
           }}
         />
       </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Parent Type</FieldName>
-        <FormControl>
-          <Select
-            value={formData?.parentType || ""}
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) =>
-              handleChange(e?.target?.value || "", "parentType")
-            }
-            sx={{
-              width: "264px",
-              height: "30px",
-              borderRadius: "8px",
-            }}
-            size="small"
-          >
-            <MenuItem value={"PROVINCIAL"}>Provincial</MenuItem>
-            <MenuItem value={"INTERPROVINCIAL"}>Inter Provincial</MenuItem>
-          </Select>
-        </FormControl>
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Parent Value</FieldName>
-        <Autocomplete
-          options={parentValue}
-          getOptionLabel={(option) => option.name}
-          onChange={(event, value) => {
-            handleChange(value, "");
-          }}
-          sx={{
-            width: "264px",
-            "& .MuiOutlinedInput-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>ASC Region ID</FieldName>
-        <Autocomplete
-          options={ascList}
-          getOptionLabel={(i) => `${i.code} - ${i.name}`}
-          onChange={(event, value) => {
-            handleChange(value, "");
-          }}
-          sx={{
-            width: "264px",
-            "& .MuiOutlinedInput-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              size="small"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          )}
-        />
-      </FieldWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper isCeneter>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -268,4 +179,4 @@ const AIForm = () => {
   );
 };
 
-export default AIForm;
+export default ProvincialDoaForm;
