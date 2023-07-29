@@ -21,24 +21,18 @@ const App = () => {
     <AuthContextProvider>
       <ThemeProvider theme={appTheme}>
         <SnackBarProvider>
-          <Wrapper>
             <BrowserRouter>
-              <PermissionWrapper component={<SideBar />} withoutPermissions />
-              <PageWrapper
-                sx={
-                  userAuthenticated
-                    ? "padding: 0px 10px 0px 10px; margin-top:-3px;"
-                    : "padding: 0px 10px 0px 10px"
-                }
-              >
-                <PermissionWrapper
+            <PermissionWrapper
                   component={<AppHeader />}
                   withoutPermissions
                 />
+              
+              <PageWrapper              >
+                <PermissionWrapper component={<SideBar />} withoutPermissions />
                 <Routes>{Router}</Routes>
               </PageWrapper>
             </BrowserRouter>
-          </Wrapper>
+          
           <SnackBars />
         </SnackBarProvider>
       </ThemeProvider>
@@ -50,8 +44,8 @@ export default App;
 
 const Wrapper = styled.div`
   display: flex;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: #e5e4e2;
 `;
 
@@ -63,9 +57,7 @@ const Wrapper = styled.div`
 
 const PageWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100%;
   ${(props) => (props.sx ? props.sx : "")}
-  /* padding-right: 12px; */
-  overflow: scroll;
 `;

@@ -240,7 +240,6 @@ const SideBar = () => {
             px: [1],
           }}
         >
-          {open && <Typography variant="h6">Agri E Extension</Typography>}
           <SideBarItemToolTip
             title={!open ? "Expand" : ""}
             placement="right"
