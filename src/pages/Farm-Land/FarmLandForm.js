@@ -207,9 +207,8 @@ const FarmLandForm = () => {
         }}
       >
         <Grid container flexDirection="row">
-          <Grid item container flexDirection="column" xs="auto">
+          <Grid flexDirection="column">
             <Grid
-              item
               style={{
                 border: "1px solid #D2D2D2",
                 borderRadius: "10px",
@@ -825,9 +824,8 @@ const FarmLandForm = () => {
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
         <Grid container flexDirection="row">
-          <Grid item container flexDirection="column" xs="auto">
+          <Grid flexDirection="column">
             <Grid
-              item
               style={{
                 border: "1px solid #D2D2D2",
                 borderRadius: "10px",
