@@ -97,7 +97,7 @@ const AppHeader = () => {
 		<Wrapper className='wrapper'>
 			<ItemWrapper>
 				<AppTitle>
-					E-EXTENSION SYSTEM
+					
 					{/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
           <Typography
             variant="subtitle2"
