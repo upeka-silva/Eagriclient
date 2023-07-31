@@ -210,8 +210,8 @@ const FarmLandForm = () => {
           <Grid flexDirection="column">
             <Grid
               style={{
-                border: "1px solid #D2D2D2",
-                borderRadius: "10px",
+                // border: "1px solid #D2D2D2",
+                // borderRadius: "10px",
                 margin: "20px",
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
@@ -634,8 +634,8 @@ const FarmLandForm = () => {
             <Grid
               item
               style={{
-                border: "1px solid #D2D2D2",
-                borderRadius: "10px",
+                // border: "1px solid #D2D2D2",
+                // borderRadius: "10px",
                 margin: "20px",
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
@@ -697,19 +697,6 @@ const FarmLandForm = () => {
           </Grid>
         </Grid>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          sx={{ borderRadius: "0px" }}
-          hideFooterSelectedRowCount
-        />
-
         <ButtonWrapper style={{ width: "95%" }}>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -734,6 +721,19 @@ const FarmLandForm = () => {
             </ActionWrapper>
           )}
         </ButtonWrapper>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px", marginTop: "40px" }}
+          hideFooterSelectedRowCount
+        />
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
@@ -742,8 +742,8 @@ const FarmLandForm = () => {
             <Grid
               item
               style={{
-                border: "1px solid #D2D2D2",
-                borderRadius: "10px",
+                // border: "1px solid #D2D2D2",
+                // borderRadius: "10px",
                 margin: "20px",
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
@@ -783,19 +783,6 @@ const FarmLandForm = () => {
           </Grid>
         </Grid>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          sx={{ borderRadius: "0px" }}
-          hideFooterSelectedRowCount
-        />
-
         <ButtonWrapper style={{ width: "95%" }}>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -820,15 +807,29 @@ const FarmLandForm = () => {
             </ActionWrapper>
           )}
         </ButtonWrapper>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px", marginTop: "40px" }}
+          hideFooterSelectedRowCount
+        />
       </TabContent>
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
         <Grid container flexDirection="row">
-          <Grid flexDirection="column">
+          <Grid item container flexDirection="column" xs="auto">
             <Grid
+              item
               style={{
-                border: "1px solid #D2D2D2",
-                borderRadius: "10px",
+                // border: "1px solid #D2D2D2",
+                // borderRadius: "10px",
                 margin: "20px",
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
@@ -868,19 +869,6 @@ const FarmLandForm = () => {
           </Grid>
         </Grid>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          sx={{ borderRadius: "0px" }}
-          hideFooterSelectedRowCount
-        />
-
         <ButtonWrapper style={{ width: "95%" }}>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -905,6 +893,19 @@ const FarmLandForm = () => {
             </ActionWrapper>
           )}
         </ButtonWrapper>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px", marginTop: "40px" }}
+          hideFooterSelectedRowCount
+        />
       </TabContent>
     </div>
   );
