@@ -8,7 +8,9 @@ import {
   FormControl,
   Select,
   MenuItem,
+  InputLabel,
 } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
@@ -47,6 +49,39 @@ const FarmLandForm = () => {
   const [toggleState, setToggleState] = useState(1);
 
   const { addSnackBar } = useSnackBars();
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "firstName", headerName: "First name", width: 130 },
+    { field: "lastName", headerName: "Last name", width: 130 },
+    {
+      field: "age",
+      headerName: "Age",
+      type: "number",
+      width: 90,
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+  ];
+
+  const rows = [
+    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  ];
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -165,28 +200,12 @@ const FarmLandForm = () => {
         </FormHeader>
       </div>
 
-      <TabWrapper>
-        <TabButton
-          className={toggleState === 1 ? "active-tabs" : ""}
-          onClick={() => toggleTab(1)}
-        >
-          Farm Land
-        </TabButton>
-        <TabButton
-          className={toggleState === 2 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
-        >
-          Farm Land Ownership
-        </TabButton>
-        <TabButton
-          className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(3)}
-        >
-          Soil Type Per Land
-        </TabButton>
-      </TabWrapper>
-
-      <TabContent className={toggleState === 1 ? "active-content" : ""}>
+      <TabContent
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Grid container flexDirection="row">
           <Grid item container flexDirection="column" xs="auto">
             <Grid
@@ -198,43 +217,56 @@ const FarmLandForm = () => {
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
             >
-              <FormWrapper>
-                <FieldWrapper>
-                  <FieldName>Land Name</FieldName>
+              <FormWrapper
+                style={{
+                  flexDirection: "row",
+                  gap: "12px",
+                  flexWrap: "wrap",
+
+                  maxWidth: "70vw",
+                }}
+              >
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="landName"
                     id="landName"
+                    label="Land Name"
                     value={formData?.landName || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "landName")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>
-                    Protected House <br /> Type
-                  </FieldName>
-                  <FormControl>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="protectedHouse" size="small">
+                      Protected House Type
+                    </InputLabel>
                     <Select
                       name="protectedHouse"
                       id="protectedHouse"
+                      label="Protected House Type"
+                      labelId="protectedHouse"
                       value={formData?.protectedHouse || ""}
                       disabled={state?.action === DEF_ACTIONS.VIEW}
                       onChange={(e) =>
                         handleChange(e?.target?.value || "", "protectedHouse")
                       }
+                      fullWidth
                       sx={{
-                        width: "264px",
-                        height: "30px",
+                        // width: "264px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       }}
@@ -245,20 +277,25 @@ const FarmLandForm = () => {
                     </Select>
                   </FormControl>
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Land Type</FieldName>
-                  <FormControl>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="landType" size="small">
+                      Land Type
+                    </InputLabel>
                     <Select
                       name="landType"
                       id="landType"
+                      label="Land Type"
+                      labelId="landType"
                       value={formData?.landType || ""}
                       disabled={state?.action === DEF_ACTIONS.VIEW}
                       onChange={(e) =>
                         handleChange(e?.target?.value || "", "landType")
                       }
+                      fullWidth
                       sx={{
-                        width: "264px",
-                        height: "30px",
+                        // width: "264px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       }}
@@ -271,21 +308,23 @@ const FarmLandForm = () => {
                     </Select>
                   </FormControl>
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Address Line 01</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="addressLine01"
                     id="addressLine01"
+                    label="Address Line 01"
                     value={formData?.addressLine01 || ""}
                     placeholder="No/Po box"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "addressLine01")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -297,21 +336,23 @@ const FarmLandForm = () => {
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Address Line 02</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="addressLine02"
                     id="addressLine02"
+                    label="Address Line 02"
                     value={formData?.addressLine02 || ""}
                     placeholder="Street"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "addressLine02")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -323,181 +364,210 @@ const FarmLandForm = () => {
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>City</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="city"
                     id="city"
+                    label="City"
                     value={formData?.city || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "city")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>
-                    Grama Niladari
-                    <br /> Division
-                  </FieldName>
-                  <Autocomplete
-                    name="gnDivisionDTO"
-                    id="gnDivisionDTO"
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={gn}
-                    value={formData ? formData.gnDivisionDTO : ""}
-                    getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                    onChange={(event, value) => {
-                      handleChange(value, "gnDivisionDTO");
-                    }}
-                    sx={{
-                      width: "264px",
-                      "& .MuiOutlinedInput-root": {
-                        height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" />
-                    )}
-                  />
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="gnDivisionDTO" size="small">
+                      GN Division
+                    </InputLabel>
+                    <Autocomplete
+                      name="gnDivisionDTO"
+                      id="gnDivisionDTO"
+                      label="GN Division"
+                      labelId="gnDivisionDTO"
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={gn}
+                      value={formData ? formData.gnDivisionDTO : ""}
+                      getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                      onChange={(event, value) => {
+                        handleChange(value, "gnDivisionDTO");
+                      }}
+                      fullWidth
+                      sx={{
+                        // width: "264px",
+                        "& .MuiOutlinedInput-root": {
+                          // height: "30px",
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <>
+                          <TextField {...params} size="small" />
+                        </>
+                      )}
+                    />
+                  </FormControl>
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Latitude</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="latitude"
                     id="latitude"
+                    label="Latitude"
                     value={formData?.latitude || ""}
                     type="number"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "latitude")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Longitude</FieldName>
-                  <div style={{ gap: "5px", display: "flex" }}>
-                    <TextField
-                      name="longitude"
-                      id="longitude"
-                      value={formData?.longitude || ""}
-                      type="number"
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(e) =>
-                        handleChange(e?.target?.value || "", "longitude")
-                      }
-                      sx={{
-                        width: "264px",
-                        "& .MuiInputBase-root": {
-                          height: "30px",
-                          borderRadius: "8px",
-                          backgroundColor: `${Colors.white}`,
-                        },
-                      }}
-                    />
-                  </div>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <TextField
+                    name="longitude"
+                    id="longitude"
+                    label="Longitude"
+                    value={formData?.longitude || ""}
+                    type="number"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "longitude")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      // width: "264px",
+                      "& .MuiInputBase-root": {
+                        // height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Elevation</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="elevation"
                     id="elevation"
+                    label="Elevation"
                     value={formData?.elevation || ""}
                     type="number"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "elevation")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Soil Type</FieldName>
-                  <Autocomplete
-                    name="soilTypeDTO"
-                    id="soilTypeDTO"
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={soilType}
-                    value={formData ? formData.soilTypeDTO : ""}
-                    getOptionLabel={(i) =>
-                      `${i.soilTypeCode} - ${i.description}`
-                    }
-                    onChange={(event, value) => {
-                      handleChange(value, "soilTypeDTO");
-                    }}
-                    sx={{
-                      width: 264,
-                      "& .MuiOutlinedInput-root": {
-                        height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" />
-                    )}
-                  />
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="soilTypeDTO" size="small">
+                      Soil Type
+                    </InputLabel>
+
+                    <Autocomplete
+                      name="soilTypeDTO"
+                      id="soilTypeDTO"
+                      label="Soil Type"
+                      labelId="soilTypeDTO"
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={soilType}
+                      value={formData ? formData.soilTypeDTO : ""}
+                      getOptionLabel={(i) =>
+                        `${i.soilTypeCode} - ${i.description}`
+                      }
+                      onChange={(event, value) => {
+                        handleChange(value, "soilTypeDTO");
+                      }}
+                      fullWidth
+                      sx={{
+                        // width: 264,
+                        "& .MuiOutlinedInput-root": {
+                          // height: "30px",
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </FormControl>
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Area</FieldName>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="area"
                     id="area"
+                    label="Area"
                     value={formData?.area || ""}
                     type="number"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "area")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-                <FieldWrapper>
-                  <FieldName>Status</FieldName>
-                  <FormControl>
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
+                  <FormControl fullWidth>
+                    <InputLabel htmlFor="status" size="small">
+                      Status
+                    </InputLabel>
                     <Select
                       name="status"
                       id="status"
+                      label="Status"
+                      labelId="status"
                       value={formData?.status || ""}
                       disabled={state?.action === DEF_ACTIONS.VIEW}
                       onChange={(e) =>
                         handleChange(e?.target?.value || "", "status")
                       }
+                      fullWidth
                       sx={{
-                        width: "264px",
-                        height: "30px",
+                        // width: "264px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       }}
@@ -538,6 +608,135 @@ const FarmLandForm = () => {
         </ButtonWrapper>
       </TabContent>
 
+      <TabWrapper style={{ marginTop: "40px" }}>
+        <TabButton
+          className={toggleState === 1 ? "active-tabs" : ""}
+          onClick={() => toggleTab(1)}
+        >
+          Farm Land Ownership
+        </TabButton>
+        <TabButton
+          className={toggleState === 2 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}
+        >
+          Protected House Type
+        </TabButton>
+        <TabButton
+          className={toggleState === 3 ? "active-tabs" : ""}
+          onClick={() => toggleTab(3)}
+        >
+          Soil Type Per Land
+        </TabButton>
+      </TabWrapper>
+
+      <TabContent className={toggleState === 1 ? "active-content" : ""}>
+        <Grid container flexDirection="row">
+          <Grid item container flexDirection="column" xs="auto">
+            <Grid
+              item
+              style={{
+                border: "1px solid #D2D2D2",
+                borderRadius: "10px",
+                margin: "20px",
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FormWrapper
+                style={{
+                  flexDirection: "row",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  maxWidth: "70vw",
+                }}
+              >
+                <FieldWrapper>
+                  <TextField
+                    name="landName"
+                    id="landName"
+                    label="Test 1"
+                    value={formData?.landName || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "landName")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      // width: "264px",
+                      "& .MuiInputBase-root": {
+                        // height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+                <FieldWrapper>
+                  <TextField
+                    name="landName"
+                    id="landName"
+                    label="Test 11"
+                    value={formData?.landName || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "landName")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      // width: "264px",
+                      "& .MuiInputBase-root": {
+                        // height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </FormWrapper>
+            </Grid>
+          </Grid>
+        </Grid>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px" }}
+          hideFooterSelectedRowCount
+        />
+
+        <ButtonWrapper style={{ width: "95%" }}>
+          {state?.action !== DEF_ACTIONS.VIEW && (
+            <ActionWrapper>
+              {saving ? (
+                <AddButton variant="contained" disabled>
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
+                </AddButton>
+              ) : (
+                <>
+                  <AddButton
+                    variant="contained"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                  </AddButton>
+                  <ResetButton onClick={resetForm}>RESET</ResetButton>
+                </>
+              )}
+            </ActionWrapper>
+          )}
+        </ButtonWrapper>
+      </TabContent>
+
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
         <Grid container flexDirection="row">
           <Grid item container flexDirection="column" xs="auto">
@@ -550,21 +749,30 @@ const FarmLandForm = () => {
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
             >
-              <FormWrapper>
-                <FieldWrapper>
-                  <FieldName>Test 1</FieldName>
+              <FormWrapper
+                style={{
+                  flexDirection: "row",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  maxWidth: "70vw",
+                }}
+              >
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="landName"
                     id="landName"
+                    label="Test 2"
                     value={formData?.landName || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "landName")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -575,6 +783,20 @@ const FarmLandForm = () => {
             </Grid>
           </Grid>
         </Grid>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px" }}
+          hideFooterSelectedRowCount
+        />
+
         <ButtonWrapper style={{ width: "95%" }}>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -613,21 +835,30 @@ const FarmLandForm = () => {
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
             >
-              <FormWrapper>
-                <FieldWrapper>
-                  <FieldName>Test 2</FieldName>
+              <FormWrapper
+                style={{
+                  flexDirection: "row",
+                  gap: "12px",
+                  flexWrap: "wrap",
+                  maxWidth: "70vw",
+                }}
+              >
+                <FieldWrapper style={{ flex: "1 1 264px" }}>
                   <TextField
                     name="landName"
                     id="landName"
+                    label="Test 3"
                     value={formData?.landName || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "landName")
                     }
+                    size="small"
+                    fullWidth
                     sx={{
-                      width: "264px",
+                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        height: "30px",
+                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -638,6 +869,20 @@ const FarmLandForm = () => {
             </Grid>
           </Grid>
         </Grid>
+
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          sx={{ borderRadius: "0px" }}
+          hideFooterSelectedRowCount
+        />
+
         <ButtonWrapper style={{ width: "95%" }}>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
