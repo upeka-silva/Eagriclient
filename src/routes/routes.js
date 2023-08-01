@@ -88,6 +88,7 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 
 import Organization from "../pages/Organization/Organization";
 import Services from "../pages/Services/Services";
@@ -95,6 +96,8 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import Users from "../pages/Users/Users";
+import UsersForm from "../pages/Users/UserForm";
 
 export const Routes = [
   {
@@ -671,6 +674,12 @@ export const Routes = [
     element: <AgriSeasonForm />,
     isSideBar: false,
   },
+  {
+    path: "users-form",
+    name: "New User Form",
+    element: <UsersForm />,
+    isSideBar: false,
+  },
 
   {
     path: "/farm-land",
@@ -713,11 +722,13 @@ export const Routes = [
     isSideBar: true,
     icon: ManageAccountsIcon,
   },
+
   {
-    path: "/user-type-form",
-    name: "User Type Form",
-    element: <UserTypeForm />,
-    isSideBar: false,
+    path: "/users",
+    name: "Users",
+    element: <Users />,
+    isSideBar: true,
+    icon: SupervisedUserCircleIcon,
   },
   {
     path: "/private-company",
@@ -729,7 +740,7 @@ export const Routes = [
   {
     path: "/private-company-form",
     name: "Private Company Form",
-    element: <PrivateCompaniesForm/>,
+    element: <PrivateCompaniesForm />,
     isSideBar: false,
   },
 ];
