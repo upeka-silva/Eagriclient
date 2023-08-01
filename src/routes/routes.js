@@ -98,6 +98,7 @@ import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/Provin
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
+import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
 
 export const Routes = [
   {
@@ -733,7 +734,7 @@ export const Routes = [
   {
     path: "/private-company",
     name: "Private Company",
-    element: <PrivateCompanies />,
+    element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
   },
