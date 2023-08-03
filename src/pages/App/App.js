@@ -52,7 +52,7 @@ const Wrapper = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  background-color: #e5e4e2;
+  background-color: #fbfdf8;
 `;
 
 // Light Gray: #D3D3D3

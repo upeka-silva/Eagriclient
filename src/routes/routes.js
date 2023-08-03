@@ -95,6 +95,7 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import GapRegistration from "../pages/Gap/gapReg"
 
 export const Routes = [
   {
@@ -731,5 +732,11 @@ export const Routes = [
     name: "Private Company Form",
     element: <PrivateCompaniesForm/>,
     isSideBar: false,
+  },
+  {
+    path: "/gap-registration",
+    name: "GAP Registration",
+    element: <GapRegistration/>,
+    isSideBar: true,
   },
 ];
