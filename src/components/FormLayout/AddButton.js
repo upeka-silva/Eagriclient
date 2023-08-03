@@ -11,5 +11,5 @@ export const AddButton = styled.button`
   color: ${Colors.white};
   font-weight: 500;
   font-size: 12px;
-  cursor: pointer
+  cursor: pointer;
 `;

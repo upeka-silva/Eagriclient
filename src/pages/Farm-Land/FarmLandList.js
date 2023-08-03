@@ -9,8 +9,17 @@ const FarmLandList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "name", headerName: "Name" },
-    { field: "address", headerName: "Address" },
+    { field: "landName", headerName: "Land Name" },
+    { field: "protectedHouseType", headerName: "Protected House Type" },
+    { field: "landType", headerName: "Land Type" },
+    { field: "", headerName: "Address" },
+    { field: "gnDivisionDTO", headerName: "Grama Niladari Division" },
+    { field: "latitude", headerName: "Latitude" },
+    { field: "longitude", headerName: "Longitude" },
+    { field: "elevation", headerName: "Elevation" },
+    { field: "soilTypeDTO", headerName: "Soil Type" },
+    { field: "area", headerName: "Area" },
+    { field: "status", headerName: "Status" },
   ];
 
   return (

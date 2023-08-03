@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { Colors } from "../../utils/constants/Colors";
 
 export const ButtonWrapper = styled.div`
   display: flex;
@@ -9,5 +8,4 @@ export const ButtonWrapper = styled.div`
   justify-content: flex-end;
   margin-top: 20px;
   gap: 8px;
-  
 `;
