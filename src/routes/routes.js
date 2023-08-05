@@ -24,6 +24,7 @@ import DistrictForm from "../pages/Zones/District/DistrictForm";
 import DsDivision from "../pages/Zones/DS/DsDivision";
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision";
+import PrivateCompanies from "../pages/PrivateCompanies/PrivateCompanies";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
@@ -61,10 +62,13 @@ import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 
 import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
+import UserType from "../pages/UserType/UserType";
+import UserTypeForm from "../pages/UserType/UserTypeForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import StreetviewIcon from "@mui/icons-material/Streetview";
 import LockIcon from "@mui/icons-material/Lock";
 import HighlightAltIcon from "@mui/icons-material/HighlightAlt";
@@ -83,14 +87,27 @@ import GiIsland from "@mui/icons-material/WaterDamage";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
+import Services from "../pages/Services/Services";
+import LandingPage from "../pages/LandingPage/LandingPage";
+import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
+import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
+import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
+import GapRegistration from "../pages/Gap/gapReg"
 
 export const Routes = [
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
+  },
+  {
+    path: "/landing-page",
+    element: <LandingPage />,
+    hideSidebar: true,
   },
   {
     path: "/",
@@ -142,7 +159,7 @@ export const Routes = [
     children: [
       {
         path: "/ga-structure",
-        name: "General Admin Structure",
+        name: "Administration Structure",
         isSideBar: true,
         children: [
           {
@@ -200,105 +217,254 @@ export const Routes = [
         ],
       },
       {
-        path: "/aa-structure",
-        name: "Agri Admin Structure",
+        path: "/provincial-structure",
+        name: "Provincial DOA Structure",
         isSideBar: true,
         children: [
           {
-            path: "/ai-region",
-            name: "AI Region",
+            path: "/provincial-director",
+            name: "Provincial DOA",
             isSideBar: true,
-            element: <AI />,
+            element: <ProvincialDoa />,
             icon: MyLocationIcon,
           },
           {
-            path: "/ai-region-form",
-            name: "ASC Form",
+            path: "/provincial-doa-form",
+            name: "Provincial DOA Form",
             isSideBar: false,
-            element: <AIForm />,
+            element: <ProvincialDoaForm />,
           },
-          {
-            path: "/province-area",
-            name: "Province Area",
-            isSideBar: true,
-            icon: CropSquareIcon,
-            element: <ProvinceArea />,
-          },
-          {
-            path: "/province-area-form",
-            name: "Province Area Form",
-            isSideBar: false,
-            icon: CropSquareIcon,
-            element: <ProvinceAreaForm />,
-          },
-          {
-            path: "/inter-province-area",
-            name: "Inter Provinces Area",
-            isSideBar: true,
-            icon: CropSquareIcon,
-            element: <InterProvince />,
-          },
-          {
-            name: "Inter Province Area Form",
-            path: "/inter-province-area-form",
-            element: <InterProvinceForm />,
-            isSideBar: false,
-          },
+          // {
+          //   path: "/ai-region",
+          //   name: "Provincial DDOA",
+          //   isSideBar: true,
+          //   element: <AI />,
+          //   icon: MyLocationIcon,
+          // },
+          // {
+          //   path: "/ai-region-form",
+          //   name: "ASC Form",
+          //   isSideBar: false,
+          //   element: <AIForm />,
+          // },
+          // {
+          //   path: "/ai-region",
+          //   name: "Provincial ADA Segment",
+          //   isSideBar: true,
+          //   element: <AI />,
+          //   icon: MyLocationIcon,
+          // },
+          // {
+          //   path: "/ai-region-form",
+          //   name: "ASC Form",
+          //   isSideBar: false,
+          //   element: <AIForm />,
+          // },
+          // {
+          //   path: "/ai-region",
+          //   name: "AI Region",
+          //   isSideBar: true,
+          //   element: <AI />,
+          //   icon: MyLocationIcon,
+          // },
+          // {
+          //   path: "/ai-region-form",
+          //   name: "ASC Form",
+          //   isSideBar: false,
+          //   element: <AIForm />,
+          // },
+          // {
+          //   path: "/gn-division",
+          //   name: "GN Division",
+          //   isSideBar: true,
+          //   element: <GnDivision />,
+          //   // icon: StreetviewIcon,
+          // },
+          // {
+          //   path: "/gn-division-form",
+          //   name: "GN Division Form",
+          //   isSideBar: false,
+          //   element: <GnDivisionForm />,
+          // },
         ],
       },
-      {
-        path: "/dad-structure",
-        name: "DAD Structure",
-        isSideBar: true,
-        children: [
-          {
-            path: "/asc-area",
-            name: "ASC Area",
-            isSideBar: true,
-            element: <ASC />,
-            icon: CropSquareIcon,
-          },
-          {
-            path: "/asc-area-form",
-            name: "ASC Area Form",
-            isSideBar: false,
-            element: <ASCForm />,
-          },
-          {
-            path: "/arpa-area",
-            name: "ARPA Area",
-            isSideBar: true,
-            element: <ARPA />,
-            icon: CropSquareIcon,
-          },
-          {
-            path: "/arpa-area-form",
-            name: "ARPA Area Form",
-            isSideBar: false,
-            element: <ARPAForm />,
-          },
-        ],
-      },
-      {
-        path: "/mahaweli-structure",
-        name: "Mahaweli Structure",
-        isSideBar: true,
-        children: [
-          {
-            path: "/mahaweli-block",
-            name: "Mahaweli Block",
-            isSideBar: true,
-            element: <MahaweliBlock />,
-            icon: CropSquareIcon,
-          },
-          {
-            path: "/mahaweli-block-form",
-            name: "ARPA Area Form",
-            isSideBar: false,
-            element: <MahaweliBlockForm />,
-          },
-        ],
-      },
+      // {
+      //   path: "/aa-structure",
+      //   name: "Inter Pro DOA Structure",
+      //   isSideBar: true,
+      //   children: [
+      //     {
+      //       path: "/ai-region",
+      //       name: "Inter Pro DOA",
+      //       isSideBar: true,
+      //       element: <AI />,
+      //       icon: MyLocationIcon,
+      //     },
+      //     {
+      //       path: "/ai-region-form",
+      //       name: "ASC Form",
+      //       isSideBar: false,
+      //       element: <AIForm />,
+      //     },
+      //     {
+      //       path: "/ai-region",
+      //       name: "Inter Pro DDOA",
+      //       isSideBar: true,
+      //       element: <AI />,
+      //       icon: MyLocationIcon,
+      //     },
+      //     {
+      //       path: "/ai-region-form",
+      //       name: "ASC Form",
+      //       isSideBar: false,
+      //       element: <AIForm />,
+      //     },
+      //     {
+      //       path: "/ai-region",
+      //       name: "Inter Pro ADA Segment",
+      //       isSideBar: true,
+      //       element: <AI />,
+      //       icon: MyLocationIcon,
+      //     },
+      //     {
+      //       path: "/ai-region-form",
+      //       name: "ASC Form",
+      //       isSideBar: false,
+      //       element: <AIForm />,
+      //     },
+      //     {
+      //       path: "/ai-region",
+      //       name: "AI Region",
+      //       isSideBar: true,
+      //       element: <AI />,
+      //       icon: MyLocationIcon,
+      //     },
+      //     {
+      //       path: "/ai-region-form",
+      //       name: "ASC Form",
+      //       isSideBar: false,
+      //       element: <AIForm />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: "/dad-structure",
+      //   name: "Agrarian Structure",
+      //   isSideBar: true,
+      //   children: [
+      //     {
+      //       path: "/asc-area",
+      //       name: "DOA Development",
+      //       isSideBar: true,
+      //       element: <ASC />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/asc-area-form",
+      //       name: "ASC Area Form",
+      //       isSideBar: false,
+      //       element: <ASCForm />,
+      //     },
+      //     {
+      //       path: "/arpa-area",
+      //       name: "District Commissioner",
+      //       isSideBar: true,
+      //       element: <ARPA />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/arpa-area-form",
+      //       name: "ARPA Area Form",
+      //       isSideBar: false,
+      //       element: <ARPAForm />,
+      //     },
+      //     {
+      //       path: "/asc-area",
+      //       name: "ASC Area",
+      //       isSideBar: true,
+      //       element: <ASC />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/asc-area-form",
+      //       name: "ASC Area Form",
+      //       isSideBar: false,
+      //       element: <ASCForm />,
+      //     },
+      //     {
+      //       path: "/asc-area",
+      //       name: "ARPA Area",
+      //       isSideBar: true,
+      //       element: <ASC />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/asc-area-form",
+      //       name: "ASC Area Form",
+      //       isSideBar: false,
+      //       element: <ASCForm />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   path: "/mahaweli-structure",
+      //   name: "Mahaweli Structure",
+      //   isSideBar: true,
+      //   children: [
+      //     {
+      //       path: "/mahaweli-block",
+      //       name: "Mahaweli Authority",
+      //       isSideBar: true,
+      //       element: <MahaweliBlock />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/mahaweli-block-form",
+      //       name: "ARPA Area Form",
+      //       isSideBar: false,
+      //       element: <MahaweliBlockForm />,
+      //     },
+      //     {
+      //       path: "/mahaweli-block",
+      //       name: "Mahaweli System",
+      //       isSideBar: true,
+      //       element: <MahaweliBlock />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/mahaweli-block-form",
+      //       name: "ARPA Area Form",
+      //       isSideBar: false,
+      //       element: <MahaweliBlockForm />,
+      //     },
+      //     {
+      //       path: "/mahaweli-block",
+      //       name: "Mahaweli Block",
+      //       isSideBar: true,
+      //       element: <MahaweliBlock />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/mahaweli-block-form",
+      //       name: "ARPA Area Form",
+      //       isSideBar: false,
+      //       element: <MahaweliBlockForm />,
+      //     },
+      //     {
+      //       path: "/mahaweli-block",
+      //       name: "Mahaweli Unit",
+      //       isSideBar: true,
+      //       element: <MahaweliBlock />,
+      //       icon: CropSquareIcon,
+      //     },
+      //     {
+      //       path: "/mahaweli-block-form",
+      //       name: "ARPA Area Form",
+      //       isSideBar: false,
+      //       element: <MahaweliBlockForm />,
+      //     },
+      //   ],
+      // },
       {
         path: "/ez-structure",
         name: "Ecological Zone Structure",
@@ -535,7 +701,6 @@ export const Routes = [
     isSideBar: false,
     element: <FarmLandForm />,
   },
-
   {
     path: "/farmer",
     name: "Farmer",
@@ -548,5 +713,38 @@ export const Routes = [
     name: "Farmer Form",
     element: <FarmerForm />,
     isSideBar: false,
+  },
+
+  {
+    path: "/user-type",
+    name: "User Type",
+    element: <UserType />,
+    isSideBar: true,
+    icon: ManageAccountsIcon,
+  },
+  {
+    path: "/user-type-form",
+    name: "User Type Form",
+    element: <UserTypeForm />,
+    isSideBar: false,
+  },
+  {
+    path: "/private-company",
+    name: "Private Company",
+    element: <PrivateCompaniesList />,
+    isSideBar: true,
+    icon: AccountBalanceIcon,
+  },
+  {
+    path: "/private-company-form",
+    name: "Private Company Form",
+    element: <PrivateCompaniesForm/>,
+    isSideBar: false,
+  },
+  {
+    path: "/gap-registration",
+    name: "GAP Registration",
+    element: <GapRegistration/>,
+    isSideBar: true,
   },
 ];

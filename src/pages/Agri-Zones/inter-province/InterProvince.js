@@ -25,6 +25,12 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInterProvinceArea } from "../../../redux/actions/interProvinceArea/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { ActionButton } from "../../../components/ActionButtons/ActionButton";
+
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const InterProvince = () => {
   useUserAccessValidation();
@@ -154,57 +160,57 @@ const InterProvince = () => {
     <div>
       <ActionWrapper isLeft>
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
+          <ActionButton variant="contained" onClick={onCreate}>
+           <AddIcon />
+          </ActionButton>
         </PermissionWrapper>
         {selectedInterProvinceArea.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}
           >
-            <Button
+            <ActionButton
               variant="contained"
               color="secondary"
               onClick={onEdit}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+              <EditIcon />
+            </ActionButton>
           </PermissionWrapper>
         )}
         {selectedInterProvinceArea.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}
           >
-            <Button
+            <ActionButton
               variant="contained"
               color="info"
               onClick={onView}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
+              <VisibilityIcon />
+            </ActionButton>
           </PermissionWrapper>
         )}
         {selectedInterProvinceArea.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}
           >
-            <Button
+            <ActionWrapper
               variant="contained"
               color="error"
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
+              <DeleteForeverIcon />
+            </ActionWrapper>
           </PermissionWrapper>
         )}
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_G_INTER_PROVINCE_AREA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}
       >
         {loading === false && (
           <InterProvinceList
