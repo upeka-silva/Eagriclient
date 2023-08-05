@@ -11,7 +11,9 @@ const DsDivisionList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    // { field: "districtDTOList.id", headerName: "District Code" },
+    { field: "name", headerName: "Description" },
+    { field: "districtDTO.name", headerName: "District" },
+    { field: "districtDTO.code", headerName: "District Code" },
   ];
 
   return (

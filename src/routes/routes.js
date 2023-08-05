@@ -95,6 +95,7 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
 import GapRegistration from "../pages/Gap/gapReg"
 
 export const Routes = [
@@ -723,7 +724,7 @@ export const Routes = [
   {
     path: "/private-company",
     name: "Private Company",
-    element: <PrivateCompanies />,
+    element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
   },
