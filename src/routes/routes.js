@@ -90,6 +90,7 @@ import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 
 import Organization from "../pages/Organization/Organization";
+import { PeopleAlt } from "@mui/icons-material";
 import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -686,7 +687,13 @@ export const Routes = [
     name: "Services",
     isSideBar: true,
     icon: WindPowerIcon,
-    element: <Services />,
+    element: <FarmLand />,
+  },
+  {
+    path: "/user-access-log",
+    name: "User Access Log",
+    isSideBar: true,
+    icon: PeopleAlt,
   },
   {
     path: "/farm-land-form",
