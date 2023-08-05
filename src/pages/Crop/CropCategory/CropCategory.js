@@ -105,7 +105,7 @@ const CropCategory = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {p.categoryId} - {p.description}
               </ListItemText>
             </ListItem>
           );

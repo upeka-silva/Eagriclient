@@ -1,16 +1,17 @@
-import React from 'react'
+import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
-const CropCategoryList = ({  selectedRows = [],
+const CropCategoryList = ({
+  selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
-  unSelectAll = () => {},}) => {
-
-    const columns = [
-      { field: "code", headerName: "Code" },
-      { field: "name", headerName: "Description" },
-    ];
+  unSelectAll = () => {},
+}) => {
+  const columns = [
+    { field: "categoryId", headerName: "Code" },
+    { field: "description", headerName: "Description" },
+  ];
 
   return (
     <CardWrapper>
@@ -25,7 +26,7 @@ const CropCategoryList = ({  selectedRows = [],
         unSelectAll={unSelectAll}
       />
     </CardWrapper>
-  )
-}
+  );
+};
 
-export default CropCategoryList
+export default CropCategoryList;

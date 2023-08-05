@@ -11,7 +11,7 @@ const ARPAList = ({
   const columns = [
     { field: "arpaId", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    // { field: "ascDto.id", headerName: "ASC Code" },
+    { field: "ascDto.id", headerName: "ASC Code" },
   ];
   return (
 <CardWrapper>
