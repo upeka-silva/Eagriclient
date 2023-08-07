@@ -7,6 +7,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import InputAdornment from "@mui/material/InputAdornment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -19,9 +20,9 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import {
-  handleCrop,
-  updateCrop,
-} from "../../../redux/actions/crop/crop/action";
+  handleCropVariety,
+  updateCropVariety,
+} from "../../../redux/actions/crop/cropVariety/action";
 import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -29,9 +30,9 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { get_SubCategoryList } from "../../../redux/actions/crop/crop/action";
+import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 
-const CropForm = () => {
+const CropVarietyForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -40,16 +41,15 @@ const CropForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
-
-  const [subOptions, setSubOptions] = useState([]);
+  const [options, setOptions] = useState([]);
 
   const goBack = () => {
-    navigate("/crop/crop");
+    navigate("/crop/crop-variety");
   };
 
   useEffect(() => {
-    get_SubCategoryList().then(({ dataList = [] }) => {
-      setSubOptions(dataList);
+    get_CategoryList().then(({ dataList = [] }) => {
+      setOptions(dataList);
     });
   }, []);
 
@@ -108,9 +108,9 @@ const CropForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateCrop(formData, onSuccess, onError);
+          await updateCropVariety(formData, onSuccess, onError);
         } else {
-          await handleCrop(formData, onSuccess, onError);
+          await handleCropVariety(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
@@ -135,38 +135,19 @@ const CropForm = () => {
         <PathName>{getPathName()}</PathName>
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} CROP
+          {state?.action} CROP VARIETY
         </FormHeader>
+
         <FieldWrapper>
-          <FieldName>Sub Category ID</FieldName>
-          <Autocomplete
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            options={subOptions}
-            value={formData ? formData.cropSubCategoryDTO : ""}
-            getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
-            onChange={(event, value) => {
-              handleChange(value, "cropSubCategoryDTO");
-            }}
-            sx={{
-              width: "264px",
-              "& .MuiOutlinedInput-root": {
-                height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} size="small" />}
-          />
-        </FieldWrapper>
-        <FieldWrapper>
-          <FieldName>Crop ID</FieldName>
+          <FieldName>Variety ID</FieldName>
           <TextField
-            name="cropId"
-            id="cropId"
+            name="varietyId"
+            id="varietyId"
             type="number"
-            value={formData?.cropId || ""}
+            value={formData?.varietyId || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "cropId")}
+            onChange={(e) => handleChange(e?.target?.value || "", "varietyId")}
             sx={{
               width: "264px",
               "& .MuiInputBase-root": {
@@ -176,16 +157,17 @@ const CropForm = () => {
             }}
           />
         </FieldWrapper>
+
         <FieldWrapper>
-          <FieldName>Description</FieldName>
+          <FieldName>Variety Name</FieldName>
           <TextField
-            name="description"
-            id="description"
-            value={formData?.description || ""}
+            name="varietyName"
+            id="varietyName"
+            value={formData?.varietyName || ""}
             fullWidth
             disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) =>
-              handleChange(e?.target?.value || "", "description")
+              handleChange(e?.target?.value || "", "varietyName")
             }
             sx={{
               width: "264px",
@@ -196,46 +178,7 @@ const CropForm = () => {
             }}
           />
         </FieldWrapper>
-        <FieldWrapper>
-          <FieldName>Crop Image</FieldName>
-          <TextField
-            name="cropImage"
-            id="cropImage"
-            value={formData?.cropImage || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "cropImage")}
-            type="file"
-            accept="image/*"
-            sx={{
-              width: "264px",
-              "& .MuiInputBase-root": {
-                height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-          ></TextField>
-        </FieldWrapper>
-        <FieldWrapper>
-          <FieldName>Crop Type</FieldName>
-          <Select
-            name="cropType"
-            id="cropType"
-            value={formData?.cropType || ""}
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "cropType")}
-            fullWidth
-            sx={{
-              width: "264px",
-              height: "30px",
-              borderRadius: "8px",
-            }}
-          >
-            <MenuItem value={"Annual"}>Annual</MenuItem>
-            <MenuItem value={"Perennial"}>Perennial</MenuItem>
-            <MenuItem value={"Seasonal"}>Seasonal</MenuItem>
-          </Select>
-        </FieldWrapper>
+
         <FieldWrapper>
           <FieldName>Scientific Name</FieldName>
           <TextField
@@ -256,6 +199,160 @@ const CropForm = () => {
             }}
           />
         </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Variety Description</FieldName>
+          <TextField
+            name="varietyDescription"
+            id="varietyDescription"
+            value={formData?.varietyDescription || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "varietyDescription")
+            }
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Crop ID</FieldName>
+          <Autocomplete
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            options={options}
+            value={formData ? formData.cropCategoryDTO : ""}
+            getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+            onChange={(event, value) => {
+              handleChange(value, "cropCategoryDTO");
+            }}
+            sx={{
+              width: "264px",
+              "& .MuiOutlinedInput-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+            renderInput={(params) => <TextField {...params} size="small" />}
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Pericarp Color</FieldName>
+          <TextField
+            name="pericarpColor"
+            id="pericarpColor"
+            value={formData?.pericarpColor || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "pericarpColor")
+            }
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Grain Size</FieldName>
+          <TextField
+            name="grainSize"
+            id="grainSize"
+            value={formData?.grainSize || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) => handleChange(e?.target?.value || "", "grainSize")}
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Image</FieldName>
+          <TextField
+            name="image"
+            id="image"
+            value={formData?.image || ""}
+            fullWidth
+            inputProps={{ multiple: true }}
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) => handleChange(e?.target?.value || "", "image")}
+            type="file"
+            accept="image/*"
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          ></TextField>
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Average Yield</FieldName>
+          <TextField
+            name="averageYield"
+            id="averageYield"
+            type="number"
+            value={formData?.averageYield || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "averageYield")
+            }
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+          />
+        </FieldWrapper>
+
+        <FieldWrapper>
+          <FieldName>Maturity Time</FieldName>
+          <TextField
+            name="maturityTime"
+            id="maturityTime"
+            type="number"
+            value={formData?.maturityTime || ""}
+            fullWidth
+            disabled={state?.action === DEF_ACTIONS.VIEW}
+            onChange={(e) =>
+              handleChange(e?.target?.value || "", "maturityTime")
+            }
+            sx={{
+              width: "264px",
+              "& .MuiInputBase-root": {
+                height: "30px",
+                borderRadius: "8px",
+              },
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">Days</InputAdornment>
+              ),
+            }}
+          />
+        </FieldWrapper>
+
         <ButtonWrapper>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -285,4 +382,4 @@ const CropForm = () => {
   );
 };
 
-export default CropForm;
+export default CropVarietyForm;
