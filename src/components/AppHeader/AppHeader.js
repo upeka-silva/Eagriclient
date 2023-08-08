@@ -93,12 +93,11 @@ const AppHeader = () => {
     initiateLogout(resetAuthContext, onSuccess, onError);
   };
 
-	return (
-		<Wrapper className='wrapper'>
-			<ItemWrapper>
-				<AppTitle>
-					
-					{/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
+  return (
+    <Wrapper className="wrapper">
+      <ItemWrapper>
+        <AppTitle>
+          {/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
           <Typography
             variant="subtitle2"
             sx={{ color: `${theme.coreColors.primary}` }}
@@ -183,11 +182,11 @@ const AppHeader = () => {
 export default AppHeader;
 
 const Wrapper = styled(Card)`
-	display: block;
-	min-height: 40px;
-	padding: 0px 30px;
-	background: ${Colors.white};
-	position: sticky;
+  display: block;
+  min-height: 56px;
+  padding: 0px 30px;
+  background: ${Colors.white};
+  position: sticky;
 `;
 
 const ItemWrapper = styled.div`

@@ -8,7 +8,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -186,6 +185,7 @@ const FarmLandForm = () => {
         flexDirection: "column",
         backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
+        overflow: "scroll",
       }}
     >
       <div style={{ padding: "0px 18px" }}>
