@@ -10,6 +10,10 @@ import {
   MenuItem,
   InputLabel,
 } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, { Dayjs } from "dayjs";
 import Switch from "@mui/material/Switch";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -39,6 +43,7 @@ import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
 import { handleGap, updateGap } from "../../redux/actions/gap/action";
 import CropDetails from "./CropDetails";
+import { gapReqDto } from "./gap-type";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -48,7 +53,7 @@ const GapRegForm = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(state?.target || {});
+  const [formData, setFormData] = useState(state?.target || gapReqDto);
   const [saving, setSaving] = useState(false);
   const [gn, setGn] = useState([]);
   const [soilType, setSoilType] = useState([]);
@@ -104,8 +109,9 @@ const GapRegForm = () => {
       }
     }
     if (
-      state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
+      state?.action === DEF_ACTIONS.ADD
+      // &&
+      // Object.keys(formData || {}).length > 0
     ) {
       return true;
     }
@@ -136,8 +142,10 @@ const GapRegForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateGap(formData, onSuccess, onError);
+          // await updateGap(formData, onSuccess, onError);
         } else {
+          console.log(formData);
+
           await handleGap(formData, onSuccess, onError);
         }
       } catch (error) {
@@ -159,6 +167,9 @@ const GapRegForm = () => {
         flexDirection: "column",
         backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "100vh",
+        overflowY: "scroll",
       }}
     >
       <div style={{ padding: "0px 18px" }}>
@@ -186,7 +197,6 @@ const GapRegForm = () => {
             justifyContent: "flex-start",
             margin: "0",
             paddingLeft: "18px",
-           
           }}
         >
           {state?.action !== DEF_ACTIONS.VIEW && (
@@ -217,50 +227,44 @@ const GapRegForm = () => {
           sx={{
             border: "1px solid #bec0c2",
             margin: "20px",
-            width: "95%",
+            width: "97%",
             borderRadius: "5px",
           }}
           spacing={0}
         >
-          <Grid item  sx={{ paddingX: "15px" }}>
-            <FieldName
-              style={{
-                width: "100%",
-              }}
-            >
-              Applicant Title
-            </FieldName>
-            <Select
-              name="applicantTitle"
-              id="applicantTitle"
-              value={formData?.applicantTitle || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                handleChange(e?.target?.value || "", "applicantTitle");
-              }}
-              fullWidth
-              sx={{
-                // width: "264px",
-                // height: "30px",
-                borderRadius: "8px",
-                backgroundColor: `${Colors.white}`,
-              }}
-              size="small"
-            >
-              <MenuItem value={"REV"}>REV</MenuItem>
-              <MenuItem value={"MR"}>MR</MenuItem>
-              <MenuItem value={"MRS"}>MRS</MenuItem>
-              <MenuItem value={"MISS"}>MISS</MenuItem>
-            </Select>
+          <Grid item>
+            <FieldWrapper>
+              <FieldName
+                style={{
+                  width: "100%",
+                }}
+              >
+                Applicant Title
+              </FieldName>
+              <Select
+                name="applicantTitle"
+                id="applicantTitle"
+                value={formData?.applicantTitle || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  handleChange(e?.target?.value || "", "applicantTitle");
+                }}
+                fullWidth
+                sx={{
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                }}
+                size="small"
+              >
+                <MenuItem value={"REV"}>REV</MenuItem>
+                <MenuItem value={"MR"}>MR</MenuItem>
+                <MenuItem value={"MRS"}>MRS</MenuItem>
+                <MenuItem value={"MISS"}>MISS</MenuItem>
+              </Select>
+            </FieldWrapper>
           </Grid>
-          <Grid item lg={4} sx={{ paddingX: "15px" }}>
-            <FieldWrapper
-              style={{
-                flexDirection: "column",
-                flex: "1 1 264px",
-                gap: "0",
-              }}
-            >
+          <Grid item lg={4}>
+            <FieldWrapper>
               <FieldName
                 style={{
                   width: "100%",
@@ -290,13 +294,7 @@ const GapRegForm = () => {
             </FieldWrapper>
           </Grid>
           <Grid item lg={3}>
-            <FieldWrapper
-              style={{
-                flexDirection: "column",
-                flex: "1 1 264px",
-                gap: "0",
-              }}
-            >
+            <FieldWrapper>
               <FieldName
                 style={{
                   width: "100%",
@@ -327,50 +325,73 @@ const GapRegForm = () => {
           </Grid>
           <Grid
             item
-            lg={3}
             sx={{
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
             }}
           >
-            <FieldWrapper
-              style={{
-                flexDirection: "row",
-                flex: "1 1 264px",
-                gap: "0",
-                alignItems: "center",
-                marginTop: "30px",
-                justifyContent: "flex-end",
-              }}
-            >
-              <Checkbox
-                {...label}
-                name="seedsFromOwnFarm"
-                id="seedsFromOwnFarm"
-                value={formData?.seedsFromOwnFarm || ""}
-                onChange={(e) =>
-                  handleChange(e?.target?.checked || "", "seedsFromOwnFarm")
-                }
-              />
+            <FieldWrapper>
               <FieldName
                 style={{
-                  width: "70%",
+                  width: "100%",
                 }}
               >
                 Certificate Renewal
               </FieldName>
+              <Checkbox
+                {...label}
+                name="isRenewal"
+                id="isRenewal"
+                value={formData?.isRenewal || ""}
+                onChange={(e) =>
+                  handleChange(e?.target?.checked || "", "isRenewal")
+                }
+              />
             </FieldWrapper>
           </Grid>
-          
-          <Grid item lg={5} sx={{ paddingX: "15px" }}>
-            <FieldWrapper
-              style={{
-                flexDirection: "column",
-                flex: "1 1 264px",
-                gap: "0",
-              }}
-            >
+          <Grid
+            item
+            // lg={2}
+            style={{
+              backgroundColor: `${Colors.formBackgroundColor}`,
+
+              width: "264px",
+            }}
+          >
+            <FieldWrapper>
+              <FieldName
+                style={{
+                  width: "100%",
+                }}
+              >
+                Type Of Farmer
+              </FieldName>
+              <Select
+                name="farmerType"
+                id="farmerType"
+                value={formData?.farmerType || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "farmerType")
+                }
+                fullWidth
+                sx={{
+                  // width: "264px",
+                  // height: "30px",
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                }}
+                size="small"
+              >
+                <MenuItem value={"FARMER"}> FARMER</MenuItem>
+                <MenuItem value={"FARMER_ORGANIZATION"}>
+                  FARMER ORGANIZATION
+                </MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+
+          <Grid item lg={5}>
+            <FieldWrapper>
               <FieldName
                 style={{
                   width: "100%",
@@ -478,18 +499,10 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                // backgroundColor:'red',
-                paddingInline: "15px",
               }}
               spacing={0}
             >
-              <FieldWrapper
-                style={{
-                  marginTop: "30px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName style={{}}>
                   Have you applied for registration under the SL-GAP previously?
                 </FieldName>
@@ -501,6 +514,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "appliedGapBefore")
                   }
+                  checked={formData?.appliedGapBefore}
                 />
               </FieldWrapper>
             </Grid>
@@ -509,17 +523,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -553,16 +559,9 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -601,16 +600,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -647,20 +639,12 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
+              <FieldWrapper style={{}}>
                 <FieldName
                   style={{
-                    width: "80%",
+                    width: "100%",
                   }}
                 >
                   Have you obtained any other kind of certificate for your farm?
@@ -676,6 +660,7 @@ const GapRegForm = () => {
                       "hasOtherCertificates"
                     )
                   }
+                  checked={formData?.hasOtherCertificates}
                 />
               </FieldWrapper>
             </Grid>
@@ -684,35 +669,36 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                type of certification (Please attach a photocopy)
-              </FieldName>
-              <TextField
-                name="landName"
-                id="landName"
-                value={formData?.landName || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "landName")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  type of certification (Please attach a photocopy)
+                </FieldName>
+                <TextField
+                  name="landName"
+                  id="landName"
+                  value={formData?.landName || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "landName")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    // width: "264px",
+                    "& .MuiInputBase-root": {
+                      // height: "30px",
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
             </Grid>
           </Grid>
           <Grid
@@ -733,19 +719,12 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Do you have proper knowledge on SL-GAP standard?
@@ -761,6 +740,7 @@ const GapRegForm = () => {
                       "hasProperKnowledgeOnSLGap"
                     )
                   }
+                  checked={formData?.hasProperKnowledgeOnSLGap}
                 />
               </FieldWrapper>
             </Grid>
@@ -769,19 +749,12 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Do you have brochures or leaflets prepared pertaining to
@@ -798,6 +771,7 @@ const GapRegForm = () => {
                       "hasLeafletsPertainingToSLGap"
                     )
                   }
+                  checked={formData?.hasLeafletsPertainingToSLGap}
                 />
               </FieldWrapper>
             </Grid>
@@ -806,15 +780,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have a checklist pertaining to SL-GAP standard?
                 </FieldName>
@@ -826,6 +794,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "hasChecklist")
                   }
+                  checked={formData?.hasChecklist}
                 />
               </FieldWrapper>
             </Grid>
@@ -834,16 +803,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     display: "flex",
@@ -863,6 +825,7 @@ const GapRegForm = () => {
                       "hasQualityManagementPlan"
                     )
                   }
+                  checked={formData?.hasQualityManagementPlan}
                 />
               </FieldWrapper>
             </Grid>
@@ -885,46 +848,12 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              {/* <FormWrapper
-                style={{
-                  flexDirection: "row",
-                  gap: "12px",
-                  flexWrap: "wrap",
-                  maxWidth: "70vw",
-                }}
-              >
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Select on relevant cages based on the nature of the seed or
-                    planting materials used in your farm.
-                  </FieldName>
-                </FieldWrapper>
-              </FormWrapper> */}
-
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Seeds obtained from your own farm
@@ -937,6 +866,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "seedsFromOwnFarm")
                   }
+                  checked={formData?.seedsFromOwnFarm}
                 />
               </FieldWrapper>
             </Grid>
@@ -950,52 +880,18 @@ const GapRegForm = () => {
             >
               <FieldWrapper
                 style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
                   gap: "0",
-                  marginTop: "30px",
                 }}
               >
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Seeds obtained from private institutes
-                </FieldName>
-                <Checkbox
-                  {...label}
-                  name="certifiedSeeds"
-                  id="certifiedSeeds"
-                  value={formData?.certifiedSeeds || ""}
-                  onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "certifiedSeeds")
-                  }
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid
-              item
-              lg={2}
-              style={{
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
-              }}
-            >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
-                <FieldName
-                  style={{
-                    width: "70%",
-                  }}
-                >
-                  Certified seeds (DOA)
                 </FieldName>
                 <Checkbox
                   {...label}
@@ -1008,6 +904,34 @@ const GapRegForm = () => {
                       "seedsFromPrivateFarm"
                     )
                   }
+                  checked={formData?.seedsFromPrivateFarm}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              lg={2}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  Certified seeds (DOA)
+                </FieldName>
+                <Checkbox
+                  {...label}
+                  name="certifiedSeeds"
+                  id="certifiedSeeds"
+                  value={formData?.certifiedSeeds || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "certifiedSeeds")
+                  }
+                  checked={formData?.certifiedSeeds}
                 />
               </FieldWrapper>
             </Grid>
@@ -1016,20 +940,12 @@ const GapRegForm = () => {
               lg={1}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Other
@@ -1042,6 +958,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "seedsFromOther")
                   }
+                  checked={formData?.seedsFromOther}
                 />
               </FieldWrapper>
             </Grid>
@@ -1050,16 +967,9 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1093,16 +1003,9 @@ const GapRegForm = () => {
               lg={5}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1140,16 +1043,9 @@ const GapRegForm = () => {
               item
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1202,16 +1098,9 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1220,15 +1109,12 @@ const GapRegForm = () => {
                   Existing Soil Type
                 </FieldName>
                 <TextField
-                  name="fertilizerManageSpecify"
-                  id="fertilizerManageSpecify"
-                  value={formData?.fertilizerManageSpecify || ""}
+                  name="existingSoilType"
+                  id="existingSoilType"
+                  value={formData?.existingSoilType || ""}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(
-                      e?.target?.value || "",
-                      "fertilizerManageSpecify"
-                    )
+                    handleChange(e?.target?.value || "", "existingSoilType")
                   }
                   size="small"
                   fullWidth
@@ -1248,24 +1134,10 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
-                <FieldName
-                  style={
-                    {
-                      // width: "70%",
-                    }
-                  }
-                >
+              <FieldWrapper>
+                <FieldName style={{}}>
                   Mention whether any soil test has been done for your farm?
                 </FieldName>
                 <Switch
@@ -1276,6 +1148,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "hasSoilTestDone")
                   }
+                  checked={formData?.hasSoilTestDone}
                 />
               </FieldWrapper>
             </Grid>
@@ -1298,17 +1171,9 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "10px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={
                     {
@@ -1329,6 +1194,7 @@ const GapRegForm = () => {
                       "fertilizerManageBasedOnSoilTest"
                     )
                   }
+                  checked={formData?.fertilizerManageBasedOnSoilTest}
                 />
               </FieldWrapper>
             </Grid>
@@ -1339,14 +1205,7 @@ const GapRegForm = () => {
                 backgroundColor: `${Colors.formBackgroundColor}`,
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "10px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={
                     {
@@ -1367,6 +1226,7 @@ const GapRegForm = () => {
                       "fertilizerManageRecommendationOfAD"
                     )
                   }
+                  checked={formData?.fertilizerManageRecommendationOfAD}
                 />
               </FieldWrapper>
             </Grid>
@@ -1375,17 +1235,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "10px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName style={{}}>
                   Following the recommendation of another recognized institute
                 </FieldName>
@@ -1403,6 +1255,9 @@ const GapRegForm = () => {
                       "fertilizerManageRecommendationOfAnotherInstitute"
                     )
                   }
+                  checked={
+                    formData?.fertilizerManageRecommendationOfAnotherInstitute
+                  }
                 />
               </FieldWrapper>
             </Grid>
@@ -1411,17 +1266,9 @@ const GapRegForm = () => {
               lg={3}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "30px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "70%",
@@ -1440,6 +1287,7 @@ const GapRegForm = () => {
                       "fertilizerMangeOther"
                     )
                   }
+                  checked={formData?.fertilizerMangeOther}
                 />
               </FieldWrapper>
             </Grid>
@@ -1449,16 +1297,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1509,17 +1350,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "20px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName style={{}}>
                   Mention whether you have added compost to the soil
                 </FieldName>
@@ -1531,6 +1364,7 @@ const GapRegForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "addedCompostToSoil")
                   }
+                  checked={formData?.addedCompostToSoil}
                 />
               </FieldWrapper>
             </Grid>
@@ -1539,20 +1373,12 @@ const GapRegForm = () => {
               lg={2}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "20px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
-                    width: "70%",
+                    width: "100%",
                   }}
                 >
                   Prepared within the farm
@@ -1568,6 +1394,7 @@ const GapRegForm = () => {
                       "compostPreparedWithinFarm"
                     )
                   }
+                  checked={formData?.compostPreparedWithinFarm}
                 />
               </FieldWrapper>
             </Grid>
@@ -1576,17 +1403,9 @@ const GapRegForm = () => {
               lg={2}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop: "20px",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName style={{}}>Prepared outside the farm</FieldName>
                 <Checkbox
                   {...label}
@@ -1599,6 +1418,7 @@ const GapRegForm = () => {
                       "compostPreparedOutsideFarm"
                     )
                   }
+                  checked={formData?.compostPreparedOutsideFarm}
                 />
               </FieldWrapper>
             </Grid>
@@ -1607,16 +1427,9 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
@@ -1667,22 +1480,10 @@ const GapRegForm = () => {
               lg={6}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              <FieldWrapper
-                style={{
-                  flexDirection: "row",
-                  flex: "1 1 264px",
-                  gap: "0",
-                  marginTop:'15px'
-                }}
-              >
-                <FieldName
-                  style={{
-                    
-                  }}
-                >
+              <FieldWrapper>
+                <FieldName style={{}}>
                   Mention whether human fecal matters were added to the field in
                   direct or indirect way.
                 </FieldName>
@@ -1697,6 +1498,7 @@ const GapRegForm = () => {
                       "humanFecalMattersAdded"
                     )
                   }
+                  checked={formData?.humanFecalMattersAdded}
                 />
               </FieldWrapper>
             </Grid>
@@ -1705,233 +1507,29 @@ const GapRegForm = () => {
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline: "15px",
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'15px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      
-                    }}
-                  >
-                    Do you have any measures adopted to minimize soil erosion?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="anyMeasuresToAdoptedSoilErosion"
-                    id="anyMeasuresToAdoptedSoilErosion"
-                    value={formData?.anyMeasuresToAdoptedSoilErosion || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "anyMeasuresToAdoptedSoilErosion"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have any measures adopted to minimize soil erosion?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="anyMeasuresToAdoptedSoilErosion"
+                  id="anyMeasuresToAdoptedSoilErosion"
+                  value={formData?.anyMeasuresToAdoptedSoilErosion || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "anyMeasuresToAdoptedSoilErosion"
+                    )
+                  }
+                  checked={formData?.anyMeasuresToAdoptedSoilErosion}
+                />
+              </FieldWrapper>
             </Grid>
-            </Grid>
-            <Grid item
-            container
-            flexDirection="row"
-            xs="auto"
-            lg={12}
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-              marginBottom: "20px",
-            }}
-            spacing={0}>
-            <Grid
-              item
-              lg={4}
-              style={{
-               
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'30px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      
-                    }}
-                  >
-                    Do you have water testing report with regard to the water
-                    used for irrigation?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="hasWaterTestReport"
-                    id="hasWaterTestReport"
-                    value={formData?.hasWaterTestReport || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "hasWaterTestReport"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              style={{
-               
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    How often water is tested to ascertain its quality?
-                  </FieldName>
-                  <TextField
-                    name="howOftenWaterTest"
-                    id="howOftenWaterTest"
-                    value={formData?.howOftenWaterTest || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "howOftenWaterTest")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-             
-            </Grid>
-            <Grid
-              item
-              style={{
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-             
-                <FieldWrapper
-                  style={{ flexDirection: "column", flex: "1 1 264px" }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    What is the irrigation methods used in your farm/field?
-                  </FieldName>
-                  <Select
-                    name="irrigationMethod"
-                    id="irrigationMethod"
-                    value={formData?.irrigationMethod || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "irrigationMethod")
-                    }
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    }}
-                    size="small"
-                  >
-                    <MenuItem value={"FLOOD"}>FLOOD</MenuItem>
-                    <MenuItem value={"DRIP"}> DRIP</MenuItem>
-                    <MenuItem value={"SPRINKLER"}>SPRINKLER</MenuItem>
-                    <MenuItem value={"OTHER"}> OTHER</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              
-            </Grid>
-            <Grid
-              item
-              lg={4}
-              style={{
-               
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    If there Specific irrigation method ?
-                  </FieldName>
-                  <TextField
-                    name="irrigationMethodSpecify"
-                    id="irrigationMethodSpecify"
-                    value={formData?.irrigationMethodSpecify || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "irrigationMethodSpecify"
-                      )
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              
-            </Grid>
-            </Grid>
-            <Grid 
+          </Grid>
+          <Grid
             item
             container
             flexDirection="row"
@@ -1942,313 +1540,260 @@ const GapRegForm = () => {
               borderRadius: "5px",
               marginBottom: "20px",
             }}
-            spacing={0}>
+            spacing={0}
+          >
+            <Grid
+              item
+              lg={4}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have water testing report with regard to the water used
+                  for irrigation?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="hasWaterTestReport"
+                  id="hasWaterTestReport"
+                  value={formData?.hasWaterTestReport || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "hasWaterTestReport")
+                  }
+                  checked={formData?.hasWaterTestReport}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  How often water is tested to ascertain its quality?
+                </FieldName>
+                <TextField
+                  name="howOftenWaterTest"
+                  id="howOftenWaterTest"
+                  value={formData?.howOftenWaterTest || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "howOftenWaterTest")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    // width: "264px",
+                    "& .MuiInputBase-root": {
+                      // height: "30px",
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  What is the irrigation methods used in your farm/field?
+                </FieldName>
+                <Select
+                  name="irrigationMethod"
+                  id="irrigationMethod"
+                  value={formData?.irrigationMethod || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "irrigationMethod")
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"FLOOD"}>FLOOD</MenuItem>
+                  <MenuItem value={"DRIP"}> DRIP</MenuItem>
+                  <MenuItem value={"SPRINKLER"}>SPRINKLER</MenuItem>
+                  <MenuItem value={"OTHER"}> OTHER</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  If there Specific irrigation method ?
+                </FieldName>
+                <TextField
+                  name="irrigationMethodSpecify"
+                  id="irrigationMethodSpecify"
+                  value={formData?.irrigationMethodSpecify || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "irrigationMethodSpecify"
+                    )
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
             <Grid
               item
               lg={5}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'30px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Whether the farm has been used for any other
-                    non-agricultural purpose earlier?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="farmUsedForNonAgriculturalPurpose"
-                    id="farmUsedForNonAgriculturalPurpose"
-                    value={formData?.farmUsedForNonAgriculturalPurpose || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "farmUsedForNonAgriculturalPurpose"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Whether the farm has been used for any other non-agricultural
+                  purpose earlier?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="farmUsedForNonAgriculturalPurpose"
+                  id="farmUsedForNonAgriculturalPurpose"
+                  value={formData?.farmUsedForNonAgriculturalPurpose || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "farmUsedForNonAgriculturalPurpose"
+                    )
+                  }
+                  checked={formData?.farmUsedForNonAgriculturalPurpose}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={6}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
+              <FieldWrapper>
+                <FieldName
                   style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
+                    width: "100%",
                   }}
                 >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    If yes, mention for what purpose?
-                  </FieldName>
-                  <TextField
-                    name="specifyNonAgriculturalPurpose"
-                    id="specifyNonAgriculturalPurpose"
-                    value={formData?.specifyNonAgriculturalPurpose || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "specifyNonAgriculturalPurpose"
-                      )
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-             
+                  If yes, mention for what purpose?
+                </FieldName>
+                <TextField
+                  name="specifyNonAgriculturalPurpose"
+                  id="specifyNonAgriculturalPurpose"
+                  value={formData?.specifyNonAgriculturalPurpose || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "specifyNonAgriculturalPurpose"
+                    )
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={5}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
+              <FieldWrapper>
+                <FieldName
                   style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
+                    width: "100%",
                   }}
                 >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Crops cultivated within past two years
-                  </FieldName>
-                  <TextField
-                    name="cropsCultivatedPastTwoYears"
-                    id="cropsCultivatedPastTwoYears"
-                    value={formData?.cropsCultivatedPastTwoYears || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "cropsCultivatedPastTwoYears"
-                      )
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              
-            </Grid>
-            </Grid>
-            <Grid 
-             item
-             container
-             flexDirection="row"
-             xs="auto"
-             lg={12}
-             sx={{
-               border: "1px solid #bec0c2",
-               borderRadius: "5px",
-               marginBottom: "20px",
-             }}
-             spacing={0}
-            >
-              <Grid
-              item
-              lg={5}
-              style={{
-              
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
+                  Crops cultivated within past two years
+                </FieldName>
+                <TextField
+                  name="cropsCultivatedPastTwoYears"
+                  id="cropsCultivatedPastTwoYears"
+                  value={formData?.cropsCultivatedPastTwoYears || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "cropsCultivatedPastTwoYears"
+                    )
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    // width: "264px",
+                    "& .MuiInputBase-root": {
+                      // height: "30px",
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
                   }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                   How do you manage weeds in your farm?
-                  </FieldName>
-                  <TextField
-                    name="howManageWeeds"
-                    id="howManageWeeds"
-                    value={formData?.howManageWeeds || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "howManageWeeds"
-                      )
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                  
-                </FieldWrapper>
-              
+                />
+              </FieldWrapper>
             </Grid>
-            </Grid>
-            <Grid  item
-             container
-             flexDirection="row"
-             xs="auto"
-             lg={12}
-             sx={{
-               border: "1px solid #bec0c2",
-               borderRadius: "5px",
-               marginBottom: "20px",
-             }}
-             spacing={0}>
-            <Grid
-              item
-              lg={5}
-              style={{
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'30px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Do you have SL-GAP and the conventional agricultural
-                    practices available in your farm?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="SLGapConvPracExists"
-                    id="SLGapConvPracExists"
-                    value={formData?.SLGapConvPracExists || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "SLGapConvPracExists"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
-            </Grid>
-            <Grid
-              item
-              style={{
-              
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    mention the measures which have been taken to supply such
-                    products to the market separately
-                  </FieldName>
-                  <TextField
-                    name="howToMarketSeparately"
-                    id="howToMarketSeparately"
-                    value={formData?.howToMarketSeparately || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "howToMarketSeparately"
-                      )
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              
-            </Grid>
-            </Grid>
-            <Grid 
+          </Grid>
+          <Grid
             item
             container
             flexDirection="row"
@@ -2259,92 +1804,46 @@ const GapRegForm = () => {
               borderRadius: "5px",
               marginBottom: "20px",
             }}
-            spacing={0}>
+            spacing={0}
+          >
             <Grid
               item
               lg={5}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
+              <FieldWrapper>
+                <FieldName
                   style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'20px'
+                    width: "100%",
                   }}
                 >
-                  <FieldName
-                    style={{
-                    
-                    }}
-                  >
-                    Do you have identified any risk due to the activities from
-                    the surrounding lands?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="surroundingLandRiskExist"
-                    id="surroundingLandRiskExist"
-                    value={formData?.surroundingLandRiskExist || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "surroundingLandRiskExist"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
-            </Grid>
-            <Grid
-              item
-              lg={4}
-              style={{
-                
-                backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
-              }}
-            >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'20px'
+                  How do you manage weeds in your farm?
+                </FieldName>
+                <TextField
+                  name="howManageWeeds"
+                  id="howManageWeeds"
+                  value={formData?.howManageWeeds || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "howManageWeeds")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    // width: "264px",
+                    "& .MuiInputBase-root": {
+                      // height: "30px",
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
                   }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Have you taken the corrective measures to minimize the risk?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="CorrectiveMeasuresTakenForSurroundingLands"
-                    id="CorrectiveMeasuresTakenForSurroundingLands"
-                    value={
-                      formData?.CorrectiveMeasuresTakenForSurroundingLands || ""
-                    }
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "CorrectiveMeasuresTakenForSurroundingLands"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+                />
+              </FieldWrapper>
             </Grid>
-            </Grid>
-            <Grid  
+          </Grid>
+          <Grid
             item
             container
             flexDirection="row"
@@ -2355,517 +1854,504 @@ const GapRegForm = () => {
               borderRadius: "5px",
               marginBottom: "20px",
             }}
-            spacing={0}>
+            spacing={0}
+          >
             <Grid
               item
               lg={5}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have SL-GAP and the conventional agricultural practices
+                  available in your farm?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="SLGapConvPracExists"
+                  id="SLGapConvPracExists"
+                  value={formData?.SLGapConvPracExists || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "SLGapConvPracExists"
+                    )
+                  }
+                  checked={formData?.SLGapConvPracExists}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName
                   style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
+                    width: "100%",
                   }}
                 >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Steps have been taken to prevent contamination at the
-                    harvesting and temporary storage
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="preventContaminationExists"
-                    id="preventContaminationExists"
-                    value={formData?.preventContaminationExists || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "preventContaminationExists"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+                  mention the measures which have been taken to supply such
+                  products to the market separately
+                </FieldName>
+                <TextField
+                  name="howToMarketSeparately"
+                  id="howToMarketSeparately"
+                  value={formData?.howToMarketSeparately || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "howToMarketSeparately"
+                    )
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    // width: "264px",
+                    "& .MuiInputBase-root": {
+                      // height: "30px",
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
+            <Grid
+              item
+              lg={5}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have identified any risk due to the activities from the
+                  surrounding lands?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="surroundingLandRiskExist"
+                  id="surroundingLandRiskExist"
+                  value={formData?.surroundingLandRiskExist || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "surroundingLandRiskExist"
+                    )
+                  }
+                  checked={formData?.surroundingLandRiskExist}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Have you taken the corrective measures to minimize the risk?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="CorrectiveMeasuresTakenForSurroundingLands"
+                  id="CorrectiveMeasuresTakenForSurroundingLands"
+                  value={
+                    formData?.CorrectiveMeasuresTakenForSurroundingLands || ""
+                  }
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "CorrectiveMeasuresTakenForSurroundingLands"
+                    )
+                  }
+                  checked={formData?.CorrectiveMeasuresTakenForSurroundingLands}
+                />
+              </FieldWrapper>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
+            <Grid
+              item
+              lg={5}
+              style={{
+                backgroundColor: `${Colors.formBackgroundColor}`,
+              }}
+            >
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Steps have been taken to prevent contamination at the
+                  harvesting and temporary storage
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="preventContaminationExists"
+                  id="preventContaminationExists"
+                  value={formData?.preventContaminationExists || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "preventContaminationExists"
+                    )
+                  }
+                  checked={formData?.preventContaminationExists}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={3}
               style={{
-              
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Produce / harvest washed at the farm?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="harvestWashedAtFarm"
-                    id="harvestWashedAtFarm"
-                    value={formData?.harvestWashedAtFarm || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "harvestWashedAtFarm"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Produce / harvest washed at the farm?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="harvestWashedAtFarm"
+                  id="harvestWashedAtFarm"
+                  value={formData?.harvestWashedAtFarm || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "harvestWashedAtFarm"
+                    )
+                  }
+                  checked={formData?.harvestWashedAtFarm}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-                
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      
-                    }}
-                  >
-                    If yes water quality is similar to drinking water?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="WaterQualitySimilarToDrinkingWater"
-                    id="WaterQualitySimilarToDrinkingWater"
-                    value={formData?.WaterQualitySimilarToDrinkingWater || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "WaterQualitySimilarToDrinkingWater"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  If yes water quality is similar to drinking water?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="WaterQualitySimilarToDrinkingWater"
+                  id="WaterQualitySimilarToDrinkingWater"
+                  value={formData?.WaterQualitySimilarToDrinkingWater || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "WaterQualitySimilarToDrinkingWater"
+                    )
+                  }
+                  checked={formData?.WaterQualitySimilarToDrinkingWater}
+                />
+              </FieldWrapper>
             </Grid>
-            </Grid>
-            <Grid 
-             item
-             container
-             flexDirection="row"
-             xs="auto"
-             lg={12}
-             sx={{
-               border: "1px solid #bec0c2",
-               borderRadius: "5px",
-               marginBottom: "20px",
-             }}
-             spacing={0}>
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
             <Grid
               item
               lg={3}
               style={{
-              
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    On farm packaging was carried out?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="onFarmPackaging"
-                    id="onFarmPackaging"
-                    value={formData?.onFarmPackaging || ""}
-                    onChange={(e) =>
-                      handleChange(e?.target?.checked || "", "onFarmPackaging")
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  On farm packaging was carried out?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="onFarmPackaging"
+                  id="onFarmPackaging"
+                  value={formData?.onFarmPackaging || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "onFarmPackaging")
+                  }
+                  checked={formData?.onFarmPackaging}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Do you have method to maintain traceability of produce?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="maintainTraceability"
-                    id="maintainTraceability"
-                    value={formData?.maintainTraceability || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "maintainTraceability"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have method to maintain traceability of produce?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="maintainTraceability"
+                  id="maintainTraceability"
+                  value={formData?.maintainTraceability || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "maintainTraceability"
+                    )
+                  }
+                  checked={formData?.maintainTraceability}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={5}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                   
-                    }}
-                  >
-                    Do you use the SL-GAP logo and the QR code on your product
-                    package?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="useSLGapQR"
-                    id="useSLGapQR"
-                    value={formData?.useSLGapQR || ""}
-                    onChange={(e) =>
-                      handleChange(e?.target?.checked || "", "useSLGapQR")
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you use the SL-GAP logo and the QR code on your product
+                  package?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="useSLGapQR"
+                  id="useSLGapQR"
+                  value={formData?.useSLGapQR || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "useSLGapQR")
+                  }
+                  checked={formData?.useSLGapQR}
+                />
+              </FieldWrapper>
             </Grid>
-            </Grid>
-            <Grid item
-             container
-             flexDirection="row"
-             xs="auto"
-             lg={12}
-             sx={{
-               border: "1px solid #bec0c2",
-               borderRadius: "5px",
-               marginBottom: "20px",
-             }}
-             spacing={0}>
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
             <Grid
               item
               lg={4}
               style={{
-              
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-             
-                <FieldWrapper
+              <FieldWrapper>
+                <FieldName
                   style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
+                    width: "100%",
                   }}
                 >
-                  <FieldName
-                    style={{
-                      width: "70%",
-                    }}
-                  >
-                    Do you store the both SL-GAP and non - GAP products together
-                    in same place?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="storeSLGapAndNonGapTogether"
-                    id="storeSLGapAndNonGapTogether"
-                    value={formData?.storeSLGapAndNonGapTogether || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "storeSLGapAndNonGapTogether"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+                  Do you store the both SL-GAP and non - GAP products together
+                  in same place?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="storeSLGapAndNonGapTogether"
+                  id="storeSLGapAndNonGapTogether"
+                  value={formData?.storeSLGapAndNonGapTogether || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "storeSLGapAndNonGapTogether"
+                    )
+                  }
+                  checked={formData?.storeSLGapAndNonGapTogether}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-              
                 backgroundColor: `${Colors.formBackgroundColor}`,
-              paddingInline:'15px'              }}
+              }}
             >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Do you have protect the temporary stores and processing
-                    places from insects and other animals?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="protectedTempProcessingStore"
-                    id="protectedTempProcessingStore"
-                    value={formData?.protectedTempProcessingStore || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "protectedTempProcessingStore"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have protect the temporary stores and processing places
+                  from insects and other animals?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="protectedTempProcessingStore"
+                  id="protectedTempProcessingStore"
+                  value={formData?.protectedTempProcessingStore || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "protectedTempProcessingStore"
+                    )
+                  }
+                  checked={formData?.protectedTempProcessingStore}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-               
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    Do you store fertilizer and pesticides in same store?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="fertilizerAndPesticidesInSameStore"
-                    id="fertilizerAndPesticidesInSameStore"
-                    value={formData?.fertilizerAndPesticidesInSameStore || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "fertilizerAndPesticidesInSameStore"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you store fertilizer and pesticides in same store?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="fertilizerAndPesticidesInSameStore"
+                  id="fertilizerAndPesticidesInSameStore"
+                  value={formData?.fertilizerAndPesticidesInSameStore || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "fertilizerAndPesticidesInSameStore"
+                    )
+                  }
+                  checked={formData?.fertilizerAndPesticidesInSameStore}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-             
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-              
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                    // marginTop:'10px'
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      
-                    }}
-                  >
-                    Do you have stored fertilizer and pesticide separately to
-                    ensure the quality?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="fertilizerAndPesticidesInSeparateStore"
-                    id="fertilizerAndPesticidesInSeparateStore"
-                    value={
-                      formData?.fertilizerAndPesticidesInSeparateStore || ""
-                    }
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "fertilizerAndPesticidesInSeparateStore"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have stored fertilizer and pesticide separately to
+                  ensure the quality?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="fertilizerAndPesticidesInSeparateStore"
+                  id="fertilizerAndPesticidesInSeparateStore"
+                  value={formData?.fertilizerAndPesticidesInSeparateStore || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "fertilizerAndPesticidesInSeparateStore"
+                    )
+                  }
+                  checked={formData?.fertilizerAndPesticidesInSeparateStore}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-             
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-             
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                     
-                    }}
-                  >
-                    The workers have been trained properly on relevant
-                    trainings?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="workersTrained"
-                    id="workersTrained"
-                    value={formData?.workersTrained || ""}
-                    onChange={(e) =>
-                      handleChange(e?.target?.checked || "", "workersTrained")
-                    }
-                  />
-                </FieldWrapper>
-             
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  The workers have been trained properly on relevant trainings?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="workersTrained"
+                  id="workersTrained"
+                  value={formData?.workersTrained || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "workersTrained")
+                  }
+                  checked={formData?.workersTrained}
+                />
+              </FieldWrapper>
             </Grid>
             <Grid
               item
               lg={4}
               style={{
-              
                 backgroundColor: `${Colors.formBackgroundColor}`,
-                paddingInline:'15px'
               }}
             >
-            
-                <FieldWrapper
-                  style={{
-                    flexDirection: "row",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      
-                    }}
-                  >
-                    Do you have provide first aid and sanitary facilities for
-                    workers?
-                  </FieldName>
-                  <Switch
-                    {...label}
-                    name="firstAidSanitaryProvided"
-                    id="firstAidSanitaryProvided"
-                    value={formData?.firstAidSanitaryProvided || ""}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.checked || "",
-                        "firstAidSanitaryProvided"
-                      )
-                    }
-                  />
-                </FieldWrapper>
-              
+              <FieldWrapper>
+                <FieldName style={{}}>
+                  Do you have provide first aid and sanitary facilities for
+                  workers?
+                </FieldName>
+                <Switch
+                  {...label}
+                  name="firstAidSanitaryProvided"
+                  id="firstAidSanitaryProvided"
+                  value={formData?.firstAidSanitaryProvided || ""}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.checked || "",
+                      "firstAidSanitaryProvided"
+                    )
+                  }
+                  checked={formData?.firstAidSanitaryProvided}
+                />
+              </FieldWrapper>
             </Grid>
           </Grid>
         </Grid>
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        
-        <CropDetails state={state}/>
-
-       
+        <CropDetails state={state} />
       </TabContent>
     </div>
   );

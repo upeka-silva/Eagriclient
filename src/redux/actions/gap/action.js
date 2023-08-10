@@ -7,9 +7,11 @@ export const handleGap = async (
   onError = (_message) => {}
 ) => {
   try {
+    
     const response = await post("gap-request", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
+      console.log("Success")
     } else {
       const exception = {
         error: {
