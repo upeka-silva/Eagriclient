@@ -37,6 +37,10 @@ import CropCategory from "../pages/Crop/CropCategory/CropCategory";
 import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm";
 import CropSubCategory from "../pages/Crop/CropSubCategory/CropSubCategory";
 import CropSubCategoryForm from "../pages/Crop/CropSubCategory/CropSubCategoryForm";
+import Crop from "../pages/Crop/Crop/Crop";
+import CropForm from "../pages/Crop/Crop/CropForm";
+import CropVariety from "../pages/Crop/CropVariety/CropVariety";
+import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
 
 import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm";
 import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock";
@@ -90,6 +94,7 @@ import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import YardIcon from "@mui/icons-material/Yard";
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
@@ -104,6 +109,7 @@ import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList
 import GapRegistration from "../pages/Gap/gapReg"
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
+import GapRegistration from "../pages/Gap/gapReg";
 
 export const Routes = [
   {
@@ -595,6 +601,32 @@ export const Routes = [
         name: "Crop Category Form",
         isSideBar: false,
         element: <CropSubCategoryForm />,
+      },
+      {
+        path: "/crop",
+        name: "Crop",
+        isSideBar: true,
+        element: <Crop />,
+        icon: YardIcon,
+      },
+      {
+        path: "/crop-form",
+        name: "Crop Form",
+        isSideBar: false,
+        element: <CropForm />,
+      },
+      {
+        path: "/crop-variety",
+        name: "Crop Variety",
+        isSideBar: true,
+        element: <CropVariety />,
+        icon: YardIcon,
+      },
+      {
+        path: "/crop-variety-form",
+        name: "Crop Variety Form",
+        isSideBar: false,
+        element: <CropVarietyForm />,
       },
     ],
   },

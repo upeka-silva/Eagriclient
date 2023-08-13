@@ -8,7 +8,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
