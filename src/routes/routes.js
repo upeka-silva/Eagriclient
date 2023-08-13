@@ -93,6 +93,7 @@ import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import YardIcon from "@mui/icons-material/Yard";
 
 import Organization from "../pages/Organization/Organization";
@@ -105,6 +106,9 @@ import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
+import GapRegistration from "../pages/Gap/gapReg"
+import GapRegs from "../pages/Gap/GapRegs";
+import GapRegForm from "../pages/Gap/GapRegForm";
 import GapRegistration from "../pages/Gap/gapReg";
 
 export const Routes = [
@@ -786,7 +790,20 @@ export const Routes = [
   {
     path: "/gap-registration",
     name: "GAP Registration",
-    element: <GapRegistration />,
+    element: <GapRegs/>,
     isSideBar: true,
+    icon: AppRegistrationIcon,
+  },
+  {
+    path: "/gap-reg-form1",
+    name: "GAP Regs",
+    element: <GapRegistration/>,
+    isSideBar: false,
+  },
+  {
+    path: "/gap-reg-form",
+    name: "GAP Regs",
+    element: <GapRegForm/>,
+    isSideBar: false,
   },
 ];

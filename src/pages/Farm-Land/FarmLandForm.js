@@ -185,7 +185,9 @@ const FarmLandForm = () => {
         flexDirection: "column",
         backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
-        overflow: "scroll",
+        marginTop:'10px',
+        height:'100vh',
+        overflowY:'scroll'
       }}
     >
       <div style={{ padding: "0px 18px" }}>
