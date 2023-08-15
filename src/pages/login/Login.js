@@ -116,14 +116,18 @@ const Login = () => {
 
 	return (
 		<LoginWrapper>
+			
 			<Grid
 				container
-				sx={{ flex: 1 }}>
-				<BGImg src={Vector} />
+				sx={{ flex: 1 }}
+				spacing={0}
+				>
+				
 				<Grid
 					item
 					sm={8}>
 					<LeftWrapper>
+					<BGImg src={Vector} />
 						<AppName>AGRITECH PORTAL</AppName>
 
 						<OtherLinkWrapper>
@@ -329,7 +333,7 @@ const OtherLinkWrapper = styled.div`
 	height: 162px;
 	box-sizing: border-box;
 	background: rgba(82, 92, 92, 0.8);
-	mix-blend-mode: multiply;
+	/* mix-blend-mode: multiply; */
 	border: 2px solid #000000;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border-radius: 31px;
@@ -348,10 +352,9 @@ const LoginWrapper = styled.div`
 	display: flex;
 	flex: 1;
 	flex-direction: column;
-	/* height: 100vh;
-	width: 100vw; */
 	background-color: ${Colors.white};
 	font-family: ${Fonts.fontStyle1};
+	
 `;
 
 const ButtonContainer = styled.button`
@@ -379,6 +382,7 @@ const RegisterButtons = styled(ButtonContainer)`
 	gap: 20px;
 	display: flex;
 	align-items: center;
+	
 `;
 
 const ButtonWrapper = styled(ButtonContainer)`
@@ -422,8 +426,8 @@ const BGImg = styled.img`
 	object-fit: cover;
 	border: 0 !important;
 	position: absolute;
-
-	/* scale: 75; */
+	opacity: 0.5;
+	z-index: -1;
 `;
 
 const Wrapper = styled.div`
