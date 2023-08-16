@@ -21,6 +21,7 @@ import {
   SideBarItemButton,
   SideBarItemToolTip,
 } from "./Components";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -240,7 +241,15 @@ const SideBar = () => {
             px: [1],
           }}
         >
-          {open && <Typography variant="h7" fontWeight="bold">E-EXTENSION SYSTEM</Typography>}
+          {open && (
+            <Typography
+              variant="h7"
+              fontWeight="bold"
+              fontFamily={Fonts.fontStyle1}
+            >
+              E-EXTENSION SYSTEM
+            </Typography>
+          )}
           <SideBarItemToolTip
             title={!open ? "Expand" : ""}
             placement="right"
@@ -255,7 +264,14 @@ const SideBar = () => {
           </SideBarItemToolTip>
         </Toolbar>
         {/* <Divider /> */}
-        <List component="nav">{renderSideBarRoutes()}</List>
+        <List
+          component="nav"
+          sx={{
+            overflowY: "scroll",
+          }}
+        >
+          {renderSideBarRoutes()}
+        </List>
       </Drawer>
       {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>

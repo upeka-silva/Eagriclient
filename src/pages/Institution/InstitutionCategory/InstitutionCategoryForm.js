@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import { TextField, Button, CircularProgress, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -16,12 +16,14 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { updateInstitutionCat, handleInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
+import {
+  updateInstitutionCat,
+  handleInstitutionCat,
+} from "../../../redux/actions/institution/institutionCategory/action";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 const InstitutionCategoryForm = () => {
-
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -52,7 +54,6 @@ const InstitutionCategoryForm = () => {
       setFormData({});
     }
   };
-
 
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -109,80 +110,108 @@ const InstitutionCategoryForm = () => {
       : location.pathname;
   };
 
-
   return (
     <FormWrapper>
-    <ActionWrapper isLeft>
-      <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-        Go back to list
-      </Button>
-    </ActionWrapper>
-    <PathName>{getPathName()}</PathName>
-    <FormHeader>
-      {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}{state?.action} INSTITUTION CATEGORY
-    </FormHeader>
-    <FieldWrapper>
-      <FieldName>Institution Category ID</FieldName>
-      <TextField
-        name="code"
-        id="code"
-        value={formData?.code || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-        onChange={(e) => handleChange(e?.target?.value || "", "code")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
+      <ActionWrapper isLeft>
+        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          Go back to list
+        </Button>
+      </ActionWrapper>
+      <PathName>{getPathName()}</PathName>
+      <FormHeader>
+        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+        {state?.action} INSTITUTION CATEGORY
+      </FormHeader>
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
         }}
-      />
-    </FieldWrapper>
-    <FieldWrapper>
-      <FieldName>Description</FieldName>
-      <TextField
-        name="description"
-        id="description"
-        value={formData?.description || ""}
-        fullWidth
-        disabled={state?.action === DEF_ACTIONS.VIEW}
-        onChange={(e) => handleChange(e?.target?.value || "", "description")}
-        sx={{
-          width: "264px",
-          "& .MuiInputBase-root": {
-            height: "30px",
-            borderRadius: "8px",
-          },
-        }}
-      />
-    </FieldWrapper>
-    <ButtonWrapper isCeneter>
-      {state?.action !== DEF_ACTIONS.VIEW && (
-        <ActionWrapper>
-          {saving ? (
-            <AddButton variant="contained" disabled>
-              {state?.action === DEF_ACTIONS.ADD
-                ? "ADDING..."
-                : "UPDATING..."}
-            </AddButton>
-          ) : (
-            <>
-              <AddButton
-                variant="contained"
-                disabled={!enableSave()}
-                onClick={handleFormSubmit}
-              >
-                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+      >
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <AddButton variant="contained" disabled>
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
               </AddButton>
-              <ResetButton onClick={resetForm}>RESET</ResetButton>
-            </>
-          )}
-        </ActionWrapper>
-      )}
-    </ButtonWrapper>
-  </FormWrapper>
-  )
-}
+            ) : (
+              <>
+                <AddButton
+                  variant="contained"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                </AddButton>
+                <ResetButton onClick={resetForm}>RESET</ResetButton>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+        }}
+      >
+        <Grid item lg={2}>
+          <FieldWrapper>
+            <FieldName>Institution Category ID</FieldName>
+            <TextField
+              name="code"
+              id="code"
+              value={formData?.code || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={3}>
+          <FieldWrapper>
+            <FieldName>Description</FieldName>
+            <TextField
+              name="description"
+              id="description"
+              value={formData?.description || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "description")
+              }
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+      </Grid>
+    </FormWrapper>
+  );
+};
 
-export default InstitutionCategoryForm
+export default InstitutionCategoryForm;

@@ -4,6 +4,7 @@ import {
   TextField,
   CircularProgress,
   Autocomplete,
+  Grid,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
@@ -145,73 +146,17 @@ const SoilSubTypeForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
-      <FormHeader>
+      <PathName >{getPathName()}</PathName>
+      <FormHeader >
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} SOIL SUB TYPE
       </FormHeader>
-      <FieldWrapper>
-        <FieldName>Soil Sub Type Code</FieldName>
-        <TextField
-          name="soilSubTypeCode"
-          id="soilSubTypeCode"
-          value={formData?.soilSubTypeCode || ""}
-          fullWidth
-          disabled={
-            state?.action === DEF_ACTIONS.VIEW ||
-            state?.action === DEF_ACTIONS.EDIT
-          }
-          onChange={(e) =>
-            handleChange(e?.target?.value || "", "soilSubTypeCode")
-          }
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Description</FieldName>
-        <TextField
-          name="description"
-          id="description"
-          value={formData?.description || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "description")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Soil Type</FieldName>
-        <Autocomplete
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          options={options}
-          value={formData ? formData.soilTypeDTO : ""}
-          getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
-          onChange={(event, value) => {
-            handleChange(value, "soilTypeDTO");
-          }}
-          sx={{
-            width: 264,
-            "& .MuiOutlinedInput-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => <TextField {...params} size="small" />}
-        />
-      </FieldWrapper>
-      <ButtonWrapper isCenter>
+      <ButtonWrapper isCenter style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -231,6 +176,88 @@ const SoilSubTypeForm = () => {
           </ActionWrapper>
         )}
       </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+          
+        }}
+      >
+        <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Soil Sub Type Code</FieldName>
+        <TextField
+          name="soilSubTypeCode"
+          id="soilSubTypeCode"
+          value={formData?.soilSubTypeCode || ""}
+          fullWidth
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "soilSubTypeCode")
+          }
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={4}>
+      <FieldWrapper>
+        <FieldName>Description</FieldName>
+        <TextField
+          name="description"
+          id="description"
+          value={formData?.description || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Soil Type</FieldName>
+        <Autocomplete
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={options}
+          value={formData ? formData.soilTypeDTO : ""}
+          getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
+          onChange={(event, value) => {
+            handleChange(value, "soilTypeDTO");
+          }}
+          sx={{
+            // width: 264,
+            "& .MuiOutlinedInput-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          renderInput={(params) => <TextField {...params} size="small" />}
+          fullWidth
+        />
+      </FieldWrapper>
+      </Grid>
+      </Grid>
+      
     </FormWrapper>
   );
 };
