@@ -1,11 +1,14 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress } from "@mui/material";
+import { TextField, Button, CircularProgress, Grid } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleProvince, updateProvince } from "../../../redux/actions/province/action";
+import {
+  handleProvince,
+  updateProvince,
+} from "../../../redux/actions/province/action";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -17,7 +20,10 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { PathName } from "../../../components/FormLayout/PathName";
 
-import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../../components/PageLayout/ActionWrapper";
 
 const ProvinceForm = () => {
   useUserAccessValidation();
@@ -108,53 +114,22 @@ const ProvinceForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
+      <ActionWrapper isLeft >
         <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
           Go back to list
         </Button>
       </ActionWrapper>
-      {/* <PathName>{getPathName()}</PathName> */}
-      <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize( state?.action)} Province
+      <PathName >{getPathName()}</PathName>
+      <FormHeader >
+        {saving && <CircularProgress size={20}  />}
+        {makeCapitalize(state?.action)} Province
       </FormHeader>
-      <FieldWrapper>
-        <FieldName>Province Code</FieldName>
-        <TextField
-          name="code"
-          id="code"
-          value={formData?.code || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-          onChange={(e) => handleChange(e?.target?.value || "", "code")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Province Name</FieldName>
-        <TextField
-          name="name"
-          id="name"
-          value={formData?.name || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "name")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <ButtonWrapper isCeneter>
+      <ButtonWrapper style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -178,6 +153,68 @@ const ProvinceForm = () => {
           </ActionWrapper>
         )}
       </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+          marginTop:'0px'
+        }}
+       
+      >
+        <Grid item lg={4}>
+          <FieldWrapper
+           
+          >
+            <FieldName  style={{
+              width: "100%",
+            }}>Province Code</FieldName>
+            <TextField
+              name="code"
+              id="code"
+              value={formData?.code || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={4}>
+          <FieldWrapper>
+            <FieldName>Province Name</FieldName>
+            <TextField
+              name="name"
+              id="name"
+              value={formData?.name || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+      </Grid>
+      
     </FormWrapper>
   );
 };

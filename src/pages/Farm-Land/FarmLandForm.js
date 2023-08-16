@@ -190,7 +190,7 @@ const FarmLandForm = () => {
         overflowY: "scroll",
       }}
     >
-      <div style={{ padding: "0px 18px" }}>
+      <div >
         <ActionWrapper isLeft>
           <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
             Go back to list

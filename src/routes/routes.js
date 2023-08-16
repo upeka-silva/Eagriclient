@@ -731,7 +731,7 @@ export const Routes = [
     name: "Services",
     isSideBar: true,
     icon: WindPowerIcon,
-    element: <FarmLand />,
+    element: <Services />,
   },
   {
     path: "/user-access-log",

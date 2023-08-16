@@ -153,9 +153,9 @@ const Farmer = () => {
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
         >
-          <ActionButton variant="contained" onClick={onCreate}>
-            <AddIcon />
-          </ActionButton>
+          <Button variant="contained" onClick={onCreate}>
+            {DEF_ACTIONS.ADD}
+          </Button>
         </PermissionWrapper>
         {selectedFarmer.length === 1 && (
           <PermissionWrapper
