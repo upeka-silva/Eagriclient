@@ -11,13 +11,14 @@ import { SnackBarProvider } from "../../context/SnackBarContext";
 import SnackBars from "../../components/SnackBar/SnackBars";
 import { useIsUserLoggedIn } from "../../hooks/authentication";
 import { AuthContextProvider } from "../../context/AuthContext";
-
+import {ServiceProvider}  from "../../context/ServiceContext";
 const appTheme = createTheme(theme);
 
 const App = () => {
   const userAuthenticated = useIsUserLoggedIn();
 
   return (
+      <ServiceProvider>
     <AuthContextProvider>
       <ThemeProvider theme={appTheme}>
         <SnackBarProvider>
@@ -43,6 +44,7 @@ const App = () => {
         </SnackBarProvider>
       </ThemeProvider>
     </AuthContextProvider>
+      </ServiceProvider>
   );
 };
 

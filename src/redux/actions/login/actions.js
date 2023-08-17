@@ -19,8 +19,14 @@ export const initiateLogin = async (
 				StorageConstants.compress_token,
 				response.payload.jwtToken
 			);
-			updateAuthContext(jwtToken);
-			onSuccess();
+			const role = updateAuthContext(jwtToken);
+			if(role === "ADMIN"){
+				onSuccess(role);
+			}else {
+				throw response;
+			}
+
+
 		} else {
 			throw response;
 		}

@@ -7,6 +7,7 @@ export const useServiceContext = () => useContext(ServiceContext);
 export const ServiceProvider = ({ children }) => {
   const [service, setService] = useState(() => {
     const storedService = localStorage.getItem("storedService");
+
     return storedService ? JSON.parse(storedService) : null;
   });
 
@@ -14,11 +15,12 @@ export const ServiceProvider = ({ children }) => {
     if (service) {
       localStorage.setItem("storedService", JSON.stringify(service));
     }
+
   }, [service]);
 
   return (
-    <ServiceContext.Provider value={{ service, setService }}>
-      {children}
-    </ServiceContext.Provider>
+      <ServiceContext.Provider value={{ service, setService }}>
+        {children}
+      </ServiceContext.Provider>
   );
 };

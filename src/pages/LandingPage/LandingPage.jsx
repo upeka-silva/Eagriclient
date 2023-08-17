@@ -90,7 +90,7 @@ const LandingPage = () => {
                         <Grid item xs={12} sm={6} md={4} key={index}>
                             <ServiceCard
                                 service={service}
-                                // onClick={() => handleCardClick(product.path)}
+
                             />
                         </Grid>
                     ))}

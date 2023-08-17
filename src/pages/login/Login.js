@@ -54,12 +54,15 @@ const Login = () => {
 
 	const { updateAuthContext } = useAuthContext();
 
-	const onSuccess = () => {
+	const onSuccess = (role) => {
 		addSnackBar({
 			type: SnackBarTypes.success,
 			message: 'Successfully Logged In',
 		});
-		navigate(location.state?.toPath || '/main-dashboard');
+		if(role === "ADMIN"){
+			navigate(location.state?.toPath || '/landing-page');
+		}
+
 	};
 
 	const onError = (message) => {
