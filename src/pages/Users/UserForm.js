@@ -18,6 +18,8 @@ import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
+import RoleList from "./RolesList";
+import ServicesList from "./ServicesList";
 import  CascadingDropdown from "../../components/PageLayout/CascadingDropdown"
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -226,7 +228,6 @@ const UsersForm = () => {
               borderRadius: "8px",
             },
           }}
-          size="small"
         />
       </FieldWrapper>
       </Grid>
@@ -255,7 +256,7 @@ const UsersForm = () => {
       <FieldWrapper>
         <FieldName>Date of Birth</FieldName>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-         
+
             <DatePicker
               name="dob"
               id="dob"
@@ -272,7 +273,7 @@ const UsersForm = () => {
                 },
               }}
             />
-          
+
         </LocalizationProvider>
       </FieldWrapper>
       </Grid>
@@ -427,7 +428,7 @@ const UsersForm = () => {
 
             </Grid>
             <Grid item lg={5}>
-
+                <ServicesList/>
             </Grid>
         </Grid>
     </FormWrapper>
