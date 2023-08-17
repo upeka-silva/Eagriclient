@@ -15,7 +15,7 @@ export const ServiceProvider = ({ children }) => {
     if (service) {
       localStorage.setItem("storedService", JSON.stringify(service));
     }
-
+    console.log(service)
   }, [service]);
 
   return (

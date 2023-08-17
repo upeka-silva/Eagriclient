@@ -12,6 +12,7 @@ import ChartTwo from "./ChartTwo";
 import StatBox from "../../components/DashBoardStatBox/StatBox";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
+import { useServiceContext } from "../../context/ServiceContext";
 
 
 const Dashboard = () => {
