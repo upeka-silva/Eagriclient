@@ -118,7 +118,7 @@ const CascadingDropdown = ({
   return (
     <Grid container spacing={4}>
     
-    <Grid item xs={1}>
+    <Grid item xs={4}>
     <FieldName>
     
       <label htmlFor="countryDropdown">Filter Type</label>

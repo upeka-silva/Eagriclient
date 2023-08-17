@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
-
+import  CascadingDropdown from "../../components/PageLayout/CascadingDropdown"
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
@@ -343,7 +343,7 @@ const UsersForm = () => {
       </Grid>
       <Grid item lg={5}>
       <FieldWrapper>
-        <FieldName>Filter type</FieldName>
+
         {/* <FormControl
           component="fieldset"
           fullWidth
@@ -379,6 +379,57 @@ const UsersForm = () => {
       </FieldWrapper>
       </Grid>
       </Grid>
+        <Grid
+            container
+            sx={{
+                border: "1px solid #bec0c2",
+                margin: "15px",
+                width: "97%",
+                borderRadius: "5px",
+            }}
+        >
+            <Grid item lg={3}>
+                <FieldWrapper>
+
+                    <CascadingDropdown/>
+                </FieldWrapper>
+            </Grid>
+            <Grid item lg={3}>
+
+            </Grid>
+            <Grid item lg={2}>
+
+            </Grid>
+            <Grid item lg={3}>
+
+            </Grid>
+            <Grid item lg={3}>
+
+            </Grid>
+            <Grid item lg={3}>
+
+            </Grid>
+            <Grid item lg={5}>
+
+            </Grid>
+        </Grid>
+        <Grid
+            container
+            sx={{
+                border: "1px solid #bec0c2",
+                margin: "15px",
+                width: "97%",
+                borderRadius: "5px",
+            }}
+        >
+            <Grid item lg={3}>
+<RoleList/>
+
+            </Grid>
+            <Grid item lg={5}>
+
+            </Grid>
+        </Grid>
     </FormWrapper>
   );
 };
