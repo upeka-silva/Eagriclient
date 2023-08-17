@@ -10,6 +10,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  Grid,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -167,159 +168,12 @@ const UsersForm = () => {
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} New User
       </FormHeader>
-      <FieldWrapper>
-        <FieldName>First name</FieldName>
-        <TextField
-          name="firstName"
-          id="firstName"
-          value={formData?.firstName || ""}
-          fullWidth
-          disabled={
-            state?.action === DEF_ACTIONS.VIEW ||
-            state?.action === DEF_ACTIONS.EDIT
-          }
-          onChange={(e) => handleChange(e?.target?.value || "", "firstName")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Last name</FieldName>
-        <TextField
-          name="lastName"
-          id="lastName"
-          value={formData?.lastName || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "lastName")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Date of Birth</FieldName>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={["DatePicker"]}>
-            <DatePicker
-              name="dob"
-              id="dob"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              slotProps={{ textField: { size: "small" } }}
-              value={formData?.dob || ""}
-              onChange={(newValue) => handleChange(newValue || "", "startDate")}
-              in="DD-MM-YYYY"
-              sx={{
-                width: "246px",
-                "& .MuiInputBase-root": {
-                  height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-            />
-          </DemoContainer>
-        </LocalizationProvider>
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Password</FieldName>
-        <TextField
-          name="password"
-          id="password"
-          value={formData?.password || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "password")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Verify password</FieldName>
-        <TextField
-          name="matchingPassword"
-          id="matchingPassword"
-          value={formData?.matchingPassword || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) =>
-            handleChange(e?.target?.value || "", "matchingPassword")
-          }
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Email</FieldName>
-        <TextField
-          name="email"
-          id="email"
-          value={formData?.email || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "email")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Role</FieldName>
-        <FormControl
-          component="fieldset"
-          fullWidth
-          sx={{ width: "264px", borderRadius: "8px" }}
-        >
-          <RadioGroup
-            name="roleDTOs"
-            id="roleDTOs"
-            value={formData.roleDTOs ? formData.roleDTOs[0].id.toString() : ""}
-            onChange={(e) => handleChange(e.target.value, "roleDTOs")}
-          >
-            <FormControlLabel
-              value="1"
-              control={<Radio />}
-              label="SUPER ADMIN"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-            <FormControlLabel
-              value="2"
-              control={<Radio />}
-              label="SYSTEM USER"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-            <FormControlLabel
-              value="3"
-              control={<Radio />}
-              label="ADMIN"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          </RadioGroup>
-        </FormControl>
-      </FieldWrapper>
-      <ButtonWrapper isCeneter>
+      <ButtonWrapper style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -343,6 +197,188 @@ const UsersForm = () => {
           </ActionWrapper>
         )}
       </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+        }}
+      >
+        <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>First name</FieldName>
+        <TextField
+          name="firstName"
+          id="firstName"
+          value={formData?.firstName || ""}
+          fullWidth
+          disabled={
+            state?.action === DEF_ACTIONS.VIEW ||
+            state?.action === DEF_ACTIONS.EDIT
+          }
+          onChange={(e) => handleChange(e?.target?.value || "", "firstName")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Last name</FieldName>
+        <TextField
+          name="lastName"
+          id="lastName"
+          value={formData?.lastName || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "lastName")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={2}>
+      <FieldWrapper>
+        <FieldName>Date of Birth</FieldName>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+         
+            <DatePicker
+              name="dob"
+              id="dob"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              slotProps={{ textField: { size: "small" } }}
+              value={formData?.dob || ""}
+              onChange={(newValue) => handleChange(newValue || "", "startDate")}
+              in="DD-MM-YYYY"
+              sx={{
+                // width: "246px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+            />
+          
+        </LocalizationProvider>
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Password</FieldName>
+        <TextField
+          name="password"
+          id="password"
+          value={formData?.password || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "password")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Verify password</FieldName>
+        <TextField
+          name="matchingPassword"
+          id="matchingPassword"
+          value={formData?.matchingPassword || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) =>
+            handleChange(e?.target?.value || "", "matchingPassword")
+          }
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={3}>
+      <FieldWrapper>
+        <FieldName>Email</FieldName>
+        <TextField
+          name="email"
+          id="email"
+          value={formData?.email || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "email")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size='small'
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={5}>
+      <FieldWrapper>
+        <FieldName>Role</FieldName>
+        {/* <FormControl
+          component="fieldset"
+          fullWidth
+          sx={{ width: "264px", borderRadius: "8px"  }}
+        > */}
+          <RadioGroup
+            name="roleDTOs"
+            id="roleDTOs"
+            value={formData.roleDTOs ? formData.roleDTOs[0].id.toString() : ""}
+            onChange={(e) => handleChange(e.target.value, "roleDTOs")}
+           row
+          >
+            <FormControlLabel
+              value="1"
+              control={<Radio />}
+              label="SUPER ADMIN"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+            <FormControlLabel
+              value="2"
+              control={<Radio />}
+              label="SYSTEM USER"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+            <FormControlLabel
+              value="3"
+              control={<Radio />}
+              label="ADMIN"
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+            />
+          </RadioGroup>
+        {/* </FormControl> */}
+      </FieldWrapper>
+      </Grid>
+      </Grid>
     </FormWrapper>
   );
 };
