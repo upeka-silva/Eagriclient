@@ -1,7 +1,7 @@
 // LandingPage.js
 
-import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useContext,useState, useEffect} from "react";
+import {  useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
@@ -60,43 +60,45 @@ console.log("asdas");
 // };
 
 const LandingPage = () => {
-  const [services, setServices] = useState([]);
+    const [services, setServices] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await get_DataList("app-services");
-        setServices(response.dataList);
-      } catch (error) {
-        console.error("Error fetching services:", error);
-      }
-    }
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await get_DataList("app-services");
+                setServices(response.dataList);
 
-    fetchData();
-  }, []);
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            }
+        }
 
-  return (
-    <ThemeProvider theme={lightTheme}>
-      <CardWrapper>
-        <h1>
-          <strong>Hi Dinidu!</strong>
-        </h1>
-        <Typography variant="h4">
-          PLEASE SELECT AN AGRICULTURAL SERVICE
-        </Typography>
-        <Grid container spacing={4}>
-          {services.map((service, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <ServiceCard
-                service={service}
-                // onClick={() => handleCardClick(product.path)}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </CardWrapper>
-    </ThemeProvider>
-  );
+        fetchData();
+    }, []);
+
+    return (
+        <ThemeProvider theme={lightTheme}>
+            <CardWrapper>
+                <h1>
+                    <strong>Hi Dinidu!</strong>
+                </h1>
+                <Typography variant="h4">
+                    PLEASE SELECT AN AGRICULTURAL SERVICE
+                </Typography>
+                <Grid container spacing={4}>
+                    {services.map((service, index) => (
+                        <Grid item xs={12} sm={6} md={4} key={index}>
+                            <ServiceCard
+                                service={service}
+
+                            />
+                        </Grid>
+                    ))}
+                </Grid>
+            </CardWrapper>
+        </ThemeProvider>
+    );
 };
 
 export default LandingPage;
+

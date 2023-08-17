@@ -343,38 +343,38 @@ const UsersForm = () => {
       </Grid>
       <Grid item lg={5}>
       <FieldWrapper>
-        <FieldName>Role</FieldName>
+        <FieldName>Filter type</FieldName>
         {/* <FormControl
           component="fieldset"
           fullWidth
           sx={{ width: "264px", borderRadius: "8px"  }}
         > */}
-          <RadioGroup
-            name="roleDTOs"
-            id="roleDTOs"
-            value={formData.roleDTOs ? formData.roleDTOs[0].id.toString() : ""}
-            onChange={(e) => handleChange(e.target.value, "roleDTOs")}
-           row
-          >
-            <FormControlLabel
-              value="1"
-              control={<Radio />}
-              label="SUPER ADMIN"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-            <FormControlLabel
-              value="2"
-              control={<Radio />}
-              label="SYSTEM USER"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-            <FormControlLabel
-              value="3"
-              control={<Radio />}
-              label="ADMIN"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-            />
-          </RadioGroup>
+          {/*<RadioGroup*/}
+          {/*  name="roleDTOs"*/}
+          {/*  id="roleDTOs"*/}
+          {/*  value={formData.roleDTOs ? formData.roleDTOs[0].id.toString() : ""}*/}
+          {/*  onChange={(e) => handleChange(e.target.value, "roleDTOs")}*/}
+          {/* row*/}
+          {/*>*/}
+          {/*  <FormControlLabel*/}
+          {/*    value="1"*/}
+          {/*    control={<Radio />}*/}
+          {/*    label="SUPER ADMIN"*/}
+          {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
+          {/*  />*/}
+          {/*  <FormControlLabel*/}
+          {/*    value="2"*/}
+          {/*    control={<Radio />}*/}
+          {/*    label="SYSTEM USER"*/}
+          {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
+          {/*  />*/}
+          {/*  <FormControlLabel*/}
+          {/*    value="3"*/}
+          {/*    control={<Radio />}*/}
+          {/*    label="ADMIN"*/}
+          {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
+          {/*  />*/}
+          {/*</RadioGroup>*/}
         {/* </FormControl> */}
       </FieldWrapper>
       </Grid>
