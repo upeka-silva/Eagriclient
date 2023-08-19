@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import {
-  TextField,
-  Button,
-  CircularProgress,
-  MenuItem,
-  Select,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-  Grid,
+    TextField,
+    Button,
+    CircularProgress,
+    MenuItem,
+    Select,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+    FormControlLabel,
+    Radio,
+    Grid, InputLabel,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -37,6 +37,7 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
 
 const UsersForm = () => {
     const data = {
@@ -194,6 +195,9 @@ const UsersForm = () => {
     const goBack = () => {
     navigate("/users");
   };
+  const [parentLinks, setParentLinks] = useState([]);
+  const [parentFilter, setParentFilter] = useState(null);
+  //const [nextFilter, setNextFilter] = useState(null);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -312,6 +316,15 @@ const UsersForm = () => {
         setSelectRoles([]);
     };
     console.log(selectRoles)
+
+    const handleAdvanceDataChange = (value) => {
+        console.log('sssss ', value);
+
+        const curFilter = data[value];
+        setParentFilter(curFilter);
+        setParentLinks(curFilter.links);
+
+    };
 
     const toggleServicesSelect = (component) => {
         setSelectServices((current = []) => {
@@ -568,7 +581,24 @@ const UsersForm = () => {
             <Grid item lg={3}>
                 <FieldWrapper>
 
-                    <CascadingDropdown data = {data}/>
+                    <FormControl sx={{ minWidth: "200px" }} size="small">
+                        <InputLabel>Filter Types </InputLabel>
+                        <Select
+                            id="dropdown"
+                            onChange={(e) =>
+                                handleAdvanceDataChange(e?.target?.value)
+                            }
+                        >
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value='DSDivision'>DS Division</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {parentFilter != null && (
+                        <FilterTypeFilter data = {data} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
+                    )}
+
+
                 </FieldWrapper>
             </Grid>
             <Grid item lg={3}>
