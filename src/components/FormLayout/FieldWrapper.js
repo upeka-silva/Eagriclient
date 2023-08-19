@@ -5,9 +5,7 @@ export const FieldWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-  /* max-width: 500px; */
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   gap: 0px;
-  padding-inline:15px;
-  
+  padding-inline:10px;  
 `;
