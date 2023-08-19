@@ -109,7 +109,7 @@ import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList
 import GapRegistration from "../pages/Gap/gapReg"
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
-import GapRegistration from "../pages/Gap/gapReg";
+
 
 export const Routes = [
   {
@@ -731,7 +731,7 @@ export const Routes = [
     name: "Services",
     isSideBar: true,
     icon: WindPowerIcon,
-    element: <FarmLand />,
+    element: <Services />,
   },
   {
     path: "/user-access-log",
@@ -794,12 +794,7 @@ export const Routes = [
     isSideBar: true,
     icon: AppRegistrationIcon,
   },
-  {
-    path: "/gap-reg-form1",
-    name: "GAP Regs",
-    element: <GapRegistration/>,
-    isSideBar: false,
-  },
+ 
   {
     path: "/gap-reg-form",
     name: "GAP Regs",

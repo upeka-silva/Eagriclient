@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField, CircularProgress } from "@mui/material";
+import { Button, TextField, CircularProgress, Grid } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -115,48 +115,17 @@ const SoilTypeForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      <PathName>{getPathName()}</PathName>
-      <FormHeader>
+      <PathName >{getPathName()}</PathName>
+      <FormHeader >
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {state?.action} SOIL TYPE
       </FormHeader>
-      <FieldWrapper>
-        <FieldName>Soil Type Code</FieldName>
-        <TextField
-          name="soilTypeCode"
-          id="soilTypeCode"
-          value={formData?.soilTypeCode || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-          onChange={(e) => handleChange(e?.target?.value || "", "soilTypeCode")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Description</FieldName>
-        <TextField
-          name="description"
-          id="description"
-          value={formData?.description || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "description")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}>
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -176,6 +145,63 @@ const SoilTypeForm = () => {
           </ActionWrapper>
         )}
       </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+          
+        }}
+      >
+        <Grid item lg={3}>
+
+        
+      <FieldWrapper>
+        <FieldName>Soil Type Code</FieldName>
+        <TextField
+          name="soilTypeCode"
+          id="soilTypeCode"
+          value={formData?.soilTypeCode || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+          onChange={(e) => handleChange(e?.target?.value || "", "soilTypeCode")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      <Grid item lg={4} >
+      <FieldWrapper>
+        <FieldName>Description</FieldName>
+        <TextField
+          name="description"
+          id="description"
+          value={formData?.description || ""}
+          fullWidth
+          disabled={state?.action === DEF_ACTIONS.VIEW}
+          onChange={(e) => handleChange(e?.target?.value || "", "description")}
+          sx={{
+            // width: "264px",
+            "& .MuiInputBase-root": {
+              // height: "30px",
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
+        />
+      </FieldWrapper>
+      </Grid>
+      </Grid>
+      
+      
     </FormWrapper>
   );
 };

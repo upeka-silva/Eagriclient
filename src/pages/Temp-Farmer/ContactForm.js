@@ -3,7 +3,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import { TextField } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import styled from "styled-components";
 import { Fonts } from "../../utils/constants/Fonts";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -23,6 +23,7 @@ import {
 } from "../../redux/actions/temp-farmer/action";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -101,172 +102,14 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
   };
 
   return (
-    <Dialog open={open} TransitionComponent={Transition} onClose={onClose} style={{}}>
+    <Dialog
+      open={open}
+      TransitionComponent={Transition}
+      onClose={onClose}
+      style={{}}
+    >
       <ContactWrapper>
         <FormHeader>Add New Contact</FormHeader>
-        <TypeWrapper>
-          <FormControl>
-            <FormLabel
-              id="demo-row-radio-buttons-group-label"
-              sx={{
-                "&.MuiFormLabel-root": {
-                  color: "#434343",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                },
-              }}
-            >
-              Contact Type
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              style={{ gap: "10px" }}
-              value={formData?.contactType || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "contactType")
-              }
-            >
-              <FormControlLabel
-                value="PHONE"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "11px",
-                  },
-                }}
-                control={
-                  <Radio
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 15,
-                      },
-                    }}
-                  />
-                }
-                label="Phone"
-              />
-              <FormControlLabel
-                value="EMAIL"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "11px",
-                  },
-                }}
-                control={
-                  <Radio
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 15,
-                      },
-                    }}
-                  />
-                }
-                label="Email"
-              />
-              <FormControlLabel
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "11px",
-                  },
-                }}
-                value="WHATSAPP"
-                control={
-                  <Radio
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 15,
-                      },
-                    }}
-                  />
-                }
-                label="Whatsapp"
-              />
-            </RadioGroup>
-          </FormControl>
-        </TypeWrapper>
-        <FieldName>Value</FieldName>
-        <TextField
-          name="contactValue"
-          id="contactValue"
-          value={formData?.contactValue || ""}
-          fullWidth
-          onChange={(e) => handleChange(e?.target?.value || "", "contactValue")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-              backgroundColor: `${Colors.white}`,
-              fontSize: "11px",
-            },
-          }}
-        />
-        <TypeWrapper style={{ marginTop: "10px" }}>
-          <FormControl>
-            <FormLabel
-              id="demo-row-radio-buttons-group-label"
-              sx={{
-                "&.MuiFormLabel-root": {
-                  color: "#434343",
-                  fontSize: "12px",
-                  fontWeight: 400,
-                },
-              }}
-            >
-              Make this primary contact
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              style={{ gap: "10px" }}
-              value={formData?.isPrimary || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "isPrimary")
-              }
-            >
-              <FormControlLabel
-                value="true"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "11px",
-                  },
-                }}
-                control={
-                  <Radio
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 15,
-                      },
-                    }}
-                  />
-                }
-                label="Yes"
-              />
-              <FormControlLabel
-                value="false"
-                sx={{
-                  "& .MuiFormControlLabel-label": {
-                    fontSize: "11px",
-                  },
-                }}
-                control={
-                  <Radio
-                    sx={{
-                      "& .MuiSvgIcon-root": {
-                        fontSize: 15,
-                      },
-                    }}
-                  />
-                }
-                label="No"
-              />
-            </RadioGroup>
-          </FormControl>
-        </TypeWrapper>
         <ActionWrapper>
           {saving ? (
             <AddButton variant="contained" disabled>
@@ -283,6 +126,187 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
 
           <ResetButton onClick={onClose}>CANCEL</ResetButton>
         </ActionWrapper>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+            paddingTop: "10px",
+          }}
+        >
+          <Grid item lg={12}>
+            <FieldWrapper>
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{
+                  "&.MuiFormLabel-root": {
+                    color: "#434343",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                Contact Type
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.contactType || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "contactType")
+                }
+              >
+                <FormControlLabel
+                  value="PHONE"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Phone"
+                />
+                <FormControlLabel
+                  value="EMAIL"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Email"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="WHATSAPP"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Whatsapp"
+                />
+              </RadioGroup>
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={6} sx={{ marginTop: "-15px" }}>
+            <FieldWrapper>
+              <FieldName>Value</FieldName>
+              <TextField
+                name="contactValue"
+                id="contactValue"
+                value={formData?.contactValue || ""}
+                fullWidth
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "contactValue")
+                }
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                    // fontSize: "11px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={12}>
+            <FieldWrapper>
+              <FormLabel
+                id="demo-row-radio-buttons-group-label"
+                sx={{
+                  "&.MuiFormLabel-root": {
+                    color: "#434343",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                  },
+                }}
+              >
+                Make this primary contact
+              </FormLabel>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.isPrimary || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "isPrimary")
+                }
+              >
+                <FormControlLabel
+                  value="true"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Yes"
+                />
+                <FormControlLabel
+                  value="false"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="No"
+                />
+              </RadioGroup>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
       </ContactWrapper>
     </Dialog>
   );
@@ -294,12 +318,7 @@ export const ContactWrapper = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${Fonts.fontStyle1};
-  background-color: #eeecec;
-  width: 672px;
-  height: 486px;
-  border: 1px solid #000000;
-  border-radius: 13px;
-  padding: 30px;
+  padding: 18px;
 `;
 
 export const TypeWrapper = styled.div`
@@ -332,5 +351,6 @@ export const ActionWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 9px;
-  margin-top: 142px;
+  margin-top: 14px;
+  padding-left: 14px;
 `;

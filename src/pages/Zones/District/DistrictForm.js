@@ -4,6 +4,7 @@ import {
   Button,
   CircularProgress,
   Autocomplete,
+  Grid,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -131,71 +132,19 @@ const DistrictForm = () => {
           Go back to list
         </Button>
       </ActionWrapper>
-      {/* <PathName>{getPathName()}</PathName> */}
-      <FormHeader>
+      <PathName > {getPathName()}</PathName>
+      <FormHeader >
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {makeCapitalize(state?.action)} District
       </FormHeader>
-      <FieldWrapper>
-        <FieldName>District Code</FieldName>
-        <TextField
-          name="code"
-          id="code"
-          value={formData?.code || ""}
-          fullWidth
-          disabled={
-            state?.action === DEF_ACTIONS.VIEW ||
-            state?.action === DEF_ACTIONS.EDIT
-          }
-          onChange={(e) => handleChange(e?.target?.value || "", "code")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>District Name</FieldName>
-        <TextField
-          name="name"
-          id="name"
-          value={formData?.name || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "name")}
-          sx={{
-            width: "264px",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-        />
-      </FieldWrapper>
-      <FieldWrapper>
-        <FieldName>Province</FieldName>
-        <Autocomplete
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          options={options}
-          value={formData ? formData.provinceDTO : ""}
-          getOptionLabel={(i) => `${i.code} - ${i.name}`}
-          onChange={(event, value) => {
-            handleChange(value, "provinceDTO");
-          }}
-          sx={{
-            width: "264px",
-            "& .MuiOutlinedInput-root": {
-              height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          renderInput={(params) => <TextField {...params} size="small" />}
-        />
-      </FieldWrapper>
-      <ButtonWrapper>
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
@@ -219,6 +168,88 @@ const DistrictForm = () => {
           </ActionWrapper>
         )}
       </ButtonWrapper>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+         
+        }}
+      >
+        <Grid item lg={2}>
+          <FieldWrapper>
+            <FieldName>District Code</FieldName>
+            <TextField
+              name="code"
+              id="code"
+              value={formData?.code || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item>
+          <FieldWrapper>
+            <FieldName>District Name</FieldName>
+            <TextField
+              name="name"
+              id="name"
+              value={formData?.name || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={3}>
+          <FieldWrapper>
+            <FieldName>Province</FieldName>
+            <Autocomplete
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={options}
+              value={formData ? formData.provinceDTO : ""}
+              getOptionLabel={(i) => `${i.code} - ${i.name}`}
+              onChange={(event, value) => {
+                handleChange(value, "provinceDTO");
+              }}
+              fullWidth
+              sx={{
+                // width: "264px",
+                "& .MuiOutlinedInput-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size="small" fullWidth />
+              )}
+            />
+          </FieldWrapper>
+        </Grid>
+      </Grid>
+      
     </FormWrapper>
   );
 };
