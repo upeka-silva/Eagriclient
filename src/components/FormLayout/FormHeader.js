@@ -1,12 +1,11 @@
+import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 
-export const FormHeader = styled.p`
-  font-size: 24px;
-  font-weight: 600;
-  flex-direction: column;
-  color: ${Colors.black};
-  margin-top: 4px;
-  margin-bottom: 4px;
-  padding-left: 18px;
+export const FormHeader = styled(Typography)`
+  && {
+    font-size: 20px;
+    color: ${Colors.black};
+    padding: 4px 0px 4px 18px;
+  }
 `;
