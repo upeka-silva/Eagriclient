@@ -1,6 +1,7 @@
 // LandingPage.js
 
 import React, {useContext,useState, useEffect} from "react";
+
 import {  useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -15,6 +16,7 @@ import ServiceCard from "./ServiceCard"; // Import the ServiceCard component
 
 import { Routes } from "../../routes/routes";
 import { get_DataList } from "../../redux/actions/list/list";
+import {CircularProgress, LinearProgress} from "@mui/material";
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   textAlign: "center",
@@ -24,57 +26,52 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const lightTheme = createTheme({ palette: { mode: "light" } });
-console.log("asdas");
-// const productsData = {
-//   products: [
-//     {
-//       name: "GAP SERVICE",
-//       image_source_url: Farmer,
-//       description: "Description of Service 1",
-//       path: "/gap-service",
-//       service: "gap",
-//     },
-//     {
-//       name: "BASIC DATA SERVICE",
-//       image_source_url: Farmer,
-//       description: "Description of Service 1",
-//       path: "/basic-data-service",
-//       service: "basic-data",
-//     },
-//     {
-//       name: "SEED CERTIFICATION",
-//       image_source_url: Farmer,
-//       description: "Description of Service 1",
-//       path: "/seed-certification",
-//       service: "seed-certification",
-//     },
-//     {
-//       name: "SERVICE 4",
-//       image_source_url: Farmer,
-//       description: "Description of Service 1",
-//       path: "/service-4",
-//       service: "service-4",
-//     },
-//     // Add other products here
-//   ],
-// };
 
-const LandingPage = () => {
+const LoaderWrapper = styled("div")`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 20vh;
+`;
+
+const LandingPage = ({ loadingTable = false, loaderType = "circular" }) => {
     const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(loadingTable);
 
     useEffect(() => {
         async function fetchData() {
+            setLoading(true);
             try {
                 const response = await get_DataList("app-services");
                 setServices(response.dataList);
-
             } catch (error) {
                 console.error('Error fetching services:', error);
+            } finally {
+                setLoading(false);
             }
         }
 
         fetchData();
     }, []);
+
+    const renderProgress = () => {
+        switch (loaderType) {
+            case "linear":
+                return (
+                    <div style={{ width: "50%" }}>
+                        <Typography>Loading...</Typography>
+                        <LinearProgress />
+                    </div>
+                );
+            case "circular":
+            default:
+                return <CircularProgress />;
+        }
+    };
+
+    if (loading) {
+        return <LoaderWrapper>{renderProgress()}</LoaderWrapper>;
+    }
 
     return (
         <ThemeProvider theme={lightTheme}>
@@ -88,10 +85,7 @@ const LandingPage = () => {
                 <Grid container spacing={4}>
                     {services.map((service, index) => (
                         <Grid item xs={12} sm={6} md={4} key={index}>
-                            <ServiceCard
-                                service={service}
-
-                            />
+                            <ServiceCard service={service} />
                         </Grid>
                     ))}
                 </Grid>
@@ -101,4 +95,8 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
+
+
+
 

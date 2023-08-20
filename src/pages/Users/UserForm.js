@@ -20,6 +20,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 import RoleList from "./RolesList";
 import ServicesList from "./ServicesList";
+import data from "../../dropdown/drodwnlist"
 import  CascadingDropdown from "../../components/PageLayout/CascadingDropdown"
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -40,138 +41,138 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
 
 const UsersForm = () => {
-    const data = {
-        "province": {
-            "displayName": "Province",
-            "apiCall": true,
-            "links": null
-        },
-        "district": {
-            "displayName": "District",
-            "apiCall": true,
-            "links": null
-        },
-        "AIRegionProvincial": {
-            "displayName": "AI Region",
-            "apiCall": true,
-            "links": [
-                "deputiyDirOfAgriProvincial",
-                "ADASegmantProvincial"
-            ]
-        },
-        "AIRegionInterProvincial": {
-            "displayName": "AI Region",
-            "apiCall": true,
-            "links": [
-                "deputiyDirOfAgriProvincial",
-                "ADASegmantInterProvincial"
-            ]
-        },
-        "GNDivision": {
-            "displayName": "GN Division",
-            "apiCall": true,
-            "links": [
-                "district",
-                "DSDivision"
-            ]
-        },
-        "DSDivision": {
-            "displayName": "DS Division",
-            "apiCall": false,
-            "links": [
-                "district"
-            ]
-        },
-        "ADASegmantProvincial": {
-            "displayName": "ADA Segmant Provincial",
-            "apiCall": false,
-            "links": [
-                "deputiyDirOfAgriProvincial"
-            ]
-        },
-        "ADASegmantInterProvincial": {
-            "displayName": "ADA Segmant Inter Provincial",
-            "apiCall": false,
-            "links": [
-                "deputiyDirOfAgriInterProvincial"
-            ]
-        },
-        "deputiyDirOfAgriProvincial": {
-            "displayName": "Deputiy Director Of Agriculture Provincial",
-            "apiCall": false,
-            "links": null
-        },
-        "deputiyDirOfAgriInterProvincial": {
-            "displayName": "Deputiy Director Of Agriculture Inter Provincial",
-            "apiCall": false,
-            "links": null
-        },
-        "mahaweliUnit": {
-            "displayName": "Mahaweli Unit",
-            "apiCall": false,
-            "links": [
-                "mahaweliSystems",
-                "block"
-            ]
-        },
-        "block": {
-            "displayName": "Block",
-            "apiCall": false,
-            "links": [
-                "mahaweliSystems"
-            ]
-        },
-        "mahaweliSystems": {
-            "displayName": "Mahaweli Systems",
-            "apiCall": false,
-            "links": null
-        },
-        "ARPADivision": {
-            "displayName": "ARPA Division",
-            "apiCall": false,
-            "links": [
-                "districtCommisioner",
-                "ASCDivision",
-            ]
-        },
-        "ASCDivision": {
-            "displayName": "ASC Division",
-            "apiCall": false,
-            "links": [
-                "districtCommisioner"
-            ]
-        },
-        "districtCommisioner": {
-            "displayName": "District Commisioner",
-            "apiCall": false,
-            "links": null
-        },
-        "deptOfAgrarianDevelopment": {
-            "displayName": "Department Of Agrarian Development",
-            "apiCall": false,
-            "links": null
-        },
-        "mahaweliAuthority": {
-            "displayName": "Mahaweli Authority",
-            "apiCall": false,
-            "links": null
-        },
-        "directorDOA": {
-            "displayName": "Director DOA",
-            "apiCall": false,
-            "links": null
-        },
-        "provincialDirectorOfAgri": {
-            "displayName": "Provincial Director Of Agriculture",
-            "apiCall": false,
-            "links": null
-        },
-        "agroEcologicalZones": {
-            "displayName": "Agro Ecological Zones",
-            "apiCall": false,
-            "links": null
-        }
-    }
+    // const data = {
+    //     "province": {
+    //         "displayName": "Province",
+    //         "apiCall": true,
+    //         "links": null
+    //     },
+    //     "district": {
+    //         "displayName": "District",
+    //         "apiCall": true,
+    //         "links": null
+    //     },
+    //     "AIRegionProvincial": {
+    //         "displayName": "AI Region",
+    //         "apiCall": true,
+    //         "links": [
+    //             "deputiyDirOfAgriProvincial",
+    //             "ADASegmantProvincial"
+    //         ]
+    //     },
+    //     "AIRegionInterProvincial": {
+    //         "displayName": "AI Region",
+    //         "apiCall": true,
+    //         "links": [
+    //             "deputiyDirOfAgriProvincial",
+    //             "ADASegmantInterProvincial"
+    //         ]
+    //     },
+    //     "GNDivision": {
+    //         "displayName": "GN Division",
+    //         "apiCall": true,
+    //         "links": [
+    //             "district",
+    //             "DSDivision"
+    //         ]
+    //     },
+    //     "DSDivision": {
+    //         "displayName": "DS Division",
+    //         "apiCall": false,
+    //         "links": [
+    //             "district"
+    //         ]
+    //     },
+    //     "ADASegmantProvincial": {
+    //         "displayName": "ADA Segmant Provincial",
+    //         "apiCall": false,
+    //         "links": [
+    //             "deputiyDirOfAgriProvincial"
+    //         ]
+    //     },
+    //     "ADASegmantInterProvincial": {
+    //         "displayName": "ADA Segmant Inter Provincial",
+    //         "apiCall": false,
+    //         "links": [
+    //             "deputiyDirOfAgriInterProvincial"
+    //         ]
+    //     },
+    //     "deputiyDirOfAgriProvincial": {
+    //         "displayName": "Deputiy Director Of Agriculture Provincial",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "deputiyDirOfAgriInterProvincial": {
+    //         "displayName": "Deputiy Director Of Agriculture Inter Provincial",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "mahaweliUnit": {
+    //         "displayName": "Mahaweli Unit",
+    //         "apiCall": false,
+    //         "links": [
+    //             "mahaweliSystems",
+    //             "block"
+    //         ]
+    //     },
+    //     "block": {
+    //         "displayName": "Block",
+    //         "apiCall": false,
+    //         "links": [
+    //             "mahaweliSystems"
+    //         ]
+    //     },
+    //     "mahaweliSystems": {
+    //         "displayName": "Mahaweli Systems",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "ARPADivision": {
+    //         "displayName": "ARPA Division",
+    //         "apiCall": false,
+    //         "links": [
+    //             "districtCommisioner",
+    //             "ASCDivision",
+    //         ]
+    //     },
+    //     "ASCDivision": {
+    //         "displayName": "ASC Division",
+    //         "apiCall": false,
+    //         "links": [
+    //             "districtCommisioner"
+    //         ]
+    //     },
+    //     "districtCommisioner": {
+    //         "displayName": "District Commisioner",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "deptOfAgrarianDevelopment": {
+    //         "displayName": "Department Of Agrarian Development",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "mahaweliAuthority": {
+    //         "displayName": "Mahaweli Authority",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "directorDOA": {
+    //         "displayName": "Director DOA",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "provincialDirectorOfAgri": {
+    //         "displayName": "Provincial Director Of Agriculture",
+    //         "apiCall": false,
+    //         "links": null
+    //     },
+    //     "agroEcologicalZones": {
+    //         "displayName": "Agro Ecological Zones",
+    //         "apiCall": false,
+    //         "links": null
+    //     }
+    // }
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -581,44 +582,38 @@ const UsersForm = () => {
             <Grid item lg={3}>
                 <FieldWrapper>
 
-                    <FormControl sx={{ minWidth: "200px" }} size="small">
-                        <InputLabel>Filter Types </InputLabel>
+                    <FormControl sx={{display :"flex",justifyContent:"row",minWidth: "200px" }} size="small">
+                        <FieldName>Filter type</FieldName>
                         <Select
+                            sx={{borderRadius :"8px"}}
                             id="dropdown"
                             onChange={(e) =>
                                 handleAdvanceDataChange(e?.target?.value)
                             }
                         >
-                            <MenuItem value={10}>Ten</MenuItem>
-                            <MenuItem value='DSDivision'>DS Division</MenuItem>
-                            <MenuItem value={30}>Thirty</MenuItem>
+                            {Object.keys(data).map((key) => (
+                                <MenuItem key={key} value={key}>
+                                    {data[key].displayName}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
-                    {parentFilter != null && (
-                        <FilterTypeFilter data = {data} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
-                    )}
+
 
 
                 </FieldWrapper>
             </Grid>
-            <Grid item lg={3}>
+            <Grid item lg={1}>
+
+                <FieldWrapper>
+                {parentFilter != null && (
+                    <FilterTypeFilter data = {data} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
+                )}
+                </FieldWrapper>
+
 
             </Grid>
-            <Grid item lg={2}>
 
-            </Grid>
-            <Grid item lg={3}>
-
-            </Grid>
-            <Grid item lg={3}>
-
-            </Grid>
-            <Grid item lg={3}>
-
-            </Grid>
-            <Grid item lg={5}>
-
-            </Grid>
         </Grid>
         <Grid
             container

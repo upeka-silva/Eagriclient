@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FieldName} from "../FormLayout/FieldName";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
-        marginTop: theme.spacing(2), // Adjust the margin value as needed
+      // Adjust the margin value as needed
     },
 }));
 
@@ -56,8 +57,9 @@ const FilterTypeFilter = ({ data, parentLinks, parentFilter, currentLinkIndex })
 
 
                 <FormControl sx={{ minWidth: "200px" }} size="small">
-                    <InputLabel> filter types </InputLabel>
+                    <FieldName>Select {parentLinks}</FieldName>
                     <Select
+                        sx={{borderRadius :"8px"}}
                         id="dropdown"
                         onChange={(e) =>
                             handleAdvanceDataChange(e?.target?.value)
