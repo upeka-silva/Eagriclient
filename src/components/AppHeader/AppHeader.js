@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
 import { Routes } from "../../routes/routes";
-import { Button, IconButton, Popover } from "@mui/material";
+import { Button, IconButton, Popover, Typography } from "@mui/material";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -51,7 +51,7 @@ const AppHeader = () => {
       ) || {};
     if (r.children) {
       screenName =
-        `${r.name} ● ${
+        `${r.name} > ${
           (
             r.children.find(
               (cr) => `${r.path}${cr?.path}` === location.pathname
@@ -97,10 +97,10 @@ const AppHeader = () => {
     <Wrapper className="wrapper">
       <ItemWrapper>
         <AppTitle>
-          {/* <Typography variant="h6">{getCurrentScreenName()}</Typography>
-          <Typography
+          <Typography variant="h8">{getCurrentScreenName()}</Typography>
+          {/* <Typography
             variant="subtitle2"
-            sx={{ color: `${theme.coreColors.primary}` }}
+            // sx={{ color: `${theme.coreColors.primary}` }}
           >
             {getPathName()}
           </Typography> */}

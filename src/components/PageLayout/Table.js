@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
 import styled from "styled-components";
 import {
   Table,
@@ -871,7 +870,7 @@ export const DataTable = ({
               </CollapseContentWrapper>
             </Collapse>
             <Button
-              sx={{ marginLeft: "10px", minHeight: "56px" }}
+              sx={{ marginLeft: "10px", minHeight: "35px" }}
               startIcon={showSearchInput ? <CloseIcon /> : <SearchIcon />}
               onClick={toggleSearchInput}
             >
@@ -906,12 +905,12 @@ export const DataTable = ({
                   >
                     {selectedRows.length > 0 ? (
                       selectedRows.length < rows.length ? (
-                        <IndeterminateCheckBoxIcon sx={{ fontSize: "20px" }} />
+                        <IndeterminateCheckBoxIcon sx={{ fontSize: "16px" }} />
                       ) : (
-                        <CloseIcon sx={{ fontSize: "20px" }} />
+                        <CloseIcon sx={{ fontSize: "16px" }} />
                       )
                     ) : (
-                      <CheckBoxIcon sx={{ mt: "2px", fontSize: "20px" }} />
+                      <CheckBoxIcon sx={{ mt: "2px", fontSize: "16px" }} />
                     )}
                   </IconButton>
                 </ActionToolTip>
@@ -960,7 +959,7 @@ export const DataTable = ({
               selected={
                 (selectedRows || []).findIndex((sr) => sr?.id === r.id) > -1
               }
-              firstChild={key === 0}
+              // firstChild={key === 0}
             >
               {selectable && (
                 <TableCell>
@@ -1150,7 +1149,7 @@ const TableHeaderContainer = styled.div`
 `;
 
 const TableFooterContainer = styled(TableHeaderContainer)`
-  margin: 16px 0px 8px;
+  margin: 10px 0px 8px;
 `;
 
 const InputWrapper = styled.div`
