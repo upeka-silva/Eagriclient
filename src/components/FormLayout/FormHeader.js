@@ -4,8 +4,9 @@ import { Colors } from "../../utils/constants/Colors";
 
 export const FormHeader = styled(Typography)`
   && {
-    font-size: 20px;
+    font-size: 22px;
+    font-weight: 500;
     color: ${Colors.black};
-    padding: 4px 0px 4px 18px;
+    padding: 4px 0px 4px 6px;
   }
 `;
