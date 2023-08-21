@@ -29,7 +29,7 @@ const data = {
         "displayName": "GN Division",
         "apiCall": true,
         "links": [
-            "district",
+            "districts",
             "DSDivision"
         ]
     },
@@ -37,7 +37,7 @@ const data = {
         "displayName": "DS Division",
         "apiCall": false,
         "links": [
-            "district"
+            "districts"
         ]
     },
     "ADASegmantProvincial": {
