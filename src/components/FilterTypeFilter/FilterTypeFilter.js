@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
+import {get_DataList} from "../../redux/actions/list/list";
+import data from "../../dropdown/drodwnlist";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
@@ -9,48 +11,102 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-//const [parentLinks, setParentLinks] = useState([]);
+const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, currentLinkIndex,  }) => {
 
-
-
-const FilterTypeFilter = ({ data, parentLinks, parentFilter, currentLinkIndex }) => {
+    console.log('originalPath  ', originalPath);
+    console.log('parentLinks filter ', parentLinks);
+    console.log('currentLinkIndex ', currentLinkIndex);
+    console.log('data  ', data);
 
     const [nextIndex, setNextIndex] = useState(null);
+    const [currentKeyValuePair, setCurrentKeyValuePair] = useState([]);
     const [isShow, setIsShow] = useState(false);
+    const [apiResponse, setApiResponse] = useState(null);
+    const [finalFilter, setFinalFilter] = useState(null);
+
+
+    const classes = useStyles();
+
+    // check value filter for original parent
+    const isValueFilter = (parentLinks == null) || (parentLinks == []) || (parentLinks.length == currentLinkIndex);
+
+    const filterKey = parentLinks == null ? originalPath : parentLinks[currentLinkIndex];
+
+
+    console.log('filterKey  ', filterKey);
+    console.log('current filter ', data[filterKey]);
+    console.log('isValueFilter ', isValueFilter);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+
+                let response = null;
+                let nameValue = [];
+
+                // API call
+                if (currentLinkIndex == 0) {
+
+                    if (filterKey == 'district') {
+                        response = await get_DataList("geo-data/districts");
+                        setApiResponse(response);
+                        nameValue = convertNameValuePair(response.dataList)
+                        console.log(response);
+                    } else if (filterKey == 'province') {
+                        response = await get_DataList("geo-data/provinces");
+                        setApiResponse(response);
+                        nameValue = convertNameValuePair(response.dataList)
+                        console.log(response);
+                    }
+
+                    setCurrentKeyValuePair(nameValue);
+
+                    return;
+                }
+
+                // Data filtering without API
+                if (currentLinkIndex > 0) {
+
+                }
+
+
+            } catch (error) {
+                console.error('Error fetching services:', error);
+            }
+        }
+
+        fetchData();
+    }, []);
+
+    const convertNameValuePair = (data) => {
+        const nameValue = [];
+        for (const obj of data) {
+            const newobj = {
+                id: obj.id,
+                name: obj.name
+            }
+            nameValue.push(newobj);
+        }
+        return nameValue;
+    }
+
 
     const handleAdvanceDataChange = (value) => {
-        console.log('cccc ', value);
+        setFinalFilter(value);
+        if (parentLinks == null) {
+            console.log('first level val ', value);
+            return;
+        }
 
         const nextIndex = currentLinkIndex + 1;
         if (nextIndex > parentLinks.length) {
             setIsShow(false);
         } else {
-            console.log('nextIndex ', nextIndex);
-            console.log('parentLinks.length ', parentLinks.length);
             setNextIndex(nextIndex);
             setIsShow(true);
         }
-
-        //const currentFilter = data[parentLinks[nextIndex]]
     };
 
-
-    //const [isValueFilter, setIsValueFilter] = useState(false);
-    const classes = useStyles();
-
-    // check value filter for original parent
-    const isValueFilter = (parentLinks == null) || (parentLinks == []) || (parentLinks.length == currentLinkIndex);
-    //setIsValueFilter(val);
-    const filterKey = parentLinks[currentLinkIndex];
-
-    console.log('parentLinks filter ', parentLinks);
-    console.log('currentLinkIndex ', currentLinkIndex);
-    console.log('current filter ', data[filterKey]);
-    console.log('isValueFilter ', isValueFilter);
-   // console.log('current filter ', currentFilter);
-/*    console.log('nextFilter  ', nextFilter);
-    console.log('isValueFilter  ', isValueFilter);
-    console.log('nextIndex  ', nextIndex);*/
 
     return (
         <div className={classes.dropdownContainer}>
@@ -65,9 +121,11 @@ const FilterTypeFilter = ({ data, parentLinks, parentFilter, currentLinkIndex })
                             handleAdvanceDataChange(e?.target?.value)
                         }
                     >
-                        <MenuItem value={10}>district 1</MenuItem>
-                        <MenuItem value='abc'>district 2</MenuItem>
-                        <MenuItem value={30}>district 3</MenuItem>
+                        {currentKeyValuePair.map((key) => (
+                            <MenuItem key={key.id} value={key.id}>
+                                {key.name}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
 
@@ -77,7 +135,7 @@ const FilterTypeFilter = ({ data, parentLinks, parentFilter, currentLinkIndex })
             {isShow && (
                 <>
                     <p>next filter</p>
-                    {<FilterTypeFilter data = {data} parentLinks={parentLinks} currentLinkIndex={nextIndex} />}
+                    {<FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} currentLinkIndex={nextIndex} />}
                 </>
 
             )}

@@ -198,7 +198,7 @@ const UsersForm = () => {
   };
   const [parentLinks, setParentLinks] = useState([]);
   const [parentFilter, setParentFilter] = useState(null);
-  //const [nextFilter, setNextFilter] = useState(null);
+  const [originalPath, setOriginalPath] = useState(null);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -320,7 +320,7 @@ const UsersForm = () => {
 
     const handleAdvanceDataChange = (value) => {
         console.log('sssss ', value);
-
+        setOriginalPath(value);
         const curFilter = data[value];
         setParentFilter(curFilter);
         setParentLinks(curFilter.links);
@@ -607,7 +607,7 @@ const UsersForm = () => {
 
                 <FieldWrapper>
                 {parentFilter != null && (
-                    <FilterTypeFilter data = {data} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
+                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
                 )}
                 </FieldWrapper>
 
