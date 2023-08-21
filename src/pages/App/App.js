@@ -12,6 +12,7 @@ import SnackBars from "../../components/SnackBar/SnackBars";
 import { useIsUserLoggedIn } from "../../hooks/authentication";
 import { AuthContextProvider } from "../../context/AuthContext";
 
+
 const appTheme = createTheme(theme);
 
 const App = () => {
