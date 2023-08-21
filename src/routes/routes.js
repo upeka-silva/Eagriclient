@@ -95,6 +95,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import YardIcon from "@mui/icons-material/Yard";
+import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
@@ -109,6 +110,7 @@ import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList
 import GapRegistration from "../pages/Gap/gapReg"
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
+import Map from "../pages/Map/Map";
 
 
 export const Routes = [
@@ -800,5 +802,12 @@ export const Routes = [
     name: "GAP Regs",
     element: <GapRegForm/>,
     isSideBar: false,
+  },
+  {
+    path: "/map",
+    name: "Map",
+    element: <Map/>,
+    isSideBar: true,
+    icon: AddLocationAltIcon,
   },
 ];
