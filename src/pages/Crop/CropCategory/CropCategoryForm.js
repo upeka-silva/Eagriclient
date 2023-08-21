@@ -3,36 +3,33 @@ import {
   Button,
   TextField,
   CircularProgress,
-  Autocomplete,
   Grid,
+  ButtonGroup,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
-  DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../../components/PageLayout/ActionWrapper";
 import {
   handleCropCategory,
   updateCropCategory,
 } from "../../../redux/actions/crop/cropCategory/action";
-import { PathName } from "../../../components/FormLayout/PathName";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const CropCategoryForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -108,63 +105,53 @@ const CropCategoryForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
-    <div>
+    <>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to list
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack}>
+            Back to List
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} CROP CATEGORY
+          {makeCapitalize(state?.action)} Crop Category
         </FormHeader>
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
+
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
         >
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
+                  <Button
                     variant="contained"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
                   >
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  </Button>
+                  <Button onClick={resetForm}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
           )}
-        </ButtonWrapper>
+        </ButtonGroup>
         <Grid
           container
           sx={{
-            border: "1px solid #bec0c2",
-            margin: "15px",
             width: "97%",
-            borderRadius: "5px",
           }}
         >
           <Grid item lg={3}>
@@ -183,19 +170,17 @@ const CropCategoryForm = () => {
                   handleChange(e?.target?.value || "", "categoryId")
                 }
                 sx={{
-                //   width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
-				size="small"
+                size="small"
               />
             </FieldWrapper>
           </Grid>
-          <Grid>
+          <Grid item lg={6}>
             <FieldWrapper>
-              <FieldName>Category Description</FieldName>
+              <FieldName>Description</FieldName>
               <TextField
                 name="name"
                 id="name"
@@ -206,19 +191,17 @@ const CropCategoryForm = () => {
                   handleChange(e?.target?.value || "", "description")
                 }
                 sx={{
-                //   width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
-				size="small"
+                size="small"
               />
             </FieldWrapper>
           </Grid>
         </Grid>
       </FormWrapper>
-    </div>
+    </>
   );
 };
 

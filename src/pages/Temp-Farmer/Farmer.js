@@ -93,13 +93,11 @@ const Farmer = () => {
         <Grid
           container
           sx={{
-            border: "1px solid #bec0c2",
             margin: "15px",
             width: "97%",
-            borderRadius: "5px",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item lg={3} sm={6} sx={12}>
             <FieldWrapper>
               <FieldName>First Name</FieldName>
               <TextField
@@ -124,7 +122,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item lg={3} sm={6} sx={12}>
             <FieldWrapper>
               <FieldName>Last Name</FieldName>
               <TextField
@@ -149,7 +147,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item lg={3} sm={6} sx={12}>
             <FieldWrapper>
               <FieldName>NIC Number</FieldName>
               <TextField
@@ -172,7 +170,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item lg={3} sm={6} sx={12}>
             <FieldWrapper>
               <FieldName>Middle Name</FieldName>
               <TextField
@@ -219,7 +217,14 @@ const Farmer = () => {
               </LocalizationProvider>
             </FieldWrapper>
           </Grid>
-          <Grid item>
+          <Grid
+            item
+            sx={{
+              border: "1px solid #000000",
+              borderRadius: "13px",
+              marginX: "15px",
+            }}
+          >
             <FieldWrapper>
               <FieldName> Gender</FieldName>
               <RadioGroup
@@ -288,7 +293,13 @@ const Farmer = () => {
               </RadioGroup>
             </FieldWrapper>
           </Grid>
-          <Grid item>
+          <Grid
+            item
+            sx={{
+              border: "1px solid #000000",
+              borderRadius: "13px",
+            }}
+          >
             <FieldWrapper>
               <FieldName> Preferred Language</FieldName>
               <RadioGroup
@@ -359,201 +370,198 @@ const Farmer = () => {
               </RadioGroup>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Address 1</FieldName>
-              <TextField
-                name="address1"
-                id="address1"
-                value={formData?.address1 || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "address1")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
+        </Grid>
+
+        <Grid container sx={{ margin: "15px", width: "97%"}}>
+          <Grid
+            container
+            lg={6}
+            sm={6}
+            sx={{
+              border: "1px solid #000000",
+              borderRadius: "13px",
+            }}
+          >
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Address 1</FieldName>
+                <TextField
+                  name="address1"
+                  id="address1"
+                  value={formData?.address1 || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "address1")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Address 2</FieldName>
+                <TextField
+                  name="address2"
+                  id="address2"
+                  value={formData?.address2 || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "address2")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>City</FieldName>
+                <TextField
+                  name="city"
+                  id="city"
+                  value={formData?.city || ""}
+                  fullWidth
+                  onChange={(e) => handleChange(e?.target?.value || "", "city")}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Postal Code</FieldName>
+                <TextField
+                  name="postalCode"
+                  id="postalCode"
+                  value={formData?.postalCode || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "postalCode")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Country</FieldName>
+                <TextField
+                  name="country"
+                  id="country"
+                  value={formData?.country || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "country")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Address 2</FieldName>
-              <TextField
-                name="address2"
-                id="address2"
-                value={formData?.address2 || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "address2")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>City</FieldName>
-              <TextField
-                name="city"
-                id="city"
-                value={formData?.city || ""}
-                fullWidth
-                onChange={(e) => handleChange(e?.target?.value || "", "city")}
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
-            <FieldWrapper>
-              <FieldName>Postal Code</FieldName>
-              <TextField
-                name="postalCode"
-                id="postalCode"
-                value={formData?.postalCode || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "postalCode")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Country</FieldName>
-              <TextField
-                name="country"
-                id="country"
-                value={formData?.country || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "country")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>User Name</FieldName>
-              <TextField
-                name="userName"
-                id="userName"
-                value={formData?.userName || ""}
-                fullWidth
-                placeholder="Enter a user name"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "userName")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
-            <FieldWrapper>
-              <FieldName>Password</FieldName>
-              <TextField
-                name="password"
-                id="password"
-                value={formData?.password || ""}
-                fullWidth
-                placeholder="At least 6 characters"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "password")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
-            <FieldWrapper>
-              <FieldName>Verify Password</FieldName>
-              <TextField
-                name="verifyPassword"
-                id="verifyPassword"
-                value={formData?.verifyPassword || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "verifyPassword")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
+          <Grid
+            container
+            lg={6}
+            sm={6}
+            sx={{
+              border: "1px solid #000000",
+              borderRadius: "13px",
+            }}
+          >
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>User Name</FieldName>
+                <TextField
+                  name="userName"
+                  id="userName"
+                  value={formData?.userName || ""}
+                  fullWidth
+                  placeholder="Enter a user name"
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "userName")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Password</FieldName>
+                <TextField
+                  name="password"
+                  id="password"
+                  value={formData?.password || ""}
+                  fullWidth
+                  placeholder="At least 6 characters"
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "password")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>Verify Password</FieldName>
+                <TextField
+                  name="verifyPassword"
+                  id="verifyPassword"
+                  value={formData?.verifyPassword || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "verifyPassword")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Grid>
-        
-        
 
         <Divider style={{ marginTop: "20px" }} />
         <ContactWrapper>

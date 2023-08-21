@@ -276,7 +276,7 @@ const SideBar = () => {
       {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
           <Toolbar>
-            <Typography variant="h6">{selectedSubRoute?.name || ""}</Typography>
+            <Typography variant="h7">{selectedSubRoute?.name || ""}</Typography>
           </Toolbar>
           <Divider />
           <List component="nav">{renderSubRoutes()}</List>

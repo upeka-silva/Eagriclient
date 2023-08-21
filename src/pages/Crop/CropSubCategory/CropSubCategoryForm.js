@@ -203,9 +203,7 @@ const CropSubCategoryForm = () => {
             }
             onChange={(e) => handleChange(e?.target?.value || "", "code")}
             sx={{
-              // width: "264px",
               "& .MuiInputBase-root": {
-                // height: "30px",
                 borderRadius: "8px",
               },
             }}
@@ -213,7 +211,7 @@ const CropSubCategoryForm = () => {
           />
         </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item lg={4}>
         <FieldWrapper>
           <FieldName>Sub Category Name</FieldName>
           <TextField
@@ -224,9 +222,7 @@ const CropSubCategoryForm = () => {
             disabled={state?.action === DEF_ACTIONS.VIEW}
             onChange={(e) => handleChange(e?.target?.value || "", "name")}
             sx={{
-              // width: "264px",
               "& .MuiInputBase-root": {
-                // height: "30px",
                 borderRadius: "8px",
               },
             }}
@@ -234,7 +230,7 @@ const CropSubCategoryForm = () => {
           />
         </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item lg={4}>
         <FieldWrapper>
           <FieldName>Category ID</FieldName>
           <Autocomplete
@@ -246,9 +242,7 @@ const CropSubCategoryForm = () => {
               handleChange(value, "cropCategoryDTO");
             }}
             sx={{
-              // width: "264px",
               "& .MuiOutlinedInput-root": {
-                // height: "30px",
                 borderRadius: "8px",
               },
             }}

@@ -1,9 +1,11 @@
+import Typography from "@mui/material/Typography";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 
-export const PathName = styled.p`
-  color: ${Colors.formButton};
-  font-weight: 400;
-  font-size: 12px;
-  padding-left: 18px;
+export const PathName = styled(Typography)`
+  && {
+    font-size: 12px;
+    color: ${Colors.formButton};
+    padding-left: 18px;
+  }
 `;
