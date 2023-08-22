@@ -348,7 +348,6 @@ const UsersForm = () => {
         setSelectServices([]);
     };
     console.log(selectServices)
-    debugger;
   return (
     <FormWrapper>
       <ActionWrapper isLeft>
@@ -608,7 +607,7 @@ const UsersForm = () => {
 
                 <FieldWrapper>
                 {parentFilter != null && (
-                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
+                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} apiResponse={null} curSelectedVal={null} nextResponse={null}/>
                 )}
                 </FieldWrapper>
 

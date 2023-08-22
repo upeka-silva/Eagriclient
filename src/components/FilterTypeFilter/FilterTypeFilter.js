@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
 import {get_DataList} from "../../redux/actions/list/list";
@@ -7,23 +7,28 @@ import data from "../../dropdown/drodwnlist";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
-      // Adjust the margin value as needed
+        // Adjust the margin value as needed
     },
 }));
 
-const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, currentLinkIndex,  }) => {
-
-    console.log('originalPath  ', originalPath);
-    console.log('parentLinks filter ', parentLinks);
-    console.log('currentLinkIndex ', currentLinkIndex);
-    console.log('data  ', data);
+const FilterTypeFilter = ({
+                              data,
+                              originalPath,
+                              parentLinks,
+                              parentFilter,
+                              currentLinkIndex,
+                              apiResponse,
+                              curSelectedVal,
+                              nextResponse
+                          }) => {
 
     const [nextIndex, setNextIndex] = useState(null);
     const [currentKeyValuePair, setCurrentKeyValuePair] = useState([]);
     const [isShow, setIsShow] = useState(false);
-    const [apiResponse, setApiResponse] = useState(null);
+    const [apiResponseData, setApiResponseData] = useState(apiResponse);
+    const [nextResponseData, setNextResponseData] = useState(null);
     const [finalFilter, setFinalFilter] = useState(null);
-
+    const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
 
     const classes = useStyles();
 
@@ -32,12 +37,8 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
 
     const filterKey = parentLinks == null ? originalPath : parentLinks[currentLinkIndex];
 
-
-    console.log('filterKey  ', filterKey);
-    console.log('current filter ', data[filterKey]);
-    console.log('isValueFilter ', isValueFilter);
-
     useEffect(() => {
+
         async function fetchData() {
             try {
 
@@ -45,42 +46,44 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
                 let nameValue = [];
 
                 // API call
-                // if (currentLinkIndex == 0) {
-                //
-                //     if (filterKey == 'district') {
-                //         response = await get_DataList("geo-data/districts");
-                //         setApiResponse(response);
-                //         nameValue = convertNameValuePair(response.dataList)
-                //         console.log(response);
-                //     } else if (filterKey == 'province') {
-                //         response = await get_DataList("geo-data/provinces");
-                //         setApiResponse(response);
-                //         nameValue = convertNameValuePair(response.dataList)
-                //         console.log(response);
-                //     }
-                //
-                //     setCurrentKeyValuePair(nameValue);
-                //
-                //     return;
-                // }
                 if (currentLinkIndex == 0) {
 
-
-                        response = await get_DataList(`geo-data/${filterKey}`);
-                        setApiResponse(response);
+                    if (filterKey == 'district') {
+                        response = await get_DataList("geo-data/districts");
+                        setApiResponseData(response.dataList);
                         nameValue = convertNameValuePair(response.dataList)
-                        console.log(response);
+                    } else if (filterKey == 'province') {
+                        response = await get_DataList("geo-data/provinces");
+                        setApiResponseData(response.dataList);
+                        nameValue = convertNameValuePair(response.dataList)
+                    } else if (filterKey == 'deputiyDirOfAgriProvincial') {
 
+                    } else if (filterKey == 'deputiyDirOfAgriInterProvincial') {
+
+                    } else if (filterKey == 'mahaweliSystems') {
+
+                    } else if (filterKey == 'districtCommisioner') {
+
+                    } else if (filterKey == 'deptOfAgrarianDevelopment') {
+
+                    } else if (filterKey == 'mahaweliAuthority') {
+
+                    } else if (filterKey == 'directorDOA') {
+
+                    } else if (filterKey == 'provincialDirectorOfAgri') {
+
+                    } else if (filterKey == 'agroEcologicalZones') {
+
+                    }
 
                     setCurrentKeyValuePair(nameValue);
 
                     return;
                 }
-                // Data filtering without API
+
                 if (currentLinkIndex > 0) {
-
+                    filterData();
                 }
-
 
             } catch (error) {
                 console.error('Error fetching services:', error);
@@ -90,7 +93,30 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
         fetchData();
     }, []);
 
-    const convertNameValuePair = (data) => {
+    const filterData = () => {
+        // Data filtering without API
+        let nameValue = [];
+        if (apiResponse) {
+
+            const filt = apiResponse.filter((d) =>
+                                                d.id == curSelectedValData
+            );
+
+            const fk = parentLinks[currentLinkIndex - 1];
+
+            if (filt && filt[0]) {
+                if (fk == 'district') {
+                    nameValue = convertNameValuePair(filt[0].dsDivisionDTOList);
+                } else if (fk == 'DSDivision') {
+                    nameValue = convertNameValuePair(filt[0].dsDivisionDTOList[0].gnDivisionDTOList);
+                }
+                setCurrentKeyValuePair(nameValue);
+            }
+        }
+
+    }
+
+    const convertNameValuePair = (data, isKey = null) => {
         const nameValue = [];
         for (const obj of data) {
             const newobj = {
@@ -102,11 +128,15 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
         return nameValue;
     }
 
-
     const handleAdvanceDataChange = (value) => {
-        setFinalFilter(value);
+        setIsShow(false);
+
+        if (isValueFilter) {
+            setFinalFilter(value);
+        }
+        setCurSelectedValData(value);
+
         if (parentLinks == null) {
-            console.log('first level val ', value);
             return;
         }
 
@@ -119,35 +149,34 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
         }
     };
 
-
     return (
         <div className={classes.dropdownContainer}>
 
 
-                <FormControl sx={{ minWidth: "200px" }} size="small">
-                    <FieldName>Select {filterKey}</FieldName>
-                    <Select
-                        sx={{borderRadius :"8px"}}
-                        id="dropdown"
-                        onChange={(e) =>
-                            handleAdvanceDataChange(e?.target?.value)
-                        }
-                    >
-                        {currentKeyValuePair.map((key) => (
-                            <MenuItem key={key.id} value={key.id}>
-                                {key.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-
-
+            <FormControl sx={{minWidth: "200px"}} size="small">
+                <FieldName>Select {filterKey}</FieldName>
+                <Select
+                    sx={{borderRadius: "8px"}}
+                    id="dropdown"
+                    onChange={(e) =>
+                        handleAdvanceDataChange(e?.target?.value)
+                    }
+                >
+                    {currentKeyValuePair.map((key) => (
+                        <MenuItem key={key.id} value={key.id}>
+                            {key.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
 
 
             {isShow && (
                 <>
                     <p>next filter</p>
-                    {<FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} currentLinkIndex={nextIndex} />}
+                    {<FilterTypeFilter data={data} originalPath={originalPath} parentLinks={parentLinks}
+                                       currentLinkIndex={nextIndex} apiResponse={apiResponseData}
+                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData}/>}
                 </>
 
             )}
