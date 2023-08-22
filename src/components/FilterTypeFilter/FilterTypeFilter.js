@@ -45,37 +45,25 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
                 let nameValue = [];
 
                 // API call
-                // if (currentLinkIndex == 0) {
-                //
-                //     if (filterKey == 'district') {
-                //         response = await get_DataList("geo-data/districts");
-                //         setApiResponse(response);
-                //         nameValue = convertNameValuePair(response.dataList)
-                //         console.log(response);
-                //     } else if (filterKey == 'province') {
-                //         response = await get_DataList("geo-data/provinces");
-                //         setApiResponse(response);
-                //         nameValue = convertNameValuePair(response.dataList)
-                //         console.log(response);
-                //     }
-                //
-                //     setCurrentKeyValuePair(nameValue);
-                //
-                //     return;
-                // }
                 if (currentLinkIndex == 0) {
 
-
-                        response = await get_DataList(`geo-data/${filterKey}`);
+                    if (filterKey == 'district') {
+                        response = await get_DataList("geo-data/districts");
                         setApiResponse(response);
                         nameValue = convertNameValuePair(response.dataList)
                         console.log(response);
-
+                    } else if (filterKey == 'province') {
+                        response = await get_DataList("geo-data/provinces");
+                        setApiResponse(response);
+                        nameValue = convertNameValuePair(response.dataList)
+                        console.log(response);
+                    }
 
                     setCurrentKeyValuePair(nameValue);
 
                     return;
                 }
+
                 // Data filtering without API
                 if (currentLinkIndex > 0) {
 
@@ -125,7 +113,7 @@ const FilterTypeFilter = ({ data, originalPath, parentLinks, parentFilter, curre
 
 
                 <FormControl sx={{ minWidth: "200px" }} size="small">
-                    <FieldName>Select {filterKey}</FieldName>
+                    <FieldName>Select {parentLinks}</FieldName>
                     <Select
                         sx={{borderRadius :"8px"}}
                         id="dropdown"

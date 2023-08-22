@@ -348,7 +348,6 @@ const UsersForm = () => {
         setSelectServices([]);
     };
     console.log(selectServices)
-    debugger;
   return (
     <FormWrapper>
       <ActionWrapper isLeft>
