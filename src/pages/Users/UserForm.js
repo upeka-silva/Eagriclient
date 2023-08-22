@@ -328,6 +328,7 @@ const UsersForm = () => {
         setView(!view);
         setIsview(true);
 
+
     };
 
     const toggleServicesSelect = (component) => {
@@ -342,7 +343,12 @@ const UsersForm = () => {
             return newList;
         });
     };
-
+const reset = ()=>{
+    setOriginalPath(null)
+    setParentFilter(null)
+    setParentLinks(null)
+    setView(!view);
+}
     const selectAllServices = (all = []) => {
         setSelectServices(all);
     };
@@ -607,7 +613,7 @@ const UsersForm = () => {
                 </FieldWrapper>
                 {isview &&
                 <FieldWrapper>
-                    <ResetButton  sx={{marginTop:"5px" }}  >RESET</ResetButton>
+                    <ResetButton  onClick={reset} sx={{marginTop:"5px" }}  >RESET</ResetButton>
 
                 </FieldWrapper>
 
