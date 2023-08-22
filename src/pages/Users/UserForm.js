@@ -199,7 +199,8 @@ const UsersForm = () => {
   const [parentLinks, setParentLinks] = useState([]);
   const [parentFilter, setParentFilter] = useState(null);
   const [originalPath, setOriginalPath] = useState(null);
-
+ const [view,setView] = useState(false)
+    const [isview,setIsview] = useState(false);
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -324,6 +325,8 @@ const UsersForm = () => {
         const curFilter = data[value];
         setParentFilter(curFilter);
         setParentLinks(curFilter.links);
+        setView(!view);
+        setIsview(true);
 
     };
 
@@ -582,7 +585,7 @@ const UsersForm = () => {
             <Grid item lg={3}>
                 <FieldWrapper>
 
-                    <FormControl sx={{display :"flex",justifyContent:"row",minWidth: "200px" }} size="small">
+                    <FormControl disabled={view} sx={{display :"flex",justifyContent:"row",minWidth: "200px" }} size="small">
                         <FieldName>Filter type</FieldName>
                         <Select
                             sx={{borderRadius :"8px"}}
@@ -602,12 +605,21 @@ const UsersForm = () => {
 
 
                 </FieldWrapper>
+                {isview &&
+                <FieldWrapper>
+                    <ResetButton  sx={{marginTop:"5px" }}  >RESET</ResetButton>
+
+                </FieldWrapper>
+
+                }
+
             </Grid>
+
             <Grid item lg={1}>
 
                 <FieldWrapper>
                 {parentFilter != null && (
-                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} />
+                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} apiResponse={null} curSelectedVal={null} nextResponse={null}/>
                 )}
                 </FieldWrapper>
 
