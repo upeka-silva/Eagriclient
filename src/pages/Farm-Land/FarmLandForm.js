@@ -24,7 +24,7 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { ActionWrapper , makeCapitalize, } from "../../components/PageLayout/ActionWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PathName } from "../../components/FormLayout/PathName";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -39,6 +39,8 @@ import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FarmLandLocation from "./FarmLandLocation";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -195,14 +197,14 @@ const FarmLandForm = () => {
     >
       <Box>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} FARM LAND
+          {makeCapitalize(state?.action)} Farm Land
         </FormHeader>
       </Box>
 
@@ -215,23 +217,24 @@ const FarmLandForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton variant="outlined" onClick={resetForm}>
-                    RESET
-                  </ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
@@ -604,39 +607,59 @@ const FarmLandForm = () => {
           className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}
         >
-          Farm Land Ownership
+          Land Location
         </TabButton>
         <TabButton
           variant="contained"
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
+          Farm Land Ownership
+        </TabButton>
+        <TabButton
+          variant="contained"
+          className={toggleState === 3 ? "active-tabs" : ""}
+          onClick={() => toggleTab(3)}
+        >
           Soil Type Per Land
         </TabButton>
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
+        <Box >
+          <Grid container>
+            <Grid item lg={8}>
+            <FarmLandLocation/>
+            </Grid>
+
+          </Grid>
+          
+        </Box>
+      </TabContent>
+
+      <TabContent className={toggleState === 2 ? "active-content" : ""}>
         <ButtonWrapper>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton variant="outlined" onClick={resetForm}>
-                    RESET
-                  </ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
@@ -924,23 +947,24 @@ const FarmLandForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton variant="outlined" onClick={resetForm}>
-                    RESET
-                  </ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
@@ -1024,7 +1048,8 @@ export default FarmLandForm;
 export const TabWrapper = styled(Stack)`
   && {
     flex-direction: row;
-    margin: 40px 0px;
+    margin: 20px 0px;
+   
   }
 `;
 
@@ -1035,8 +1060,8 @@ export const TabButton = styled(Button)`
     position: relative;
     border: none;
     border-radius: 0px;
-    background-color: ${Colors.iconColor};
-    color: black;
+    background-color: ${Colors.tableHeaderColor};
+    color: white;
     line-height: 0px;
     box-shadow: none;
     cursor: pointer;
@@ -1049,6 +1074,7 @@ export const TabButton = styled(Button)`
     }
     &.active-tabs {
       background: white;
+      color: black;
     }
 
     &.active-tabs::before {
@@ -1060,7 +1086,7 @@ export const TabButton = styled(Button)`
       transform: translateX(-50%);
       width: 100%;
       height: 5px;
-      background: #1976d2;
+      background: ${Colors.tableHeaderColor};
     }
   }
 `;
