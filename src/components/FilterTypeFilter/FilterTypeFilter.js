@@ -154,7 +154,7 @@ const FilterTypeFilter = ({
         <div className={classes.dropdownContainer}>
 
 
-            <FormControl disabled={view} sx={{minWidth: "200px"}} size="small">
+            <FormControl disabled={view} sx={{minWidth: "264px"}} size="small">
                 <FieldName>Select {data[filterKey].displayName}</FieldName>
                 <Select
                     sx={{borderRadius: "8px"}}

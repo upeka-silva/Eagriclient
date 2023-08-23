@@ -344,9 +344,10 @@ const UsersForm = () => {
         });
     };
 const reset = ()=>{
-    setOriginalPath(null)
+
+
     setParentFilter(null)
-    setParentLinks(null)
+
     setView(!view);
 }
     const selectAllServices = (all = []) => {
@@ -591,7 +592,7 @@ const reset = ()=>{
             <Grid item lg={3}>
                 <FieldWrapper>
 
-                    <FormControl disabled={view} sx={{display :"flex",justifyContent:"row",minWidth: "200px" }} size="small">
+                    <FormControl disabled={view} sx={{display :"flex",justifyContent:"row",minWidth: "264px" }} size="small">
                         <FieldName>Filter type</FieldName>
                         <Select
                             sx={{borderRadius :"8px"}}
