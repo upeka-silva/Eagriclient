@@ -36,6 +36,8 @@ import {
   SaveAltOutlined,
   Vrpano,
 } from "@mui/icons-material";
+import theme from "../../../utils/theme/theme.json";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -156,7 +158,7 @@ const CropCategory = () => {
 
   return (
     <div style={{ marginRight: "10px" }}>
-      <Typography variant="h5" fontWeight={600} mt={2}>
+      <Typography variant="h6" fontWeight={500} mt={1} fontFamily={Fonts.fontStyle1}>
         Crop Category
       </Typography>
       <ActionWrapper isLeft>
@@ -165,13 +167,14 @@ const CropCategory = () => {
           disableElevation
           size="small"
           aria-label="action button group"
+          color="success"
         >
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button onClick={onCreate}>
+            <Button onClick={onCreate}  >
               <Add />
-              {DEF_ACTIONS.ADD}
+              {/* {DEF_ACTIONS.ADD} */}
             </Button>
           </PermissionWrapper>
           {selectCategory.length === 1 && (
@@ -180,7 +183,7 @@ const CropCategory = () => {
             >
               <Button onClick={onEdit}>
                 <Edit />
-                {DEF_ACTIONS.EDIT}
+                {/* {DEF_ACTIONS.EDIT} */}
               </Button>
             </PermissionWrapper>
           )}
@@ -190,7 +193,7 @@ const CropCategory = () => {
             >
               <Button onClick={onView}>
                 <Vrpano />
-                {DEF_ACTIONS.VIEW}
+                {/* {DEF_ACTIONS.VIEW} */}
               </Button>
             </PermissionWrapper>
           )}
@@ -198,9 +201,9 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onDelete} title="Delete">
+              <Button onClick={onDelete} >
                 <Delete />
-                {DEF_ACTIONS.DELETE}
+                {/* {DEF_ACTIONS.DELETE} */}
               </Button>
             </PermissionWrapper>
           )}

@@ -881,7 +881,10 @@ export const DataTable = ({
       </TableHeaderContainer>
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
         <TableHead>
-          <TableRow sx={{ background: `${theme.coreColors.primary}` }}>
+          <TableRow 
+          // sx={{ background: `${theme.coreColors.primary}` }}
+           sx={{ background:`${Colors.tableHeaderColor}}`  }}
+          >
             {selectable && (
               <TableCell
                 sx={{ border: "1px solid #CCC !important", width: "50px" }}
@@ -926,6 +929,7 @@ export const DataTable = ({
                       ...(c?.type !== "actions"
                         ? {}
                         : { textAlign: "right !important" }),
+                        color:'white'
                     }}
                   >
                     {c?.type !== "actions" ? (

@@ -109,7 +109,7 @@ const CropCategoryForm = () => {
     <>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack}>
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
             Back to List
           </Button>
         </ActionWrapper>
