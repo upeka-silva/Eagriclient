@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
 import {get_DataList} from "../../redux/actions/list/list";
@@ -7,7 +7,7 @@ import data from "../../dropdown/drodwnlist";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
-      // Adjust the margin value as needed
+        // Adjust the margin value as needed
     },
 }));
 
@@ -29,7 +29,7 @@ const FilterTypeFilter = ({
     const [nextResponseData, setNextResponseData] = useState(null);
     const [finalFilter, setFinalFilter] = useState(null);
     const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
-    const [view,setView] = useState(false)
+    const [view, setView] = useState(false)
     const classes = useStyles();
 
     // check value filter for original parent
@@ -99,7 +99,7 @@ const FilterTypeFilter = ({
         if (apiResponse) {
 
             const filt = apiResponse.filter((d) =>
-                                                d.id == curSelectedValData
+                d.id == curSelectedValData
             );
 
             const fk = parentLinks[currentLinkIndex - 1];
@@ -155,7 +155,7 @@ const FilterTypeFilter = ({
 
 
             <FormControl disabled={view} sx={{minWidth: "264px"}} size="small">
-                <FieldName>Select {data[filterKey].displayName}</FieldName>
+                <FieldName>Select {data[filterKey]?.displayName}</FieldName>
                 <Select
                     sx={{borderRadius: "8px"}}
                     id="dropdown"
