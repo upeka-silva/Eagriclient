@@ -318,10 +318,10 @@ const UsersForm = () => {
     const resetSelectedRoles = () => {
         setSelectRoles([]);
     };
-   // console.log(selectRoles)
+    // console.log(selectRoles)
 
     const handleAdvanceDataChange = (value) => {
-     //   console.log('sssss ', value);
+        //   console.log('sssss ', value);
         setOriginalPath(value);
         const curFilter = data[value];
         setParentFilter(curFilter);
@@ -359,7 +359,7 @@ const UsersForm = () => {
     const resetSelectedServices = () => {
         setSelectServices([]);
     };
-   // console.log(selectServices)
+    // console.log(selectServices)
     return (
         <FormWrapper>
             <ActionWrapper isLeft>
@@ -611,7 +611,7 @@ const UsersForm = () => {
                                     label: data[key].displayName,
                                 }))}
                                 isSearchable
-                                value={val}
+
                                 styles={{
                                     control: (provided) => ({
                                         ...provided,
@@ -619,7 +619,7 @@ const UsersForm = () => {
                                         borderRadius: '8px',
                                     }),
                                 }}
-                                placeholder="Select an option"
+                                placeholder="Choose an option"
                             >
                                 {Object.keys(data).map((key) => (
                                     <MenuItem key={key} value={key}>
