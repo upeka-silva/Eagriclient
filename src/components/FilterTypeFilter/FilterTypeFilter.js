@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
 import {get_DataList} from "../../redux/actions/list/list";
 import data from "../../dropdown/drodwnlist";
+import {TextFields} from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
@@ -154,22 +155,23 @@ const FilterTypeFilter = ({
         <div className={classes.dropdownContainer}>
 
 
-            <FormControl disabled={view} sx={{minWidth: "264px"}} size="small">
-                <FieldName> {data[filterKey]?.displayName}</FieldName>
-                <Select
-                    sx={{borderRadius: "8px"}}
+            <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
+                <FieldName>{data[filterKey]?.displayName}</FieldName>
+                <Autocomplete
+                    sx={{
+                        minWidth: "364px",
+                        minHeight: "28px", // Adjust the height as needed
+                        padding: "4px", // Adjust the padding as needed
+                    }}
+                    disabled={view}
                     id="dropdown"
-                    onChange={(e) =>
-                        handleAdvanceDataChange(e?.target?.value)
-                    }
-                >
-                    {currentKeyValuePair.map((key) => (
-                        <MenuItem key={key.id} value={key.id}>
-                            {key.name}
-                        </MenuItem>
-                    ))}
-                </Select>
+                    options={currentKeyValuePair}
+                    onChange={(event, value) => handleAdvanceDataChange(value?.id)}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => <TextField {...params} />}
+                />
             </FormControl>
+
 
 
             {isShow && (

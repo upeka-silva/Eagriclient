@@ -10,7 +10,7 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    Grid, InputLabel,
+    Grid, InputLabel, Autocomplete,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {useUserAccessValidation} from "../../hooks/authentication";
@@ -594,41 +594,30 @@ const UsersForm = () => {
                 <Grid item lg={3}>
                     <FieldWrapper>
 
-                        <FormControl sx={{display: "flex", justifyContent: "row", minWidth: "264px"}}
-                                     size="small">
-                            <FieldName>Filter type</FieldName>
-                            <Select
 
-                                isDisabled={view}
-                                sx={{borderRadius: "8px"}}
+
+                        <FormControl sx={{ display: "flex", justifyContent: "row", minWidth: "364px" }} size="small">
+                            <FieldName>Filter type</FieldName>
+                            <Autocomplete
                                 id="dropdown"
-                                onChange={(selectedOption) =>
-                                    handleAdvanceDataChange(selectedOption?.value)
-                                }
-                                value={{ value: val, label: data[val]?.displayName }}
+                                isDisabled={view}
                                 options={Object.keys(data).map((key) => ({
                                     value: key,
                                     label: data[key].displayName,
                                 }))}
+                                getOptionLabel={(option) => option.label}
+                                onChange={(event, selectedOption) => handleAdvanceDataChange(selectedOption?.value)}
+                                value={{ value: val, label: data[val]?.displayName || "Choose an option" }}
                                 isSearchable
-
-                                styles={{
-                                    control: (provided) => ({
-                                        ...provided,
+                                renderInput={(params) => <TextField {...params} />}
+                                sx={{
+                                    borderRadius: "8px",
+                                    '& .MuiInputBase-root': {
                                         backgroundColor: 'transparent', // Set the background color to transparent
-                                        borderRadius: '8px',
-                                    }),
+                                    },
                                 }}
-                                placeholder="Choose an option"
-                            >
-                                {Object.keys(data).map((key) => (
-                                    <MenuItem key={key} value={key}>
-                                        {data[key].displayName}
-                                    </MenuItem>
-                                ))}
-                            </Select>
+                            />
                         </FormControl>
-
 
                     </FieldWrapper>
                     {isview &&
