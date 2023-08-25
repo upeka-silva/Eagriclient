@@ -620,13 +620,7 @@ const UsersForm = () => {
                         </FormControl>
 
                     </FieldWrapper>
-                    {isview &&
-                    <FieldWrapper>
-                        <ResetButton onClick={reset} sx={{marginTop: "5px"}}>RESET</ResetButton>
 
-                    </FieldWrapper>
-
-                    }
 
                 </Grid>
 
@@ -641,6 +635,18 @@ const UsersForm = () => {
                     </FieldWrapper>
 
 
+                </Grid>
+                <Grid item lg={3}>
+
+
+                </Grid>
+                <Grid item lg={4}>
+                    {isview &&
+                    <div style={{display: 'flex',float:"right",marginTop:"30px",marginLeft:"130px",justifyContent: 'flex-end'}}>
+                        <ResetButton onClick={reset} sx={{marginTop: '15px'}}>RESET</ResetButton>
+                    </div>
+
+                    }
                 </Grid>
 
             </Grid>
