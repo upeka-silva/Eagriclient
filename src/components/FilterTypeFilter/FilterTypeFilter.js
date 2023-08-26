@@ -19,7 +19,8 @@ const FilterTypeFilter = ({
                               currentLinkIndex,
                               apiResponse,
                               curSelectedVal,
-                              nextResponse
+                              nextResponse,
+                              chooseMessage
                           }) => {
 
     const [nextIndex, setNextIndex] = useState(null);
@@ -128,10 +129,16 @@ const FilterTypeFilter = ({
         return nameValue;
     }
 
+    const chooseMessage2 = (message) => {
+        console.log('final filter type ', message);
+        chooseMessage(message);
+    };
+
     const handleAdvanceDataChange = (value) => {
         setIsShow(false);
 
         if (isValueFilter) {
+            chooseMessage2(value);
             setFinalFilter(value);
         }
         setCurSelectedValData(value);
@@ -176,15 +183,10 @@ const FilterTypeFilter = ({
                     <p>next filter</p>
                     {<FilterTypeFilter data={data} originalPath={originalPath} parentLinks={parentLinks}
                                        currentLinkIndex={nextIndex} apiResponse={apiResponseData}
-                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData}/>}
+                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData} chooseMessage={chooseMessage2}/>}
                 </>
 
             )}
-
-            {isValueFilter && (
-                <p>load value filters for parent filter</p>
-            )}
-
 
         </div>
     );

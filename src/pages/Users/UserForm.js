@@ -199,7 +199,13 @@ const UsersForm = () => {
   const [parentLinks, setParentLinks] = useState([]);
   const [parentFilter, setParentFilter] = useState(null);
   const [originalPath, setOriginalPath] = useState(null);
+    const [message, setMessage] = useState("Hello World");
 
+    const chooseMessage = (message) => {
+        console.log('dddddddddd ', message);
+        console.log('originalPath ', originalPath);
+        setMessage(message);
+    };
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -607,7 +613,7 @@ const UsersForm = () => {
 
                 <FieldWrapper>
                 {parentFilter != null && (
-                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} apiResponse={null} curSelectedVal={null} nextResponse={null}/>
+                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} apiResponse={null} curSelectedVal={null} nextResponse={null} chooseMessage={chooseMessage}/>
                 )}
                 </FieldWrapper>
 
