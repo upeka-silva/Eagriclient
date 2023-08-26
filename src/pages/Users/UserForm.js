@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import Select from 'react-select';
 import {
     TextField,
     Button,
@@ -21,7 +20,6 @@ import {useSnackBars} from "../../context/SnackBarContext";
 import RoleList from "./RolesList";
 import ServicesList from "./ServicesList";
 import data from "../../dropdown/drodwnlist"
-import CascadingDropdown from "../../components/PageLayout/CascadingDropdown"
 import {FormWrapper} from "../../components/FormLayout/FormWrapper";
 import {FormHeader} from "../../components/FormLayout/FormHeader";
 import {FieldWrapper} from "../../components/FormLayout/FieldWrapper";
@@ -30,149 +28,14 @@ import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
 import {AddButton} from "../../components/FormLayout/AddButton";
 import {ResetButton} from "../../components/FormLayout/ResetButton";
 import {PathName} from "../../components/FormLayout/PathName";
-
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
 import {handleUsers, updateUsers} from "../../redux/actions/users/action";
-
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
 
 const UsersForm = () => {
-    // const data = {
-    //     "province": {
-    //         "displayName": "Province",
-    //         "apiCall": true,
-    //         "links": null
-    //     },
-    //     "district": {
-    //         "displayName": "District",
-    //         "apiCall": true,
-    //         "links": null
-    //     },
-    //     "AIRegionProvincial": {
-    //         "displayName": "AI Region",
-    //         "apiCall": true,
-    //         "links": [
-    //             "deputiyDirOfAgriProvincial",
-    //             "ADASegmantProvincial"
-    //         ]
-    //     },
-    //     "AIRegionInterProvincial": {
-    //         "displayName": "AI Region",
-    //         "apiCall": true,
-    //         "links": [
-    //             "deputiyDirOfAgriProvincial",
-    //             "ADASegmantInterProvincial"
-    //         ]
-    //     },
-    //     "GNDivision": {
-    //         "displayName": "GN Division",
-    //         "apiCall": true,
-    //         "links": [
-    //             "district",
-    //             "DSDivision"
-    //         ]
-    //     },
-    //     "DSDivision": {
-    //         "displayName": "DS Division",
-    //         "apiCall": false,
-    //         "links": [
-    //             "district"
-    //         ]
-    //     },
-    //     "ADASegmantProvincial": {
-    //         "displayName": "ADA Segmant Provincial",
-    //         "apiCall": false,
-    //         "links": [
-    //             "deputiyDirOfAgriProvincial"
-    //         ]
-    //     },
-    //     "ADASegmantInterProvincial": {
-    //         "displayName": "ADA Segmant Inter Provincial",
-    //         "apiCall": false,
-    //         "links": [
-    //             "deputiyDirOfAgriInterProvincial"
-    //         ]
-    //     },
-    //     "deputiyDirOfAgriProvincial": {
-    //         "displayName": "Deputiy Director Of Agriculture Provincial",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "deputiyDirOfAgriInterProvincial": {
-    //         "displayName": "Deputiy Director Of Agriculture Inter Provincial",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "mahaweliUnit": {
-    //         "displayName": "Mahaweli Unit",
-    //         "apiCall": false,
-    //         "links": [
-    //             "mahaweliSystems",
-    //             "block"
-    //         ]
-    //     },
-    //     "block": {
-    //         "displayName": "Block",
-    //         "apiCall": false,
-    //         "links": [
-    //             "mahaweliSystems"
-    //         ]
-    //     },
-    //     "mahaweliSystems": {
-    //         "displayName": "Mahaweli Systems",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "ARPADivision": {
-    //         "displayName": "ARPA Division",
-    //         "apiCall": false,
-    //         "links": [
-    //             "districtCommisioner",
-    //             "ASCDivision",
-    //         ]
-    //     },
-    //     "ASCDivision": {
-    //         "displayName": "ASC Division",
-    //         "apiCall": false,
-    //         "links": [
-    //             "districtCommisioner"
-    //         ]
-    //     },
-    //     "districtCommisioner": {
-    //         "displayName": "District Commisioner",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "deptOfAgrarianDevelopment": {
-    //         "displayName": "Department Of Agrarian Development",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "mahaweliAuthority": {
-    //         "displayName": "Mahaweli Authority",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "directorDOA": {
-    //         "displayName": "Director DOA",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "provincialDirectorOfAgri": {
-    //         "displayName": "Provincial Director Of Agriculture",
-    //         "apiCall": false,
-    //         "links": null
-    //     },
-    //     "agroEcologicalZones": {
-    //         "displayName": "Agro Ecological Zones",
-    //         "apiCall": false,
-    //         "links": null
-    //     }
-    // }
     useUserAccessValidation();
     const {state} = useLocation();
     const location = useLocation();
@@ -182,14 +45,14 @@ const UsersForm = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        ...(state?.target || {}),
-        startDate: state?.target?.startDate
-            ? dateAdapter.date(state?.target?.startDate)
-            : null,
-        endDate: state?.target?.endDate
-            ? dateAdapter.date(state?.target?.endDate)
-            : null,
-    });
+                                                 ...(state?.target || {}),
+                                                 startDate: state?.target?.startDate
+                                                            ? dateAdapter.date(state?.target?.startDate)
+                                                            : null,
+                                                 endDate: state?.target?.endDate
+                                                          ? dateAdapter.date(state?.target?.endDate)
+                                                          : null,
+                                             });
     const [saving, setSaving] = useState(false);
     const [selectRoles, setSelectRoles] = useState([]);
     const [selectServices, setSelectServices] = useState([]);
@@ -202,12 +65,12 @@ const UsersForm = () => {
     const [originalPath, setOriginalPath] = useState(null);
     const [view, setView] = useState(false)
     const [isview, setIsview] = useState(false);
-    const [message, setMessage] = useState("Hello World");
+    const [message, setMessage] = useState('');
 
-    const chooseMessage = (message) => {
-        console.log('dddddddddd ', message);
+    const getSelectedFilterType = (value) => {
+        console.log('value ', value);
         console.log('originalPath ', originalPath);
-        setMessage(message);
+        setMessage(value);
     };
 
     const handleChange = (value, target) => {
@@ -217,7 +80,6 @@ const UsersForm = () => {
             // Special handling for the "roleDTOs" field to update the "id" value
 
             newData[target] = value;
-
 
             return newData;
         });
@@ -248,20 +110,20 @@ const UsersForm = () => {
 
     const onSuccess = () => {
         addSnackBar({
-            type: SnackBarTypes.success,
-            message:
-                state?.action === DEF_ACTIONS.ADD
-                    ? "Successfully Added"
-                    : "Successfully Updated",
-        });
+                        type: SnackBarTypes.success,
+                        message:
+                            state?.action === DEF_ACTIONS.ADD
+                            ? "Successfully Added"
+                            : "Successfully Updated",
+                    });
         setSaving(false);
     };
 
     const onError = (message) => {
         addSnackBar({
-            type: SnackBarTypes.error,
-            message: message || "Login Failed",
-        });
+                        type: SnackBarTypes.error,
+                        message: message || "Login Failed",
+                    });
         setSaving(false);
     };
 
@@ -302,8 +164,8 @@ const UsersForm = () => {
 
     const getPathName = () => {
         return location.pathname === "/" || !location.pathname
-            ? ""
-            : location.pathname;
+               ? ""
+               : location.pathname;
     };
 
     const toggleRolesSelect = (component) => {
@@ -337,7 +199,6 @@ const UsersForm = () => {
         setView(!view);
         setIsview(true);
         setVal(value)
-
 
     };
 
@@ -391,21 +252,21 @@ const UsersForm = () => {
                         {saving ? (
                             <AddButton variant="contained" disabled>
                                 {state?.action === DEF_ACTIONS.ADD
-                                    ? "ADDING..."
-                                    : "UPDATING..."}
+                                 ? "ADDING..."
+                                 : "UPDATING..."}
                             </AddButton>
                         ) : (
-                            <>
-                                <AddButton
-                                    variant="contained"
-                                    disabled={!enableSave()}
-                                    onClick={handleFormSubmit}
-                                >
-                                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                                </AddButton>
-                                <ResetButton onClick={resetForm}>RESET</ResetButton>
-                            </>
-                        )}
+                             <>
+                                 <AddButton
+                                     variant="contained"
+                                     disabled={!enableSave()}
+                                     onClick={handleFormSubmit}
+                                 >
+                                     {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
+                                 </AddButton>
+                                 <ResetButton onClick={resetForm}>RESET</ResetButton>
+                             </>
+                         )}
                     </ActionWrapper>
                 )}
             </ButtonWrapper>
@@ -555,38 +416,6 @@ const UsersForm = () => {
                 <Grid item lg={5}>
                     <FieldWrapper>
 
-                        {/* <FormControl
-          component="fieldset"
-          fullWidth
-          sx={{ width: "264px", borderRadius: "8px"  }}
-        > */}
-                        {/*<RadioGroup*/}
-                        {/*  name="roleDTOs"*/}
-                        {/*  id="roleDTOs"*/}
-                        {/*  value={formData.roleDTOs ? formData.roleDTOs[0].id.toString() : ""}*/}
-                        {/*  onChange={(e) => handleChange(e.target.value, "roleDTOs")}*/}
-                        {/* row*/}
-                        {/*>*/}
-                        {/*  <FormControlLabel*/}
-                        {/*    value="1"*/}
-                        {/*    control={<Radio />}*/}
-                        {/*    label="SUPER ADMIN"*/}
-                        {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
-                        {/*  />*/}
-                        {/*  <FormControlLabel*/}
-                        {/*    value="2"*/}
-                        {/*    control={<Radio />}*/}
-                        {/*    label="SYSTEM USER"*/}
-                        {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
-                        {/*  />*/}
-                        {/*  <FormControlLabel*/}
-                        {/*    value="3"*/}
-                        {/*    control={<Radio />}*/}
-                        {/*    label="ADMIN"*/}
-                        {/*    disabled={state?.action === DEF_ACTIONS.VIEW}*/}
-                        {/*  />*/}
-                        {/*</RadioGroup>*/}
-                        {/* </FormControl> */}
                     </FieldWrapper>
                 </Grid>
             </Grid>
@@ -599,12 +428,11 @@ const UsersForm = () => {
                     borderRadius: "5px",
                 }}
             >
-                <Grid item lg={3}>
+                <Grid item lg={4}>
                     <FieldWrapper>
 
 
-
-                        <FormControl sx={{ display: "flex", justifyContent: "row", minWidth: "364px" }} size="small">
+                        <FormControl sx={{display: "flex", justifyContent: "row", minWidth: "364px"}} size="small">
                             <FieldName>Filter type</FieldName>
                             <Autocomplete
                                 id="dropdown"
@@ -615,7 +443,7 @@ const UsersForm = () => {
                                 }))}
                                 getOptionLabel={(option) => option.label}
                                 onChange={(event, selectedOption) => handleAdvanceDataChange(selectedOption?.value)}
-                                value={{ value: val, label: data[val]?.displayName || "Choose an option" }}
+                                value={{value: val, label: data[val]?.displayName || "Choose an option"}}
                                 isSearchable
                                 renderInput={(params) => <TextField {...params} />}
                                 sx={{
@@ -632,25 +460,34 @@ const UsersForm = () => {
 
                 </Grid>
 
-                <Grid item lg={1}>
+                <Grid item lg={8}>
 
-                <FieldWrapper>
-                {parentFilter != null && (
-                    <FilterTypeFilter data = {data} originalPath={originalPath} parentLinks={parentLinks} parentFilter={parentFilter} currentLinkIndex={0} apiResponse={null} curSelectedVal={null} nextResponse={null} chooseMessage={chooseMessage}/>
-                )}
-                </FieldWrapper>
-
-
+                    <FieldWrapper>
+                        {parentFilter != null && (
+                            <FilterTypeFilter data={data}
+                                              originalPath={originalPath}
+                                              parentLinks={parentLinks}
+                                              parentFilter={parentFilter}
+                                              currentLinkIndex={0}
+                                              apiResponse={null}
+                                              curSelectedVal={null}
+                                              nextResponse={null}
+                                              outPutSelectedFilterType={getSelectedFilterType}/>
+                        )}
+                    </FieldWrapper>
                 </Grid>
-                <Grid item lg={3}>
-
-
-                </Grid>
-                <Grid item lg={4}>
+                <Grid item lg={12}>
                     {isview &&
-                    <div style={{display: 'flex',float:"right",marginTop:"30px",marginLeft:"130px",justifyContent: 'flex-end'}}>
-                        <ResetButton onClick={reset} sx={{marginTop: '15px'}}>RESET</ResetButton>
-                    </div>
+                     <div style={{
+                         marginRight: '10px',
+                         marginBottom: '10px',
+                         float: "right",
+                         marginTop: "30px",
+                         marginLeft: "130px",
+                         justifyContent: 'flex-end'
+                     }}>
+                         <ResetButton onClick={reset} sx={{marginTop: '15px'}}>RESET</ResetButton>
+                     </div>
 
                     }
                 </Grid>

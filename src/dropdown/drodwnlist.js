@@ -10,7 +10,7 @@ const data = {
         "links": null
     },
     "AIRegionProvincial": {
-        "displayName": "AI Region",
+        "displayName": "AI Region Provincial",
         "apiCall": true,
         "links": [
             "deputiyDirOfAgriProvincial",
@@ -18,7 +18,7 @@ const data = {
         ]
     },
     "AIRegionInterProvincial": {
-        "displayName": "AI Region",
+        "displayName": "AI Region Inter Provincial",
         "apiCall": true,
         "links": [
             "deputiyDirOfAgriProvincial",

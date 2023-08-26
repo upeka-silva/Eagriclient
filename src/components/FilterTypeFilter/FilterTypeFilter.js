@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
 import {get_DataList} from "../../redux/actions/list/list";
@@ -8,7 +8,7 @@ import {TextFields} from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
-      // Adjust the margin value as needed
+        // Adjust the margin value as needed
     },
 }));
 
@@ -21,7 +21,7 @@ const FilterTypeFilter = ({
                               apiResponse,
                               curSelectedVal,
                               nextResponse,
-                              chooseMessage
+                              outPutSelectedFilterType
                           }) => {
 
     const [nextIndex, setNextIndex] = useState(null);
@@ -31,7 +31,7 @@ const FilterTypeFilter = ({
     const [nextResponseData, setNextResponseData] = useState(null);
     const [finalFilter, setFinalFilter] = useState(null);
     const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
-    const [view,setView] = useState(false)
+    const [view, setView] = useState(false)
     const classes = useStyles();
 
     // check value filter for original parent
@@ -130,9 +130,9 @@ const FilterTypeFilter = ({
         return nameValue;
     }
 
-    const chooseMessage2 = (message) => {
-        console.log('final filter type ', message);
-        chooseMessage(message);
+    const passToParent = (value) => {
+        console.log('final filter type ', value);
+        outPutSelectedFilterType(value);
     };
 
     const handleAdvanceDataChange = (value) => {
@@ -140,7 +140,7 @@ const FilterTypeFilter = ({
         setView(!view);
 
         if (isValueFilter) {
-            chooseMessage2(value);
+            passToParent(value);
             setFinalFilter(value);
         }
         setCurSelectedValData(value);
@@ -159,39 +159,38 @@ const FilterTypeFilter = ({
     };
 
     return (
-        <div className={classes.dropdownContainer}>
+        <>
+            <div className={classes.dropdownContainer}>
 
 
-            <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
-                <FieldName>{data[filterKey]?.displayName}</FieldName>
-                <Autocomplete
-                    sx={{
-                        minWidth: "364px",
-                        minHeight: "28px", // Adjust the height as needed
-                        padding: "4px", // Adjust the padding as needed
-                    }}
-                    disabled={view}
-                    id="dropdown"
-                    options={currentKeyValuePair}
-                    onChange={(event, value) => handleAdvanceDataChange(value?.id)}
-                    getOptionLabel={(option) => option.name}
-                    renderInput={(params) => <TextField {...params} />}
-                />
-            </FormControl>
+                <FormControl disabled={view} sx={{minWidth: "364px"}} size="small">
+                    <FieldName>{data[filterKey]?.displayName}</FieldName>
+                    <Autocomplete
+                        sx={{
+                            minWidth: "364px",
+                            minHeight: "28px", // Adjust the height as needed
+                            padding: "4px", // Adjust the padding as needed
+                        }}
+                        disabled={view}
+                        id="dropdown"
+                        options={currentKeyValuePair}
+                        onChange={(event, value) => handleAdvanceDataChange(value?.id)}
+                        getOptionLabel={(option) => option.name}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
+                </FormControl>
 
-
-
+            </div>
             {isShow && (
                 <>
-                    <p>next filter</p>
                     {<FilterTypeFilter view={view} data={data} originalPath={originalPath} parentLinks={parentLinks}
                                        currentLinkIndex={nextIndex} apiResponse={apiResponseData}
-                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData} chooseMessage={chooseMessage2}/>}
+                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData}
+                                       outPutSelectedFilterType={passToParent}/>}
                 </>
 
             )}
-
-        </div>
+        </>
     );
 };
 
