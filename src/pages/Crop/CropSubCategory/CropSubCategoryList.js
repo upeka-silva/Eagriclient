@@ -9,8 +9,8 @@ const CropSubCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
+    { field: "categoryId", headerName: "Code" },
+    { field: "description", headerName: "Description" },
     { field: "cropCategoryDTO.code", headerName: "Category Code" },
   ];
 

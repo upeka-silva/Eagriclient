@@ -8,6 +8,8 @@ import {
   FormControl,
   Select,
   MenuItem,
+  Box,
+  Stack,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -22,18 +24,23 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { ActionWrapper , makeCapitalize, } from "../../components/PageLayout/ActionWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PathName } from "../../components/FormLayout/PathName";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FarmLandLocation from "./FarmLandLocation";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -47,6 +54,7 @@ const FarmLandForm = () => {
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
   const [protectedHouseType, setProtectedHouseType] = useState(true);
+  const [otherField, setOtherField] = useState("none");
 
   const { addSnackBar } = useSnackBars();
 
@@ -179,99 +187,70 @@ const FarmLandForm = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
+    <Box
+      sx={{
         backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
-        height: "100vh",
         overflowY: "scroll",
       }}
     >
-      <div >
+      <Box>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} FARM LAND
+          {makeCapitalize(state?.action)} Farm Land
         </FormHeader>
-      </div>
+      </Box>
 
       <TabContent
         style={{
           display: "flex",
-          flexDirection: "column",
         }}
       >
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
+        <ButtonWrapper>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
-        <Grid container>
+        <Box sx={{ padding: "20px" }}>
           <Grid
             sx={{
               border: "1px solid #bec0c2",
-              margin: "20px",
-              width: "97%",
               borderRadius: "5px",
             }}
-            spacing={0}
             container
           >
-            <Grid
-              item
-              lg={4}
-              style={{
-                backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
-            >
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Land Name
-                </FieldName>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Land Name</FieldName>
                 <TextField
                   name="landName"
                   id="landName"
@@ -283,9 +262,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -296,20 +273,13 @@ const FarmLandForm = () => {
             <Grid item lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Land Type
-                  </FieldName>
+                  <FieldName>Land Type</FieldName>
                   <Select
                     name="landType"
                     id="landType"
                     value={formData?.landType || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      // handleChange(e?.target?.value || "", "landType")
                       e?.target?.value === "Protected House"
                         ? (setProtectedHouseType(false),
                           handleChange(e?.target?.value || "", "landType"))
@@ -336,13 +306,7 @@ const FarmLandForm = () => {
             <Grid item lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Protected House Type
-                  </FieldName>
+                  <FieldName>Protected House Type</FieldName>
                   <Select
                     name="protectedHouse"
                     id="protectedHouse"
@@ -355,29 +319,33 @@ const FarmLandForm = () => {
                     }
                     fullWidth
                     sx={{
-                      // width: "264px",
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     }}
                     size="small"
                   >
-                    <MenuItem value={"Test 1"}>Test 1</MenuItem>
-                    <MenuItem value={"Test 2"}>Test 2</MenuItem>
+                    <MenuItem value={"Greenhouses"}>Greenhouses</MenuItem>
+                    <MenuItem value={"Net houses"}>Net houses</MenuItem>
+                    <MenuItem value={"Shade houses"}>Shade houses</MenuItem>
+                    <MenuItem value={"Poly houses"}>Poly houses</MenuItem>
+                    <MenuItem value={"Glass houses"}>Glass houses</MenuItem>
+                    <MenuItem value={"Hydroponic houses"}>
+                      Hydroponic houses
+                    </MenuItem>
+                    <MenuItem value={"Aeroponic houses"}>
+                      Aeroponic houses
+                    </MenuItem>
+                    <MenuItem value={"Vertical farming structures"}>
+                      Vertical farming structures
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </FieldWrapper>
             </Grid>
-           
+
             <Grid item lg={4}>
               <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Address Line 01
-                </FieldName>
+                <FieldName>Address Line 01</FieldName>
                 <TextField
                   name="addressLine01"
                   id="addressLine01"
@@ -390,9 +358,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -407,13 +373,7 @@ const FarmLandForm = () => {
             </Grid>
             <Grid item lg={4}>
               <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Address Line 02
-                </FieldName>
+                <FieldName>Address Line 02</FieldName>
                 <TextField
                   name="addressLine02"
                   id="addressLine02"
@@ -426,9 +386,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -441,17 +399,9 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg ={2}>
-              <FieldWrapper
-                
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  City
-                </FieldName>
+            <Grid item lg={2}>
+              <FieldWrapper>
+                <FieldName>City</FieldName>
                 <TextField
                   name="city"
                   id="city"
@@ -461,9 +411,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -471,18 +419,10 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg ={2}>
-              <FieldWrapper
-                
-              >
+            <Grid item lg={2}>
+              <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    GN Division
-                  </FieldName>
+                  <FieldName>GN Division</FieldName>
                   <Autocomplete
                     name="gnDivisionDTO"
                     id="gnDivisionDTO"
@@ -495,9 +435,7 @@ const FarmLandForm = () => {
                     }}
                     fullWidth
                     sx={{
-                      // width: "264px",
                       "& .MuiOutlinedInput-root": {
-                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -512,21 +450,9 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg ={2}>
-              <FieldWrapper
-                style={{
-                  flexDirection: "column",
-                  flex: "1 1 264px",
-                  gap: "0",
-                }}
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Latitude
-                </FieldName>
+            <Grid item lg={2}>
+              <FieldWrapper>
+                <FieldName>Latitude</FieldName>
                 <TextField
                   name="latitude"
                   id="latitude"
@@ -539,9 +465,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -549,17 +473,9 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid  item lg ={2}>
-              <FieldWrapper
-               
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Longitude
-                </FieldName>
+            <Grid item lg={2}>
+              <FieldWrapper>
+                <FieldName>Longitude</FieldName>
                 <TextField
                   name="longitude"
                   id="longitude"
@@ -572,9 +488,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -582,17 +496,9 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid  item lg ={2}>
-              <FieldWrapper
-                
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Elevation
-                </FieldName>
+            <Grid item lg={2}>
+              <FieldWrapper>
+                <FieldName>Elevation</FieldName>
                 <TextField
                   name="elevation"
                   id="elevation"
@@ -605,9 +511,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -615,18 +519,10 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid  item lg ={3}>
-              <FieldWrapper
-               
-              >
+            <Grid item lg={3}>
+              <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Soil Type
-                  </FieldName>
+                  <FieldName>Soil Type</FieldName>
 
                   <Autocomplete
                     name="soilTypeDTO"
@@ -642,9 +538,7 @@ const FarmLandForm = () => {
                     }}
                     fullWidth
                     sx={{
-                      // width: 264,
                       "& .MuiOutlinedInput-root": {
-                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
@@ -657,17 +551,9 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid  item lg ={3}>
-              <FieldWrapper
-                
-              >
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Area
-                </FieldName>
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Area</FieldName>
                 <TextField
                   name="area"
                   id="area"
@@ -678,9 +564,7 @@ const FarmLandForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -688,18 +572,10 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid  item lg ={2}>
-              <FieldWrapper
-                
-              >
+            <Grid item lg={2}>
+              <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Status
-                  </FieldName>
+                  <FieldName>Status</FieldName>
                   <Select
                     name="status"
                     id="status"
@@ -710,8 +586,6 @@ const FarmLandForm = () => {
                     }
                     fullWidth
                     sx={{
-                      // width: "264px",
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     }}
@@ -724,276 +598,504 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
           </Grid>
-        </Grid>
+        </Box>
       </TabContent>
 
-      <TabWrapper style={{ margin: "40px 0px" }}>
+      <TabWrapper>
         <TabButton
+          variant="contained"
           className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}
+        >
+          Land Location
+        </TabButton>
+        <TabButton
+          variant="contained"
+          className={toggleState === 2 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}
         >
           Farm Land Ownership
         </TabButton>
         <TabButton
-          className={toggleState === 2 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          variant="contained"
+          className={toggleState === 3 ? "active-tabs" : ""}
+          onClick={() => toggleTab(3)}
         >
           Soil Type Per Land
         </TabButton>
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <AddButton variant="contained" disabled>
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </AddButton>
-              ) : (
-                <>
-                  <AddButton
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
-        <Grid container flexDirection="row">
-          <Grid item container flexDirection="column" xs="auto">
-            <Grid
-              item
-              style={{
-                // border: "1px solid #D2D2D2",
-                // borderRadius: "10px",
-                // margin: "20px",
-                backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
-            >
-              <FormWrapper
-                style={{
-                  flexDirection: "row",
-                  gap: "12px",
-                  flexWrap: "wrap",
-                  maxWidth: "70vw",
-                }}
-              >
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
-                  }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Test 1
-                  </FieldName>
-                  <TextField
-                    name="landName"
-                    id="landName"
-                    value={formData?.landName || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "landName")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      // width: "264px",
-                      "& .MuiInputBase-root": {
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              </FormWrapper>
+        <Box >
+          <Grid container>
+            <Grid item lg={8}>
+            <FarmLandLocation/>
             </Grid>
-          </Grid>
-        </Grid>
 
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          sx={{ borderRadius: "0px", marginTop: "40px" }}
-          hideFooterSelectedRowCount
-        />
+          </Grid>
+          
+        </Box>
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
+        <ButtonWrapper>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
                 </>
               )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
-        <Grid container flexDirection="row">
-          <Grid item container flexDirection="column" xs="auto">
-            <Grid
-              item
-              style={{
-                // border: "1px solid #D2D2D2",
-                // borderRadius: "10px",
-                // margin: "20px",
-                backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
-            >
-              <FormWrapper
-                style={{
-                  flexDirection: "row",
-                  gap: "12px",
-                  flexWrap: "wrap",
-                  maxWidth: "70vw",
-                }}
-              >
-                <FieldWrapper
-                  style={{
-                    flexDirection: "column",
-                    flex: "1 1 264px",
-                    gap: "0",
+        <Box sx={{ padding: "20px" }}>
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+            }}
+          >
+            <Grid item lg={6}>
+              <FieldWrapper>
+                <FieldName>Ownership ID</FieldName>
+                <TextField
+                  name="ownershipID"
+                  id="ownershipID"
+                  value={formData?.ownershipID || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "ownershipID")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
                   }}
-                >
-                  <FieldName
-                    style={{
-                      width: "100%",
-                    }}
-                  >
-                    Test 2
-                  </FieldName>
-                  <TextField
-                    name="landName"
-                    id="landName"
-                    value={formData?.landName || ""}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>Owner Type</FieldName>
+                  <Select
+                    name="ownerType"
+                    id="ownerType"
+                    value={formData?.ownerType || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      handleChange(e?.target?.value || "", "landName")
+                      e?.target?.value === "Other"
+                        ? (setOtherField("flex"),
+                          handleChange(e?.target?.value || "", "ownerType"))
+                        : e?.target?.value === "Farmer"
+                        ? (setOtherField("none"),
+                          handleChange(e?.target?.value || "", "ownerType"))
+                        : handleChange(e?.target?.value || "", "ownerType")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"Farmer"}>Farmer</MenuItem>
+                    <MenuItem value={"Other"}>Other</MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid container style={{ display: `${otherField}` }}>
+              <Grid item lg={6}>
+                <FieldWrapper>
+                  <FieldName>NIC</FieldName>
+                  <TextField
+                    name="nic"
+                    id="nic"
+                    value={formData?.nic || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "nic")
                     }
                     size="small"
                     fullWidth
                     sx={{
-                      // width: "264px",
                       "& .MuiInputBase-root": {
-                        // height: "30px",
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
                   />
                 </FieldWrapper>
-              </FormWrapper>
+              </Grid>
+              <Grid item lg={6}>
+                <FieldWrapper>
+                  <FieldName>Address Line 01</FieldName>
+                  <TextField
+                    name="addressLine01"
+                    id="addressLine01"
+                    value={formData?.addressLine01 || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "addressLine01")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FieldName>Address Line 02</FieldName>
+                  <TextField
+                    name="addressLine02"
+                    id="addressLine02"
+                    value={formData?.addressLine02 || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "addressLine02")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FieldName>City</FieldName>
+                  <TextField
+                    name="city"
+                    id="city"
+                    value={formData?.city || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "city")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FormControl fullWidth>
+                    <FieldName>GN Division</FieldName>
+                    <Autocomplete
+                      name="gnDivisionDTO"
+                      id="gnDivisionDTO"
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={gn}
+                      value={formData ? formData.gnDivisionDTO : ""}
+                      getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                      onChange={(event, value) => {
+                        handleChange(value, "gnDivisionDTO");
+                      }}
+                      fullWidth
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <>
+                          <TextField {...params} size="small" />
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                </FieldWrapper>
+              </Grid>
+            </Grid>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Ownership Proof Document</FieldName>
+                <TextField
+                  name="ownershipProofDocument"
+                  id="ownershipProofDocument"
+                  value={formData?.ownershipProofDocument || ""}
+                  fullWidth
+                  inputProps={{ multiple: true }}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "ownershipProofDocument"
+                    )
+                  }
+                  type="file"
+                  accept="image/*"
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                ></TextField>
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Date From</FieldName>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DatePicker"]}
+                    sx={{
+                      width: "100%",
+                      padding: "0",
+                    }}
+                    size="small"
+                  >
+                    <DatePicker
+                      sx={{
+                        width: "100%",
+                        "& .MuiInputBase-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      slotProps={{ textField: { size: "small" } }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Date Until</FieldName>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DemoContainer
+                    components={["DatePicker"]}
+                    sx={{
+                      width: "100%",
+                      padding: "0",
+                    }}
+                  >
+                    <DatePicker
+                      sx={{
+                        width: "100%",
+                        "& .MuiInputBase-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      slotProps={{ textField: { size: "small" } }}
+                    />
+                  </DemoContainer>
+                </LocalizationProvider>
+              </FieldWrapper>
             </Grid>
           </Grid>
-        </Grid>
-
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
-            },
-          }}
-          pageSizeOptions={[5, 10]}
-          sx={{ borderRadius: "0px", marginTop: "40px" }}
-          hideFooterSelectedRowCount
-        />
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            sx={{ borderRadius: "0px", marginTop: "40px" }}
+            hideFooterSelectedRowCount
+          />
+        </Box>
       </TabContent>
-    </div>
+
+      <TabContent className={toggleState === 2 ? "active-content" : ""}>
+        <ButtonWrapper>
+          {state?.action !== DEF_ACTIONS.VIEW && (
+            <ActionWrapper>
+              {saving ? (
+                <Button variant="contained">
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                </>
+              )}
+            </ActionWrapper>
+          )}
+        </ButtonWrapper>
+        <Box sx={{ padding: "20px" }}>
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+            }}
+          >
+            <Grid item lg={6}>
+              <FieldWrapper>
+                <FieldName>Land ID</FieldName>
+                <TextField
+                  name="landId"
+                  id="landId"
+                  value={formData?.landId || ""}
+                  type="number"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "landId")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6}>
+              <FieldWrapper>
+                <FieldName>Soil Type ID</FieldName>
+                <TextField
+                  name="soilTypeId"
+                  id="soilTypeId"
+                  value={formData?.soilTypeId || ""}
+                  type="number"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "soilTypeId")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+          </Grid>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: { page: 0, pageSize: 5 },
+              },
+            }}
+            pageSizeOptions={[5, 10]}
+            sx={{ borderRadius: "0px", marginTop: "40px" }}
+            hideFooterSelectedRowCount
+          />
+        </Box>
+      </TabContent>
+    </Box>
   );
 };
 
 export default FarmLandForm;
 
-export const TabWrapper = styled.div`
-  display: flex;
-`;
-
-const TabButton = styled.button`
-  padding: 15px;
-  text-align: center;
-  width: 200px;
-  background: ${Colors.iconColor};
-  cursor: pointer;
-  position: relative;
-  border: none;
-
-  &:not(:last-child) {
-    border-right: 2px solid white;
-  }
-
-  &.active-tabs {
-    background: white;
-  }
-
-  &.active-tabs::before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 5px;
-    background: #1976d2;
+export const TabWrapper = styled(Stack)`
+  && {
+    flex-direction: row;
+    margin: 20px 0px;
+   
   }
 `;
 
-export const TabContent = styled.div`
-  display: none;
+export const TabButton = styled(Button)`
+  && {
+    padding: 15px;
+    width: 200px;
+    position: relative;
+    border: none;
+    border-radius: 0px;
+    background-color: ${Colors.tableHeaderColor};
+    color: white;
+    line-height: 0px;
+    box-shadow: none;
+    cursor: pointer;
+    &:hover {
+      background-color: ${Colors.iconColor};
+      box-shadow: none;
+    }
+    &:not(:last-child) {
+      border-right: 2px solid white;
+    }
+    &.active-tabs {
+      background: white;
+      color: black;
+    }
 
+    &.active-tabs::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 5px;
+      background: ${Colors.tableHeaderColor};
+    }
+  }
+`;
+
+export const TabContent = styled(Stack)`
+  && {
+    display: none;
+  }
   &.active-content {
     display: flex;
-    flex-direction: column;
   }
 `;
