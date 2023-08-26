@@ -28,8 +28,9 @@ const ServiceCard = ({ service, onClick }) => {
         maxWidth: 445,
         borderRadius: 0,
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+          hover:"pointer",
+          justifyContent: "space-between",
+        alignItems: "start",
         height: "100%",
         "&:hover": {
           backgroundColor: "#f5f5f5", // Change the background color on hover
@@ -38,13 +39,13 @@ const ServiceCard = ({ service, onClick }) => {
       onClick={handleCardClick} // Use the modified click handler
     >
       <CardMedia
-        sx={{ height: 140, width: 140 }}
+          sx={{ height: '100%', width: '70%' }}
         image={"https://picsum.photos/200/300"}
         title="green iguana"
       />
       {/* <SideBar /> */}
       {/* You can add the SideBar component here if needed */}
-      <CardContent>
+      <CardContent    sx={{ cursor:"pointer", height: 140, width: 140}} >
         <Typography gutterBottom variant="h5" component="div">
           {service.shortName}
         </Typography>

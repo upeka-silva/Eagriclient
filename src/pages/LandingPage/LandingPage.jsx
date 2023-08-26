@@ -79,12 +79,13 @@ const LandingPage = ({ loadingTable = false, loaderType = "circular" }) => {
                 <h1>
                     <strong>Hi Dinidu!</strong>
                 </h1>
-                <Typography variant="h4">
+                <Typography sx={{ marginBottom: 9 }} variant="h6">
                     PLEASE SELECT AN AGRICULTURAL SERVICE
                 </Typography>
-                <Grid container spacing={4}>
+
+                <Grid container spacing={8}>
                     {services.map((service, index) => (
-                        <Grid item xs={12} sm={6} md={4} key={index}>
+                        <Grid item xs={2} sm={6} md={4} key={index}>
                             <ServiceCard service={service} />
                         </Grid>
                     ))}

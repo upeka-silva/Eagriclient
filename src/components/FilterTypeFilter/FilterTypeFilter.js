@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import { makeStyles } from '@material-ui/core/styles';
+import {Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import {FieldName} from "../FormLayout/FieldName";
 import {get_DataList} from "../../redux/actions/list/list";
 import data from "../../dropdown/drodwnlist";
+import {TextFields} from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
-        // Adjust the margin value as needed
+      // Adjust the margin value as needed
     },
 }));
 
@@ -30,7 +31,7 @@ const FilterTypeFilter = ({
     const [nextResponseData, setNextResponseData] = useState(null);
     const [finalFilter, setFinalFilter] = useState(null);
     const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
-
+    const [view,setView] = useState(false)
     const classes = useStyles();
 
     // check value filter for original parent
@@ -136,6 +137,7 @@ const FilterTypeFilter = ({
 
     const handleAdvanceDataChange = (value) => {
         setIsShow(false);
+        setView(!view);
 
         if (isValueFilter) {
             chooseMessage2(value);
@@ -160,28 +162,29 @@ const FilterTypeFilter = ({
         <div className={classes.dropdownContainer}>
 
 
-            <FormControl sx={{minWidth: "200px"}} size="small">
-                <FieldName>Select {filterKey}</FieldName>
-                <Select
-                    sx={{borderRadius: "8px"}}
+            <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
+                <FieldName>{data[filterKey]?.displayName}</FieldName>
+                <Autocomplete
+                    sx={{
+                        minWidth: "364px",
+                        minHeight: "28px", // Adjust the height as needed
+                        padding: "4px", // Adjust the padding as needed
+                    }}
+                    disabled={view}
                     id="dropdown"
-                    onChange={(e) =>
-                        handleAdvanceDataChange(e?.target?.value)
-                    }
-                >
-                    {currentKeyValuePair.map((key) => (
-                        <MenuItem key={key.id} value={key.id}>
-                            {key.name}
-                        </MenuItem>
-                    ))}
-                </Select>
+                    options={currentKeyValuePair}
+                    onChange={(event, value) => handleAdvanceDataChange(value?.id)}
+                    getOptionLabel={(option) => option.name}
+                    renderInput={(params) => <TextField {...params} />}
+                />
             </FormControl>
+
 
 
             {isShow && (
                 <>
                     <p>next filter</p>
-                    {<FilterTypeFilter data={data} originalPath={originalPath} parentLinks={parentLinks}
+                    {<FilterTypeFilter view={view} data={data} originalPath={originalPath} parentLinks={parentLinks}
                                        currentLinkIndex={nextIndex} apiResponse={apiResponseData}
                                        curSelectedVal={curSelectedValData} nextResponse={nextResponseData} chooseMessage={chooseMessage2}/>}
                 </>
