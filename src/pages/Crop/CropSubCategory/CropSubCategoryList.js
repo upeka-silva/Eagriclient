@@ -1,4 +1,3 @@
-import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
@@ -9,26 +8,23 @@ const CropSubCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "categoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
-    { field: "cropCategoryDTO.code", headerName: "Category Code" },
+    { field: "cropCategoryDTO.categoryId", headerName: "Code" },
+    { field: "cropCategoryDTO.description", headerName: "Description" },
   ];
 
   return (
-    <div>
-      <CardWrapper>
-        <DataTable
-          loadingTable
-          dataEndPoint={"geo-data/crop-sub-categories"}
-          columns={columns}
-          selectable
-          selectedRows={selectedRows}
-          selectAll={selectAll}
-          onRowSelect={onRowSelect}
-          unSelectAll={unSelectAll}
-        />
-      </CardWrapper>
-    </div>
+    <CardWrapper>
+      <DataTable
+        loadingTable
+        dataEndPoint={"geo-data/crop-sub-categories"}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
+    </CardWrapper>
   );
 };
 

@@ -24,7 +24,10 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper , makeCapitalize, } from "../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../components/PageLayout/ActionWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PathName } from "../../components/FormLayout/PathName";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -197,7 +200,11 @@ const FarmLandForm = () => {
     >
       <Box>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
@@ -234,7 +241,15 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -626,14 +641,12 @@ const FarmLandForm = () => {
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
-        <Box >
+        <Box>
           <Grid container>
             <Grid item lg={8}>
-            <FarmLandLocation/>
+              <FarmLandLocation />
             </Grid>
-
           </Grid>
-          
         </Box>
       </TabContent>
 
@@ -659,7 +672,15 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -942,7 +963,7 @@ const FarmLandForm = () => {
         </Box>
       </TabContent>
 
-      <TabContent className={toggleState === 2 ? "active-content" : ""}>
+      <TabContent className={toggleState === 3 ? "active-content" : ""}>
         <ButtonWrapper>
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
@@ -964,7 +985,15 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -1049,7 +1078,6 @@ export const TabWrapper = styled(Stack)`
   && {
     flex-direction: row;
     margin: 20px 0px;
-   
   }
 `;
 
