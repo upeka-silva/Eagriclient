@@ -33,6 +33,8 @@ import { PathName } from "../../components/FormLayout/PathName";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
+import { get_DistrictList } from "../../redux/actions/district/action";
+import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
@@ -53,6 +55,8 @@ const FarmLandForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
+  const [district, setDistrict] = useState([]);
+  const [ds, setDs] = useState([]);
   const [gn, setGn] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
@@ -102,6 +106,16 @@ const FarmLandForm = () => {
     navigate("/farm-land");
   };
 
+  useEffect(() => {
+    get_DistrictList().then(({ dataList = [] }) => {
+      setDistrict(dataList);
+    });
+  }, []);
+  useEffect(() => {
+    get_DsDivisionList().then(({ dataList = [] }) => {
+      setDs(dataList);
+    });
+  }, []);
   useEffect(() => {
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGn(dataList);
@@ -352,13 +366,12 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
           </Grid>
-          
+
           <Grid
             container
             sx={{
               border: "1px solid #bec0c2",
               borderRadius: "5px",
-             
             }}
           >
             <Grid item lg={4}>
@@ -438,6 +451,68 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid item lg={2}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>District</FieldName>
+                  <Autocomplete
+                    name="districtDTO"
+                    id="districtDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={district}
+                    value={formData ? formData.districtDTO : ""}
+                    getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                    onChange={(event, value) => {
+                      handleChange(value, "districtDTO");
+                    }}
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <>
+                        <TextField {...params} size="small" />
+                      </>
+                    )}
+                  />
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>DS Division</FieldName>
+                  <Autocomplete
+                    name="dsDivisionDTO"
+                    id="dsDivisionDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={ds}
+                    value={formData ? formData.dsDivisionDTO : ""}
+                    getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                    onChange={(event, value) => {
+                      handleChange(value, "dsDivisionDTO");
+                    }}
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <>
+                        <TextField {...params} size="small" />
+                      </>
+                    )}
+                  />
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>GN Division</FieldName>
@@ -541,9 +616,7 @@ const FarmLandForm = () => {
           <Grid
             container
             sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-              marginTop:'10px'
+              marginTop: "10px",
             }}
           >
             <Grid item lg={3}>
