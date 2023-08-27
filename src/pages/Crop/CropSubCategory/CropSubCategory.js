@@ -26,7 +26,15 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  Vrpano,
+  CheckRounded,
+  CancelOutlined,
+} from "@mui/icons-material";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -176,8 +184,8 @@ const CropSubCategory = () => {
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
               <Button
-                variant="contained"
-                color="secondary"
+                variant="outlined"
+                color="success"
                 onClick={onEdit}
                 sx={{ ml: "8px" }}
               >
@@ -191,8 +199,8 @@ const CropSubCategory = () => {
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
               <Button
-                variant="contained"
-                color="info"
+                variant="outlined"
+                color="success"
                 onClick={onView}
                 sx={{ ml: "8px" }}
               >
@@ -206,8 +214,8 @@ const CropSubCategory = () => {
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
               <Button
-                variant="contained"
-                color="error"
+                variant="outlined"
+                color="success"
                 onClick={onDelete}
                 sx={{ ml: "8px" }}
               >
