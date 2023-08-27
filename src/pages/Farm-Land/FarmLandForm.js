@@ -192,7 +192,7 @@ const FarmLandForm = () => {
   return (
     <Box
       sx={{
-        backgroundColor: `${Colors.formBackgroundColor}`,
+        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
         overflowY: "scroll",
@@ -256,13 +256,7 @@ const FarmLandForm = () => {
           )}
         </ButtonWrapper>
         <Box sx={{ padding: "20px" }}>
-          <Grid
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-            }}
-            container
-          >
+          <Grid container>
             <Grid item lg={4}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
@@ -357,7 +351,16 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-
+          </Grid>
+          
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+             
+            }}
+          >
             <Grid item lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 01</FieldName>
@@ -534,6 +537,15 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+          </Grid>
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginTop:'10px'
+            }}
+          >
             <Grid item lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>

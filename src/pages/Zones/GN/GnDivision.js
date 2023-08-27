@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -29,6 +30,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add } from "@mui/icons-material";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -135,7 +137,6 @@ const GnDivision = () => {
     });
   };
 
-
   const onConfirm = async () => {
     try {
       setLoading(true);
@@ -152,71 +153,63 @@ const GnDivision = () => {
   };
 
   return (
-      <div>
-        <ActionWrapper isLeft>
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
-          >
-            <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-          </PermissionWrapper>
-
-          {selectedGnDivisions.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <ActionButton
-                variant="contained"
-                color="secondary"
-                onClick={onEdit}
-                sx={{ ml: "8px" }}
-              >
-                <EditIcon />
-              </ActionButton>
-            </PermissionWrapper>
-          )}
-          {selectedGnDivisions.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <ActionButton
-                variant="contained"
-                color="info"
-                onClick={onView}
-                sx={{ ml: "8px" }}
-              >
-                <VisibilityIcon />
-              </ActionButton>
-            </PermissionWrapper>
-          )}
-          {selectedGnDivisions.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <ActionButton
-                variant="contained"
-                color="error"
-                onClick={onDelete}
-              >
-                <DeleteForeverIcon />
-              </ActionButton>
-            </PermissionWrapper>
-          )}
-        </ActionWrapper>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GN_DIVISION}`}
+    <div>
+      <ActionWrapper isLeft>
+      <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          {loading === false && (
-            <GnDivisionList
-              selectedRows={selectedGnDivisions}
-              onRowSelect={toggleGnDivisionSelect}
-              selectAll={selectAllGnDivisions}
-              unSelectAll={resetSelectedGnDivisions}
-            />
-          )}
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
+        >
+          <Button onClick={onCreate}> <Add />{DEF_ACTIONS.ADD}</Button>
         </PermissionWrapper>
-        <DialogBox
+
+        {selectedGnDivisions.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+          >
+            <ActionButton onClick={onEdit}>
+              <EditIcon />
+            </ActionButton>
+          </PermissionWrapper>
+        )}
+        {selectedGnDivisions.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+          >
+            <ActionButton onClick={onView}>
+              <VisibilityIcon />
+            </ActionButton>
+          </PermissionWrapper>
+        )}
+        {selectedGnDivisions.length > 0 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
+          >
+            <ActionButton  onClick={onDelete}>
+              <DeleteForeverIcon />
+            </ActionButton>
+          </PermissionWrapper>
+        )}
+        </ButtonGroup>
+      </ActionWrapper>
+      <PermissionWrapper
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GN_DIVISION}`}
+      >
+        {loading === false && (
+          <GnDivisionList
+            selectedRows={selectedGnDivisions}
+            onRowSelect={toggleGnDivisionSelect}
+            selectAll={selectAllGnDivisions}
+            unSelectAll={resetSelectedGnDivisions}
+          />
+        )}
+      </PermissionWrapper>
+      <DialogBox
         open={open}
         title="Delete Soil Subtype"
         actions={
@@ -246,7 +239,7 @@ const GnDivision = () => {
           {renderSelectedItems()}
         </>
       </DialogBox>
-      </div>
+    </div>
   );
 };
 

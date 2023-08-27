@@ -26,18 +26,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  CancelOutlined,
-  CheckRounded,
-  Delete,
-  Edit,
-  Margin,
-  SaveAltOutlined,
-  Vrpano,
-} from "@mui/icons-material";
-import theme from "../../../utils/theme/theme.json";
-import { Fonts } from "../../../utils/constants/Fonts";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -179,14 +168,21 @@ const CropSubCategory = () => {
           >
             <Button onClick={onCreate}>
               <Add />
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onEdit}>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={onEdit}
+                sx={{ ml: "8px" }}
+              >
                 <Edit />
+                {DEF_ACTIONS.EDIT}
               </Button>
             </PermissionWrapper>
           )}
@@ -194,8 +190,14 @@ const CropSubCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onView}>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={onView}
+                sx={{ ml: "8px" }}
+              >
                 <Vrpano />
+                {DEF_ACTIONS.VIEW}
               </Button>
             </PermissionWrapper>
           )}
@@ -203,8 +205,14 @@ const CropSubCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onDelete}>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={onDelete}
+                sx={{ ml: "8px" }}
+              >
                 <Delete />
+                {DEF_ACTIONS.DELETE}
               </Button>
             </PermissionWrapper>
           )}

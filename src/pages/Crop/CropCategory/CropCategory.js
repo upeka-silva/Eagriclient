@@ -177,18 +177,18 @@ const CropCategory = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button onClick={onCreate}>
+            <Button onClick={onCreate} title="add">
               <Add />
-              {/* {DEF_ACTIONS.ADD} */}
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
           {selectCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onEdit}>
+              <Button onClick={onEdit} title="edit">
                 <Edit />
-                {/* {DEF_ACTIONS.EDIT} */}
+                {DEF_ACTIONS.EDIT}
               </Button>
             </PermissionWrapper>
           )}
@@ -196,9 +196,9 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onView}>
+              <Button onClick={onView} title="view">
                 <Vrpano />
-                {/* {DEF_ACTIONS.VIEW} */}
+                {DEF_ACTIONS.VIEW}
               </Button>
             </PermissionWrapper>
           )}
@@ -206,9 +206,9 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onDelete}>
+              <Button onClick={onDelete} title="delete">
                 <Delete />
-                {/* {DEF_ACTIONS.DELETE} */}
+                {DEF_ACTIONS.DELETE}
               </Button>
             </PermissionWrapper>
           )}
