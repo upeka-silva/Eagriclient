@@ -1,0 +1,346 @@
+import React, { useState, useEffect } from "react";
+import {
+    TextField,
+    Button,
+    CircularProgress,
+    Grid,
+    Box,
+    Autocomplete,
+    FormControl,
+    Select,
+    MenuItem,
+} from "@mui/material";
+import { useUserAccessValidation } from "../../hooks/authentication";
+import { useLocation, useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import {
+    DEF_ACTIONS,
+    DEF_COMPONENTS,
+} from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { Colors } from "../../utils/constants/Colors";
+import { Fonts } from "../../utils/constants/Fonts";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { FormHeader } from "../../components/FormLayout/FormHeader";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { get_InstitutionCatList } from "../../redux/actions/institution/institutionCategory/action";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import CommonAudit from "./CommonAudit";
+import {handleAuditForm, updateAuditForm} from "../../redux/actions/auditForm/action";
+
+const CommonAuditForm = ({
+                             auditFormType = ''
+                         }) => {
+    useUserAccessValidation();
+    const { state } = useLocation();
+    const location = useLocation();
+    const navigate = useNavigate();
+    let listPath = '';
+    let formHeader = '';
+
+    const [formData, setFormData] = useState(state?.target || {});
+    const [saving, setSaving] = useState(false);
+    const [gn, setGn] = useState([]);
+    const [instituteCat, setInstituteCat] = useState([]);
+
+    const { addSnackBar } = useSnackBars();
+
+    const populateAttributes = () => {
+
+        if (auditFormType == 'SELF_ASSESSMENT') {
+            listPath = 'self-assessment';
+            formHeader = 'SELF ASSESSMENT FORM';
+        } else if (auditFormType == 'INTERNAL_AUDIT') {
+            listPath = 'internal-audit';
+            formHeader = 'INTERNAL AUDIT FORM';
+        } else if (auditFormType == 'EXTERNAL_AUDIT') {
+            listPath = 'external-audit';
+            formHeader = 'EXTERNAL AUDIT FORM';
+        } else if (auditFormType == 'BASIC_ASSESSMENT') {
+            listPath = 'basic-assessment';
+            formHeader = 'BASIC ASSESSMENT FORM';
+        }
+
+    }
+
+    populateAttributes();
+
+    const goBack = () => {
+        navigate("/gap/" + listPath);
+    };
+
+    useEffect(() => {
+        get_GnDivisionList().then(({ dataList = [] }) => {
+            setGn(dataList);
+        });
+    }, []);
+
+    useEffect(() => {
+        get_InstitutionCatList().then(({ dataList = [] }) => {
+            setInstituteCat(dataList);
+        });
+    }, []);
+
+    const handleChange = (value, target) => {
+        setFormData((current = {}) => {
+            let newData = { ...current };
+            newData[target] = value;
+            return newData;
+        });
+    };
+
+    const resetForm = () => {
+        if (state?.action === DEF_ACTIONS.EDIT) {
+            setFormData(state?.target || {});
+        } else {
+            setFormData({});
+        }
+    };
+
+    const enableSave = () => {
+        if (state?.action === DEF_ACTIONS.EDIT) {
+            if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+                return true;
+            }
+        }
+        if (
+            state?.action === DEF_ACTIONS.ADD &&
+            Object.keys(formData || {}).length > 0
+        ) {
+            return true;
+        }
+        return false;
+    };
+
+    const onSuccess = () => {
+        addSnackBar({
+                        type: SnackBarTypes.success,
+                        message:
+                            state?.action === DEF_ACTIONS.ADD
+                            ? "Successfully Added"
+                            : "Successfully Updated",
+                    });
+        setSaving(false);
+    };
+
+    const onError = (message) => {
+        addSnackBar({
+                        type: SnackBarTypes.error,
+                        message: message || "Login Failed",
+                    });
+        setSaving(false);
+    };
+
+    const handleFormSubmit = async () => {
+        if (enableSave()) {
+            setSaving(true);
+            formData.formType = auditFormType;
+            try {
+                if (formData?.id) {
+                    console.log('form edit ', formData);
+                    await updateAuditForm(formData, onSuccess, onError);
+                } else {
+                    console.log('form ', formData);
+                    await handleAuditForm(formData, onSuccess, onError);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    const getPathName = () => {
+        return location.pathname === "/" || !location.pathname
+               ? ""
+               : location.pathname;
+    };
+
+    return (
+        <div
+            style={{
+                display: "flex",
+                flexDirection: "column",
+                // backgroundColor: `${Colors.formBackgroundColor}`,
+                fontFamily: `${Fonts.fontStyle1}`,
+            }}
+        >
+            <div>
+                <ActionWrapper isLeft>
+                    <Button startIcon={<ArrowCircleLeftRounded />}
+                            onClick={goBack}
+                            color="success">
+                        Go back to list
+                    </Button>
+                </ActionWrapper>
+                {/* <PathName>{getPathName()}</PathName> */}
+                <FormHeader>
+                    {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+                    {state?.action} {formHeader}
+                </FormHeader>
+            </div>
+            <ButtonWrapper
+                style={{
+                    width: "95%",
+                    justifyContent: "flex-start",
+                    margin: "0",
+                    paddingLeft: "18px",
+                }}
+            >
+                {state?.action !== DEF_ACTIONS.VIEW && (
+                    <ActionWrapper>
+                        {saving ? (
+                            <Button variant="contained">
+                                {state?.action === DEF_ACTIONS.ADD
+                                 ? "ADDING..."
+                                 : "UPDATING..."}
+                            </Button>
+                        ) : (
+                             <>
+                                 <Button
+                                     variant="outlined"
+                                     disabled={!enableSave()}
+                                     onClick={handleFormSubmit}
+                                     size="small"
+                                     color="success"
+                                 >
+                                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                                 </Button>
+                                 <Button
+                                     onClick={resetForm}
+                                     color="success"
+                                     variant="contained"
+                                     size="small"
+                                     sx={{ marginLeft: "10px" }}
+                                 >
+                                     RESET
+                                 </Button>
+                             </>
+                         )}
+                    </ActionWrapper>
+                )}
+            </ButtonWrapper>
+            <Grid
+                container
+                sx={{
+                    // border: "1px solid #bec0c2",
+                    margin: "15px",
+                    width: "97%",
+                    borderRadius: "5px",
+                }}
+            >
+                <Grid item lg={3}>
+                    <FieldWrapper>
+                        <FieldName>Form Name</FieldName>
+                        <TextField
+                            name="formName"
+                            id="formName"
+                            value={formData?.formName || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) => handleChange(e?.target?.value || "", "formName")}
+                            sx={{
+                                // width: "264px",
+                                "& .MuiInputBase-root": {
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                    backgroundColor: `${Colors.white}`,
+                                },
+                                "& ::placeholder": {
+                                    fontSize: 11,
+                                    fontWeight: 400,
+                                    color: `${Colors.iconColor}`,
+                                },
+                            }}
+                            size="small"
+                        />
+                    </FieldWrapper>
+                </Grid>
+                <Grid item lg={3}>
+                    <FieldWrapper>
+                        <FieldName>Form Description</FieldName>
+                        <TextField
+                            name="formDescription"
+                            id="formDescription"
+                            value={formData?.formDescription || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                                handleChange(e?.target?.value || "", "formDescription")
+                            }
+                            sx={{
+                                // width: "264px",
+                                "& .MuiInputBase-root": {
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                    backgroundColor: `${Colors.white}`,
+                                },
+                                "& ::placeholder": {
+                                    fontSize: 11,
+                                    fontWeight: 400,
+                                    color: `${Colors.iconColor}`,
+                                },
+                            }}
+                            size="small"
+                        />
+                    </FieldWrapper>
+                </Grid>
+                <Grid item lg={2}>
+                    <FieldWrapper>
+                        <FieldName>Category</FieldName>
+
+                        <Select
+                            value={formData?.category || ""}
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                                handleChange(e?.target?.value || "", "category")
+                            }
+                            sx={{
+                                // width: "264px",
+                                // height: "30px",
+                                borderRadius: "8px",
+                                backgroundColor: `${Colors.white}`,
+                            }}
+                            size="small"
+                            fullWidth
+                        >
+                            <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
+                            <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
+                        </Select>
+                    </FieldWrapper>
+                </Grid>
+                <Grid item lg={2}>
+                    <FieldWrapper>
+                        <FieldName>Sub Category</FieldName>
+
+                        <Select
+                            value={formData?.subcategory || ""}
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                                handleChange(e?.target?.value || "", "subcategory")
+                            }
+                            sx={{
+                                // width: "264px",
+                                // height: "30px",
+                                borderRadius: "8px",
+                                backgroundColor: `${Colors.white}`,
+                            }}
+                            size="small"
+                            fullWidth
+                        >
+                            <MenuItem value={"VEG"}>VEG</MenuItem>
+                            <MenuItem value={"FRUIT"}>FRUIT</MenuItem>
+                            <MenuItem value={"PADDY"}>PADDY</MenuItem>
+                        </Select>
+                    </FieldWrapper>
+                </Grid>
+            </Grid>
+
+        </div>
+    );
+};
+
+export default CommonAuditForm;

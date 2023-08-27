@@ -111,6 +111,14 @@ import GapRegistration from "../pages/Gap/gapReg";
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
 import Map from "../pages/Map/Map";
+import SelfAssessment from "../pages/AuditForm/SelfAssessmentForm/SelfAssessment";
+import SelfAssessmentForm from "../pages/AuditForm/SelfAssessmentForm/SelfAssessmentForm";
+import BasicData from "../pages/AuditForm/BasicDataForm/BasicData";
+import BasicDataForm from "../pages/AuditForm/BasicDataForm/BasicDataForm";
+import InternalAudit from "../pages/AuditForm/InternalAuditForm/InternalAudit";
+import InternalAuditForm from "../pages/AuditForm/InternalAuditForm/InternalAuditForm";
+import ExternalAudit from "../pages/AuditForm/ExternalAuditForm/ExternalAudit";
+import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAuditForm";
 
 export const Routes = [
   {
@@ -795,7 +803,70 @@ export const Routes = [
     isSideBar: true,
     icon: AppRegistrationIcon,
   },
-
+  {
+    path: "/gap",
+    name: "GAP",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/self-assessment",
+        name: "Self Assessment",
+        isSideBar: true,
+        element: <SelfAssessment />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/self-assessment-form",
+        name: "Self Assessment Form",
+        isSideBar: false,
+        element: <SelfAssessmentForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/basic-assessment",
+        name: "Basic Data Assessment",
+        isSideBar: true,
+        element: <BasicData />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/basic-assessment-form",
+        name: "Basic Data Assessment Form",
+        isSideBar: false,
+        element: <BasicDataForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/internal-audit",
+        name: "Internal Audit",
+        isSideBar: true,
+        element: <InternalAudit />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/internal-audit-form",
+        name: "Internal Audit Form",
+        isSideBar: false,
+        element: <InternalAuditForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/external-audit",
+        name: "External Audit",
+        isSideBar: true,
+        element: <ExternalAudit />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/external-audit-form",
+        name: "External Audit Form",
+        isSideBar: false,
+        element: <ExternalAuditForm />,
+        icon: SouthAmericaIcon
+      }
+    ],
+  },
   {
     path: "/gap-reg-form",
     name: "GAP Regs",
