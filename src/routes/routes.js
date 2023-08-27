@@ -742,7 +742,7 @@ export const Routes = [
   },
   {
     path: "/farm-land-form",
-    name: "Farm Land Form",
+    name: "Farm Land",
     isSideBar: false,
     element: <FarmLandForm />,
   },

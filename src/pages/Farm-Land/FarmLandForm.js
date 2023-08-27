@@ -270,7 +270,7 @@ const FarmLandForm = () => {
           )}
         </ButtonWrapper>
         <Box sx={{ padding: "20px" }}>
-          <Grid container>
+          <Grid container sx={{ marginBottom: "10px" }}>
             <Grid item lg={4}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
@@ -293,7 +293,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
@@ -326,7 +326,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Protected House Type</FieldName>
@@ -361,6 +361,85 @@ const FarmLandForm = () => {
                     <MenuItem value={"Vertical farming structures"}>
                       Vertical farming structures
                     </MenuItem>
+                  </Select>
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>Soil Type</FieldName>
+
+                  <Autocomplete
+                    name="soilTypeDTO"
+                    id="soilTypeDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={soilType}
+                    value={formData ? formData.soilTypeDTO : ""}
+                    getOptionLabel={(i) =>
+                      `${i.soilTypeCode} - ${i.description}`
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "soilTypeDTO");
+                    }}
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                  />
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Area</FieldName>
+                <TextField
+                  name="area"
+                  id="area"
+                  value={formData?.area || ""}
+                  type="number"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) => handleChange(e?.target?.value || "", "area")}
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>Status</FieldName>
+                  <Select
+                    name="status"
+                    id="status"
+                    value={formData?.status || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "status")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"VERIFIED"}>Verified</MenuItem>
+                    <MenuItem value={"NOTVERIFIED"}>Not Verified</MenuItem>
                   </Select>
                 </FormControl>
               </FieldWrapper>
@@ -610,91 +689,6 @@ const FarmLandForm = () => {
                     },
                   }}
                 />
-              </FieldWrapper>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            sx={{
-              marginTop: "10px",
-            }}
-          >
-            <Grid item lg={3}>
-              <FieldWrapper>
-                <FormControl fullWidth>
-                  <FieldName>Soil Type</FieldName>
-
-                  <Autocomplete
-                    name="soilTypeDTO"
-                    id="soilTypeDTO"
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={soilType}
-                    value={formData ? formData.soilTypeDTO : ""}
-                    getOptionLabel={(i) =>
-                      `${i.soilTypeCode} - ${i.description}`
-                    }
-                    onChange={(event, value) => {
-                      handleChange(value, "soilTypeDTO");
-                    }}
-                    fullWidth
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                    size="small"
-                    renderInput={(params) => (
-                      <TextField {...params} size="small" />
-                    )}
-                  />
-                </FormControl>
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={3}>
-              <FieldWrapper>
-                <FieldName>Area</FieldName>
-                <TextField
-                  name="area"
-                  id="area"
-                  value={formData?.area || ""}
-                  type="number"
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) => handleChange(e?.target?.value || "", "area")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={2}>
-              <FieldWrapper>
-                <FormControl fullWidth>
-                  <FieldName>Status</FieldName>
-                  <Select
-                    name="status"
-                    id="status"
-                    value={formData?.status || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "status")
-                    }
-                    fullWidth
-                    sx={{
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    }}
-                    size="small"
-                  >
-                    <MenuItem value={"VERIFIED"}>Verified</MenuItem>
-                    <MenuItem value={"NOTVERIFIED"}>Not Verified</MenuItem>
-                  </Select>
-                </FormControl>
               </FieldWrapper>
             </Grid>
           </Grid>
