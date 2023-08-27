@@ -9,9 +9,7 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import {
@@ -109,7 +107,11 @@ const CropCategoryForm = () => {
     <>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Back to List
           </Button>
         </ActionWrapper>
@@ -119,15 +121,17 @@ const CropCategoryForm = () => {
         </FormHeader>
 
         <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
+          style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}
         >
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <Button variant="contained">
+                <Button>
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
@@ -135,14 +139,24 @@ const CropCategoryForm = () => {
               ) : (
                 <>
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
                   </Button>
-                  <Button onClick={resetForm}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>

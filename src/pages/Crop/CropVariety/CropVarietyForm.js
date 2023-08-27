@@ -32,6 +32,7 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
@@ -129,11 +130,11 @@ const CropVarietyForm = () => {
     <div>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} CROP VARIETY
@@ -149,21 +150,32 @@ const CropVarietyForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
+                <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
-                </AddButton>
+                </Button>
               ) : (
                 <>
-                  <AddButton
-                    variant="contained"
+                  <Button
+                    variant="outlined"
                     disabled={!enableSave()}
                     onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -172,7 +184,7 @@ const CropVarietyForm = () => {
         <Grid
           container
           sx={{
-            border: "1px solid #bec0c2",
+            // border: "1px solid #bec0c2",
             margin: "15px",
             width: "97%",
             borderRadius: "5px",

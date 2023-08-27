@@ -363,15 +363,15 @@ const ButtonContainer = styled.button`
   font-weight: 500;
   font-size: 22px;
   color: ${Colors.white};
-  background-color: ${Colors.buttonColor};
-  /* background-color: #2cb57b; */
+  /* background-color: ${Colors.buttonColor}; */
+  background-color: #40a845;
   font-family: ${Fonts.fontStyle1};
   border: none;
   cursor: pointer;
 `;
 
 const RegisterButtons = styled(ButtonContainer)`
-  background-color: #2cb57b;
+  background-color: #40a845;
   font-size: 20px;
   font-weight: 500;
   color: #ffffff;

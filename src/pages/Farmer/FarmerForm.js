@@ -42,6 +42,7 @@ import { get_ProvinceList } from "../../redux/actions/province/action";
 import { get_DistrictList } from "../../redux/actions/district/action";
 import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { Add, Edit } from "@mui/icons-material";
 
 const FarmerForm = () => {
   useUserAccessValidation();
@@ -161,7 +162,7 @@ const FarmerForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.formBackgroundColor}`,
+        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
         height: "100vh",
@@ -174,7 +175,7 @@ const FarmerForm = () => {
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} FARMER
@@ -191,23 +192,34 @@ const FarmerForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </AddButton>
-            ) : (
-              <>
-                <AddButton
-                  variant="contained"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
-              </>
-            )}
+                <Button variant="contained">
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
@@ -215,7 +227,7 @@ const FarmerForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",

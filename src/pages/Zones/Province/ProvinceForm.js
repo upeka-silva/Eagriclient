@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress, Grid } from "@mui/material";
+import { TextField, Button, CircularProgress, Grid, Box } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -24,6 +24,7 @@ import {
   ActionWrapper,
   makeCapitalize,
 } from "../../../components/PageLayout/ActionWrapper";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const ProvinceForm = () => {
   useUserAccessValidation();
@@ -114,40 +115,59 @@ const ProvinceForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft >
-        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      <PathName >{getPathName()}</PathName>
-      <FormHeader >
-        {saving && <CircularProgress size={20}  />}
-        {makeCapitalize(state?.action)} Province
-      </FormHeader>
-      <ButtonWrapper style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}>
+      <Box>
+        <ActionWrapper isLeft>
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
+            Go back to list
+          </Button>
+        </ActionWrapper>
+        {/* <PathName>{getPathName()}</PathName> */}
+        <FormHeader>
+          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
+          {makeCapitalize(state?.action)} Soil Type
+        </FormHeader>
+      </Box>
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -156,21 +176,22 @@ const ProvinceForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-          marginTop:'0px'
+          marginTop: "0px",
         }}
-       
       >
         <Grid item lg={4}>
-          <FieldWrapper
-           
-          >
-            <FieldName  style={{
-              width: "100%",
-            }}>Province Code</FieldName>
+          <FieldWrapper>
+            <FieldName
+              style={{
+                width: "100%",
+              }}
+            >
+              Province Code
+            </FieldName>
             <TextField
               name="code"
               id="code"
@@ -214,7 +235,6 @@ const ProvinceForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };

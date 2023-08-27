@@ -34,6 +34,7 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
 import { useEffect } from "react";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const AgroEcoForm = () => {
   useUserAccessValidation();
@@ -133,11 +134,11 @@ const AgroEcoForm = () => {
     <div>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName >{getPathName()}</PathName>
+        {/* <PathName >{getPathName()}</PathName> */}
         <FormHeader >
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} AGRO ECO ZONE
@@ -153,30 +154,41 @@ const AgroEcoForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-                <AddButton variant="contained" disabled>
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </AddButton>
-              ) : (
-                <>
-                  <AddButton
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
-                </>
-              )}
+              <Button variant="contained">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
         <Grid
           container
           sx={{
-            border: "1px solid #bec0c2",
+            // border: "1px solid #bec0c2",
             margin: "15px",
             width: "97%",
             borderRadius: "5px",
