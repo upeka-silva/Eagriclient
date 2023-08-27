@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ButtonGroup,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -25,6 +26,7 @@ import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const District = () => {
   useUserAccessValidation();
@@ -149,55 +151,52 @@ const District = () => {
   return (
     <div>
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectedDistricts.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
+            <Button  onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-        )}
-        {selectedDistricts.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectedDistricts.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectedDistricts.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedDistricts.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedDistricts.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}

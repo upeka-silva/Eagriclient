@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -24,6 +25,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const InstitutionCategory = () => {
   useUserAccessValidation();
@@ -146,55 +148,40 @@ const InstitutionCategory = () => {
   return (
     <div>
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectInstitutionCat.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
           </PermissionWrapper>
-        )}
-        {selectInstitutionCat.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectInstitutionCat.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectInstitutionCat.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+            </PermissionWrapper>
+          )}
+          {selectInstitutionCat.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+            </PermissionWrapper>
+          )}
+          {selectInstitutionCat.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}
+            >
+              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION_CATEGORY}`}

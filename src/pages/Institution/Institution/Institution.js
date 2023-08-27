@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -25,6 +26,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteInstitution } from "../../../redux/actions/institution/institution/action";
 import InstitutionList from "./InstitutionList";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const Institution = () => {
   useUserAccessValidation();
@@ -147,69 +149,52 @@ const Institution = () => {
   return (
     <div>
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectInstitution.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
           </PermissionWrapper>
-        )}
-        {selectInstitution.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectInstitution.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectInstitution.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+            </PermissionWrapper>
+          )}
+          {selectInstitution.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+            </PermissionWrapper>
+          )}
+          {selectInstitution.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION}`}
+            >
+              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION}`}
       >
-        {
-          loading === false && (
-            <InstitutionList
-              selectedRows={selectInstitution}
-              onRowSelect={toggleInstitutionSelect}
-              selectAll={selectAllInstitutions}
-              unSelectAll={resetSelectedInstitutions}
-            />
-          )
-        }
+        {loading === false && (
+          <InstitutionList
+            selectedRows={selectInstitution}
+            onRowSelect={toggleInstitutionSelect}
+            selectAll={selectAllInstitutions}
+            unSelectAll={resetSelectedInstitutions}
+          />
+        )}
       </PermissionWrapper>
       <DialogBox
         open={open}
@@ -237,7 +222,7 @@ const Institution = () => {
       >
         <>
           <DeleteMsg />
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

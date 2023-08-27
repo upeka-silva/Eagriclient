@@ -93,9 +93,9 @@ import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
-import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
-import AddLocationAltIcon from '@mui/icons-material/AddLocationAlt';
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
@@ -107,11 +107,10 @@ import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
-import GapRegistration from "../pages/Gap/gapReg"
+import GapRegistration from "../pages/Gap/gapReg";
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
 import Map from "../pages/Map/Map";
-
 
 export const Routes = [
   {
@@ -792,21 +791,21 @@ export const Routes = [
   {
     path: "/gap-registration",
     name: "GAP Registration",
-    element: <GapRegs/>,
+    element: <GapRegs />,
     isSideBar: true,
     icon: AppRegistrationIcon,
   },
- 
+
   {
     path: "/gap-reg-form",
     name: "GAP Regs",
-    element: <GapRegForm/>,
+    element: <GapRegForm />,
     isSideBar: false,
   },
   {
     path: "/map",
     name: "Map",
-    element: <Map/>,
+    element: <Map />,
     isSideBar: true,
     icon: AddLocationAltIcon,
   },

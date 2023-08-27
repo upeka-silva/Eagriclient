@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -25,6 +26,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -146,10 +148,18 @@ const CropSubCategory = () => {
   return (
     <div>
       <ActionWrapper isLeft>
+      <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
+        >
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
         >
-          <Button variant="contained" onClick={onCreate}>
+          <Button  onClick={onCreate}>
+            <Add/>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
@@ -163,6 +173,7 @@ const CropSubCategory = () => {
               onClick={onEdit}
               sx={{ ml: "8px" }}
             >
+              <Edit/>
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
@@ -177,6 +188,7 @@ const CropSubCategory = () => {
               onClick={onView}
               sx={{ ml: "8px" }}
             >
+              <Vrpano/>
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
@@ -191,10 +203,12 @@ const CropSubCategory = () => {
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
+              <Delete/>
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
         )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}

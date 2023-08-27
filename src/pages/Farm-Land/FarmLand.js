@@ -165,7 +165,7 @@ const FarmLand = () => {
           >
             <Button onClick={onCreate} >
               <Add />
-              
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
           {selectFarmLand.length === 1 && (

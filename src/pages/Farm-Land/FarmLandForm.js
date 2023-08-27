@@ -24,7 +24,10 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper , makeCapitalize, } from "../../components/PageLayout/ActionWrapper";
+import {
+  ActionWrapper,
+  makeCapitalize,
+} from "../../components/PageLayout/ActionWrapper";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { PathName } from "../../components/FormLayout/PathName";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
@@ -189,7 +192,7 @@ const FarmLandForm = () => {
   return (
     <Box
       sx={{
-        backgroundColor: `${Colors.formBackgroundColor}`,
+        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
         overflowY: "scroll",
@@ -197,7 +200,11 @@ const FarmLandForm = () => {
     >
       <Box>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
@@ -234,20 +241,22 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
         <Box sx={{ padding: "20px" }}>
-          <Grid
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-            }}
-            container
-          >
+          <Grid container>
             <Grid item lg={4}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
@@ -342,7 +351,16 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-
+          </Grid>
+          
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+             
+            }}
+          >
             <Grid item lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 01</FieldName>
@@ -519,6 +537,15 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+          </Grid>
+          <Grid
+            container
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginTop:'10px'
+            }}
+          >
             <Grid item lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
@@ -626,14 +653,12 @@ const FarmLandForm = () => {
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
-        <Box >
+        <Box>
           <Grid container>
             <Grid item lg={8}>
-            <FarmLandLocation/>
+              <FarmLandLocation />
             </Grid>
-
           </Grid>
-          
         </Box>
       </TabContent>
 
@@ -659,7 +684,15 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -964,7 +997,15 @@ const FarmLandForm = () => {
                     {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                   </Button>
-                  <Button onClick={resetForm} color="success" variant="contained"  size="small" sx={{ marginLeft:'10px' }}>RESET</Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
                 </>
               )}
             </ActionWrapper>
@@ -1049,7 +1090,6 @@ export const TabWrapper = styled(Stack)`
   && {
     flex-direction: row;
     margin: 20px 0px;
-   
   }
 `;
 

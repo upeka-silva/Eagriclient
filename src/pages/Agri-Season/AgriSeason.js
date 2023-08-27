@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -21,6 +22,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 import AgriSeasonList from "./AgriSeasonList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const AgriSeason = () => {
   useUserAccessValidation();
@@ -157,55 +159,52 @@ const AgriSeason = () => {
   return (
     <div>
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectAgriSeason.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-        )}
-        {selectAgriSeason.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectAgriSeason.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectAgriSeason.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectAgriSeason.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectAgriSeason.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}

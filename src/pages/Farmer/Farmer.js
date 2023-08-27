@@ -5,6 +5,7 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
@@ -27,6 +28,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -150,10 +152,18 @@ const Farmer = () => {
   return (
     <div>
       <ActionWrapper isLeft>
+      <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
+        >
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
         >
-          <Button variant="contained" onClick={onCreate}>
+          <Button  onClick={onCreate}>
+            <Add/>
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
@@ -161,41 +171,33 @@ const Farmer = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
           >
-            <ActionButton
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-            >
-              <EditIcon />
-            </ActionButton>
+            <Button onClick={onEdit}>
+                <Edit/>
+                {DEF_ACTIONS.EDIT}
+              </Button>
           </PermissionWrapper>
         )}
         {selectedFarmer.length === 1 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
           >
-            <ActionButton
-              variant="contained"
-              color="info"
-              onClick={onView}
-            >
-              <VisibilityIcon />
-            </ActionButton>
+            <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
           </PermissionWrapper>
         )}
         {selectedFarmer.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARMER}`}
           >
-            <ActionButton
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-            >
-             <DeleteForeverIcon />
-            </ActionButton>
+             <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
           </PermissionWrapper>
         )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARMER}`}
