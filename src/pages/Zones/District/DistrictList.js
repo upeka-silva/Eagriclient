@@ -3,6 +3,7 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const DistrictList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -11,18 +12,18 @@ const DistrictList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    {
-      field: ["provinceDTO.code", "provinceDTO.name"],
-      joinString: " - ",
-      headerName: "Province Description",
-    },
+    // {
+    //   field: ["provinceDTO.code", "provinceDTO.name"],
+    //   joinString: " - ",
+    //   headerName: "Province Description",
+    // },
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/districts"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}
