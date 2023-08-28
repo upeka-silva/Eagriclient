@@ -3,6 +3,7 @@ import { CardWrapper } from '../../../components/PageLayout/Card';
 import { DataTable } from '../../../components/PageLayout/Table';
 
 const GnDivisionList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => { },
   selectAll = (_list = []) => { },
@@ -19,7 +20,7 @@ const GnDivisionList = ({
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/gn-divisions"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}
