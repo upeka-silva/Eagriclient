@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Button,
@@ -10,6 +10,8 @@ import {
   ListItemIcon,
   ListItemText,
   ButtonGroup,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -26,7 +28,9 @@ import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano, Search } from "@mui/icons-material";
+
+import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 const District = () => {
   useUserAccessValidation();
@@ -36,9 +40,12 @@ const District = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/districts");
 
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [options, setOptions] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState({ name: "Select" });
 
   const toggleDistrictSelect = (component) => {
     setSelectedDistricts((current = []) => {
@@ -148,6 +155,17 @@ const District = () => {
     }
   };
 
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setOptions(dataList);
+    });
+  }, []);
+
+  const getFilteredData = () => {
+    setDataEndPoint(`geo-data/districts/province/` + selectedProvince?.id);
+  };
+
   return (
     <div>
       <ActionWrapper isLeft>
@@ -161,7 +179,7 @@ const District = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
           >
-            <Button  onClick={onCreate}>
+            <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
@@ -198,6 +216,39 @@ const District = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Autocomplete
+          // disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={options}
+          value={selectedProvince}
+          getOptionLabel={(i) => `${i?.name} Province`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedProvince(value);
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Button
+          color="success"
+          variant="contained"
+          size="small"
+          onClick={getFilteredData}
+        >
+          <Search />
+          Search
+        </Button>
+      </ActionWrapper>
+
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}
       >
@@ -207,6 +258,7 @@ const District = () => {
             onRowSelect={toggleDistrictSelect}
             selectAll={selectAllDistricts}
             unSelectAll={resetSelectedDistricts}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>

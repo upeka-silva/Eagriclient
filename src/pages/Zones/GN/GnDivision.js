@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
+  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
@@ -9,6 +10,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -30,7 +32,8 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add } from "@mui/icons-material";
+import { Add, Search } from "@mui/icons-material";
+import { get_ProvinceList } from "../../../redux/actions/province/action";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -43,6 +46,14 @@ const GnDivision = () => {
 
   const [selectedGnDivisions, setSelectedGnDivisions] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [dataEndPoint ,setDataEndPoint] = useState("geo-data/gn-divisions")
+
+  const [provinces, setProvinces] = useState([]);
+  const [districs, setDistrics] = useState([]);
+  const [dsDivisions, setDsDivisions] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState({ name: "Select" });
+  const [selectedDistrict, setSelectedDistrict] = useState({ name: "Select" });
+  const [selectedDsDevision, setSelectedDsDevision] = useState({ name: "Select" });
 
   const toggleGnDivisionSelect = (component) => {
     setSelectedGnDivisions((current = []) => {
@@ -151,6 +162,18 @@ const GnDivision = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setProvinces(dataList);
+    });
+  }, []);
+
+  const getFilteredData = () => {
+    setDataEndPoint(
+      `geo-data/gn-divisions/ds-division/` + selectedDsDevision?.id
+    );
+  };
 
   return (
     <div>
@@ -197,6 +220,80 @@ const GnDivision = () => {
         )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Autocomplete
+          // disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={provinces}
+          value={selectedProvince}
+          getOptionLabel={(i) => `${i?.name} Province`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedProvince(value);
+            setSelectedDistrict({name:'Select'})
+            setSelectedDsDevision({name:"Select"})
+            setDistrics(value?.districtDTOList);
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Autocomplete
+          disabled={selectedProvince?.id == null}
+          options={districs}
+          value={selectedDistrict}
+          getOptionLabel={(i) => `${i?.name} District`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedDistrict(value);
+            setSelectedDsDevision({name:"Select"})
+            setDsDivisions(value.dsDivisionDTOList)
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Autocomplete
+          disabled={selectedDistrict?.id == null}
+          options={dsDivisions}
+          value={selectedDsDevision}
+          getOptionLabel={(i) => `${i?.name} Ds Devision`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedDsDevision(value);
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Button color="success" variant="contained" size="small" onClick={getFilteredData}>
+          <Search />
+          Search
+        </Button>
+      </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GN_DIVISION}`}
       >
@@ -206,6 +303,7 @@ const GnDivision = () => {
             onRowSelect={toggleGnDivisionSelect}
             selectAll={selectAllGnDivisions}
             unSelectAll={resetSelectedGnDivisions}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>

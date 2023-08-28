@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -16,6 +16,8 @@ import {
   ListItemIcon,
   ListItemText,
   ButtonGroup,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
@@ -26,7 +28,9 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { get_DistrictList } from "../../../redux/actions/district/action";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -35,9 +39,15 @@ const DsDivision = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/ds-divisions");
 
   const [selectedDsDivisions, setSelectedDsDivisions] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const [provinces, setProvinces] = useState([]);
+  const [districs, setDistrics] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState({ name: "Select" });
+  const [selectedDistrict, setSelectedDistrict] = useState({ name: "Select" });
 
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
@@ -147,6 +157,19 @@ const DsDivision = () => {
     }
   };
 
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setProvinces(dataList);
+    });
+  }, []);
+
+  const getFilteredData = () => {
+    setDataEndPoint(
+      `geo-data/ds-divisions/by-district/` + selectedDistrict?.id
+    );
+  };
+
   return (
     <div>
       <ActionWrapper isLeft>
@@ -180,7 +203,7 @@ const DsDivision = () => {
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
             >
               <Button onClick={onView}>
-              <Vrpano />
+                <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
             </PermissionWrapper>
@@ -190,13 +213,67 @@ const DsDivision = () => {
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DS_DIVISION}`}
             >
               <Button onClick={onDelete}>
-                
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
+      </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Autocomplete
+          // disabled={state?.action === DEF_ACTIONS.VIEW}
+          options={provinces}
+          value={selectedProvince}
+          getOptionLabel={(i) => `${i?.name} Province`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedProvince(value);
+            setSelectedDistrict({name:"Select"})
+            setDistrics(value?.districtDTOList);
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Autocomplete
+          disabled={selectedProvince?.id == null}
+          options={districs}
+          value={selectedDistrict}
+          getOptionLabel={(i) => `${i?.name} District`}
+          onChange={(event, value) => {
+            console.log(value);
+            setSelectedDistrict(value);
+          }}
+          fullWidth
+          sx={{
+            width: "214px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "4px",
+            },
+            marginRight: "5px",
+          }}
+          renderInput={(params) => (
+            <TextField {...params} size="small" fullWidth />
+          )}
+        />
+        <Button
+          color="success"
+          variant="contained"
+          size="small"
+          onClick={getFilteredData}
+        >
+          <Search />
+          Search
+        </Button>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DS_DIVISION}`}
@@ -207,6 +284,7 @@ const DsDivision = () => {
             onRowSelect={toggleDsDivisionSelect}
             selectAll={selectAllDsDivisions}
             unSelectAll={resetSelectedDsDivisions}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
