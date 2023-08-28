@@ -4,6 +4,7 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import {
   Button,
   TextField,
@@ -47,26 +48,30 @@ const [id,setId] = useState(null);
     <div>
       <CardWrapper>
 
-          <FieldWrapper>
-            <FieldName>Category ID</FieldName>
+          <ActionWrapper isLeft>
+
             <Autocomplete
                 // disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
                 // value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                 onChange={(event, value) => {
                   handleChange(value);
                 }}
+                fullWidth
                 sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px", width:"40%",
-                      marginLeft:"-10px"
-                  },
+                    width: "214px",
+                    "& .MuiOutlinedInput-root": {
+                        borderRadius: "4px",
+                    },
+                    marginRight: "5px",
                 }}
-                renderInput={(params) => <TextField {...params} size="small" />}
+                renderInput={(params) => <TextField {...params} size="small"  placeholder="Select Crop Category" />}
                 fullWidth
             />
-          </FieldWrapper>
+
+          </ActionWrapper>
+
 
 
         <DataTable
