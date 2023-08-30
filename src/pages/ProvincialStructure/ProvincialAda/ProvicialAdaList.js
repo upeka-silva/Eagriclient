@@ -2,7 +2,7 @@ import React from "react";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
-const DistrictList = ({
+const ProvincialAdaList = ({
   dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
@@ -10,13 +10,8 @@ const DistrictList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    // {
-    //   field: ["provinceDTO.code", "provinceDTO.name"],
-    //   joinString: " - ",
-    //   headerName: "Province Description",
-    // },
+    { field: "provinceSegmentId", headerName: "Code" },
+    { field: "description", headerName: "Description" },
   ];
 
   return (
@@ -35,4 +30,4 @@ const DistrictList = ({
   );
 };
 
-export default DistrictList;
+export default ProvincialAdaList;

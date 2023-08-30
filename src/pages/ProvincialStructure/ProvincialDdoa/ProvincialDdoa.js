@@ -1,58 +1,62 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ButtonGroup,
-  Autocomplete,
-  TextField,
-  Box,
-  Grid,
-} from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router-dom";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import {
+  Autocomplete,
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Divider,
+  Grid,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+} from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DistrictList from "./DistrictList";
-import { useSnackBars } from "../../../context/SnackBarContext";
+import { ActionButton } from "../../../components/ActionButtons/ActionButton";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteDistrict } from "../../../redux/actions/district/action";
+
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano, Search } from "@mui/icons-material";
-
-import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { deleteProvincialDoa, get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
+import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import ProvincialDdoaList from "./ProvincialDdoaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 
-const District = () => {
+const ProvincialDdoa = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [dataEndPoint, setDataEndPoint] = useState("geo-data/districts");
 
-  const [selectedDistricts, setSelectedDistricts] = useState([]);
+  const [search, setSearch] = useState({});
+
+  const [selectedProvincialDdoa, setSelectedProvincialDdoa] = useState([]);
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/provincial-deputy-director-level");
+
+  
+  const [selectedDoa, setSelectedDoa] = useState();
+  const [doas,setDoas] = useState([])
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [options, setOptions] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState();
 
-  const toggleDistrictSelect = (component) => {
-    setSelectedDistricts((current = []) => {
+  const toggleProvincialDdoaSelect = (component) => {
+    setSelectedProvincialDdoa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -64,37 +68,37 @@ const District = () => {
     });
   };
 
-  const selectAllDistricts = (all = []) => {
-    setSelectedDistricts(all);
+  const selectAllProvincialDdoa = (all = []) => {
+    setSelectedProvincialDdoa(all);
   };
 
-  const resetSelectedDistricts = () => {
-    setSelectedDistricts([]);
+  const resetSelectedProvincialDdoa = () => {
+    setSelectedProvincialDdoa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/district-form", {
+    navigate("/zone/provincial-structure/provincial-ddoa-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ga-structure/district-form", {
+    navigate("/zone/provincial-structure/provincial-ddoa-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedDistricts[0] || {},
+        target: selectedProvincialDdoa[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ga-structure/district-form", {
+    navigate("/zone/provincial-structure/provincial-ddoa-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedDistricts[0] || {},
+        target: selectedProvincialDdoa[0] || {},
       },
     });
   };
@@ -103,25 +107,38 @@ const District = () => {
     setOpen(true);
   };
 
-  const close = () => {
+  const onClose = () => {
     setOpen(false);
+  };
+
+  useEffect(() => {
+    get_ProvincialDoaList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDoas(dataList);
+    });
+  }, []);
+
+  const getFilteredData = () => {
+    console.log(selectedDoa)
+    setDataEndPoint(`geo-data/provincial-deputy-director-level/pro-director-id/` + selectedDoa?.id);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedDistricts.map((p, key) => {
+        {selectedProvincialDdoa.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
                 {loading ? (
-                  <CircularProgress size={16} />
+                  <CircularProgress size={20} />
                 ) : (
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {" "}
+                {item?.proDirectorId} - {item?.description}
               </ListItemText>
             </ListItem>
           );
@@ -133,108 +150,102 @@ const District = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: "Successfully deleted",
     });
   };
 
-  const onError = (message) => {
+  const onError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: "Failed to delete",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const district of selectedDistricts) {
-        await deleteDistrict(district?.id, onSuccess, onError);
+      for (const provincialDoa of selectedProvincialDdoa) {
+        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
-      close();
-      resetSelectedDistricts();
+      onClose();
+      resetSelectedProvincialDdoa();
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
 
-  useEffect(() => {
-    get_ProvinceList().then(({ dataList = [] }) => {
-      console.log(dataList);
-      setOptions(dataList);
-    });
-  }, []);
-
-  const getFilteredData = () => {
-    setDataEndPoint(`geo-data/districts/province/` + selectedProvince?.id);
-  };
+ 
 
   return (
     <div>
       <ActionWrapper isLeft>
-        <ButtonGroup
+      <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        >
+          <Button  onClick={onCreate}>
+          <Add />
+            {DEF_ACTIONS.ADD}
+          </Button>
+        </PermissionWrapper>
+
+        {selectedProvincialDdoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectedDistricts.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-            >
-              <Button onClick={onEdit}>
+            <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-            </PermissionWrapper>
-          )}
-          {selectedDistricts.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-            >
-              <Button onClick={onView}>
-                <Vrpano />
+          </PermissionWrapper>
+        )}
+        {selectedProvincialDdoa.length === 1 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+          >
+            <Button onClick={onView}>
+              <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-            </PermissionWrapper>
-          )}
-          {selectedDistricts.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT}`}
-            >
-              <Button onClick={onDelete}>
-                <Delete />
+          </PermissionWrapper>
+        )}
+        {selectedProvincialDdoa.length > 0 && (
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+          >
+            <Button onClick={onDelete}>
+                
+                <Delete/>
                 {DEF_ACTIONS.DELETE}
               </Button>
-            </PermissionWrapper>
-          )}
+          </PermissionWrapper>
+        )}
         </ButtonGroup>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Province</FieldName>
+              <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
                 // disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={options}
-                value={selectedProvince}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                options={doas}
+                value={selectedDoa}
+                getOptionLabel={(i) => `${i?.proDirectorId} - ${i?.description}`}
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedProvince(value);
+                  setSelectedDoa(value);
                 }}
                 fullWidth
+                disableClearable 
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -265,21 +276,21 @@ const District = () => {
       </ActionWrapper>
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <DistrictList
-            selectedRows={selectedDistricts}
-            onRowSelect={toggleDistrictSelect}
-            selectAll={selectAllDistricts}
-            unSelectAll={resetSelectedDistricts}
+          <ProvincialDdoaList
+            selectedRows={selectedProvincialDdoa}
+            onRowSelect={toggleProvincialDdoaSelect}
+            selectAll={selectAllProvincialDdoa}
+            unSelectAll={resetSelectedProvincialDdoa}
             dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete District"
+        title="Delete Provincial Level"
         actions={
           <ActionWrapper>
             <Button
@@ -293,7 +304,7 @@ const District = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={onClose}
               sx={{ ml: "8px" }}
             >
               Close
@@ -311,4 +322,4 @@ const District = () => {
   );
 };
 
-export default District;
+export default ProvincialDdoa;

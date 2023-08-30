@@ -4,7 +4,7 @@ import { Colors } from "../../utils/constants/Colors";
 
 export const FieldName = styled(Typography)`
   && {
-    font-size: 11px;
+    font-size: 13px;
     color: ${Colors.formButton};
     margin: 10px 0;
   }

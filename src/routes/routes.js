@@ -111,6 +111,10 @@ import GapRegistration from "../pages/Gap/gapReg";
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
 import Map from "../pages/Map/Map";
+import ProvincialDdoa from "../pages/ProvincialStructure/ProvincialDdoa/ProvincialDdoa";
+import ProvincialDdoaForm from "../pages/ProvincialStructure/ProvincialDdoa/ProvicialDdoaForm";
+import ProvincialAda from "../pages/ProvincialStructure/ProvincialAda/ProvicialAda";
+import ProvincialAdaForm from "../pages/ProvincialStructure/ProvincialAda/ProvicialAdaForm";
 
 export const Routes = [
   {
@@ -247,9 +251,48 @@ export const Routes = [
             isSideBar: false,
             element: <ProvincialDoaForm />,
           },
+          {
+            path: "/provincial-deputy-director",
+            name: "Provincial DDOA",
+            isSideBar: true,
+            element: <ProvincialDdoa />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/provincial-ddoa-form",
+            name: "Provincial DDOA Form",
+            isSideBar: false,
+            element: <ProvincialDdoaForm />,
+          },
+          {
+            path: "/provincial-ada",
+            name: "Provincial ADA",
+            isSideBar: true,
+            element: <ProvincialAda />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/provincial-ada-form",
+            name: "Provincial ADA Form",
+            isSideBar: false,
+            element: <ProvincialAdaForm />,
+          },
+          {
+            path: "/ai-region",
+            name: "AI Region",
+            isSideBar: true,
+            element: <AI />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/ai-region-form",
+            name: "ASC Form",
+            isSideBar: false,
+            element: <AIForm />,
+          },
           // {
           //   path: "/ai-region",
-          //   name: "Provincial DDOA",
+          //   name: "Provincial ADA Segment",
           //   isSideBar: true,
           //   element: <AI />,
           //   icon: MyLocationIcon,
@@ -260,6 +303,91 @@ export const Routes = [
           //   isSideBar: false,
           //   element: <AIForm />,
           // },
+          // {
+          //   path: "/ai-region",
+          //   name: "AI Region",
+          //   isSideBar: true,
+          //   element: <AI />,
+          //   icon: MyLocationIcon,
+          // },
+          // {
+          //   path: "/ai-region-form",
+          //   name: "ASC Form",
+          //   isSideBar: false,
+          //   element: <AIForm />,
+          // },
+          // {
+          //   path: "/gn-division",
+          //   name: "GN Division",
+          //   isSideBar: true,
+          //   element: <GnDivision />,
+          //   // icon: StreetviewIcon,
+          // },
+          // {
+          //   path: "/gn-division-form",
+          //   name: "GN Division Form",
+          //   isSideBar: false,
+          //   element: <GnDivisionForm />,
+          // },
+        ],
+      },
+      {
+        path: "/inter-provincial-structure",
+        name: "Inter Provincial DOA ",
+        isSideBar: true,
+        children: [
+          {
+            path: "/provincial-director",
+            name: "Director DOA",
+            isSideBar: true,
+            element: <ProvincialDoa />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/provincial-doa-form",
+            name: "Provincial DOA Form",
+            isSideBar: false,
+            element: <ProvincialDoaForm />,
+          },
+          {
+            path: "/provincial-deputy-director",
+            name: "Provincial DDOA",
+            isSideBar: true,
+            element: <ProvincialDdoa />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/provincial-ddoa-form",
+            name: "Provincial DDOA Form",
+            isSideBar: false,
+            element: <ProvincialDdoaForm />,
+          },
+          {
+            path: "/provincial-ada",
+            name: "Provincial ADA",
+            isSideBar: true,
+            element: <ProvincialAda />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/provincial-ada-form",
+            name: "Provincial ADA Form",
+            isSideBar: false,
+            element: <ProvincialAdaForm />,
+          },
+          {
+            path: "/ai-region",
+            name: "AI Region",
+            isSideBar: true,
+            element: <AI />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/ai-region-form",
+            name: "ASC Form",
+            isSideBar: false,
+            element: <AIForm />,
+          },
           // {
           //   path: "/ai-region",
           //   name: "Provincial ADA Segment",

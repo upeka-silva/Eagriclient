@@ -21,9 +21,9 @@ const PermissionWrapper = ({
 		if (majorModule) {
 			return getUserPermissionStateByModule(majorModule) || false;
 		}
-		if (permission) {
-			return getUserPermissionStateByAuthority(permission) || false;
-		}
+		// if (permission) {
+		// 	return getUserPermissionStateByAuthority(permission) || false;
+		// }
 		return true;
 	};
 
