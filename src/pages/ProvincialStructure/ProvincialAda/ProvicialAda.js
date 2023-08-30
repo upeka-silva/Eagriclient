@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router-dom";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
   Button,
@@ -13,62 +20,56 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import GnDivisionList from "./GnDivisionList";
 import { ActionButton } from "../../../components/ActionButtons/ActionButton";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Search } from "@mui/icons-material";
-import { get_ProvinceList } from "../../../redux/actions/province/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import {
+  deleteProvincialDoa,
+  get_ProvincialDoaList,
+} from "../../../redux/actions/ProvincialDoa/action";
+import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import ProvincialAdaList from "./ProvicialAdaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_ProvincialDdoaList } from "../../../redux/actions/provincialDdoa/action";
 
-const GnDivision = () => {
+const ProvincialAda = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectedGnDivisions, setSelectedGnDivisions] = useState([]);
+  const [search, setSearch] = useState({});
+
+  const [dataEndPoint, setDataEndPoint] = useState(
+    "geo-data/provincial-ada-segments"
+  );
+  const [selectedProvincialAda, setSelectedProvincialAda] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [dataEndPoint, setDataEndPoint] = useState("geo-data/gn-divisions");
 
-  const [provinces, setProvinces] = useState([]);
-  const [districs, setDistrics] = useState([]);
-  const [dsDivisions, setDsDivisions] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState({
-    name: "",
-    code: "",
+  const [doas, setDoas] = useState([]);
+  const [ddoas, setDdoas] = useState([]);
+  const [selectedDdoa, setSelectedDdoa] = useState({
+    provincialDdId: "",
+    description: "",
   });
-  const [selectedDistrict, setSelectedDistrict] = useState({
-    name: "",
-    code: "",
-  });
-  const [selectedDsDevision, setSelectedDsDevision] = useState({
-    name: "",
-    code: "",
+  const [selectedDoa, setSelectedDoa] = useState({
+    proDirectorId: "",
+    description: "",
   });
 
-  const toggleGnDivisionSelect = (component) => {
-    setSelectedGnDivisions((current = []) => {
+  const toggleProvincialDoaSelect = (component) => {
+    setSelectedProvincialAda((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -80,37 +81,37 @@ const GnDivision = () => {
     });
   };
 
-  const selectAllGnDivisions = (all = []) => {
-    setSelectedGnDivisions(all);
+  const selectAllProvincialAda = (all = []) => {
+    setSelectedProvincialAda(all);
   };
 
-  const resetSelectedGnDivisions = () => {
-    setSelectedGnDivisions([]);
+  const resetSelectedProvincialAda = () => {
+    setSelectedProvincialAda([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/gn-division-form", {
+    navigate("/zone/provincial-structure/provincial-ada-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ga-structure/gn-division-form", {
+    navigate("/zone/provincial-structure/provincial-ada-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedGnDivisions[0] || {},
+        target: selectedProvincialAda[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ga-structure/gn-division-form", {
+    navigate("/zone/provincial-structure/provincial-ada-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedGnDivisions[0] || {},
+        target: selectedProvincialAda[0] || {},
       },
     });
   };
@@ -119,25 +120,26 @@ const GnDivision = () => {
     setOpen(true);
   };
 
-  const close = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedGnDivisions.map((p, key) => {
+        {selectedProvincialAda.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
                 {loading ? (
-                  <CircularProgress size={16} />
+                  <CircularProgress size={20} />
                 ) : (
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.description}
+                {" "}
+                {item?.proDirectorId} - {item?.description}
               </ListItemText>
             </ListItem>
           );
@@ -149,43 +151,46 @@ const GnDivision = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: "Successfully deleted",
     });
   };
 
-  const onError = (message) => {
+  const onError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: "Failed to delete",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const gnDivision of selectedGnDivisions) {
-        await deleteGnDivision(gnDivision?.id, onSuccess, onError);
+      for (const provincialDoa of selectedProvincialAda) {
+        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
-      close();
-      resetSelectedGnDivisions();
+      onClose();
+      resetSelectedProvincialAda();
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
-  useEffect(() => {
-    get_ProvinceList().then(({ dataList = [] }) => {
-      console.log(dataList);
-      setProvinces(dataList);
-    });
-  }, []);
 
   const getFilteredData = () => {
-    setDataEndPoint(
-      `geo-data/gn-divisions/ds-division/` + selectedDsDevision?.id
-    );
+    setDataEndPoint(`geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id);
   };
+
+  useEffect(() => {
+    get_ProvincialDoaList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDoas(dataList);
+    });
+    // get_ProvincialDdoaList().then(({ dataList = [] }) => {
+    //     console.log(dataList);
+    //     setDdoas(dataList);
+    //   });
+  }, []);
 
   return (
     <div>
@@ -198,40 +203,42 @@ const GnDivision = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
             <Button onClick={onCreate}>
-              {" "}
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
 
-          {selectedGnDivisions.length === 1 && (
+          {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
-              <ActionButton onClick={onEdit}>
-                <EditIcon />
-              </ActionButton>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectedGnDivisions.length === 1 && (
+          {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
-              <ActionButton onClick={onView}>
-                <VisibilityIcon />
-              </ActionButton>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectedGnDivisions.length > 0 && (
+          {selectedProvincialAda.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
-              <ActionButton onClick={onDelete}>
-                <DeleteForeverIcon />
-              </ActionButton>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -240,18 +247,19 @@ const GnDivision = () => {
         <Grid container>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Province</FieldName>
+              <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
                 // disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={provinces}
-                value={selectedProvince}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                options={doas}
+                value={selectedDoa}
+                getOptionLabel={(i) =>
+                  `${i?.proDirectorId} - ${i?.description}`
+                }
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedProvince(value);
-                  setSelectedDistrict({ name: "", code: "" });
-                  setSelectedDsDevision({ name: "", code: "" });
-                  setDistrics(value?.districtDTOList);
+                  setSelectedDoa(value);
+                  setSelectedDdoa({ provincialDdId: "", description: "" });
+                  setDdoas(value.provincialDeputyDirectorLevelList);
                 }}
                 fullWidth
                 disableClearable 
@@ -269,43 +277,17 @@ const GnDivision = () => {
           </Grid>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select District</FieldName>
+              <FieldName>Select Provincial DDOA</FieldName>
               <Autocomplete
-                disabled={selectedProvince?.id == null}
-                options={districs}
-                value={selectedDistrict}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                disabled={selectedDoa?.id == null}
+                options={ddoas}
+                value={selectedDdoa}
+                getOptionLabel={(i) =>
+                  `${i?.provincialDdId} - ${i?.description}`
+                }
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedDistrict(value);
-                  setSelectedDsDevision({ name: "", code: "" });
-                  setDsDivisions(value.dsDivisionDTOList);
-                }}
-                fullWidth
-                disableClearable 
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "4px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Select Ds Devision</FieldName>
-              <Autocomplete
-                disabled={selectedDistrict?.id == null}
-                options={dsDivisions}
-                value={selectedDsDevision}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDsDevision(value);
+                  setSelectedDdoa(value);
                 }}
                 fullWidth
                 disableClearable 
@@ -337,22 +319,23 @@ const GnDivision = () => {
           </Grid>
         </Grid>
       </ActionWrapper>
+
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GN_DIVISION}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <GnDivisionList
-            selectedRows={selectedGnDivisions}
-            onRowSelect={toggleGnDivisionSelect}
-            selectAll={selectAllGnDivisions}
-            unSelectAll={resetSelectedGnDivisions}
+          <ProvincialAdaList
+            selectedRows={selectedProvincialAda}
+            onRowSelect={toggleProvincialDoaSelect}
+            selectAll={selectAllProvincialAda}
+            unSelectAll={resetSelectedProvincialAda}
             dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Delete Provincial Level"
         actions={
           <ActionWrapper>
             <Button
@@ -366,7 +349,7 @@ const GnDivision = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={onClose}
               sx={{ ml: "8px" }}
             >
               Close
@@ -384,4 +367,4 @@ const GnDivision = () => {
   );
 };
 
-export default GnDivision;
+export default ProvincialAda;
