@@ -30,8 +30,8 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { get_SubCategoryList } from "../../../redux/actions/crop/crop/action";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { get_SubCategoryList } from "../../../redux/actions/crop/cropSubCategory/action";
 
 const CropForm = () => {
   useUserAccessValidation();

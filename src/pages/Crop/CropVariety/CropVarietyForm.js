@@ -33,6 +33,7 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { get_CropList } from "../../../redux/actions/crop/crop/action";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
@@ -50,7 +51,7 @@ const CropVarietyForm = () => {
   };
 
   useEffect(() => {
-    get_CategoryList().then(({ dataList = [] }) => {
+    get_CropList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
   }, []);
@@ -196,7 +197,6 @@ const CropVarietyForm = () => {
               <TextField
                 name="varietyId"
                 id="varietyId"
-                type="number"
                 value={formData?.varietyId || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -289,10 +289,10 @@ const CropVarietyForm = () => {
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
-                value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                value={formData ? formData.cropDTO : ""}
+                getOptionLabel={(i) => `${i.cropId} - ${i.scientificName}`}
                 onChange={(event, value) => {
-                  handleChange(value, "cropCategoryDTO");
+                  handleChange(value, "cropDTO");
                 }}
                 sx={{
                   // width: "264px",
