@@ -75,7 +75,10 @@ const [id,setId] = useState(null);
       <CardWrapper>
 
           <ActionWrapper isLeft>
-
+              <Grid container>
+                  <Grid item lg={3}>
+                      <FieldWrapper>
+                          <FieldName>Crop Category</FieldName>
             <Autocomplete
                 disabled={isdisable.cat}
                 options={options}
@@ -87,7 +90,7 @@ const [id,setId] = useState(null);
                 }}
                 fullWidth
                 sx={{
-                    width: "214px",
+
                     "& .MuiOutlinedInput-root": {
                         borderRadius: "4px",
                     },
@@ -96,15 +99,23 @@ const [id,setId] = useState(null);
                 renderInput={(params) => <TextField {...params} size="small"  placeholder="Select Crop Category" />}
                 fullWidth
             />
+                      </FieldWrapper>
+                  </Grid>
+                  <Grid item lg={2}>
+                      <FieldWrapper>
               <Button
                   color="success"
                   variant="contained"
                   size="small"
                   onClick={reset}
+                  sx={{ marginTop: "40px" }}
               >
                 
                   Reset
               </Button>
+                      </FieldWrapper>
+                  </Grid>
+              </Grid>
           </ActionWrapper>
 
           {show &&

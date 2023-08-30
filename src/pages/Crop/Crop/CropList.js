@@ -3,7 +3,7 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import {get_SubCategoryById} from "../../../redux/actions/crop/crop/action";
-import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit,RestartAlt , Search, Vrpano } from "@mui/icons-material";
 import {
   Button,
   TextField,
@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 
 import {useEffect,useState} from "react";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
 
 
 const CropList = ({
@@ -76,7 +78,10 @@ setIsdisable(false)
   return (
     <CardWrapper>
       <ActionWrapper isLeft>
-
+          <Grid container>
+              <Grid item lg={3}>
+                  <FieldWrapper>
+                      <FieldName>Crop Category</FieldName>
         <Autocomplete
             disabled={isdisable.cat}
             options={options}
@@ -88,7 +93,7 @@ setIsdisable(false)
             }}
             fullWidth
             sx={{
-              width: "214px",
+
               "& .MuiOutlinedInput-root": {
                 borderRadius: "4px",
               },
@@ -97,36 +102,54 @@ setIsdisable(false)
             renderInput={(params) => <TextField {...params} size="small"  placeholder="Select Crop Category" />}
             fullWidth
         />
-        <Autocomplete
-            disabled={isdisable.subcat}
-            options={subcat}
-            value={data}
-            // // value={formData ? formData.cropCategoryDTO : ""}
-            getOptionLabel={(i) => `${i.subCategoryId} - ${i.description} `}
-            onChange={(event, value) => {
-              handleChange(value ,"subcat");
-            }}
-            fullWidth
-            sx={{
-              width: "214px",
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "4px",
-              },
-              marginRight: "5px",
-            }}
-            renderInput={(params) => <TextField {...params} size="small"  placeholder="Select Crop Sub Category" />}
-            fullWidth
-        />
+                  </FieldWrapper>
+              </Grid>
+              <Grid item lg={3}>
+                  <FieldWrapper>
+                      <FieldName>Crop Sub Category</FieldName>
+                      <Autocomplete
+                          disabled={isdisable.subcat}
+                          options={subcat}
+                          value={data}
+                          getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
+                          onChange={(event, value) => {
+                              handleChange(value, "subcat");
+                          }}
+                          fullWidth
+                          sx={{
+                              "& .MuiOutlinedInput-root": {
+                                  borderRadius: "4px",
+                              },
+                              marginRight: "5px",
+                          }}
+                          renderInput={(params) => (
+                              <TextField
+                                  {...params}
+                                  size="small"
+                                  placeholder="Select Crop Sub Category"
+                                  value={data ? `${data.subCategoryId} - ${data.description}` : ''}
+                              />
+                          )}
+                      />
+
+                  </FieldWrapper>
+              </Grid>
+          <Grid item lg={2}>
+              <FieldWrapper>
           <Button
               color="success"
               variant="contained"
               size="small"
               onClick={reset}
+              sx={{ marginTop: "40px" }}
 
           >
-       
+              <RestartAlt />
          Reset
           </Button>
+              </FieldWrapper>
+          </Grid>
+          </Grid>
       </ActionWrapper>
         {show &&
         <DataTable
