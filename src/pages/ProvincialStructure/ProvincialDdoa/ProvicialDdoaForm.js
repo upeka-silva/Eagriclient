@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
+  get_ProvincialDoaList,
   handleProvincialDoa,
   updateProvincialDoa,
 } from "../../../redux/actions/ProvincialDoa/action";
 import {
+  Autocomplete,
   Button,
   CircularProgress,
   Grid,
@@ -28,8 +30,12 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import {
+  handleProvincialDdoa,
+  updateProvincialDdoa,
+} from "../../../redux/actions/provincialDdoa/action";
 
-const ProvincialDoaForm = () => {
+const ProvincialDdoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -39,10 +45,13 @@ const ProvincialDoaForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
 
+  const [proDirectorLevels, setProDirectorLevels] = useState([]);
+  const [selectedProDirectorLevel, setSelectedProDirectorLevel] = useState();
+
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/provincial-structure/provincial-director");
+    navigate("/zone/provincial-structure/provincial-deputy-director");
   };
 
   const handleChange = (value, target) => {
@@ -100,15 +109,22 @@ const ProvincialDoaForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateProvincialDoa(formData, onSuccess, onError);
+          await updateProvincialDdoa(formData, onSuccess, onError);
         } else {
-          await handleProvincialDoa(formData, onSuccess, onError);
+          await handleProvincialDdoa(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
       }
     }
   };
+
+  useEffect(() => {
+    get_ProvincialDoaList().then(({ dataList = [] }) => {
+      setProDirectorLevels(dataList);
+      console.log(dataList);
+    });
+  }, []);
 
   return (
     <FormWrapper>
@@ -124,7 +140,7 @@ const ProvincialDoaForm = () => {
       {/* <PathName>{}</PathName> */}
       <FormHeader style={{ padding: "0px 15px" }}>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Provincial Director
+        {makeCapitalize(state?.action)} Provincial Deputy Director
       </FormHeader>
       <ButtonWrapper
         isCeneter
@@ -178,20 +194,20 @@ const ProvincialDoaForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item lg={3}>
           <FieldWrapper>
-            <FieldName>Provincial Level ID</FieldName>
+            <FieldName>Provincial Deputy Director Id</FieldName>
             <TextField
-              name="proDirectorId"
-              id="proDirectorId"
-              value={formData?.proDirectorId || ""}
+              name="provincialDdId"
+              id="provincialDdId"
+              value={formData?.provincialDdId || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "proDirectorId")
+                handleChange(e?.target?.value || "", "provincialDdId")
               }
               sx={{
                 // width: "264px",
@@ -204,7 +220,7 @@ const ProvincialDoaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item lg={5}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField
@@ -227,9 +243,35 @@ const ProvincialDoaForm = () => {
             />
           </FieldWrapper>
         </Grid>
+        <Grid item lg={4}>
+          <FieldWrapper>
+            <FieldName>Provincial Director Level</FieldName>
+            <Autocomplete
+              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={proDirectorLevels}
+              value={selectedProDirectorLevel}
+              getOptionLabel={(i) => `${i?.proDirectorId}-${i?.description}`}
+              onChange={(event, value) => {
+                console.log(value);
+                setSelectedProDirectorLevel(value);
+                handleChange(value, "proDirectorLevelDTO");
+              }}
+              fullWidth
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "4px",
+                },
+                marginRight: "5px",
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size="small" fullWidth />
+              )}
+            />
+          </FieldWrapper>
+        </Grid>
       </Grid>
     </FormWrapper>
   );
 };
 
-export default ProvincialDoaForm;
+export default ProvincialDdoaForm;

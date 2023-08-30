@@ -36,7 +36,7 @@ const DistrictForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -129,14 +129,16 @@ const DistrictForm = () => {
   return (
     <FormWrapper>
       <ActionWrapper isLeft>
-        <Button  startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success">
+        <Button
+          startIcon={<ArrowCircleLeftRounded />}
+          onClick={goBack}
+          color="success"
+        >
           Go back to list
         </Button>
       </ActionWrapper>
       {/* <PathName > {getPathName()}</PathName> */}
-      <FormHeader >
+      <FormHeader>
         {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
         {makeCapitalize(state?.action)} District
       </FormHeader>
@@ -151,34 +153,34 @@ const DistrictForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
+              <Button variant="contained" color="success" size="small">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
@@ -189,7 +191,6 @@ const DistrictForm = () => {
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-         
         }}
       >
         <Grid item lg={2}>
@@ -243,16 +244,14 @@ const DistrictForm = () => {
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={options}
-              value={formData ? formData.provinceDTO : ""}
+              // value={formData ? formData.provinceDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "provinceDTO");
               }}
               fullWidth
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -263,7 +262,6 @@ const DistrictForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };
