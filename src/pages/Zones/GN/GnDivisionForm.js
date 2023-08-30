@@ -179,11 +179,13 @@ const GnDivisionForm = () => {
         overflowY: "scroll",
       }}
     >
-      <div >
+      <div>
         <ActionWrapper isLeft>
-          <Button  startIcon={<ArrowCircleLeftRounded />}
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
             onClick={goBack}
-            color="success">
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
@@ -193,43 +195,45 @@ const GnDivisionForm = () => {
           {makeCapitalize(state?.action)} Grama Niladari Division
         </FormHeader>
       </div>
-      <ButtonWrapper style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}>
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
+              <Button variant="contained" color="success" size="small">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
@@ -601,7 +605,7 @@ const GnDivisionForm = () => {
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Agriculture Land Area</FieldName>
-            <Grid container >
+            <Grid container>
               <Grid item lg={6}>
                 <TextField
                   name="agriculturalLandArea"
@@ -638,7 +642,7 @@ const GnDivisionForm = () => {
                           textAlign: "center",
                           // height: "30px",
                           borderRadius: "8px",
-                          marginLeft:'10px'
+                          marginLeft: "10px",
                         },
                       }}
                       disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -652,113 +656,114 @@ const GnDivisionForm = () => {
           </FieldWrapper>
         </Grid>
         <Grid item lg={4}>
-        <FieldWrapper>
-          <FieldName>
-            Non - Agriculture Land Area
-          </FieldName>
+          <FieldWrapper>
+            <FieldName>Non - Agriculture Land Area</FieldName>
 
-          <Grid  container >
-            <Grid item lg={6}>
-            <TextField
-              name="nonAgriculturalLandArea"
-              id="nonAgriculturalLandArea"
-              value={formData?.nonAgriculturalLandArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "nonAgriculturalLandArea")
-              }
-              sx={{
-                // width: "185px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-            </Grid>
-            <Grid item lg={6}>
-            <Autocomplete
-              disabled
-              open={open}
-              disablePortal
-              options=""
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
+            <Grid container>
+              <Grid item lg={6}>
                 <TextField
-                  {...params}
+                  name="nonAgriculturalLandArea"
+                  id="nonAgriculturalLandArea"
+                  value={formData?.nonAgriculturalLandArea || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "nonAgriculturalLandArea"
+                    )
+                  }
                   sx={{
-                    // width: "75px",
+                    // width: "185px",
                     "& .MuiInputBase-root": {
-                      textAlign: "center",
                       // height: "30px",
                       borderRadius: "8px",
-                      marginLeft:'10px'
                     },
                   }}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
                   size="small"
                 />
-              )}
-            />
-          </Grid>
-          </Grid>
-        </FieldWrapper>
+              </Grid>
+              <Grid item lg={6}>
+                <Autocomplete
+                  disabled
+                  open={open}
+                  disablePortal
+                  options=""
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{
+                        // width: "75px",
+                        "& .MuiInputBase-root": {
+                          textAlign: "center",
+                          // height: "30px",
+                          borderRadius: "8px",
+                          marginLeft: "10px",
+                        },
+                      }}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      size="small"
+                    />
+                  )}
+                />
+              </Grid>
+            </Grid>
+          </FieldWrapper>
         </Grid>
         <Grid item lg={4}>
-        <FieldWrapper>
-          <FieldName>Crop Area</FieldName>
-          <Grid  container >
-            <Grid item lg={6}>
-            <TextField
-              name="cropArea"
-              id="cropArea"
-              value={formData?.cropArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
-              sx={{
-                // width: "185px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-            </Grid>
-            <Grid item lg={6}>
-            <Autocomplete
-              disabled
-              open={open}
-              disablePortal
-              options=""
-              getOptionLabel={(option) => option.name}
-              renderInput={(params) => (
+          <FieldWrapper>
+            <FieldName>Crop Area</FieldName>
+            <Grid container>
+              <Grid item lg={6}>
                 <TextField
-                  {...params}
+                  name="cropArea"
+                  id="cropArea"
+                  value={formData?.cropArea || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "cropArea")
+                  }
                   sx={{
-                    // width: "75px",
+                    // width: "185px",
                     "& .MuiInputBase-root": {
-                      textAlign: "center",
                       // height: "30px",
                       borderRadius: "8px",
-                      marginLeft:'10px'
                     },
                   }}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
                   size="small"
                 />
-              )}
-            />
+              </Grid>
+              <Grid item lg={6}>
+                <Autocomplete
+                  disabled
+                  open={open}
+                  disablePortal
+                  options=""
+                  getOptionLabel={(option) => option.name}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      sx={{
+                        // width: "75px",
+                        "& .MuiInputBase-root": {
+                          textAlign: "center",
+                          // height: "30px",
+                          borderRadius: "8px",
+                          marginLeft: "10px",
+                        },
+                      }}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      size="small"
+                    />
+                  )}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </FieldWrapper>
+          </FieldWrapper>
         </Grid>
       </Grid>
-
-      
     </div>
   );
 };

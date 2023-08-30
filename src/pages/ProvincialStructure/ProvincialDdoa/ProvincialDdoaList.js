@@ -1,8 +1,8 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const AIList = ({
+const ProvincialDdoaList = ({
   dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
@@ -10,12 +10,10 @@ const AIList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "regionId", headerName: "Code" },
+    { field: "provincialDdId", headerName: "Code" },
     { field: "description", headerName: "Description" },
-    { field: "parentType", headerName: "Parent Type" },
-    { field: "", headerName: "Parent Value" },
-    { field: "ascRegionId", headerName: "ASC Region ID" },
   ];
+
   return (
     <CardWrapper>
       <DataTable
@@ -32,4 +30,4 @@ const AIList = ({
   );
 };
 
-export default AIList;
+export default ProvincialDdoaList;

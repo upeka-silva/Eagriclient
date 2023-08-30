@@ -1,26 +1,23 @@
 import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const AIList = ({
-  dataEndPoint,
+const ProvincialAiRegionList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "regionId", headerName: "Code" },
+    { field: "proDirectorId", headerName: "Code" },
     { field: "description", headerName: "Description" },
-    { field: "parentType", headerName: "Parent Type" },
-    { field: "", headerName: "Parent Value" },
-    { field: "ascRegionId", headerName: "ASC Region ID" },
   ];
+
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={dataEndPoint}
+        dataEndPoint={"geo-data/provincial-director-levels"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -32,4 +29,4 @@ const AIList = ({
   );
 };
 
-export default AIList;
+export default ProvincialAiRegionList;
