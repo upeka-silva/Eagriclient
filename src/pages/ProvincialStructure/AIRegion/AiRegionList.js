@@ -1,14 +1,15 @@
-import { DataTable } from "../../../components/PageLayout/Table";
+import React from "react";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { DataTable } from "../../../components/PageLayout/Table";
 
-const CropCategoryList = ({
+const ProvincialAiRegionList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "categoryId", headerName: "Code" },
+    { field: "proDirectorId", headerName: "Code" },
     { field: "description", headerName: "Description" },
   ];
 
@@ -16,7 +17,7 @@ const CropCategoryList = ({
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-categories"}
+        dataEndPoint={"geo-data/provincial-director-levels"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +29,4 @@ const CropCategoryList = ({
   );
 };
 
-export default CropCategoryList;
+export default ProvincialAiRegionList;

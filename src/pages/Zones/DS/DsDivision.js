@@ -18,6 +18,7 @@ import {
   ButtonGroup,
   Autocomplete,
   TextField,
+  Grid,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
@@ -31,6 +32,8 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_DistrictList } from "../../../redux/actions/district/action";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -46,8 +49,8 @@ const DsDivision = () => {
 
   const [provinces, setProvinces] = useState([]);
   const [districs, setDistrics] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState({ name: "Select" });
-  const [selectedDistrict, setSelectedDistrict] = useState({ name: "Select" });
+  const [selectedProvince, setSelectedProvince] = useState();
+  const [selectedDistrict, setSelectedDistrict] = useState({name:"",code:""});
 
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
@@ -221,59 +224,81 @@ const DsDivision = () => {
         </ButtonGroup>
       </ActionWrapper>
       <ActionWrapper isLeft>
-        <Autocomplete
-          // disabled={state?.action === DEF_ACTIONS.VIEW}
-          options={provinces}
-          value={selectedProvince}
-          getOptionLabel={(i) => `${i?.name} Province`}
-          onChange={(event, value) => {
-            console.log(value);
-            setSelectedProvince(value);
-            setSelectedDistrict({name:"Select"})
-            setDistrics(value?.districtDTOList);
-          }}
-          fullWidth
-          sx={{
-            width: "214px",
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "4px",
-            },
-            marginRight: "5px",
-          }}
-          renderInput={(params) => (
-            <TextField {...params} size="small" fullWidth />
-          )}
-        />
-        <Autocomplete
-          disabled={selectedProvince?.id == null}
-          options={districs}
-          value={selectedDistrict}
-          getOptionLabel={(i) => `${i?.name} District`}
-          onChange={(event, value) => {
-            console.log(value);
-            setSelectedDistrict(value);
-          }}
-          fullWidth
-          sx={{
-            width: "214px",
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "4px",
-            },
-            marginRight: "5px",
-          }}
-          renderInput={(params) => (
-            <TextField {...params} size="small" fullWidth />
-          )}
-        />
-        <Button
-          color="success"
-          variant="contained"
-          size="small"
-          onClick={getFilteredData}
-        >
-          <Search />
-          Search
-        </Button>
+        <Grid container>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Province</FieldName>
+              <Autocomplete
+                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={provinces}
+                value={selectedProvince}
+                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedProvince(value);
+                  setSelectedDistrict({name:"" , code:""});
+                  setDistrics(value?.districtDTOList);
+                }}
+                fullWidth
+                inputProps={{ readOnly: true }}
+                disableClearable 
+                sx={{
+                  // width: "214px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                 
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth/>
+                )}
+                
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select District</FieldName>
+              <Autocomplete
+                disabled={selectedProvince?.id == null}
+                options={districs}
+                value={selectedDistrict}
+                getOptionLabel={(i) => `${i?.code}-${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDistrict(value);
+                }}
+                disableClearable 
+                fullWidth
+                sx={{
+                  // width: "214px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={getFilteredData}
+                sx={{ marginTop: "40px" }}
+              >
+                <Search />
+                Search
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DS_DIVISION}`}

@@ -128,7 +128,7 @@ const ProvinceForm = () => {
         {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {makeCapitalize(state?.action)} Soil Type
+          {makeCapitalize(state?.action)} Province
         </FormHeader>
       </Box>
       <ButtonWrapper
@@ -142,7 +142,7 @@ const ProvinceForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <Button variant="contained">
+              <Button variant="contained" color="success" size="small">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
@@ -156,8 +156,8 @@ const ProvinceForm = () => {
                   size="small"
                   color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
                   onClick={resetForm}

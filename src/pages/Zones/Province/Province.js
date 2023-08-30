@@ -158,27 +158,27 @@ const Province = () => {
     }
   };
 
-//   const advanceSearch = () => {
-//     setSearch({
-//       code: `<>${searchData.code}`,
-//       name: `<>${searchData.name}`,
-//     });
-//   };
+  //   const advanceSearch = () => {
+  //     setSearch({
+  //       code: `<>${searchData.code}`,
+  //       name: `<>${searchData.name}`,
+  //     });
+  //   };
 
-//   const resetSearch = () => {
-//     setSearchData({
-//       code: "",
-//       name: "",
-//     });
-//     setSearch({});
-//   };
+  //   const resetSearch = () => {
+  //     setSearchData({
+  //       code: "",
+  //       name: "",
+  //     });
+  //     setSearch({});
+  //   };
 
-//   const handleSearchDataChange = (value, target) => {
-//     setSearchData((current) => ({
-//       ...current,
-//       [target]: value,
-//     }));
-//   };
+  //   const handleSearchDataChange = (value, target) => {
+  //     setSearchData((current) => ({
+  //       ...current,
+  //       [target]: value,
+  //     }));
+  //   };
 
   return (
     <div>
@@ -233,7 +233,7 @@ const Province = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
           >
-            <Button onClick={onCreate} >
+            <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
@@ -253,7 +253,7 @@ const Province = () => {
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
             >
               <Button onClick={onView}>
-                <Vrpano/>
+                <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
             </PermissionWrapper>

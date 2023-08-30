@@ -143,9 +143,11 @@ const CropSubCategoryForm = () => {
     <div>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button  startIcon={<ArrowCircleLeftRounded />}
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
             onClick={goBack}
-            color="success">
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
@@ -154,12 +156,14 @@ const CropSubCategoryForm = () => {
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} CROP SUB CATEGORY
         </FormHeader>
-        <ButtonWrapper  style={{
+        <ButtonWrapper
+          style={{
             width: "95%",
             justifyContent: "flex-start",
             margin: "0",
             paddingLeft: "18px",
-          }}>
+          }}
+        >
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
@@ -177,7 +181,7 @@ const CropSubCategoryForm = () => {
                     size="small"
                     color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit/>}
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
                     {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
                   </Button>
                   <Button
@@ -204,69 +208,68 @@ const CropSubCategoryForm = () => {
           }}
         >
           <Grid item lg={3}>
-        <FieldWrapper>
-          <FieldName>Sub Category Code</FieldName>
-          <TextField
-            name="code"
-            id="code"
-            value={formData?.code || ""}
-            fullWidth
-            disabled={
-              state?.action === DEF_ACTIONS.VIEW ||
-              state?.action === DEF_ACTIONS.EDIT
-            }
-            onChange={(e) => handleChange(e?.target?.value || "", "code")}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+            <FieldWrapper>
+              <FieldName>Sub Category Code</FieldName>
+              <TextField
+                name="code"
+                id="code"
+                value={formData?.code || ""}
+                fullWidth
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
+                onChange={(e) => handleChange(e?.target?.value || "", "code")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>Sub Category Name</FieldName>
+              <TextField
+                name="name"
+                id="name"
+                value={formData?.name || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "name")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>Category ID</FieldName>
+              <Autocomplete
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={options}
+                value={formData ? formData.cropCategoryDTO : ""}
+                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                onChange={(event, value) => {
+                  handleChange(value, "cropCategoryDTO");
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid>
         </Grid>
-        <Grid item lg={4}>
-        <FieldWrapper>
-          <FieldName>Sub Category Name</FieldName>
-          <TextField
-            name="name"
-            id="name"
-            value={formData?.name || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "name")}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size='small'
-          />
-        </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-        <FieldWrapper>
-          <FieldName>Category ID</FieldName>
-          <Autocomplete
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            options={options}
-            value={formData ? formData.cropCategoryDTO : ""}
-            getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
-            onChange={(event, value) => {
-              handleChange(value, "cropCategoryDTO");
-            }}
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} size="small" />}
-            fullWidth
-          />
-        </FieldWrapper>
-        </Grid>
-        </Grid>
-        
       </FormWrapper>
     </div>
   );
