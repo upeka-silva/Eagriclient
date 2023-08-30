@@ -487,7 +487,7 @@ export const DataTable = ({
                 key: data?.target || k,
               });
             };
-
+            console.log(rows)
             return (
               <AdvancedSearchItemWrapper key={key}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>

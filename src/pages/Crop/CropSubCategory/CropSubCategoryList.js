@@ -4,6 +4,7 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
+import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import {
   Button,
@@ -30,12 +31,14 @@ const CropSubCategoryList = ({
       headerName: "Crop Category " },
   ];
 const [id,setId] = useState(null);
-    const handleChange = (value, target) => {
-        console.log(value?.id)
-        setId(value?.id);
-        }
+    const [data,setData] = useState(null);
 
     const [options, setOptions] = useState([]);
+    const [show, setShow] = useState(false);
+    const [isdisable, setIsdisable] = useState({
+        cat: false,
+    });
+
     useEffect(() => {
         get_CategoryList().then(({ dataList = [] }) => {
             setOptions(dataList);
@@ -43,7 +46,30 @@ const [id,setId] = useState(null);
 
         });
     }, []);
+    const handleChange = (value, target) => {
+        console.log(value?.id)
+        setId(value?.id);
+        if (Object.keys(options).length > 0) {
+            setShow(!show);
+        }
+        setIsdisable(prevState => ({
+            ...prevState,
+            [target]: true
+        }));
+    }
+
+    const reset = ()=>{
+        const allTrueIsdisable = {
+            cat: false,
+
+        };
+        setIsdisable(allTrueIsdisable);
+        setData(null)
+        setShow(null)
+    }
+
     console.log(options)
+
   return (
     <div>
       <CardWrapper>
@@ -51,12 +77,13 @@ const [id,setId] = useState(null);
           <ActionWrapper isLeft>
 
             <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                disabled={isdisable.cat}
                 options={options}
+                value ={data}
                 // value={formData ? formData.cropCategoryDTO : ""}
                 getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                 onChange={(event, value) => {
-                  handleChange(value);
+                  handleChange(value,"cat");
                 }}
                 fullWidth
                 sx={{
@@ -69,22 +96,32 @@ const [id,setId] = useState(null);
                 renderInput={(params) => <TextField {...params} size="small"  placeholder="Select Crop Category" />}
                 fullWidth
             />
-
+              <Button
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  onClick={reset}
+              >
+                
+                  Reset
+              </Button>
           </ActionWrapper>
 
+          {show &&
+          <DataTable
+
+              loadingTable
+              dataEndPoint={`geo-data/crop-sub-categories/crop-category/${id}`}
+              columns={columns}
+              selectable
+              selectedRows={selectedRows}
+              selectAll={selectAll}
+              onRowSelect={onRowSelect}
+              unSelectAll={unSelectAll}
+          />
+          }
 
 
-        <DataTable
-            
-          loadingTable
-          dataEndPoint={`geo-data/crop-sub-categories`}
-          columns={columns}
-          selectable
-          selectedRows={selectedRows}
-          selectAll={selectAll}
-          onRowSelect={onRowSelect}
-          unSelectAll={unSelectAll}
-        />
       </CardWrapper>
     </div>
   );
