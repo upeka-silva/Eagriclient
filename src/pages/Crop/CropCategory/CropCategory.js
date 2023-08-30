@@ -157,8 +157,13 @@ const CropCategory = () => {
   };
 
   return (
-    <div style={{ marginRight: "10px" }}>
-      <Typography variant="h6" fontWeight={500} mt={1} fontFamily={Fonts.fontStyle1}>
+    <div>
+      <Typography
+        variant="h6"
+        fontWeight={500}
+        mt={1}
+        fontFamily={Fonts.fontStyle1}
+      >
         Crop Category
       </Typography>
       <ActionWrapper isLeft>
@@ -172,7 +177,7 @@ const CropCategory = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button onClick={onCreate}  title="add">
+            <Button onClick={onCreate} title="add">
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
