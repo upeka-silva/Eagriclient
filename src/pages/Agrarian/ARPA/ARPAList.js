@@ -1,22 +1,23 @@
+import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
-const CropSubCategoryList = ({
+const ARPAList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "subCategoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "arpaId", headerName: "Code" },
+    { field: "name", headerName: "Description" },
+    { field: "ascDto.ascId", headerName: "ASC Code" },
   ];
-
   return (
-    <CardWrapper>
+    <CardWrapper sx={{ maxWidth: "60vw" }}>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-sub-categories"}
+        dataEndPoint={"geo-data/arpa"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +29,4 @@ const CropSubCategoryList = ({
   );
 };
 
-export default CropSubCategoryList;
+export default ARPAList;

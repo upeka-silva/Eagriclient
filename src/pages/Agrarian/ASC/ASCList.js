@@ -1,22 +1,24 @@
+import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
-const CropSubCategoryList = ({
+const ASCList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "subCategoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "ascId", headerName: "Code" },
+    { field: "districtDto.name", headerName: "Name" },
+    { field: "districtDto.code", headerName: "District Code" },
   ];
 
   return (
-    <CardWrapper>
+    <CardWrapper sx={{ maxWidth: "60vw" }}>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-sub-categories"}
+        dataEndPoint={"asc"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +30,4 @@ const CropSubCategoryList = ({
   );
 };
 
-export default CropSubCategoryList;
+export default ASCList;

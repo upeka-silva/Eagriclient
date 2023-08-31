@@ -12,8 +12,6 @@ import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
-import ASC from "../pages/DAD-Structure/ASC/ASC";
-import ASCForm from "../pages/DAD-Structure/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil-Type/SoilType";
 import SoilForm from "../pages/Soil/Soil-Type/SoilTypeForm";
 import Permissions from "../pages/Permissions/Permissions";
@@ -26,8 +24,6 @@ import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision";
 import PrivateCompanies from "../pages/PrivateCompanies/PrivateCompanies";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
-import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
-import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
 import AI from "../pages/Agri-Zones/AI/AI";
 import AIForm from "../pages/Agri-Zones/AI/AIForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
@@ -103,6 +99,14 @@ import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
+import DOAD from "../pages/Agrarian/DOAD/DOAD";
+import DOADForm from "../pages/Agrarian/DOAD/DOADForm";
+import DC from "../pages/Agrarian/DC/DC";
+import DCForm from "../pages/Agrarian/DC/DCForm";
+import ASC from "../pages/Agrarian/ASC/ASC";
+import ASCForm from "../pages/Agrarian/ASC/ASCForm";
+import ARPA from "../pages/Agrarian/ARPA/ARPA";
+import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
@@ -427,6 +431,65 @@ export const Routes = [
           //   isSideBar: false,
           //   element: <GnDivisionForm />,
           // },
+        ],
+      },
+      {
+        path: "/agrarian",
+        name: "Agrarian",
+        isSideBar: true,
+        children: [
+          {
+            path: "/department-of-agrarian-development",
+            name: "DOAD",
+            isSideBar: true,
+            element: <DOAD />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/department-of-agrarian-development-form",
+            name: "DOAD Form",
+            isSideBar: false,
+            element: <DOADForm />,
+          },
+          {
+            path: "/district-commissioner",
+            name: "District Commissioner",
+            isSideBar: true,
+            element: <DC />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/district-commissioner-form",
+            name: "District Commissioner Form",
+            isSideBar: false,
+            element: <DCForm />,
+          },
+          {
+            path: "/asc-division",
+            name: "ASC Division",
+            isSideBar: true,
+            element: <ASC />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/asc-division-form",
+            name: "ASC Division Form",
+            isSideBar: false,
+            element: <ASCForm />,
+          },
+          {
+            path: "/arpa-division",
+            name: "ARPA Division",
+            isSideBar: true,
+            element: <ARPA />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/arpa-division-form",
+            name: "ARPA Division Form",
+            isSideBar: false,
+            element: <ARPAForm />,
+          },
         ],
       },
       // {
