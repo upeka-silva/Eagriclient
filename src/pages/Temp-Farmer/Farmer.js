@@ -8,8 +8,6 @@ import { Grid, TextField } from "@mui/material";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
@@ -20,7 +18,6 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import Divider from "@mui/material/Divider";
 import ContactList from "./ContactList";
 import ContactForm from "./ContactForm";
@@ -72,7 +69,13 @@ const Farmer = () => {
         overflowY: "scroll",
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div
+        style={{
+          display: "flex",
+          paddingLeft: "10px",
+          flexDirection: "column",
+        }}
+      >
         <ActionWrapper isLeft>
           <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
             Go back to list
@@ -99,71 +102,38 @@ const Farmer = () => {
         >
           <Grid item lg={3} sm={6} sx={12}>
             <FieldWrapper>
-              <FieldName>First Name</FieldName>
-              <TextField
-                name="firstName"
-                id="firstName"
-                value={formData?.firstName || ""}
-                fullWidth
-                placeholder="Type the First name"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "firstName")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3} sm={6} sx={12}>
-            <FieldWrapper>
-              <FieldName>Last Name</FieldName>
-              <TextField
-                name="lastName"
-                id="lastName"
-                value={formData?.lastName || ""}
-                fullWidth
-                placeholder="Type the Last lastName"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "lastName")
-                }
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3} sm={6} sx={12}>
-            <FieldWrapper>
               <FieldName>NIC Number</FieldName>
               <TextField
                 name="nic"
                 id="nic"
                 value={formData?.nic || ""}
                 fullWidth
-                placeholder="NIC Number"
                 onChange={(e) => handleChange(e?.target?.value || "", "nic")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                     backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3} sm={6} sx={12}>
+            <FieldWrapper>
+              <FieldName>First Name</FieldName>
+              <TextField
+                name="firstName"
+                id="firstName"
+                value={formData?.firstName || ""}
+                fullWidth
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "firstName")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
                   },
                 }}
                 size="small"
@@ -178,23 +148,41 @@ const Farmer = () => {
                 id="middleName"
                 value={formData?.middleName || ""}
                 fullWidth
-                placeholder="Type the Middle name"
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "middleName")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                     backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
                   },
                 }}
                 size="small"
               />
             </FieldWrapper>
           </Grid>
+          <Grid item lg={3} sm={6} sx={12}>
+            <FieldWrapper>
+              <FieldName>Last Name</FieldName>
+              <TextField
+                name="lastName"
+                id="lastName"
+                value={formData?.lastName || ""}
+                fullWidth
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "lastName")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+
           <Grid item>
             <FieldWrapper>
               <FieldName>Date of Birth</FieldName>
@@ -207,7 +195,6 @@ const Farmer = () => {
                   sx={{
                     width: "184px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -372,7 +359,7 @@ const Farmer = () => {
           </Grid>
         </Grid>
 
-        <Grid container sx={{ margin: "15px", width: "97%"}}>
+        <Grid container sx={{ margin: "15px", width: "97%" }}>
           <Grid
             container
             lg={6}
@@ -503,7 +490,6 @@ const Farmer = () => {
                   id="userName"
                   value={formData?.userName || ""}
                   fullWidth
-                  placeholder="Enter a user name"
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "userName")
                   }
@@ -581,7 +567,6 @@ export default Farmer;
 
 export const Wrapper = styled.div`
   display: flex;
-  /* padding: 10px 40px; */
   font-family: ${Fonts.fontStyle1};
   flex-direction: row;
   background-color: ${Colors.formBackgroundColor};
@@ -599,11 +584,6 @@ export const Contact = styled.p`
   font-weight: 400;
   font-family: ${Fonts.fontStyle1};
 `;
-
-// export const FieldWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
 
 export const TypeWrapper = styled.div`
   display: flex;
