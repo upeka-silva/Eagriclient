@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import CropVarietyList from "./CropVarietyList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
