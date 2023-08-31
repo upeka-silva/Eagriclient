@@ -1,5 +1,5 @@
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const CropSubCategoryList = ({
   selectedRows = [],
@@ -13,7 +13,7 @@ const CropSubCategoryList = ({
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/crop-sub-categories"}
@@ -24,7 +24,7 @@ const CropSubCategoryList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 
