@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
     TextField,
     Button,
     CircularProgress,
     Grid,
-    Box,
-    Autocomplete,
-    FormControl,
     Select,
     MenuItem,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import {
-    DEF_ACTIONS,
-    DEF_COMPONENTS,
+    DEF_ACTIONS
 } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Colors } from "../../utils/constants/Colors";
@@ -25,13 +20,10 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { get_InstitutionCatList } from "../../redux/actions/institution/institutionCategory/action";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import CommonAudit from "./CommonAudit";
 import {handleAuditForm, updateAuditForm} from "../../redux/actions/auditForm/action";
 import CommonQuestionList from "./CommonQuestionList";
-import AddQuestionDialog from "./AddQuestionDialog";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
@@ -46,36 +38,32 @@ const CommonAuditForm = ({
     let listPath = '';
     let formHeader = '';
     const dateAdapter = new AdapterDayjs();
-    //const [formData, setFormData] = useState(state?.target || {});
     const [formData, setFormData] = useState({
                                                  ...(state?.target || {}),
                                                  activeFrom: state?.target?.activeFrom
                                                             ? dateAdapter.date(state?.target?.activeFrom)
                                                             : null,
                                              });
-    const [formDataQuestion, setFormDataQuestion] = useState({});
     const [questions, setQuestions] = useState(state?.questionList || []);
     const [saving, setSaving] = useState(false);
     const [saveSuccess, setSaveSuccess] = useState(false);
     const [savedFormId, setSavedFormId] = useState(formData?.id);
-    const [gn, setGn] = useState([]);
-    const [instituteCat, setInstituteCat] = useState([]);
 
 
     const { addSnackBar } = useSnackBars();
 
     const populateAttributes = () => {
 
-        if (auditFormType == 'SELF_ASSESSMENT') {
+        if (auditFormType === 'SELF_ASSESSMENT') {
             listPath = 'self-assessment';
             formHeader = 'SELF ASSESSMENT FORM';
-        } else if (auditFormType == 'INTERNAL_AUDIT') {
+        } else if (auditFormType === 'INTERNAL_AUDIT') {
             listPath = 'internal-audit';
             formHeader = 'INTERNAL AUDIT FORM';
-        } else if (auditFormType == 'EXTERNAL_AUDIT') {
+        } else if (auditFormType === 'EXTERNAL_AUDIT') {
             listPath = 'external-audit';
             formHeader = 'EXTERNAL AUDIT FORM';
-        } else if (auditFormType == 'BASIC_ASSESSMENT') {
+        } else if (auditFormType === 'BASIC_ASSESSMENT') {
             listPath = 'basic-assessment';
             formHeader = 'BASIC ASSESSMENT FORM';
         }
@@ -87,18 +75,6 @@ const CommonAuditForm = ({
     const goBack = () => {
         navigate("/gap/" + listPath);
     };
-
-    useEffect(() => {
-        get_GnDivisionList().then(({ dataList = [] }) => {
-            setGn(dataList);
-        });
-    }, []);
-
-    useEffect(() => {
-        get_InstitutionCatList().then(({ dataList = [] }) => {
-            setInstituteCat(dataList);
-        });
-    }, []);
 
     const handleChange = (value, target) => {
         setFormData((current = {}) => {

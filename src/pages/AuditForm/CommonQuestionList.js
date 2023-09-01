@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import {CardWrapper} from "../../components/PageLayout/Card";
-import {DataTable} from "../../components/PageLayout/Table";
+import React, {useState, useEffect} from 'react'
 import {
     Button,
-    CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText,
+    Divider,
     Table,
     TableBody,
     TableCell,
@@ -12,20 +10,20 @@ import {
     TableRow
 } from "@mui/material";
 
-import {ViewButton} from "../Gap/CropDetails";
-import CropAreaAddDialog from "../Gap/CropAreaAddDialog/CropAreaAddDialog";
 import AddQuestionDialog from "./AddQuestionDialog";
 import {FormHeader} from "../../components/FormLayout/FormHeader";
-import {deleteAuditForm, handleAuditForm, updateAuditForm} from "../../redux/actions/auditForm/action";
 import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 import {DEF_ACTIONS} from "../../utils/constants/permission";
 import {useSnackBars} from "../../context/SnackBarContext";
-import {getQuestionsByFormId, handleAuditFormQuestions, updateAuditFormQuestions, deleteAuditFormQuestion} from "../../redux/actions/auditForm/auditFormQuestions/actions";
-import {get_AiRegionList} from "../../redux/actions/aiRegion/action";
+import {
+    getQuestionsByFormId,
+    handleAuditFormQuestions,
+    updateAuditFormQuestions,
+    deleteAuditFormQuestion
+} from "../../redux/actions/auditForm/auditFormQuestions/actions";
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 const CommonQuestionList = ({
                                 selectedRows = [],
@@ -44,34 +42,23 @@ const CommonQuestionList = ({
     const [formData, setFormData] = useState({});
     const [dataListQuestions, setDataListQuestions] = useState([]);
     const [dialogMode, setDialogMode] = useState(null);
-    const [openCropDlg, setOpenCropDlg] = useState(false);
     const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
     const [open, setOpen] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
-    const { addSnackBar } = useSnackBars();
+    const {addSnackBar} = useSnackBars();
 
-    useEffect(() => { setDataListQuestions(dataList) }, [dataList]);
+    useEffect(() => {
+        setDataListQuestions(dataList)
+    }, [dataList]);
 
-    const columns = [
-        {field: "questionString", headerName: "Question String"},
-        {field: "questionType", headerName: "Question Type"},
-        {field: "itemGroup", headerName: "Item Group"},
-        {field: "complianceGroup", headerName: "Compliance Group"},
-        {field: "proofRequired", headerName: "Proof Required"},
-        {field: "order", headerName: "Order"}
-    ];
-
-    const handleCropAreaAdd = (prop, mode) => (event) =>  {
-        console.log('after clioeck ', prop)
+    const handleCropAreaAdd = (prop, mode) => (event) => {
         setFormData({});
         setFormData(prop);
         setDialogMode(mode);
         setOpenCropAreaAddDlg(true);
     }
 
-    const handleCropAreaDelete = (prop) => (event) =>  {
-        console.log('dlg prop ', prop);
-        console.log('dlg event ', event);
+    const handleCropAreaDelete = (prop) => (event) => {
         setDeleteItem(prop);
         setOpen(true);
     }
@@ -81,24 +68,6 @@ const CommonQuestionList = ({
         setOpenCropAreaAddDlg(false);
     };
 
-/*    const handleFormSubmit = async () => {
-        if (enableSave()) {
-            setSaving(true);
-            formData.formType = auditFormType;
-            try {
-                if (formData?.id) {
-                    console.log('form edit ', formData);
-                    await updateAuditForm(formData, onSuccess, onError);
-                } else {
-                    console.log('form ', formData);
-                    await handleAuditForm(formData, onSuccess, onError);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        }
-    };*/
-
     const onSuccess = async (response) => {
 
         addSnackBar({
@@ -106,8 +75,7 @@ const CommonQuestionList = ({
                         message: "Successfully executed !!!"
                     });
 
-        getQuestionsByFormId(formId).then(({ dataList = [] }) => {
-            console.log('after succss ', dataList);
+        getQuestionsByFormId(formId).then(({dataList = []}) => {
             setDataListQuestions(dataList);
         });
 
@@ -124,12 +92,11 @@ const CommonQuestionList = ({
 
         if (functionMode === DEF_ACTIONS.ADD) {
             await handleAuditFormQuestions(formId, data, onSuccess, onError);
-        } else if(functionMode === DEF_ACTIONS.EDIT) {
+        } else if (functionMode === DEF_ACTIONS.EDIT) {
             await updateAuditFormQuestions(formId, data, onSuccess, onError);
         }
         setOpenCropAreaAddDlg(false);
     };
-
 
     const addQ = () => {
         setFormData({});
@@ -138,7 +105,6 @@ const CommonQuestionList = ({
     }
 
     const onConfirm = async () => {
-        console.log('on confirm');
         await deleteAuditFormQuestion(formId, deleteItem?.id, onSuccess, onError);
         close();
     };
@@ -160,7 +126,7 @@ const CommonQuestionList = ({
             <FormHeader>
                 Audit Form Questions
             </FormHeader>
-            {(onFormSaveSuccess || (formMode == DEF_ACTIONS.EDIT)) &&
+            {(onFormSaveSuccess || (formMode === DEF_ACTIONS.EDIT)) &&
              <Button
                  onClick={() => addQ()}
                  color="success"
@@ -196,7 +162,7 @@ const CommonQuestionList = ({
                                         color="success"
                                         variant="contained"
                                         size="small"
-                                        sx={{ marginLeft: "10px" }}
+                                        sx={{marginLeft: "10px"}}
                                     >
                                         VIEW
                                     </Button>
@@ -205,7 +171,7 @@ const CommonQuestionList = ({
                                         color="success"
                                         variant="contained"
                                         size="small"
-                                        sx={{ marginLeft: "10px" }}
+                                        sx={{marginLeft: "10px"}}
                                     >
                                         EDIT
                                     </Button>
@@ -214,7 +180,7 @@ const CommonQuestionList = ({
                                         color="success"
                                         variant="contained"
                                         size="small"
-                                        sx={{ marginLeft: "10px" }}
+                                        sx={{marginLeft: "10px"}}
                                     >
                                         DELETE
                                     </Button>
@@ -253,7 +219,7 @@ const CommonQuestionList = ({
                             variant="contained"
                             color="info"
                             onClick={onConfirm}
-                            sx={{ ml: "8px" }}
+                            sx={{ml: "8px"}}
                         >
                             Confirm
                         </Button>
@@ -261,7 +227,7 @@ const CommonQuestionList = ({
                             variant="contained"
                             color="error"
                             onClick={close}
-                            sx={{ ml: "8px" }}
+                            sx={{ml: "8px"}}
                         >
                             Close
                         </Button>
@@ -269,8 +235,8 @@ const CommonQuestionList = ({
                 }
             >
                 <>
-                    <DeleteMsg />
-                    <Divider sx={{ mt: "16px" }} />
+                    <DeleteMsg/>
+                    <Divider sx={{mt: "16px"}}/>
                     {renderSelectedItems()}
                 </>
             </DialogBox>

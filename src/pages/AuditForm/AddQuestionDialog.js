@@ -1,19 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, {useState, useEffect} from 'react'
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import {Box, Button, Grid, MenuItem, Select, TextField} from "@mui/material";
-import { Colors } from "../../utils/constants/Colors";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { Fonts } from "../../utils/constants/Fonts";
-
-import {get_InstitutionCatList} from "../../redux/actions/institution/institutionCategory/action";
+import {Colors} from "../../utils/constants/Colors";
+import {FieldWrapper} from "../../components/FormLayout/FieldWrapper";
+import {FieldName} from "../../components/FormLayout/FieldName";
+import {Fonts} from "../../utils/constants/Fonts";
 import {DEF_ACTIONS} from "../../utils/constants/permission";
 import Checkbox from "@mui/material/Checkbox";
-const label = { inputProps: { "aria-label": "Switch demo" } };
+
+const label = {inputProps: {"aria-label": "Switch demo"}};
 export default function AddQuestionDialog({
                                               open,
                                               handleClose,
@@ -22,14 +20,15 @@ export default function AddQuestionDialog({
                                               mode
                                           }) {
 
-    const [formDataQ, setFormDataQ] = useState({} );
+    const [formDataQ, setFormDataQ] = useState({});
 
-    useEffect(() => { setFormDataQ(formData) }, [formData]);
-
+    useEffect(() => {
+        setFormDataQ(formData)
+    }, [formData]);
 
     const handleChange = (value, target) => {
         setFormDataQ((current = {}) => {
-            let newData = { ...current };
+            let newData = {...current};
             newData[target] = value;
             return newData;
         });
@@ -43,10 +42,10 @@ export default function AddQuestionDialog({
             aria-describedby="delete-description"
         >
             <DialogTitle id="delete-object" style={{
-                fontFamily:Fonts.fontStyle1
+                fontFamily: Fonts.fontStyle1
             }}>{mode} QUESTION</DialogTitle>
             <DialogContent>
-                <Box sx={{ display:'flex' }}>
+                <Box sx={{display: 'flex'}}>
                     <Grid
                         container
                         sx={{
@@ -62,8 +61,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 264px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
 
                                 }}
                             >
@@ -78,13 +77,13 @@ export default function AddQuestionDialog({
                                     name="questionString"
                                     id="questionString"
                                     value={formDataQ?.questionString || ""}
-                                       disabled={mode === DEF_ACTIONS.VIEW}
-                                       onChange={(e) =>
-                                         handleChange(
-                                           e?.target?.value || "",
-                                           "questionString"
-                                         )
-                                       }
+                                    disabled={mode === DEF_ACTIONS.VIEW}
+                                    onChange={(e) =>
+                                        handleChange(
+                                            e?.target?.value || "",
+                                            "questionString"
+                                        )
+                                    }
                                     size="small"
                                     fullWidth
                                     sx={{
@@ -104,8 +103,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 264px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
 
                                 }}
                             >
@@ -146,8 +145,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 200px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
                                 }}
                             >
                                 <FieldName
@@ -192,8 +191,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 264px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
                                 }}
                             >
                                 <FieldName
@@ -241,8 +240,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 264px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
                                 }}
                             >
                                 <FieldName
@@ -289,8 +288,8 @@ export default function AddQuestionDialog({
                                     flexDirection: "column",
                                     flex: "1 1 264px",
                                     gap: "0",
-                                    marginInline:'5px',
-                                    fontFamily:Fonts.fontStyle1
+                                    marginInline: '5px',
+                                    fontFamily: Fonts.fontStyle1
                                 }}
                             >
                                 <FieldName
@@ -320,7 +319,8 @@ export default function AddQuestionDialog({
                 <Button onClick={handleClose} autoFocus>
                     Cancel
                 </Button>
-                <Button disabled={mode === DEF_ACTIONS.VIEW} onClick={ event => confirmAction(event, formDataQ, mode)}>Save</Button>
+                <Button disabled={mode === DEF_ACTIONS.VIEW}
+                        onClick={event => confirmAction(event, formDataQ, mode)}>Save</Button>
             </DialogActions>
         </Dialog>
     )

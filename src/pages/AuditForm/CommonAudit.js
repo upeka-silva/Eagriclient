@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {
     Button,
     ButtonGroup,
@@ -7,33 +7,32 @@ import {
     List,
     ListItem,
     ListItemIcon,
-    ListItemText,
-    Typography,
+    ListItemText
 } from "@mui/material";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import {useUserAccessValidation} from "../../hooks/authentication";
 import {
     DEF_ACTIONS,
     DEF_COMPONENTS,
 } from "../../utils/constants/permission";
 
-import { useNavigate } from "react-router";
+import {useNavigate} from "react-router";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import {useSnackBars} from "../../context/SnackBarContext";
+import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import {Add, Delete, Edit, Vrpano} from "@mui/icons-material";
 import CommonAuditList from "./CommonAuditList";
 import {deleteAuditForm} from "../../redux/actions/auditForm/action";
 
 const CommonAudit = ({
-    auditFormType = ''
+                         auditFormType = ''
                      }) => {
     useUserAccessValidation();
     const navigate = useNavigate();
-    const { addSnackBar } = useSnackBars();
+    const {addSnackBar} = useSnackBars();
 
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -47,16 +46,16 @@ const CommonAudit = ({
 
     const populateAttributes = () => {
 
-        if (auditFormType == 'SELF_ASSESSMENT') {
+        if (auditFormType === 'SELF_ASSESSMENT') {
             uRIPath = 'self-assessment-form';
             formHeader = 'SELF ASSESSMENT FORM';
-        } else if (auditFormType == 'INTERNAL_AUDIT') {
+        } else if (auditFormType === 'INTERNAL_AUDIT') {
             uRIPath = 'internal-audit-form';
             formHeader = 'INTERNAL AUDIT FORM';
-        } else if (auditFormType == 'EXTERNAL_AUDIT') {
+        } else if (auditFormType === 'EXTERNAL_AUDIT') {
             uRIPath = 'external-audit-form';
             formHeader = 'EXTERNAL AUDIT FORM';
-        } else if (auditFormType == 'BASIC_ASSESSMENT') {
+        } else if (auditFormType === 'BASIC_ASSESSMENT') {
             uRIPath = 'basic-assessment-form';
             formHeader = 'BASIC ASSESSMENT FORM';
         }
@@ -66,7 +65,6 @@ const CommonAudit = ({
     populateAttributes();
 
     const toggleAuditFormsSelect = (component) => {
-        console.log('data from toggleaud ', component);
         setSelectAuditForm((current = []) => {
             let newList = [...current];
             let index = newList.findIndex((c) => c?.id === component?.id);
@@ -93,14 +91,11 @@ const CommonAudit = ({
     const onCreate = () => {
         setAction(DEF_ACTIONS.ADD);
         navigate("/gap/" + uRIPath, {
-            state: { action: DEF_ACTIONS.ADD },
+            state: {action: DEF_ACTIONS.ADD},
         });
     };
 
-
-
     const onEdit = () => {
-        console.log('on edit ', selectAuditForm[0]);
         setAction(DEF_ACTIONS.EDIT);
         navigate("/gap/" + uRIPath, {
             state: {
@@ -138,9 +133,9 @@ const CommonAudit = ({
                         <ListItem>
                             <ListItemIcon>
                                 {loading ? (
-                                    <CircularProgress size={16} />
+                                    <CircularProgress size={16}/>
                                 ) : (
-                                     <RadioButtonCheckedIcon color="info" />
+                                     <RadioButtonCheckedIcon color="info"/>
                                  )}
                             </ListItemIcon>
                             <ListItemText>
@@ -242,7 +237,7 @@ const CommonAudit = ({
                             variant="contained"
                             color="info"
                             onClick={onConfirm}
-                            sx={{ ml: "8px" }}
+                            sx={{ml: "8px"}}
                         >
                             Confirm
                         </Button>
@@ -250,7 +245,7 @@ const CommonAudit = ({
                             variant="contained"
                             color="error"
                             onClick={close}
-                            sx={{ ml: "8px" }}
+                            sx={{ml: "8px"}}
                         >
                             Close
                         </Button>
@@ -258,8 +253,8 @@ const CommonAudit = ({
                 }
             >
                 <>
-                    <DeleteMsg />
-                    <Divider sx={{ mt: "16px" }} />
+                    <DeleteMsg/>
+                    <Divider sx={{mt: "16px"}}/>
                     {renderSelectedItems()}
                 </>
             </DialogBox>
