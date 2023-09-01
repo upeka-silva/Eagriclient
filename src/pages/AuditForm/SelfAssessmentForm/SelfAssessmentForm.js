@@ -5,7 +5,10 @@ import CommonAuditForm from "../CommonAuditForm";
 const SelfAssessmentForm = () => {
 
     return (
-        <CommonAuditForm auditFormType={'SELF_ASSESSMENT'} />
+        <>
+            <CommonAuditForm auditFormType={'SELF_ASSESSMENT'} />
+        </>
+
     );
 };
 

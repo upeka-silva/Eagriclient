@@ -38,6 +38,8 @@ const CommonAudit = ({
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [selectAuditForm, setSelectAuditForm] = useState([]);
+    const [selectedQuestions, setSelectedQuestions] = useState([]);
+
     const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
     let uRIPath = '';
@@ -64,6 +66,7 @@ const CommonAudit = ({
     populateAttributes();
 
     const toggleAuditFormsSelect = (component) => {
+        console.log('data from toggleaud ', component);
         setSelectAuditForm((current = []) => {
             let newList = [...current];
             let index = newList.findIndex((c) => c?.id === component?.id);
@@ -74,6 +77,9 @@ const CommonAudit = ({
             }
             return newList;
         });
+        if (component?.questionDTOS.length > 0) {
+            setSelectedQuestions(component.questionDTOS);
+        }
     };
 
     const selectAllAuditForms = (all = []) => {
@@ -94,11 +100,13 @@ const CommonAudit = ({
 
 
     const onEdit = () => {
+        console.log('on edit ', selectAuditForm[0]);
         setAction(DEF_ACTIONS.EDIT);
         navigate("/gap/" + uRIPath, {
             state: {
                 action: DEF_ACTIONS.EDIT,
                 target: selectAuditForm[0] || {},
+                questionList: selectedQuestions || {}
             },
         });
     };
@@ -109,6 +117,7 @@ const CommonAudit = ({
             state: {
                 action: DEF_ACTIONS.VIEW,
                 target: selectAuditForm[0] || {},
+                questionList: selectedQuestions || {}
             },
         });
     };
@@ -184,27 +193,27 @@ const CommonAudit = ({
                     color="success"
                 >
                     <PermissionWrapper
-                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INSTITUTION}`}
+                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
                     >
                         <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
                     </PermissionWrapper>
                     {selectAuditForm.length === 1 && (
                         <PermissionWrapper
-                            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INSTITUTION}`}
+                            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
                         >
                             <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
                         </PermissionWrapper>
                     )}
                     {selectAuditForm.length === 1 && (
                         <PermissionWrapper
-                            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INSTITUTION}`}
+                            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
                         >
                             <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
                         </PermissionWrapper>
                     )}
                     {selectAuditForm.length > 0 && (
                         <PermissionWrapper
-                            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INSTITUTION}`}
+                            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
                         >
                             <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
                         </PermissionWrapper>
@@ -212,10 +221,11 @@ const CommonAudit = ({
                 </ButtonGroup>
             </ActionWrapper>
             <PermissionWrapper
-                permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.INSTITUTION}`}
+                permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
             >
                 {loading === false && (
                     <CommonAuditList
+                        pathParm={auditFormType}
                         selectedRows={selectAuditForm}
                         onRowSelect={toggleAuditFormsSelect}
                         selectAll={selectAllAuditForms}

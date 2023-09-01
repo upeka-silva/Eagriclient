@@ -8,7 +8,7 @@ export const handleAuditForm = async (
   try {
     const response = await post("question-form-template", payload, true);
     if (response.httpCode === "200 OK") {
-      onSuccess();
+      onSuccess(response);
     } else {
       const exception = {
         error: {
@@ -33,9 +33,6 @@ export const handleAuditForm = async (
     }
   }
 };
-
-
-
 
 export const deleteAuditForm = async (
   id,
@@ -104,4 +101,5 @@ export const updateAuditForm = async (
     }
   }
 };
+
 

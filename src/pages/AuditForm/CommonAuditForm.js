@@ -30,6 +30,11 @@ import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import CommonAudit from "./CommonAudit";
 import {handleAuditForm, updateAuditForm} from "../../redux/actions/auditForm/action";
+import CommonQuestionList from "./CommonQuestionList";
+import AddQuestionDialog from "./AddQuestionDialog";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 
 const CommonAuditForm = ({
                              auditFormType = ''
@@ -40,11 +45,22 @@ const CommonAuditForm = ({
     const navigate = useNavigate();
     let listPath = '';
     let formHeader = '';
-
-    const [formData, setFormData] = useState(state?.target || {});
+    const dateAdapter = new AdapterDayjs();
+    //const [formData, setFormData] = useState(state?.target || {});
+    const [formData, setFormData] = useState({
+                                                 ...(state?.target || {}),
+                                                 activeFrom: state?.target?.activeFrom
+                                                            ? dateAdapter.date(state?.target?.activeFrom)
+                                                            : null,
+                                             });
+    const [formDataQuestion, setFormDataQuestion] = useState({});
+    const [questions, setQuestions] = useState(state?.questionList || []);
     const [saving, setSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
+    const [savedFormId, setSavedFormId] = useState(formData?.id);
     const [gn, setGn] = useState([]);
     const [instituteCat, setInstituteCat] = useState([]);
+
 
     const { addSnackBar } = useSnackBars();
 
@@ -115,7 +131,10 @@ const CommonAuditForm = ({
         return false;
     };
 
-    const onSuccess = () => {
+    const onSuccess = (response) => {
+
+        console.log('response ', response);
+
         addSnackBar({
                         type: SnackBarTypes.success,
                         message:
@@ -123,6 +142,8 @@ const CommonAuditForm = ({
                             ? "Successfully Added"
                             : "Successfully Updated",
                     });
+        setSaveSuccess(true);
+        setSavedFormId(response?.payload?.id);
         setSaving(false);
     };
 
@@ -138,13 +159,19 @@ const CommonAuditForm = ({
         if (enableSave()) {
             setSaving(true);
             formData.formType = auditFormType;
+            let activeFrom = new Date(formData.activeFrom);
+
             try {
                 if (formData?.id) {
-                    console.log('form edit ', formData);
-                    await updateAuditForm(formData, onSuccess, onError);
+                    await updateAuditForm({
+                                              ...formData,
+                                              activeFrom: activeFrom.valueOf() || null
+                                          }, onSuccess, onError);
                 } else {
-                    console.log('form ', formData);
-                    await handleAuditForm(formData, onSuccess, onError);
+                    await handleAuditForm({
+                                              ...formData,
+                                              activeFrom: activeFrom.valueOf() || null
+                                          }, onSuccess, onError);
                 }
             } catch (error) {
                 console.log(error);
@@ -157,6 +184,7 @@ const CommonAuditForm = ({
                ? ""
                : location.pathname;
     };
+
 
     return (
         <div
@@ -175,7 +203,6 @@ const CommonAuditForm = ({
                         Go back to list
                     </Button>
                 </ActionWrapper>
-                {/* <PathName>{getPathName()}</PathName> */}
                 <FormHeader>
                     {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
                     {state?.action} {formHeader}
@@ -218,6 +245,7 @@ const CommonAuditForm = ({
                                  >
                                      RESET
                                  </Button>
+
                              </>
                          )}
                     </ActionWrapper>
@@ -337,6 +365,52 @@ const CommonAuditForm = ({
                         </Select>
                     </FieldWrapper>
                 </Grid>
+                <Grid item lg={2}>
+                    <FieldWrapper>
+                        <FieldName>Active From</FieldName>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                                name="activeFrom"
+                                id="activeFrom"
+                                disabled={state?.action === DEF_ACTIONS.VIEW}
+                                slotProps={{ textField: { size: "small" } }}
+                                value={formData?.activeFrom || ""}
+                                onChange={(newValue) =>
+                                    handleChange(newValue || "", "activeFrom")
+                                }
+                                in="DD-MM-YYYY"
+                                sx={{
+                                    // width: "264px",
+                                    "& .MuiInputBase-root": {
+                                        // height: "30px",
+                                        borderRadius: "8px",
+                                    },
+                                }}
+                            />
+                        </LocalizationProvider>
+                    </FieldWrapper>
+                </Grid>
+
+            </Grid>
+
+            <Grid
+                container
+                sx={{
+                    // border: "1px solid #bec0c2",
+                    margin: "15px",
+                    width: "97%",
+                    borderRadius: "5px",
+                }}
+            >
+                <Grid item lg={12}>
+                    <CommonQuestionList
+                        dataList={questions}
+                        onFormSaveSuccess={saveSuccess}
+                        formId={savedFormId}
+                        formMode={state?.action}
+                    />
+                </Grid>
+
             </Grid>
 
         </div>
