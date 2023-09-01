@@ -34,6 +34,7 @@ import { ClearButton } from "../../../components/PageLayout/ClearButton";
 import SearchIcon from "@mui/icons-material/Search";
 import SearchImg from "../../../assets/images/Search.png";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const Province = () => {
   useUserAccessValidation();
@@ -182,6 +183,7 @@ const Province = () => {
 
   return (
     <div>
+      <ListHeader title="Province" />
       {/* <SearchWrapper>
         <TextField
           sx={{

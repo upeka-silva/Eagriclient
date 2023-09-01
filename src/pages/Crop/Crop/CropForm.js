@@ -127,29 +127,6 @@ const CropForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={2}>
-            <FieldWrapper>
-              <FieldName>Sub Category ID</FieldName>
-              <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={subOptions}
-                value={formData ? formData.cropSubCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
-                onChange={(event, value) => {
-                  handleChange(value, "cropSubCategoryDTO");
-                }}
-                sx={{
-                  // width: "264px",
-                  "& .MuiOutlinedInput-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
-            </FieldWrapper>
-          </Grid>
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Crop ID</FieldName>
@@ -162,9 +139,7 @@ const CropForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "cropId")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -185,13 +160,32 @@ const CropForm = () => {
                   handleChange(e?.target?.value || "", "description")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
                 size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Sub Category ID</FieldName>
+              <Autocomplete
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={subOptions}
+                value={formData ? formData.cropSubCategoryDTO : ""}
+                getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
+                onChange={(event, value) => {
+                  handleChange(value, "cropSubCategoryDTO");
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
               />
             </FieldWrapper>
           </Grid>
@@ -210,9 +204,7 @@ const CropForm = () => {
                 type="file"
                 accept="image/*"
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -233,8 +225,6 @@ const CropForm = () => {
                 }
                 fullWidth
                 sx={{
-                  // width: "264px",
-                  // height: "30px",
                   borderRadius: "8px",
                 }}
                 size="small"
@@ -258,9 +248,7 @@ const CropForm = () => {
                   handleChange(e?.target?.value || "", "scientificName")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
