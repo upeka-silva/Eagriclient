@@ -7,6 +7,6 @@ export const FieldWrapper = styled(Stack)`
     justify-content: space-between;
     margin-bottom: 10px;
     gap: 0px;
-    padding-inline: 10px;
+    padding: 0px 10px;
   }
 `;

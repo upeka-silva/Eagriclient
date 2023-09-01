@@ -1,42 +1,25 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  CircularProgress,
-  Autocomplete,
-  Select,
-  MenuItem,
-  Grid,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { TextField, Autocomplete, Select, MenuItem, Grid } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import {
   handleCrop,
   updateCrop,
 } from "../../../redux/actions/crop/crop/action";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { get_SubCategoryList } from "../../../redux/actions/crop/crop/action";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { get_SubCategoryList } from "../../../redux/actions/crop/cropSubCategory/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const CropForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -120,71 +103,21 @@ const CropForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <div>
       <FormWrapper>
-        <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} CROP
-        </FormHeader>
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
+        <BackToList goBack={goBack} />
+        <CustFormHeader saving={saving} state={state} formName="Crop" />
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
           }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        />
         <Grid
           container
           sx={{

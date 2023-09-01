@@ -3,6 +3,7 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const DsDivisionList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -12,18 +13,18 @@ const DsDivisionList = ({
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
 
-    {
-      field: ["districtDTO.code", "districtDTO.name"],
-      joinString: " - ",
-      headerName: "District Description",
-    },
+    // {
+    //   field: ["districtDTO.code", "districtDTO.name"],
+    //   joinString: " - ",
+    //   headerName: "District Description",
+    // },
   ];
 
   return (
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ds-divisions"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}

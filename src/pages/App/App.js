@@ -25,6 +25,7 @@ const App = () => {
           <Wrapper>
             <BrowserRouter>
               <PermissionWrapper component={<SideBar />} withoutPermissions />
+              
               <PageWrapper
                 sx={
                   userAuthenticated

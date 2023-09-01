@@ -136,7 +136,7 @@ const AppHeader = () => {
             />
           </BreakLine>
           <IconButton onClick={openProfileOptions}>
-            <ProfileButton>
+            <ProfileButton aria-describedby={id}>
               <Row>
                 <ProfileImage src={ProfileImg} />
                 <UserName>{user?.userName || ""}</UserName>
@@ -156,11 +156,14 @@ const AppHeader = () => {
           anchorOrigin={{
             width: "auto",
             vertical: "bottom",
-            horizontal: "right",
+            horizontal: 112,
+          }}
+          transformOrigin={{
+            horizontal: "center",
           }}
         >
           <div>
-            <Button variant="text" startIcon={<ProfileIcon />}>
+            <Button variant="text" color="success" startIcon={<ProfileIcon />}>
               Profile
             </Button>
 
@@ -168,6 +171,7 @@ const AppHeader = () => {
             <Button
               onClick={logoutFunc}
               variant="text"
+              color="success"
               startIcon={<ExitIcon />}
             >
               Logout
@@ -211,7 +215,7 @@ const AppTitle = styled.p`
 const ProfileButton = styled.div`
   width: auto;
   height: 40px;
-  background-color: ${Colors.profileButtonBGColor};
+  background-color: ${Colors.tableHeaderColor};
   border-radius: 6px;
   display: flex;
   justify-content: space-between;

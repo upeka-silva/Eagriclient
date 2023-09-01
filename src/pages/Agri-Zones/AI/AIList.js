@@ -3,6 +3,7 @@ import { DataTable } from "../../../components/PageLayout/Table";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 
 const AIList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -19,7 +20,7 @@ const AIList = ({
     <CardWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/provinces"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}

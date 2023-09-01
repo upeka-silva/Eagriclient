@@ -1,46 +1,52 @@
 import React, { useState } from "react";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ButtonGroup,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import AIList from "./AIList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router-dom";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useSnackBars } from "../../../context/SnackBarContext";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import {
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { ActionButton } from "../../../components/ActionButtons/ActionButton";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteAI } from "../../../redux/actions/aiRegion/action";
+
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import ProvincialDoaList from "./ProvincialDoaList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
-const AI = () => {
+const  ProvincialAiRegion = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const[dataEndPoint,setDataEndPoint] = useState("geo-data/ai-region")
-  const [selectedAI, setSelectedAI] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const toggleAISelect = (component) => {
-    setSelectedAI((current = []) => {
+  const [search, setSearch] = useState({});
+
+  const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const toggleProvincialDoaSelect = (component) => {
+    setSelectedProvincialDoa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -52,37 +58,37 @@ const AI = () => {
     });
   };
 
-  const selectAllAI = (all = []) => {
-    setSelectedAI(all);
+  const selectAllProvincialDoa = (all = []) => {
+    setSelectedProvincialDoa(all);
   };
 
-  const resetSelectedAI = () => {
-    setSelectedAI([]);
+  const resetSelectedProvincialDoa = () => {
+    setSelectedProvincialDoa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/provincial-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/provincial-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedAI[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/provincial-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/provincial-doa-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedAI[0] || {},
+        target: selectedProvincialDoa[0] || {},
       },
     });
   };
@@ -91,25 +97,26 @@ const AI = () => {
     setOpen(true);
   };
 
-  const close = () => {
+  const onClose = () => {
     setOpen(false);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedAI.map((p, key) => {
+        {selectedProvincialDoa.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
                 {loading ? (
-                  <CircularProgress size={16} />
+                  <CircularProgress size={20} />
                 ) : (
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {" "}
+                {item?.proDirectorId} - {item?.description}
               </ListItemText>
             </ListItem>
           );
@@ -121,29 +128,29 @@ const AI = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: "Successfully deleted",
     });
   };
 
-  const onError = (message) => {
+  const onError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || defaultMessages.apiErrorUnknown,
+      message: "Failed to delete",
     });
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const ai of selectedAI) {
-        await deleteAI(ai?.id, onSuccess, onError);
+      for (const provincialDoa of selectedProvincialDoa) {
+        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
-      close();
-      resetSelectedAI();
+      onClose();
+      resetSelectedProvincialDoa();
     } catch (error) {
-      console.log(error);
       setLoading(false);
+      console.log(error);
     }
   };
 
@@ -158,7 +165,7 @@ const AI = () => {
           color="success"
         >
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_I_REGIONS}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
         >
           <Button  onClick={onCreate}>
           <Add />
@@ -166,66 +173,54 @@ const AI = () => {
           </Button>
         </PermissionWrapper>
 
-        {selectedAI.length === 1 && (
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
-              
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              <Edit/>
-              {DEF_ACTIONS.EDIT}
-            </Button>
+            <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
           </PermissionWrapper>
         )}
-        {selectedAI.length === 1 && (
+        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_I_REGIONS}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
-             
-              onClick={onView}
-              sx={{ ml: "8px" }}
-            >
-              <Vrpano/>
-              {DEF_ACTIONS.VIEW}
-            </Button>
+            <Button onClick={onView}>
+              <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
           </PermissionWrapper>
         )}
-        {selectedAI.length > 0 && (
+        {selectedProvincialDoa.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_I_REGIONS}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button
-              
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
-            >
-              <Delete/>
-              {DEF_ACTIONS.DELETE}
-            </Button>
+            <Button onClick={onDelete}>
+                
+                <Delete/>
+                {DEF_ACTIONS.DELETE}
+              </Button>
           </PermissionWrapper>
         )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_I_REGIONS}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <AIList
-            selectedRows={selectedAI}
-            onRowSelect={toggleAISelect}
-            selectAll={selectAllAI}
-            unSelectAll={resetSelectedAI}
-            dataEndPoint={dataEndPoint}
+          <ProvincialDoaList
+            selectedRows={selectedProvincialDoa}
+            onRowSelect={toggleProvincialDoaSelect}
+            selectAll={selectAllProvincialDoa}
+            unSelectAll={resetSelectedProvincialDoa}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete AI Region"
+        title="Delete Provincial Level"
         actions={
           <ActionWrapper>
             <Button
@@ -239,7 +234,7 @@ const AI = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={onClose}
               sx={{ ml: "8px" }}
             >
               Close
@@ -257,4 +252,4 @@ const AI = () => {
   );
 };
 
-export default AI;
+export default ProvincialAiRegion;

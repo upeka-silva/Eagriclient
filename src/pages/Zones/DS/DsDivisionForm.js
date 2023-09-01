@@ -38,7 +38,7 @@ const DsDivisionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -151,7 +151,7 @@ const DsDivisionForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-                <Button variant="contained">
+                <Button variant="contained" color="success" size="small">
                   {state?.action === DEF_ACTIONS.ADD
                     ? "ADDING..."
                     : "UPDATING..."}
@@ -165,8 +165,8 @@ const DsDivisionForm = () => {
                     size="small"
                     color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
                   <Button
                     onClick={resetForm}
