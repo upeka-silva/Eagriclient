@@ -55,16 +55,7 @@ export default function AddQuestionDialog({
                         }}
                     >
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 264px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
@@ -97,16 +88,7 @@ export default function AddQuestionDialog({
                             </FieldWrapper>
                         </Grid>
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 264px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
@@ -139,15 +121,7 @@ export default function AddQuestionDialog({
                             </FieldWrapper>
                         </Grid>
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 200px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
@@ -185,15 +159,7 @@ export default function AddQuestionDialog({
                             </FieldWrapper>
                         </Grid>
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 264px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
@@ -234,15 +200,7 @@ export default function AddQuestionDialog({
                             </FieldWrapper>
                         </Grid>
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 264px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
@@ -282,15 +240,7 @@ export default function AddQuestionDialog({
                             </FieldWrapper>
                         </Grid>
                         <Grid item lg={12}>
-                            <FieldWrapper
-                                style={{
-                                    flexDirection: "column",
-                                    flex: "1 1 264px",
-                                    gap: "0",
-                                    marginInline: '5px',
-                                    fontFamily: Fonts.fontStyle1
-                                }}
-                            >
+                            <FieldWrapper>
                                 <FieldName
                                     style={{
                                         width: "100%",
