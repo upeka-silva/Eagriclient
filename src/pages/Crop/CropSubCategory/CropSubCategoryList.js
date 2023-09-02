@@ -30,6 +30,7 @@ const CropSubCategoryList = ({
       join:"-",
       headerName: "Crop Category " },
   ];
+
 const [id,setId] = useState(null);
     const [data,setData] = useState(null);
 
@@ -118,18 +119,33 @@ const [id,setId] = useState(null);
               </Grid>
           </ActionWrapper>
 
-          {show &&
-          <DataTable
+          {show ?<>
 
-              loadingTable
-              dataEndPoint={`geo-data/crop-sub-categories/crop-category/${id}`}
-              columns={columns}
-              selectable
-              selectedRows={selectedRows}
-              selectAll={selectAll}
-              onRowSelect={onRowSelect}
-              unSelectAll={unSelectAll}
-          />
+              <DataTable
+
+                  loadingTable
+                  dataEndPoint={`geo-data/crop-sub-categories/crop-category/${id}`}
+                  columns={columns}
+                  selectable
+                  selectedRows={selectedRows}
+                  selectAll={selectAll}
+                  onRowSelect={onRowSelect}
+                  unSelectAll={unSelectAll}
+              />
+              </>:<>
+              <DataTable
+
+                  loadingTable
+                  dataEndPoint={"geo-data/crop-sub-categories"}
+                  columns={columns}
+                  selectable
+                  selectedRows={selectedRows}
+                  selectAll={selectAll}
+                  onRowSelect={onRowSelect}
+                  unSelectAll={unSelectAll}
+              />
+          </>
+
           }
 
 

@@ -151,17 +151,28 @@ setIsdisable(false)
           </Grid>
           </Grid>
       </ActionWrapper>
-        {show &&
-        <DataTable
+        {show?<>
+            <DataTable
+                loadingTable
+                dataEndPoint={`geo-data/crops/crop-sub-category/${id}`}
+                columns={columns}
+                selectable
+                selectedRows={selectedRows}
+                selectAll={selectAll}
+                onRowSelect={onRowSelect}
+                unSelectAll={unSelectAll}
+            />
+            </>:<> <DataTable
             loadingTable
-            dataEndPoint={`geo-data/crops/crop-sub-category/${id}`}
+            dataEndPoint={"geo-data/crops"}
             columns={columns}
             selectable
             selectedRows={selectedRows}
             selectAll={selectAll}
             onRowSelect={onRowSelect}
             unSelectAll={unSelectAll}
-        />
+        /></>
+       
         }
 
     </CardWrapper>

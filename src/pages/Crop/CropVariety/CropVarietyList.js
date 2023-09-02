@@ -28,9 +28,13 @@ const CropVarietyList = ({
                              },
                          }) => {
     const columns = [
-        {field: "varietyID", headerName: "Variety ID"},
+        {field: "varietyId", headerName: "Variety ID"},
         {field: "varietyName", headerName: "Variety Name"},
     ];
+    // const columns1 = [
+    //     {field: "payloadDto.varietyId", headerName: "Variety ID"},
+    //     {field: "payloadDto.varietyName", headerName: "Variety Name"},
+    // ];
     const [options, setOptions] = useState([]);
     const [id, setId] = useState(null);
     const [subcat, setSubcat] = useState([]);
@@ -193,17 +197,30 @@ const CropVarietyList = ({
                     </Grid>
                 </Grid>
             </ActionWrapper>
-            {show &&
-            <DataTable
-                loadingTable
-                dataEndPoint={`geo-data/crop-varieties/crop/${id}`}
-                columns={columns}
-                selectable
-                selectedRows={selectedRows}
-                selectAll={selectAll}
-                onRowSelect={onRowSelect}
-                unSelectAll={unSelectAll}
-            />
+            {show ?<>
+                <DataTable
+                    loadingTable
+                    dataEndPoint={`geo-data/crop-varieties/crop/${id}`}
+                    columns={columns}
+                    selectable
+                    selectedRows={selectedRows}
+                    selectAll={selectAll}
+                    onRowSelect={onRowSelect}
+                    unSelectAll={unSelectAll}
+                />
+                </>:<>
+                <DataTable
+                    loadingTable
+                    dataEndPoint={"geo-data/crop-varieties"}
+                    columns={columns}
+                    selectable
+                    selectedRows={selectedRows}
+                    selectAll={selectAll}
+                    onRowSelect={onRowSelect}
+                    unSelectAll={unSelectAll}
+                />
+            </>
+
             }
 
 
