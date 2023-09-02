@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormHeader } from "../../components/FormLayout/FormHeader";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { Grid, TextField } from "@mui/material";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -19,12 +19,14 @@ import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { useLocation } from "react-router";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import BackToList from "../../components/BackToList/BackToList";
+import { get_DistrictList } from "../../redux/actions/district/action";
 
 const Farmer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState([]);
   const [open, setOpen] = useState(false);
   const { state } = useLocation();
+  const [options, setOptions] = useState([]);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -53,6 +55,12 @@ const Farmer = () => {
       setFormData({});
     }
   };
+
+  useEffect(() => {
+    get_DistrictList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+  }, []);
 
   return (
     <div
@@ -528,22 +536,24 @@ const Farmer = () => {
             </Grid>
             <Grid item lg={6} sm={12} sx={12}>
               <FieldWrapper>
-                <FieldName>Postal Code</FieldName>
-                <TextField
-                  name="postalCode"
-                  id="postalCode"
-                  value={formData?.postalCode || ""}
-                  fullWidth
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "postalCode")
-                  }
+                <FieldName>District</FieldName>
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={options}
+                  value={formData ? formData.districtDTO : ""}
+                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "districtDTO");
+                  }}
                   sx={{
-                    "& .MuiInputBase-root": {
+                    "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
                     },
                   }}
-                  size="small"
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
                 />
               </FieldWrapper>
             </Grid>
@@ -568,7 +578,7 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-          </Grid>          
+          </Grid>
         </Grid>
 
         {/* <Divider style={{ marginTop: "20px" }} />

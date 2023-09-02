@@ -12,6 +12,11 @@ const ProvincialAdaList = ({
   const columns = [
     { field: "provinceSegmentId", headerName: "Code" },
     { field: "description", headerName: "Description" },
+    {
+      field: ["proDeputyDirectorLevelDTO.provincialDdId", "proDeputyDirectorLevelDTO.description"],
+      joinString: " - ",
+      headerName: "Provincial DD",
+    },
   ];
 
   return (

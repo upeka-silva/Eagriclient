@@ -12,6 +12,11 @@ const ProvincialDdoaList = ({
   const columns = [
     { field: "provincialDdId", headerName: "Code" },
     { field: "description", headerName: "Description" },
+    {
+      field: ["proDirectorLevelDTO.proDirectorId", "proDirectorLevelDTO.description"],
+      joinString: " - ",
+      headerName: "Provincial DOA",
+    },
   ];
 
   return (
