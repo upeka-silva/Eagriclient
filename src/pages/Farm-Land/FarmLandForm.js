@@ -46,6 +46,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import DynamicForm from "../DynamicForm/DynamicForm";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -717,6 +718,20 @@ const FarmLandForm = () => {
         >
           Soil Type Per Land
         </TabButton>
+        <TabButton
+            variant="contained"
+            className={toggleState === 4 ? "active-tabs" : ""}
+            onClick={() => toggleTab(4)}
+        >
+          Self Assessment
+        </TabButton>
+        <TabButton
+            variant="contained"
+            className={toggleState === 5 ? "active-tabs" : ""}
+            onClick={() => toggleTab(5)}
+        >
+          Basic Assessment
+        </TabButton>
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
@@ -1146,6 +1161,12 @@ const FarmLandForm = () => {
             hideFooterSelectedRowCount
           />
         </Box>
+      </TabContent>
+      <TabContent className={toggleState === 4 ? "active-content" : ""}>
+        <DynamicForm auditFormType={'SELF_ASSESSMENT'} />
+      </TabContent>
+      <TabContent className={toggleState === 5 ? "active-content" : ""}>
+        <DynamicForm auditFormType={'BASIC_ASSESSMENT'} />
       </TabContent>
     </Box>
   );
