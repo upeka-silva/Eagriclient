@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ASCList = ({
   selectedRows = [],
@@ -15,10 +15,14 @@ const ASCList = ({
       field: "districtCommissionerLevelDTO.districtCommId",
       headerName: "District Comm ID",
     },
+    {
+      field: "districtCommissionerLevelDTO.name",
+      headerName: "District Comm Name",
+    },
   ];
 
   return (
-    <CardWrapper sx={{ maxWidth: "60vw" }}>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/AscDivision"}
@@ -29,7 +33,7 @@ const ASCList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

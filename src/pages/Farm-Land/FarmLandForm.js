@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
-  CircularProgress,
   Grid,
   Autocomplete,
   FormControl,
@@ -24,13 +23,8 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../components/PageLayout/ActionWrapper";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { PathName } from "../../components/FormLayout/PathName";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { get_DistrictList } from "../../redux/actions/district/action";
@@ -38,14 +32,16 @@ import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
+
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { Add, Edit } from "@mui/icons-material";
+import BackToList from "../../components/BackToList/BackToList";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -213,20 +209,9 @@ const FarmLandForm = () => {
       }}
     >
       <Box>
-        <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {makeCapitalize(state?.action)} Farm Land
-        </FormHeader>
+        <BackToList goBack={goBack} />
+
+        <CustFormHeader saving={saving} state={state} formName="Farm Land" />
       </Box>
 
       <TabContent
@@ -234,41 +219,16 @@ const FarmLandForm = () => {
           display: "flex",
         }}
       >
-        <ButtonWrapper>
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
+        />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
             <Grid item lg={4}>

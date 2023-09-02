@@ -1,7 +1,7 @@
 import { put, post, api_delete, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleDC = async (
+export const handleDistrictComm = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -38,7 +38,7 @@ export const handleDC = async (
   }
 };
 
-export const updateDC = async (
+export const updateDistrictComm = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -75,7 +75,7 @@ export const updateDC = async (
   }
 };
 
-export const deleteDC = async (
+export const deleteDistrictComm = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
@@ -111,7 +111,7 @@ export const deleteDC = async (
   }
 };
 
-export const get_DCList = async () => {
+export const get_DistrictCommList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
       "geo-data/district-commissioner-level",

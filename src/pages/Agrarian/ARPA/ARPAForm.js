@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  Button,
-  TextField,
-  CircularProgress,
-  FormControl,
-  Autocomplete,
-} from "@mui/material";
-import { ArrowCircleLeftRounded } from "@mui/icons-material";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+import { Grid, TextField, FormControl, Autocomplete } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -22,14 +10,11 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { get_ASC } from "../../../redux/actions/asc/action";
 import { useEffect } from "react";
 
@@ -128,61 +113,18 @@ const ARPAForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} ARPA Division
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="ARPA Division" />
+      <FormButtonGroup
+        {...{
+          state,
+          DEF_ACTIONS,
+          saving,
+          enableSave,
+          handleFormSubmit,
+          resetForm,
         }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      />
       <Grid
         container
         sx={{

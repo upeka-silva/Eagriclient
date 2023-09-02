@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ARPAList = ({
   selectedRows = [],
@@ -12,9 +12,10 @@ const ARPAList = ({
     { field: "arpaId", headerName: "ID" },
     { field: "name", headerName: "Name" },
     { field: "ascDto.ascId", headerName: "ASC ID" },
+    { field: "ascDto.name", headerName: "ASC Name" },
   ];
   return (
-    <CardWrapper sx={{ maxWidth: "60vw" }}>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/arpa"}
@@ -25,7 +26,7 @@ const ARPAList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

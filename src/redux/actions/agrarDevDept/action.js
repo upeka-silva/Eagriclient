@@ -1,7 +1,7 @@
 import { put, post, api_delete, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleDOAD = async (
+export const handleAgrarDevDept = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -38,7 +38,7 @@ export const handleDOAD = async (
   }
 };
 
-export const updateDOAD = async (
+export const updateAgrarDevDept = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -75,7 +75,7 @@ export const updateDOAD = async (
   }
 };
 
-export const deleteDOAD = async (
+export const deleteAgrarDevDept = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
@@ -111,7 +111,7 @@ export const deleteDOAD = async (
   }
 };
 
-export const get_DOADList = async () => {
+export const get_AgrarDevDeptList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
       "geo-data/department-of-agrarian-development",

@@ -1,23 +1,27 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
-const DOADList = ({
+const DistrictCommList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "doAgrarianDevelopmentId", headerName: "ID" },
+    { field: "districtCommId", headerName: "ID" },
     { field: "name", headerName: "Name" },
+    {
+      field: "doAgrarianDevelopmentDTO.doAgrarianDevelopmentId",
+      headerName: "AgrarDevDept ID",
+    },
   ];
 
   return (
-    <CardWrapper sx={{ maxWidth: "60vw" }}>
+    <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/department-of-agrarian-development"}
+        dataEndPoint={"geo-data/district-commissioner-level"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -25,8 +29,8 @@ const DOADList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 
-export default DOADList;
+export default DistrictCommList;

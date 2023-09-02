@@ -4,20 +4,19 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleDOAD, updateDOAD } from "../../../redux/actions/doad/action";
-import { Button, CircularProgress, Grid, TextField } from "@mui/material";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+  handleAgrarDevDept,
+  updateAgrarDevDept,
+} from "../../../redux/actions/agrarDevDept/action";
+import { Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ArrowCircleLeftRounded } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
-const DOADForm = () => {
+const AgrarDevDeptForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -88,9 +87,9 @@ const DOADForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateDOAD(formData, onSuccess, onError);
+          await updateAgrarDevDept(formData, onSuccess, onError);
         } else {
-          await handleDOAD(formData, onSuccess, onError);
+          await handleAgrarDevDept(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
@@ -100,63 +99,22 @@ const DOADForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} DOAD
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Department of Agrarian development"
+      />
+      <FormButtonGroup
+        {...{
+          state,
+          DEF_ACTIONS,
+          saving,
+          enableSave,
+          handleFormSubmit,
+          resetForm,
         }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      />
       <Grid
         container
         sx={{
@@ -168,7 +126,7 @@ const DOADForm = () => {
       >
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>DOAD ID</FieldName>
+            <FieldName>AgrarDevDept ID</FieldName>
             <TextField
               name="doAgrarianDevelopmentId"
               id="doAgrarianDevelopmentId"
@@ -194,7 +152,7 @@ const DOADForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Name</FieldName>
+            <FieldName>AgrarDevDept Name</FieldName>
             <TextField
               name="name"
               id="name"
@@ -218,4 +176,4 @@ const DOADForm = () => {
   );
 };
 
-export default DOADForm;
+export default AgrarDevDeptForm;

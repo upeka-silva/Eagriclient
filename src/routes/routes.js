@@ -99,10 +99,10 @@ import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
-import DOAD from "../pages/Agrarian/DOAD/DOAD";
-import DOADForm from "../pages/Agrarian/DOAD/DOADForm";
-import DC from "../pages/Agrarian/DC/DC";
-import DCForm from "../pages/Agrarian/DC/DCForm";
+import AgrarDevDept from "../pages/Agrarian/AgrarDevDept/AgrarDevDept";
+import AgrarDevDeptForm from "../pages/Agrarian/AgrarDevDept/AgrarDevDeptForm";
+import DistrictComm from "../pages/Agrarian/DistrictComm/DistrictComm";
+import DistrictCommForm from "../pages/Agrarian/DistrictComm/DistrictCommForm";
 import ASC from "../pages/Agrarian/ASC/ASC";
 import ASCForm from "../pages/Agrarian/ASC/ASCForm";
 import ARPA from "../pages/Agrarian/ARPA/ARPA";
@@ -440,29 +440,29 @@ export const Routes = [
         children: [
           {
             path: "/department-of-agrarian-development",
-            name: "DOAD",
+            name: "AgrarDevDept",
             isSideBar: true,
-            element: <DOAD />,
+            element: <AgrarDevDept />,
             icon: MyLocationIcon,
           },
           {
             path: "/department-of-agrarian-development-form",
-            name: "DOAD Form",
+            name: "AgrarDevDept Form",
             isSideBar: false,
-            element: <DOADForm />,
+            element: <AgrarDevDeptForm />,
           },
           {
             path: "/district-commissioner",
             name: "District Commissioner",
             isSideBar: true,
-            element: <DC />,
+            element: <DistrictComm />,
             icon: MyLocationIcon,
           },
           {
             path: "/district-commissioner-form",
             name: "District Commissioner Form",
             isSideBar: false,
-            element: <DCForm />,
+            element: <DistrictCommForm />,
           },
           {
             path: "/asc-division",

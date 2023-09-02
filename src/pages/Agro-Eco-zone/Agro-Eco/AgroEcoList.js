@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const AgroEcoList = ({
   selectedRows = [],
@@ -9,17 +9,17 @@ const AgroEcoList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "aeZoneId", headerName: "Code"},
-    { field: "name", headerName: "Description"},
-    { field: "climateZone", headerName: "Climate Zone"},
-    { field: "averageRainfall", headerName: "Avg Rainfall"},
-    { field: "averageTemperature", headerName: "Avg Temp"},
-    { field: "averageHumidity", headerName: "Avg Humidity"},
-    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type"},
+    { field: "aeZoneId", headerName: "Code" },
+    { field: "name", headerName: "Description" },
+    { field: "climateZone", headerName: "Climate Zone" },
+    { field: "averageRainfall", headerName: "Avg Rainfall" },
+    { field: "averageTemperature", headerName: "Avg Temp" },
+    { field: "averageHumidity", headerName: "Avg Humidity" },
+    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type" },
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"aez"}
@@ -30,7 +30,7 @@ const AgroEcoList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

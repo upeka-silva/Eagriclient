@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useNavigate } from "react-router-dom";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -8,25 +8,34 @@ import {
 } from "../../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
+  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
   Divider,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import DOADList from "./DOADList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { deleteDOAD } from "../../../redux/actions/doad/action";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import {
+  deleteDistrictComm,
+  get_DistrictCommList,
+} from "../../../redux/actions/districtComm/action";
+import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import DistrictCommList from "./DistrictCommList";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
-const DOAD = () => {
+const DistrictComm = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -36,11 +45,17 @@ const DOAD = () => {
 
   const [search, setSearch] = useState({});
 
-  const [selectedDOAD, setSelectedDOAD] = useState([]);
+  const [selectedDistrictComm, setSelectedDistrictComm] = useState([]);
+  const [dataEndPoint, setDataEndPoint] = useState(
+    "geo-data/district-commissioner-level"
+  );
+
+  const [selectedDoa, setSelectedDoa] = useState();
+  const [doas, setDoas] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleDOADSelect = (component) => {
-    setSelectedDOAD((current = []) => {
+  const toggleDistrictCommSelect = (component) => {
+    setSelectedDistrictComm((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -52,37 +67,37 @@ const DOAD = () => {
     });
   };
 
-  const selectAllDOAD = (all = []) => {
-    setSelectedDOAD(all);
+  const selectAllDistrictComm = (all = []) => {
+    setSelectedDistrictComm(all);
   };
 
-  const resetSelectedDOAD = () => {
-    setSelectedDOAD([]);
+  const resetSelectedDistrictComm = () => {
+    setSelectedDistrictComm([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/agrarian/department-of-agrarian-development-form", {
+    navigate("/zone/agrarian/district-commissioner-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/agrarian/department-of-agrarian-development-form", {
+    navigate("/zone/agrarian/district-commissioner-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedDOAD[0] || {},
+        target: selectedDistrictComm[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/agrarian/department-of-agrarian-development-form", {
+    navigate("/zone/agrarian/district-commissioner-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedDOAD[0] || {},
+        target: selectedDistrictComm[0] || {},
       },
     });
   };
@@ -95,10 +110,22 @@ const DOAD = () => {
     setOpen(false);
   };
 
+  useEffect(() => {
+    get_DistrictCommList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDoas(dataList);
+    });
+  }, []);
+
+  const getFilteredData = () => {
+    console.log(selectedDoa);
+    setDataEndPoint(`geo-data/district-commissioner-level` + selectedDoa?.id);
+  };
+
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedDOAD.map((item) => {
+        {selectedDistrictComm.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -109,7 +136,6 @@ const DOAD = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {" "}
                 {item?.doAgrarianDevelopmentId} - {item?.name}
               </ListItemText>
             </ListItem>
@@ -136,12 +162,12 @@ const DOAD = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const dOAD of selectedDOAD) {
-        await deleteDOAD(dOAD.id, onSuccess, onError);
+      for (const districtComm of selectedDistrictComm) {
+        await deleteDistrictComm(districtComm.id, onSuccess, onError);
       }
       setLoading(false);
       onClose();
-      resetSelectedDOAD();
+      resetSelectedDistrictComm();
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -150,6 +176,7 @@ const DOAD = () => {
 
   return (
     <div>
+      <ListHeader title="District Commissioner" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -167,7 +194,7 @@ const DOAD = () => {
             </Button>
           </PermissionWrapper>
 
-          {selectedDOAD.length === 1 && (
+          {selectedDistrictComm.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -177,7 +204,7 @@ const DOAD = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedDOAD.length === 1 && (
+          {selectedDistrictComm.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -187,7 +214,7 @@ const DOAD = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedDOAD.length > 0 && (
+          {selectedDistrictComm.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -199,21 +226,69 @@ const DOAD = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Grid container>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select AgrarDevDept</FieldName>
+              <Autocomplete
+                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={doas}
+                value={selectedDoa}
+                getOptionLabel={(i) =>
+                  `${i?.doAgrarianDevelopmentId} - ${i?.name}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDoa(value);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={getFilteredData}
+                sx={{ marginTop: "40px" }}
+              >
+                <Search />
+                Search
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+      </ActionWrapper>
+
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <DOADList
-            selectedRows={selectedDOAD}
-            onRowSelect={toggleDOADSelect}
-            selectAll={selectAllDOAD}
-            unSelectAll={resetSelectedDOAD}
+          <DistrictCommList
+            selectedRows={selectedDistrictComm}
+            onRowSelect={toggleDistrictCommSelect}
+            selectAll={selectAllDistrictComm}
+            unSelectAll={resetSelectedDistrictComm}
+            // dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Department of Agrarian development"
+        title="Delete District Commissioner"
         actions={
           <ActionWrapper>
             <Button
@@ -245,4 +320,4 @@ const DOAD = () => {
   );
 };
 
-export default DOAD;
+export default DistrictComm;

@@ -1,17 +1,5 @@
 import React, { useState } from "react";
-import {
-  Grid,
-  Button,
-  TextField,
-  CircularProgress,
-  FormControl,
-  Autocomplete,
-} from "@mui/material";
-import { ArrowCircleLeftRounded } from "@mui/icons-material";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+import { Grid, TextField, FormControl, Autocomplete } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -22,16 +10,13 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { handleAsc, updateAsc } from "../../../redux/actions/asc/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-
-import { get_DCList } from "../../../redux/actions/dc/action";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import { useEffect } from "react";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const ASCForm = () => {
   const navigate = useNavigate();
@@ -51,7 +36,7 @@ const ASCForm = () => {
   };
 
   useEffect(() => {
-    get_DCList().then(({ dataList = [] }) => {
+    get_DistrictCommList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
   }, []);
@@ -129,61 +114,18 @@ const ASCForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} ASC Division
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="ASC Division" />
+      <FormButtonGroup
+        {...{
+          state,
+          DEF_ACTIONS,
+          saving,
+          enableSave,
+          handleFormSubmit,
+          resetForm,
         }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      />
       <Grid
         container
         sx={{
@@ -236,7 +178,7 @@ const ASCForm = () => {
         <Grid item lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>District Comm Id</FieldName>
+              <FieldName>District Comm ID</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}

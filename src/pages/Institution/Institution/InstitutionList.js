@@ -1,19 +1,19 @@
-import React from 'react'
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import React from "react";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const InstitutionList = ({
-    selectedRows = [],
-    onRowSelect = (_c) => {},
-    selectAll = (_list = []) => {},
-    unSelectAll = () => {},
+  selectedRows = [],
+  onRowSelect = (_c) => {},
+  selectAll = (_list = []) => {},
+  unSelectAll = () => {},
 }) => {
-    const columns = [
-        { field: "code", headerName: "Code" },
-        { field: "institutionName", headerName: "Description" },
-      ];
+  const columns = [
+    { field: "code", headerName: "Code" },
+    { field: "institutionName", headerName: "Description" },
+  ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/institutions"}
@@ -24,8 +24,8 @@ const InstitutionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
-  )
-}
+    </TableWrapper>
+  );
+};
 
-export default InstitutionList
+export default InstitutionList;

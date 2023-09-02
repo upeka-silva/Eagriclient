@@ -4,28 +4,20 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleDC, updateDC } from "../../../redux/actions/dc/action";
-import { get_DOADList } from "../../../redux/actions/doad/action";
 import {
-  Autocomplete,
-  Button,
-  CircularProgress,
-  Grid,
-  TextField,
-  getPaginationItemUtilityClass,
-} from "@mui/material";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+  handleDistrictComm,
+  updateDistrictComm,
+} from "../../../redux/actions/districtComm/action";
+import { get_AgrarDevDeptList } from "../../../redux/actions/agrarDevDept/action";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ArrowCircleLeftRounded } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
-const DCForm = () => {
+const DistrictCommForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -35,8 +27,8 @@ const DCForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
 
-  const [dOADs, setDOADs] = useState([]);
-  const [selectedDOAD, setSelectedDOAD] = useState();
+  const [agrarDevDepts, setAgrarDevDepts] = useState([]);
+  const [selectedAgrarDevDept, setSelectedAgrarDevDept] = useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -99,9 +91,9 @@ const DCForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateDC(formData, onSuccess, onError);
+          await updateDistrictComm(formData, onSuccess, onError);
         } else {
-          await handleDC(formData, onSuccess, onError);
+          await handleDistrictComm(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
@@ -110,71 +102,30 @@ const DCForm = () => {
   };
 
   useEffect(() => {
-    get_DOADList().then(({ dataList = [] }) => {
-      setDOADs(dataList);
+    get_AgrarDevDeptList().then(({ dataList = [] }) => {
+      setAgrarDevDepts(dataList);
       console.log(dataList);
     });
   }, []);
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} District Commissioner
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="District Commissioner"
+      />
+      <FormButtonGroup
+        {...{
+          state,
+          DEF_ACTIONS,
+          saving,
+          enableSave,
+          handleFormSubmit,
+          resetForm,
         }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      />
       <Grid
         container
         sx={{
@@ -236,12 +187,12 @@ const DCForm = () => {
             <FieldName>Department of Agrarian development</FieldName>
             <Autocomplete
               // disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={dOADs}
-              value={selectedDOAD}
+              options={agrarDevDepts}
+              value={selectedAgrarDevDept}
               getOptionLabel={(i) => `${i?.doAgrarianDevelopmentId}-${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);
-                setSelectedDOAD(value);
+                setSelectedAgrarDevDept(value);
                 handleChange(value, "doAgrarianDevelopmentDTO");
               }}
               fullWidth
@@ -262,4 +213,4 @@ const DCForm = () => {
   );
 };
 
-export default DCForm;
+export default DistrictCommForm;
