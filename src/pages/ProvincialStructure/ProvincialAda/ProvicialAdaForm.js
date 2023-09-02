@@ -31,7 +31,7 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
-    get_ProvincialDdoaList,
+  get_ProvincialDdoaList,
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
@@ -39,6 +39,8 @@ import {
   handleProvincialAda,
   updateProvincialAda,
 } from "../../../redux/actions/provincialAda/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const ProvincialAdaForm = () => {
   useUserAccessValidation();
@@ -133,20 +135,12 @@ const ProvincialAdaForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Provincial ADA
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Provincial ADA Segment"
+      />
       <ButtonWrapper
         isCeneter
         style={{
@@ -199,7 +193,7 @@ const ProvincialAdaForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item lg={3} sm={6} xs={12}>
           <FieldWrapper>
             <FieldName>Province Segment Id</FieldName>
             <TextField
@@ -215,9 +209,30 @@ const ProvincialAdaForm = () => {
                 handleChange(e?.target?.value || "", "provinceSegmentId")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+
+        <Grid item lg={4} sm={6} xs={12}>
+          <FieldWrapper>
+            <FieldName>Description</FieldName>
+            <TextField
+              name="description"
+              id="description"
+              value={formData?.description || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "description")
+              }
+              sx={{
+                "& .MuiInputBase-root": {
                   borderRadius: "8px",
                 },
               }}
@@ -225,7 +240,7 @@ const ProvincialAdaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item lg={4} sm={6} xs={12}>
           <FieldWrapper>
             <FieldName>Provincial Deputy Director Level</FieldName>
             <Autocomplete
@@ -248,29 +263,6 @@ const ProvincialAdaForm = () => {
               renderInput={(params) => (
                 <TextField {...params} size="small" fullWidth />
               )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Description</FieldName>
-            <TextField
-              name="description"
-              id="description"
-              value={formData?.description || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
-              }
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
             />
           </FieldWrapper>
         </Grid>

@@ -344,7 +344,7 @@ export const Routes = [
             path: "/provincial-director",
             name: "Director DOA",
             isSideBar: true,
-            element: <ProvincialDoa />,
+            element: <InterProvince />,
             icon: MyLocationIcon,
           },
           {

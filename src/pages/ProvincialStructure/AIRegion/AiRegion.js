@@ -31,8 +31,9 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
-const  ProvincialAiRegion = () => {
+const ProvincialAiRegion = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -156,54 +157,54 @@ const  ProvincialAiRegion = () => {
 
   return (
     <div>
+      <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-        >
-          <Button  onClick={onCreate}>
-          <Add />
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-
-        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button onClick={onEdit}>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
+
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-          >
-            <Button onClick={onView}>
-              <Vrpano />
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onView}>
+                <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-          >
-            <Button onClick={onDelete}>
-                
-                <Delete/>
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-          </PermissionWrapper>
-        )}
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper

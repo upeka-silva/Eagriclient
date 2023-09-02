@@ -10,7 +10,6 @@ import {
   Button,
   CircularProgress,
   Divider,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
@@ -34,6 +33,7 @@ import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -175,6 +175,7 @@ const DsDivision = () => {
 
   return (
     <div>
+      <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
