@@ -12,12 +12,11 @@ const DsDivisionList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-
-    // {
-    //   field: ["districtDTO.code", "districtDTO.name"],
-    //   joinString: " - ",
-    //   headerName: "District Description",
-    // },
+    {
+      field: ["districtDTO.code", "districtDTO.name"],
+      joinString: " - ",
+      headerName: "District",
+    },
   ];
 
   return (

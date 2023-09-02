@@ -12,11 +12,11 @@ const DistrictList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    // {
-    //   field: ["provinceDTO.code", "provinceDTO.name"],
-    //   joinString: " - ",
-    //   headerName: "Province Description",
-    // },
+    {
+      field: ["provinceDTO.code", "provinceDTO.name"],
+      joinString: " - ",
+      headerName: "Province",
+    },
   ];
 
   return (
