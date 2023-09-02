@@ -31,6 +31,7 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const InterProvince = () => {
   useUserAccessValidation();
@@ -158,6 +159,7 @@ const InterProvince = () => {
 
   return (
     <div>
+      <ListHeader title="Director DOA" />
       <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AG_INTER_PROVINCE_AREA}`}

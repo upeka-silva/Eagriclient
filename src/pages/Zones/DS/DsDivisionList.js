@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const DsDivisionList = ({
   dataEndPoint,
@@ -12,16 +12,15 @@ const DsDivisionList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-
-    // {
-    //   field: ["districtDTO.code", "districtDTO.name"],
-    //   joinString: " - ",
-    //   headerName: "District Description",
-    // },
+    {
+      field: ["districtDTO.code", "districtDTO.name"],
+      joinString: " - ",
+      headerName: "District",
+    },
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -32,7 +31,7 @@ const DsDivisionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

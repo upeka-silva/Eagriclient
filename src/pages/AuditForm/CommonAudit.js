@@ -48,16 +48,16 @@ const CommonAudit = ({
 
         if (auditFormType === 'SELF_ASSESSMENT') {
             uRIPath = 'self-assessment-form';
-            formHeader = 'SELF ASSESSMENT FORM';
+            formHeader = 'Self Assessment Form';
         } else if (auditFormType === 'INTERNAL_AUDIT') {
             uRIPath = 'internal-audit-form';
-            formHeader = 'INTERNAL AUDIT FORM';
+            formHeader = 'Internal Audit Form';
         } else if (auditFormType === 'EXTERNAL_AUDIT') {
             uRIPath = 'external-audit-form';
-            formHeader = 'EXTERNAL AUDIT FORM';
+            formHeader = 'External Audit Form';
         } else if (auditFormType === 'BASIC_ASSESSMENT') {
             uRIPath = 'basic-assessment-form';
-            formHeader = 'BASIC ASSESSMENT FORM';
+            formHeader = 'Basic Assessment Form';
         }
 
     }

@@ -11,7 +11,6 @@ import {Fonts} from "../../utils/constants/Fonts";
 import {DEF_ACTIONS} from "../../utils/constants/permission";
 import Checkbox from "@mui/material/Checkbox";
 
-const label = {inputProps: {"aria-label": "Switch demo"}};
 export default function AddQuestionDialog({
                                               open,
                                               handleClose,
@@ -38,10 +37,10 @@ export default function AddQuestionDialog({
         <Dialog
             open={open}
             onClose={handleClose}
-            aria-labelledby="delete-object"
+            aria-labelledby="delete-question"
             aria-describedby="delete-description"
         >
-            <DialogTitle id="delete-object" style={{
+            <DialogTitle id="delete-question" style={{
                 fontFamily: Fonts.fontStyle1
             }}>{mode} QUESTION</DialogTitle>
             <DialogContent>
@@ -179,8 +178,8 @@ export default function AddQuestionDialog({
                                         },
                                     }}
                                 >
-                                    <MenuItem value={"TEXT"}>TEXT</MenuItem>
-                                    <MenuItem value={"BOOLEAN"}>BOOLEAN</MenuItem>
+                                    <MenuItem value={"TEXT"}>Text</MenuItem>
+                                    <MenuItem value={"BOOLEAN"}>Boolean</MenuItem>
                                 </Select>
 
                             </FieldWrapper>
@@ -226,10 +225,10 @@ export default function AddQuestionDialog({
                                         },
                                     }}
                                 >
-                                    <MenuItem value={"CRUCIAL"}>CRUCIAL</MenuItem>
-                                    <MenuItem value={"MAJOR"}>MAJOR</MenuItem>
-                                    <MenuItem value={"MINOR"}>MINOR</MenuItem>
-                                    <MenuItem value={"RECOMMENDED"}>RECOMMENDED</MenuItem>
+                                    <MenuItem value={"CRUCIAL"}>Crucial</MenuItem>
+                                    <MenuItem value={"MAJOR"}>Major</MenuItem>
+                                    <MenuItem value={"MINOR"}>Minor</MenuItem>
+                                    <MenuItem value={"RECOMMENDED"}>Recommended</MenuItem>
                                 </Select>
 
                             </FieldWrapper>
@@ -274,11 +273,11 @@ export default function AddQuestionDialog({
                                         },
                                     }}
                                 >
-                                    <MenuItem value={"INPUT_MANAGEMENT"}>INPUT_MANAGEMENT</MenuItem>
-                                    <MenuItem value={"DOCUMENTATION"}>DOCUMENTATION</MenuItem>
-                                    <MenuItem value={"REQUIREMENT"}>REQUIREMENT</MenuItem>
-                                    <MenuItem value={"SEEDS"}>SEEDS</MenuItem>
-                                    <MenuItem value={"PLANTING_MATERIAL"}>PLANTING_MATERIAL</MenuItem>
+                                    <MenuItem value={"INPUT_MANAGEMENT"}>Input Management</MenuItem>
+                                    <MenuItem value={"DOCUMENTATION"}>Documentation</MenuItem>
+                                    <MenuItem value={"REQUIREMENT"}>Requirement</MenuItem>
+                                    <MenuItem value={"SEEDS"}>Seeds</MenuItem>
+                                    <MenuItem value={"PLANTING_MATERIAL"}>Planting Material</MenuItem>
                                 </Select>
                             </FieldWrapper>
                         </Grid>
@@ -300,7 +299,6 @@ export default function AddQuestionDialog({
                                     Proof Required
                                 </FieldName>
                                 <Checkbox
-                                    {...label}
                                     name="proofRequired"
                                     id="proofRequired"
                                     value={formDataQ?.proofRequired}

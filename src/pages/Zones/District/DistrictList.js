@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const DistrictList = ({
   dataEndPoint,
@@ -12,15 +12,15 @@ const DistrictList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    // {
-    //   field: ["provinceDTO.code", "provinceDTO.name"],
-    //   joinString: " - ",
-    //   headerName: "Province Description",
-    // },
+    {
+      field: ["provinceDTO.code", "provinceDTO.name"],
+      joinString: " - ",
+      headerName: "Province",
+    },
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -31,7 +31,7 @@ const DistrictList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

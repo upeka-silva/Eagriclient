@@ -37,6 +37,7 @@ import { Add, Search } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -189,6 +190,7 @@ const GnDivision = () => {
 
   return (
     <div>
+      <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

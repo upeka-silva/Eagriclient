@@ -10,7 +10,6 @@ import {
   Button,
   CircularProgress,
   Divider,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
@@ -31,9 +30,9 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { get_DistrictList } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -175,6 +174,7 @@ const DsDivision = () => {
 
   return (
     <div>
+      <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

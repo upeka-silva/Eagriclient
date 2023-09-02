@@ -109,6 +109,7 @@ import InternalAudit from "../pages/AuditForm/InternalAuditForm/InternalAudit";
 import InternalAuditForm from "../pages/AuditForm/InternalAuditForm/InternalAuditForm";
 import ExternalAudit from "../pages/AuditForm/ExternalAuditForm/ExternalAudit";
 import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAuditForm";
+import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 
 export const Routes = [
   {
@@ -334,7 +335,7 @@ export const Routes = [
             path: "/provincial-director",
             name: "Director DOA",
             isSideBar: true,
-            element: <ProvincialDoa />,
+            element: <InterProvince />,
             icon: MyLocationIcon,
           },
           {
