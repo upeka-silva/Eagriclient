@@ -193,7 +193,7 @@ const ARPAForm = () => {
       >
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>ARPA Area Code</FieldName>
+            <FieldName>ARPA Division ID</FieldName>
             <TextField
               name="arpaId"
               id="arpaId"
@@ -215,7 +215,7 @@ const ARPAForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>ARPA Area Name</FieldName>
+            <FieldName>ARPA Division Name</FieldName>
             <TextField
               name="name"
               id="name"
@@ -235,7 +235,7 @@ const ARPAForm = () => {
         <Grid item lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>ASC ID</FieldName>
+              <FieldName>ASC Division ID</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}

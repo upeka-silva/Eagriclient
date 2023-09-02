@@ -30,7 +30,7 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
-import { get_DistrictList } from "../../../redux/actions/district/action";
+import { get_DCList } from "../../../redux/actions/dc/action";
 import { useEffect } from "react";
 
 const ASCForm = () => {
@@ -51,7 +51,7 @@ const ASCForm = () => {
   };
 
   useEffect(() => {
-    get_DistrictList().then(({ dataList = [] }) => {
+    get_DCList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
   }, []);
@@ -194,7 +194,7 @@ const ASCForm = () => {
       >
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>ASC Area Code</FieldName>
+            <FieldName>ASC Division ID</FieldName>
             <TextField
               name="ascId"
               id="ascId"
@@ -216,7 +216,7 @@ const ASCForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>ASC Area Name</FieldName>
+            <FieldName>ASC Division Name</FieldName>
             <TextField
               name="name"
               id="name"
@@ -236,14 +236,14 @@ const ASCForm = () => {
         <Grid item lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>District ID</FieldName>
+              <FieldName>District Comm Id</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
-                value={formData ? formData.districtDto : ""}
+                value={formData ? formData.districtCommissionerLevelDTO : ""}
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
                 onChange={(event, value) => {
-                  handleChange(value, "districtDto");
+                  handleChange(value, "districtCommissionerLevelDTO");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {

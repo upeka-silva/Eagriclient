@@ -8,7 +8,7 @@ export const handleDC = async (
 ) => {
   try {
     const response = await post(
-      "geo-data/provincial-deputy-director-level",
+      "geo-data/district-commissioner-level",
       payload,
       true
     );
@@ -45,7 +45,7 @@ export const updateDC = async (
 ) => {
   try {
     const response = await put(
-      `geo-data/provincial-deputy-director-level/${payload?.id || ""}`,
+      `geo-data/district-commissioner-level/${payload?.id || ""}`,
       payload,
       true
     );
@@ -82,7 +82,7 @@ export const deleteDC = async (
 ) => {
   try {
     const response = await api_delete(
-      `geo-data/provincial-director-level/${id || ""}`,
+      `geo-data/district-commissioner-level/${id || ""}`,
       true
     );
     console.log(response);
@@ -114,7 +114,7 @@ export const deleteDC = async (
 export const get_DCList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/provincial-deputy-director-level",
+      "geo-data/district-commissioner-level",
       true
     );
     if (httpCode === "200 OK") {

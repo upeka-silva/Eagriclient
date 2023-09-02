@@ -9,16 +9,19 @@ const ASCList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "ascId", headerName: "Code" },
-    { field: "districtDto.name", headerName: "Name" },
-    { field: "districtDto.code", headerName: "District Code" },
+    { field: "ascId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
+    {
+      field: "districtCommissionerLevelDTO.districtCommId",
+      headerName: "District Comm ID",
+    },
   ];
 
   return (
     <CardWrapper sx={{ maxWidth: "60vw" }}>
       <DataTable
         loadingTable
-        dataEndPoint={"asc"}
+        dataEndPoint={"geo-data/AscDivision"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

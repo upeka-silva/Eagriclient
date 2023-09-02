@@ -8,7 +8,7 @@ export const handleDOAD = async (
 ) => {
   try {
     const response = await post(
-      "geo-data/provincial-director-levels",
+      "geo-data/department-of-agrarian-development",
       payload,
       true
     );
@@ -45,7 +45,7 @@ export const updateDOAD = async (
 ) => {
   try {
     const response = await put(
-      `geo-data/provincial-director-levels/${payload?.id || ""}`,
+      `geo-data/department-of-agrarian-development/${payload?.id || ""}`,
       payload,
       true
     );
@@ -82,7 +82,7 @@ export const deleteDOAD = async (
 ) => {
   try {
     const response = await api_delete(
-      `geo-data/provincial-director-levels/${id || ""}`,
+      `geo-data/department-of-agrarian-development/${id || ""}`,
       true
     );
     console.log(response);
@@ -114,7 +114,7 @@ export const deleteDOAD = async (
 export const get_DOADList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/provincial-director-levels",
+      "geo-data/department-of-agrarian-development",
       true
     );
     if (httpCode === "200 OK") {

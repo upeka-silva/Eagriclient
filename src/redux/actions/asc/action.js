@@ -7,7 +7,7 @@ export const handleAsc = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("asc", payload, true);
+    const response = await post("geo-data/AscDivision", payload, true);
     if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
@@ -36,7 +36,7 @@ export const handleAsc = async (
 
 export const get_ASC = async () => {
   try {
-    const { httpCode, payloadDto } = await get("asc", true);
+    const { httpCode, payloadDto } = await get("geo-data/AscDivision", true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -59,7 +59,11 @@ export const updateAsc = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`asc/${payload?.id || ""}`, payload, true);
+    const response = await put(
+      `geo-data/AscDivision/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -92,7 +96,7 @@ export const deleteASC = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`asc/${id || ""}`, true);
+    const response = await api_delete(`geo-data/AscDivision/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();

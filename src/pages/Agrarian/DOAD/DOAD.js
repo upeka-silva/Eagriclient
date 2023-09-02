@@ -110,7 +110,7 @@ const DOAD = () => {
               </ListItemIcon>
               <ListItemText>
                 {" "}
-                {item?.proDirectorId} - {item?.description}
+                {item?.doAgrarianDevelopmentId} - {item?.name}
               </ListItemText>
             </ListItem>
           );
@@ -213,7 +213,7 @@ const DOAD = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Provincial Level"
+        title="Delete Department of Agrarian development"
         actions={
           <ActionWrapper>
             <Button

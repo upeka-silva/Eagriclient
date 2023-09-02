@@ -9,15 +9,15 @@ const DOADList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "proDirectorId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "doAgrarianDevelopmentId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
   ];
 
   return (
     <CardWrapper sx={{ maxWidth: "60vw" }}>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/provincial-director-levels"}
+        dataEndPoint={"geo-data/department-of-agrarian-development"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

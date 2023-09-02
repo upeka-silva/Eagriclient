@@ -4,11 +4,8 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import {
-  get_DCList,
-  handleDC,
-  updateDC,
-} from "../../../redux/actions/dc/action";
+import { handleDC, updateDC } from "../../../redux/actions/dc/action";
+import { get_DOADList } from "../../../redux/actions/doad/action";
 import {
   Autocomplete,
   Button,
@@ -38,8 +35,8 @@ const DCForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
 
-  const [proDirectorLevels, setProDirectorLevels] = useState([]);
-  const [selectedProDirectorLevel, setSelectedProDirectorLevel] = useState();
+  const [dOADs, setDOADs] = useState([]);
+  const [selectedDOAD, setSelectedDOAD] = useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -113,8 +110,8 @@ const DCForm = () => {
   };
 
   useEffect(() => {
-    get_DCList().then(({ dataList = [] }) => {
-      setProDirectorLevels(dataList);
+    get_DOADList().then(({ dataList = [] }) => {
+      setDOADs(dataList);
       console.log(dataList);
     });
   }, []);
@@ -191,16 +188,16 @@ const DCForm = () => {
           <FieldWrapper>
             <FieldName>District Commissioner Id</FieldName>
             <TextField
-              name="provincialDdId"
-              id="provincialDdId"
-              value={formData?.provincialDdId || ""}
+              name="districtCommId"
+              id="districtCommId"
+              value={formData?.districtCommId || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "provincialDdId")
+                handleChange(e?.target?.value || "", "districtCommId")
               }
               sx={{
                 // width: "264px",
@@ -215,16 +212,14 @@ const DCForm = () => {
         </Grid>
         <Grid item lg={5}>
           <FieldWrapper>
-            <FieldName>Description</FieldName>
+            <FieldName>District Commissioner Name</FieldName>
             <TextField
-              name="description"
-              id="description"
-              value={formData?.description || ""}
+              name="name"
+              id="name"
+              value={formData?.name || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
                 // width: "264px",
                 "& .MuiInputBase-root": {
@@ -238,16 +233,16 @@ const DCForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>District Commissioner Level</FieldName>
+            <FieldName>Department of Agrarian development</FieldName>
             <Autocomplete
               // disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={proDirectorLevels}
-              value={selectedProDirectorLevel}
-              getOptionLabel={(i) => `${i?.proDirectorId}-${i?.description}`}
+              options={dOADs}
+              value={selectedDOAD}
+              getOptionLabel={(i) => `${i?.doAgrarianDevelopmentId}-${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);
-                setSelectedProDirectorLevel(value);
-                handleChange(value, "proDirectorLevelDTO");
+                setSelectedDOAD(value);
+                handleChange(value, "doAgrarianDevelopmentDTO");
               }}
               fullWidth
               sx={{

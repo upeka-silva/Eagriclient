@@ -9,9 +9,9 @@ const ARPAList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "arpaId", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    { field: "ascDto.ascId", headerName: "ASC Code" },
+    { field: "arpaId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
+    { field: "ascDto.ascId", headerName: "ASC ID" },
   ];
   return (
     <CardWrapper sx={{ maxWidth: "60vw" }}>

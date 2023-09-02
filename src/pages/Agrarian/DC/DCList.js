@@ -3,22 +3,25 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const DCList = ({
-  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "provincialDdId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "districtCommId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
+    {
+      field: "doAgrarianDevelopmentDTO.doAgrarianDevelopmentId",
+      headerName: "DOAD ID",
+    },
   ];
 
   return (
     <CardWrapper sx={{ maxWidth: "60vw" }}>
       <DataTable
         loadingTable
-        dataEndPoint={dataEndPoint}
+        dataEndPoint={"geo-data/district-commissioner-level"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

@@ -168,18 +168,18 @@ const DOADForm = () => {
       >
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>DOAD Level ID</FieldName>
+            <FieldName>DOAD ID</FieldName>
             <TextField
-              name="proDirectorId"
-              id="proDirectorId"
-              value={formData?.proDirectorId || ""}
+              name="doAgrarianDevelopmentId"
+              id="doAgrarianDevelopmentId"
+              value={formData?.doAgrarianDevelopmentId || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "proDirectorId")
+                handleChange(e?.target?.value || "", "doAgrarianDevelopmentId")
               }
               sx={{
                 // width: "264px",
@@ -194,16 +194,14 @@ const DOADForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Description</FieldName>
+            <FieldName>Name</FieldName>
             <TextField
-              name="description"
-              id="description"
-              value={formData?.description || ""}
+              name="name"
+              id="name"
+              value={formData?.name || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
                 // width: "264px",
                 "& .MuiInputBase-root": {

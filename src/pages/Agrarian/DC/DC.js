@@ -49,7 +49,7 @@ const DC = () => {
 
   const [selectedDC, setSelectedDC] = useState([]);
   const [dataEndPoint, setDataEndPoint] = useState(
-    "geo-data/provincial-deputy-director-level"
+    "geo-data/district-commissioner-level"
   );
 
   const [selectedDoa, setSelectedDoa] = useState();
@@ -121,10 +121,7 @@ const DC = () => {
 
   const getFilteredData = () => {
     console.log(selectedDoa);
-    setDataEndPoint(
-      `geo-data/provincial-deputy-director-level/pro-director-id/` +
-        selectedDoa?.id
-    );
+    setDataEndPoint(`geo-data/district-commissioner-level` + selectedDoa?.id);
   };
 
   const renderSelectedItems = () => {
@@ -287,13 +284,13 @@ const DC = () => {
             onRowSelect={toggleDCSelect}
             selectAll={selectAllDC}
             unSelectAll={resetSelectedDC}
-            dataEndPoint={dataEndPoint}
+            // dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Provincial Level"
+        title="Delete District Commissioner"
         actions={
           <ActionWrapper>
             <Button
