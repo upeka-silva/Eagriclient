@@ -192,34 +192,34 @@ const FarmerForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
+              <Button variant="contained">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
                 </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
@@ -233,7 +233,7 @@ const FarmerForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>First Name</FieldName>
             <TextField
@@ -257,7 +257,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Date of Birth</FieldName>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -282,7 +282,7 @@ const FarmerForm = () => {
             </LocalizationProvider>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Nationality</FieldName>
 
@@ -306,7 +306,7 @@ const FarmerForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Last Name</FieldName>
             <TextField
@@ -328,7 +328,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Gender</FieldName>
             <div style={{ display: "flex" }}>
@@ -389,7 +389,7 @@ const FarmerForm = () => {
             </div>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Profile Picture</FieldName>
             <div
@@ -442,7 +442,7 @@ const FarmerForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Mobile</FieldName>
             <TextField
@@ -464,7 +464,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Home / Work</FieldName>
             <TextField
@@ -486,7 +486,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Email</FieldName>
             <TextField
@@ -518,7 +518,7 @@ const FarmerForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 01</FieldName>
             <TextField
@@ -544,7 +544,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>City</FieldName>
             <TextField
@@ -566,15 +566,9 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>
-              Divisional
-              
-              Secretariats
-             
-              Division{" "}
-            </FieldName>
+            <FieldName>Divisional Secretariats Division </FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={dsDivisionList}
@@ -596,7 +590,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Province Name</FieldName>
             <Autocomplete
@@ -620,7 +614,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 02</FieldName>
             <TextField
@@ -644,13 +638,9 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>
-              Grama Niladari
-             
-              Division
-            </FieldName>
+            <FieldName>Grama Niladari Division</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisionList}
@@ -672,7 +662,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>District</FieldName>
             <Autocomplete
@@ -696,7 +686,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Postal Code</FieldName>
             <TextField

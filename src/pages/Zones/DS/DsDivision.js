@@ -49,7 +49,10 @@ const DsDivision = () => {
   const [provinces, setProvinces] = useState([]);
   const [districs, setDistrics] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState();
-  const [selectedDistrict, setSelectedDistrict] = useState({name:"",code:""});
+  const [selectedDistrict, setSelectedDistrict] = useState({
+    name: "",
+    code: "",
+  });
 
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
@@ -225,7 +228,7 @@ const DsDivision = () => {
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
@@ -236,28 +239,26 @@ const DsDivision = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedProvince(value);
-                  setSelectedDistrict({name:"" , code:""});
+                  setSelectedDistrict({ name: "", code: "" });
                   setDistrics(value?.districtDTOList);
                 }}
                 fullWidth
                 inputProps={{ readOnly: true }}
-                disableClearable 
+                disableClearable
                 sx={{
                   // width: "214px",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },
                   marginRight: "5px",
-                 
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth/>
+                  <TextField {...params} size="small" fullWidth />
                 )}
-                
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select District</FieldName>
               <Autocomplete
@@ -269,7 +270,7 @@ const DsDivision = () => {
                   console.log(value);
                   setSelectedDistrict(value);
                 }}
-                disableClearable 
+                disableClearable
                 fullWidth
                 sx={{
                   // width: "214px",
@@ -284,7 +285,7 @@ const DsDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button
                 color="success"

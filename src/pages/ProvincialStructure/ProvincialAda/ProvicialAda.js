@@ -179,7 +179,9 @@ const ProvincialAda = () => {
   };
 
   const getFilteredData = () => {
-    setDataEndPoint(`geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id);
+    setDataEndPoint(
+      `geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id
+    );
   };
 
   useEffect(() => {
@@ -247,7 +249,7 @@ const ProvincialAda = () => {
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
@@ -264,7 +266,7 @@ const ProvincialAda = () => {
                   setDdoas(value.provincialDeputyDirectorLevelList);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -277,7 +279,7 @@ const ProvincialAda = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Provincial DDOA</FieldName>
               <Autocomplete
@@ -292,7 +294,7 @@ const ProvincialAda = () => {
                   setSelectedDdoa(value);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -305,7 +307,7 @@ const ProvincialAda = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button
                 color="success"

@@ -83,7 +83,7 @@ const Organization = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Organization Name</FieldName>
             <TextField
@@ -106,7 +106,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={5}>
+        <Grid item sm={5} md={5} lg={5}>
           <FieldWrapper>
             <FieldName>Organization Type</FieldName>
             <RadioGroup
@@ -190,7 +190,7 @@ const Organization = () => {
             </RadioGroup>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Registration Number</FieldName>
             <TextField
@@ -214,7 +214,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Manager Name</FieldName>
             <TextField
@@ -239,7 +239,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Manager NIC Number</FieldName>
             <TextField
@@ -262,7 +262,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 1</FieldName>
             <TextField
@@ -284,7 +284,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 2</FieldName>
             <TextField
@@ -306,7 +306,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>City</FieldName>
             <TextField
@@ -328,7 +328,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Primary Contact</FieldName>
             <TextField
@@ -350,7 +350,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Secondary Contact</FieldName>
             <TextField
@@ -372,7 +372,7 @@ const Organization = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Email</FieldName>
             <TextField

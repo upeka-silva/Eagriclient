@@ -210,7 +210,7 @@ const SoilTypeForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Soil Type Code</FieldName>
             <TextField
@@ -236,7 +236,7 @@ const SoilTypeForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField

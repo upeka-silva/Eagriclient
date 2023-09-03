@@ -218,7 +218,7 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
               </RadioGroup>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6} sx={{ marginTop: "-15px" }}>
+          <Grid item sm={6} md={6} lg={6} sx={{ marginTop: "-15px" }}>
             <FieldWrapper>
               <FieldName>Value</FieldName>
               <TextField

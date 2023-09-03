@@ -118,7 +118,7 @@ const CropCategoryForm = () => {
             width: "97%",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Category Code</FieldName>
               <TextField
@@ -142,7 +142,7 @@ const CropCategoryForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField

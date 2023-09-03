@@ -126,7 +126,7 @@ const CropVarietyForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Variety ID</FieldName>
               <TextField
@@ -147,7 +147,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Variety Name</FieldName>
               <TextField
@@ -168,7 +168,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Scientific Name</FieldName>
               <TextField
@@ -189,7 +189,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Variety Description</FieldName>
               <TextField
@@ -210,7 +210,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Crop ID</FieldName>
               <Autocomplete
@@ -231,7 +231,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Pericarp Color</FieldName>
               <TextField
@@ -252,7 +252,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Grain Size</FieldName>
               <TextField
@@ -273,7 +273,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Image</FieldName>
               <TextField
@@ -295,7 +295,7 @@ const CropVarietyForm = () => {
               ></TextField>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Average Yield</FieldName>
               <TextField
@@ -317,7 +317,7 @@ const CropVarietyForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Maturity Time</FieldName>
               <TextField

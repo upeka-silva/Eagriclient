@@ -219,7 +219,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3} sm={6} sx={12}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Email</FieldName>
               <TextField
@@ -466,6 +466,8 @@ const Farmer = () => {
         <Grid container sx={{ marginTop: "25px", width: "97%" }}>
           <Grid
             container
+            sm={6}
+            md={6}
             lg={6}
             sm={6}
             sx={{

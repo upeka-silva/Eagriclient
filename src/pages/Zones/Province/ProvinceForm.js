@@ -155,7 +155,7 @@ const ProvinceForm = () => {
           marginTop: "0px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName
               style={{
@@ -184,7 +184,7 @@ const ProvinceForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Province Name</FieldName>
             <TextField

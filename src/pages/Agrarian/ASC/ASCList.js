@@ -12,12 +12,12 @@ const ASCList = ({
     { field: "ascId", headerName: "ID" },
     { field: "name", headerName: "Name" },
     {
-      field: "districtCommissionerLevelDTO.districtCommId",
-      headerName: "District Comm ID",
-    },
-    {
-      field: "districtCommissionerLevelDTO.name",
-      headerName: "District Comm Name",
+      field: [
+        "districtCommissionerLevelDTO.districtCommId",
+        "districtCommissionerLevelDTO.name",
+      ],
+      joinString: " - ",
+      headerName: "District Comm",
     },
   ];
 
