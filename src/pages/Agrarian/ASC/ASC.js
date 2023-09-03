@@ -1,39 +1,46 @@
 import React, { useState } from "react";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
+  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  ButtonGroup,
 } from "@mui/material";
-import { useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { useUserAccessValidation } from "../../hooks/authentication";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { deleteFarmLand } from "../../redux/actions/farmLand/action";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-import FarmLandList from "./FarmLandList";
-import { defaultMessages } from "../../utils/constants/apiMessages";
+import ASCList from "./ASCList";
+import { useNavigate } from "react-router-dom";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { deleteASC } from "../../../redux/actions/asc/action";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../components/ListHeader/ListHeader";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
-const FarmLand = () => {
+const ASC = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const [selectFarmLand, setSelectFarmLand] = useState([]);
+  const [selectedAsc, setSelectedAsc] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const toggleFarmLandSelect = (component) => {
-    setSelectFarmLand((current = []) => {
+  const navigate = useNavigate();
+
+  const toggleAscSelect = (component) => {
+    setSelectedAsc((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -45,38 +52,32 @@ const FarmLand = () => {
     });
   };
 
-  const selectAllFarmLand = (all = []) => {
-    setSelectFarmLand(all);
+  const selectAllAsc = (all = []) => {
+    setSelectedAsc(all);
   };
 
-  const resetSelectedFarmLand = () => {
-    setSelectFarmLand([]);
+  const resetSelectedAsc = () => {
+    setSelectedAsc([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/farm-land-form", {
+    navigate("/zone/agrarian/asc-division-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/farm-land-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectFarmLand[0] || {},
-      },
+    navigate("/zone/agrarian/asc-division-form", {
+      state: { action: DEF_ACTIONS.EDIT, target: selectedAsc[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/farm-land-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectFarmLand[0] || {},
-      },
+    navigate("/zone/agrarian/asc-division-form", {
+      state: { action: DEF_ACTIONS.VIEW, target: selectedAsc[0] || {} },
     });
   };
 
@@ -91,7 +92,7 @@ const FarmLand = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectFarmLand.map((p, key) => {
+        {selectedAsc.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -102,7 +103,7 @@ const FarmLand = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.description}
+                {p.ascCode} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -128,12 +129,12 @@ const FarmLand = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const farmLand of selectFarmLand) {
-        await deleteFarmLand(farmLand?.id, onSuccess, onError);
+      for (const asc of selectedAsc) {
+        await deleteASC(asc?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedFarmLand();
+      resetSelectedAsc();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -142,7 +143,7 @@ const FarmLand = () => {
 
   return (
     <div>
-      <ListHeader title="Farm Land" />
+      <ListHeader title="ASC Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -152,16 +153,17 @@ const FarmLand = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC}`}
           >
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectFarmLand.length === 1 && (
+
+          {selectedAsc.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -169,9 +171,9 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length === 1 && (
+          {selectedAsc.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -179,9 +181,9 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length > 0 && (
+          {selectedAsc.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ASC}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -192,17 +194,49 @@ const FarmLand = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ASC}`}
       >
-        <FarmLandList
-          selectedRows={selectFarmLand}
-          onRowSelect={toggleFarmLandSelect}
-          selectAll={selectAllFarmLand}
-          unSelectAll={resetSelectedFarmLand}
-        />
+        {loading === false && (
+          <ASCList
+            selectedRows={selectedAsc}
+            onRowSelect={toggleAscSelect}
+            selectAll={selectAllAsc}
+            unSelectAll={resetSelectedAsc}
+          />
+        )}
       </PermissionWrapper>
+      <DialogBox
+        open={open}
+        title="Delete ASC Area"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };
 
-export default FarmLand;
+export default ASC;

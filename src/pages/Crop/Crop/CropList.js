@@ -1,5 +1,5 @@
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import {get_SubCategoryById} from "../../../redux/actions/crop/crop/action";
@@ -76,7 +76,7 @@ setIsdisable(false)
     // console.log(options)
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <ActionWrapper isLeft>
           <Grid container>
               <Grid item lg={3}>
@@ -175,7 +175,7 @@ setIsdisable(false)
        
         }
 
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

@@ -1,24 +1,24 @@
 import React from "react";
-import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const SoilSubTypeList = ({
+const ARPAList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "soilSubTypeCode", headerName: "Code" },
-    { field: "description", headerName: "Description" },
-    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type Code" },
+    { field: "arpaId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
+    { field: "ascDto.ascId", headerName: "ASC ID" },
+    { field: "ascDto.name", headerName: "ASC Name" },
   ];
-
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"soil-sub-types"}
+        dataEndPoint={"geo-data/arpa"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -30,4 +30,4 @@ const SoilSubTypeList = ({
   );
 };
 
-export default SoilSubTypeList;
+export default ARPAList;

@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const SoilTestList = ({
@@ -14,7 +14,7 @@ const SoilTestList = ({
     { field: "name", headerName: "Soil Test Name" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/soil-samples"}
@@ -25,7 +25,7 @@ const SoilTestList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

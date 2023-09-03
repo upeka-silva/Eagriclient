@@ -1,39 +1,47 @@
 import React, { useState } from "react";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
+  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  ButtonGroup,
+  Typography,
 } from "@mui/material";
-import { useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import ARPAList from "./ARPAList";
+import { useNavigate } from "react-router-dom";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { deleteFarmLand } from "../../redux/actions/farmLand/action";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-import FarmLandList from "./FarmLandList";
-import { defaultMessages } from "../../utils/constants/apiMessages";
+import { deleteARPA } from "../../../redux/actions/arpa/action";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../components/ListHeader/ListHeader";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
-const FarmLand = () => {
+const ARPA = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const [selectFarmLand, setSelectFarmLand] = useState([]);
+  const [selectedArpa, setSelectedArpa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const toggleFarmLandSelect = (component) => {
-    setSelectFarmLand((current = []) => {
+  const navigate = useNavigate();
+
+  const toggleArpaSelect = (component) => {
+    setSelectedArpa((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -45,38 +53,32 @@ const FarmLand = () => {
     });
   };
 
-  const selectAllFarmLand = (all = []) => {
-    setSelectFarmLand(all);
+  const selectAllArpa = (all = []) => {
+    setSelectedArpa(all);
   };
 
-  const resetSelectedFarmLand = () => {
-    setSelectFarmLand([]);
+  const resetSelectedArpa = () => {
+    setSelectedArpa([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/farm-land-form", {
+    navigate("/zone/agrarian/arpa-division-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/farm-land-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectFarmLand[0] || {},
-      },
+    navigate("/zone/agrarian/arpa-division-form", {
+      state: { action: DEF_ACTIONS.EDIT, target: selectedArpa[0] || {} },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/farm-land-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectFarmLand[0] || {},
-      },
+    navigate("/zone/agrarian/arpa-division-form", {
+      state: { action: DEF_ACTIONS.VIEW, target: selectedArpa[0] || {} },
     });
   };
 
@@ -91,7 +93,7 @@ const FarmLand = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectFarmLand.map((p, key) => {
+        {selectedArpa.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -102,7 +104,7 @@ const FarmLand = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.description}
+                {p.arpaId} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -128,12 +130,12 @@ const FarmLand = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const farmLand of selectFarmLand) {
-        await deleteFarmLand(farmLand?.id, onSuccess, onError);
+      for (const arpa of selectedArpa) {
+        await deleteARPA(arpa?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedFarmLand();
+      resetSelectedArpa();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -142,7 +144,7 @@ const FarmLand = () => {
 
   return (
     <div>
-      <ListHeader title="Farm Land" />
+      <ListHeader title="ARPA Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -152,16 +154,17 @@ const FarmLand = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ARPA}`}
           >
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectFarmLand.length === 1 && (
+
+          {selectedArpa.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -169,9 +172,9 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length === 1 && (
+          {selectedArpa.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -179,9 +182,9 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length > 0 && (
+          {selectedArpa.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ARPA}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -192,17 +195,49 @@ const FarmLand = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ARPA}`}
       >
-        <FarmLandList
-          selectedRows={selectFarmLand}
-          onRowSelect={toggleFarmLandSelect}
-          selectAll={selectAllFarmLand}
-          unSelectAll={resetSelectedFarmLand}
-        />
+        {loading === false && (
+          <ARPAList
+            selectedRows={selectedArpa}
+            onRowSelect={toggleArpaSelect}
+            selectAll={selectAllArpa}
+            unSelectAll={resetSelectedArpa}
+          />
+        )}
       </PermissionWrapper>
+      <DialogBox
+        open={open}
+        title="Delete ARPA Area"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };
 
-export default FarmLand;
+export default ARPA;

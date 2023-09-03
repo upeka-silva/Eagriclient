@@ -2,23 +2,22 @@ import React from "react";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
-const SoilSubTypeList = ({
+const AgrarDevDeptList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "soilSubTypeCode", headerName: "Code" },
-    { field: "description", headerName: "Description" },
-    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type Code" },
+    { field: "doAgrarianDevelopmentId", headerName: "ID" },
+    { field: "name", headerName: "Name" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"soil-sub-types"}
+        dataEndPoint={"geo-data/department-of-agrarian-development"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -30,4 +29,4 @@ const SoilSubTypeList = ({
   );
 };
 
-export default SoilSubTypeList;
+export default AgrarDevDeptList;

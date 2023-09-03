@@ -90,6 +90,14 @@ import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
+import AgrarDevDept from "../pages/Agrarian/AgrarDevDept/AgrarDevDept";
+import AgrarDevDeptForm from "../pages/Agrarian/AgrarDevDept/AgrarDevDeptForm";
+import DistrictComm from "../pages/Agrarian/DistrictComm/DistrictComm";
+import DistrictCommForm from "../pages/Agrarian/DistrictComm/DistrictCommForm";
+import ASC from "../pages/Agrarian/ASC/ASC";
+import ASCForm from "../pages/Agrarian/ASC/ASCForm";
+import ARPA from "../pages/Agrarian/ARPA/ARPA";
+import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
@@ -422,6 +430,65 @@ export const Routes = [
           //   isSideBar: false,
           //   element: <GnDivisionForm />,
           // },
+        ],
+      },
+      {
+        path: "/agrarian",
+        name: "Agrarian",
+        isSideBar: true,
+        children: [
+          {
+            path: "/department-of-agrarian-development",
+            name: "AgrarDevDept",
+            isSideBar: true,
+            element: <AgrarDevDept />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/department-of-agrarian-development-form",
+            name: "AgrarDevDept Form",
+            isSideBar: false,
+            element: <AgrarDevDeptForm />,
+          },
+          {
+            path: "/district-commissioner",
+            name: "District Commissioner",
+            isSideBar: true,
+            element: <DistrictComm />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/district-commissioner-form",
+            name: "District Commissioner Form",
+            isSideBar: false,
+            element: <DistrictCommForm />,
+          },
+          {
+            path: "/asc-division",
+            name: "ASC Division",
+            isSideBar: true,
+            element: <ASC />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/asc-division-form",
+            name: "ASC Division Form",
+            isSideBar: false,
+            element: <ASCForm />,
+          },
+          {
+            path: "/arpa-division",
+            name: "ARPA Division",
+            isSideBar: true,
+            element: <ARPA />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/arpa-division-form",
+            name: "ARPA Division Form",
+            isSideBar: false,
+            element: <ARPAForm />,
+          },
         ],
       },
       // {
