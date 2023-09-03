@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
