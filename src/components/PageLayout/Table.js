@@ -884,7 +884,6 @@ export const DataTable = ({
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
         <TableHead>
           <TableRow 
-          // sx={{ background: `${theme.coreColors.primary}` }}
            sx={{ background:`${Colors.tableHeaderColor}}`  }}
           >
             {selectable && (
@@ -931,7 +930,7 @@ export const DataTable = ({
                       ...(c?.type !== "actions"
                         ? {}
                         : { textAlign: "right !important" }),
-                        color:'white'
+                      color: "white",
                     }}
                   >
                     {c?.type !== "actions" ? (

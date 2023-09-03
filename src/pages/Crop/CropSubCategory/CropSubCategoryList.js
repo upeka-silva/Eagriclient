@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
@@ -14,7 +13,7 @@ import {
   Grid,
 } from "@mui/material";
 
-
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const CropSubCategoryList = ({
 
@@ -26,6 +25,7 @@ const CropSubCategoryList = ({
   const columns = [
     { field: "subCategoryId", headerName: "Code" },
     { field: "description", headerName: "Description" },
+
     { field: ["subCategoryId","description"],
       join:"-",
       headerName: "Crop Category " },
@@ -151,6 +151,7 @@ const [id,setId] = useState(null);
 
       </CardWrapper>
     </div>
+
   );
 };
 

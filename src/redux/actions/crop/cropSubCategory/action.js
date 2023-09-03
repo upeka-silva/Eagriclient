@@ -1,4 +1,4 @@
-import { put, post, api_delete } from "../../../../services/api";
+import { put, get,post, api_delete } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleCropSubCategory = async (
@@ -31,6 +31,28 @@ export const handleCropSubCategory = async (
       onError(apiError?.message || defaultMessages.apiErrorUnknown);
     } else {
       onError(error);
+    }
+  }
+};
+
+export const get_SubCategoryList = async (
+  onSuccess = () => {},
+  onError = (_message) => {},
+) => {
+  try {
+    const {httpCode, payloadDto} = await get("geo-data/crop-sub-categories", true);
+    if (httpCode === '200 OK') {
+      return {
+        dataList: payloadDto
+      }
+    }
+    return {
+      dataList: []
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      dataList: []
     }
   }
 };

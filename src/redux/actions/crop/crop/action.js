@@ -34,13 +34,13 @@ export const handleCrop = async (
   }
 };
 
-export const get_SubCategoryList = async (
+export const get_CropList = async (
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/crop-sub-categories",
+      "geo-data/crops",
       true
     );
     if (httpCode === "200 OK") {

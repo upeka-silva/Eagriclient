@@ -31,6 +31,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const ProvincialDoa = () => {
   useUserAccessValidation();
@@ -156,6 +157,7 @@ const ProvincialDoa = () => {
 
   return (
     <div>
+      <ListHeader title="Provincial DOA"/>
       <ActionWrapper isLeft>
       <ButtonGroup
           variant="outlined"
