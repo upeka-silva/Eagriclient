@@ -132,6 +132,7 @@ const CropVarietyForm = () => {
               <TextField
                 name="varietyId"
                 id="varietyId"
+                type="text"
                 value={formData?.varietyId || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
