@@ -520,6 +520,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -764,6 +766,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -909,6 +913,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -990,6 +996,8 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={2}
+              md={2}
               sm={2}
               md={2}
               lg={2}
@@ -1183,6 +1191,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1264,6 +1274,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1463,6 +1475,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1502,6 +1516,8 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
+              sm={2}
+              md={2}
               lg={2}
               style={
                 {
@@ -1534,6 +1550,8 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={2}
+              md={2}
               sm={2}
               md={2}
               lg={2}
@@ -1609,6 +1627,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1684,6 +1704,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1845,6 +1867,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1974,6 +1998,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2028,6 +2054,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2114,6 +2142,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2191,6 +2221,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2296,6 +2328,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2395,6 +2429,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",

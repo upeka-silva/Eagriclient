@@ -22,6 +22,8 @@ const Dashboard = () => {
           item
           sm={4}
           md={4}
+          sm={4}
+          md={4}
           lg={4}
           sx={{
             padding: "10px",
@@ -41,6 +43,8 @@ const Dashboard = () => {
         </Grid>
         <Grid
           item
+          sm={4}
+          md={4}
           sm={4}
           md={4}
           lg={4}
@@ -64,6 +68,8 @@ const Dashboard = () => {
           item
           sm={4}
           md={4}
+          sm={4}
+          md={4}
           lg={4}
           sx={{
             padding: "10px",
@@ -85,6 +91,8 @@ const Dashboard = () => {
           item
           sm={4}
           md={4}
+          sm={4}
+          md={4}
           lg={4}
           sx={{
             padding: "10px",
@@ -94,6 +102,8 @@ const Dashboard = () => {
         </Grid>
         <Grid
           item
+          sm={8}
+          md={8}
           sm={8}
           md={8}
           lg={8}

@@ -468,6 +468,8 @@ const Farmer = () => {
             container
             sm={6}
             md={6}
+            sm={6}
+            md={6}
             lg={6}
             sm={6}
             sx={{
