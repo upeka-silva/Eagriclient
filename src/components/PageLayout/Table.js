@@ -116,8 +116,10 @@ export const DataTable = ({
               advanceSearchData
             )
           : await get_DataList(dataEndPoint, page, pageSize);
+
       if (dataList) {
         setRows(dataList);
+        console.log(rows)
         setTotalCount(totalcount);
       } else {
         setRows([]);
@@ -487,7 +489,7 @@ export const DataTable = ({
                 key: data?.target || k,
               });
             };
-
+            console.log(rows)
             return (
               <AdvancedSearchItemWrapper key={key}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
