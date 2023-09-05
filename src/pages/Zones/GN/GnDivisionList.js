@@ -17,7 +17,7 @@ const GnDivisionList = ({
 
 
   return (
-    <CardWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -28,7 +28,7 @@ const GnDivisionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   )
 }
 

@@ -3,21 +3,22 @@ import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const ProvincialAiRegionList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "proDirectorId", headerName: "Code" },
+    { field: "regionId", headerName: "Code" },
     { field: "description", headerName: "Description" },
   ];
 
   return (
-    <CardWrapper>
+   
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/provincial-director-levels"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -25,7 +26,7 @@ const ProvincialAiRegionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   );
 };
 

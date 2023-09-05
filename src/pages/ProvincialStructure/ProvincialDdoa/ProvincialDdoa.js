@@ -31,11 +31,22 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { deleteProvincialDoa, get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import {
+  deleteProvincialDoa,
+  get_ProvincialDoaList,
+} from "../../../redux/actions/ProvincialDoa/action";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Search,
+  Vrpano,
+} from "@mui/icons-material";
 import ProvincialDdoaList from "./ProvincialDdoaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { deleteProvincialDdoa } from "../../../redux/actions/provincialDdoa/action";
 
 const ProvincialDdoa = () => {
   useUserAccessValidation();
@@ -48,11 +59,12 @@ const ProvincialDdoa = () => {
   const [search, setSearch] = useState({});
 
   const [selectedProvincialDdoa, setSelectedProvincialDdoa] = useState([]);
-  const [dataEndPoint, setDataEndPoint] = useState("geo-data/provincial-deputy-director-level");
+  const [dataEndPoint, setDataEndPoint] = useState(
+    "geo-data/provincial-deputy-director-level"
+  );
 
-  
-  const [selectedDoa, setSelectedDoa] = useState();
-  const [doas,setDoas] = useState([])
+  const [selectedDoa, setSelectedDoa] = useState({proDirectorId:"",description:""});
+  const [doas, setDoas] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleProvincialDdoaSelect = (component) => {
@@ -118,9 +130,12 @@ const ProvincialDdoa = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
-    console.log(selectedDoa)
-    setDataEndPoint(`geo-data/provincial-deputy-director-level/pro-director-id/` + selectedDoa?.id);
+  const getFilteredData = (selectedDoa) => {
+    console.log(selectedDoa);
+    setDataEndPoint(
+      `geo-data/provincial-deputy-director-level/pro-director-id/` +
+        selectedDoa?.id
+    );
   };
 
   const renderSelectedItems = () => {
@@ -165,7 +180,7 @@ const ProvincialDdoa = () => {
     try {
       setLoading(true);
       for (const provincialDoa of selectedProvincialDdoa) {
-        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
+        await deleteProvincialDdoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
       onClose();
@@ -176,58 +191,60 @@ const ProvincialDdoa = () => {
     }
   };
 
- 
+  const resetFilter = () => {
+    setSelectedDoa({proDirectorId: "", description: "" });
+    setDataEndPoint("geo-data/provincial-deputy-director-level")
+  };
 
   return (
     <div>
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-        >
-          <Button  onClick={onCreate}>
-          <Add />
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-
-        {selectedProvincialDdoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
           >
-            <Button onClick={onEdit}>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
+
+          {selectedProvincialDdoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDdoa.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-          >
-            <Button onClick={onView}>
-              <Vrpano />
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDdoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onView}>
+                <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDdoa.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
-          >
-            <Button onClick={onDelete}>
-                
-                <Delete/>
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDdoa.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-          </PermissionWrapper>
-        )}
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <ActionWrapper isLeft>
@@ -239,13 +256,16 @@ const ProvincialDdoa = () => {
                 // disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={doas}
                 value={selectedDoa}
-                getOptionLabel={(i) => `${i?.proDirectorId} - ${i?.description}`}
+                getOptionLabel={(i) =>
+                  `${i?.proDirectorId} - ${i?.description}`
+                }
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDoa(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -264,11 +284,11 @@ const ProvincialDdoa = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

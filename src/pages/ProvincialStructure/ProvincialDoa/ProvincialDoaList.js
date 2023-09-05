@@ -14,7 +14,7 @@ const ProvincialDoaList = ({
   ];
 
   return (
-    <CardWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/provincial-director-levels"}
@@ -25,7 +25,7 @@ const ProvincialDoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   );
 };
 

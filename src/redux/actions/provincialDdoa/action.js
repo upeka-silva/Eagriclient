@@ -75,14 +75,14 @@ export const updateProvincialDdoa = async (
   }
 };
 
-export const deleteProvincialDoa = async (
+export const deleteProvincialDdoa = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
     const response = await api_delete(
-      `geo-data/provincial-director-level/${id || ""}`,
+      `geo-data/provincial-deputy-director-level/${id || ""}`,
       true
     );
     console.log(response);
@@ -132,3 +132,25 @@ export const get_ProvincialDdoaList = async () => {
     };
   }
 };
+
+export const get_ProvincialDdoaListByDoaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/provincial-deputy-director-level/pro-director-id/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+}

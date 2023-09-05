@@ -193,7 +193,7 @@ const DistrictForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
+        <Grid item lg={3}>
           <FieldWrapper>
             <FieldName>District Code</FieldName>
             <TextField
@@ -217,7 +217,7 @@ const DistrictForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item>
+        <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>District Name</FieldName>
             <TextField
@@ -238,13 +238,13 @@ const DistrictForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Province</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={options}
-              // value={formData ? formData.provinceDTO : ""}
+              value={formData ? formData.provinceDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "provinceDTO");

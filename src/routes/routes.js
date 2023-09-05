@@ -42,9 +42,6 @@ import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
 
-import MahaweliBlockForm from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlockForm";
-import MahaweliBlock from "../pages/Mahaweli-System/Mahaweli-Block/MahaweliBlock";
-
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
@@ -115,6 +112,24 @@ import ProvincialDdoa from "../pages/ProvincialStructure/ProvincialDdoa/Provinci
 import ProvincialDdoaForm from "../pages/ProvincialStructure/ProvincialDdoa/ProvicialDdoaForm";
 import ProvincialAda from "../pages/ProvincialStructure/ProvincialAda/ProvicialAda";
 import ProvincialAdaForm from "../pages/ProvincialStructure/ProvincialAda/ProvicialAdaForm";
+import IntProvincialDoa from "../pages/InterProvincialStructure/IntProvincialDirectorDoa/IntProvincialDoa";
+import IntProvincialDoaForm from "../pages/InterProvincialStructure/IntProvincialDirectorDoa/IntProvincialDoaForm";
+import IntProvincialDdoaForm from "../pages/InterProvincialStructure/IntProvincialDdoa/IntProvincialDdoaForm";
+import IntProvincialDdoa from "../pages/InterProvincialStructure/IntProvincialDdoa/IntProvincialDdoa";
+import IntProvincialAda from "../pages/InterProvincialStructure/IntProvincialAda/IntProvincialAda";
+import IntProvincialAdaForm from "../pages/InterProvincialStructure/IntProvincialAda/IntProvincialAdaForm";
+import MahaweliAuthority from "../pages/MahaweliAuthorityStructure/MahaweliAuthority/MahaweliAuthority";
+import MahaweliAuthorityForm from "../pages/MahaweliAuthorityStructure/MahaweliAuthority/MahaweliAuthorityForm";
+import MahaweliSystem from "../pages/MahaweliAuthorityStructure/MahaweliSystem/MahaweliSystem";
+import MahaweliSystemForm from "../pages/MahaweliAuthorityStructure/MahaweliSystem/MahaweliSystemForm";
+import MahaweliBlock from "../pages/MahaweliAuthorityStructure/MahaweliBlock/MahaweliBlock";
+import MahaweliBlockForm from "../pages/MahaweliAuthorityStructure/MahaweliBlock/MahaweliBlockForm";
+import MahaweliUnit from "../pages/MahaweliAuthorityStructure/MahaweliUnit/MahaweliUnit";
+import MahaweliUnitForm from "../pages/MahaweliAuthorityStructure/MahaweliUnit/MahaweliUnitForm";
+import InterProvincialAiRegion from "../pages/InterProvincialStructure/AIRegion/AiRegion";
+import InterProvincialAiRegionForm from "../pages/InterProvincialStructure/AIRegion/AiRegionForm";
+import ProvincialAiRegion from "../pages/ProvincialStructure/AIRegion/AiRegion";
+import ProvincialAiRegionForm from "../pages/ProvincialStructure/AIRegion/AiRegionForm";
 
 export const Routes = [
   {
@@ -281,14 +296,14 @@ export const Routes = [
             path: "/ai-region",
             name: "AI Region",
             isSideBar: true,
-            element: <AI />,
+            element: <ProvincialAiRegion />,
             icon: MyLocationIcon,
           },
           {
             path: "/ai-region-form",
             name: "ASC Form",
             isSideBar: false,
-            element: <AIForm />,
+            element: <ProvincialAiRegionForm/>,
           },
           // {
           //   path: "/ai-region",
@@ -337,56 +352,56 @@ export const Routes = [
         isSideBar: true,
         children: [
           {
-            path: "/provincial-director",
+            path: "/inter-provincial-director",
             name: "Director DOA",
             isSideBar: true,
-            element: <ProvincialDoa />,
+            element: <IntProvincialDoa />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-doa-form",
+            path: "/inter-provincial-doa-form",
             name: "Provincial DOA Form",
             isSideBar: false,
-            element: <ProvincialDoaForm />,
+            element: <IntProvincialDoaForm />,
           },
           {
-            path: "/provincial-deputy-director",
-            name: "Provincial DDOA",
+            path: "/inter-provincial-deputy-director",
+            name: "Inter Provincial DDOA",
             isSideBar: true,
-            element: <ProvincialDdoa />,
+            element: <IntProvincialDdoa />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-ddoa-form",
-            name: "Provincial DDOA Form",
+            path: "/inter-provincial-ddoa-form",
+            name: "Inter Provincial DDOA",
             isSideBar: false,
-            element: <ProvincialDdoaForm />,
+            element: <IntProvincialDdoaForm />,
           },
           {
-            path: "/provincial-ada",
-            name: "Provincial ADA",
+            path: "/inter-provincial-ada",
+            name: "Inter Provincial ADA",
             isSideBar: true,
-            element: <ProvincialAda />,
+            element: <IntProvincialAda />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-ada-form",
+            path: "/inter-provincial-ada-form",
             name: "Provincial ADA Form",
             isSideBar: false,
-            element: <ProvincialAdaForm />,
+            element: <IntProvincialAdaForm />,
           },
           {
-            path: "/ai-region",
+            path: "/inter-ai-region",
             name: "AI Region",
             isSideBar: true,
-            element: <AI />,
+            element: <InterProvincialAiRegion />,
             icon: MyLocationIcon,
           },
           {
-            path: "/ai-region-form",
+            path: "/inter-ai-region-form",
             name: "ASC Form",
             isSideBar: false,
-            element: <AIForm />,
+            element: <InterProvincialAiRegionForm />,
           },
           // {
           //   path: "/ai-region",
@@ -429,6 +444,7 @@ export const Routes = [
           // },
         ],
       },
+
       // {
       //   path: "/aa-structure",
       //   name: "Inter Pro DOA Structure",
@@ -547,65 +563,66 @@ export const Routes = [
       //     },
       //   ],
       // },
-      // {
-      //   path: "/mahaweli-structure",
-      //   name: "Mahaweli Structure",
-      //   isSideBar: true,
-      //   children: [
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Authority",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli System",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Block",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Unit",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //   ],
-      // },
+      {
+        path: "/mahaweli-structure",
+        name: "Mahaweli Structure",
+        isSideBar: true,
+        children: [
+          {
+            path: "/mahaweli-authority",
+            name: "Mahaweli Authority",
+            isSideBar: true,
+            element: <MahaweliAuthority />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-authority-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <MahaweliAuthorityForm />,
+          },
+          {
+            path: "/mahaweli-system",
+            name: "Mahaweli System",
+            isSideBar: true,
+            element: <MahaweliSystem />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-system-form",
+            name: "Mahaweli System Form",
+            isSideBar: false,
+            element: <MahaweliSystemForm />,
+          },
+          {
+            path: "/mahaweli-block",
+            name: "Mahaweli Block",
+            isSideBar: true,
+            element: <MahaweliBlock />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-block-form",
+            name: "Mahaweli Block Form",
+            isSideBar: false,
+            element: <MahaweliBlockForm />,
+          },
+          
+          {
+            path: "/mahaweli-unit",
+            name: "Mahaweli Unit",
+            isSideBar: true,
+            element: <MahaweliUnit />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-unit-form",
+            name: "Mahaweli Unit Form",
+            isSideBar: false,
+            element: <MahaweliUnitForm />,
+          },
+        ],
+      },
       {
         path: "/ez-structure",
         name: "Ecological Zone Structure",

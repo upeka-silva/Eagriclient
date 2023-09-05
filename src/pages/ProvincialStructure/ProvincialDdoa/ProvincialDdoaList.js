@@ -15,7 +15,7 @@ const ProvincialDdoaList = ({
   ];
 
   return (
-    <CardWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -26,7 +26,7 @@ const ProvincialDdoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   );
 };
 

@@ -21,7 +21,7 @@ const DsDivisionList = ({
   ];
 
   return (
-    <CardWrapper>
+   
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -32,7 +32,7 @@ const DsDivisionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   );
 };
 

@@ -132,3 +132,25 @@ export const get_ProvincialAdaList = async () => {
     };
   }
 };
+
+export const get_ProvincialAdaListByDdoaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/provincial-ada-segments/pro-dd-id/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

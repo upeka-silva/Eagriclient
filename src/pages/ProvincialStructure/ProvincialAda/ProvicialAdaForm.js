@@ -225,32 +225,7 @@ const ProvincialAdaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Provincial Deputy Director Level</FieldName>
-            <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={proDeputyDirectorLevels}
-              value={selectedProDirectorLevel}
-              getOptionLabel={(i) => `${i?.provincialDdId}- ${i?.description} `}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedProDirectorLevel(value);
-                handleChange(value, "proDeputyDirectorLevelDTO");
-              }}
-              fullWidth
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "4px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
+        
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
@@ -271,6 +246,32 @@ const ProvincialAdaForm = () => {
                 },
               }}
               size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={4}>
+          <FieldWrapper>
+            <FieldName>Provincial Deputy Director Level</FieldName>
+            <Autocomplete
+              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={proDeputyDirectorLevels}
+              value={formData.proDeputyDirectorLevelDTO || selectedProDirectorLevel}
+              getOptionLabel={(i) => `${i?.provincialDdId}- ${i?.description} `}
+              onChange={(event, value) => {
+                console.log(value);
+                setSelectedProDirectorLevel(value);
+                handleChange(value, "proDeputyDirectorLevelDTO");
+              }}
+              fullWidth
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "4px",
+                },
+                marginRight: "5px",
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size="small" fullWidth />
+              )}
             />
           </FieldWrapper>
         </Grid>

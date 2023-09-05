@@ -20,18 +20,16 @@ const DistrictList = ({
   ];
 
   return (
-    <CardWrapper>
-      <DataTable
-        loadingTable
-        dataEndPoint={dataEndPoint}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    </CardWrapper>
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
   );
 };
 
