@@ -8,7 +8,7 @@ export const handleAgrarDevDept = async (
 ) => {
   try {
     const response = await post(
-      "geo-data/department-of-agrarian-development",
+      "geo-data/do_agrarian_development",
       payload,
       true
     );
@@ -45,7 +45,7 @@ export const updateAgrarDevDept = async (
 ) => {
   try {
     const response = await put(
-      `geo-data/department-of-agrarian-development/${payload?.id || ""}`,
+      `geo-data/do_agrarian_development/${payload?.id || ""}`,
       payload,
       true
     );
@@ -82,7 +82,7 @@ export const deleteAgrarDevDept = async (
 ) => {
   try {
     const response = await api_delete(
-      `geo-data/department-of-agrarian-development/${id || ""}`,
+      `geo-data/do_agrarian_development/${id || ""}`,
       true
     );
     console.log(response);
@@ -114,7 +114,7 @@ export const deleteAgrarDevDept = async (
 export const get_AgrarDevDeptList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/department-of-agrarian-development",
+      "geo-data/do_agrarian_development",
       true
     );
     if (httpCode === "200 OK") {

@@ -59,7 +59,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
             paddingTop: "10px",
           }}
         >
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Manager Name</FieldName>
               <TextField
@@ -84,7 +84,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Manager NIC Number</FieldName>
               <TextField
@@ -106,7 +106,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Address 1</FieldName>
               <TextField
@@ -130,7 +130,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Address 2</FieldName>
               <TextField
@@ -154,7 +154,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>City</FieldName>
               <TextField
@@ -176,7 +176,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Primary Contact</FieldName>
               <TextField
@@ -198,7 +198,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Secondary Contact</FieldName>
               <TextField
@@ -220,7 +220,7 @@ const BranchForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Email</FieldName>
               <TextField

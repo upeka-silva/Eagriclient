@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
 
 const BranchList = ({
@@ -19,7 +19,7 @@ const BranchList = ({
     { field: "email", headerName: "Email" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         dataEndPoint={"organization-contacts"}
         columns={columns}
@@ -29,7 +29,7 @@ const BranchList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

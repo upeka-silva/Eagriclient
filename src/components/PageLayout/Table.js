@@ -119,7 +119,7 @@ export const DataTable = ({
 
       if (dataList) {
         setRows(dataList);
-        console.log(rows)
+        console.log(rows);
         setTotalCount(totalcount);
       } else {
         setRows([]);
@@ -489,7 +489,7 @@ export const DataTable = ({
                 key: data?.target || k,
               });
             };
-            console.log(rows)
+            console.log(rows);
             return (
               <AdvancedSearchItemWrapper key={key}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -779,7 +779,7 @@ export const DataTable = ({
   }
 
   return (
-    <TableContainer>
+    <TableContainer sx={{ maxHeight: 450 }}>
       <TableHeaderContainer type={enableAdvanceSearch ? "column" : "row"}>
         {enableAdvanceSearch && (
           <>
@@ -883,9 +883,7 @@ export const DataTable = ({
       </TableHeaderContainer>
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
         <TableHead>
-          <TableRow 
-           sx={{ background:`${Colors.tableHeaderColor}}`  }}
-          >
+          <TableRow sx={{ background: `${Colors.tableHeaderColor}}` }}>
             {selectable && (
               <TableCell
                 sx={{ border: "1px solid #CCC !important", width: "50px" }}

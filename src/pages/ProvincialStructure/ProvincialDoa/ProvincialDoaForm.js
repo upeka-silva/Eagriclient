@@ -178,7 +178,7 @@ const ProvincialDoaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField

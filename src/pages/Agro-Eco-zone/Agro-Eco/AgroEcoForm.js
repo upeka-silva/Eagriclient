@@ -134,12 +134,16 @@ const AgroEcoForm = () => {
     <div>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
         {/* <PathName >{getPathName()}</PathName> */}
-        <FormHeader >
+        <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} AGRO ECO ZONE
         </FormHeader>
@@ -154,34 +158,34 @@ const AgroEcoForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-              <Button variant="contained">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                <Button variant="contained">
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
                 </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
@@ -194,7 +198,7 @@ const AgroEcoForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>AEZ ID</FieldName>
               <TextField
@@ -220,7 +224,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>AEZ Name</FieldName>
               <TextField
@@ -241,7 +245,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Climate Zone</FieldName>
 
@@ -265,7 +269,7 @@ const AgroEcoForm = () => {
               </Select>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Rainfall</FieldName>
               <TextField
@@ -289,7 +293,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Temp</FieldName>
               <TextField
@@ -313,7 +317,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Humidity</FieldName>
               <TextField
@@ -337,7 +341,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Soil Type</FieldName>
               <Autocomplete

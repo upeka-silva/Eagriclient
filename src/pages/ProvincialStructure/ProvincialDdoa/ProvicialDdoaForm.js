@@ -188,7 +188,7 @@ console.log(state)
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Provincial Deputy Director Id</FieldName>
             <TextField
@@ -213,7 +213,7 @@ console.log(state)
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={5}>
+        <Grid item sm={5} md={5} lg={5}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField
@@ -234,7 +234,7 @@ console.log(state)
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Provincial Director Level</FieldName>
             <Autocomplete

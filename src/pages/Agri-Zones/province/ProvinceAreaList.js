@@ -2,30 +2,21 @@ import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const ASCList = ({
+const ProvinceAreaList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "ascId", headerName: "ID" },
-    { field: "name", headerName: "Name" },
-    {
-      field: [
-        "districtCommissionerLevelDTO.districtCommId",
-        "districtCommissionerLevelDTO.name",
-      ],
-      joinString: " - ",
-      headerName: "District Comm",
-    },
+    { field: "agProvinceId", headerName: "Code" },
+    { field: "description", headerName: "Description" },
   ];
-
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/AscDivision"}
+        dataEndPoint={"geo-data/ag-province-area"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -37,4 +28,4 @@ const ASCList = ({
   );
 };
 
-export default ASCList;
+export default ProvinceAreaList;

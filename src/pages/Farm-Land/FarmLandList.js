@@ -1,7 +1,6 @@
 import React from "react";
 import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
-// import { CardWrapper } from "../../components/PageLayout/Card";
 
 const FarmLandList = ({
   selectedRows = [],
