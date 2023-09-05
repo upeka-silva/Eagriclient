@@ -9,8 +9,8 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
+import CropSubCategoryList from "./CropSubCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -18,7 +18,6 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import CropSubCategoryList from "./CropSubCategoryList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
@@ -26,7 +25,15 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  Vrpano,
+  CheckRounded,
+  CancelOutlined,
+} from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -147,67 +154,68 @@ const CropSubCategory = () => {
 
   return (
     <div>
+      <ListHeader title="Crop Sub Category" />
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-        >
-          <Button  onClick={onCreate}>
-            <Add/>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectSubCategory.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              <Edit/>
-              {DEF_ACTIONS.EDIT}
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-        )}
-        {selectSubCategory.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectSubCategory.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Vrpano/>
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectSubCategory.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={onEdit}
+                sx={{ ml: "8px" }}
+              >
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectSubCategory.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Delete/>
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={onView}
+                sx={{ ml: "8px" }}
+              >
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectSubCategory.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            >
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={onDelete}
+                sx={{ ml: "8px" }}
+              >
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
@@ -225,25 +233,24 @@ const CropSubCategory = () => {
 
       <DialogBox
         open={open}
-        title="Delete Crop Sub Category"
+        title="Do You Want to Delete?"
         actions={
           <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
+            <ButtonGroup
+              variant="outlined"
+              disableElevation
+              size="small"
+              aria-label="action button group"
             >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
+              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
+                <CheckRounded />
+                Confirm
+              </Button>
+              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
+                <CancelOutlined />
+                Cancel
+              </Button>
+            </ButtonGroup>
           </ActionWrapper>
         }
       >

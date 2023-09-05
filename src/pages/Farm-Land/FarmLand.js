@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import {
   Button,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
   ButtonGroup,
 } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -21,16 +19,8 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import FarmLandList from "./FarmLandList";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import {
-  Add,
-  CancelOutlined,
-  CheckRounded,
-  Delete,
-  Edit,
-  Margin,
-  SaveAltOutlined,
-  Vrpano,
-} from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const FarmLand = () => {
   useUserAccessValidation();
@@ -152,6 +142,7 @@ const FarmLand = () => {
 
   return (
     <div>
+      <ListHeader title="Farm Land" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -163,7 +154,7 @@ const FarmLand = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
           >
-            <Button onClick={onCreate} >
+            <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>

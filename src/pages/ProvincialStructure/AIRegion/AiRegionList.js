@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ProvincialAiRegionList = ({
   dataEndPoint,
@@ -15,7 +15,7 @@ const ProvincialAiRegionList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -25,8 +25,8 @@ const ProvincialAiRegionList = ({
         selectAll={selectAll}
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
-      />
-    
+
+    </TableWrapper>
   );
 };
 

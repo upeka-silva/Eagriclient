@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const AIList = ({
   dataEndPoint,
@@ -17,7 +17,7 @@ const AIList = ({
     { field: "ascRegionId", headerName: "ASC Region ID" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -28,7 +28,7 @@ const AIList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

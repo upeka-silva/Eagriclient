@@ -49,6 +49,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_ProvincialDdoaList, get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import { deleteProvincialAda } from "../../../redux/actions/provincialAda/action";
 
+
 const ProvincialAda = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -223,6 +224,7 @@ const ProvincialAda = () => {
 
   return (
     <div>
+      <ListHeader title="Provincial ADA Segments" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

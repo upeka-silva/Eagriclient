@@ -29,6 +29,8 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 import { get_ASC } from "../../../redux/actions/asc/action";
 import { ArrowCircleLeftRounded } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const AIForm = () => {
   useUserAccessValidation();
@@ -127,20 +129,8 @@ const AIForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{getPathName()}</PathName> */}
-      <FormHeader>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}Add a AI
-        Region
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="AI Region" />
       <ButtonWrapper
         isCeneter
         style={{
@@ -193,7 +183,7 @@ const AIForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item lg={3} sm={6} xs={12}>
           <FieldWrapper>
             <FieldName>Region ID</FieldName>
             <TextField
@@ -207,12 +197,11 @@ const AIForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "id")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -315,7 +304,6 @@ const AIForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };

@@ -31,6 +31,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+
 import {
   deleteProvincialDoa,
   get_ProvincialDoaList,
@@ -227,6 +228,7 @@ const ProvincialAiRegion = () => {
 
   return (
     <div>
+      <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -255,6 +257,7 @@ const ProvincialAiRegion = () => {
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length === 1 && (
+
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -265,6 +268,7 @@ const ProvincialAiRegion = () => {
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length > 0 && (
+
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >

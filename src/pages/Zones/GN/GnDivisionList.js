@@ -1,6 +1,6 @@
-import React from 'react'
-import { CardWrapper } from '../../../components/PageLayout/Card';
+import React from 'react';
 import { DataTable } from '../../../components/PageLayout/Table';
+import { TableWrapper } from '../../../components/PageLayout/TableWrapper';
 
 const GnDivisionList = ({
   dataEndPoint,
@@ -14,10 +14,8 @@ const GnDivisionList = ({
     { field: 'code', headerName: 'Code' },
     { field: 'name', headerName: 'Description' },
 ];
-
-
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -28,7 +26,7 @@ const GnDivisionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   )
 }
 

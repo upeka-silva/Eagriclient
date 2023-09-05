@@ -1,38 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  CircularProgress,
-  Autocomplete,
-  Select,
-  MenuItem,
-  Grid,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import {
   handleCropVariety,
   updateCropVariety,
 } from "../../../redux/actions/crop/cropVariety/action";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { get_CropList } from "../../../redux/actions/crop/crop/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
@@ -50,7 +34,7 @@ const CropVarietyForm = () => {
   };
 
   useEffect(() => {
-    get_CategoryList().then(({ dataList = [] }) => {
+    get_CropList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
   }, []);
@@ -120,67 +104,19 @@ const CropVarietyForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <div>
       <FormWrapper>
-        <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} CROP VARIETY
-        </FormHeader>
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <BackToList goBack={goBack} />
+        <CustFormHeader saving={saving} state={state} formName="Crop Variety" />
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
         <Grid
           container
           sx={{
@@ -196,7 +132,7 @@ const CropVarietyForm = () => {
               <TextField
                 name="varietyId"
                 id="varietyId"
-                type="number"
+                type="text"
                 value={formData?.varietyId || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -204,9 +140,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "varietyId")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -227,9 +161,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "varietyName")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -250,9 +182,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "scientificName")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -273,9 +203,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "varietyDescription")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -289,15 +217,13 @@ const CropVarietyForm = () => {
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
-                value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                value={formData ? formData.cropDTO : ""}
+                getOptionLabel={(i) => `${i.cropId} - ${i.scientificName}`}
                 onChange={(event, value) => {
-                  handleChange(value, "cropCategoryDTO");
+                  handleChange(value, "cropDTO");
                 }}
                 sx={{
-                  // width: "264px",
                   "& .MuiOutlinedInput-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -319,9 +245,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "pericarpColor")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -342,9 +266,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "grainSize")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -366,9 +288,7 @@ const CropVarietyForm = () => {
                 type="file"
                 accept="image/*"
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -390,9 +310,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "averageYield")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -414,9 +332,7 @@ const CropVarietyForm = () => {
                   handleChange(e?.target?.value || "", "maturityTime")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}

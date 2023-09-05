@@ -34,13 +34,13 @@ export const handleCrop = async (
   }
 };
 
-export const get_SubCategoryList = async (
+export const get_CropList = async (
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/crop-sub-categories",
+      "geo-data/crops",
       true
     );
     if (httpCode === "200 OK") {
@@ -53,6 +53,31 @@ export const get_SubCategoryList = async (
     };
   } catch (error) {
     console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_SubCategoryById = async (
+    id,
+    onSuccess = () => {},
+    onError = (_message) => {},
+    path = "geo-data/crop-sub-categories/crop-category/" + id
+    
+) => {
+  try {
+    const { httpCode, payloadDto } = await get(path, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.error(error);
     return {
       dataList: [],
     };

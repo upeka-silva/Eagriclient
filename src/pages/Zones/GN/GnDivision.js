@@ -39,6 +39,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -211,6 +212,7 @@ const GnDivision = () => {
 
   return (
     <div>
+      <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

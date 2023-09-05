@@ -7,7 +7,7 @@ export const handleArpa = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("arpa", payload, true);
+    const response = await post("geo-data/arpa", payload, true);
     if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
@@ -15,8 +15,7 @@ export const handleArpa = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,25 +34,24 @@ export const handleArpa = async (
   }
 };
 
-export const get_arpaList = async (
-  ) => {
-    try {
-      const { httpCode, payloadDto } = await get("arpa", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const get_arpaList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/arpa", true);
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateArpa = async (
   payload = {},
@@ -61,7 +59,11 @@ export const updateArpa = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`arpa/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/arpa/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -69,8 +71,7 @@ export const updateArpa = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -91,12 +92,12 @@ export const updateArpa = async (
 
 export const deleteARPA = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`arpa/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`geo-data/arpa/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -104,8 +105,7 @@ export const deleteARPA = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -121,4 +121,4 @@ export const deleteARPA = async (
       onError(error);
     }
   }
-}
+};

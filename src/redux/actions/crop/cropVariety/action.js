@@ -58,6 +58,29 @@ export const get_CategoryList = async (
     };
   }
 };
+export const get_CropById = async (
+    id,
+    onSuccess = () => {},
+    onError = (_message) => {},
+    path = 'geo-data/crops/crop-sub-category/' + id
+) => {
+  try {
+    const { httpCode, payloadDto } = await get(path, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateCropVariety = async (
   payload = {},

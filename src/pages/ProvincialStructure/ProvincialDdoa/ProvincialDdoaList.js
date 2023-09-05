@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ProvincialDdoaList = ({
   dataEndPoint,
@@ -12,10 +12,15 @@ const ProvincialDdoaList = ({
   const columns = [
     { field: "provincialDdId", headerName: "Code" },
     { field: "description", headerName: "Description" },
+    {
+      field: ["proDirectorLevelDTO.proDirectorId", "proDirectorLevelDTO.description"],
+      joinString: " - ",
+      headerName: "Provincial DOA",
+    },
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -26,7 +31,7 @@ const ProvincialDdoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 
