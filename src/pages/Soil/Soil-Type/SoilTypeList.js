@@ -1,7 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { Box } from "@mui/material";
 
 const SoilTypeList = ({
   selectedRows = [],
@@ -15,20 +14,18 @@ const SoilTypeList = ({
   ];
 
   return (
-    <Box mt={2}>
-      <CardWrapper>
-        <DataTable
-          loadingTable
-          dataEndPoint={"soil-types"}
-          columns={columns}
-          selectable
-          selectedRows={selectedRows}
-          selectAll={selectAll}
-          onRowSelect={onRowSelect}
-          unSelectAll={unSelectAll}
-        />
-      </CardWrapper>
-    </Box>
+    <TableWrapper>
+      <DataTable
+        loadingTable
+        dataEndPoint={"soil-types"}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
+    </TableWrapper>
   );
 };
 

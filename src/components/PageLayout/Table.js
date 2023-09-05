@@ -116,8 +116,10 @@ export const DataTable = ({
               advanceSearchData
             )
           : await get_DataList(dataEndPoint, page, pageSize);
+
       if (dataList) {
         setRows(dataList);
+        console.log(rows)
         setTotalCount(totalcount);
       } else {
         setRows([]);
@@ -487,7 +489,7 @@ export const DataTable = ({
                 key: data?.target || k,
               });
             };
-
+            console.log(rows)
             return (
               <AdvancedSearchItemWrapper key={key}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -882,7 +884,6 @@ export const DataTable = ({
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
         <TableHead>
           <TableRow 
-          // sx={{ background: `${theme.coreColors.primary}` }}
            sx={{ background:`${Colors.tableHeaderColor}}`  }}
           >
             {selectable && (
@@ -929,7 +930,7 @@ export const DataTable = ({
                       ...(c?.type !== "actions"
                         ? {}
                         : { textAlign: "right !important" }),
-                        color:'white'
+                      color: "white",
                     }}
                   >
                     {c?.type !== "actions" ? (

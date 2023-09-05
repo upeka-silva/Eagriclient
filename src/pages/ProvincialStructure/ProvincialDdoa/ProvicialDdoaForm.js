@@ -34,6 +34,7 @@ import { handleInterProvincialDdoa, updateInterProvincialDdoa , } from "../../..
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 
+
 const ProvincialDdoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -127,20 +128,12 @@ console.log(state)
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Provincial Deputy Director
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Provincial Deputy Director"
+      />
       <ButtonWrapper
         isCeneter
         style={{
@@ -209,12 +202,11 @@ console.log(state)
                 handleChange(e?.target?.value || "", "provincialDdId")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -232,9 +224,7 @@ console.log(state)
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

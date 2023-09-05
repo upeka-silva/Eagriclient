@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import CropVarietyList from "./CropVarietyList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -27,6 +26,7 @@ import { deleteCropVariety } from "../../../redux/actions/crop/cropVariety/actio
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -149,6 +149,7 @@ const CropVariety = () => {
 
   return (
     <div>
+      <ListHeader title="Crop Variety" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

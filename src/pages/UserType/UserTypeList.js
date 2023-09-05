@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
 
 const UserTypeList = ({
@@ -13,19 +13,19 @@ const UserTypeList = ({
     { field: "name", headerName: "Name" },
   ];
   return (
-    <CardWrapper>
-    <DataTable
-      loadingTable
-      dataEndPoint={"user-types"}
-      columns={columns}
-      selectable
-      selectedRows={selectedRows}
-      selectAll={selectAll}
-      onRowSelect={onRowSelect}
-      unSelectAll={unSelectAll}
-    />
-  </CardWrapper>
-  )
+    <TableWrapper>
+      <DataTable
+        loadingTable
+        dataEndPoint={"user-types"}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
+    </TableWrapper>
+  );
 };
 
 export default UserTypeList;

@@ -42,6 +42,7 @@ import {
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const District = () => {
   useUserAccessValidation();
@@ -188,6 +189,7 @@ const District = () => {
 
   return (
     <div>
+      <ListHeader title="District" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

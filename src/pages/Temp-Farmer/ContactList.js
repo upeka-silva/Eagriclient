@@ -1,6 +1,6 @@
 import React from 'react'
-import { CardWrapper } from '../../components/PageLayout/Card';
 import { DataTable } from '../../components/PageLayout/Table';
+import { TableWrapper } from '../../components/PageLayout/TableWrapper';
 
 const ContactList = ({
     selectedRows = [],
@@ -15,7 +15,7 @@ const ContactList = ({
       ];
 
   return (
-   <CardWrapper>
+   <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"farmer-contacts"}
@@ -26,7 +26,7 @@ const ContactList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   )
 }
 

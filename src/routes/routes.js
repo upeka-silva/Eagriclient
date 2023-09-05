@@ -5,12 +5,9 @@ import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
 import EmailVerificationPage from "../pages/EmailVerification";
-
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
-import ASC from "../pages/DAD-Structure/ASC/ASC";
-import ASCForm from "../pages/DAD-Structure/ASC/ASCForm";
 import Soil from "../pages/Soil/Soil-Type/SoilType";
 import SoilForm from "../pages/Soil/Soil-Type/SoilTypeForm";
 import Permissions from "../pages/Permissions/Permissions";
@@ -21,10 +18,9 @@ import DistrictForm from "../pages/Zones/District/DistrictForm";
 import DsDivision from "../pages/Zones/DS/DsDivision";
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision";
-import PrivateCompanies from "../pages/PrivateCompanies/PrivateCompanies";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
-import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
-import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
+import AI from "../pages/Agri-Zones/AI/AI";
+import AIForm from "../pages/Agri-Zones/AI/AIForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
@@ -59,7 +55,6 @@ import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
-import UserTypeForm from "../pages/UserType/UserTypeForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -95,11 +90,18 @@ import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
+import AgrarDevDept from "../pages/Agrarian/AgrarDevDept/AgrarDevDept";
+import AgrarDevDeptForm from "../pages/Agrarian/AgrarDevDept/AgrarDevDeptForm";
+import DistrictComm from "../pages/Agrarian/DistrictComm/DistrictComm";
+import DistrictCommForm from "../pages/Agrarian/DistrictComm/DistrictCommForm";
+import ASC from "../pages/Agrarian/ASC/ASC";
+import ASCForm from "../pages/Agrarian/ASC/ASCForm";
+import ARPA from "../pages/Agrarian/ARPA/ARPA";
+import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
-import GapRegistration from "../pages/Gap/gapReg";
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
 import Map from "../pages/Map/Map";
@@ -125,6 +127,15 @@ import InterProvincialAiRegion from "../pages/InterProvincialStructure/AIRegion/
 import InterProvincialAiRegionForm from "../pages/InterProvincialStructure/AIRegion/AiRegionForm";
 import ProvincialAiRegion from "../pages/ProvincialStructure/AIRegion/AiRegion";
 import ProvincialAiRegionForm from "../pages/ProvincialStructure/AIRegion/AiRegionForm";
+import SelfAssessment from "../pages/AuditForm/SelfAssessmentForm/SelfAssessment";
+import SelfAssessmentForm from "../pages/AuditForm/SelfAssessmentForm/SelfAssessmentForm";
+import BasicData from "../pages/AuditForm/BasicDataForm/BasicData";
+import BasicDataForm from "../pages/AuditForm/BasicDataForm/BasicDataForm";
+import InternalAudit from "../pages/AuditForm/InternalAuditForm/InternalAudit";
+import InternalAuditForm from "../pages/AuditForm/InternalAuditForm/InternalAuditForm";
+import ExternalAudit from "../pages/AuditForm/ExternalAuditForm/ExternalAudit";
+import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAuditForm";
+import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 
 export const Routes = [
   {
@@ -439,7 +450,65 @@ export const Routes = [
           // },
         ],
       },
-
+      {
+        path: "/agrarian",
+        name: "Agrarian",
+        isSideBar: true,
+        children: [
+          {
+            path: "/department-of-agrarian-development",
+            name: "AgrarDevDept",
+            isSideBar: true,
+            element: <AgrarDevDept />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/department-of-agrarian-development-form",
+            name: "AgrarDevDept Form",
+            isSideBar: false,
+            element: <AgrarDevDeptForm />,
+          },
+          {
+            path: "/district-commissioner",
+            name: "District Commissioner",
+            isSideBar: true,
+            element: <DistrictComm />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/district-commissioner-form",
+            name: "District Commissioner Form",
+            isSideBar: false,
+            element: <DistrictCommForm />,
+          },
+          {
+            path: "/asc-division",
+            name: "ASC Division",
+            isSideBar: true,
+            element: <ASC />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/asc-division-form",
+            name: "ASC Division Form",
+            isSideBar: false,
+            element: <ASCForm />,
+          },
+          {
+            path: "/arpa-division",
+            name: "ARPA Division",
+            isSideBar: true,
+            element: <ARPA />,
+            icon: MyLocationIcon,
+          },
+          {
+            path: "/arpa-division-form",
+            name: "ARPA Division Form",
+            isSideBar: false,
+            element: <ARPAForm />,
+          },
+        ],
+      },
       // {
       //   path: "/aa-structure",
       //   name: "Inter Pro DOA Structure",
@@ -882,7 +951,7 @@ export const Routes = [
   },
   {
     path: "/farm-land-form",
-    name: "Farm Land Form",
+    name: "Farm Land",
     isSideBar: false,
     element: <FarmLandForm />,
   },
@@ -935,7 +1004,70 @@ export const Routes = [
     isSideBar: true,
     icon: AppRegistrationIcon,
   },
-
+  {
+    path: "/gap",
+    name: "GAP",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/self-assessment",
+        name: "Self Assessment",
+        isSideBar: true,
+        element: <SelfAssessment />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/self-assessment-form",
+        name: "Self Assessment Form",
+        isSideBar: false,
+        element: <SelfAssessmentForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/basic-assessment",
+        name: "Basic Data Assessment",
+        isSideBar: true,
+        element: <BasicData />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/basic-assessment-form",
+        name: "Basic Data Assessment Form",
+        isSideBar: false,
+        element: <BasicDataForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/internal-audit",
+        name: "Internal Audit",
+        isSideBar: true,
+        element: <InternalAudit />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/internal-audit-form",
+        name: "Internal Audit Form",
+        isSideBar: false,
+        element: <InternalAuditForm />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/external-audit",
+        name: "External Audit",
+        isSideBar: true,
+        element: <ExternalAudit />,
+        icon: SouthAmericaIcon
+      },
+      {
+        path: "/external-audit-form",
+        name: "External Audit Form",
+        isSideBar: false,
+        element: <ExternalAuditForm />,
+        icon: SouthAmericaIcon
+      }
+    ],
+  },
   {
     path: "/gap-reg-form",
     name: "GAP Regs",
