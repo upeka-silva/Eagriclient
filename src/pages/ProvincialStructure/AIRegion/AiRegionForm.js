@@ -6,20 +6,14 @@ import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
   get_ProvincialDoaList,
-  handleProvincialDoa,
-  updateProvincialDoa,
 } from "../../../redux/actions/ProvincialDoa/action";
 import {
   Autocomplete,
   Button,
   CircularProgress,
   Grid,
-  MenuItem,
-  Select,
   TextField,
-  getPaginationItemUtilityClass,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import {
   ActionWrapper,
@@ -28,17 +22,12 @@ import {
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
   get_ProvincialDdoaListByDoaId,
-  handleProvincialDdoa,
-  updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
 import {
-  get_ProvincialAIListByDoaId,
   handleProvincialAI,
   updateProvincialAI,
 } from "../../../redux/actions/provincialAI/action";
