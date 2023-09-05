@@ -83,6 +83,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
@@ -99,6 +100,7 @@ import ASCForm from "../pages/Agrarian/ASC/ASCForm";
 import ARPA from "../pages/Agrarian/ARPA/ARPA";
 import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import NewUserRegistration from "../pages/UserRegistration/NewUserRegistration";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
@@ -959,6 +961,14 @@ export const Routes = [
   },
 
   {
+    path: "/new-user-registration",
+    name: "New User Registration",
+    element: <NewUserRegistration />,
+    isSideBar: true,
+    icon: AccountCircleIcon,
+  },
+
+  {
     path: "/users",
     name: "Users",
     element: <Users />,
@@ -996,57 +1006,57 @@ export const Routes = [
         name: "Self Assessment",
         isSideBar: true,
         element: <SelfAssessment />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/self-assessment-form",
         name: "Self Assessment Form",
         isSideBar: false,
         element: <SelfAssessmentForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/basic-assessment",
         name: "Basic Data Assessment",
         isSideBar: true,
         element: <BasicData />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/basic-assessment-form",
         name: "Basic Data Assessment Form",
         isSideBar: false,
         element: <BasicDataForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/internal-audit",
         name: "Internal Audit",
         isSideBar: true,
         element: <InternalAudit />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/internal-audit-form",
         name: "Internal Audit Form",
         isSideBar: false,
         element: <InternalAuditForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/external-audit",
         name: "External Audit",
         isSideBar: true,
         element: <ExternalAudit />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/external-audit-form",
         name: "External Audit Form",
         isSideBar: false,
         element: <ExternalAuditForm />,
-        icon: SouthAmericaIcon
-      }
+        icon: SouthAmericaIcon,
+      },
     ],
   },
   {

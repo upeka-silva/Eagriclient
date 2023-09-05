@@ -733,7 +733,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Ownership ID</FieldName>
                 <TextField
@@ -755,7 +755,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Owner Type</FieldName>
@@ -787,7 +787,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid container style={{ display: `${otherField}` }}>
-              <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>NIC</FieldName>
                   <TextField
@@ -809,7 +809,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>Address Line 01</FieldName>
                   <TextField
@@ -1046,7 +1046,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Land ID</FieldName>
                 <TextField
@@ -1069,7 +1069,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={6} md={6} sm={6} md={6} lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Soil Type ID</FieldName>
                 <TextField

@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import React, { useState, useEffect } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import {
-  Button,
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
@@ -29,46 +23,17 @@ const CropSubCategoryList = ({
       join: "-",
       headerName: "Crop Category ",
     },
-    {
-      field: ["subCategoryId", "description"],
-      join: "-",
-      headerName: "Crop Category ",
-    },
   ];
 
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
-  const [id, setId] = useState(null);
-  const [data, setData] = useState(null);
 
   const [options, setOptions] = useState([]);
   const [show, setShow] = useState(false);
   const [isdisable, setIsdisable] = useState({
     cat: false,
   });
-  const [options, setOptions] = useState([]);
-  const [show, setShow] = useState(false);
-  const [isdisable, setIsdisable] = useState({
-    cat: false,
-  });
 
-  useEffect(() => {
-    get_CategoryList().then(({ dataList = [] }) => {
-      setOptions(dataList);
-      console.log(dataList);
-    });
-  }, []);
-  const handleChange = (value, target) => {
-    console.log(value?.id);
-    setId(value?.id);
-    if (Object.keys(options).length > 0) {
-      setShow(!show);
-    }
-    setIsdisable((prevState) => ({
-      ...prevState,
-      [target]: true,
-    }));
-  };
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -95,16 +60,7 @@ const CropSubCategoryList = ({
     setData(null);
     setShow(null);
   };
-  const reset = () => {
-    const allTrueIsdisable = {
-      cat: false,
-    };
-    setIsdisable(allTrueIsdisable);
-    setData(null);
-    setShow(null);
-  };
 
-  console.log(options);
   console.log(options);
 
   return (
@@ -112,7 +68,7 @@ const CropSubCategoryList = ({
       <TableWrapper>
         <ActionWrapper isLeft>
           <Grid container>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item lg={3}>
               <FieldWrapper>
                 <FieldName>Crop Category</FieldName>
                 <Autocomplete
@@ -128,7 +84,6 @@ const CropSubCategoryList = ({
                   sx={{
                     "& .MuiOutlinedInput-root": {
                       borderRadius: "4px",
-                      borderRadius: "4px",
                     },
                     marginRight: "5px",
                   }}
@@ -142,7 +97,7 @@ const CropSubCategoryList = ({
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={2} md={2} lg={2}>
+            <Grid item lg={2}>
               <FieldWrapper>
                 <Button
                   color="success"
@@ -151,13 +106,7 @@ const CropSubCategoryList = ({
                   onClick={reset}
                   sx={{ marginTop: "40px" }}
                 >
-                >
                   Reset
-                </Button>
-              </FieldWrapper>
-            </Grid>
-          </Grid>
-        </ActionWrapper>
                 </Button>
               </FieldWrapper>
             </Grid>
@@ -189,34 +138,7 @@ const CropSubCategoryList = ({
               onRowSelect={onRowSelect}
               unSelectAll={unSelectAll}
             />
-        {show ? (
-          <>
-            <DataTable
-              loadingTable
-              dataEndPoint={`geo-data/crop-sub-categories/crop-category/${id}`}
-              columns={columns}
-              selectable
-              selectedRows={selectedRows}
-              selectAll={selectAll}
-              onRowSelect={onRowSelect}
-              unSelectAll={unSelectAll}
-            />
           </>
-        ) : (
-          <>
-            <DataTable
-              loadingTable
-              dataEndPoint={"geo-data/crop-sub-categories"}
-              columns={columns}
-              selectable
-              selectedRows={selectedRows}
-              selectAll={selectAll}
-              onRowSelect={onRowSelect}
-              unSelectAll={unSelectAll}
-            />
-          </>
-        )}
-      </TableWrapper>
         )}
       </TableWrapper>
     </div>

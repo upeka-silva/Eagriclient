@@ -23,7 +23,6 @@ import { useEffect, useState } from "react";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 
-
 const CropList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
@@ -82,7 +81,7 @@ const CropList = ({
     <TableWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Crop Category</FieldName>
               <Autocomplete
@@ -108,11 +107,10 @@ const CropList = ({
                     placeholder="Select Crop Category"
                   />
                 )}
-                fullWidth
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Crop Sub Category</FieldName>
               <Autocomplete
@@ -143,7 +141,7 @@ const CropList = ({
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+          <Grid item lg={2}>
             <FieldWrapper>
               <Button
                 color="success"
@@ -184,10 +182,9 @@ const CropList = ({
             selectAll={selectAll}
             onRowSelect={onRowSelect}
             unSelectAll={unSelectAll}
-        /></>
-       
-        }
-
+          />
+        </>
+      )}
     </TableWrapper>
   );
 };
