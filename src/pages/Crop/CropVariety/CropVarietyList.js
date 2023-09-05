@@ -123,7 +123,6 @@ const CropVarietyList = ({
                     placeholder="Select Crop Category"
                   />
                 )}
-                fullWidth
               />
             </FieldWrapper>
           </Grid>
@@ -154,7 +153,6 @@ const CropVarietyList = ({
                     placeholder="Select Crop Sub Category"
                   />
                 )}
-                fullWidth
               />
             </FieldWrapper>
           </Grid>
@@ -185,7 +183,6 @@ const CropVarietyList = ({
                     placeholder="Select Crop "
                   />
                 )}
-                fullWidth
               />
             </FieldWrapper>
           </Grid>

@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ASCList = ({
   selectedRows = [],
@@ -9,13 +9,13 @@ const ASCList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "ascCode", headerName: "Code"},
-    { field: "name", headerName: "Name"},
-    { field: "districtDto.code", headerName: "District Code"},
+    { field: "ascCode", headerName: "Code" },
+    { field: "name", headerName: "Name" },
+    { field: "districtDto.code", headerName: "District Code" },
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"asc"}
@@ -26,7 +26,7 @@ const ASCList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 
