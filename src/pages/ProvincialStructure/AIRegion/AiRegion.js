@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useNavigate } from "react-router-dom";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -8,14 +8,17 @@ import {
 } from "../../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
+  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
   Divider,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -26,11 +29,20 @@ import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import ProvincialDoaList from "./ProvincialDoaList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+
+import {
+  deleteProvincialDoa,
+  get_ProvincialDoaList,
+} from "../../../redux/actions/ProvincialDoa/action";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import ProvincialAiRegionList from "./AiRegionList";
+import { deleteProvincialAI } from "../../../redux/actions/provincialAI/action";
+import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const ProvincialAiRegion = () => {
@@ -43,11 +55,30 @@ const ProvincialAiRegion = () => {
 
   const [search, setSearch] = useState({});
 
-  const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
+  const [dataEndPoint, setDataEndPoint] = useState(
+    "geo-data/ai-region/get-by-parent/PROVINCIAL"
+  );
+  const [selectedProvincialAI, setSelectedProvincialAI] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleProvincialDoaSelect = (component) => {
-    setSelectedProvincialDoa((current = []) => {
+  const [doas, setDoas] = useState([]);
+  const [ddoas, setDdoas] = useState([]);
+  const [adas, setAdas] = useState([]);
+  const [selectedDdoa, setSelectedDdoa] = useState({
+    provincialDdId: "",
+    description: "",
+  });
+  const [selectedDoa, setSelectedDoa] = useState({
+    proDirectorId: "",
+    description: "",
+  });
+  const [selectedAda, setSelectedAda] = useState({
+    provinceSegmentId: "",
+    description: "",
+  });
+
+  const toggleProvincialAISelect = (component) => {
+    setSelectedProvincialAI((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -59,37 +90,37 @@ const ProvincialAiRegion = () => {
     });
   };
 
-  const selectAllProvincialDoa = (all = []) => {
-    setSelectedProvincialDoa(all);
+  const selectAllProvincialAI = (all = []) => {
+    setSelectedProvincialAI(all);
   };
 
-  const resetSelectedProvincialDoa = () => {
-    setSelectedProvincialDoa([]);
+  const resetSelectedProvincialAI = () => {
+    setSelectedProvincialAI([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/provincial-structure/provincial-doa-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/provincial-structure/provincial-doa-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedProvincialDoa[0] || {},
+        target: selectedProvincialAI[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/provincial-structure/provincial-doa-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedProvincialDoa[0] || {},
+        target: selectedProvincialAI[0] || {},
       },
     });
   };
@@ -105,7 +136,7 @@ const ProvincialAiRegion = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectedProvincialDoa.map((item) => {
+        {selectedProvincialAI.map((item) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -143,16 +174,57 @@ const ProvincialAiRegion = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialDoa) {
-        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
+      for (const provincialAI of selectedProvincialAI) {
+        await deleteProvincialAI(provincialAI.id, onSuccess, onError);
       }
       setLoading(false);
       onClose();
-      resetSelectedProvincialDoa();
+      resetSelectedProvincialAI();
     } catch (error) {
       setLoading(false);
       console.log(error);
     }
+  };
+
+  useEffect(() => {
+    get_ProvincialDoaList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDoas(dataList);
+    });
+    
+  }, []);
+
+  const resetFilter = () => {
+    setSelectedDoa({
+      proDirectorId: "",
+      description: "",
+    });
+    setSelectedDdoa({
+      provincialDdId: "",
+      description: "",
+    });
+    setSelectedAda({ provinceSegmentId: "", description: "" });
+    setDataEndPoint("geo-data/ai-region/get-by-parent/PROVINCIAL");
+  };
+
+  const getDDOAS = (id) => {
+    get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDdoas(dataList);
+    });
+  };
+
+  const getADAS = (id) => {
+    get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setAdas(dataList);
+    });
+  };
+
+  const getFilteredData = (selectedAda) => {
+    setDataEndPoint(
+      `geo-data/ai-region/get-by-parent/PROVINCIAL/` + selectedAda?.id
+    );
   };
 
   return (
@@ -175,7 +247,7 @@ const ProvincialAiRegion = () => {
             </Button>
           </PermissionWrapper>
 
-          {selectedProvincialDoa.length === 1 && (
+          {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -185,7 +257,8 @@ const ProvincialAiRegion = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedProvincialDoa.length === 1 && (
+          {selectedProvincialAI.length === 1 && (
+
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -195,7 +268,8 @@ const ProvincialAiRegion = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedProvincialDoa.length > 0 && (
+          {selectedProvincialAI.length > 0 && (
+
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
             >
@@ -207,15 +281,124 @@ const ProvincialAiRegion = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Grid container>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial DOA</FieldName>
+              <Autocomplete
+                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={doas}
+                value={selectedDoa}
+                getOptionLabel={(i) =>
+                  `${i?.proDirectorId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDoa(value);
+                  setSelectedDdoa({ provincialDdId: "", description: "" });
+                  setSelectedAda({ provinceSegmentId: "", description: "" });
+                  getDDOAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial DDOA</FieldName>
+              <Autocomplete
+                disabled={selectedDoa?.id == null}
+                options={ddoas}
+                value={selectedDdoa}
+                getOptionLabel={(i) =>
+                  `${i?.provincialDdId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDdoa(value);
+                  setSelectedAda({ provinceSegmentId: "", description: "" });
+                  getADAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial ADA</FieldName>
+              <Autocomplete
+                disabled={selectedDdoa?.id == null}
+                options={adas}
+                value={selectedAda}
+                getOptionLabel={(i) =>
+                  `${i?.provinceSegmentId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedAda(value);
+                  getFilteredData(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={resetFilter}
+                sx={{ marginTop: "40px" }}
+              >
+                <RestartAlt />
+                Reset
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+      </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
       >
         {loading === false && (
-          <ProvincialDoaList
-            selectedRows={selectedProvincialDoa}
-            onRowSelect={toggleProvincialDoaSelect}
-            selectAll={selectAllProvincialDoa}
-            unSelectAll={resetSelectedProvincialDoa}
+          <ProvincialAiRegionList
+            selectedRows={selectedProvincialAI}
+            onRowSelect={toggleProvincialAISelect}
+            selectAll={selectAllProvincialAI}
+            unSelectAll={resetSelectedProvincialAI}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>

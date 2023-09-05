@@ -124,3 +124,21 @@ export const deleteDistrict = async (
 };
 
 
+export const get_DistrictListByProvinceId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/districts/province/" + id, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

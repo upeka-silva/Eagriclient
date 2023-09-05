@@ -29,10 +29,18 @@ import {
   deleteProvincialDoa,
   get_ProvincialDoaList,
 } from "../../../redux/actions/ProvincialDoa/action";
-import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Search,
+  Vrpano,
+} from "@mui/icons-material";
 import ProvincialDdoaList from "./ProvincialDdoaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { deleteProvincialDdoa } from "../../../redux/actions/provincialDdoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const ProvincialDdoa = () => {
@@ -50,7 +58,7 @@ const ProvincialDdoa = () => {
     "geo-data/provincial-deputy-director-level"
   );
 
-  const [selectedDoa, setSelectedDoa] = useState();
+  const [selectedDoa, setSelectedDoa] = useState({proDirectorId:"",description:""});
   const [doas, setDoas] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -117,7 +125,7 @@ const ProvincialDdoa = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
+  const getFilteredData = (selectedDoa) => {
     console.log(selectedDoa);
     setDataEndPoint(
       `geo-data/provincial-deputy-director-level/pro-director-id/` +
@@ -167,7 +175,7 @@ const ProvincialDdoa = () => {
     try {
       setLoading(true);
       for (const provincialDoa of selectedProvincialDdoa) {
-        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
+        await deleteProvincialDdoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
       onClose();
@@ -176,6 +184,11 @@ const ProvincialDdoa = () => {
       setLoading(false);
       console.log(error);
     }
+  };
+
+  const resetFilter = () => {
+    setSelectedDoa({proDirectorId: "", description: "" });
+    setDataEndPoint("geo-data/provincial-deputy-director-level")
   };
 
   return (
@@ -245,6 +258,7 @@ const ProvincialDdoa = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDoa(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable
@@ -266,11 +280,11 @@ const ProvincialDdoa = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>
