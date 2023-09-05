@@ -35,12 +35,20 @@ import {
   deleteProvincialDoa,
   get_ProvincialDoaList,
 } from "../../../redux/actions/ProvincialDoa/action";
-import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Search,
+  Vrpano,
+} from "@mui/icons-material";
 import ProvincialAdaList from "./ProvicialAdaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { get_ProvincialDdoaList } from "../../../redux/actions/provincialDdoa/action";
-import ListHeader from "../../../components/ListHeader/ListHeader";
+import { get_ProvincialDdoaList, get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { deleteProvincialAda } from "../../../redux/actions/provincialAda/action";
+
 
 const ProvincialAda = () => {
   useUserAccessValidation();
@@ -166,8 +174,8 @@ const ProvincialAda = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialAda) {
-        await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
+      for (const provincialAda of selectedProvincialAda) {
+        await deleteProvincialAda(provincialAda.id, onSuccess, onError);
       }
       setLoading(false);
       onClose();
@@ -178,8 +186,10 @@ const ProvincialAda = () => {
     }
   };
 
-  const getFilteredData = () => {
-    setDataEndPoint(`geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id);
+  const getFilteredData = (selectedDdoa) => {
+    setDataEndPoint(
+      `geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id
+    );
   };
 
   useEffect(() => {
@@ -192,6 +202,25 @@ const ProvincialAda = () => {
     //     setDdoas(dataList);
     //   });
   }, []);
+
+  const resetFilter = () => {
+    setSelectedDoa({
+      proDirectorId: "",
+      description: "",
+    });
+    setSelectedDdoa({
+      provincialDdId: "",
+      description: "",
+    });
+    setDataEndPoint("geo-data/provincial-ada-segments");
+  };
+
+  const getDDOAS = (id)=>{
+     get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDdoas(dataList);
+    })
+  }
 
   return (
     <div>
@@ -261,10 +290,11 @@ const ProvincialAda = () => {
                   console.log(value);
                   setSelectedDoa(value);
                   setSelectedDdoa({ provincialDdId: "", description: "" });
-                  setDdoas(value.provincialDeputyDirectorLevelList);
+                  // setDdoas(value.provincialDeputyDirectorLevelList);
+                  getDDOAS(value.id)
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -290,9 +320,10 @@ const ProvincialAda = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDdoa(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -311,11 +342,11 @@ const ProvincialAda = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

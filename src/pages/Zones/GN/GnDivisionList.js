@@ -14,8 +14,6 @@ const GnDivisionList = ({
     { field: 'code', headerName: 'Code' },
     { field: 'name', headerName: 'Description' },
 ];
-
-
   return (
     <TableWrapper>
       <DataTable

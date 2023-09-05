@@ -4,11 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import {
-  get_ProvincialDoaList,
-  handleProvincialDoa,
-  updateProvincialDoa,
-} from "../../../redux/actions/ProvincialDoa/action";
+
 import {
   Autocomplete,
   Button,
@@ -34,14 +30,16 @@ import {
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import { handleInterProvincialDdoa, updateInterProvincialDdoa , } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
+
 
 const ProvincialDdoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -240,7 +238,8 @@ const ProvincialDdoaForm = () => {
             <Autocomplete
               // disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDirectorLevels}
-              value={selectedProDirectorLevel}
+              value={formData.proDirectorLevelDTO || selectedProDirectorLevel
+              }
               getOptionLabel={(i) => `${i?.proDirectorId}-${i?.description}`}
               onChange={(event, value) => {
                 console.log(value);

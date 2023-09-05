@@ -30,7 +30,14 @@ import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano, Search } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  Vrpano,
+  Search,
+  RestartAlt,
+} from "@mui/icons-material";
 
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -50,7 +57,10 @@ const District = () => {
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [options, setOptions] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState();
+  const [selectedProvince, setSelectedProvince] = useState({
+    code: "",
+    name: "",
+  });
 
   const toggleDistrictSelect = (component) => {
     setSelectedDistricts((current = []) => {
@@ -167,8 +177,14 @@ const District = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
+  const getFilteredData = (selectedProvince) => {
     setDataEndPoint(`geo-data/districts/province/` + selectedProvince?.id);
+  };
+
+  const resetFilter = () => {
+    setSelectedProvince({ code: "", name: "" });
+    console.log(selectedProvince);
+    setDataEndPoint("geo-data/districts");
   };
 
   return (
@@ -235,8 +251,10 @@ const District = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedProvince(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -255,11 +273,11 @@ const District = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

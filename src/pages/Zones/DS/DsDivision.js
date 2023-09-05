@@ -28,8 +28,16 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Search, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Search,
+  Vrpano,
+} from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { get_DistrictList, get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
@@ -48,8 +56,14 @@ const DsDivision = () => {
 
   const [provinces, setProvinces] = useState([]);
   const [districs, setDistrics] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState();
-  const [selectedDistrict, setSelectedDistrict] = useState({name:"",code:""});
+  const [selectedProvince, setSelectedProvince] = useState({
+    name: "",
+    code: "",
+  });
+  const [selectedDistrict, setSelectedDistrict] = useState({
+    name: "",
+    code: "",
+  });
 
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
@@ -166,12 +180,25 @@ const DsDivision = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
+  const getFilteredData = (selectedDistrict) => {
     setDataEndPoint(
       `geo-data/ds-divisions/by-district/` + selectedDistrict?.id
     );
   };
 
+  const resetFilter = () => {
+    setSelectedProvince({ code: "", name: "" });
+    setSelectedDistrict({ code: "", name: "" });
+    setDataEndPoint("geo-data/ds-divisions");
+  };
+
+  const getDistricts = (id)=>{
+        get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+          console.log(dataList);
+          setDistrics(dataList);
+        })
+  }
+  
   return (
     <div>
       <ListHeader title="DS Division" />
@@ -236,24 +263,22 @@ const DsDivision = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedProvince(value);
-                  setSelectedDistrict({name:"" , code:""});
-                  setDistrics(value?.districtDTOList);
+                  setSelectedDistrict({ name: "", code: "" });
+                  getDistricts(value.id)
                 }}
                 fullWidth
                 inputProps={{ readOnly: true }}
-                disableClearable 
+                disableClearable
                 sx={{
                   // width: "214px",
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },
                   marginRight: "5px",
-                 
                 }}
                 renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth/>
+                  <TextField {...params} size="small" fullWidth />
                 )}
-                
               />
             </FieldWrapper>
           </Grid>
@@ -268,8 +293,9 @@ const DsDivision = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDistrict(value);
+                  getFilteredData(value);
                 }}
-                disableClearable 
+                disableClearable
                 fullWidth
                 sx={{
                   // width: "214px",
@@ -290,11 +316,11 @@ const DsDivision = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

@@ -221,12 +221,14 @@ const DistrictForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={5} sm={12} sx={12}>
+    <Grid item lg={5} sm={12} sx={12}>
           <FieldWrapper>
             <FieldName>Province</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={options}
+              value={formData ? formData.provinceDTO : ""}
+
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "provinceDTO");
