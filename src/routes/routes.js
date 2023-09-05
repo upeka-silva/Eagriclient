@@ -5,10 +5,7 @@ import SecondaryData from "../pages/register/SecondaryData";
 import Dashboard from "../pages/Dashboard/Dashboard";
 
 import EmailVerificationPage from "../pages/EmailVerification";
-import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
-import InterProvinceForm from "../pages/Agri-Zones/inter-province/InterProvinceForm";
-import ProvinceArea from "../pages/Agri-Zones/province/ProvinceArea";
-import ProvinceAreaForm from "../pages/Agri-Zones/province/ProvinceAreaForm";
+
 import Actions from "../pages/Actions/Actions";
 import Components from "../pages/Components/Components";
 import ComponentForm from "../pages/Components/ComponentForm";
@@ -28,8 +25,6 @@ import PrivateCompanies from "../pages/PrivateCompanies/PrivateCompanies";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import ARPA from "../pages/DAD-Structure/ARPA/ARPA";
 import ARPAForm from "../pages/DAD-Structure/ARPA/ARPAForm";
-import AI from "../pages/Agri-Zones/AI/AI";
-import AIForm from "../pages/Agri-Zones/AI/AIForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
