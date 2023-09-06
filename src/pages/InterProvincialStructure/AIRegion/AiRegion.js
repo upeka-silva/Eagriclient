@@ -170,7 +170,7 @@ const InterProvincialAiRegion = () => {
 
   const getFilteredData = (selectedAda) => {
     setDataEndPoint(
-      `geo-data/ai-region/get-by-parent/PROVINCIAL/` + selectedAda?.id
+      `geo-data/ai-region/get-by-parent/INTER_PROVINCIAL/` + selectedAda?.id
     );
   };
 
@@ -348,7 +348,7 @@ const InterProvincialAiRegion = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedAda(value);
-                  getFilteredData(value.id);
+                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable

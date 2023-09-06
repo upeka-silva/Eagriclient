@@ -357,7 +357,7 @@ const ProvincialAiRegion = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedAda(value);
-                  getFilteredData(value.id);
+                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable
