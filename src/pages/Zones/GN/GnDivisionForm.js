@@ -49,7 +49,10 @@ import {
   get_DsDivisionListByDistrictId,
 } from "../../../redux/actions/dsDivision/action";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import { get_MahaweliUnitList } from "../../../redux/actions/mahaweliUnit/action";
+import {
+  get_MahaweliUnitList,
+  get_MahaweliUnitListByBlockId,
+} from "../../../redux/actions/mahaweliUnit/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
@@ -58,6 +61,11 @@ import { get_InterProvincialDoaList } from "../../../redux/actions/interProvinci
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
+import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
+import {
+  get_InterProvincialAIListByAdaId,
+  get_ProvincialAIListByAdaId,
+} from "../../../redux/actions/provincialAI/action";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -301,10 +309,6 @@ const GnDivisionForm = () => {
     });
   };
 
-  const getAiRegions = () => {
-    //  if()
-  };
-
   const getInterProDDOAS = (id) => {
     get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
@@ -331,6 +335,27 @@ const GnDivisionForm = () => {
     setSelectedInterProDoa({ doaId: "", description: "" });
   };
 
+  const getAiRegions = (value) => {
+    if (doaType == "PROVINCIAL") {
+      get_ProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
+        console.log(dataList);
+        setAiRegions(dataList);
+      });
+    }
+    if (doaType == "INTER_PROVINCIAL") {
+      get_InterProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
+        console.log(dataList);
+        setAiRegions(dataList);
+      });
+    }
+  };
+  useEffect(() => {
+    get_MahaweliSystemList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setMahaweliSystems(dataList);
+    });
+  }, []);
+
   const getBlocks = (id) => {
     get_MahaweliBlockListBySystemId(id).then(({ dataList = [] }) => {
       console.log(dataList);
@@ -339,7 +364,10 @@ const GnDivisionForm = () => {
   };
 
   const getMahaweliUnits = (id) => {
-     
+    get_MahaweliUnitListByBlockId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setMahaweliUnitList(dataList);
+    });
   };
 
   return (
@@ -418,6 +446,7 @@ const GnDivisionForm = () => {
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
+          marginY: "0px",
         }}
       >
         <Grid item lg={4}>
@@ -670,7 +699,7 @@ const GnDivisionForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 setSelectedAda(value);
-                // getFilteredData(value.id);
+                getAiRegions(value);
               }}
               fullWidth
               disableClearable
@@ -757,6 +786,7 @@ const GnDivisionForm = () => {
                 console.log(value);
                 setSelectedInterProAda(value);
                 // getFilteredData(value.id);
+                getAiRegions(value);
               }}
               fullWidth
               disableClearable
@@ -832,7 +862,7 @@ const GnDivisionForm = () => {
               disableClearable
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "4px",
+                  borderRadius: "8px",
                 },
                 marginRight: "5px",
               }}
@@ -859,7 +889,7 @@ const GnDivisionForm = () => {
               disableClearable
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  borderRadius: "4px",
+                  borderRadius: "8px",
                 },
                 marginRight: "5px",
               }}
@@ -869,11 +899,13 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item lg={3}>
           <FieldWrapper>
             <FieldName>Mahaweli Unit</FieldName>
             <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW || selectedBlock?.id == null
+              }
               options={mahaweliUnitList}
               value={formData ? formData.mahaweliUnitDTO : ""}
               getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
@@ -899,61 +931,14 @@ const GnDivisionForm = () => {
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
-          marginY: "15px",
+          marginTop: "0px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>AEZ</FieldName>
-            <TextField
-              name="agroEcologicalZoneId"
-              id="agroEcologicalZoneId"
-              value={formData?.agroEcologicalZoneId || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "agroEcologicalZoneId")
-              }
-              sx={{
-                // width: "264px",
-                "& .MuiOutlinedInput-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                  // backgroundColor: `${Colors.white}`,
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
+        
 
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>AI Region</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={aiRegionList}
-              value={formData ? formData.aiRegionDTO : ""}
-              getOptionLabel={(i) => `${i.code} - ${i.name}`}
-              onChange={(event, value) => {
-                handleChange(value, "aiRegionDTO");
-              }}
-              sx={{
-                // width: "264px",
-                "& .MuiOutlinedInput-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                  // backgroundColor: `${Colors.white}`,
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
+        
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>ARPA Area</FieldName>
@@ -979,12 +964,50 @@ const GnDivisionForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          margin: "15px",
+          marginTop:"0px",
+          width: "97%",
+          borderRadius: "5px",
+        }}
+      >
+
+      <Grid item lg={4}>
+          <FieldWrapper>
+            <FieldName>AEZ</FieldName>
+            <TextField
+              name="agroEcologicalZoneId"
+              id="agroEcologicalZoneId"
+              value={formData?.agroEcologicalZoneId || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "agroEcologicalZoneId")
+              }
+              sx={{
+                // width: "264px",
+                "& .MuiOutlinedInput-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                  // backgroundColor: `${Colors.white}`,
+                },
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        </Grid>
 
       <Grid
         container
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
+          marginTop:"0px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -1107,6 +1130,7 @@ const GnDivisionForm = () => {
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
+          marginTop:"0px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -1136,34 +1160,7 @@ const GnDivisionForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Mahaweli System</FieldName>
-            <TextField
-              name="landArea"
-              id="landArea"
-              value={formData?.landArea || ""}
-              fullWidth
-              type="number"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "mahaweliSystem")
-              }
-              InputProps={{
-                inputProps: { min: 0 },
-              }}
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                  // backgroundColor: `${Colors.white}`,
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
+       
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Agriculture Land Area</FieldName>

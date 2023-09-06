@@ -43,6 +43,7 @@ import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincial
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const ProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -356,7 +357,7 @@ const ProvincialAiRegion = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedAda(value);
-                  getFilteredData(value.id);
+                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable

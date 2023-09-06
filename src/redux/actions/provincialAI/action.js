@@ -133,10 +133,32 @@ export const get_ProvincialAIList = async () => {
   }
 };
 
-export const get_ProvincialAIListByDoaId = async (id) => {
+export const get_ProvincialAIListByAdaId = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/ai-region/" + id,
+      "geo-data/ai-region/get-by-parent/PROVINCIAL/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+}
+
+export const get_InterProvincialAIListByAdaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/ai-region/get-by-parent/INTER_PROVINCIAL/" + id,
       true
     );
     if (httpCode === "200 OK") {
