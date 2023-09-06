@@ -25,6 +25,7 @@ const ProvincialAiRegionList = ({
         selectAll={selectAll}
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
+      />
     </TableWrapper>
   );
 };
