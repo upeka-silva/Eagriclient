@@ -15,18 +15,16 @@ const ProvincialAiRegionList = ({
   ];
 
   return (
-    <TableWrapper>
-      <DataTable
-        loadingTable
-        dataEndPoint={dataEndPoint}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    </TableWrapper>
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
   );
 };
 
