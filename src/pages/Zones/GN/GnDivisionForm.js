@@ -66,6 +66,8 @@ import {
   get_InterProvincialAIListByAdaId,
   get_ProvincialAIListByAdaId,
 } from "../../../redux/actions/provincialAI/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -371,32 +373,14 @@ const GnDivisionForm = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        // backgroundColor: `${Colors.formBackgroundColor}`,
-        fontFamily: `${Fonts.fontStyle1}`,
-        height: "100vh",
-        overflowY: "scroll",
-      }}
-    >
-      <div>
-        <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {makeCapitalize(state?.action)} Grama Niladari Division
-        </FormHeader>
-      </div>
+    <FormWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Grama Niladari Division"
+      />
+
       <ButtonWrapper
         style={{
           width: "95%",
@@ -936,9 +920,6 @@ const GnDivisionForm = () => {
           borderRadius: "5px",
         }}
       >
-        
-
-        
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>ARPA Area</FieldName>
@@ -969,13 +950,12 @@ const GnDivisionForm = () => {
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
-          marginTop:"0px",
+          marginTop: "0px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-
-      <Grid item lg={4}>
+        <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>AEZ</FieldName>
             <TextField
@@ -1000,14 +980,14 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        </Grid>
+      </Grid>
 
       <Grid
         container
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
-          marginTop:"0px",
+          marginTop: "0px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -1130,7 +1110,7 @@ const GnDivisionForm = () => {
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
-          marginTop:"0px",
+          marginTop: "0px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -1159,7 +1139,7 @@ const GnDivisionForm = () => {
               <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
             </Select>
           </FieldWrapper>
-        </Grid>       
+        </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Agriculture Land Area</FieldName>
@@ -1322,7 +1302,7 @@ const GnDivisionForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-    </div>
+    </FormWrapper>
   );
 };
 

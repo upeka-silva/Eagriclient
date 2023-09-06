@@ -4,9 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import {
-  get_ProvincialDoaList,
-} from "../../../redux/actions/ProvincialDoa/action";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 import {
   Autocomplete,
   Button,
@@ -24,20 +22,20 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import {
-  get_ProvincialDdoaListByDoaId,
-} from "../../../redux/actions/provincialDdoa/action";
+import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import {
   handleProvincialAI,
   updateProvincialAI,
 } from "../../../redux/actions/provincialAI/action";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const ProvincialAiRegionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-  console.log(state)
+  console.log(state);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -58,8 +56,8 @@ const ProvincialAiRegionForm = () => {
     description: "",
   });
   const [selectedAda, setSelectedAda] = useState({
-    provinceSegmentId:"",
-    description:""
+    provinceSegmentId: "",
+    description: "",
   });
 
   const { addSnackBar } = useSnackBars();
@@ -138,7 +136,6 @@ const ProvincialAiRegionForm = () => {
     }
   };
 
-  
   useEffect(() => {
     get_ProvincialDoaList().then(({ dataList = [] }) => {
       console.log(dataList);
@@ -146,38 +143,29 @@ const ProvincialAiRegionForm = () => {
     });
   }, []);
 
-  const getDDOAS = (id)=>{
+  const getDDOAS = (id) => {
     get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
-     console.log(dataList);
-     setDdoas(dataList);
-   })
- }
+      console.log(dataList);
+      setDdoas(dataList);
+    });
+  };
 
- const getADAS = (id)=>{
-  get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
-    console.log(dataList);
-    setAdas(dataList);
-  })
- }
-
-
+  const getADAS = (id) => {
+    get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setAdas(dataList);
+    });
+  };
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Provincial AI Region
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Provincial AI Region"
+      />
+
       <ButtonWrapper
         isCeneter
         style={{
@@ -204,7 +192,6 @@ const ProvincialAiRegionForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -224,13 +211,12 @@ const ProvincialAiRegionForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={3} md={3} lg={4}>
           <FieldWrapper>
             <FieldName>Region ID</FieldName>
             <TextField
@@ -244,9 +230,7 @@ const ProvincialAiRegionForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "regionId")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -254,7 +238,7 @@ const ProvincialAiRegionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={5} md={5} lg={5}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField
@@ -275,9 +259,71 @@ const ProvincialAiRegionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item lg={3}>
           <FieldWrapper>
-            <FieldName>Provincial Ada Segment</FieldName>
+            <FieldName>Select Provincial Director</FieldName>
+            <Autocomplete
+              options={doas}
+              value={selectedDoa}
+              getOptionLabel={(i) => `${i?.proDirectorId} - ${i?.description}`}
+              onChange={(event, value) => {
+                console.log(value);
+                setSelectedDoa(value);
+                setSelectedDdoa({ provincialDdId: "", description: "" });
+                setSelectedAda({
+                  provinceSegmentId: "",
+                  description: "",
+                });
+                getDDOAS(value.id);
+              }}
+              fullWidth
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+                marginRight: "5px",
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size="small" fullWidth />
+              )}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={3}>
+          <FieldWrapper>
+            <FieldName>Select Provincial DDOA</FieldName>
+            <Autocomplete
+              disabled={selectedDoa?.id == null}
+              options={ddoas}
+              value={selectedDdoa}
+              getOptionLabel={(i) => `${i?.provincialDdId} - ${i?.description}`}
+              onChange={(event, value) => {
+                console.log(value);
+                setSelectedDdoa(value);
+                setSelectedAda({
+                  provinceSegmentId: "",
+                  description: "",
+                });
+                getADAS(value.id);
+              }}
+              fullWidth
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+                marginRight: "5px",
+              }}
+              renderInput={(params) => (
+                <TextField {...params} size="small" fullWidth />
+              )}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={3}>
+          <FieldWrapper>
+            <FieldName>Select Provincial Ada Segment</FieldName>
             <Autocomplete
               options={adas}
               disabled={selectedDdoa?.id == null}
@@ -290,9 +336,7 @@ const ProvincialAiRegionForm = () => {
               }}
               disableClearable
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -317,9 +361,7 @@ const ProvincialAiRegionForm = () => {
                 handleChange(value, "");
               }}
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

@@ -159,71 +159,10 @@ const Province = () => {
     }
   };
 
-  //   const advanceSearch = () => {
-  //     setSearch({
-  //       code: `<>${searchData.code}`,
-  //       name: `<>${searchData.name}`,
-  //     });
-  //   };
-
-  //   const resetSearch = () => {
-  //     setSearchData({
-  //       code: "",
-  //       name: "",
-  //     });
-  //     setSearch({});
-  //   };
-
-  //   const handleSearchDataChange = (value, target) => {
-  //     setSearchData((current) => ({
-  //       ...current,
-  //       [target]: value,
-  //     }));
-  //   };
-
+  
   return (
     <div>
       <ListHeader title="Province" />
-      {/* <SearchWrapper>
-        <TextField
-          sx={{
-            width: "175px",
-            backgroundColor: `${Colors.white}`,
-            boxSizing: "border-box",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "3px",
-              border: "1px solid #D2D2D2",
-              fontSize: "11px",
-            },
-          }}
-          value={searchData.code}
-          onChange={(e) =>
-            handleSearchDataChange(e?.target?.value || "", "code")
-          }
-          placeholder="SEARCH BY CODE"
-        />
-        <TextField
-          sx={{
-            width: "175px",
-            backgroundColor: `${Colors.white}`,
-            boxSizing: "border-box",
-            "& .MuiInputBase-root": {
-              height: "30px",
-              borderRadius: "3px",
-              border: "1px solid #D2D2D2",
-              fontSize: "11px",
-            },
-          }}
-          value={searchData.name}
-          onChange={(e) =>
-            handleSearchDataChange(e?.target?.value || "", "name")
-          }
-          placeholder="SEARCH BY DESCRIPTION"
-        />
-        <SearchButton onClick={advanceSearch}>SEARCH</SearchButton>
-        <ClearButton onClick={resetSearch}>CLEAR FILTER</ClearButton>
-      </SearchWrapper> */}
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
