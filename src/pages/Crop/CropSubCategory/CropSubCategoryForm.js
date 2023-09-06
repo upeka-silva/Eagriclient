@@ -1,16 +1,10 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import {
@@ -153,7 +147,7 @@ const CropSubCategoryForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Sub Category ID</FieldName>
               <TextField
@@ -165,7 +159,9 @@ const CropSubCategoryForm = () => {
                   state?.action === DEF_ACTIONS.VIEW ||
                   state?.action === DEF_ACTIONS.EDIT
                 }
-                onChange={(e) => handleChange(e?.target?.value || "", "subCategoryId")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "subCategoryId")
+                }
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -175,7 +171,7 @@ const CropSubCategoryForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField
@@ -184,7 +180,9 @@ const CropSubCategoryForm = () => {
                 value={formData?.description || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "description")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "description")
+                }
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -194,7 +192,7 @@ const CropSubCategoryForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Category ID</FieldName>
               <Autocomplete

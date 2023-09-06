@@ -3,7 +3,14 @@ import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
 import { Routes } from "../../routes/routes";
-import { Button, IconButton, Popover, Typography } from "@mui/material";
+import {
+  Button,
+  IconButton,
+  Popover,
+  Typography,
+  Avatar,
+  Stack,
+} from "@mui/material";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
@@ -18,10 +25,16 @@ import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
 
 const ProfileImg = require("../../assets/images/profileImg.png");
+const ProfileImgBig = require("../../assets/images/profileImgBig.png");
 
 const AppHeader = () => {
   const [isProfileOptionsOpen, setProfileOptionsOpen] = useState(false);
   const [anchorElement, setAnchorEl] = React.useState(null);
+  const [variants, setVariants] = useState({
+    button1: "contained",
+    button2: "outlined",
+    button3: "outlined",
+  });
 
   const { user, resetAuthContext } = useAuthContext();
 
@@ -33,6 +46,23 @@ const AppHeader = () => {
   const closeProfileOptions = () => {
     setProfileOptionsOpen(false);
     setAnchorEl(null);
+  };
+
+  // Change the variant from 'outlined' to 'contained' when the button is clicked
+  const handleClick = (clickedButton) => {
+    const updatedButtonVariant = {};
+
+    // Set the clicked button to 'contained'
+    updatedButtonVariant[clickedButton] = "contained";
+
+    // Set all other buttons to 'outlined'
+    for (const variant in variants) {
+      if (variant !== clickedButton) {
+        updatedButtonVariant[variant] = "outlined";
+      }
+    }
+
+    setVariants(updatedButtonVariant);
   };
 
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
@@ -91,6 +121,10 @@ const AppHeader = () => {
 
   const logoutFunc = () => {
     initiateLogout(resetAuthContext, onSuccess, onError);
+  };
+
+  const profile = () => {
+    navigate("/new-user-registration");
   };
 
   return (
@@ -162,21 +196,51 @@ const AppHeader = () => {
             horizontal: "center",
           }}
         >
-          <div>
-            <Button variant="text" color="success" startIcon={<ProfileIcon />}>
-              Profile
-            </Button>
-
-            <br />
-            <Button
-              onClick={logoutFunc}
-              variant="text"
-              color="success"
-              startIcon={<ExitIcon />}
+          <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
+            <Avatar
+              alt="Profile Img"
+              src={ProfileImgBig}
+              sx={{ width: "98px", height: "98px" }}
+            />
+            <Typography variant="h6">Dinidu Hewage</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ marginTop: "0px !important" }}
             >
-              Logout
-            </Button>
-          </div>
+              Extension Officer | Colombo
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <Button
+                color="success"
+                variant={variants.button1}
+                onClick={() => handleClick("button1")}
+              >
+                EN
+              </Button>
+              <Button
+                color="success"
+                variant={variants.button2}
+                onClick={() => handleClick("button2")}
+              >
+                SI
+              </Button>
+              <Button
+                color="success"
+                variant={variants.button3}
+                onClick={() => handleClick("button3")}
+              >
+                TA
+              </Button>
+            </Stack>
+            <Stack spacing={2} sx={{ marginTop: "32px !important" }}>
+              <Button variant="contained" color="success" onClick={profile}>
+                VIEW PROFILE
+              </Button>
+              <Button variant="contained" color="success">
+                LOGOUT
+              </Button>
+            </Stack>
+          </Stack>
         </Popover>
       </ItemWrapper>
     </Wrapper>

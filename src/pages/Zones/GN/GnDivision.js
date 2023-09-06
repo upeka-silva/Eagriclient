@@ -262,7 +262,7 @@ const GnDivision = () => {
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
@@ -292,7 +292,7 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select District</FieldName>
               <Autocomplete
@@ -321,7 +321,7 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Ds Devision</FieldName>
               <Autocomplete
@@ -348,7 +348,7 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button
                 color="success"

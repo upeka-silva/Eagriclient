@@ -17,7 +17,7 @@ const AgrarDevDeptList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/department-of-agrarian-development"}
+        dataEndPoint={"geo-data/do_agrarian_development"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

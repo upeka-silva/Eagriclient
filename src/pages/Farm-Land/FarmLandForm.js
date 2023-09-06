@@ -231,7 +231,7 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
                 <TextField
@@ -253,7 +253,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
@@ -286,7 +286,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Protected House Type</FieldName>
@@ -326,7 +326,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Soil Type</FieldName>
@@ -358,7 +358,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Area</FieldName>
                 <TextField
@@ -379,7 +379,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Status</FieldName>
@@ -413,7 +413,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 01</FieldName>
                 <TextField
@@ -441,7 +441,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 02</FieldName>
                 <TextField
@@ -469,7 +469,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>City</FieldName>
                 <TextField
@@ -489,7 +489,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>District</FieldName>
@@ -520,7 +520,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={3}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>DS Division</FieldName>
@@ -551,7 +551,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={3}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>GN Division</FieldName>
@@ -582,7 +582,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Latitude</FieldName>
                 <TextField
@@ -605,7 +605,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Longitude</FieldName>
                 <TextField
@@ -628,7 +628,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Elevation</FieldName>
                 <TextField
@@ -682,7 +682,7 @@ const FarmLandForm = () => {
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
         <Box>
           <Grid container>
-            <Grid item lg={8}>
+            <Grid item sm={8} md={8} lg={8}>
               <FarmLandLocation />
             </Grid>
           </Grid>
@@ -733,7 +733,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Ownership ID</FieldName>
                 <TextField
@@ -755,7 +755,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Owner Type</FieldName>
@@ -787,7 +787,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid container style={{ display: `${otherField}` }}>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>NIC</FieldName>
                   <TextField
@@ -809,7 +809,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>Address Line 01</FieldName>
                   <TextField
@@ -831,7 +831,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>Address Line 02</FieldName>
                   <TextField
@@ -853,7 +853,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>City</FieldName>
                   <TextField
@@ -875,7 +875,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FormControl fullWidth>
                     <FieldName>GN Division</FieldName>
@@ -907,7 +907,7 @@ const FarmLandForm = () => {
                 </FieldWrapper>
               </Grid>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Ownership Proof Document</FieldName>
                 <TextField
@@ -935,7 +935,7 @@ const FarmLandForm = () => {
                 ></TextField>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Date From</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -961,7 +961,7 @@ const FarmLandForm = () => {
                 </LocalizationProvider>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Date Until</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1046,7 +1046,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Land ID</FieldName>
                 <TextField
@@ -1069,7 +1069,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Soil Type ID</FieldName>
                 <TextField

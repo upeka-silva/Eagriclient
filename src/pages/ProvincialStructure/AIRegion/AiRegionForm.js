@@ -6,20 +6,14 @@ import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
   get_ProvincialDoaList,
-  handleProvincialDoa,
-  updateProvincialDoa,
 } from "../../../redux/actions/ProvincialDoa/action";
 import {
   Autocomplete,
   Button,
   CircularProgress,
   Grid,
-  MenuItem,
-  Select,
   TextField,
-  getPaginationItemUtilityClass,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import {
   ActionWrapper,
@@ -28,17 +22,12 @@ import {
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
   get_ProvincialDdoaListByDoaId,
-  handleProvincialDdoa,
-  updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
 import {
-  get_ProvincialAIListByDoaId,
   handleProvincialAI,
   updateProvincialAI,
 } from "../../../redux/actions/provincialAI/action";
@@ -241,7 +230,7 @@ const ProvincialAiRegionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Region ID</FieldName>
             <TextField
@@ -265,8 +254,7 @@ const ProvincialAiRegionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-
-        <Grid item lg={4}>
+        <Grid item sm={5} md={5} lg={5}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField
@@ -287,95 +275,7 @@ const ProvincialAiRegionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        {/* <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Parent Type</FieldName>
-
-            <Select
-              value={formData?.parentType || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "parentType")
-              }
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"PROVINCIAL"}>Provincial</MenuItem>
-              <MenuItem value={"INTERPROVINCIAL"}>Inter Provincial</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid> */}
-         <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Select Provincial DOA</FieldName>
-              <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={doas}
-                value={selectedDoa}
-                getOptionLabel={(i) =>
-                  `${i?.proDirectorId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDoa(value);
-                  setSelectedDdoa({ provincialDdId: "", description: "" });
-                  setSelectedAda({
-                    provinceSegmentId:"",
-                    description:""
-                  })
-                  getDDOAS(value.id)
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Select Provincial DDOA</FieldName>
-              <Autocomplete
-                disabled={selectedDoa?.id == null}
-                options={ddoas}
-                value={selectedDdoa}
-                getOptionLabel={(i) =>
-                  `${i?.provincialDdId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDdoa(value);
-                  setSelectedAda({
-                    provinceSegmentId:"",
-                    description:""
-                  })
-                  getADAS(value.id);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Provincial Ada Segment</FieldName>
             <Autocomplete

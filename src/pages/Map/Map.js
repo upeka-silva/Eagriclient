@@ -65,7 +65,7 @@ export default function MapView() {
   return (
     <div>
       <Grid container>
-        <Grid item lg={12} sx={{ paddingTop: "20px" }}>
+        <Grid item sm={12} md={12} lg={12} sx={{ paddingTop: "20px" }}>
           <MapContainer ref={mapContainer} />
         </Grid>
       </Grid>

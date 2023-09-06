@@ -127,7 +127,7 @@ const CropForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Crop ID</FieldName>
               <TextField
@@ -147,7 +147,7 @@ const CropForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField
@@ -168,7 +168,7 @@ const CropForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Sub Category ID</FieldName>
               <Autocomplete
@@ -189,7 +189,7 @@ const CropForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Crop Image</FieldName>
               <TextField
@@ -212,7 +212,7 @@ const CropForm = () => {
               ></TextField>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Crop Type</FieldName>
               <Select
@@ -235,7 +235,7 @@ const CropForm = () => {
               </Select>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Scientific Name</FieldName>
               <TextField

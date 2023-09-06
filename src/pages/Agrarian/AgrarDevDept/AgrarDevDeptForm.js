@@ -124,7 +124,7 @@ const AgrarDevDeptForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>AgrarDevDept ID</FieldName>
             <TextField
@@ -150,7 +150,7 @@ const AgrarDevDeptForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>AgrarDevDept Name</FieldName>
             <TextField

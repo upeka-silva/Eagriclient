@@ -449,7 +449,7 @@ const GnDivisionForm = () => {
           marginY: "0px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Division ID</FieldName>
             <TextField
@@ -474,7 +474,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Division Name</FieldName>
             <TextField
@@ -899,7 +899,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Mahaweli Unit</FieldName>
             <Autocomplete
@@ -1012,7 +1012,7 @@ const GnDivisionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Total Households</FieldName>
             <TextField
@@ -1040,7 +1040,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Total Population</FieldName>
             <TextField
@@ -1068,7 +1068,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Male Population</FieldName>
             <TextField
@@ -1096,7 +1096,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Female Population</FieldName>
             <TextField
@@ -1135,7 +1135,7 @@ const GnDivisionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Select measurement type</FieldName>
 
@@ -1159,13 +1159,12 @@ const GnDivisionForm = () => {
               <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
             </Select>
           </FieldWrapper>
-        </Grid>
-       
+        </Grid>       
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Agriculture Land Area</FieldName>
             <Grid container>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <TextField
                   name="agriculturalLandArea"
                   id="agriculturalLandArea"
@@ -1185,7 +1184,7 @@ const GnDivisionForm = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <Autocomplete
                   disabled
                   open={open}
@@ -1214,12 +1213,12 @@ const GnDivisionForm = () => {
             </Grid>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Non - Agriculture Land Area</FieldName>
 
             <Grid container>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <TextField
                   name="nonAgriculturalLandArea"
                   id="nonAgriculturalLandArea"
@@ -1242,7 +1241,7 @@ const GnDivisionForm = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <Autocomplete
                   disabled
                   open={open}
@@ -1270,11 +1269,11 @@ const GnDivisionForm = () => {
             </Grid>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Crop Area</FieldName>
             <Grid container>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <TextField
                   name="cropArea"
                   id="cropArea"
@@ -1294,7 +1293,7 @@ const GnDivisionForm = () => {
                   size="small"
                 />
               </Grid>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <Autocomplete
                   disabled
                   open={open}

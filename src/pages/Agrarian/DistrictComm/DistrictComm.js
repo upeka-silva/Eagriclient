@@ -228,7 +228,7 @@ const DistrictComm = () => {
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select AgrarDevDept</FieldName>
               <Autocomplete
@@ -256,7 +256,7 @@ const DistrictComm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button
                 color="success"

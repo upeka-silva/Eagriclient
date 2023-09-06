@@ -11,8 +11,11 @@ const ARPAList = ({
   const columns = [
     { field: "arpaId", headerName: "ID" },
     { field: "name", headerName: "Name" },
-    { field: "ascDto.ascId", headerName: "ASC ID" },
-    { field: "ascDto.name", headerName: "ASC Name" },
+    {
+      field: ["ascDto.ascId", "ascDto.name"],
+      joinString: " - ",
+      headerName: "ASC Division",
+    },
   ];
   return (
     <TableWrapper>
