@@ -45,6 +45,8 @@ import {
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const InterProvincialAiRegionForm = () => {
   useUserAccessValidation();
@@ -102,15 +104,15 @@ const InterProvincialAiRegionForm = () => {
       setSelectedDoa({
         doaId: "",
         description: "",
-      })
+      });
       setSelectedDdoa({
         ddId: "",
         description: "",
-      })
+      });
       setSelectedAda({
         segmentId: "",
         description: "",
-      })
+      });
     }
   };
 
@@ -201,20 +203,8 @@ const InterProvincialAiRegionForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Inter Provincial AI Region
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="AI Region" />
       <ButtonWrapper
         isCeneter
         style={{
@@ -261,7 +251,6 @@ const InterProvincialAiRegionForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -281,12 +270,11 @@ const InterProvincialAiRegionForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "regionId")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{style: {textTransform: 'uppercase'}}}
               size="small"
             />
           </FieldWrapper>
@@ -326,7 +314,7 @@ const InterProvincialAiRegionForm = () => {
                 setSelectedDoa(value);
                 setSelectedDdoa({ ddId: "", description: "" });
                 setSelectedAda({
-                 segmentId: "",
+                  segmentId: "",
                   description: "",
                 });
                 getDDOAS(value.id);
