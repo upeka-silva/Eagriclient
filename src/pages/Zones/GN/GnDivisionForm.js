@@ -1199,7 +1199,7 @@ const GnDivisionForm = () => {
             <FieldName>Select measurement type</FieldName>
 
             <Select
-              value={formData?.mahaweliSystem || ""}
+              value={formData?.userSelectedUnit || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "userSelectedUnit")
@@ -1218,7 +1218,7 @@ const GnDivisionForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Land Area</FieldName>
             <TextField
@@ -1227,8 +1227,28 @@ const GnDivisionForm = () => {
               value={formData?.landArea || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item lg={3}>
+          <FieldWrapper>
+            <FieldName>Agriculture Land Area</FieldName>
+
+            <TextField
+              name="agriculturalLandArea"
+              id="agriculturalLandArea"
+              value={formData?.agriculturalLandArea || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "landArea")
+                handleChange(e?.target?.value || "", "agriculturalLandArea")
               }
               sx={{
                 "& .MuiInputBase-root": {
@@ -1239,156 +1259,46 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Agriculture Land Area</FieldName>
-            <Grid container>
-              <Grid item sm={6} md={6} lg={6}>
-                <TextField
-                  name="agriculturalLandArea"
-                  id="agriculturalLandArea"
-                  value={formData?.agriculturalLandArea || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "agriculturalLandArea")
-                  }
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  size="small"
-                />
-              </Grid>
-              <Grid item sm={6} md={6} lg={6}>
-                <Autocomplete
-                  disabled
-                  open={open}
-                  disablePortal
-                  options=""
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{
-                        "& .MuiInputBase-root": {
-                          textAlign: "center",
-
-                          borderRadius: "8px",
-                          marginLeft: "10px",
-                        },
-                      }}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      size="small"
-                    />
-                  )}
-                  fullWidth
-                />
-              </Grid>
-            </Grid>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Non - Agriculture Land Area</FieldName>
 
-            <Grid container>
-              <Grid item sm={6} md={6} lg={6}>
-                <TextField
-                  name="nonAgriculturalLandArea"
-                  id="nonAgriculturalLandArea"
-                  value={formData?.nonAgriculturalLandArea || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(
-                      e?.target?.value || "",
-                      "nonAgriculturalLandArea"
-                    )
-                  }
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  size="small"
-                />
-              </Grid>
-              <Grid item sm={6} md={6} lg={6}>
-                <Autocomplete
-                  disabled
-                  open={open}
-                  disablePortal
-                  options=""
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{
-                        "& .MuiInputBase-root": {
-                          textAlign: "center",
-
-                          borderRadius: "8px",
-                          marginLeft: "10px",
-                        },
-                      }}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      size="small"
-                    />
-                  )}
-                />
-              </Grid>
-            </Grid>
+            <TextField
+              name="nonAgriculturalLandArea"
+              id="nonAgriculturalLandArea"
+              value={formData?.nonAgriculturalLandArea || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "nonAgriculturalLandArea")
+              }
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Crop Area</FieldName>
-            <Grid container>
-              <Grid item sm={6} md={6} lg={6}>
-                <TextField
-                  name="cropArea"
-                  id="cropArea"
-                  value={formData?.cropArea || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "cropArea")
-                  }
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  size="small"
-                />
-              </Grid>
-              <Grid item sm={6} md={6} lg={6}>
-                <Autocomplete
-                  disabled
-                  open={open}
-                  disablePortal
-                  options=""
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      sx={{
-                        "& .MuiInputBase-root": {
-                          textAlign: "center",
 
-                          borderRadius: "8px",
-                          marginLeft: "10px",
-                        },
-                      }}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      size="small"
-                    />
-                  )}
-                />
-              </Grid>
-            </Grid>
+            <TextField
+              name="cropArea"
+              id="cropArea"
+              value={formData?.cropArea || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
           </FieldWrapper>
         </Grid>
       </Grid>
