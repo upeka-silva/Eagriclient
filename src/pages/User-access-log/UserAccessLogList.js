@@ -1,6 +1,7 @@
 import React from "react";
-import { TableWrapper } from "../../components/PageLayout/TableWrapper";
+import { CardWrapper } from "../../components/PageLayout/Card";
 import { DataTable } from "../../components/PageLayout/Table";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 
 const UserAccessLogList = ({
   selectedRows = [],
