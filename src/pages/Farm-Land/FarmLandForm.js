@@ -231,7 +231,7 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
                 <TextField
@@ -253,7 +253,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
@@ -286,7 +286,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Protected House Type</FieldName>
@@ -326,7 +326,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
 
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Soil Type</FieldName>
@@ -358,7 +358,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Area</FieldName>
                 <TextField
@@ -379,7 +379,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Status</FieldName>

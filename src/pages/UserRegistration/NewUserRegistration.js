@@ -42,8 +42,8 @@ const NewUserRegistration = () => {
           Edit
         </Button>
       </Box>
-      <Grid container spacing={2} mt={1} pr={22}>
-        <Grid item xs={6}>
+      <Grid container spacing={2} mt={1}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>First Name</FieldName>
             <TextField
@@ -59,7 +59,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Last Name</FieldName>
             <TextField
@@ -75,7 +75,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Email</FieldName>
             <TextField
@@ -91,7 +91,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Phone Number</FieldName>
             <TextField
@@ -107,7 +107,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <FieldWrapper>
             <FieldName>Address</FieldName>
             <TextField
@@ -123,7 +123,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Date of Birth</FieldName>
             <TextField
@@ -139,7 +139,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Gender</FieldName>
             <TextField
@@ -155,7 +155,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={3}>
           <FieldWrapper>
             <FieldName>Nationality</FieldName>
             <TextField
@@ -171,7 +171,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={2}>
           <FieldWrapper>
             <FieldName>User Type</FieldName>
             <TextField
@@ -187,7 +187,7 @@ const NewUserRegistration = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={2}>
           <FieldWrapper>
             <FieldName>User Role</FieldName>
             <TextField
