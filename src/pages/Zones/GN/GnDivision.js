@@ -33,10 +33,12 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Search } from "@mui/icons-material";
+import { Add, RestartAlt, Search } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const GnDivision = () => {
@@ -182,10 +184,30 @@ const GnDivision = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
+  const getFilteredData = (selectedDsDevision) => {
     setDataEndPoint(
       `geo-data/gn-divisions/ds-division/` + selectedDsDevision?.id
     );
+  };
+
+  const resetFilter = () => {
+    setSelectedProvince({ code: "", name: "" });
+    setSelectedDistrict({ code: "", name: "" });
+    setSelectedDsDevision({ code: "", name: "" });
+    setDataEndPoint("geo-data/gn-divisions");
+  };
+
+  const getDistricts = (id) => {
+    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDistrics(dataList);
+    });
+  };
+  const getDsDivisions = (id) => {
+    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDsDivisions(dataList);
+    });
   };
 
   return (
@@ -253,7 +275,8 @@ const GnDivision = () => {
                   setSelectedProvince(value);
                   setSelectedDistrict({ name: "", code: "" });
                   setSelectedDsDevision({ name: "", code: "" });
-                  setDistrics(value?.districtDTOList);
+                  // setDistrics(value?.districtDTOList);
+                  getDistricts(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -281,7 +304,8 @@ const GnDivision = () => {
                   console.log(value);
                   setSelectedDistrict(value);
                   setSelectedDsDevision({ name: "", code: "" });
-                  setDsDivisions(value.dsDivisionDTOList);
+                  // setDsDivisions(value.dsDivisionDTOList);
+                  getDsDivisions(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -308,6 +332,7 @@ const GnDivision = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDsDevision(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable
@@ -329,11 +354,11 @@ const GnDivision = () => {
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

@@ -1,8 +1,9 @@
 import React from "react";
-import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const MahaweliBlockList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -19,6 +20,7 @@ const MahaweliBlockList = ({
     { field: "nonIrrigatedArea", headerName: "Non Irrigated Area" },
     { field: "soilTexture", headerName: "Soil Texture" },
   ];
+
   return (
     <TableWrapper>
       <DataTable

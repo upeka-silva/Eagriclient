@@ -1,13 +1,17 @@
-import {put ,post, api_delete, get } from "../../../../services/api";
-import { defaultMessages } from "../../../../utils/constants/apiMessages";
+import { put, post, api_delete, get } from "../../../services/api";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleMahaweliBlock = async (
+export const handleMahaweliSystem = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/mahaweli-blocks", payload, true);
+    const response = await post(
+      "geo-data/mahaweli-systems",
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -15,8 +19,7 @@ export const handleMahaweliBlock = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,34 +38,17 @@ export const handleMahaweliBlock = async (
   }
 };
 
-export const get_mahaweliBlockList = async (
-  ) => {
-    try {
-      const { httpCode, payloadDto } = await get("geo-data/mahaweli-blocks", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
-      return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
-    }
-  };
-
-
-export const updateMahaweliBlock = async (
+export const updateMahaweliSystem= async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/mahaweli-blocks/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/mahaweli-systems/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -70,8 +56,7 @@ export const updateMahaweliBlock = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -90,15 +75,17 @@ export const updateMahaweliBlock = async (
   }
 };
 
-
-export const deleteMahaweliBlock = async (
+export const deleteMahaweliSystem = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/mahaweli-blocks/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `geo-data/mahaweli-systems/${id || ""}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -106,8 +93,7 @@ export const deleteMahaweliBlock = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -123,4 +109,26 @@ export const deleteMahaweliBlock = async (
       onError(error);
     }
   }
-}
+};
+
+export const get_MahaweliSystemList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/mahaweli-systems",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
