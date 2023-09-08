@@ -236,7 +236,7 @@ const AppHeader = () => {
               <Button variant="contained" color="success" onClick={profile}>
                 VIEW PROFILE
               </Button>
-              <Button variant="contained" color="success">
+              <Button variant="contained" color="success" onClick={logoutFunc}>
                 LOGOUT
               </Button>
             </Stack>
