@@ -127,7 +127,8 @@ const DynamicFormListGap = ({
 
     const handle = async (event, data, functionMode) => {
 
-        const answerList = [];
+        console.log('handled data ', data);
+        const auditAnswers = [];
         const keysArray = Object.keys(data);
 
         for (const qKey of keysArray) {
@@ -136,7 +137,7 @@ const DynamicFormListGap = ({
                 const parts = qKey.split('_');
                 const questionId = parts[1];
                 const answer = data[qKey];
-                answerList.push({
+                auditAnswers.push({
                                     question: {
                                         id: questionId
                                     },
@@ -145,14 +146,18 @@ const DynamicFormListGap = ({
             }
 
         }
-        console.log('answerList ', answerList);
+        console.log('auditAnswers ', auditAnswers);
 
         const saveData = {
-            assessmentId: data.assessmentId,
-            farmLand: {
-                id: 1 // TODO
+            templateId: formTemplate.id,
+            auditId: data.auditId,
+            gapRequestDto: {
+                id: 1
             },
-            answerList: answerList
+            description: data.description,
+            auditCategory: data.auditCategory,
+            auditSubCategory: data.auditSubCategory,
+            auditAnswers: auditAnswers
         }
 
         setSaving(true);
@@ -233,7 +238,10 @@ const DynamicFormListGap = ({
                     <TableHead>
                         <TableRow>
                             <TableCell>ID</TableCell>
-                            <TableCell>Assessment Id</TableCell>
+                            <TableCell>Audit Id</TableCell>
+                            <TableCell>Description</TableCell>
+                            <TableCell>Category</TableCell>
+                            <TableCell>Sub Category</TableCell>
                             <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -241,7 +249,10 @@ const DynamicFormListGap = ({
                         {(dataListTemplates.length > 0) && dataListTemplates.map((row, index) => (
                             <TableRow key={row.name}>
                                 <TableCell>{row.id}</TableCell>
-                                <TableCell>{row.assessmentId}</TableCell>
+                                <TableCell>{row.auditId}</TableCell>
+                                <TableCell>{row.description}</TableCell>
+                                <TableCell>{row.auditCategory}</TableCell>
+                                <TableCell>{row.auditSubCategory}</TableCell>
                                 <TableCell>
                                     <Button
                                         onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}

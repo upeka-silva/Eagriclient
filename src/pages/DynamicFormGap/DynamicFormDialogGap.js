@@ -37,14 +37,17 @@ export default function DynamicFormDialogGap({
         console.log('initial d ', formData);
         console.log('initial d ', mode);
         const newOne = {};
-        newOne.assessmentId = formData.assessmentId;
+        newOne.auditId = formData.auditId;
         newOne.id = formData.id;
+        newOne.description = formData.description;
+        newOne.auditCategory = formData.auditCategory;
+        newOne.auditSubCategory = formData.auditSubCategory;
         let idKey = '';
         let idAnsKey = '';
-        console.log('dddd ', formData?.answerList);
-        if (formData?.answerList && formData?.answerList?.length > 0) {
+        console.log('dddd ', formData?.auditAnswers);
+        if (formData?.auditAnswers && formData?.auditAnswers?.length > 0) {
 
-            for (const answer of formData?.answerList) {
+            for (const answer of formData?.auditAnswers) {
                 idKey = 'question_' + answer?.question?.id;
                 idAnsKey = 'answer_' + answer?.question?.id;
                 newOne[idKey] = answer?.question?.questionString;
@@ -150,14 +153,14 @@ export default function DynamicFormDialogGap({
                 >
                     <Grid item lg={5}>
                         <FieldWrapper>
-                            <FieldName>Assessment ID</FieldName>
+                            <FieldName>Audit ID</FieldName>
                             <TextField
-                                name="assessmentId"
-                                id="assessmentId"
-                                value={formDataQ?.assessmentId || ""}
+                                name="auditId"
+                                id="auditId"
+                                value={formDataQ?.auditId || ""}
                                 disabled={mode === DEF_ACTIONS.VIEW}
                                 onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "assessmentId")
+                                    handleChange(e?.target?.value || "", "auditId")
                                 }
                                 size="small"
                                 fullWidth
@@ -170,8 +173,81 @@ export default function DynamicFormDialogGap({
                             />
                         </FieldWrapper>
                     </Grid>
+
+                    <Grid item lg={5}>
+                        <FieldWrapper>
+                            <FieldName>description</FieldName>
+                            <TextField
+                                name="description"
+                                id="description"
+                                value={formDataQ?.description || ""}
+                                disabled={mode === DEF_ACTIONS.VIEW}
+                                onChange={(e) =>
+                                    handleChange(e?.target?.value || "", "description")
+                                }
+                                size="small"
+                                fullWidth
+                                sx={{
+                                    "& .MuiInputBase-root": {
+                                        borderRadius: "8px",
+                                        backgroundColor: `${Colors.white}`,
+                                    },
+                                }}
+                            />
+                        </FieldWrapper>
+                    </Grid>
+
+                    <Grid item lg={5}>
+                        <FieldWrapper>
+                            <FieldName>category</FieldName>
+                            <Select
+                                value={formDataQ?.auditCategory || ""}
+                                disabled={mode === DEF_ACTIONS.VIEW}
+                                onChange={(e) =>
+                                    handleChange(e?.target?.value || "", "auditCategory")
+                                }
+                                sx={{
+                                    // width: "264px",
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                    backgroundColor: `${Colors.white}`,
+                                }}
+                                size="small"
+                                fullWidth
+                            >
+                                <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
+                                <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
+                            </Select>
+                        </FieldWrapper>
+                    </Grid>
+
+                    <Grid item lg={5}>
+                        <FieldWrapper>
+                            <FieldName>sub cat</FieldName>
+                            <Select
+                                value={formDataQ?.auditSubCategory || ""}
+                                disabled={mode === DEF_ACTIONS.VIEW}
+                                onChange={(e) =>
+                                    handleChange(e?.target?.value || "", "auditSubCategory")
+                                }
+                                sx={{
+                                    // width: "264px",
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                    backgroundColor: `${Colors.white}`,
+                                }}
+                                size="small"
+                                fullWidth
+                            >
+                                <MenuItem value={"VEG"}>Veg</MenuItem>
+                                <MenuItem value={"FRUIT"}>Fruit</MenuItem>
+                                <MenuItem value={"PADDY"}>Paddy</MenuItem>
+                            </Select>
+                        </FieldWrapper>
+                    </Grid>
+
                     <Grid item lg={7}></Grid>
-                    {formData?.answerList?.map((item, index) => (
+                    {formData?.auditAnswers?.map((item, index) => (
                         <Grid item lg={6}>
                             <FieldWrapper>
                                 <FieldName>{index + 1}. {item?.question?.questionString} ?</FieldName>
