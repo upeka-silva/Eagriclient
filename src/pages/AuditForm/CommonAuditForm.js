@@ -56,16 +56,16 @@ const CommonAuditForm = ({
 
         if (auditFormType === 'SELF_ASSESSMENT') {
             listPath = 'self-assessment';
-            formHeader = 'SELF ASSESSMENT FORM';
+            formHeader = 'Self Assessment Form';
         } else if (auditFormType === 'INTERNAL_AUDIT') {
             listPath = 'internal-audit';
-            formHeader = 'INTERNAL AUDIT FORM';
+            formHeader = 'Internal Audit Form';
         } else if (auditFormType === 'EXTERNAL_AUDIT') {
             listPath = 'external-audit';
-            formHeader = 'EXTERNAL AUDIT FORM';
+            formHeader = 'External Audit Form';
         } else if (auditFormType === 'BASIC_ASSESSMENT') {
             listPath = 'basic-assessment';
-            formHeader = 'BASIC ASSESSMENT FORM';
+            formHeader = 'Basic Assessment Form';
         }
 
     }
@@ -335,9 +335,9 @@ const CommonAuditForm = ({
                             size="small"
                             fullWidth
                         >
-                            <MenuItem value={"VEG"}>VEG</MenuItem>
-                            <MenuItem value={"FRUIT"}>FRUIT</MenuItem>
-                            <MenuItem value={"PADDY"}>PADDY</MenuItem>
+                            <MenuItem value={"VEG"}>Veg</MenuItem>
+                            <MenuItem value={"FRUIT"}>Fruit</MenuItem>
+                            <MenuItem value={"PADDY"}>Paddy</MenuItem>
                         </Select>
                     </FieldWrapper>
                 </Grid>

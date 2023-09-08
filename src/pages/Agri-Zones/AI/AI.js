@@ -27,6 +27,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const AI = () => {
   useUserAccessValidation();
@@ -149,6 +150,7 @@ const AI = () => {
 
   return (
     <div>
+      <ListHeader title="AI Regions" />
       <ActionWrapper isLeft>
       <ButtonGroup
           variant="outlined"

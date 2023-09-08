@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import {
   TextField,
   Button,
-  CircularProgress,
   Autocomplete,
   Grid,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -18,27 +16,23 @@ import {
 } from "../../../redux/actions/dsDivision/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
 
 import {
-  ActionWrapper,
-  makeCapitalize,
+  ActionWrapper
 } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { useEffect } from "react";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-  console.log(state)
+  console.log(state);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -122,63 +116,49 @@ const DsDivisionForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button  startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success">
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName >{getPathName()}</PathName> */}
-      <FormHeader >
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} DS Division
-      </FormHeader>
-      <ButtonWrapper style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="DS Division" />
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-                <Button variant="contained" color="success" size="small">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
+              <Button variant="contained" color="success" size="small">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
@@ -189,7 +169,6 @@ const DsDivisionForm = () => {
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-          
         }}
       >
         <Grid item lg={3}>
@@ -206,12 +185,11 @@ const DsDivisionForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -261,7 +239,6 @@ const DsDivisionForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };

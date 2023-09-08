@@ -123,14 +123,169 @@ export const getFormTemplateByType = async (
   }
 };
 
+export const getFormTemplatesByFormLandId = async (
+    formLandId = null,
+    type = ''
+) => {
+  try {
+    const {httpCode, payloadDto} = await get("farm-land/" + formLandId + '/' + type, true);
+    if (httpCode === '200 OK') {
+      return {
+        data: payloadDto
+      }
+    }
+    return {
+      data: {}
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      data: {}
+    }
+  }
+};
+
+export const getFormTemplatesByGapReqId = async (
+    gapReqId = null,
+    type = ''
+) => {
+  try {
+    const {httpCode, payloadDto} = await get("gap-request/" + gapReqId + '/' + type, true);
+    if (httpCode === '200 OK') {
+      return {
+        data: payloadDto
+      }
+    }
+    return {
+      data: {}
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      data: {}
+    }
+  }
+};
+
 export const saveFormDataWithValues = async (
+    farmLandId = '',
     uri = '',
     payload = {},
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
   try {
-    const response = await post(uri, payload, true);
+    const response = await post('farm-land/' + farmLandId + '/' + uri, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess(response);
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                  response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const saveGapDataWithValues = async (
+    gapId = '',
+    uri = '',
+    payload = {},
+    onSuccess = () => { },
+    onError = (_message) => { }
+) => {
+  try {
+    const response = await post('gap-request/' + gapId + '/' + uri, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess(response);
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                  response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateFormDataWithValues = async (
+    id = '',
+    farmLandId = '',
+    uri = '',
+    payload = {},
+    onSuccess = () => { },
+    onError = (_message) => { }
+) => {
+  try {
+    const response = await put('farm-land/' + farmLandId + '/' + uri + '/' + id, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess(response);
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                  response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateGapDataWithValues = async (
+    id = '',
+    gapId = '',
+    uri = '',
+    payload = {},
+    onSuccess = () => { },
+    onError = (_message) => { }
+) => {
+  try {
+    const response = await put('gap-request/' + gapId + '/' + uri + '/' + id, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess(response);
     } else {
@@ -159,3 +314,40 @@ export const saveFormDataWithValues = async (
 };
 
 
+export const fileUploadForm = async (
+    farmLandId = '',
+    uri = '',
+    assessmentId = '',
+    payload = {},
+    onSuccess = () => { },
+    onError = (_message) => { }
+) => {
+  try {
+    ///farm-land/{farmLandId}/self-assessment/{assessmentId}
+    const response = await post('farm-land/' + farmLandId + '/' + uri + '/' + assessmentId, payload, true, null, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess(response);
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                  response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+};

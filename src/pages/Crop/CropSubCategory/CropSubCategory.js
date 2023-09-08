@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import CropSubCategoryList from "./CropSubCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -34,7 +33,7 @@ import {
   CheckRounded,
   CancelOutlined,
 } from "@mui/icons-material";
-import { Fonts } from "../../../utils/constants/Fonts";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -155,14 +154,7 @@ const CropSubCategory = () => {
 
   return (
     <div>
-      <Typography
-        variant="h6"
-        fontWeight={500}
-        mt={1}
-        fontFamily={Fonts.fontStyle1}
-      >
-        Crop Sub Category
-      </Typography>
+      <ListHeader title="Crop Sub Category" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

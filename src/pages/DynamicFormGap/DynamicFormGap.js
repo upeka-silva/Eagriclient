@@ -23,10 +23,10 @@ import {FieldName} from "../../components/FormLayout/FieldName";
 import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
 import {Add, ArrowCircleLeftRounded, Edit} from "@mui/icons-material";
 import {
-    getFormTemplateByType,
+    getFormTemplateByType, getFormTemplatesByGapReqId,
     handleAuditForm,
-    saveFormDataWithValues,
-    updateAuditForm
+    saveFormDataWithValues, saveGapDataWithValues,
+    updateAuditForm, updateGapDataWithValues
 } from "../../redux/actions/auditForm/action";
 import CommonQuestionList from "./../../pages/AuditForm/CommonQuestionList";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -36,9 +36,11 @@ import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
 import {DataGrid} from "@mui/x-data-grid";
 import {handleFarmLand, updateFarmLand} from "../../redux/actions/farmLand/action";
 import Checkbox from "@mui/material/Checkbox";
+import FileUploadDynamic from "./FileUploadDynamic";
 
-const DynamicForm = ({
-                         auditFormType = ''
+const DynamicFormGap = ({
+                         auditFormType = '',
+                         afterSave
                      }) => {
     useUserAccessValidation();
     const {state} = useLocation();
@@ -98,8 +100,58 @@ const DynamicForm = ({
         return false;
     };
 
-    const onSuccess = () => {
-        addSnackBar({
+    const onSuccessSave = async (response) => {
+        console.log('response after sacve', response );
+
+        const id = response?.payload?.id;
+
+        console.log('form ', formData);
+
+        const answerList = [];
+        const keysArray = Object.keys(formData);
+        //console.log('keysArray ', keysArray);
+
+        for (const qKey of keysArray) {
+            console.log(qKey);
+            if (qKey.indexOf('question_') !== -1) {
+                const parts = qKey.split('_');
+                const questionId = parts[1];
+                const answer = formData[qKey];
+                answerList.push({
+                    question: {
+                        id: questionId
+                    },
+                    answer: answer,
+                    proofDocs: []
+                });
+            }
+
+        }
+        console.log('answerList ', answerList);
+
+
+        const updateData = {
+            id: id,
+            templateId: formTemplate.id,
+            auditId: formData.auditId,
+            gapRequestDto: {
+                id: 1
+            },
+            description: 'test desc',
+            auditCategory: 'SL-GAP',
+            auditSubCategory: 'fruit',
+            auditAnswers: answerList
+        }
+
+        try {
+            //if (formData?.id) {
+                await updateGapDataWithValues(id, 1, uriPath, updateData, onSuccess, onError);
+            //}
+        } catch (error) {
+            console.log(error);
+        }
+
+/*        addSnackBar({
                         type: SnackBarTypes.success,
                         message:
                             state?.action === DEF_ACTIONS.ADD
@@ -107,6 +159,20 @@ const DynamicForm = ({
                             : "Successfully Updated",
                     });
         setSaving(false);
+        afterSave();*/
+    };
+
+    const onSuccess = async (response) => {
+                addSnackBar({
+                                type: SnackBarTypes.success,
+                                message:
+                                    state?.action === DEF_ACTIONS.ADD
+                                    ? "Successfully Added"
+                                    : "Successfully Updated",
+                            });
+                setSaving(false);
+                afterSave();
+
     };
 
     const onError = (message) => {
@@ -119,43 +185,21 @@ const DynamicForm = ({
 
     const handleFormSubmit = async () => {
         if (enableSave()) {
-            console.log('form ', formData);
 
-            const answerList = [];
-            const keysArray = Object.keys(formData);
-            //console.log('keysArray ', keysArray);
-
-            for (const qKey of keysArray) {
-                console.log(qKey);
-                if (qKey.indexOf('question_') !== -1) {
-                    const parts = qKey.split('_');
-                    const questionId = parts[1];
-                    const answer = formData[qKey];
-                    answerList.push({
-                                        question: {
-                                            id: questionId
-                                        },
-                                        answer: answer
-                                    });
-                }
-
-            }
-            console.log('answerList ', answerList);
 
             const saveData = {
-                assessmentId: formData.assessmentId,
-                farmLand: {
+                templateId: formTemplate.id,
+                gapRequestDto: {
                     id: 1 // TODO
-                },
-                answerList: answerList
+                }
             }
 
             setSaving(true);
             try {
                 if (formData?.id) {
-                    //await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
+                    console.log('ERRRRRRRRRRR');
                 } else {
-                    await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
+                    await saveGapDataWithValues(1, uriPath, saveData, onSuccessSave, onError);
                 }
             } catch (error) {
                 console.log(error);
@@ -184,11 +228,12 @@ const DynamicForm = ({
     populateAttributes();
 
     useEffect(() => {
+        //question-form-template/type/" + type
         getFormTemplateByType(auditFormType).then(({data = {}}) => {
             //setDistrict(dataList);
             console.log('res ', data);
             setFormTemplate(data);
-            console.log('formTemplate ', formTemplate);
+            console.log('formTemplate11 ', formTemplate);
         });
     }, []);
 
@@ -222,7 +267,7 @@ const DynamicForm = ({
                                      size="small"
                                      sx={{marginLeft: "10px"}}
                                  >
-                                     RESET
+                                     RESET11
                                  </Button>
                              </>
                          )}
@@ -241,12 +286,12 @@ const DynamicForm = ({
                         <FieldWrapper>
                             <FieldName>Assessment ID</FieldName>
                             <TextField
-                                name="assessmentId"
-                                id="assessmentId"
-                                value={formData?.assessmentId || ""}
+                                name="auditId"
+                                id="auditId"
+                                value={formData?.auditId || ""}
                                 disabled={state?.action === DEF_ACTIONS.VIEW}
                                 onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "assessmentId")
+                                    handleChange(e?.target?.value || "", "auditId")
                                 }
                                 size="small"
                                 fullWidth
@@ -257,12 +302,14 @@ const DynamicForm = ({
                                     },
                                 }}
                             />
+
                         </FieldWrapper>
                     </Grid>
+                    <Grid item lg={7}></Grid>
                     {formTemplate?.questionDTOS?.map((item, index) => (
-                    <Grid item lg={8}>
+                    <Grid item lg={6}>
                         <FieldWrapper>
-                            <FieldName>{item.questionString} ?</FieldName>
+                            <FieldName>{index + 1}. {item.questionString} ?</FieldName>
 
                             {item.questionType === 'TEXT' &&
                              <TextField
@@ -306,4 +353,4 @@ const DynamicForm = ({
     );
 };
 
-export default DynamicForm;
+export default DynamicFormGap;

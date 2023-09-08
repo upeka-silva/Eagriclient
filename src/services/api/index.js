@@ -148,7 +148,8 @@ const post = async (
 	path = '',
 	req,
 	requestToken = false,
-	requestSecret = null
+	requestSecret = null,
+	isMultiPart = false
 ) => {
 	let signature = '';
 	if (requestSecret) {
@@ -171,6 +172,9 @@ const post = async (
 
 	configHeaders.headers['Access-Control-Allow-Origin'] = '*';
 	configHeaders.headers['Access-Control-Allow-Credentials'] = 'true';
+	if (isMultiPart) {
+		configHeaders.headers['Content-type'] = 'multipart/form-data';
+	}
 
 	let url = baseURL + path;
 

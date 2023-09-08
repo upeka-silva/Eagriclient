@@ -23,6 +23,34 @@ export const get_DataList = async (path, page = 0, size = 10) => {
 		};
 	}
 };
+export const get_DataListById = async (path) => {
+	console.log(path)
+	try {
+		console.log("try")
+		const { totalElements, httpCode, payload } = await get(
+			`${path}`,
+			true
+		);
+		if (httpCode === '200 OK') {
+			return {
+				dataList: payload,
+				totalcount: totalElements,
+			};
+		}
+		return {
+			dataList: [],
+			totalcount: 0,
+			
+		};
+
+	} catch (error) {
+		console.log(error);
+		return {
+			dataList: [],
+			totalcount: 0,
+		};
+	}
+};
 
 export const post_DataList = async (path, page = 0, size = 10, body = {}) => {
 	try {

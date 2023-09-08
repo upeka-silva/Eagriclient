@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
 
 const UsersList = ({
@@ -15,7 +15,7 @@ const UsersList = ({
     { field: "email", headerName: "Email" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"user-manage/users"}
@@ -26,7 +26,7 @@ const UsersList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

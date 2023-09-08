@@ -24,6 +24,8 @@ import {
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import {useLocation} from "react-router-dom";
 
 const CommonQuestionList = ({
                                 selectedRows = [],
@@ -38,7 +40,8 @@ const CommonQuestionList = ({
                                 formId = null,
                                 formMode = null
                             }) => {
-
+    const { state } = useLocation();
+    const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({});
     const [dataListQuestions, setDataListQuestions] = useState([]);
     const [dialogMode, setDialogMode] = useState(null);
@@ -123,9 +126,7 @@ const CommonQuestionList = ({
 
     return (
         <div>
-            <FormHeader>
-                Audit Form Questions
-            </FormHeader>
+            <CustFormHeader saving={saving} state={state} formName="Audit Form Questions" />
             {(onFormSaveSuccess || (formMode === DEF_ACTIONS.EDIT)) &&
              <Button
                  onClick={() => addQ()}
@@ -142,7 +143,7 @@ const CommonQuestionList = ({
                 <Table sx={{minWidth: 650}} aria-label="caption table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Question String</TableCell>
+                            <TableCell>Question</TableCell>
                             <TableCell>Question Type</TableCell>
                             <TableCell>Item Group</TableCell>
                             <TableCell>Order</TableCell>
@@ -190,17 +191,6 @@ const CommonQuestionList = ({
                     </TableBody>
                 </Table>
             </TableContainer>
-            {/*            <DataTable
-                loadingTable
-                dataEndPoint={"question-form-template/all/SELF_ASSESSMENT"}
-                dataRows={dataList}
-                columns={columns}
-                selectable
-                selectedRows={selectedRows}
-                selectAll={selectAll}
-                onRowSelect={onRowSelect}
-                unSelectAll={unSelectAll}
-            />*/}
             <AddQuestionDialog
                 open={openCropAreaAddDlg}
                 setConfirmDialog={setOpenCropAreaAddDlg}

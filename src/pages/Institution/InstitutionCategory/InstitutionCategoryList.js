@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const InstitutionCategoryList = ({
@@ -13,7 +13,7 @@ const InstitutionCategoryList = ({
     { field: "description", headerName: "Description" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/institution-categories"}
@@ -24,7 +24,7 @@ const InstitutionCategoryList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

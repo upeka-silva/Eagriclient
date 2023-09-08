@@ -226,12 +226,11 @@ const SoilTypeForm = () => {
                 handleChange(e?.target?.value || "", "soilTypeCode")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -249,9 +248,7 @@ const SoilTypeForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

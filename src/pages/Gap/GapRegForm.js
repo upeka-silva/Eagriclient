@@ -46,6 +46,8 @@ import { handleGap, updateGap } from "../../redux/actions/gap/action";
 import CropDetails from "./CropDetails";
 import { gapReqDto } from "./gap-type";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -476,13 +478,13 @@ const GapRegForm = () => {
         </TabButton>
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(4)}
         >
           Internal Audit
         </TabButton>
         <TabButton
           className={toggleState === 5 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(5)}
         >
           External Audit
         </TabButton>
@@ -2385,6 +2387,27 @@ const GapRegForm = () => {
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
         <CropDetails state={state} />
       </TabContent>
+
+      <TabContent className={toggleState === 4 ? "active-content" : ""}>
+        <DynamicFormListGap
+            dataList={null}
+            onFormSaveSuccess={null}
+            formId={null}
+            formMode={null}
+            auditFormType={'INTERNAL_AUDIT'}
+        />
+      </TabContent>
+
+      <TabContent className={toggleState === 5 ? "active-content" : ""}>
+        <DynamicFormListGap
+            dataList={null}
+            onFormSaveSuccess={null}
+            formId={null}
+            formMode={null}
+            auditFormType={'EXTERNAL_AUDIT'}
+        />
+      </TabContent>
+
     </div>
   );
 };

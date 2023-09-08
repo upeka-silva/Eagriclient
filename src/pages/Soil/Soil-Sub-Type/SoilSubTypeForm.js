@@ -224,12 +224,11 @@ const SoilSubTypeForm = () => {
                 handleChange(e?.target?.value || "", "soilSubTypeCode")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{style: {textTransform: "uppercase"}}}
               size="small"
             />
           </FieldWrapper>
@@ -247,9 +246,7 @@ const SoilSubTypeForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

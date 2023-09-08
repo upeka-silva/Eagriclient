@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress, Grid, Box } from "@mui/material";
+import { TextField, Button, Grid } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -11,17 +11,13 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
 
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const ProvinceForm = () => {
   useUserAccessValidation();
@@ -104,30 +100,10 @@ const ProvinceForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <FormWrapper>
-      <Box>
-        <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {makeCapitalize(state?.action)} Province
-        </FormHeader>
-      </Box>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="Province" />
       <ButtonWrapper
         style={{
           width: "95%",
@@ -173,7 +149,6 @@ const ProvinceForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -200,12 +175,11 @@ const ProvinceForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -221,9 +195,7 @@ const ProvinceForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
