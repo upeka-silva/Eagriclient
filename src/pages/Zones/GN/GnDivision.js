@@ -266,7 +266,7 @@ const GnDivision = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                
                 options={provinces}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -275,7 +275,7 @@ const GnDivision = () => {
                   setSelectedProvince(value);
                   setSelectedDistrict({ name: "", code: "" });
                   setSelectedDsDevision({ name: "", code: "" });
-                  // setDistrics(value?.districtDTOList);
+                 
                   getDistricts(value.id);
                 }}
                 fullWidth
@@ -304,7 +304,7 @@ const GnDivision = () => {
                   console.log(value);
                   setSelectedDistrict(value);
                   setSelectedDsDevision({ name: "", code: "" });
-                  // setDsDivisions(value.dsDivisionDTOList);
+                  
                   getDsDivisions(value.id);
                 }}
                 fullWidth

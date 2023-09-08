@@ -231,7 +231,6 @@ const InterProvincialAiRegionForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -274,7 +273,7 @@ const InterProvincialAiRegionForm = () => {
                   borderRadius: "8px",
                 },
               }}
-              inputProps={{style: {textTransform: 'uppercase'}}}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -305,7 +304,7 @@ const InterProvincialAiRegionForm = () => {
           <FieldWrapper>
             <FieldName>Select Inter Provincial Director</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={doas}
               value={selectedDoa}
               getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
@@ -377,9 +376,7 @@ const InterProvincialAiRegionForm = () => {
               }}
               disableClearable
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -404,9 +401,7 @@ const InterProvincialAiRegionForm = () => {
                 handleChange(value, "");
               }}
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

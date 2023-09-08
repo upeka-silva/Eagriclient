@@ -28,7 +28,12 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import { handleInterProvincialDoa, updateInterProvincialDoa } from "../../../redux/actions/interProvincialDoa/action";
+import {
+  handleInterProvincialDoa,
+  updateInterProvincialDoa,
+} from "../../../redux/actions/interProvincialDoa/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const IntProvincialDoaForm = () => {
   useUserAccessValidation();
@@ -113,20 +118,13 @@ const IntProvincialDoaForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Inter Provincial Director DOA
-      </FormHeader>
+      
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Inter Provincial Director DOA"
+      />
       <ButtonWrapper
         isCeneter
         style={{
@@ -153,7 +151,6 @@ const IntProvincialDoaForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -173,7 +170,6 @@ const IntProvincialDoaForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -191,13 +187,10 @@ const IntProvincialDoaForm = () => {
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "doaId")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "doaId")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -218,9 +211,7 @@ const IntProvincialDoaForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

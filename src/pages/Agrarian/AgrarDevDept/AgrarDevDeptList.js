@@ -14,7 +14,7 @@ const AgrarDevDeptList = ({
   ];
 
   return (
-    <TableWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/do_agrarian_development"}
@@ -25,7 +25,7 @@ const AgrarDevDeptList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper>
+    
   );
 };
 

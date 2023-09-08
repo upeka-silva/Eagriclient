@@ -31,7 +31,7 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
-    get_ProvincialDdoaList,
+  get_ProvincialDdoaList,
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
@@ -39,14 +39,19 @@ import {
   handleProvincialAda,
   updateProvincialAda,
 } from "../../../redux/actions/provincialAda/action";
-import { handleInterProvincialAda, updateInterProvincialAda } from "../../../redux/actions/interProvincialAda/action";
+import {
+  handleInterProvincialAda,
+  updateInterProvincialAda,
+} from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDdoaList } from "../../../redux/actions/interProvincialDdoa/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const IntProvincialAdaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-  console.log(state)
+  console.log(state);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -58,7 +63,9 @@ const IntProvincialAdaForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/inter-provincial-structure/inter-provincial-deputy-director");
+    navigate(
+      "/zone/inter-provincial-structure/inter-provincial-deputy-director"
+    );
   };
 
   const handleChange = (value, target) => {
@@ -74,7 +81,6 @@ const IntProvincialAdaForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
-     
     }
   };
 
@@ -136,20 +142,12 @@ const IntProvincialAdaForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Inter Provincial ADA
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Inter Provincial ADA"
+      />
       <ButtonWrapper
         isCeneter
         style={{
@@ -176,7 +174,6 @@ const IntProvincialAdaForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -196,7 +193,6 @@ const IntProvincialAdaForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -217,10 +213,9 @@ const IntProvincialAdaForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "segmentId")
               }
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -241,9 +236,7 @@ const IntProvincialAdaForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -255,9 +248,12 @@ const IntProvincialAdaForm = () => {
           <FieldWrapper>
             <FieldName>Inter Provincial Deputy Director Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDeputyDirectorLevels}
-              value={formData.interProvinceDeputyDirectorLevelDTO || selectedProDirectorLevel}
+              value={
+                formData.interProvinceDeputyDirectorLevelDTO ||
+                selectedProDirectorLevel
+              }
               getOptionLabel={(i) => `${i?.ddId}- ${i?.description} `}
               onChange={(event, value) => {
                 console.log(value);
@@ -277,7 +273,6 @@ const IntProvincialAdaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        
       </Grid>
     </FormWrapper>
   );

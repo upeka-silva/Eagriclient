@@ -13,7 +13,7 @@ const CropCategoryList = ({
   ];
 
   return (
-    <TableWrapper>
+    // <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/crop-categories"}
@@ -24,7 +24,7 @@ const CropCategoryList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper>
+    // </TableWrapper>
   );
 };
 

@@ -8,7 +8,7 @@ export const handleArpa = async (
 ) => {
   try {
     const response = await post("geo-data/arpa", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {

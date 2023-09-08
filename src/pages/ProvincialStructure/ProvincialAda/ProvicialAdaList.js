@@ -20,7 +20,7 @@ const ProvincialAdaList = ({
   ];
 
   return (
-    <TableWrapper>
+   
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -31,7 +31,7 @@ const ProvincialAdaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper>
+    
   );
 };
 

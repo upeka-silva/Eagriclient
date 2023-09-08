@@ -147,6 +147,7 @@ const ASCForm = () => {
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) => handleChange(e?.target?.value || "", "ascId")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -166,6 +167,7 @@ const ASCForm = () => {
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
+             
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -183,7 +185,7 @@ const ASCForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
                 value={formData ? formData.districtCommissionerLevelDTO : ""}
-                getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                getOptionLabel={(i) => `${i.districtCommId} - ${i.name}`}
                 onChange={(event, value) => {
                   handleChange(value, "districtCommissionerLevelDTO");
                 }}

@@ -244,7 +244,7 @@ const District = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+               
                 options={options}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}

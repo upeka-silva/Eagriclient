@@ -20,7 +20,7 @@ const DistrictList = ({
   ];
 
   return (
-    <TableWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -31,7 +31,7 @@ const DistrictList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper>
+    
   );
 };
 

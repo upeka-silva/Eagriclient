@@ -373,7 +373,7 @@ const GnDivisionForm = () => {
   };
 
   return (
-    <FormWrapper>
+    <FormWrapper style={{ overflowY:'scroll' }}>
       <BackToList goBack={goBack} />
       <CustFormHeader
         saving={saving}
@@ -406,7 +406,6 @@ const GnDivisionForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -426,7 +425,6 @@ const GnDivisionForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -447,11 +445,8 @@ const GnDivisionForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
-                  // backgroundColor: `${Colors.white}`,
                 },
               }}
               size="small"
@@ -469,11 +464,8 @@ const GnDivisionForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
-                  // backgroundColor: `${Colors.white}`,
                 },
               }}
               size="small"
@@ -489,14 +481,13 @@ const GnDivisionForm = () => {
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-          // padding:'10px'
         }}
       >
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Select Province</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={provinces}
               value={selectedProvince}
               getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -799,8 +790,6 @@ const GnDivisionForm = () => {
               getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
               onChange={(event, value) => {
                 console.log(value);
-                // setSelectedAda(value);
-                // getFilteredData(value.id);
                 handleChange(value, "aiRegionDTO");
               }}
               fullWidth
@@ -828,7 +817,7 @@ const GnDivisionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Select Mahaweli System</FieldName>
             <Autocomplete
@@ -856,7 +845,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Select Mahaweli Block</FieldName>
             <Autocomplete
@@ -867,7 +856,8 @@ const GnDivisionForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 setSelectedBlock(value);
-                // getFilteredData(value);
+                
+                getMahaweliUnits(value.id)
               }}
               fullWidth
               disableClearable
@@ -883,7 +873,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={3} md={3} lg={4}>
           <FieldWrapper>
             <FieldName>Mahaweli Unit</FieldName>
             <Autocomplete

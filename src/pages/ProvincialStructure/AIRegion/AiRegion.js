@@ -287,7 +287,7 @@ const ProvincialAiRegion = () => {
             <FieldWrapper>
               <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                
                 options={doas}
                 value={selectedDoa}
                 getOptionLabel={(i) =>

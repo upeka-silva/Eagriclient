@@ -151,7 +151,7 @@ const InterProvincialAiRegion = () => {
       description: "",
     });
     setSelectedAda({ segmentId: "", description: "" });
-    setDataEndPoint("geo-data/ai-region/get-by-parent/PROVINCIAL");
+    setDataEndPoint("geo-data/ai-region/get-by-parent/INTER_PROVINCIAL");
   };
 
   const getDDOAS = (id) => {
@@ -284,7 +284,7 @@ const InterProvincialAiRegion = () => {
             <FieldWrapper>
               <FieldName>Select Director DOA</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                
                 options={doas}
                 value={selectedDoa}
                 getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
