@@ -8,7 +8,7 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
+import {  handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -135,6 +135,8 @@ const ARPAForm = () => {
     });
   };
 
+  
+
   return (
     <FormWrapper>
       <BackToList goBack={goBack} />
@@ -233,7 +235,7 @@ const ARPAForm = () => {
               <FieldName>Select ASC Division </FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW || selectedDcomm.id == null}
-                options={options}
+                options={ascDivisions}
                 value={ formData?.ascDto || selectedAscDivision}
                 getOptionLabel={(i) => `${i.ascId} - ${i.name}`}
                 onChange={(event, value) => {
