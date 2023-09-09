@@ -10,15 +10,15 @@ const GapRegList = ({
 }) => {
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "First Name" },
-    { field: "lastName", headerName: "Last Name" },
-    { field: "email", headerName: "Email" },
+    { field: "applicantName", headerName: "Applicant Name" },
+    { field: "applicantAddress", headerName: "Applicant Address" },
+    { field: "farmName", headerName: "Farm Name" },
   ];
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"user-manage/users"}
+        dataEndPoint={"gap-request"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

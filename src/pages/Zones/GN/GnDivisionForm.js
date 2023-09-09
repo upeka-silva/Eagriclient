@@ -496,6 +496,7 @@ const GnDivisionForm = () => {
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -1020,7 +1021,7 @@ const GnDivisionForm = () => {
           <FieldWrapper>
             <FieldName>ARPA Area</FieldName>
             <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW || selectedAscDivision.id == null}
               options={arps}
               value={formData ? formData.arpaDTO : ""}
               getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
@@ -1292,6 +1293,7 @@ const GnDivisionForm = () => {
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+              
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
