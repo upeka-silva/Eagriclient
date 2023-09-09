@@ -65,10 +65,10 @@ const DynamicFormListGap = ({
             formHeader = 'SELF ASSESSMENT FORM';
         } else if (auditFormType === 'INTERNAL_AUDIT') {
             uriPath = 'internal-audit';
-            formHeader = 'INTERNAL AUDIT FORM';
+            formHeader = 'INTERNAL AUDIT LIST';
         } else if (auditFormType === 'EXTERNAL_AUDIT') {
             uriPath = 'external-audit';
-            formHeader = 'EXTERNAL AUDIT FORM';
+            formHeader = 'EXTERNAL AUDIT LIST';
         } else if (auditFormType === 'BASIC_ASSESSMENT') {
             uriPath = 'basic-assessments';
             formHeader = 'BASIC ASSESSMENT FORM';
@@ -128,6 +128,7 @@ const DynamicFormListGap = ({
     const handle = async (event, data, functionMode) => {
 
         console.log('handled data ', data);
+        console.log('formData data ', formData);
         const auditAnswers = [];
         const keysArray = Object.keys(data);
 
@@ -168,10 +169,10 @@ const DynamicFormListGap = ({
                 await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
             }*/
             if (functionMode === DEF_ACTIONS.ADD) {
-                await saveGapDataWithValues(1, uriPath, saveData, onSuccess, onError);
+                await saveGapDataWithValues(1, uriPath, saveData, null, null, onSuccess, onError);
             } else if (functionMode === DEF_ACTIONS.EDIT) {
-                console.log('saveData ', saveData);
-                await updateGapDataWithValues(data.id, 1, uriPath, saveData, onSuccess, onError);
+                console.log('saveData edit view ', saveData);
+                await updateGapDataWithValues(formData.id, 1, uriPath, saveData, onSuccess, onError);
             }
         } catch (error) {
             console.log(error);
@@ -213,7 +214,7 @@ const DynamicFormListGap = ({
 
     return (
         <div>
-            <CustFormHeader saving={saving} state={state} formName="Self Assessment List" />
+            <CustFormHeader saving={saving} state={state} formName={formHeader} isShowAction={false}/>
 
             {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD) &&
              <DynamicFormGap auditFormType={auditFormType} afterSave={onSuccess} />

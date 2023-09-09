@@ -207,13 +207,15 @@ export const saveGapDataWithValues = async (
     gapId = '',
     uri = '',
     payload = {},
+    fileData = {},
+    qid = {},
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
   try {
     const response = await post('gap-request/' + gapId + '/' + uri, payload, true);
     if (response.httpCode === "200 OK") {
-      onSuccess(response);
+      onSuccess(response, qid, fileData);
     } else {
       const exception = {
         error: {
@@ -315,18 +317,19 @@ export const updateGapDataWithValues = async (
 
 
 export const fileUploadForm = async (
-    farmLandId = '',
+    gapId = '',
     uri = '',
-    assessmentId = '',
+    auditId = '',
     payload = {},
+    qid = '',
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
   try {
     ///farm-land/{farmLandId}/self-assessment/{assessmentId}
-    const response = await post('farm-land/' + farmLandId + '/' + uri + '/' + assessmentId, payload, true, null, true);
+    const response = await post('file-upload/gap-request/' + gapId + '/' + uri + '/' + auditId, payload, true, null, true);
     if (response.httpCode === "200 OK") {
-      onSuccess(response);
+      onSuccess(response, qid);
     } else {
       const exception = {
         error: {

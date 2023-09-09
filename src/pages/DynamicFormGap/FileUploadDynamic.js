@@ -5,7 +5,13 @@ import {getQuestionsByFormId, handleAuditFormQuestions} from "../../redux/action
 import {fileUploadForm} from "../../redux/actions/auditForm/action";
 import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 
-function FileUploadDynamic() {
+function FileUploadDynamic({
+                               qId = null,
+                               gapId = null,
+                               auditId = null,
+                               auditAPIPath = '',
+                               afterSelectedFile
+                           }) {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange = (event) => {
@@ -14,6 +20,7 @@ function FileUploadDynamic() {
 
     const onSuccess = async (response) => {
         console.log('response ', response);
+        //afterSave(response);
 /*        addSnackBar({
                         type: SnackBarTypes.success,
                         message: "Successfully executed !!!"
@@ -36,19 +43,14 @@ function FileUploadDynamic() {
     const handleUpload = async () => {
         // You can implement the file upload logic here, e.g., send the file to a server.
         // For this example, we'll simply log the selected file.
+        console.log(' inside qid ', qId);
+        console.log(' inside selectedFile ', selectedFile);
+        afterSelectedFile(qId, selectedFile);
 
-        const data = {
-            file: selectedFile
-        };
-        const formData = new FormData();
-        formData.append("file", selectedFile);
-
-        await fileUploadForm(1, 'basic-assessment', 1, formData, onSuccess, onError);
-        console.log('Selected File:', selectedFile);
     };
 
     return (
-        <div>
+        <div style={{ marginTop: '10px' }}>
             <input
                 accept="image/*" // You can specify the accepted file types here
                 style={{ display: 'none' }}
@@ -68,14 +70,14 @@ function FileUploadDynamic() {
             <Input
                 value={selectedFile ? selectedFile.name : ''}
                 readOnly
-                style={{ marginTop: '10px' }}
+                style={{ marginLeft: '10px' }}
             />
             <Button
                 variant="contained"
                 color="success"
                 onClick={handleUpload}
                 disabled={!selectedFile}
-                style={{ marginTop: '10px' }}
+                style={{ marginLeft: '10px', float: 'right' }}
             >
                 Upload
             </Button>

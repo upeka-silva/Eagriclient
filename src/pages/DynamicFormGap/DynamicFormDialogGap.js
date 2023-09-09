@@ -53,20 +53,19 @@ export default function DynamicFormDialogGap({
                 newOne[idKey] = answer?.question?.questionString;
                 newOne[idAnsKey] = answer?.answer;
             }
-
             console.log('new form ', newOne);
-            setFormDataQ(newOne)
         }
+        setFormDataQ(newOne)
 
     }, [formData]);
 
     const handleChange = (value, target) => {
-        //console.log('fff ', value);
-        //console.log('target ', target);
+        console.log('fff ', value);
+        console.log('target ', target);
         setFormDataQ((current = {}) => {
             let newData = {...current};
             newData[target] = value;
-            //console.log('changed value ', newData[target]);
+            console.log('changed value ', newData[target]);
             return newData;
         });
         //console.log('updated ', formDataQ);
@@ -250,16 +249,16 @@ export default function DynamicFormDialogGap({
                     {formData?.auditAnswers?.map((item, index) => (
                         <Grid item lg={6}>
                             <FieldWrapper>
-                                <FieldName>{index + 1}. {item?.question?.questionString} ?</FieldName>
+                                <FieldName>{index + 1}. {item?.question?.questionString} ? </FieldName>
 
                                 {item?.question?.questionType === 'TEXT' &&
                                  <TextField
-                                     name={"answer_" + item.id}
-                                     id={"answer_" + item.id}
-                                     value={formDataQ["answer_" + item.id] || ""}
+                                     name={"answer_" + item.question.id}
+                                     id={"answer_" + item.question.id}
+                                     value={formDataQ["answer_" + item.question.id] || ""}
                                      disabled={mode === DEF_ACTIONS.VIEW}
                                      onChange={(e) =>
-                                         handleChange(e?.target?.value || "", "answer_" + item.id)
+                                         handleChange(e?.target?.value || "", "answer_" + item.question.id)
                                      }
                                      size="small"
                                      fullWidth
@@ -283,6 +282,9 @@ export default function DynamicFormDialogGap({
                                      }
                                      checked={formDataQ["answer_" + item.id] === true}
                                  />
+                                }
+                                {item?.proofDocs[0]?.id &&
+                                    <p>File ID: {item?.proofDocs[0]?.id}</p>
                                 }
 
                             </FieldWrapper>

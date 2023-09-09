@@ -23,6 +23,7 @@ import {FieldName} from "../../components/FormLayout/FieldName";
 import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
 import {Add, ArrowCircleLeftRounded, Edit} from "@mui/icons-material";
 import {
+    fileUploadForm,
     getFormTemplateByType, getFormTemplatesByGapReqId,
     handleAuditForm,
     saveFormDataWithValues, saveGapDataWithValues,
@@ -58,6 +59,10 @@ const DynamicFormGap = ({
     const [toggleState, setToggleState] = useState(1);
     const [protectedHouseType, setProtectedHouseType] = useState(true);
     const [otherField, setOtherField] = useState("none");
+    const [newSavedId, setNewSavedId] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [fileUploadResponse, setFileUploadResponse] = useState({});
+    const [selectedQid, setSelectedQid] = useState(null);
 
     const { addSnackBar } = useSnackBars();
 
@@ -100,12 +105,43 @@ const DynamicFormGap = ({
         return false;
     };
 
+    const onSuccessSaveWithFile = async (response, qid, fileData) => {
+        console.log('response after sacve from res ', response );
+        console.log('response after sacve selectedFile ', fileData);
+        console.log('response after sacve qid ', qid);
+        setNewSavedId(response?.payload?.id);
+        setSelectedQid(qid);
+        setSelectedFile(fileData);
+        const formDataFile = new FormData();
+        formDataFile.append("file", fileData);
+        await fileUploadForm(1, uriPath, response?.payload?.id, formDataFile, qid, onSuccessAfterUploadFile, onError);
+    };
+
+    const onSuccessAfterUploadFile = async (response, qid) => {
+        console.log('response after upload from file ', response );
+
+        const obj = {...fileUploadResponse};
+        obj[qid] = response.payload
+
+        setFileUploadResponse(obj);
+        //setSelectedQid(null);
+        setSaving(false);
+    };
+
     const onSuccessSave = async (response) => {
         console.log('response after sacve', response );
+        console.log('fileUploadResponse after sacve', fileUploadResponse );
 
-        const id = response?.payload?.id;
+        let id = null;
+        if (newSavedId == null) {
+            setNewSavedId(response?.payload?.id)
+            id = response?.payload?.id;
+        } else {
+            id = newSavedId;
+        }
 
         console.log('form ', formData);
+        console.log('id ', id);
 
         const auditAnswers = [];
         const keysArray = Object.keys(formData);
@@ -117,17 +153,33 @@ const DynamicFormGap = ({
                 const parts = qKey.split('_');
                 const questionId = parts[1];
                 const answer = formData[qKey];
+
+                const proofDocs = [];
+                const fileRes = fileUploadResponse[questionId];
+                console.log('fileUploadResponse[questionId] ', fileRes);
+                console.log('questionId ', questionId);
+                if (fileRes) {
+                    proofDocs.push({
+                        docUrl: fileRes.storedFileName,
+                        presignedUrl: fileRes.presignedUrl,
+                        originalFileName: fileRes.originalFileName,
+                        presignExpireDate: fileRes.expireDate
+                    });
+                    console.log('auditAnswers 0 ', auditAnswers);
+                }
+
+                console.log('auditAnswers 1 ', auditAnswers);
                 auditAnswers.push({
                     question: {
                         id: questionId
                     },
                     answer: answer,
-                    proofDocs: []
+                    proofDocs: proofDocs
                 });
             }
 
         }
-        console.log('auditAnswers ', auditAnswers);
+        console.log('auditAnswers not list ', auditAnswers);
 
 
         const updateData = {
@@ -175,18 +227,16 @@ const DynamicFormGap = ({
 
     };
 
-    const onError = (message) => {
-        addSnackBar({
-                        type: SnackBarTypes.error,
-                        message: message || "Login Failed",
-                    });
-        setSaving(false);
-    };
+    const afterFileUploadSave = async (qid, fileData) => {
+        console.log('aafterFileUploadSavefter file selected qid ', qid);
+        console.log('after file selected res ', fileData);
+/*        selectedFiles[qid] = fileData;
+        const newKeyFile = selectedFiles;*/
+        const newFile = {...fileData};
+        setSelectedFile(newFile);
+        setSelectedQid(qid);
 
-    const handleFormSubmit = async () => {
-        if (enableSave()) {
-
-
+        if (newSavedId == null) {
             const saveData = {
                 templateId: formTemplate.id,
                 gapRequestDto: {
@@ -199,10 +249,56 @@ const DynamicFormGap = ({
                 if (formData?.id) {
                     console.log('ERRRRRRRRRRR');
                 } else {
-                    await saveGapDataWithValues(1, uriPath, saveData, onSuccessSave, onError);
+                    await saveGapDataWithValues(1, uriPath, saveData, fileData, qid, onSuccessSaveWithFile, onError);
+
                 }
             } catch (error) {
                 console.log(error);
+            }
+        } else {
+            console.log('elseeeeeeeeeeeeeeeee');
+            const formDataFile = new FormData();
+            formDataFile.append("file", fileData);
+            await fileUploadForm(1, uriPath, newSavedId, formDataFile, qid, onSuccessAfterUploadFile, onError);
+        }
+
+
+
+    };
+
+    const onError = (message) => {
+        addSnackBar({
+                        type: SnackBarTypes.error,
+                        message: message || "Login Failed",
+                    });
+        setSaving(false);
+    };
+
+    const handleFormSubmit = async () => {
+        if (enableSave()) {
+
+            if (newSavedId == null) {
+                console.log('new id create without file ')
+                const saveData = {
+                    templateId: formTemplate.id,
+                    gapRequestDto: {
+                        id: 1 // TODO
+                    }
+                }
+
+                setSaving(true);
+                try {
+                    if (formData?.id) {
+                        console.log('ERRRRRRRRRRR');
+                    } else {
+                        await saveGapDataWithValues(1, uriPath, saveData, null, null, onSuccessSave, onError);
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+            } else {
+                console.log('new id from file upload ');
+                onSuccessSave(null);
             }
         }
     };
@@ -302,6 +398,7 @@ const DynamicFormGap = ({
                                     },
                                 }}
                             />
+
 
                         </FieldWrapper>
                     </Grid>
@@ -421,7 +518,12 @@ const DynamicFormGap = ({
                                  checked={formData?.['question_' + item.id] === true}
                              />
                             }
+                            {item.proofRequired === true &&
+                                <FileUploadDynamic qId={item.id}  gapId={1}  auditId={formData.id} auditAPIPath={uriPath}  afterSelectedFile={afterFileUploadSave} />
+                            }
+                            {
 
+                            }
                         </FieldWrapper>
                     </Grid>
                     ))}
