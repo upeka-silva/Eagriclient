@@ -24,26 +24,25 @@ const FormButtonGroup = ({
       {state?.action !== DEF_ACTIONS.VIEW && (
         <ActionWrapper>
           {saving ? (
-            <Button>
+            <Button variant="contained">
               {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
             </Button>
           ) : (
             <>
               <Button
-                variant="contained"
+                variant="outlined"
                 disabled={!enableSave()}
                 onClick={handleFormSubmit}
                 size="small"
                 color="success"
               >
-                {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                Save
+                {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
               </Button>
               <Button
                 onClick={resetForm}
                 color="success"
-                variant="outlined"
+                variant="contained"
                 size="small"
                 sx={{ marginLeft: "10px" }}
               >
