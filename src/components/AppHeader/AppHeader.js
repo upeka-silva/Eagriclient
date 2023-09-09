@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
@@ -10,6 +10,7 @@ import {
   Typography,
   Avatar,
   Stack,
+  useTheme,
 } from "@mui/material";
 import ProfileIcon from "@mui/icons-material/AccountCircle";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
@@ -23,11 +24,17 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
+import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
+import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 
 const ProfileImg = require("../../assets/images/profileImg.png");
 const ProfileImgBig = require("../../assets/images/profileImgBig.png");
 
 const AppHeader = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+
   const [isProfileOptionsOpen, setProfileOptionsOpen] = useState(false);
   const [anchorElement, setAnchorEl] = React.useState(null);
   const [variants, setVariants] = useState({
@@ -150,8 +157,17 @@ const AppHeader = () => {
               }}
             />
           </BreakLine>
-
-          <IconButton style={{ marginLeft: "30px" }}>
+          <IconButton
+            style={{ marginLeft: "30px" }}
+            onClick={colorMode.toggleColorMode}
+          >
+            {theme.palette.mode === "dark" ? (
+              <DarkModeOutlined />
+            ) : (
+              <LightModeOutlined />
+            )}
+          </IconButton>
+          <IconButton style={{ marginLeft: "20px" }}>
             <NotificationsNoneIcon />
           </IconButton>
           <IconButton>
