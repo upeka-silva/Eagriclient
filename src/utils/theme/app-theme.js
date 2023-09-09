@@ -48,6 +48,7 @@ export const tokens = (mode) => ({
           800: "#424242",
           900: "#212121",
         },
+        table_header: "#40a845",
       }
     : {
         green: {

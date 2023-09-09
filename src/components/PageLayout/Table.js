@@ -30,6 +30,7 @@ import {
   RadioGroup,
   Radio,
   Slider,
+  useTheme,
 } from "@mui/material";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { MultiInputDateRangeField } from "@mui/x-date-pickers-pro/MultiInputDateRangeField";
@@ -51,6 +52,7 @@ import { get_DataList, post_DataList } from "../../redux/actions/table/table";
 import { Colors } from "../../utils/constants/Colors";
 import theme from "../../utils/theme/theme.json";
 import { FormElementTypes } from "../../utils/constants/formElementTypes";
+import { tokens } from "../../utils/theme/app-theme";
 
 export const DataTable = ({
   dataRows = [],
@@ -72,6 +74,9 @@ export const DataTable = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [rows, setRows] = useState(dataRows);
   const [loading, setLoading] = useState(loadingTable);
   const [order, setOrder] = useState("asc");
@@ -489,7 +494,7 @@ export const DataTable = ({
                 key: data?.target || k,
               });
             };
-            console.log(rows)
+            console.log(rows);
             return (
               <AdvancedSearchItemWrapper key={key}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -883,9 +888,7 @@ export const DataTable = ({
       </TableHeaderContainer>
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
         <TableHead>
-          <TableRow 
-           sx={{ background:`${Colors.tableHeaderColor}}`  }}
-          >
+          <TableRow sx={{ background: `${colors.table_header}}` }}>
             {selectable && (
               <TableCell
                 sx={{ border: "1px solid #CCC !important", width: "50px" }}

@@ -18,14 +18,14 @@ function StatBox({ title, subtitle, icon, progress, increase }) {
     >
       <Box display="flex" justifyContent="space-between">
         <Box>
-          <Typography variant="h4" fontWeight="bold" sx={{ color: colors.green }}>
+          <Typography variant="h4" fontWeight="bold" sx={{ color: colors.ivory }}>
             {title}
           </Typography>
         </Box>
         <Box>{icon}</Box>
       </Box>
       <Box display="flex" justifyContent="space-between" mt="2px">
-        <Typography variant="h6" sx={{ color: "white" }}>
+        <Typography variant="h6" sx={{ color: colors.cool_grey }}>
           {subtitle}
         </Typography>
       </Box>
