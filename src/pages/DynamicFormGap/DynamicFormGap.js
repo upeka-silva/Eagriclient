@@ -325,7 +325,7 @@ const DynamicFormGap = ({
 
     useEffect(() => {
         //question-form-template/type/" + type
-        getFormTemplateByType(auditFormType).then(({data = {}}) => {
+        getFormTemplateByType(auditFormType + '?gapCategory=SL_GAP&cropCategory=VEG').then(({data = {}}) => {
             //setDistrict(dataList);
             console.log('res ', data);
             setFormTemplate(data);
@@ -484,7 +484,7 @@ const DynamicFormGap = ({
                     {formTemplate?.questionDTOS?.map((item, index) => (
                     <Grid item lg={6}>
                         <FieldWrapper>
-                            <FieldName>{index + 1}. {item.questionString} ?</FieldName>
+                            <FieldName>{index + 1}. {item.questionString} ? 11</FieldName>
 
                             {item.questionType === 'TEXT' &&
                              <TextField
@@ -510,19 +510,16 @@ const DynamicFormGap = ({
                              <Checkbox
                                  name={"question_" + item.id}
                                  id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id] || ""}
+                                 value={formData?.['question_' + item.id]}
                                  disabled={state?.action === DEF_ACTIONS.VIEW}
                                  onChange={(e) =>
-                                     handleChange(e?.target?.value || "", "question_" + item.id)
+                                     handleChange(e?.target?.checked, "question_" + item.id)
                                  }
                                  checked={formData?.['question_' + item.id] === true}
                              />
                             }
                             {item.proofRequired === true &&
                                 <FileUploadDynamic qId={item.id}  gapId={1}  auditId={formData.id} auditAPIPath={uriPath}  afterSelectedFile={afterFileUploadSave} />
-                            }
-                            {
-
                             }
                         </FieldWrapper>
                     </Grid>

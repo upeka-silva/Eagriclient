@@ -183,7 +183,7 @@ const DynamicFormListGap = ({
 
     const addQ = () => {
 
-        getFormTemplateByType(auditFormType).then(({data = {}}) => {
+        getFormTemplateByType(auditFormType + '?gapCategory=SL_GAP&cropCategory=VEG').then(({data = {}}) => {
             //setDistrict(dataList);
             console.log('res ', data);
             setFormData(data);
