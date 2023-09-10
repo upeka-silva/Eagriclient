@@ -286,10 +286,10 @@ const DynamicFormFarmLand = ({
                              <Checkbox
                                  name={"question_" + item.id}
                                  id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id] || ""}
+                                 value={formData?.['question_' + item.id]}
                                  disabled={state?.action === DEF_ACTIONS.VIEW}
                                  onChange={(e) =>
-                                     handleChange(e?.target?.value || "", "question_" + item.id)
+                                     handleChange(e?.target?.checked || "", "question_" + item.id)
                                  }
                                  checked={formData?.['question_' + item.id] === true}
                              />

@@ -260,14 +260,14 @@ export default function DynamicFormDialogGap({
 
                                 {item?.question?.questionType === 'BOOLEAN' &&
                                  <Checkbox
-                                     name={"answer_" + item.id}
-                                     id={"answer_" + item.id}
-                                     value={formDataQ["answer_" + item.id] || ""}
+                                     name={"answer_" + item.question.id}
+                                     id={"answer_" + item.question.id}
+                                     value={formDataQ["answer_" + item.question.id]}
                                      disabled={mode === DEF_ACTIONS.VIEW}
                                      onChange={(e) =>
-                                         handleChange(e?.target?.value || "", "answer_" + item.id)
+                                         handleChange(e?.target?.checked || "", "answer_" + item.question.id)
                                      }
-                                     checked={formDataQ["answer_" + item.id] === true}
+                                     checked={formDataQ["answer_" + item.question.id] === true}
                                  />
                                 }
                                 {item?.proofDocs[0]?.id &&

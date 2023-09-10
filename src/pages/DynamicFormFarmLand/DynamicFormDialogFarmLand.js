@@ -185,10 +185,10 @@ export default function DynamicFormDialogFarmLand({
                                     <Checkbox
                                         name={"answer_" + item?.question?.id}
                                         id={"answer_" + item?.question?.id}
-                                        value={formDataQ["answer_" + item?.question?.id] || ""}
+                                        value={formDataQ["answer_" + item?.question?.id]}
                                         disabled={mode === DEF_ACTIONS.VIEW}
                                         onChange={(e) =>
-                                            handleChange(e?.target?.value || "", "answer_" + item?.question?.id)
+                                            handleChange(e?.target?.checked || "", "answer_" + item?.question?.id)
                                         }
                                         checked={formDataQ["answer_" + item?.question?.id] === true}
                                     />
