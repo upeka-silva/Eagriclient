@@ -156,9 +156,6 @@ const DynamicFormGap = ({
             gapRequestDto: {
                 id: 1
             },
-            description: 'test desc',
-            auditCategory: formData.auditCategory,
-            auditSubCategory: formData.auditSubCategory,
             auditAnswers: auditAnswers
         }
 
@@ -349,80 +346,6 @@ const DynamicFormGap = ({
 
                         </FieldWrapper>
                     </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>description</FieldName>
-                            <TextField
-                                name="description"
-                                id="description"
-                                value={formData?.description || ""}
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "description")
-                                }
-                                size="small"
-                                fullWidth
-                                sx={{
-                                    "& .MuiInputBase-root": {
-                                        borderRadius: "8px",
-                                        backgroundColor: `${Colors.white}`,
-                                    },
-                                }}
-                            />
-
-                        </FieldWrapper>
-                    </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>category</FieldName>
-                            <Select
-                                value={formData?.auditCategory || ""}
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "auditCategory")
-                                }
-                                sx={{
-                                    borderRadius: "8px",
-                                    backgroundColor: `${Colors.white}`,
-                                }}
-                                size="small"
-                                fullWidth
-                            >
-                                <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
-                                <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
-                            </Select>
-
-                        </FieldWrapper>
-                    </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>sub cat</FieldName>
-                            <Select
-                                value={formData?.auditSubCategory || ""}
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "auditSubCategory")
-                                }
-                                sx={{
-                                    // width: "264px",
-                                    // height: "30px",
-                                    borderRadius: "8px",
-                                    backgroundColor: `${Colors.white}`,
-                                }}
-                                size="small"
-                                fullWidth
-                            >
-                                <MenuItem value={"VEG"}>Veg</MenuItem>
-                                <MenuItem value={"FRUIT"}>Fruit</MenuItem>
-                                <MenuItem value={"PADDY"}>Paddy</MenuItem>
-                            </Select>
-
-                        </FieldWrapper>
-                    </Grid>
-
 
                     <Grid item lg={7}></Grid>
                     {formTemplate?.questionDTOS?.map((item, index) => (

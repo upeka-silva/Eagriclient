@@ -147,9 +147,6 @@ const DynamicFormListGap = ({
             gapRequestDto: {
                 id: 1
             },
-            description: data.description,
-            auditCategory: data.auditCategory,
-            auditSubCategory: data.auditSubCategory,
             auditAnswers: auditAnswers
         }
 
@@ -221,9 +218,6 @@ const DynamicFormListGap = ({
                         <TableRow>
                             <TableCell>ID</TableCell>
                             <TableCell>Audit Id</TableCell>
-                            <TableCell>Description</TableCell>
-                            <TableCell>Category</TableCell>
-                            <TableCell>Sub Category</TableCell>
                             <TableCell>Action</TableCell>
                         </TableRow>
                     </TableHead>
@@ -232,9 +226,6 @@ const DynamicFormListGap = ({
                             <TableRow key={row.name}>
                                 <TableCell>{row.id}</TableCell>
                                 <TableCell>{row.auditId}</TableCell>
-                                <TableCell>{row.description}</TableCell>
-                                <TableCell>{row.auditCategory}</TableCell>
-                                <TableCell>{row.auditSubCategory}</TableCell>
                                 <TableCell>
                                     <Button
                                         onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}

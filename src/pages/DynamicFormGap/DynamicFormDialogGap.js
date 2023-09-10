@@ -37,9 +37,6 @@ export default function DynamicFormDialogGap({
         const newOne = {};
         newOne.auditId = formData.auditId;
         newOne.id = formData.id;
-        newOne.description = formData.description;
-        newOne.auditCategory = formData.auditCategory;
-        newOne.auditSubCategory = formData.auditSubCategory;
         let idKey = '';
         let idAnsKey = '';
         if (formData?.auditAnswers && formData?.auditAnswers?.length > 0) {
@@ -161,74 +158,6 @@ export default function DynamicFormDialogGap({
                                     },
                                 }}
                             />
-                        </FieldWrapper>
-                    </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>description</FieldName>
-                            <TextField
-                                name="description"
-                                id="description"
-                                value={formDataQ?.description || ""}
-                                disabled={mode === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "description")
-                                }
-                                size="small"
-                                fullWidth
-                                sx={{
-                                    "& .MuiInputBase-root": {
-                                        borderRadius: "8px",
-                                        backgroundColor: `${Colors.white}`,
-                                    },
-                                }}
-                            />
-                        </FieldWrapper>
-                    </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>category</FieldName>
-                            <Select
-                                value={formDataQ?.auditCategory || ""}
-                                disabled={mode === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "auditCategory")
-                                }
-                                sx={{
-                                    borderRadius: "8px",
-                                    backgroundColor: `${Colors.white}`,
-                                }}
-                                size="small"
-                                fullWidth
-                            >
-                                <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
-                                <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
-                            </Select>
-                        </FieldWrapper>
-                    </Grid>
-
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>sub cat</FieldName>
-                            <Select
-                                value={formDataQ?.auditSubCategory || ""}
-                                disabled={mode === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "auditSubCategory")
-                                }
-                                sx={{
-                                    borderRadius: "8px",
-                                    backgroundColor: `${Colors.white}`,
-                                }}
-                                size="small"
-                                fullWidth
-                            >
-                                <MenuItem value={"VEG"}>Veg</MenuItem>
-                                <MenuItem value={"FRUIT"}>Fruit</MenuItem>
-                                <MenuItem value={"PADDY"}>Paddy</MenuItem>
-                            </Select>
                         </FieldWrapper>
                     </Grid>
 
