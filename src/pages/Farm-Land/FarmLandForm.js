@@ -23,7 +23,6 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
@@ -31,14 +30,12 @@ import { get_DistrictList } from "../../redux/actions/district/action";
 import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
-import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
@@ -51,9 +48,9 @@ const FarmLandForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [district, setDistrict] = useState([]);
-  const [ds, setDs] = useState([]);
-  const [gn, setGn] = useState([]);
+  const [districtList, setDistrictList] = useState([]);
+  const [dsDivisionList, setDsDivisionList] = useState([]);
+  const [gnDivisionList, setGnDivisionList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
   const [protectedHouseType, setProtectedHouseType] = useState(true);
@@ -104,17 +101,17 @@ const FarmLandForm = () => {
 
   useEffect(() => {
     get_DistrictList().then(({ dataList = [] }) => {
-      setDistrict(dataList);
+      setDistrictList(dataList);
     });
   }, []);
   useEffect(() => {
     get_DsDivisionList().then(({ dataList = [] }) => {
-      setDs(dataList);
+      setDsDivisionList(dataList);
     });
   }, []);
   useEffect(() => {
     get_GnDivisionList().then(({ dataList = [] }) => {
-      setGn(dataList);
+      setGnDivisionList(dataList);
     });
   }, []);
 
@@ -231,7 +228,7 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
                 <TextField
@@ -253,7 +250,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
@@ -286,7 +283,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Protected House Type</FieldName>
@@ -326,7 +323,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
 
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Soil Type</FieldName>
@@ -358,7 +355,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Area</FieldName>
                 <TextField
@@ -379,7 +376,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={4} md={4} lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Status</FieldName>
@@ -497,7 +494,7 @@ const FarmLandForm = () => {
                     name="districtDTO"
                     id="districtDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={district}
+                    options={districtList}
                     value={formData ? formData.districtDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -528,7 +525,7 @@ const FarmLandForm = () => {
                     name="dsDivisionDTO"
                     id="dsDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={ds}
+                    options={dsDivisionList}
                     value={formData ? formData.dsDivisionDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -559,7 +556,7 @@ const FarmLandForm = () => {
                     name="gnDivisionDTO"
                     id="gnDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={gn}
+                    options={gnDivisionList}
                     value={formData ? formData.gnDivisionDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -690,41 +687,16 @@ const FarmLandForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <ButtonWrapper>
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
+        />
         <Box sx={{ padding: "20px" }}>
           <Grid
             container
@@ -883,7 +855,7 @@ const FarmLandForm = () => {
                       name="gnDivisionDTO"
                       id="gnDivisionDTO"
                       disabled={state?.action === DEF_ACTIONS.VIEW}
-                      options={gn}
+                      options={gnDivisionList}
                       value={formData ? formData.gnDivisionDTO : ""}
                       getOptionLabel={(i) => `${i.code} - ${i.name}`}
                       onChange={(event, value) => {
@@ -1003,41 +975,16 @@ const FarmLandForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
-        <ButtonWrapper>
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
+        />
         <Box sx={{ padding: "20px" }}>
           <Grid
             container

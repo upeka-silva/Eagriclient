@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const MahaweliBlockList = ({
   dataEndPoint,
@@ -11,14 +11,21 @@ const MahaweliBlockList = ({
 }) => {
   const columns = [
     { field: "code", headerName: "Code" },
+    { field: "name", headerName: "Description" },
+    { field: "mahaweliSystem", headerName: "Mahaweli System" },
     { field: "description", headerName: "Description" },
+    { field: "landArea", headerName: "Land Area" },
+    { field: "cultivatedArea", headerName: "Cultivated Area" },
+    { field: "irrigatedArea", headerName: "Irrigated Area" },
+    { field: "nonIrrigatedArea", headerName: "Non Irrigated Area" },
+    { field: "soilTexture", headerName: "Soil Texture" },
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={dataEndPoint}
+        dataEndPoint={"geo-data/mahaweli-blocks"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -26,7 +33,7 @@ const MahaweliBlockList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-   
+    </TableWrapper>
   );
 };
 

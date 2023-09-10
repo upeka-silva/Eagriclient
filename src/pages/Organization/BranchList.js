@@ -1,6 +1,6 @@
 import React from "react";
-import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 
 const BranchList = ({
   selectedRows = [],

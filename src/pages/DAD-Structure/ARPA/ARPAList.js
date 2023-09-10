@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { CardWrapper } from "../../../components/PageLayout/Card";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ARPAList = ({
@@ -14,7 +15,7 @@ const ARPAList = ({
     { field: "ascDto.id", headerName: "ASC Code" },
   ];
   return (
-    <TableWrapper>
+<TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"arpa"}
@@ -26,7 +27,7 @@ const ARPAList = ({
         unSelectAll={unSelectAll}
       />
     </TableWrapper>
-  );
+  )
 };
 
 export default ARPAList;
