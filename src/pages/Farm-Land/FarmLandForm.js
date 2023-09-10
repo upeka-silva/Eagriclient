@@ -43,9 +43,6 @@ import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import DynamicFormFarmLand from "../DynamicFormFarmLand/DynamicFormFarmLand";
 import CommonQuestionList from "../AuditForm/CommonQuestionList";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
