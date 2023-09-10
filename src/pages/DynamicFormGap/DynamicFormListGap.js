@@ -125,12 +125,10 @@ const DynamicFormListGap = ({
 
         const auditAnswers = [];
         const keysArray = Object.keys(data);
-        console.log('fffff ', fileUploadResponse);
         for (const qKey of keysArray) {
             if (qKey.indexOf('answer_') !== -1) {
                 const parts = qKey.split('_');
                 const questionId = parts[1];
-                console.log('qqq ', questionId);
                 const answer = data[qKey];
 
                 const proofDocs = [];
