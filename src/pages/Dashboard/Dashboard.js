@@ -22,7 +22,7 @@ const Dashboard = () => {
             subtitle="Total GAP Requests"
             progress="0.75"
             increase="+14%"
-            icon={<Image sx={{ color: colors.green[600], fontSize: "28px" }} />}
+            icon={<Image sx={{ color: colors.pure_white, fontSize: "28px" }} />}
           />
         </Grid>
         <Grid item sm={4} md={4} lg={4} sx={12}>
