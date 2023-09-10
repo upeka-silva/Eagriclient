@@ -64,7 +64,7 @@ const IntProvincialAdaForm = () => {
 
   const goBack = () => {
     navigate(
-      "/zone/inter-provincial-structure/inter-provincial-deputy-director"
+      "/zone/inter-provincial-structure/inter-provincial-ada"
     );
   };
 
