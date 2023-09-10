@@ -98,7 +98,7 @@ export default function DynamicFormDialogFarmLand({
                                     size="small"
                                     color="success"
                                 >
-                                    ADD
+                                    NEW
                                 </Button>
                                 <Button
                                     variant="outlined"

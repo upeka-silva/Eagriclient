@@ -15,6 +15,10 @@ import {useLocation} from "react-router";
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
 import {Add, Edit} from "@mui/icons-material";
 import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
+import FileUploadDynamic from "./FileUploadDynamic";
+import {fileUploadForm, saveGapDataWithValues} from "../../redux/actions/auditForm/action";
+import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
+import {useSnackBars} from "../../context/SnackBarContext";
 
 export default function DynamicFormDialogGap({
                                               open,
@@ -23,14 +27,18 @@ export default function DynamicFormDialogGap({
                                               formData,
                                               mode,
                                               addView,
+                                                 uriPath
                                           }) {
     useUserAccessValidation();
     const {state} = useLocation();
     const [formDataQ, setFormDataQ] = useState({});
     const [saving, setSaving] = useState(false);
+    const [fileUploadResponse, setFileUploadResponse] = useState({});
+
+    const {addSnackBar} = useSnackBars();
 
     useEffect(() => {
-
+        console.log('foormdata ', formData);
         if (!formData) {
             return;
         }
@@ -47,7 +55,9 @@ export default function DynamicFormDialogGap({
                 newOne[idKey] = answer?.question?.questionString;
                 newOne[idAnsKey] = answer?.answer;
             }
+
         }
+
         setFormDataQ(newOne)
 
     }, [formData]);
@@ -83,6 +93,33 @@ export default function DynamicFormDialogGap({
         return false;
     };
 
+    const afterFileUploadSave = async (qid, fileData) => {
+/*        const newFile = {...fileData};
+        setSelectedFile(newFile);
+        setSelectedQid(qid);*/
+        console.log('afterFileUploadSave ', qid, ' file ', fileData);
+        const formDataFile = new FormData();
+        formDataFile.append("file", fileData);
+        await fileUploadForm(1, uriPath, formData.id, formDataFile, qid, onSuccessAfterUploadFile, onError);
+    };
+
+    const onError = (message) => {
+        addSnackBar({
+            type: SnackBarTypes.error,
+            message: message || "Login Failed",
+        });
+        setSaving(false);
+    };
+
+    const onSuccessAfterUploadFile = async (response, qid) => {
+
+        const obj = {...fileUploadResponse};
+        obj[qid] = response.payload
+
+        setFileUploadResponse(obj);
+        setSaving(false);
+    };
+
     return (
         <>
             <ButtonWrapper>
@@ -103,12 +140,12 @@ export default function DynamicFormDialogGap({
                                      size="small"
                                      color="success"
                                  >
-                                     ADD
+                                     NEW
                                  </Button>
                                  <Button
                                      variant="outlined"
                                      disabled={!enableSave()}
-                                     onClick={event => confirmAction(event, formDataQ, mode)}
+                                     onClick={event => confirmAction(event, formDataQ, mode, fileUploadResponse)}
                                      size="small"
                                      color="success"
                                      sx={{marginLeft: "10px"}}
@@ -198,6 +235,9 @@ export default function DynamicFormDialogGap({
                                      }
                                      checked={formDataQ["answer_" + item.question.id] === true}
                                  />
+                                }
+                                {item.question.proofRequired === true &&
+                                    <FileUploadDynamic qId={item.question.id} gapId={1} afterSelectedFile={afterFileUploadSave}/>
                                 }
                                 {item?.proofDocs && (item?.proofDocs?.length > 0) && item?.proofDocs?.map((proofDoc, index) => (
 
