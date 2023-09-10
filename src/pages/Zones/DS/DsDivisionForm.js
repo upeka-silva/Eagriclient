@@ -138,7 +138,7 @@ const DsDivisionForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -158,7 +158,7 @@ const DsDivisionForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -198,9 +198,9 @@ const DsDivisionForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}
@@ -220,9 +220,9 @@ const DsDivisionForm = () => {
                 handleChange(value, "districtDTO");
               }}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}

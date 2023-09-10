@@ -37,6 +37,8 @@ import {
 import { updateInterProvincialDdoa } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { handleInterProvincialDdoa } from "../../../redux/actions/interProvincialDdoa/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const IntProvincialDdoaForm = () => {
   useUserAccessValidation();
@@ -54,7 +56,9 @@ const IntProvincialDdoaForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/inter-provincial-structure/inter-provincial-deputy-director");
+    navigate(
+      "/zone/inter-provincial-structure/inter-provincial-deputy-director"
+    );
   };
 
   const handleChange = (value, target) => {
@@ -131,20 +135,13 @@ const IntProvincialDdoaForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Inter Provincial Deputy Director
-      </FormHeader>
+      
+       <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Inter Provincial Deputy Director"
+      />
       <ButtonWrapper
         isCeneter
         style={{
@@ -171,7 +168,7 @@ const IntProvincialDdoaForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -191,7 +188,7 @@ const IntProvincialDdoaForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -209,13 +206,10 @@ const IntProvincialDdoaForm = () => {
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "ddId")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "ddId")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -236,9 +230,9 @@ const IntProvincialDdoaForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
+                
                 "& .MuiInputBase-root": {
-                  // height: "30px",
+                
                   borderRadius: "8px",
                 },
               }}
@@ -250,7 +244,7 @@ const IntProvincialDdoaForm = () => {
           <FieldWrapper>
             <FieldName> Director DOA Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={DirectorDoaLevels}
               value={formData.directorDoaDTO || selectedProDirectorLevel}
               getOptionLabel={(i) => `${i?.doaId}-${i?.description}`}

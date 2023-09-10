@@ -256,7 +256,7 @@ const DsDivision = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+               
                 options={provinces}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -270,7 +270,7 @@ const DsDivision = () => {
                 inputProps={{ readOnly: true }}
                 disableClearable
                 sx={{
-                  // width: "214px",
+                 
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },
@@ -298,7 +298,7 @@ const DsDivision = () => {
                 disableClearable
                 fullWidth
                 sx={{
-                  // width: "214px",
+                 
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },

@@ -12,12 +12,10 @@ import {
   Stack,
   useTheme,
 } from "@mui/material";
-import ProfileIcon from "@mui/icons-material/AccountCircle";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ExitIcon from "@mui/icons-material/ExitToApp";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { useSnackBars } from "../../context/SnackBarContext";

@@ -144,7 +144,7 @@ const GapRegForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          // await updateGap(formData, onSuccess, onError);
+           await updateGap(formData, onSuccess, onError);
         } else {
           console.log(formData);
 
@@ -998,8 +998,7 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
-              sm={2}
-              md={2}
+             
               lg={2}
               style={
                 {
@@ -1516,8 +1515,6 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
-              sm={2}
-              md={2}
               lg={2}
               style={
                 {
@@ -1552,8 +1549,7 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
-              sm={2}
-              md={2}
+              
               lg={2}
               style={
                 {

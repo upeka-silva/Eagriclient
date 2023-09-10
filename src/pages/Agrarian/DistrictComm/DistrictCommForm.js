@@ -21,7 +21,7 @@ const DistrictCommForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -150,10 +150,9 @@ const DistrictCommForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "districtCommId")
               }
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -172,9 +171,7 @@ const DistrictCommForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -186,9 +183,9 @@ const DistrictCommForm = () => {
           <FieldWrapper>
             <FieldName>Department of Agrarian development</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={agrarDevDepts}
-              value={selectedAgrarDevDept}
+              value={formData.doAgrarianDevelopmentDTO }
               getOptionLabel={(i) => `${i?.doAgrarianDevelopmentId}-${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);

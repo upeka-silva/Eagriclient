@@ -213,10 +213,9 @@ const AgroEcoForm = () => {
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "aeZoneId")
                 }
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -235,9 +234,7 @@ const AgroEcoForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -256,8 +253,6 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "climateZone")
                 }
                 sx={{
-                  // width: "264px",
-                  // height: "30px",
                   borderRadius: "8px",
                 }}
                 size="small"
@@ -283,9 +278,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageRainfall")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -307,9 +300,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageTemperature")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -331,9 +322,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageHumidity")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -352,9 +341,7 @@ const AgroEcoForm = () => {
                 }}
                 getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
                 sx={{
-                  // width: "264px",
                   "& .MuiOutlinedInput-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}

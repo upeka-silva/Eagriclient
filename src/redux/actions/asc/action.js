@@ -7,8 +7,8 @@ export const handleAsc = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/AscDivision", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await post("geo-data/asc-divisions", payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -36,7 +36,7 @@ export const handleAsc = async (
 
 export const get_ASC = async () => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/AscDivision", true);
+    const { httpCode, payloadDto } = await get("geo-data/asc-divisions", true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -60,7 +60,7 @@ export const updateAsc = async (
 ) => {
   try {
     const response = await put(
-      `geo-data/AscDivision/${payload?.id || ""}`,
+      `geo-data/asc-divisions/${payload?.id || ""}`,
       payload,
       true
     );
@@ -96,7 +96,7 @@ export const deleteASC = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/AscDivision/${id || ""}`, true);
+    const response = await api_delete(`geo-data/asc-divisions/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -120,5 +120,27 @@ export const deleteASC = async (
     } else {
       onError(error);
     }
+  }
+};
+
+export const get_ASCListByComId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/asc-divisions/districtCommissionerLevel/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
   }
 };

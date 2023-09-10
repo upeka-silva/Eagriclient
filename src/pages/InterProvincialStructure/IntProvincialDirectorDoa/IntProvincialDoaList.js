@@ -4,7 +4,7 @@ import { DataTable } from "../../../components/PageLayout/Table";
 
 const IntProvincialDoaList = ({
   dataEndPoint,
-    selectedRows = [],
+  selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
@@ -15,18 +15,16 @@ const IntProvincialDoaList = ({
   ];
 
   return (
-    
-      <DataTable
-        loadingTable
-        dataEndPoint={dataEndPoint}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
   );
 };
 

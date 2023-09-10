@@ -162,7 +162,7 @@ console.log(state)
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                 
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -182,7 +182,7 @@ console.log(state)
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -238,7 +238,7 @@ console.log(state)
           <FieldWrapper>
             <FieldName>Provincial Director Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDirectorLevels}
               value={formData.proDirectorLevelDTO || selectedProDirectorLevel
               }
