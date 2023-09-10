@@ -36,9 +36,13 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
+import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import DynamicFormFarmLand from "../DynamicFormFarmLand/DynamicFormFarmLand";
+import CommonQuestionList from "../AuditForm/CommonQuestionList";
+import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -674,6 +678,20 @@ const FarmLandForm = () => {
         >
           Soil Type Per Land
         </TabButton>
+        <TabButton
+            variant="contained"
+            className={toggleState === 4 ? "active-tabs" : ""}
+            onClick={() => toggleTab(4)}
+        >
+          Self Assessment
+        </TabButton>
+        <TabButton
+            variant="contained"
+            className={toggleState === 5 ? "active-tabs" : ""}
+            onClick={() => toggleTab(5)}
+        >
+          Basic Assessment
+        </TabButton>
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
@@ -1053,6 +1071,24 @@ const FarmLandForm = () => {
             hideFooterSelectedRowCount
           />
         </Box>
+      </TabContent>
+      <TabContent className={toggleState === 4 ? "active-content" : ""}>
+        <DynamicFormListFarmLand
+            dataList={null}
+            onFormSaveSuccess={null}
+            formId={null}
+            formMode={null}
+            auditFormType={'SELF_ASSESSMENT'}
+        />
+      </TabContent>
+      <TabContent className={toggleState === 5 ? "active-content" : ""}>
+        <DynamicFormListFarmLand
+            dataList={null}
+            onFormSaveSuccess={null}
+            formId={null}
+            formMode={null}
+            auditFormType={'BASIC_ASSESSMENT'}
+        />
       </TabContent>
     </Box>
   );
