@@ -199,9 +199,10 @@ export default function DynamicFormDialogGap({
                                      checked={formDataQ["answer_" + item.question.id] === true}
                                  />
                                 }
-                                {item?.proofDocs[0]?.id &&
-                                    <p>File ID: {item?.proofDocs[0]?.id}</p>
-                                }
+                                {item?.proofDocs && (item?.proofDocs?.length > 0) && item?.proofDocs?.map((proofDoc, index) => (
+
+                                    <FieldName><a href={proofDoc.presignedUrl} target="_blank"> {proofDoc.originalFileName} </a></FieldName>
+                                ))}
 
                             </FieldWrapper>
                         </Grid>

@@ -307,7 +307,7 @@ const DynamicFormGap = ({
                                     size="small"
                                     sx={{marginLeft: "10px"}}
                                 >
-                                    RESET11
+                                    RESET
                                 </Button>
                             </>
                         )}
@@ -351,7 +351,7 @@ const DynamicFormGap = ({
                     {formTemplate?.questionDTOS?.map((item, index) => (
                         <Grid item lg={6}>
                             <FieldWrapper>
-                                <FieldName>{index + 1}. {item.questionString} ? 11</FieldName>
+                                <FieldName>{index + 1}. {item.questionString} ? </FieldName>
 
                                 {item.questionType === 'TEXT' &&
                                     <TextField
