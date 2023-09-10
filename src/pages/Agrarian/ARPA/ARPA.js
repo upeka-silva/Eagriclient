@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
+  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
   Divider,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
   Typography,
 } from "@mui/material";
 import ARPAList from "./ARPAList";
@@ -26,17 +29,33 @@ import { deleteARPA } from "../../../redux/actions/arpa/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
+import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 
 const ARPA = () => {
   useUserAccessValidation();
   const { addSnackBar } = useSnackBars();
 
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/arpa");
   const [selectedArpa, setSelectedArpa] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  const [dcomms, setDcomms] = useState([]);
+  const [selectedDcomm, setSelectedDcomm] = useState({
+    districtCommId: "",
+    name: "",
+  });
+  const [ascDivisions, setAscDivisions] = useState([]);
+  const [selectedAscDivision, setSelectedAscDivision] = useState({
+    ascId: "",
+    name: "",
+  });
 
   const navigate = useNavigate();
 
@@ -142,6 +161,35 @@ const ARPA = () => {
     }
   };
 
+  const resetFilter = () => {
+    setSelectedDcomm({
+      districtCommId: "",
+      name: "",
+    });
+    setSelectedAscDivision({
+      ascId: "",
+      name: "",
+    });
+    setDataEndPoint("geo-data/arpa");
+  };
+
+  useEffect(() => {
+    get_DistrictCommList().then(({ dataList = [] }) => {
+      setDcomms(dataList);
+    });
+  }, []);
+
+  const getAscDivisions = (id) => {
+    get_ASCListByComId(id).then(({ dataList = [] }) => {
+      setAscDivisions(dataList);
+    });
+  };
+
+  const getFilteredData = (selectedAscDivision) => {
+    console.log(selectedAscDivision);
+    setDataEndPoint(`geo-data/arpa/AscDivision/` + selectedAscDivision?.id);
+  };
+
   return (
     <div>
       <ListHeader title="ARPA Division" />
@@ -194,11 +242,88 @@ const ARPA = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Grid container>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select District Commissioner</FieldName>
+              <Autocomplete
+                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={dcomms}
+                value={selectedDcomm}
+                getOptionLabel={(i) => `${i?.districtCommId} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDcomm(value);
+                  setSelectedAscDivision({
+                    ascId: "",
+                    name: "",
+                  });
+                  getAscDivisions(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select ASC Division</FieldName>
+              <Autocomplete
+                disabled={selectedDcomm.id == null}
+                options={ascDivisions}
+                value={selectedAscDivision}
+                getOptionLabel={(i) => `${i?.ascId} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedAscDivision(value);
+                  getFilteredData(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={resetFilter}
+                sx={{ marginTop: "40px" }}
+              >
+                <RestartAlt />
+                Reset
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+      </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ARPA}`}
       >
         {loading === false && (
           <ARPAList
+            dataEndPoint={dataEndPoint}
             selectedRows={selectedArpa}
             onRowSelect={toggleArpaSelect}
             selectAll={selectAllArpa}

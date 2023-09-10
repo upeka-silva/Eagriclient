@@ -23,7 +23,6 @@ import {
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
@@ -31,7 +30,6 @@ import { get_DistrictList } from "../../redux/actions/district/action";
 import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 
 import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -45,6 +43,9 @@ import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import DynamicFormFarmLand from "../DynamicFormFarmLand/DynamicFormFarmLand";
 import CommonQuestionList from "../AuditForm/CommonQuestionList";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import BackToList from "../../components/BackToList/BackToList";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -54,9 +55,9 @@ const FarmLandForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [district, setDistrict] = useState([]);
-  const [ds, setDs] = useState([]);
-  const [gn, setGn] = useState([]);
+  const [districtList, setDistrictList] = useState([]);
+  const [dsDivisionList, setDsDivisionList] = useState([]);
+  const [gnDivisionList, setGnDivisionList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
   const [protectedHouseType, setProtectedHouseType] = useState(true);
@@ -107,17 +108,17 @@ const FarmLandForm = () => {
 
   useEffect(() => {
     get_DistrictList().then(({ dataList = [] }) => {
-      setDistrict(dataList);
+      setDistrictList(dataList);
     });
   }, []);
   useEffect(() => {
     get_DsDivisionList().then(({ dataList = [] }) => {
-      setDs(dataList);
+      setDsDivisionList(dataList);
     });
   }, []);
   useEffect(() => {
     get_GnDivisionList().then(({ dataList = [] }) => {
-      setGn(dataList);
+      setGnDivisionList(dataList);
     });
   }, []);
 
@@ -234,7 +235,7 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
-            <Grid item lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
                 <TextField
@@ -256,7 +257,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
@@ -289,7 +290,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Protected House Type</FieldName>
@@ -329,7 +330,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
 
-            <Grid item lg={4}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Soil Type</FieldName>
@@ -361,7 +362,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Area</FieldName>
                 <TextField
@@ -382,7 +383,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Status</FieldName>
@@ -416,7 +417,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 01</FieldName>
                 <TextField
@@ -444,7 +445,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Address Line 02</FieldName>
                 <TextField
@@ -472,7 +473,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>City</FieldName>
                 <TextField
@@ -492,7 +493,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>District</FieldName>
@@ -500,7 +501,7 @@ const FarmLandForm = () => {
                     name="districtDTO"
                     id="districtDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={district}
+                    options={districtList}
                     value={formData ? formData.districtDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -523,7 +524,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={3}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>DS Division</FieldName>
@@ -531,7 +532,7 @@ const FarmLandForm = () => {
                     name="dsDivisionDTO"
                     id="dsDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={ds}
+                    options={dsDivisionList}
                     value={formData ? formData.dsDivisionDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -554,7 +555,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={3}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>GN Division</FieldName>
@@ -562,7 +563,7 @@ const FarmLandForm = () => {
                     name="gnDivisionDTO"
                     id="gnDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={gn}
+                    options={gnDivisionList}
                     value={formData ? formData.gnDivisionDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
@@ -585,7 +586,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Latitude</FieldName>
                 <TextField
@@ -608,7 +609,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Longitude</FieldName>
                 <TextField
@@ -631,7 +632,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={2}>
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName>Elevation</FieldName>
                 <TextField
@@ -699,7 +700,7 @@ const FarmLandForm = () => {
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
         <Box>
           <Grid container>
-            <Grid item lg={8}>
+            <Grid item sm={8} md={8} lg={8}>
               <FarmLandLocation />
             </Grid>
           </Grid>
@@ -707,41 +708,16 @@ const FarmLandForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <ButtonWrapper>
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
+        />
         <Box sx={{ padding: "20px" }}>
           <Grid
             container
@@ -750,7 +726,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Ownership ID</FieldName>
                 <TextField
@@ -772,7 +748,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FormControl fullWidth>
                   <FieldName>Owner Type</FieldName>
@@ -804,7 +780,7 @@ const FarmLandForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid container style={{ display: `${otherField}` }}>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>NIC</FieldName>
                   <TextField
@@ -826,7 +802,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={6}>
+              <Grid item sm={6} md={6} lg={6}>
                 <FieldWrapper>
                   <FieldName>Address Line 01</FieldName>
                   <TextField
@@ -848,7 +824,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>Address Line 02</FieldName>
                   <TextField
@@ -870,7 +846,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>City</FieldName>
                   <TextField
@@ -892,7 +868,7 @@ const FarmLandForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={4}>
+              <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FormControl fullWidth>
                     <FieldName>GN Division</FieldName>
@@ -900,7 +876,7 @@ const FarmLandForm = () => {
                       name="gnDivisionDTO"
                       id="gnDivisionDTO"
                       disabled={state?.action === DEF_ACTIONS.VIEW}
-                      options={gn}
+                      options={gnDivisionList}
                       value={formData ? formData.gnDivisionDTO : ""}
                       getOptionLabel={(i) => `${i.code} - ${i.name}`}
                       onChange={(event, value) => {
@@ -924,7 +900,7 @@ const FarmLandForm = () => {
                 </FieldWrapper>
               </Grid>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Ownership Proof Document</FieldName>
                 <TextField
@@ -952,7 +928,7 @@ const FarmLandForm = () => {
                 ></TextField>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Date From</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -978,7 +954,7 @@ const FarmLandForm = () => {
                 </LocalizationProvider>
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Date Until</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -1020,41 +996,16 @@ const FarmLandForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
-        <ButtonWrapper>
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                  </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper>
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
+        />
         <Box sx={{ padding: "20px" }}>
           <Grid
             container
@@ -1063,7 +1014,7 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Land ID</FieldName>
                 <TextField
@@ -1086,7 +1037,7 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={6}>
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName>Soil Type ID</FieldName>
                 <TextField

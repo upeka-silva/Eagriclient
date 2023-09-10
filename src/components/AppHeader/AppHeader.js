@@ -1,27 +1,45 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
 import { Routes } from "../../routes/routes";
-import { Button, IconButton, Popover, Typography } from "@mui/material";
-import ProfileIcon from "@mui/icons-material/AccountCircle";
+import {
+  Button,
+  IconButton,
+  Popover,
+  Typography,
+  Avatar,
+  Stack,
+  useTheme,
+} from "@mui/material";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ExitIcon from "@mui/icons-material/ExitToApp";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
+import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
+import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 
 const ProfileImg = require("../../assets/images/profileImg.png");
+const ProfileImgBig = require("../../assets/images/profileImgBig.png");
 
 const AppHeader = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+
   const [isProfileOptionsOpen, setProfileOptionsOpen] = useState(false);
   const [anchorElement, setAnchorEl] = React.useState(null);
+  const [variants, setVariants] = useState({
+    button1: "contained",
+    button2: "outlined",
+    button3: "outlined",
+  });
 
   const { user, resetAuthContext } = useAuthContext();
 
@@ -33,6 +51,23 @@ const AppHeader = () => {
   const closeProfileOptions = () => {
     setProfileOptionsOpen(false);
     setAnchorEl(null);
+  };
+
+  // Change the variant from 'outlined' to 'contained' when the button is clicked
+  const handleClick = (clickedButton) => {
+    const updatedButtonVariant = {};
+
+    // Set the clicked button to 'contained'
+    updatedButtonVariant[clickedButton] = "contained";
+
+    // Set all other buttons to 'outlined'
+    for (const variant in variants) {
+      if (variant !== clickedButton) {
+        updatedButtonVariant[variant] = "outlined";
+      }
+    }
+
+    setVariants(updatedButtonVariant);
   };
 
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
@@ -93,6 +128,10 @@ const AppHeader = () => {
     initiateLogout(resetAuthContext, onSuccess, onError);
   };
 
+  const profile = () => {
+    navigate("/new-user-registration");
+  };
+
   return (
     <Wrapper className="wrapper">
       <ItemWrapper>
@@ -116,8 +155,17 @@ const AppHeader = () => {
               }}
             />
           </BreakLine>
-
-          <IconButton style={{ marginLeft: "30px" }}>
+          <IconButton
+            style={{ marginLeft: "30px" }}
+            onClick={colorMode.toggleColorMode}
+          >
+            {theme.palette.mode === "dark" ? (
+              <DarkModeOutlined />
+            ) : (
+              <LightModeOutlined />
+            )}
+          </IconButton>
+          <IconButton style={{ marginLeft: "20px" }}>
             <NotificationsNoneIcon />
           </IconButton>
           <IconButton>
@@ -162,21 +210,51 @@ const AppHeader = () => {
             horizontal: "center",
           }}
         >
-          <div>
-            <Button variant="text" color="success" startIcon={<ProfileIcon />}>
-              Profile
-            </Button>
-
-            <br />
-            <Button
-              onClick={logoutFunc}
-              variant="text"
-              color="success"
-              startIcon={<ExitIcon />}
+          <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
+            <Avatar
+              alt="Profile Img"
+              src={ProfileImgBig}
+              sx={{ width: "98px", height: "98px" }}
+            />
+            <Typography variant="h6">Dinidu Hewage</Typography>
+            <Typography
+              variant="subtitle1"
+              sx={{ marginTop: "0px !important" }}
             >
-              Logout
-            </Button>
-          </div>
+              Extension Officer | Colombo
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              <Button
+                color="success"
+                variant={variants.button1}
+                onClick={() => handleClick("button1")}
+              >
+                EN
+              </Button>
+              <Button
+                color="success"
+                variant={variants.button2}
+                onClick={() => handleClick("button2")}
+              >
+                SI
+              </Button>
+              <Button
+                color="success"
+                variant={variants.button3}
+                onClick={() => handleClick("button3")}
+              >
+                TA
+              </Button>
+            </Stack>
+            <Stack spacing={2} sx={{ marginTop: "32px !important" }}>
+              <Button variant="contained" color="success" onClick={profile}>
+                VIEW PROFILE
+              </Button>
+              <Button variant="contained" color="success" onClick={logoutFunc}>
+                LOGOUT
+              </Button>
+            </Stack>
+          </Stack>
         </Popover>
       </ItemWrapper>
     </Wrapper>

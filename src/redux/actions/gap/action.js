@@ -68,3 +68,22 @@ export const updateGap = async (
       }
     }
   };
+
+  export const get_GapRequestList = async () => {
+    try {
+      const { httpCode, payloadDto } = await get("gap-request", true);
+      if (httpCode === "200 OK") {
+        return {
+          dataList: payloadDto,
+        };
+      }
+      return {
+        dataList: [],
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        dataList: [],
+      };
+    }
+  };

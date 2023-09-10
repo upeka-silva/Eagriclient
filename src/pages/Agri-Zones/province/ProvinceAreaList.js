@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ProvinceAreaList = ({
   selectedRows = [],
@@ -13,7 +13,7 @@ const ProvinceAreaList = ({
     { field: "description", headerName: "Description" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/ag-province-area"}
@@ -24,7 +24,7 @@ const ProvinceAreaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

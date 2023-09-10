@@ -9,23 +9,24 @@ const FarmerList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "", headerName: "Code" },
-    { field: "", headerName: "Name" },
+    { field: "id", headerName: "Code" },
+    { field: "firstName", headerName: "First Name" },
+    { field: "lastName", headerName: "Last Name" },
+    { field: "nationality", headerName: "Nationality" },
+    { field: "nic", headerName: "Nic" },
   ];
 
   return (
-    <TableWrapper>
-      <DataTable
-        loadingTable
-        dataEndPoint={"farmers"}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    </TableWrapper>
+    <DataTable
+      loadingTable
+      dataEndPoint={"farmers"}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
   );
 };
 

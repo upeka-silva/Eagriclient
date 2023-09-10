@@ -226,52 +226,7 @@ const DistrictComm = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
-      <ActionWrapper isLeft>
-        <Grid container>
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Select AgrarDevDept</FieldName>
-              <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={doas}
-                value={selectedDoa}
-                getOptionLabel={(i) =>
-                  `${i?.doAgrarianDevelopmentId} - ${i?.name}`
-                }
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDoa(value);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "4px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
-            <FieldWrapper>
-              <Button
-                color="success"
-                variant="contained"
-                size="small"
-                onClick={getFilteredData}
-                sx={{ marginTop: "40px" }}
-              >
-                <Search />
-                Search
-              </Button>
-            </FieldWrapper>
-          </Grid>
-        </Grid>
-      </ActionWrapper>
+      
 
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}

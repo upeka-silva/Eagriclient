@@ -134,7 +134,7 @@ const ASCForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>ASC Division ID</FieldName>
             <TextField
@@ -147,6 +147,7 @@ const ASCForm = () => {
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) => handleChange(e?.target?.value || "", "ascId")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -156,7 +157,7 @@ const ASCForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>ASC Division Name</FieldName>
             <TextField
@@ -166,6 +167,7 @@ const ASCForm = () => {
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
+             
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -175,7 +177,7 @@ const ASCForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
               <FieldName>District Comm ID</FieldName>
@@ -183,7 +185,7 @@ const ASCForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
                 value={formData ? formData.districtCommissionerLevelDTO : ""}
-                getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                getOptionLabel={(i) => `${i.districtCommId} - ${i.name}`}
                 onChange={(event, value) => {
                   handleChange(value, "districtCommissionerLevelDTO");
                 }}

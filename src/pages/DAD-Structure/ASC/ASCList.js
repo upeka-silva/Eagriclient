@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ASCList = ({
   selectedRows = [],
@@ -15,7 +15,7 @@ const ASCList = ({
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"asc"}
@@ -26,7 +26,7 @@ const ASCList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

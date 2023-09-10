@@ -4,11 +4,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import {
-  get_ProvincialDoaList,
-  handleProvincialDoa,
-  updateProvincialDoa,
-} from "../../../redux/actions/ProvincialDoa/action";
+
 import {
   Autocomplete,
   Button,
@@ -34,14 +30,18 @@ import {
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
+import { handleInterProvincialDdoa, updateInterProvincialDdoa , } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+
 
 const ProvincialDdoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -162,7 +162,7 @@ const ProvincialDdoaForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                 
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -182,13 +182,13 @@ const ProvincialDdoaForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Provincial Deputy Director Id</FieldName>
             <TextField
@@ -213,7 +213,7 @@ const ProvincialDdoaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={5}>
+        <Grid item sm={5} md={5} lg={5}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
             <TextField
@@ -234,13 +234,14 @@ const ProvincialDdoaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Provincial Director Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDirectorLevels}
-              value={selectedProDirectorLevel}
+              value={formData.proDirectorLevelDTO || selectedProDirectorLevel
+              }
               getOptionLabel={(i) => `${i?.proDirectorId}-${i?.description}`}
               onChange={(event, value) => {
                 console.log(value);

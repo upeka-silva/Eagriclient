@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { TextField, Button, Autocomplete, Grid } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -20,9 +15,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 
-import {
-  ActionWrapper
-} from "../../../components/PageLayout/ActionWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { useEffect } from "react";
 import BackToList from "../../../components/BackToList/BackToList";
@@ -145,7 +138,7 @@ const DsDivisionForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -165,13 +158,13 @@ const DsDivisionForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>DS Division Code</FieldName>
             <TextField
@@ -194,7 +187,7 @@ const DsDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>DS Division Name</FieldName>
             <TextField
@@ -205,9 +198,9 @@ const DsDivisionForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}
@@ -215,7 +208,7 @@ const DsDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>District Name</FieldName>
             <Autocomplete
@@ -227,9 +220,9 @@ const DsDivisionForm = () => {
                 handleChange(value, "districtDTO");
               }}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}

@@ -167,7 +167,6 @@ const ProvincialAdaForm = () => {
                   size="small"
                   color="success"
                 >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -187,7 +186,6 @@ const ProvincialAdaForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -218,7 +216,6 @@ const ProvincialAdaForm = () => {
             />
           </FieldWrapper>
         </Grid>
-
         <Grid item lg={4} sm={6} xs={12}>
           <FieldWrapper>
             <FieldName>Description</FieldName>
@@ -244,9 +241,11 @@ const ProvincialAdaForm = () => {
           <FieldWrapper>
             <FieldName>Provincial Deputy Director Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDeputyDirectorLevels}
-              value={selectedProDirectorLevel}
+              value={
+                formData.proDeputyDirectorLevelDTO || selectedProDirectorLevel
+              }
               getOptionLabel={(i) => `${i?.provincialDdId}- ${i?.description} `}
               onChange={(event, value) => {
                 console.log(value);

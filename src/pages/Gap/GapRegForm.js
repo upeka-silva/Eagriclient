@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
-  Stack
+  Stack,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -48,7 +48,6 @@ import { gapReqDto } from "./gap-type";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
-
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -147,7 +146,7 @@ const GapRegForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          // await updateGap(formData, onSuccess, onError);
+           await updateGap(formData, onSuccess, onError);
         } else {
           console.log(formData);
 
@@ -179,8 +178,12 @@ const GapRegForm = () => {
     >
       <div>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
-             back to list
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
+            back to list
           </Button>
         </ActionWrapper>
         <PathName>{getPathName()}</PathName>
@@ -297,7 +300,7 @@ const GapRegForm = () => {
               </Select>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName
                 style={{
@@ -327,7 +330,7 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName
                 style={{
@@ -384,7 +387,6 @@ const GapRegForm = () => {
           </Grid>
           <Grid
             item
-            // lg={2}
             style={{
               // backgroundColor: `${Colors.formBackgroundColor}`,
 
@@ -424,7 +426,7 @@ const GapRegForm = () => {
             </FieldWrapper>
           </Grid>
 
-          <Grid item lg={5}>
+          <Grid item sm={5} md={5} lg={5}>
             <FieldWrapper>
               <FieldName
                 style={{
@@ -520,6 +522,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -530,10 +534,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
               spacing={0}
             >
               <FieldWrapper>
@@ -554,10 +562,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -590,10 +602,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -631,10 +647,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -670,10 +690,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper style={{}}>
                 <FieldName
@@ -700,10 +724,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -740,6 +768,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -750,10 +780,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -780,10 +814,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -811,10 +849,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -834,10 +876,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -869,6 +915,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -879,10 +927,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -906,6 +958,8 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
               style={{
                 // backgroundColor: `${Colors.formBackgroundColor}`,
@@ -944,10 +998,15 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={2}
+              md={2}
+             
               lg={2}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -971,10 +1030,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={1}
+              md={1}
               lg={1}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -998,10 +1061,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1034,10 +1101,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1075,9 +1146,11 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1119,6 +1192,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1129,10 +1204,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1165,10 +1244,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1192,6 +1275,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1202,10 +1287,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1234,10 +1323,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1266,10 +1359,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1297,10 +1394,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1328,10 +1429,14 @@ const GapRegForm = () => {
 
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1371,6 +1476,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1381,10 +1488,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1404,10 +1515,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={2}
+              md={2}
               lg={2}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1434,10 +1549,15 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={2}
+              md={2}
+              
               lg={2}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>Prepared outside the farm</FieldName>
@@ -1458,10 +1578,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1501,6 +1625,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1511,10 +1637,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={6}
+              md={6}
               lg={6}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1538,10 +1668,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1568,6 +1702,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1578,10 +1714,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1602,10 +1742,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1638,9 +1782,11 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1674,10 +1820,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1715,6 +1865,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1725,10 +1877,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1752,10 +1908,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={6}
+              md={6}
               lg={6}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1789,10 +1949,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1832,6 +1996,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1842,10 +2008,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1882,6 +2052,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1892,10 +2064,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1919,9 +2095,11 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -1962,6 +2140,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -1972,10 +2152,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -1999,10 +2183,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2031,6 +2219,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2041,10 +2231,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2068,10 +2262,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2094,10 +2292,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2124,6 +2326,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2134,10 +2338,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={3}
+              md={3}
               lg={3}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2157,10 +2365,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2183,10 +2395,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={5}
+              md={5}
               lg={5}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2211,6 +2427,8 @@ const GapRegForm = () => {
             container
             flexDirection="row"
             xs="auto"
+            sm={12}
+            md={12}
             lg={12}
             sx={{
               border: "1px solid #bec0c2",
@@ -2221,10 +2439,14 @@ const GapRegForm = () => {
           >
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName
@@ -2252,10 +2474,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2279,10 +2505,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2305,10 +2535,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2332,10 +2566,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2355,10 +2593,14 @@ const GapRegForm = () => {
             </Grid>
             <Grid
               item
+              sm={4}
+              md={4}
               lg={4}
-              style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
-              }}
+              style={
+                {
+                  // backgroundColor: `${Colors.formBackgroundColor}`,
+                }
+              }
             >
               <FieldWrapper>
                 <FieldName style={{}}>
@@ -2413,8 +2655,6 @@ const GapRegForm = () => {
 };
 
 export default GapRegForm;
-
-
 
 export const TabWrapper = styled(Stack)`
   && {

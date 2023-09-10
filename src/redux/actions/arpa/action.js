@@ -8,7 +8,7 @@ export const handleArpa = async (
 ) => {
   try {
     const response = await post("geo-data/arpa", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -120,5 +120,25 @@ export const deleteARPA = async (
     } else {
       onError(error);
     }
+  }
+};
+
+
+export const get_arpaListByAscId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/arpa/AscDivision/" + id, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
   }
 };

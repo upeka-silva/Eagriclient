@@ -21,7 +21,7 @@ const DistrictCommForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -135,7 +135,7 @@ const DistrictCommForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>District Commissioner Id</FieldName>
             <TextField
@@ -150,10 +150,9 @@ const DistrictCommForm = () => {
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "districtCommId")
               }
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -161,7 +160,7 @@ const DistrictCommForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={5}>
+        <Grid item sm={5} md={5} lg={5}>
           <FieldWrapper>
             <FieldName>District Commissioner Name</FieldName>
             <TextField
@@ -172,9 +171,7 @@ const DistrictCommForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -182,13 +179,13 @@ const DistrictCommForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Department of Agrarian development</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={agrarDevDepts}
-              value={selectedAgrarDevDept}
+              value={formData.doAgrarianDevelopmentDTO }
               getOptionLabel={(i) => `${i?.doAgrarianDevelopmentId}-${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);

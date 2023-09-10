@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
+  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
   Divider,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  TextField,
 } from "@mui/material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import ASCList from "./ASCList";
@@ -25,17 +28,26 @@ import { deleteASC } from "../../../redux/actions/asc/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 
 const ASC = () => {
   useUserAccessValidation();
   const { addSnackBar } = useSnackBars();
 
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/asc-divisions");
   const [selectedAsc, setSelectedAsc] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dcomms, setDcomms] = useState([]);
+  const [selectedDcomm, setSelectedDcomm] = useState({
+    districtCommId: "",
+    name: "",
+  });
 
   const navigate = useNavigate();
 
@@ -141,6 +153,27 @@ const ASC = () => {
     }
   };
 
+  const getFilteredData = (selectedDcomm) => {
+    console.log(selectedDcomm);
+    setDataEndPoint(
+      `geo-data/asc-divisions/districtCommissionerLevel/` + selectedDcomm?.id
+    );
+  };
+
+  const resetFilter = () => {
+    setSelectedDcomm({
+      districtCommId: "",
+      name: "",
+    });
+    setDataEndPoint("geo-data/asc-divisions");
+  };
+
+  useEffect(() => {
+    get_DistrictCommList().then(({ dataList = [] }) => {
+      setDcomms(dataList);
+    });
+  }, []);
+
   return (
     <div>
       <ListHeader title="ASC Division" />
@@ -193,11 +226,57 @@ const ASC = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Grid container>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select District Commissioner</FieldName>
+              <Autocomplete
+                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={dcomms}
+                value={selectedDcomm}
+                getOptionLabel={(i) => `${i?.districtCommId} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDcomm(value);
+                  getFilteredData(value);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={resetFilter}
+                sx={{ marginTop: "40px" }}
+              >
+                <RestartAlt />
+                Reset
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+      </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ASC}`}
       >
         {loading === false && (
           <ASCList
+            dataEndPoint={dataEndPoint}
             selectedRows={selectedAsc}
             onRowSelect={toggleAscSelect}
             selectAll={selectAllAsc}

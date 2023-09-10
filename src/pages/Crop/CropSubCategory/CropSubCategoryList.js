@@ -4,12 +4,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import {
-  Button,
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
@@ -98,7 +93,7 @@ const CropSubCategoryList = ({
                       size="small"
                       placeholder="Select Crop Category"
                     />
-                  )}                  
+                  )}
                 />
               </FieldWrapper>
             </Grid>

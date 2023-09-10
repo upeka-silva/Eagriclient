@@ -8,15 +8,16 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
+import {  handleArpa, updateArpa } from "../../../redux/actions/arpa/action";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import { get_ASC } from "../../../redux/actions/asc/action";
+import { get_ASC, get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { useEffect } from "react";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 
 const ARPAForm = () => {
   const navigate = useNavigate();
@@ -29,6 +30,17 @@ const ARPAForm = () => {
   const [saving, setSaving] = useState(false);
   const [options, setOptions] = useState([]);
   const { addSnackBar } = useSnackBars();
+
+  const [dcomms, setDcomms] = useState([]);
+  const [selectedDcomm, setSelectedDcomm] = useState({
+    districtCommId: "",
+    name: "",
+  });
+  const [ascDivisions, setAscDivisions] = useState([]);
+  const [selectedAscDivision, setSelectedAscDivision] = useState({
+    ascId: "",
+    name: "",
+  });
 
   const goBack = () => {
     navigate("/zone/agrarian/arpa-division");
@@ -111,6 +123,20 @@ const ARPAForm = () => {
       : location.pathname;
   };
 
+  useEffect(() => {
+    get_DistrictCommList().then(({ dataList = [] }) => {
+      setDcomms(dataList);
+    });
+  }, []);
+
+  const getAscDivisions = (id) => {
+    get_ASCListByComId(id).then(({ dataList = [] }) => {
+      setAscDivisions(dataList);
+    });
+  };
+
+  
+
   return (
     <FormWrapper>
       <BackToList goBack={goBack} />
@@ -133,7 +159,7 @@ const ARPAForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>ARPA Division ID</FieldName>
             <TextField
@@ -146,6 +172,7 @@ const ARPAForm = () => {
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) => handleChange(e?.target?.value || "", "arpaId")}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -155,7 +182,7 @@ const ARPAForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>ARPA Division Name</FieldName>
             <TextField
@@ -174,17 +201,46 @@ const ARPAForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>ASC Division ID</FieldName>
+              <FieldName>Select District Commissioner</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={options}
-                value={formData ? formData.ascDto : ""}
+                options={dcomms}
+                value={selectedDcomm}
+                getOptionLabel={(i) => `${i.districtCommId} - ${i.name}`}
+                onChange={(event, value) => {
+                 setSelectedDcomm(value)
+                 setSelectedAscDivision({
+                  ascId: "",
+                  name: "",
+                })
+                 getAscDivisions(value.id)
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                renderInput={(params) => <TextField {...params} size="small" />}
+              />
+            </FormControl>
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={4} md={4} lg={4}>
+          <FieldWrapper>
+            <FormControl fullWidth>
+              <FieldName>Select ASC Division </FieldName>
+              <Autocomplete
+                disabled={state?.action === DEF_ACTIONS.VIEW || selectedDcomm.id == null}
+                options={ascDivisions}
+                value={ formData?.ascDto || selectedAscDivision}
                 getOptionLabel={(i) => `${i.ascId} - ${i.name}`}
                 onChange={(event, value) => {
                   handleChange(value, "ascDto");
+                  setSelectedAscDivision(value)
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {

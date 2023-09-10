@@ -83,6 +83,7 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import Organization from "../pages/Organization/Organization";
 import { PeopleAlt } from "@mui/icons-material";
@@ -99,6 +100,7 @@ import ASCForm from "../pages/Agrarian/ASC/ASCForm";
 import ARPA from "../pages/Agrarian/ARPA/ARPA";
 import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
+import NewUserRegistration from "../pages/UserRegistration/NewUserRegistration";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
@@ -109,6 +111,24 @@ import ProvincialDdoa from "../pages/ProvincialStructure/ProvincialDdoa/Provinci
 import ProvincialDdoaForm from "../pages/ProvincialStructure/ProvincialDdoa/ProvicialDdoaForm";
 import ProvincialAda from "../pages/ProvincialStructure/ProvincialAda/ProvicialAda";
 import ProvincialAdaForm from "../pages/ProvincialStructure/ProvincialAda/ProvicialAdaForm";
+import IntProvincialDoa from "../pages/InterProvincialStructure/IntProvincialDirectorDoa/IntProvincialDoa";
+import IntProvincialDoaForm from "../pages/InterProvincialStructure/IntProvincialDirectorDoa/IntProvincialDoaForm";
+import IntProvincialDdoaForm from "../pages/InterProvincialStructure/IntProvincialDdoa/IntProvincialDdoaForm";
+import IntProvincialDdoa from "../pages/InterProvincialStructure/IntProvincialDdoa/IntProvincialDdoa";
+import IntProvincialAda from "../pages/InterProvincialStructure/IntProvincialAda/IntProvincialAda";
+import IntProvincialAdaForm from "../pages/InterProvincialStructure/IntProvincialAda/IntProvincialAdaForm";
+import MahaweliAuthority from "../pages/MahaweliAuthorityStructure/MahaweliAuthority/MahaweliAuthority";
+import MahaweliAuthorityForm from "../pages/MahaweliAuthorityStructure/MahaweliAuthority/MahaweliAuthorityForm";
+import MahaweliSystem from "../pages/MahaweliAuthorityStructure/MahaweliSystem/MahaweliSystem";
+import MahaweliSystemForm from "../pages/MahaweliAuthorityStructure/MahaweliSystem/MahaweliSystemForm";
+import MahaweliBlock from "../pages/MahaweliAuthorityStructure/MahaweliBlock/MahaweliBlock";
+import MahaweliBlockForm from "../pages/MahaweliAuthorityStructure/MahaweliBlock/MahaweliBlockForm";
+import MahaweliUnit from "../pages/MahaweliAuthorityStructure/MahaweliUnit/MahaweliUnit";
+import MahaweliUnitForm from "../pages/MahaweliAuthorityStructure/MahaweliUnit/MahaweliUnitForm";
+import InterProvincialAiRegion from "../pages/InterProvincialStructure/AIRegion/AiRegion";
+import InterProvincialAiRegionForm from "../pages/InterProvincialStructure/AIRegion/AiRegionForm";
+import ProvincialAiRegion from "../pages/ProvincialStructure/AIRegion/AiRegion";
+import ProvincialAiRegionForm from "../pages/ProvincialStructure/AIRegion/AiRegionForm";
 import SelfAssessment from "../pages/AuditForm/SelfAssessmentForm/SelfAssessment";
 import SelfAssessmentForm from "../pages/AuditForm/SelfAssessmentForm/SelfAssessmentForm";
 import BasicData from "../pages/AuditForm/BasicDataForm/BasicData";
@@ -284,14 +304,14 @@ export const Routes = [
             path: "/ai-region",
             name: "AI Region",
             isSideBar: true,
-            element: <AI />,
+            element: <ProvincialAiRegion />,
             icon: MyLocationIcon,
           },
           {
             path: "/ai-region-form",
             name: "ASC Form",
             isSideBar: false,
-            element: <AIForm />,
+            element: <ProvincialAiRegionForm/>,
           },
           // {
           //   path: "/ai-region",
@@ -340,56 +360,56 @@ export const Routes = [
         isSideBar: true,
         children: [
           {
-            path: "/provincial-director",
+            path: "/inter-provincial-director",
             name: "Director DOA",
             isSideBar: true,
-            element: <InterProvince />,
+            element: <IntProvincialDoa />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-doa-form",
+            path: "/inter-provincial-doa-form",
             name: "Provincial DOA Form",
             isSideBar: false,
-            element: <ProvincialDoaForm />,
+            element: <IntProvincialDoaForm />,
           },
           {
-            path: "/provincial-deputy-director",
-            name: "Provincial DDOA",
+            path: "/inter-provincial-deputy-director",
+            name: "Inter Provincial DDOA",
             isSideBar: true,
-            element: <ProvincialDdoa />,
+            element: <IntProvincialDdoa />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-ddoa-form",
-            name: "Provincial DDOA Form",
+            path: "/inter-provincial-ddoa-form",
+            name: "Inter Provincial DDOA",
             isSideBar: false,
-            element: <ProvincialDdoaForm />,
+            element: <IntProvincialDdoaForm />,
           },
           {
-            path: "/provincial-ada",
-            name: "Provincial ADA",
+            path: "/inter-provincial-ada",
+            name: "Inter Provincial ADA",
             isSideBar: true,
-            element: <ProvincialAda />,
+            element: <IntProvincialAda />,
             icon: MyLocationIcon,
           },
           {
-            path: "/provincial-ada-form",
+            path: "/inter-provincial-ada-form",
             name: "Provincial ADA Form",
             isSideBar: false,
-            element: <ProvincialAdaForm />,
+            element: <IntProvincialAdaForm />,
           },
           {
-            path: "/ai-region",
+            path: "/inter-ai-region",
             name: "AI Region",
             isSideBar: true,
-            element: <AI />,
+            element: <InterProvincialAiRegion />,
             icon: MyLocationIcon,
           },
           {
-            path: "/ai-region-form",
+            path: "/inter-ai-region-form",
             name: "ASC Form",
             isSideBar: false,
-            element: <AIForm />,
+            element: <InterProvincialAiRegionForm />,
           },
           // {
           //   path: "/ai-region",
@@ -609,65 +629,66 @@ export const Routes = [
       //     },
       //   ],
       // },
-      // {
-      //   path: "/mahaweli-structure",
-      //   name: "Mahaweli Structure",
-      //   isSideBar: true,
-      //   children: [
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Authority",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli System",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Block",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //     {
-      //       path: "/mahaweli-block",
-      //       name: "Mahaweli Unit",
-      //       isSideBar: true,
-      //       element: <MahaweliBlock />,
-      //       icon: CropSquareIcon,
-      //     },
-      //     {
-      //       path: "/mahaweli-block-form",
-      //       name: "ARPA Area Form",
-      //       isSideBar: false,
-      //       element: <MahaweliBlockForm />,
-      //     },
-      //   ],
-      // },
+      {
+        path: "/mahaweli-structure",
+        name: "Mahaweli Structure",
+        isSideBar: true,
+        children: [
+          {
+            path: "/mahaweli-authority",
+            name: "Mahaweli Authority",
+            isSideBar: true,
+            element: <MahaweliAuthority />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-authority-form",
+            name: "ARPA Area Form",
+            isSideBar: false,
+            element: <MahaweliAuthorityForm />,
+          },
+          {
+            path: "/mahaweli-system",
+            name: "Mahaweli System",
+            isSideBar: true,
+            element: <MahaweliSystem />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-system-form",
+            name: "Mahaweli System Form",
+            isSideBar: false,
+            element: <MahaweliSystemForm />,
+          },
+          {
+            path: "/mahaweli-block",
+            name: "Mahaweli Block",
+            isSideBar: true,
+            element: <MahaweliBlock />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-block-form",
+            name: "Mahaweli Block Form",
+            isSideBar: false,
+            element: <MahaweliBlockForm />,
+          },
+          
+          {
+            path: "/mahaweli-unit",
+            name: "Mahaweli Unit",
+            isSideBar: true,
+            element: <MahaweliUnit />,
+            icon: CropSquareIcon,
+          },
+          {
+            path: "/mahaweli-unit-form",
+            name: "Mahaweli Unit Form",
+            isSideBar: false,
+            element: <MahaweliUnitForm />,
+          },
+        ],
+      },
       {
         path: "/ez-structure",
         name: "Ecological Zone Structure",
@@ -959,6 +980,14 @@ export const Routes = [
   },
 
   {
+    path: "/new-user-registration",
+    name: "New User Registration",
+    element: <NewUserRegistration />,
+    isSideBar: true,
+    icon: AccountCircleIcon,
+  },
+
+  {
     path: "/users",
     name: "Users",
     element: <Users />,
@@ -996,57 +1025,57 @@ export const Routes = [
         name: "Self Assessment",
         isSideBar: true,
         element: <SelfAssessment />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/self-assessment-form",
         name: "Self Assessment Form",
         isSideBar: false,
         element: <SelfAssessmentForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/basic-assessment",
         name: "Basic Data Assessment",
         isSideBar: true,
         element: <BasicData />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/basic-assessment-form",
         name: "Basic Data Assessment Form",
         isSideBar: false,
         element: <BasicDataForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/internal-audit",
         name: "Internal Audit",
         isSideBar: true,
         element: <InternalAudit />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/internal-audit-form",
         name: "Internal Audit Form",
         isSideBar: false,
         element: <InternalAuditForm />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/external-audit",
         name: "External Audit",
         isSideBar: true,
         element: <ExternalAudit />,
-        icon: SouthAmericaIcon
+        icon: SouthAmericaIcon,
       },
       {
         path: "/external-audit-form",
         name: "External Audit Form",
         isSideBar: false,
         element: <ExternalAuditForm />,
-        icon: SouthAmericaIcon
-      }
+        icon: SouthAmericaIcon,
+      },
     ],
   },
   {

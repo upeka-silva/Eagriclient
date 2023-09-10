@@ -33,10 +33,12 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Search } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Search, Vrpano } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const GnDivision = () => {
@@ -182,10 +184,30 @@ const GnDivision = () => {
     });
   }, []);
 
-  const getFilteredData = () => {
+  const getFilteredData = (selectedDsDevision) => {
     setDataEndPoint(
       `geo-data/gn-divisions/ds-division/` + selectedDsDevision?.id
     );
+  };
+
+  const resetFilter = () => {
+    setSelectedProvince({ code: "", name: "" });
+    setSelectedDistrict({ code: "", name: "" });
+    setSelectedDsDevision({ code: "", name: "" });
+    setDataEndPoint("geo-data/gn-divisions");
+  };
+
+  const getDistricts = (id) => {
+    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDistrics(dataList);
+    });
+  };
+  const getDsDivisions = (id) => {
+    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDsDivisions(dataList);
+    });
   };
 
   return (
@@ -213,38 +235,41 @@ const GnDivision = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-              <ActionButton onClick={onEdit}>
-                <EditIcon />
-              </ActionButton>
+             <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
           {selectedGnDivisions.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-              <ActionButton onClick={onView}>
-                <VisibilityIcon />
-              </ActionButton>
+             <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
           {selectedGnDivisions.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-              <ActionButton onClick={onDelete}>
-                <DeleteForeverIcon />
-              </ActionButton>
+             <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
+                
                 options={provinces}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -253,10 +278,11 @@ const GnDivision = () => {
                   setSelectedProvince(value);
                   setSelectedDistrict({ name: "", code: "" });
                   setSelectedDsDevision({ name: "", code: "" });
-                  setDistrics(value?.districtDTOList);
+                 
+                  getDistricts(value.id);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -269,7 +295,7 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select District</FieldName>
               <Autocomplete
@@ -281,10 +307,11 @@ const GnDivision = () => {
                   console.log(value);
                   setSelectedDistrict(value);
                   setSelectedDsDevision({ name: "", code: "" });
-                  setDsDivisions(value.dsDivisionDTOList);
+                  
+                  getDsDivisions(value.id);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -297,7 +324,7 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Select Ds Devision</FieldName>
               <Autocomplete
@@ -308,9 +335,10 @@ const GnDivision = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDsDevision(value);
+                  getFilteredData(value);
                 }}
                 fullWidth
-                disableClearable 
+                disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
@@ -323,17 +351,17 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={getFilteredData}
+                onClick={resetFilter}
                 sx={{ marginTop: "40px" }}
               >
-                <Search />
-                Search
+                <RestartAlt />
+                Reset
               </Button>
             </FieldWrapper>
           </Grid>

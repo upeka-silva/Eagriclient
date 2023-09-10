@@ -11,14 +11,11 @@ const DistrictCommList = ({
   const columns = [
     { field: "districtCommId", headerName: "ID" },
     { field: "name", headerName: "Name" },
-    {
-      field: "doAgrarianDevelopmentDTO.doAgrarianDevelopmentId",
-      headerName: "AgrarDevDept ID",
-    },
+    
   ];
 
   return (
-    <TableWrapper>
+   
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/district-commissioner-level"}
@@ -29,7 +26,7 @@ const DistrictCommList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper>
+    
   );
 };
 

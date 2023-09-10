@@ -134,12 +134,16 @@ const AgroEcoForm = () => {
     <div>
       <FormWrapper>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
         {/* <PathName >{getPathName()}</PathName> */}
-        <FormHeader >
+        <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} AGRO ECO ZONE
         </FormHeader>
@@ -154,34 +158,34 @@ const AgroEcoForm = () => {
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
               {saving ? (
-              <Button variant="contained">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                <Button variant="contained">
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
                 </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
             </ActionWrapper>
           )}
         </ButtonWrapper>
@@ -194,7 +198,7 @@ const AgroEcoForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>AEZ ID</FieldName>
               <TextField
@@ -209,10 +213,9 @@ const AgroEcoForm = () => {
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "aeZoneId")
                 }
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -220,7 +223,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>AEZ Name</FieldName>
               <TextField
@@ -231,9 +234,7 @@ const AgroEcoForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -241,7 +242,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Climate Zone</FieldName>
 
@@ -252,8 +253,6 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "climateZone")
                 }
                 sx={{
-                  // width: "264px",
-                  // height: "30px",
                   borderRadius: "8px",
                 }}
                 size="small"
@@ -265,7 +264,7 @@ const AgroEcoForm = () => {
               </Select>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Rainfall</FieldName>
               <TextField
@@ -279,9 +278,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageRainfall")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -289,7 +286,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Temp</FieldName>
               <TextField
@@ -303,9 +300,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageTemperature")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -313,7 +308,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Avg Humidity</FieldName>
               <TextField
@@ -327,9 +322,7 @@ const AgroEcoForm = () => {
                   handleChange(e?.target?.value || "", "averageHumidity")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -337,7 +330,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={4}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Soil Type</FieldName>
               <Autocomplete
@@ -348,9 +341,7 @@ const AgroEcoForm = () => {
                 }}
                 getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
                 sx={{
-                  // width: "264px",
                   "& .MuiOutlinedInput-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}

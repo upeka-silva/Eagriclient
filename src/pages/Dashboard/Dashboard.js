@@ -1,98 +1,58 @@
 import React from "react";
-import { Card, Container, Grid } from "@mui/material";
-import {
-  // ArgumentAxis,
-  // ValueAxis,
-  Chart,
-  AreaSeries,
-} from "@devexpress/dx-react-chart-material-ui";
+import { Grid, useTheme } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import ChartOne from "./ChartOne";
 import ChartTwo from "./ChartTwo";
 import StatBox from "../../components/DashBoardStatBox/StatBox";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-
-
+import { Forest, Image, Satellite } from "@mui/icons-material";
+import { tokens } from "../../utils/theme/app-theme";
 
 const Dashboard = () => {
   useUserAccessValidation();
 
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   return (
     <div>
-      <Grid container>
-        <Grid
-          item
-          lg={4}
-          sx={{
-            padding: "10px",
-          }}
-        >
+      <Grid container spacing={2} sx={{ marginTop: "10px" }}>
+        <Grid item sm={4} md={4} sx={12}>
           <StatBox
             title={"1,723"}
             subtitle="Total GAP Requests"
-            // progress="0.75"
-            // increase="+14%"
-            icon={
-              <AccountBalanceWalletIcon
-                sx={{ color: "#1c8f91", fontSize: "28px" }}
-              />
-            }
+            progress="0.75"
+            increase="+14%"
+            icon={<Image sx={{ color: colors.green[600], fontSize: "28px" }} />}
           />
         </Grid>
-        <Grid
-          item
-          lg={4}
-          sx={{
-            padding: "10px",
-          }}
-        >
+        <Grid item sm={4} md={4} lg={4} sx={12}>
           <StatBox
             title={"1,723"}
             subtitle="Total Land"
-            // progress="0.75"
-            // increase="+14%"
+            progress="0.75"
+            increase="+14%"
             icon={
-              <AccountBalanceWalletIcon
-                sx={{ color: "#1c8f91", fontSize: "28px" }}
-              />
+              <Satellite sx={{ color: colors.pure_white, fontSize: "28px" }} />
             }
           />
         </Grid>
-        <Grid
-          item
-          lg={4}
-          sx={{
-            padding: "10px",
-          }}
-        >
+        <Grid item sm={4} md={4} lg={4} sx={12}>
           <StatBox
             title={"1,723"}
             subtitle="Total Services"
-            // progress="0.75"
-            // increase="+14%"
+            progress="0.75"
+            increase="+14%"
             icon={
-              <AccountBalanceWalletIcon
-                sx={{ color: "#1c8f91", fontSize: "28px" }}
-              />
+              <Forest sx={{ color: colors.pure_white, fontSize: "32px" }} />
             }
           />
         </Grid>
-        <Grid
-          item
-          lg={4}
-          sx={{
-            padding: "10px",
-          }}
-        >
+      </Grid>
+      <Grid container spacing={2} sx={{ marginTop: "30px" }}>
+        <Grid item sm={4} md={4} lg={4} sx={12}>
           <ChartOne />
         </Grid>
-        <Grid
-          item
-          lg={8}
-          sx={{
-            padding: "10px",
-          }}
-        >
+        <Grid item sm={8} md={8} lg={8} sx={12}>
           <ChartTwo />
         </Grid>
       </Grid>
