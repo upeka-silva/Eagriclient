@@ -10,7 +10,7 @@ function StatBox({ title, subtitle, icon, progress, increase }) {
     <Box
       m="0"
       sx={{
-        backgroundColor: colors.green[600],
+        backgroundColor: colors.green[500],
         paddingX: "30px",
         paddingY: "40px",
         borderRadius: "5px",
