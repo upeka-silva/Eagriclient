@@ -14,9 +14,6 @@ import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 import {DEF_ACTIONS} from "../../utils/constants/permission";
 import {useSnackBars} from "../../context/SnackBarContext";
 import {
-    getQuestionsByFormId,
-    handleAuditFormQuestions,
-    updateAuditFormQuestions,
     deleteAuditFormQuestion
 } from "../../redux/actions/auditForm/auditFormQuestions/actions";
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
@@ -80,17 +77,13 @@ const DynamicFormListFarmLand = ({
 
     useEffect(() => {
         getFormTemplatesByFormLandId(1, uriPath).then(({data = []}) => {
-            //setDistrict(dataList);
-            console.log('res ', data);
             setDataListTemplates(data);
-            console.log('formTemplate ', formTemplate);
         });
     }, []);
 
     const handleCropAreaAdd = (prop, mode) => (event) => {
         setFormData({});
         setFormData(prop);
-        console.log('prop to dlg ', prop);
         setDialogMode(mode);
         setOpenCropAreaAddDlg(true);
     }
@@ -131,7 +124,6 @@ const DynamicFormListFarmLand = ({
         const keysArray = Object.keys(data);
 
         for (const qKey of keysArray) {
-            console.log(qKey);
             if (qKey.indexOf('answer_') !== -1) {
                 const parts = qKey.split('_');
                 const questionId = parts[1];
@@ -145,7 +137,6 @@ const DynamicFormListFarmLand = ({
             }
 
         }
-        console.log('answerList ', answerList);
 
         const saveData = {
             assessmentId: data.assessmentId,
@@ -157,15 +148,9 @@ const DynamicFormListFarmLand = ({
 
         setSaving(true);
         try {
-/*            if (formData?.id) {
-                //await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
-            } else {
-                await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
-            }*/
             if (functionMode === DEF_ACTIONS.ADD) {
                 await saveFormDataWithValues(1, uriPath, saveData, onSuccess, onError);
             } else if (functionMode === DEF_ACTIONS.EDIT) {
-                console.log('saveData ', saveData);
                 await updateFormDataWithValues(data.id, 1, uriPath, saveData, onSuccess, onError);
             }
         } catch (error) {
@@ -178,13 +163,9 @@ const DynamicFormListFarmLand = ({
     const addQ = () => {
 
         getFormTemplateByType(auditFormType).then(({data = {}}) => {
-            //setDistrict(dataList);
-            console.log('res ', data);
             setFormData(data);
             setDialogMode(DEF_ACTIONS.ADD);
             setOpenCropAreaAddDlg(true);
-            //setFormTemplate(data);
-            //console.log('formTemplate ', formTemplate);
         });
 
     }
@@ -218,7 +199,6 @@ const DynamicFormListFarmLand = ({
              <DynamicFormDialogFarmLand
                  open={openCropAreaAddDlg}
                  setConfirmDialog={setOpenCropAreaAddDlg}
-                 // setConfirmDialog={setOpenDlg}
                  confirmAction={handle}
                  handleClose={closeAddCropArea}
                  formData={formData}

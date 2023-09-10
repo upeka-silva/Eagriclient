@@ -80,17 +80,13 @@ const DynamicFormListGap = ({
 
     useEffect(() => {
         getFormTemplatesByGapReqId(1, uriPath).then(({data = []}) => {
-            //setDistrict(dataList);
-            console.log('res ', data);
             setDataListTemplates(data);
-            console.log('formTemplate ', formTemplate);
         });
     }, []);
 
     const handleCropAreaAdd = (prop, mode) => (event) => {
         setFormData({});
         setFormData(prop);
-        console.log('prop to dlg ', prop);
         setDialogMode(mode);
         setOpenCropAreaAddDlg(true);
     }
@@ -127,13 +123,10 @@ const DynamicFormListGap = ({
 
     const handle = async (event, data, functionMode) => {
 
-        console.log('handled data ', data);
-        console.log('formData data ', formData);
         const auditAnswers = [];
         const keysArray = Object.keys(data);
 
         for (const qKey of keysArray) {
-            console.log(qKey);
             if (qKey.indexOf('answer_') !== -1) {
                 const parts = qKey.split('_');
                 const questionId = parts[1];
@@ -147,7 +140,6 @@ const DynamicFormListGap = ({
             }
 
         }
-        console.log('auditAnswers ', auditAnswers);
 
         const saveData = {
             templateId: formTemplate.id,
@@ -163,15 +155,9 @@ const DynamicFormListGap = ({
 
         setSaving(true);
         try {
-/*            if (formData?.id) {
-                //await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
-            } else {
-                await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
-            }*/
             if (functionMode === DEF_ACTIONS.ADD) {
                 await saveGapDataWithValues(1, uriPath, saveData, null, null, onSuccess, onError);
             } else if (functionMode === DEF_ACTIONS.EDIT) {
-                console.log('saveData edit view ', saveData);
                 await updateGapDataWithValues(formData.id, 1, uriPath, saveData, onSuccess, onError);
             }
         } catch (error) {
@@ -184,13 +170,9 @@ const DynamicFormListGap = ({
     const addQ = () => {
 
         getFormTemplateByType(auditFormType + '?gapCategory=SL_GAP&cropCategory=VEG').then(({data = {}}) => {
-            //setDistrict(dataList);
-            console.log('res ', data);
             setFormData(data);
             setDialogMode(DEF_ACTIONS.ADD);
             setOpenCropAreaAddDlg(true);
-            //setFormTemplate(data);
-            //console.log('formTemplate ', formTemplate);
         });
 
     }
@@ -224,7 +206,6 @@ const DynamicFormListGap = ({
              <DynamicFormDialogGap
                  open={openCropAreaAddDlg}
                  setConfirmDialog={setOpenCropAreaAddDlg}
-                 // setConfirmDialog={setOpenDlg}
                  confirmAction={handle}
                  handleClose={closeAddCropArea}
                  formData={formData}

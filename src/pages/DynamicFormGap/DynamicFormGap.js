@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import {
     TextField,
     Button,
-    CircularProgress,
     Grid,
     Select,
     MenuItem, Box, FormControl, Autocomplete,
@@ -15,13 +14,11 @@ import {
 } from "../../utils/constants/permission";
 import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 import {Colors} from "../../utils/constants/Colors";
-import {Fonts} from "../../utils/constants/Fonts";
 import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
-import {FormHeader} from "../../components/FormLayout/FormHeader";
 import {FieldWrapper} from "../../components/FormLayout/FieldWrapper";
 import {FieldName} from "../../components/FormLayout/FieldName";
 import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
-import {Add, ArrowCircleLeftRounded, Edit} from "@mui/icons-material";
+import {Add, Edit} from "@mui/icons-material";
 import {
     fileUploadForm,
     getFormTemplateByType, getFormTemplatesByGapReqId,
@@ -29,20 +26,13 @@ import {
     saveFormDataWithValues, saveGapDataWithValues,
     updateAuditForm, updateGapDataWithValues
 } from "../../redux/actions/auditForm/action";
-import CommonQuestionList from "./../../pages/AuditForm/CommonQuestionList";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {DataGrid} from "@mui/x-data-grid";
-import {handleFarmLand, updateFarmLand} from "../../redux/actions/farmLand/action";
 import Checkbox from "@mui/material/Checkbox";
 import FileUploadDynamic from "./FileUploadDynamic";
 
 const DynamicFormGap = ({
-                         auditFormType = '',
-                         afterSave
-                     }) => {
+                            auditFormType = '',
+                            afterSave
+                        }) => {
     useUserAccessValidation();
     const {state} = useLocation();
     const location = useLocation();
@@ -53,18 +43,13 @@ const DynamicFormGap = ({
     const [formData, setFormData] = useState(state?.target || {});
     const [saving, setSaving] = useState(false);
     const [formTemplate, setFormTemplate] = useState({});
-    const [ds, setDs] = useState([]);
-    const [gn, setGn] = useState([]);
-    const [soilType, setSoilType] = useState([]);
     const [toggleState, setToggleState] = useState(1);
-    const [protectedHouseType, setProtectedHouseType] = useState(true);
-    const [otherField, setOtherField] = useState("none");
     const [newSavedId, setNewSavedId] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileUploadResponse, setFileUploadResponse] = useState({});
     const [selectedQid, setSelectedQid] = useState(null);
 
-    const { addSnackBar } = useSnackBars();
+    const {addSnackBar} = useSnackBars();
 
     const toggleTab = (index) => {
         setToggleState(index);
@@ -76,7 +61,7 @@ const DynamicFormGap = ({
 
     const handleChange = (value, target) => {
         setFormData((current = {}) => {
-            let newData = { ...current };
+            let newData = {...current};
             newData[target] = value;
             return newData;
         });
@@ -106,9 +91,6 @@ const DynamicFormGap = ({
     };
 
     const onSuccessSaveWithFile = async (response, qid, fileData) => {
-        console.log('response after sacve from res ', response );
-        console.log('response after sacve selectedFile ', fileData);
-        console.log('response after sacve qid ', qid);
         setNewSavedId(response?.payload?.id);
         setSelectedQid(qid);
         setSelectedFile(fileData);
@@ -118,19 +100,15 @@ const DynamicFormGap = ({
     };
 
     const onSuccessAfterUploadFile = async (response, qid) => {
-        console.log('response after upload from file ', response );
 
         const obj = {...fileUploadResponse};
         obj[qid] = response.payload
 
         setFileUploadResponse(obj);
-        //setSelectedQid(null);
         setSaving(false);
     };
 
     const onSuccessSave = async (response) => {
-        console.log('response after sacve', response );
-        console.log('fileUploadResponse after sacve', fileUploadResponse );
 
         let id = null;
         if (newSavedId == null) {
@@ -139,16 +117,10 @@ const DynamicFormGap = ({
         } else {
             id = newSavedId;
         }
-
-        console.log('form ', formData);
-        console.log('id ', id);
-
         const auditAnswers = [];
         const keysArray = Object.keys(formData);
-        //console.log('keysArray ', keysArray);
 
         for (const qKey of keysArray) {
-            console.log(qKey);
             if (qKey.indexOf('question_') !== -1) {
                 const parts = qKey.split('_');
                 const questionId = parts[1];
@@ -156,8 +128,6 @@ const DynamicFormGap = ({
 
                 const proofDocs = [];
                 const fileRes = fileUploadResponse[questionId];
-                console.log('fileUploadResponse[questionId] ', fileRes);
-                console.log('questionId ', questionId);
                 if (fileRes) {
                     proofDocs.push({
                         docUrl: fileRes.storedFileName,
@@ -165,10 +135,8 @@ const DynamicFormGap = ({
                         originalFileName: fileRes.originalFileName,
                         presignExpireDate: fileRes.expireDate
                     });
-                    console.log('auditAnswers 0 ', auditAnswers);
                 }
 
-                console.log('auditAnswers 1 ', auditAnswers);
                 auditAnswers.push({
                     question: {
                         id: questionId
@@ -179,7 +147,6 @@ const DynamicFormGap = ({
             }
 
         }
-        console.log('auditAnswers not list ', auditAnswers);
 
 
         const updateData = {
@@ -196,42 +163,26 @@ const DynamicFormGap = ({
         }
 
         try {
-            //if (formData?.id) {
-                await updateGapDataWithValues(id, 1, uriPath, updateData, onSuccess, onError);
-            //}
+            await updateGapDataWithValues(id, 1, uriPath, updateData, onSuccess, onError);
         } catch (error) {
             console.log(error);
         }
-
-/*        addSnackBar({
-                        type: SnackBarTypes.success,
-                        message:
-                            state?.action === DEF_ACTIONS.ADD
-                            ? "Successfully Added"
-                            : "Successfully Updated",
-                    });
-        setSaving(false);
-        afterSave();*/
     };
 
     const onSuccess = async (response) => {
-                addSnackBar({
-                                type: SnackBarTypes.success,
-                                message:
-                                    state?.action === DEF_ACTIONS.ADD
-                                    ? "Successfully Added"
-                                    : "Successfully Updated",
-                            });
-                setSaving(false);
-                afterSave();
+        addSnackBar({
+            type: SnackBarTypes.success,
+            message:
+                state?.action === DEF_ACTIONS.ADD
+                    ? "Successfully Added"
+                    : "Successfully Updated",
+        });
+        setSaving(false);
+        afterSave();
 
     };
 
     const afterFileUploadSave = async (qid, fileData) => {
-        console.log('aafterFileUploadSavefter file selected qid ', qid);
-        console.log('after file selected res ', fileData);
-/*        selectedFiles[qid] = fileData;
-        const newKeyFile = selectedFiles;*/
         const newFile = {...fileData};
         setSelectedFile(newFile);
         setSelectedQid(qid);
@@ -247,7 +198,7 @@ const DynamicFormGap = ({
             setSaving(true);
             try {
                 if (formData?.id) {
-                    console.log('ERRRRRRRRRRR');
+                    console.log('N/A');
                 } else {
                     await saveGapDataWithValues(1, uriPath, saveData, fileData, qid, onSuccessSaveWithFile, onError);
 
@@ -263,14 +214,13 @@ const DynamicFormGap = ({
         }
 
 
-
     };
 
     const onError = (message) => {
         addSnackBar({
-                        type: SnackBarTypes.error,
-                        message: message || "Login Failed",
-                    });
+            type: SnackBarTypes.error,
+            message: message || "Login Failed",
+        });
         setSaving(false);
     };
 
@@ -324,9 +274,7 @@ const DynamicFormGap = ({
     populateAttributes();
 
     useEffect(() => {
-        //question-form-template/type/" + type
         getFormTemplateByType(auditFormType + '?gapCategory=SL_GAP&cropCategory=VEG').then(({data = {}}) => {
-            //setDistrict(dataList);
             console.log('res ', data);
             setFormTemplate(data);
             console.log('formTemplate11 ', formTemplate);
@@ -341,32 +289,31 @@ const DynamicFormGap = ({
                         {saving ? (
                             <Button variant="contained">
                                 {state?.action === DEF_ACTIONS.ADD
-                                 ? "ADDING..."
-                                 : "UPDATING..."}
+                                    ? "ADDING..."
+                                    : "UPDATING..."}
                             </Button>
                         ) : (
-                             <>
-                                 <Button
-                                     variant="outlined"
-                                     disabled={!enableSave()}
-                                     onClick={handleFormSubmit}
-                                     size="small"
-                                     color="success"
-                                 >
-                                     {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>}
-                                     {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                                 </Button>
-                                 <Button
-                                     onClick={resetForm}
-                                     color="success"
-                                     variant="contained"
-                                     size="small"
-                                     sx={{marginLeft: "10px"}}
-                                 >
-                                     RESET11
-                                 </Button>
-                             </>
-                         )}
+                            <>
+                                <Button
+                                    variant="outlined"
+                                    disabled={!enableSave()}
+                                    onClick={handleFormSubmit}
+                                    size="small"
+                                    color="success"
+                                >
+                                    {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>}
+                                </Button>
+                                <Button
+                                    onClick={resetForm}
+                                    color="success"
+                                    variant="contained"
+                                    size="small"
+                                    sx={{marginLeft: "10px"}}
+                                >
+                                    RESET11
+                                </Button>
+                            </>
+                        )}
                     </ActionWrapper>
                 )}
             </ButtonWrapper>
@@ -437,8 +384,6 @@ const DynamicFormGap = ({
                                     handleChange(e?.target?.value || "", "auditCategory")
                                 }
                                 sx={{
-                                    // width: "264px",
-                                    // height: "30px",
                                     borderRadius: "8px",
                                     backgroundColor: `${Colors.white}`,
                                 }}
@@ -479,50 +424,50 @@ const DynamicFormGap = ({
                     </Grid>
 
 
-
                     <Grid item lg={7}></Grid>
                     {formTemplate?.questionDTOS?.map((item, index) => (
-                    <Grid item lg={6}>
-                        <FieldWrapper>
-                            <FieldName>{index + 1}. {item.questionString} ? 11</FieldName>
+                        <Grid item lg={6}>
+                            <FieldWrapper>
+                                <FieldName>{index + 1}. {item.questionString} ? 11</FieldName>
 
-                            {item.questionType === 'TEXT' &&
-                             <TextField
-                                 name={"question_" + item.id}
-                                 id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id] || ""}
-                                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                                 onChange={(e) =>
-                                     handleChange(e?.target?.value || "", "question_" + item.id)
-                                 }
-                                 size="small"
-                                 fullWidth
-                                 sx={{
-                                     "& .MuiInputBase-root": {
-                                         borderRadius: "8px",
-                                         backgroundColor: `${Colors.white}`,
-                                     },
-                                 }}
-                             />
-                            }
+                                {item.questionType === 'TEXT' &&
+                                    <TextField
+                                        name={"question_" + item.id}
+                                        id={"question_" + item.id}
+                                        value={formData?.['question_' + item.id] || ""}
+                                        disabled={state?.action === DEF_ACTIONS.VIEW}
+                                        onChange={(e) =>
+                                            handleChange(e?.target?.value || "", "question_" + item.id)
+                                        }
+                                        size="small"
+                                        fullWidth
+                                        sx={{
+                                            "& .MuiInputBase-root": {
+                                                borderRadius: "8px",
+                                                backgroundColor: `${Colors.white}`,
+                                            },
+                                        }}
+                                    />
+                                }
 
-                            {item.questionType === 'BOOLEAN' &&
-                             <Checkbox
-                                 name={"question_" + item.id}
-                                 id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id]}
-                                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                                 onChange={(e) =>
-                                     handleChange(e?.target?.checked, "question_" + item.id)
-                                 }
-                                 checked={formData?.['question_' + item.id] === true}
-                             />
-                            }
-                            {item.proofRequired === true &&
-                                <FileUploadDynamic qId={item.id}  gapId={1}  auditId={formData.id} auditAPIPath={uriPath}  afterSelectedFile={afterFileUploadSave} />
-                            }
-                        </FieldWrapper>
-                    </Grid>
+                                {item.questionType === 'BOOLEAN' &&
+                                    <Checkbox
+                                        name={"question_" + item.id}
+                                        id={"question_" + item.id}
+                                        value={formData?.['question_' + item.id]}
+                                        disabled={state?.action === DEF_ACTIONS.VIEW}
+                                        onChange={(e) =>
+                                            handleChange(e?.target?.checked, "question_" + item.id)
+                                        }
+                                        checked={formData?.['question_' + item.id] === true}
+                                    />
+                                }
+                                {item.proofRequired === true &&
+                                    <FileUploadDynamic qId={item.id} gapId={1} auditId={formData.id}
+                                                       auditAPIPath={uriPath} afterSelectedFile={afterFileUploadSave}/>
+                                }
+                            </FieldWrapper>
+                        </Grid>
                     ))}
                 </Grid>
             </Box>

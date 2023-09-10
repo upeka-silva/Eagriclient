@@ -34,8 +34,6 @@ export default function DynamicFormDialogGap({
         if (!formData) {
             return;
         }
-        console.log('initial d ', formData);
-        console.log('initial d ', mode);
         const newOne = {};
         newOne.auditId = formData.auditId;
         newOne.id = formData.id;
@@ -44,7 +42,6 @@ export default function DynamicFormDialogGap({
         newOne.auditSubCategory = formData.auditSubCategory;
         let idKey = '';
         let idAnsKey = '';
-        console.log('dddd ', formData?.auditAnswers);
         if (formData?.auditAnswers && formData?.auditAnswers?.length > 0) {
 
             for (const answer of formData?.auditAnswers) {
@@ -53,22 +50,17 @@ export default function DynamicFormDialogGap({
                 newOne[idKey] = answer?.question?.questionString;
                 newOne[idAnsKey] = answer?.answer;
             }
-            console.log('new form ', newOne);
         }
         setFormDataQ(newOne)
 
     }, [formData]);
 
     const handleChange = (value, target) => {
-        console.log('fff ', value);
-        console.log('target ', target);
         setFormDataQ((current = {}) => {
             let newData = {...current};
             newData[target] = value;
-            console.log('changed value ', newData[target]);
             return newData;
         });
-        //console.log('updated ', formDataQ);
     };
 
     const resetForm = () => {
@@ -144,7 +136,6 @@ export default function DynamicFormDialogGap({
                 <Grid
                     container
                     sx={{
-                        // border: "1px solid #bec0c2",
                         margin: "15px",
                         width: "97%",
                         borderRadius: "5px",
@@ -206,8 +197,6 @@ export default function DynamicFormDialogGap({
                                     handleChange(e?.target?.value || "", "auditCategory")
                                 }
                                 sx={{
-                                    // width: "264px",
-                                    // height: "30px",
                                     borderRadius: "8px",
                                     backgroundColor: `${Colors.white}`,
                                 }}
@@ -230,8 +219,6 @@ export default function DynamicFormDialogGap({
                                     handleChange(e?.target?.value || "", "auditSubCategory")
                                 }
                                 sx={{
-                                    // width: "264px",
-                                    // height: "30px",
                                     borderRadius: "8px",
                                     backgroundColor: `${Colors.white}`,
                                 }}
@@ -293,12 +280,5 @@ export default function DynamicFormDialogGap({
                 </Grid>
             </Box>
         </>
-        /*            <DialogActions>
-                        <Button onClick={handleClose} autoFocus>
-                            Cancel
-                        </Button>
-                        <Button disabled={mode === DEF_ACTIONS.VIEW}
-                                onClick={event => confirmAction(event, formDataQ, mode)}>Save</Button>
-                    </DialogActions>*/
     )
 }

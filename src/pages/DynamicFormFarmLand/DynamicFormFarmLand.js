@@ -51,12 +51,7 @@ const DynamicFormFarmLand = ({
     const [formData, setFormData] = useState(state?.target || {});
     const [saving, setSaving] = useState(false);
     const [formTemplate, setFormTemplate] = useState({});
-    const [ds, setDs] = useState([]);
-    const [gn, setGn] = useState([]);
-    const [soilType, setSoilType] = useState([]);
     const [toggleState, setToggleState] = useState(1);
-    const [protectedHouseType, setProtectedHouseType] = useState(true);
-    const [otherField, setOtherField] = useState("none");
 
     const { addSnackBar } = useSnackBars();
 
@@ -125,7 +120,6 @@ const DynamicFormFarmLand = ({
 
             const answerList = [];
             const keysArray = Object.keys(formData);
-            //console.log('keysArray ', keysArray);
 
             for (const qKey of keysArray) {
                 console.log(qKey);
@@ -155,7 +149,7 @@ const DynamicFormFarmLand = ({
             setSaving(true);
             try {
                 if (formData?.id) {
-                    //await saveFormDataWithValues(uriPath, saveData, onSuccess, onError);
+                    console.log('N/A');
                 } else {
                     await saveFormDataWithValues(1, uriPath, saveData, onSuccess, onError);
                 }
@@ -186,7 +180,6 @@ const DynamicFormFarmLand = ({
     populateAttributes();
 
     useEffect(() => {
-        //question-form-template/type/" + type
         getFormTemplateByType(auditFormType).then(({data = {}}) => {
             //setDistrict(dataList);
             console.log('res ', data);
