@@ -38,7 +38,6 @@ export default function DynamicFormDialogGap({
     const {addSnackBar} = useSnackBars();
 
     useEffect(() => {
-        console.log('foormdata ', formData);
         if (!formData) {
             return;
         }
@@ -94,10 +93,6 @@ export default function DynamicFormDialogGap({
     };
 
     const afterFileUploadSave = async (qid, fileData) => {
-/*        const newFile = {...fileData};
-        setSelectedFile(newFile);
-        setSelectedQid(qid);*/
-        console.log('afterFileUploadSave ', qid, ' file ', fileData);
         const formDataFile = new FormData();
         formDataFile.append("file", fileData);
         await fileUploadForm(1, uriPath, formData.id, formDataFile, qid, onSuccessAfterUploadFile, onError);
