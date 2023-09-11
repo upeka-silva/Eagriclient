@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Button,
-  CircularProgress,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { TextField, Button, Autocomplete, Grid } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -18,26 +11,21 @@ import {
 } from "../../../redux/actions/dsDivision/action";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
 
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
 import { useEffect } from "react";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -121,48 +109,47 @@ const DsDivisionForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      <PathName >{getPathName()}</PathName>
-      <FormHeader >
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} DS Division
-      </FormHeader>
-      <ButtonWrapper style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="DS Division" />
+      <ButtonWrapper
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained" color="success" size="small">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -171,14 +158,13 @@ const DsDivisionForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-          
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>DS Division Code</FieldName>
             <TextField
@@ -192,17 +178,16 @@ const DsDivisionForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>DS Division Name</FieldName>
             <TextField
@@ -213,9 +198,9 @@ const DsDivisionForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}
@@ -223,7 +208,7 @@ const DsDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>District Name</FieldName>
             <Autocomplete
@@ -235,9 +220,9 @@ const DsDivisionForm = () => {
                 handleChange(value, "districtDTO");
               }}
               sx={{
-                // width: "264px",
+               
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
+                 
                   borderRadius: "8px",
                 },
               }}
@@ -247,7 +232,6 @@ const DsDivisionForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };

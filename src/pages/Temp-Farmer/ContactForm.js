@@ -136,7 +136,7 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
             paddingTop: "10px",
           }}
         >
-          <Grid item lg={12}>
+          <Grid item sm={12} md={12} lg={12}>
             <FieldWrapper>
               <FormLabel
                 id="demo-row-radio-buttons-group-label"
@@ -218,7 +218,7 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
               </RadioGroup>
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6} sx={{ marginTop: "-15px" }}>
+          <Grid item sm={6} md={6} lg={6} sx={{ marginTop: "-15px" }}>
             <FieldWrapper>
               <FieldName>Value</FieldName>
               <TextField
@@ -242,7 +242,7 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={12}>
+          <Grid item sm={12} md={12} lg={12}>
             <FieldWrapper>
               <FormLabel
                 id="demo-row-radio-buttons-group-label"

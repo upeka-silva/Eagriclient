@@ -1,6 +1,6 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ProvincialDoaList = ({
   selectedRows = [],
@@ -14,7 +14,7 @@ const ProvincialDoaList = ({
   ];
 
   return (
-    <CardWrapper>
+    
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/provincial-director-levels"}
@@ -25,7 +25,7 @@ const ProvincialDoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    
   );
 };
 

@@ -1,14 +1,14 @@
-import { post } from '../../../services/api';
-import { removeLSItem, setLSItem } from '../../../services/storage';
-import { StorageConstants } from '../../../services/storage/constant';
-import { defaultMessages } from '../../../utils/constants/apiMessages';
-import { decompressJWT } from '../../../utils/helpers/permission';
+import { post } from "../../../services/api";
+import { removeLSItem, setLSItem } from "../../../services/storage";
+import { StorageConstants } from "../../../services/storage/constant";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { decompressJWT } from "../../../utils/helpers/permission";
 
 export const initiateLogin = async (
-	body,
-	updateAuthContext = (_val = '') => {},
-	onSuccess = () => {},
-	onError = (_val) => {}
+  body,
+  updateAuthContext = (_val = "") => {},
+  onSuccess = () => {},
+  onError = (_val) => {}
 ) => {
 	try {
 		const response = await post('user/login', body, false);
@@ -42,16 +42,16 @@ export const initiateLogin = async (
 };
 
 export const initiateLogout = async (
-	resetAuthContext = () => {},
-	onSuccess = () => {},
-	onError = (_val) => {}
+  resetAuthContext = () => {},
+  onSuccess = () => {},
+  onError = (_val) => {}
 ) => {
-	try {
-		await removeLSItem(StorageConstants.token);
-		await removeLSItem(StorageConstants.compress_token);
-		resetAuthContext();
-		onSuccess();
-	} catch (_error) {
-		onError('Unable to logout');
-	}
+  try {
+    await removeLSItem(StorageConstants.token);
+    await removeLSItem(StorageConstants.compress_token);
+    resetAuthContext();
+    onSuccess();
+  } catch (_error) {
+    onError("Unable to logout");
+  }
 };

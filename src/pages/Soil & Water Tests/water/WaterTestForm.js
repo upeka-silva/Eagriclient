@@ -29,6 +29,7 @@ import {
   updateWaterTest,
 } from "../../../redux/actions/soil & water tests/water/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { Add, Edit } from "@mui/icons-material";
 
 const WaterTestForm = () => {
   useUserAccessValidation();
@@ -153,45 +154,58 @@ const WaterTestForm = () => {
         flexDirection: "column",
         backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
-        overflowY:'scroll'
+        overflowY: "scroll",
       }}
     >
-      <div >
+      <div>
         <ActionWrapper isLeft>
           <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} WATER TEST
         </FormHeader>
       </div>
-      <ButtonWrapper  style={{
+      <ButtonWrapper
+        style={{
           width: "95%",
           justifyContent: "flex-start",
           margin: "0",
           paddingLeft: "18px",
-        }}>
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -200,118 +214,108 @@ const WaterTestForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
-        <FieldWrapper>
-          <FieldName>Test ID</FieldName>
-          <TextField
-            name="code"
-            id="code"
-            value={formData?.code || ""}
-            fullWidth
-            disabled={
-              state?.action === DEF_ACTIONS.VIEW ||
-              state?.action === DEF_ACTIONS.EDIT
-            }
-            onChange={(e) => handleChange(e?.target?.value || "", "code")}
-            sx={{
-              // width: "264px",
-              "& .MuiInputBase-root": {
-                // height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+        <Grid item sm={2} md={2} lg={2}>
+          <FieldWrapper>
+            <FieldName>Test ID</FieldName>
+            <TextField
+              name="code"
+              id="code"
+              value={formData?.code || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) => handleChange(e?.target?.value || "", "code")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
-        <FieldWrapper>
-          <FieldName>Test Name</FieldName>
-          <TextField
-            name="name"
-            id="name"
-            value={formData?.name || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "name")}
-            sx={{
-              // width: "264px",
-              "& .MuiInputBase-root": {
-                // height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+        <Grid item sm={3} md={3} lg={3}>
+          <FieldWrapper>
+            <FieldName>Test Name</FieldName>
+            <TextField
+              name="name"
+              id="name"
+              value={formData?.name || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
-        <FieldWrapper>
-          <FieldName>
-            Sample
-           Location
-          </FieldName>
-          <TextField
-            name="sampleLocation"
-            id="sampleLocation"
-            value={formData?.sampleLocation || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) =>
-              handleChange(e?.target?.value || "", "sampleLocation")
-            }
-            sx={{
-              // width: "264px",
-              "& .MuiInputBase-root": {
-                // height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+        <Grid item sm={3} md={3} lg={3}>
+          <FieldWrapper>
+            <FieldName>Sample Location</FieldName>
+            <TextField
+              name="sampleLocation"
+              id="sampleLocation"
+              value={formData?.sampleLocation || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "sampleLocation")
+              }
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
-
-        <FieldWrapper>
-          <FieldName>
-            Sample
-            Depth
-          </FieldName>
-          <TextField
-            name="sampleDepth"
-            id="sampleDepth"
-            value={formData?.sampleDepth || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) =>
-              handleChange(e?.target?.value || "", "sampleDepth")
-            }
-            sx={{
-              // width: "264px",
-              "& .MuiInputBase-root": {
-                // height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+        <Grid item sm={3} md={3} lg={3}>
+          <FieldWrapper>
+            <FieldName>Sample Depth</FieldName>
+            <TextField
+              name="sampleDepth"
+              id="sampleDepth"
+              value={formData?.sampleDepth || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "sampleDepth")
+              }
+              sx={{
+                // width: "264px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
-        <FieldWrapper>
-          <FieldName>
-            Date of
-            Collection
-          </FieldName>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            {/* <DemoContainer components={["DatePicker"]} > */}
+        <Grid item sm={2} md={2} lg={2}>
+          <FieldWrapper>
+            <FieldName>Date of Collection</FieldName>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {/* <DemoContainer components={["DatePicker"]} > */}
               <DatePicker
                 label=""
                 slotProps={{ textField: { size: "small" } }}
@@ -323,18 +327,15 @@ const WaterTestForm = () => {
                   handleChange(e?.target?.value || "", "dateOfCollection")
                 }
               />
-            {/* </DemoContainer> */}
-          </LocalizationProvider>
-        </FieldWrapper>
+              {/* </DemoContainer> */}
+            </LocalizationProvider>
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
-        <FieldWrapper>
-          <FieldName>
-            Test
-           Date
-          </FieldName>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            {/* <DemoContainer components={["DatePicker"]}> */}
+        <Grid item sm={2} md={2} lg={2}>
+          <FieldWrapper>
+            <FieldName>Test Date</FieldName>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
                 label=""
                 slotProps={{ textField: { size: "small" } }}
@@ -345,32 +346,31 @@ const WaterTestForm = () => {
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "testDate")
                 }
-              
               />
-            {/* </DemoContainer> */}
-          </LocalizationProvider>
-        </FieldWrapper>
+              {/* </DemoContainer> */}
+            </LocalizationProvider>
+          </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
-        <FieldWrapper>
-          <FieldName>remarks</FieldName>
-          <TextField
-            name="remarks"
-            id="remarks"
-            value={formData?.remarks || ""}
-            fullWidth
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) => handleChange(e?.target?.value || "", "remarks")}
-            sx={{
-              // width: "750px",
-              "& .MuiInputBase-root": {
-                // height: "30px",
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </FieldWrapper>
+        <Grid item sm={3} md={3} lg={3}>
+          <FieldWrapper>
+            <FieldName>remarks</FieldName>
+            <TextField
+              name="remarks"
+              id="remarks"
+              value={formData?.remarks || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "remarks")}
+              sx={{
+                // width: "750px",
+                "& .MuiInputBase-root": {
+                  // height: "30px",
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
       </Grid>
       <Grid
@@ -382,8 +382,7 @@ const WaterTestForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
-       
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Color</FieldName>
             <TextField
@@ -403,13 +402,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Coliform
-              Bacteria
-            </FieldName>
+            <FieldName>Coliform Bacteria</FieldName>
             <TextField
               name="coliformBacteria"
               id="coliformBacteria"
@@ -431,8 +427,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Turbidity</FieldName>
             <TextField
@@ -456,13 +452,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Electrical
-               Conductivity
-            </FieldName>
+            <FieldName>Electrical Conductivity</FieldName>
             <TextField
               name="electricalConductivity"
               id="electricalConductivity"
@@ -484,13 +477,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Free Residual
-             Chlorine
-            </FieldName>
+            <FieldName>Free Residual Chlorine</FieldName>
             <TextField
               name="freeResidualChlorine"
               id="freeResidualChlorine"
@@ -512,13 +502,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Total Dissolved
-               Solids
-            </FieldName>
+            <FieldName>Total Dissolved Solids</FieldName>
             <TextField
               name="totalDissolvedSolids"
               id="totalDissolvedSolids"
@@ -540,8 +527,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Nitrate</FieldName>
             <TextField
@@ -563,8 +550,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Ammonium</FieldName>
             <TextField
@@ -586,8 +573,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Nitrite</FieldName>
             <TextField
@@ -609,8 +596,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Fluoride</FieldName>
             <TextField
@@ -632,10 +619,9 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          
         </Grid>
-        <Grid
+      </Grid>
+      <Grid
         container
         sx={{
           border: "1px solid #bec0c2",
@@ -644,8 +630,7 @@ const WaterTestForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
-        
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Phosphate</FieldName>
             <TextField
@@ -669,8 +654,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Potassium</FieldName>
             <TextField
@@ -694,8 +679,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Dissolved Solids</FieldName>
             <TextField
@@ -719,8 +704,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Calcium</FieldName>
             <TextField
@@ -742,8 +727,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Magnesium</FieldName>
             <TextField
@@ -767,8 +752,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Sodium</FieldName>
             <TextField
@@ -790,8 +775,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Chloride</FieldName>
             <TextField
@@ -813,8 +798,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Sulphate</FieldName>
             <TextField
@@ -836,8 +821,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Iron</FieldName>
             <TextField
@@ -859,8 +844,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Manganese</FieldName>
             <TextField
@@ -884,8 +869,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Zinc</FieldName>
             <TextField
@@ -907,9 +892,9 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
         </Grid>
-        <Grid
+      </Grid>
+      <Grid
         container
         sx={{
           border: "1px solid #bec0c2",
@@ -918,9 +903,7 @@ const WaterTestForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
-        
-        
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Copper</FieldName>
             <TextField
@@ -942,8 +925,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Boron</FieldName>
             <TextField
@@ -965,13 +948,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Total
-               Alkalinity
-            </FieldName>
+            <FieldName>Total Alkalinity</FieldName>
             <TextField
               name="totalAlkalinity"
               id="totalAlkalinity"
@@ -993,8 +973,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Bicarbonate</FieldName>
             <TextField
@@ -1018,8 +998,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Carbonate</FieldName>
             <TextField
@@ -1043,13 +1023,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Magnesium
-              Hardness
-            </FieldName>
+            <FieldName>Magnesium Hardness</FieldName>
             <TextField
               name="magnesiumHardness"
               id="magnesiumHardness"
@@ -1071,13 +1048,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Calcium
-               Hardness
-            </FieldName>
+            <FieldName>Calcium Hardness</FieldName>
             <TextField
               name="calciumHardness"
               id="calciumHardness"
@@ -1099,13 +1073,10 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Total
-               Hardness
-            </FieldName>
+            <FieldName>Total Hardness</FieldName>
             <TextField
               name="totalHardness"
               id="totalHardness"
@@ -1127,8 +1098,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Ecoli</FieldName>
             <TextField
@@ -1150,8 +1121,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={2}>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Ph</FieldName>
             <TextField
@@ -1173,9 +1144,8 @@ const WaterTestForm = () => {
               size="small"
             />
           </FieldWrapper>
-         </Grid>
+        </Grid>
       </Grid>
-      
     </div>
   );
 };

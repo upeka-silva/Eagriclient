@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import {
   Button,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
   ButtonGroup,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
@@ -21,29 +20,23 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import FarmLandList from "./FarmLandList";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import {
-  Add,
-  CancelOutlined,
-  CheckRounded,
-  Delete,
-  Edit,
-  Margin,
-  SaveAltOutlined,
-  Vrpano,
-} from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
+import DialogBox from "../../components/PageLayout/DialogBox";
 
 const FarmLand = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const [selectFarmLand, setSelectFarmLand] = useState([]);
+  const [selectedFarmLand, setSelectedFarmLand] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
   const toggleFarmLandSelect = (component) => {
-    setSelectFarmLand((current = []) => {
+    setSelectedFarmLand((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -56,11 +49,11 @@ const FarmLand = () => {
   };
 
   const selectAllFarmLand = (all = []) => {
-    setSelectFarmLand(all);
+    setSelectedFarmLand(all);
   };
 
   const resetSelectedFarmLand = () => {
-    setSelectFarmLand([]);
+    setSelectedFarmLand([]);
   };
 
   const onCreate = () => {
@@ -75,7 +68,7 @@ const FarmLand = () => {
     navigate("/farm-land-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectFarmLand[0] || {},
+        target: selectedFarmLand[0] || {},
       },
     });
   };
@@ -85,7 +78,7 @@ const FarmLand = () => {
     navigate("/farm-land-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectFarmLand[0] || {},
+        target: selectedFarmLand[0] || {},
       },
     });
   };
@@ -101,7 +94,7 @@ const FarmLand = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectFarmLand.map((p, key) => {
+        {selectedFarmLand.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -138,7 +131,7 @@ const FarmLand = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const farmLand of selectFarmLand) {
+      for (const farmLand of selectedFarmLand) {
         await deleteFarmLand(farmLand?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -152,6 +145,7 @@ const FarmLand = () => {
 
   return (
     <div>
+      <ListHeader title="Farm Land" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -163,12 +157,12 @@ const FarmLand = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
           >
-            <Button onClick={onCreate} >
+            <Button onClick={onCreate}>
               <Add />
-              
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectFarmLand.length === 1 && (
+          {selectedFarmLand.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
             >
@@ -178,7 +172,7 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length === 1 && (
+          {selectedFarmLand.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
             >
@@ -188,7 +182,7 @@ const FarmLand = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectFarmLand.length > 0 && (
+          {selectedFarmLand.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
             >
@@ -203,13 +197,45 @@ const FarmLand = () => {
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.FARM_LAND}`}
       >
-        <FarmLandList
-          selectedRows={selectFarmLand}
-          onRowSelect={toggleFarmLandSelect}
-          selectAll={selectAllFarmLand}
-          unSelectAll={resetSelectedFarmLand}
-        />
+        {loading === false && (
+          <FarmLandList
+            selectedRows={selectedFarmLand}
+            onRowSelect={toggleFarmLandSelect}
+            selectAll={selectAllFarmLand}
+            unSelectAll={resetSelectedFarmLand}
+          />
+        )}
       </PermissionWrapper>
+      <DialogBox
+        open={open}
+        title="Delete Farm Land"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };

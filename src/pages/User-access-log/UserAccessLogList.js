@@ -1,6 +1,7 @@
 import React from "react";
 import { CardWrapper } from "../../components/PageLayout/Card";
 import { DataTable } from "../../components/PageLayout/Table";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 
 const UserAccessLogList = ({
   selectedRows = [],
@@ -21,7 +22,7 @@ const UserAccessLogList = ({
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"app-user-acess-log"}
@@ -32,7 +33,7 @@ const UserAccessLogList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

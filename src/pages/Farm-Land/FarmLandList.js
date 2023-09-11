@@ -1,6 +1,7 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
+// import { CardWrapper } from "../../components/PageLayout/Card";
 
 const FarmLandList = ({
   selectedRows = [],
@@ -9,10 +10,10 @@ const FarmLandList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "landName", headerName: "Land Name" },
+    { field: "name", headerName: "Land Name" },
+    { field: "address", headerName: "Address" },
     { field: "protectedHouseType", headerName: "Protected House Type" },
     { field: "landType", headerName: "Land Type" },
-    { field: "", headerName: "Address" },
     { field: "gnDivisionDTO", headerName: "Grama Niladari Division" },
     { field: "latitude", headerName: "Latitude" },
     { field: "longitude", headerName: "Longitude" },
@@ -23,7 +24,7 @@ const FarmLandList = ({
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"farm-land"}
@@ -34,7 +35,7 @@ const FarmLandList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const InterProvinceList = ({
   selectedRows = [],
@@ -14,10 +14,10 @@ const InterProvinceList = ({
   ];
 
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ag-inter-province-area"}
+        dataEndPoint={"geo-data/director-doa"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -25,7 +25,7 @@ const InterProvinceList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

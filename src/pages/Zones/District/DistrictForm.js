@@ -6,7 +6,6 @@ import {
   Autocomplete,
   Grid,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -28,14 +27,14 @@ import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const DistrictForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
-
+  console.log(state);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -127,16 +126,8 @@ const DistrictForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      <PathName > {getPathName()}</PathName>
-      <FormHeader >
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} District
-      </FormHeader>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="District"/>
       <ButtonWrapper
         style={{
           width: "95%",
@@ -148,21 +139,32 @@ const DistrictForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained" color="success" size="small">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -171,14 +173,13 @@ const DistrictForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-         
         }}
       >
-        <Grid item lg={2}>
+        <Grid item lg={3} sm={6} sx={12}>
           <FieldWrapper>
             <FieldName>District Code</FieldName>
             <TextField
@@ -192,17 +193,16 @@ const DistrictForm = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
+              inputProps={{style: {textTransform: 'uppercase'}}}
               size="small"
             />
           </FieldWrapper>
         </Grid>
-        <Grid item>
+        <Grid item lg={4} sm={6} sx={12}>
           <FieldWrapper>
             <FieldName>District Name</FieldName>
             <TextField
@@ -213,9 +213,7 @@ const DistrictForm = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -223,22 +221,21 @@ const DistrictForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+    <Grid item lg={5} sm={12} sx={12}>
           <FieldWrapper>
             <FieldName>Province</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={options}
               value={formData ? formData.provinceDTO : ""}
+
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "provinceDTO");
               }}
               fullWidth
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -249,7 +246,6 @@ const DistrictForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      
     </FormWrapper>
   );
 };

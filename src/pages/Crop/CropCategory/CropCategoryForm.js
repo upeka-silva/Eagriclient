@@ -1,31 +1,20 @@
 import React, { useState } from "react";
-import {
-  Button,
-  TextField,
-  CircularProgress,
-  Grid,
-  ButtonGroup,
-} from "@mui/material";
+import { TextField, Grid } from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
 import {
   handleCropCategory,
   updateCropCategory,
 } from "../../../redux/actions/crop/cropCategory/action";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const CropCategoryForm = () => {
   useUserAccessValidation();
@@ -108,53 +97,28 @@ const CropCategoryForm = () => {
   return (
     <>
       <FormWrapper>
-        <ActionWrapper isLeft>
-          <Button startIcon={<ArrowCircleLeftRounded />} onClick={goBack} color="success">
-            Back to List
-          </Button>
-        </ActionWrapper>
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {makeCapitalize(state?.action)} Crop Category
-        </FormHeader>
+        <BackToList goBack={goBack} />
+        <CustFormHeader
+          saving={saving}
+          state={state}
+          formName="Crop Category"
+        />
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
 
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </Button>
-                  <Button onClick={resetForm}>RESET</Button>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonGroup>
         <Grid
           container
           sx={{
             width: "97%",
           }}
         >
-          <Grid item lg={3}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Category Code</FieldName>
               <TextField
@@ -178,7 +142,7 @@ const CropCategoryForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={6}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField

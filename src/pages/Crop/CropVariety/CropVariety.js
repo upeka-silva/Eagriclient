@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import CropVarietyList from "./CropVarietyList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -25,6 +25,8 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropVariety } from "../../../redux/actions/crop/cropVariety/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -147,56 +149,42 @@ const CropVariety = () => {
 
   return (
     <div>
+      <ListHeader title="Crop Variety" />
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectCategory.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
           </PermissionWrapper>
-        )}
-        {selectCategory.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectCategory.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectCategory.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+            </PermissionWrapper>
+          )}
+          {selectCategory.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+            </PermissionWrapper>
+          )}
+          {selectCategory.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            >
+              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}

@@ -1,8 +1,9 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const AIList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -16,10 +17,10 @@ const AIList = ({
     { field: "ascRegionId", headerName: "ASC Region ID" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/provinces"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -27,7 +28,7 @@ const AIList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

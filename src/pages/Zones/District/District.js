@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Button,
@@ -9,6 +9,11 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ButtonGroup,
+  Autocomplete,
+  TextField,
+  Box,
+  Grid,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -25,6 +30,19 @@ import { deleteDistrict } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import {
+  Add,
+  Delete,
+  Edit,
+  Vrpano,
+  Search,
+  RestartAlt,
+} from "@mui/icons-material";
+
+import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const District = () => {
   useUserAccessValidation();
@@ -34,9 +52,15 @@ const District = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/districts");
 
   const [selectedDistricts, setSelectedDistricts] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [options, setOptions] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState({
+    code: "",
+    name: "",
+  });
 
   const toggleDistrictSelect = (component) => {
     setSelectedDistricts((current = []) => {
@@ -146,59 +170,120 @@ const District = () => {
     }
   };
 
+  useEffect(() => {
+    get_ProvinceList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setOptions(dataList);
+    });
+  }, []);
+
+  const getFilteredData = (selectedProvince) => {
+    setDataEndPoint(`geo-data/districts/province/` + selectedProvince?.id);
+  };
+
+  const resetFilter = () => {
+    setSelectedProvince({ code: "", name: "" });
+    console.log(selectedProvince);
+    setDataEndPoint("geo-data/districts");
+  };
+
   return (
     <div>
+      <ListHeader title="District" />
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectedDistricts.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-        )}
-        {selectedDistricts.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectedDistricts.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectedDistricts.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedDistricts.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedDistricts.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
+      <ActionWrapper isLeft>
+        <Grid container>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Province</FieldName>
+              <Autocomplete
+               
+                options={options}
+                value={selectedProvince}
+                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedProvince(value);
+                  getFilteredData(value);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={resetFilter}
+                sx={{ marginTop: "40px" }}
+              >
+                <RestartAlt />
+                Reset
+              </Button>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+      </ActionWrapper>
+
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT}`}
       >
@@ -208,6 +293,7 @@ const District = () => {
             onRowSelect={toggleDistrictSelect}
             selectAll={selectAllDistricts}
             unSelectAll={resetSelectedDistricts}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>

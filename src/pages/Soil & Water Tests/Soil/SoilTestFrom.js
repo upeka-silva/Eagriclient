@@ -31,6 +31,7 @@ import {
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { CardWrapper } from "../../../components/PageLayout/Card";
+import { Add, Edit } from "@mui/icons-material";
 
 const SoilTestFrom = () => {
   useUserAccessValidation();
@@ -124,9 +125,9 @@ const SoilTestFrom = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.white}`,
+        // backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
-        overflowY:'scroll'
+        overflowY: "scroll",
       }}
     >
       <div>
@@ -135,7 +136,7 @@ const SoilTestFrom = () => {
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} SOIL TEST
@@ -152,21 +153,32 @@ const SoilTestFrom = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -176,13 +188,13 @@ const SoilTestFrom = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Report ID</FieldName>
             <TextField
@@ -206,7 +218,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Sample ID</FieldName>
             <TextField
@@ -232,7 +244,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Lab No</FieldName>
             <TextField
@@ -253,7 +265,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Test Type</FieldName>
             <TextField
@@ -274,7 +286,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Sample Description</FieldName>
             <TextField
@@ -297,42 +309,42 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Date Sampled</FieldName>
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               {/* <DemoContainer components={["DatePicker"]}> */}
-                <DatePicker
-                  label=""
-                  slotProps={{ textField: { size: "small" } }}
-                  name="dateSampled"
-                  id="dateSampled"
-                  value={formData?.dateSampled || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "dateSampled")
-                  }
-                />
+              <DatePicker
+                label=""
+                slotProps={{ textField: { size: "small" } }}
+                name="dateSampled"
+                id="dateSampled"
+                value={formData?.dateSampled || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "dateSampled")
+                }
+              />
               {/* </DemoContainer> */}
             </LocalizationProvider>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Date Analyzed</FieldName>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {/* <DemoContainer components={["DatePicker"]}> */}
-                <DatePicker
-                  label=""
-                  slotProps={{ textField: { size: "small" } }}
-                  name="dateAnalyzed"
-                  id="dateAnalyzed"
-                  value={formData?.dateAnalyzed || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "dateAnalyzed")
-                  }
-                />
+              <DatePicker
+                label=""
+                slotProps={{ textField: { size: "small" } }}
+                name="dateAnalyzed"
+                id="dateAnalyzed"
+                value={formData?.dateAnalyzed || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "dateAnalyzed")
+                }
+              />
               {/* </DemoContainer> */}
             </LocalizationProvider>
           </FieldWrapper>
@@ -348,7 +360,7 @@ const SoilTestFrom = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Soil PH</FieldName>
             <TextField
@@ -371,7 +383,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Organic Matter</FieldName>
             <TextField
@@ -396,7 +408,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available-P</FieldName>
             <TextField
@@ -421,7 +433,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available-K</FieldName>
             <TextField
@@ -446,7 +458,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available S</FieldName>
             <TextField
@@ -471,7 +483,7 @@ const SoilTestFrom = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Mg</FieldName>
             <TextField
@@ -506,7 +518,7 @@ const SoilTestFrom = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Ca</FieldName>
             <TextField
@@ -530,8 +542,8 @@ const SoilTestFrom = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Exchangeable Al</FieldName>
             <TextField
@@ -555,8 +567,8 @@ const SoilTestFrom = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Cu</FieldName>
             <TextField
@@ -580,8 +592,8 @@ const SoilTestFrom = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Fe</FieldName>
             <TextField
@@ -605,8 +617,8 @@ const SoilTestFrom = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Mn</FieldName>
             <TextField
@@ -630,8 +642,8 @@ const SoilTestFrom = () => {
               size="small"
             />
           </FieldWrapper>
-          </Grid>
-          <Grid item lg={3}>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Available Zn</FieldName>
             <TextField
@@ -658,138 +670,131 @@ const SoilTestFrom = () => {
         </Grid>
       </Grid>
       <Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>
-              Base
-              Saturation
-            </FieldName>
-            <TextField
-              name="baseSaturation"
-              id="baseSaturation"
-              value={formData?.baseSaturation || ""}
-              fullWidth
-              type="number"
-              InputProps={{ inputProps: { min: 0 } }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "baseSaturation")
-              }
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Base Saturation</FieldName>
+              <TextField
+                name="baseSaturation"
+                id="baseSaturation"
+                value={formData?.baseSaturation || ""}
+                fullWidth
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "baseSaturation")
+                }
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>EC</FieldName>
-            <TextField
-              name="ec"
-              id="ec"
-              value={formData?.ec || ""}
-              fullWidth
-              type="number"
-              InputProps={{ inputProps: { min: 0 } }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "ec")}
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>EC</FieldName>
+              <TextField
+                name="ec"
+                id="ec"
+                value={formData?.ec || ""}
+                fullWidth
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "ec")}
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>cea</FieldName>
-            <TextField
-              name="cec"
-              id="cec"
-              value={formData?.cec || ""}
-              fullWidth
-              type="number"
-              InputProps={{ inputProps: { min: 0 } }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "cec")}
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>cea</FieldName>
+              <TextField
+                name="cec"
+                id="cec"
+                value={formData?.cec || ""}
+                fullWidth
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "cec")}
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
-
-          <FieldWrapper>
-            <FieldName>Nh4N</FieldName>
-            <TextField
-              name="nh4N"
-              id="nh4N"
-              value={formData?.nh4N || ""}
-              fullWidth
-              type="number"
-              InputProps={{ inputProps: { min: 0 } }}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "nh4N")}
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Nh4N</FieldName>
+              <TextField
+                name="nh4N"
+                id="nh4N"
+                value={formData?.nh4N || ""}
+                fullWidth
+                type="number"
+                InputProps={{ inputProps: { min: 0 } }}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "nh4N")}
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
-          <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>
-              Additional
-               Comments
-            </FieldName>
-            <TextField
-              name="additionalComments"
-              id="additionalComments"
-              value={formData?.additionalComments || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "additionalComments")
-              }
-              sx={{
-                // width: "264px",
-                "& .MuiInputBase-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Additional Comments</FieldName>
+              <TextField
+                name="additionalComments"
+                id="additionalComments"
+                value={formData?.additionalComments || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "additionalComments")
+                }
+                sx={{
+                  // width: "264px",
+                  "& .MuiInputBase-root": {
+                    // height: "30px",
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
         </Grid>
       </Grid>

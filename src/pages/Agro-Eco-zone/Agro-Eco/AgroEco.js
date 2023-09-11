@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useNavigate } from "react-router-dom";
-import { Button, CircularProgress, Divider, List, ListItem, ListItemIcon, ListItemText, Typography } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
@@ -15,7 +25,8 @@ import { deleteAgroEco } from "../../../redux/actions/agroEco/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 const AgroEco = () => {
   useUserAccessValidation();
@@ -50,7 +61,9 @@ const AgroEco = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ez-structure/agro-eco-zone-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/zone/ez-structure/agro-eco-zone-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -91,119 +104,99 @@ const AgroEco = () => {
     setOpen(true);
   };
 
-
   const onConfirm = async () => {
     try {
       setLoading(true);
       for (const agro of selectedAgroEco) {
-        await deleteAgroEco(agro?.id, onSuccess, onError)
+        await deleteAgroEco(agro?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedAgroEco()
+      resetSelectedAgroEco();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
-  }
+  };
 
   const close = () => {
     setOpen(false);
-  }
+  };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {
-          selectedAgroEco.map((p, key) => {
-            return (
-              <ListItem>
-                <ListItemIcon>
-                  {
-                    loading ? (
-                      <CircularProgress size={16} />
-                    ) : (
-                      <RadioButtonCheckedIcon color="info" />
-                    )
-                  }
-                </ListItemIcon>
-                <ListItemText>{p.aeZoneId} - {p.name}</ListItemText>
-              </ListItem>
-            )
-          })
-        }
+        {selectedAgroEco.map((p, key) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.aeZoneId} - {p.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
       </List>
-    )
-  }
+    );
+  };
 
   return (
     <div>
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
+        <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectedAgroEco.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
           >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
-            </Button>
+            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
           </PermissionWrapper>
-        
-        )}
-         {selectedAgroEco.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
+          {selectedAgroEco.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
             >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+            </PermissionWrapper>
+          )}
+          {selectedAgroEco.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
+            >
+              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+            </PermissionWrapper>
+          )}
           {selectedAgroEco.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
             >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+            </PermissionWrapper>
+          )}
+        </ButtonGroup>
       </ActionWrapper>
-        <PermissionWrapper
+      <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
       >
         {loading === false && (
           <AgroEcoList
-          selectedRows={selectedAgroEco}
-          onRowSelect={toggleAgroEcoSelect}
-          selectAll={selectAllAgroEco}
-          unSelectAll={resetSelectedAgroEco}
-        />
+            selectedRows={selectedAgroEco}
+            onRowSelect={toggleAgroEcoSelect}
+            selectAll={selectAllAgroEco}
+            unSelectAll={resetSelectedAgroEco}
+          />
         )}
-        
       </PermissionWrapper>
-     <DialogBox
+      <DialogBox
         open={open}
         title="Delete Agro ECO Zone"
         actions={
@@ -229,7 +222,7 @@ const AgroEco = () => {
       >
         <>
           <DeleteMsg />
-          <Divider sx={{ mt: '16px' }} />
+          <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

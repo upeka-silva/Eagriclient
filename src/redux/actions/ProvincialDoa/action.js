@@ -1,4 +1,4 @@
-import { put, post, api_delete } from "../../../services/api";
+import { put, post, api_delete, get } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleProvincialDoa = async (
@@ -7,7 +7,11 @@ export const handleProvincialDoa = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("geo-data/provincial-director-levels", payload, true);
+    const response = await post(
+      "geo-data/provincial-director-levels",
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -15,8 +19,7 @@ export const handleProvincialDoa = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -41,7 +44,11 @@ export const updateProvincialDoa = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/provincial-director-levels/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/provincial-director-levels/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -49,8 +56,7 @@ export const updateProvincialDoa = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -71,12 +77,15 @@ export const updateProvincialDoa = async (
 
 export const deleteProvincialDoa = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/provincial-director-levels/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `geo-data/provincial-director-levels/${id || ""}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -84,8 +93,7 @@ export const deleteProvincialDoa = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -101,5 +109,26 @@ export const deleteProvincialDoa = async (
       onError(error);
     }
   }
-}
+};
 
+export const get_ProvincialDoaList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/provincial-director-levels",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

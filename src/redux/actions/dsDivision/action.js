@@ -15,8 +15,7 @@ export const handleDsDivision = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,25 +34,24 @@ export const handleDsDivision = async (
   }
 };
 
-export const get_DsDivisionList = async (
-  ) => {
-    try {
-      const {httpCode, payloadDto} = await get("geo-data/ds-divisions", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const get_DsDivisionList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/ds-divisions", true);
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateDsDivision = async (
   payload = {},
@@ -61,7 +59,11 @@ export const updateDsDivision = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/ds-divisions/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/ds-divisions/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -69,8 +71,7 @@ export const updateDsDivision = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -91,12 +92,15 @@ export const updateDsDivision = async (
 
 export const deleteDsDivision = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/ds-divisions/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `geo-data/ds-divisions/${id || ""}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -104,8 +108,7 @@ export const deleteDsDivision = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -121,4 +124,26 @@ export const deleteDsDivision = async (
       onError(error);
     }
   }
-}
+};
+
+export const get_DsDivisionListByDistrictId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/ds-divisions/by-district/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

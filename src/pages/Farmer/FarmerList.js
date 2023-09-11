@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
 
 const FarmerList = ({
@@ -8,13 +8,15 @@ const FarmerList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
-    const columns = [
-        { field: "", headerName: "Code" },
-        { field: "", headerName: "Name" },
-      ];
+  const columns = [
+    { field: "id", headerName: "Code" },
+    { field: "firstName", headerName: "First Name" },
+    { field: "lastName", headerName: "Last Name" },
+    { field: "nationality", headerName: "Nationality" },
+    { field: "nic", headerName: "Nic" },
+  ];
 
   return (
-    <CardWrapper>
     <DataTable
       loadingTable
       dataEndPoint={"farmers"}
@@ -25,8 +27,7 @@ const FarmerList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
-  </CardWrapper>
-  )
+  );
 };
 
 export default FarmerList;

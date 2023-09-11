@@ -8,16 +8,14 @@ import {
   handleProvincialDoa,
   updateProvincialDoa,
 } from "../../../redux/actions/ProvincialDoa/action";
-import { Button, CircularProgress, Grid, TextField, getPaginationItemUtilityClass } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { ActionWrapper, makeCapitalize } from "../../../components/PageLayout/ActionWrapper";
+import { Button, Grid, TextField } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
 const ProvincialDoaForm = () => {
   useUserAccessValidation();
@@ -102,40 +100,46 @@ const ProvincialDoaForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Provincial Director
-      </FormHeader>
-      <ButtonWrapper isCeneter  style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="Director DOA" />
+      <ButtonWrapper
+        isCeneter
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained" color="success" size="small">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton
-                  variant="contained"
+                <Button
+                  variant="outlined"
                   disabled={!enableSave()}
                   onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -144,61 +148,58 @@ const ProvincialDoaForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
-          
         }}
       >
-        <Grid item lg={4}>
-      <FieldWrapper>
-        <FieldName>Provincial Level ID</FieldName>
-        <TextField
-          name="proDirectorId"
-          id="proDirectorId"
-          value={formData?.proDirectorId || ""}
-          fullWidth
-          disabled={
-            state?.action === DEF_ACTIONS.VIEW ||
-            state?.action === DEF_ACTIONS.EDIT
-          }
-          onChange={(e) => handleChange(e?.target?.value || "", "proDirectorId")}
-          sx={{
-            // width: "264px",
-            "& .MuiInputBase-root": {
-              // height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          size="small"
-
-        />
-      </FieldWrapper>
+        <Grid item lg={4} sm={6} xs={12}>
+          <FieldWrapper>
+            <FieldName>Provincial Level ID</FieldName>
+            <TextField
+              name="proDirectorId"
+              id="proDirectorId"
+              value={formData?.proDirectorId || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "proDirectorId")
+              }
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              inputProps={{ style: { textTransform: "uppercase" } }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={4} md={4} lg={4}>
+          <FieldWrapper>
+            <FieldName>Description</FieldName>
+            <TextField
+              name="description"
+              id="description"
+              value={formData?.description || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "description")
+              }
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
       </Grid>
-      <Grid item lg={4}>
-      <FieldWrapper>
-        <FieldName>Description</FieldName>
-        <TextField
-          name="description"
-          id="description"
-          value={formData?.description || ""}
-          fullWidth
-          disabled={state?.action === DEF_ACTIONS.VIEW}
-          onChange={(e) => handleChange(e?.target?.value || "", "description")}
-          sx={{
-            // width: "264px",
-            "& .MuiInputBase-root": {
-              // height: "30px",
-              borderRadius: "8px",
-            },
-          }}
-          size="small"
-        />
-      </FieldWrapper>
-      </Grid>
-      </Grid>
-      
     </FormWrapper>
   );
 };

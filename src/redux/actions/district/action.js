@@ -15,8 +15,7 @@ export const handleDistrict = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,24 +34,22 @@ export const handleDistrict = async (
   }
 };
 
-
-export const get_DistrictList = async (
-) => {
+export const get_DistrictList = async () => {
   try {
-    const {httpCode, payloadDto} = await get("geo-data/districts", true);
-    if (httpCode === '200 OK') {
+    const { httpCode, payloadDto } = await get("geo-data/districts", true);
+    if (httpCode === "200 OK") {
       return {
-        dataList: payloadDto
-      }
+        dataList: payloadDto,
+      };
     }
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   }
 };
 
@@ -62,7 +59,11 @@ export const updateDistrict = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/districts/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/districts/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -70,8 +71,7 @@ export const updateDistrict = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -90,15 +90,14 @@ export const updateDistrict = async (
   }
 };
 
-
 export const deleteDistrict = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/districts/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`geo-data/districts/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -106,8 +105,7 @@ export const deleteDistrict = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -123,4 +121,24 @@ export const deleteDistrict = async (
       onError(error);
     }
   }
-}
+};
+
+
+export const get_DistrictListByProvinceId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/districts/province/" + id, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

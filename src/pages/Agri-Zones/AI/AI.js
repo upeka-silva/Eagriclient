@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  ButtonGroup,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import AIList from "./AIList";
@@ -25,12 +26,15 @@ import { deleteAI } from "../../../redux/actions/aiRegion/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const AI = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
+  const[dataEndPoint,setDataEndPoint] = useState("geo-data/ai-region")
   const [selectedAI, setSelectedAI] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
@@ -59,14 +63,14 @@ const AI = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/aa-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/aa-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedAI[0] || {},
@@ -76,7 +80,7 @@ const AI = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/aa-structure/ai-region-form", {
+    navigate("/zone/provincial-structure/ai-region-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedAI[0] || {},
@@ -146,11 +150,20 @@ const AI = () => {
 
   return (
     <div>
+      <ListHeader title="AI Regions" />
       <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
+      <ButtonGroup
+          variant="outlined"
+          disableElevation
+          size="small"
+          aria-label="action button group"
+          color="success"
         >
-          <Button variant="contained" onClick={onCreate}>
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_I_REGIONS}`}
+        >
+          <Button  onClick={onCreate}>
+          <Add />
             {DEF_ACTIONS.ADD}
           </Button>
         </PermissionWrapper>
@@ -160,11 +173,11 @@ const AI = () => {
             permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
           >
             <Button
-              variant="contained"
-              color="secondary"
+              
               onClick={onEdit}
               sx={{ ml: "8px" }}
             >
+              <Edit/>
               {DEF_ACTIONS.EDIT}
             </Button>
           </PermissionWrapper>
@@ -174,30 +187,30 @@ const AI = () => {
             permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_I_REGIONS}`}
           >
             <Button
-              variant="contained"
-              color="info"
+             
               onClick={onView}
               sx={{ ml: "8px" }}
             >
+              <Vrpano/>
               {DEF_ACTIONS.VIEW}
             </Button>
           </PermissionWrapper>
         )}
-         {selectedAI.length > 0 && (
+        {selectedAI.length > 0 && (
           <PermissionWrapper
             permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_I_REGIONS}`}
           >
             <Button
-              variant="contained"
-              color="error"
+              
               onClick={onDelete}
               sx={{ ml: "8px" }}
             >
+              <Delete/>
               {DEF_ACTIONS.DELETE}
             </Button>
           </PermissionWrapper>
-
         )}
+        </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_I_REGIONS}`}
@@ -208,6 +221,7 @@ const AI = () => {
             onRowSelect={toggleAISelect}
             selectAll={selectAllAI}
             unSelectAll={resetSelectedAI}
+            dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>

@@ -1,5 +1,5 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../components/PageLayout/Table";
 
 const GapRegList = ({
@@ -10,15 +10,15 @@ const GapRegList = ({
 }) => {
   const columns = [
     { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "First Name" },
-    { field: "lastName", headerName: "Last Name" },
-    { field: "email", headerName: "Email" },
+    { field: "applicantName", headerName: "Applicant Name" },
+    { field: "applicantAddress", headerName: "Applicant Address" },
+    { field: "farmName", headerName: "Farm Name" },
   ];
   return (
-    <CardWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"user-manage/users"}
+        dataEndPoint={"gap-request"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -26,7 +26,7 @@ const GapRegList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+    </TableWrapper>
   );
 };
 

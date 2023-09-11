@@ -36,6 +36,7 @@ import { get_InstitutionCatList } from "../../../redux/actions/institution/insti
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 
 const InstitutionForm = () => {
   useUserAccessValidation();
@@ -142,17 +143,21 @@ const InstitutionForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.formBackgroundColor}`,
+        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
       }}
     >
       <div>
         <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
             Go back to list
           </Button>
         </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
+        {/* <PathName>{getPathName()}</PathName> */}
         <FormHeader>
           {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
           {state?.action} INSTITUTION
@@ -169,17 +174,32 @@ const InstitutionForm = () => {
         {state?.action !== DEF_ACTIONS.VIEW && (
           <ActionWrapper>
             {saving ? (
-              <AddButton variant="contained" disabled>
+              <Button variant="contained">
                 {state?.action === DEF_ACTIONS.ADD
                   ? "ADDING..."
                   : "UPDATING..."}
-              </AddButton>
+              </Button>
             ) : (
               <>
-                <AddButton disabled={!enableSave()} onClick={handleFormSubmit}>
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
               </>
             )}
           </ActionWrapper>
@@ -188,13 +208,13 @@ const InstitutionForm = () => {
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Institution ID</FieldName>
             <TextField
@@ -221,7 +241,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Institution Name</FieldName>
             <TextField
@@ -250,7 +270,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Institution Type</FieldName>
 
@@ -278,7 +298,7 @@ const InstitutionForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Institution Category</FieldName>
             <Autocomplete
@@ -302,7 +322,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Parent Institution ID</FieldName>
             <TextField
@@ -342,7 +362,7 @@ const InstitutionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 1</FieldName>
             <TextField
@@ -369,7 +389,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 2</FieldName>
             <TextField
@@ -396,7 +416,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>City</FieldName>
             <TextField
@@ -423,7 +443,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Postal Code</FieldName>
             <TextField
@@ -452,12 +472,9 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={2}>
+        <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>
-              Grama Niladari
-               Division
-            </FieldName>
+            <FieldName>Grama Niladari Division</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gn}
@@ -479,7 +496,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Contact Person</FieldName>
             <TextField
@@ -508,7 +525,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Phone No</FieldName>
             <TextField
@@ -535,7 +552,7 @@ const InstitutionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item lg={3}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Email</FieldName>
             <TextField

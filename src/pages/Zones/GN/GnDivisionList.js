@@ -1,34 +1,30 @@
-import React from 'react'
-import { CardWrapper } from '../../../components/PageLayout/Card';
-import { DataTable } from '../../../components/PageLayout/Table';
+import React from "react";
+import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const GnDivisionList = ({
+  dataEndPoint,
   selectedRows = [],
-  onRowSelect = (_c) => { },
-  selectAll = (_list = []) => { },
-  unSelectAll = () => { },
+  onRowSelect = (_c) => {},
+  selectAll = (_list = []) => {},
+  unSelectAll = () => {},
 }) => {
-
   const columns = [
-    { field: 'code', headerName: 'Code' },
-    { field: 'name', headerName: 'Description' },
-];
-
-
+    { field: "code", headerName: "Code" },
+    { field: "name", headerName: "Description" },
+  ];
   return (
-    <CardWrapper>
-      <DataTable
-        loadingTable
-        dataEndPoint={"geo-data/gn-divisions"}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-    </CardWrapper>
-  )
-}
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
+  );
+};
 
-export default GnDivisionList
+export default GnDivisionList;

@@ -1,8 +1,9 @@
 import React from "react";
-import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const DsDivisionList = ({
+  dataEndPoint,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -11,19 +12,18 @@ const DsDivisionList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-
     {
       field: ["districtDTO.code", "districtDTO.name"],
       joinString: " - ",
-      headerName: "District Description",
+      headerName: "District",
     },
   ];
 
   return (
-    <CardWrapper>
+   
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/ds-divisions"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -31,7 +31,7 @@ const DsDivisionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </CardWrapper>
+   
   );
 };
 
