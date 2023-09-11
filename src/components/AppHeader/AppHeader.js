@@ -74,9 +74,9 @@ const AppHeader = () => {
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
 
   const location = useLocation();
-const handleClick= () =>{
-  navigate("landing-page");
-};
+// const handleClick= () =>{
+//   navigate("landing-page");
+// };
   const getCurrentScreenName = () => {
     let screenName = "";
     const r =
