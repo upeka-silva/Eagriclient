@@ -121,22 +121,47 @@ const DynamicFormListGap = ({
                     });
     };
 
-    const handle = async (event, data, functionMode) => {
+    const handle = async (event, data, functionMode, fileUploadResponse) => {
 
         const auditAnswers = [];
         const keysArray = Object.keys(data);
-
         for (const qKey of keysArray) {
             if (qKey.indexOf('answer_') !== -1) {
                 const parts = qKey.split('_');
                 const questionId = parts[1];
                 const answer = data[qKey];
-                auditAnswers.push({
-                                    question: {
-                                        id: questionId
-                                    },
-                                    answer: answer
-                                });
+
+                const proofDocs = [];
+
+                if (fileUploadResponse && fileUploadResponse[questionId]) {
+                    const fileRes = fileUploadResponse[questionId];
+                    if (fileRes) {
+                        proofDocs.push({
+                            docUrl: fileRes.storedFileName,
+                            presignedUrl: fileRes.presignedUrl,
+                            originalFileName: fileRes.originalFileName,
+                            presignExpireDate: fileRes.expireDate
+                        });
+                    }
+                }
+
+                if (proofDocs.length > 0) {
+                    auditAnswers.push({
+                        question: {
+                            id: questionId
+                        },
+                        answer: answer,
+                        proofDocs: proofDocs
+                    });
+                } else {
+                    auditAnswers.push({
+                        question: {
+                            id: questionId
+                        },
+                        answer: answer
+                    });
+                }
+
             }
 
         }
@@ -208,6 +233,7 @@ const DynamicFormListGap = ({
                  formData={formData}
                  mode={dialogMode}
                  addView={addQ}
+                 uriPath={uriPath}
              />
             }
 
