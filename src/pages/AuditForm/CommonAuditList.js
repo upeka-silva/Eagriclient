@@ -11,14 +11,25 @@ const CommonAuditList = ({
                              },
                              pathParm = ''
                          }) => {
-    const columns = [
-        {field: "formName", headerName: "Name"},
-        {field: "formDescription", headerName: "Description"},
-        {field: "category", headerName: "Category"},
-        {field: "subcategory", headerName: "Sub Category"},
-        {field: "activeFrom", headerName: "Active From"}
+    let columns = [];
 
-    ];
+    if (pathParm != 'SELF_ASSESSMENT') {
+        columns = [
+            {field: "formName", headerName: "Name"},
+            {field: "formDescription", headerName: "Description"},
+            {field: "category", headerName: "Category"},
+            {field: "subcategory", headerName: "Sub Category"},
+            {field: "activeFrom", headerName: "Active From"}
+        ];
+    } else {
+        columns = [
+            {field: "formName", headerName: "Name"},
+            {field: "formDescription", headerName: "Description"},
+            {field: "activeFrom", headerName: "Active From"}
+        ];
+    }
+
+
     return (
         <DataTable
             loadingTable
