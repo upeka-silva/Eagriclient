@@ -47,6 +47,8 @@ import CropDetails from "./CropDetails";
 import { gapReqDto } from "./gap-type";
 import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import BackToList from "../../components/BackToList/BackToList";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
@@ -146,7 +148,7 @@ const GapRegForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-           await updateGap(formData, onSuccess, onError);
+          await updateGap(formData, onSuccess, onError);
         } else {
           console.log(formData);
 
@@ -176,22 +178,8 @@ const GapRegForm = () => {
         overflowY: "scroll",
       }}
     >
-      <div>
-        <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            back to list
-          </Button>
-        </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} GAP REQUEST
-        </FormHeader>
-      </div>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="GAP Request" />
 
       <TabContent
         style={{
@@ -1000,7 +988,6 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
-             
               lg={2}
               style={
                 {
@@ -1551,7 +1538,6 @@ const GapRegForm = () => {
               item
               sm={2}
               md={2}
-              
               lg={2}
               style={
                 {
@@ -2632,24 +2618,23 @@ const GapRegForm = () => {
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
         <DynamicFormListGap
-            dataList={null}
-            onFormSaveSuccess={null}
-            formId={null}
-            formMode={null}
-            auditFormType={'INTERNAL_AUDIT'}
+          dataList={null}
+          onFormSaveSuccess={null}
+          formId={null}
+          formMode={null}
+          auditFormType={"INTERNAL_AUDIT"}
         />
       </TabContent>
 
       <TabContent className={toggleState === 5 ? "active-content" : ""}>
         <DynamicFormListGap
-            dataList={null}
-            onFormSaveSuccess={null}
-            formId={null}
-            formMode={null}
-            auditFormType={'EXTERNAL_AUDIT'}
+          dataList={null}
+          onFormSaveSuccess={null}
+          formId={null}
+          formMode={null}
+          auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
-
     </div>
   );
 };

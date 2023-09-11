@@ -1,19 +1,17 @@
-import React from 'react'
-import styled from '@emotion/styled'
-import { Button } from '@mui/material'
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import TextField from '@mui/material/TextField';
-import AddIcon from '@mui/icons-material/Add';
-import TabPanel from './gapRegTabs'
+import React from "react";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import AddIcon from "@mui/icons-material/Add";
+import TabPanel from "./gapRegTabs";
 
 function gapReg() {
   return (
     <FormWrapper>
       <FormHeader>New GAP Request</FormHeader>
-      
+
       <FieldWrapper>
-      
-      <TextField
+        <TextField
           id="outlined-number"
           label="GAP Request ID"
           type="number"
@@ -41,26 +39,17 @@ function gapReg() {
           }}
         />
 
-          <Button 
-            variant="contained" 
-            startIcon={<AddIcon />}
-            >
-            ADD NEW FARMER
-          </Button>
-    
+        <Button variant="contained" startIcon={<AddIcon />}>
+          ADD NEW FARMER
+        </Button>
       </FieldWrapper>
 
       <TabPanel />
     </FormWrapper>
-    
-    
   );
-    
-    
-};
-  
+}
 
-export default gapReg
+export default gapReg;
 
 const FormWrapper = styled.div`
   display: flex;
@@ -68,15 +57,15 @@ const FormWrapper = styled.div`
 `;
 
 const ActionWrapper = styled.div`
-display: flex;
-align-items: center;
-padding: 8px 0px;
+  display: flex;
+  align-items: center;
+  padding: 8px 0px;
 `;
 
 const FormHeader = styled.p`
-font-size: 20px;
-font-weight: bold;
-flex-direction: column;
+  font-size: 20px;
+  font-weight: bold;
+  flex-direction: column;
 `;
 
 const FieldWrapper = styled.div`
@@ -87,4 +76,3 @@ const FieldWrapper = styled.div`
   padding-top: 20px;
   padding-left: 20px;
 `;
-

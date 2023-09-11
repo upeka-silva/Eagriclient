@@ -366,13 +366,13 @@ const GnDivisionForm = () => {
   };
 
   const getAiRegions = (value) => {
-    if (doaType == "PROVINCIAL") {
+    if (doaType === "PROVINCIAL") {
       get_ProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
         setAiRegions(dataList);
       });
     }
-    if (doaType == "INTER_PROVINCIAL") {
+    if (doaType === "INTER_PROVINCIAL") {
       get_InterProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
         setAiRegions(dataList);
@@ -650,8 +650,9 @@ const GnDivisionForm = () => {
               }}
               size="small"
             >
-              <MenuItem value={"PROVINCIAL"}> PROVINCIAL</MenuItem>
-              <MenuItem value={"INTER_PROVINCIAL"}>INTER_PROVINCIAL</MenuItem>
+              <MenuItem value={"PROVINCIAL"}> Provincial</MenuItem>
+              <MenuItem value={"INTER_PROVINCIAL"}>Inter Provincial</MenuItem>
+              <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
             </Select>
           </FieldWrapper>
         </Grid>
@@ -859,17 +860,7 @@ const GnDivisionForm = () => {
             />
           </FieldWrapper>
         </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginY: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
+
         <Grid item lg={4}>
           <FieldWrapper>
             <FieldName>Select Mahaweli System</FieldName>
@@ -955,7 +946,7 @@ const GnDivisionForm = () => {
         sx={{
           border: "1px solid #bec0c2",
           margin: "15px",
-          marginTop: "0px",
+          marginTop: "10px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -1021,7 +1012,10 @@ const GnDivisionForm = () => {
           <FieldWrapper>
             <FieldName>ARPA Area</FieldName>
             <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW || selectedAscDivision.id == null}
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                selectedAscDivision.id == null
+              }
               options={arps}
               value={formData ? formData.arpaDTO : ""}
               getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
@@ -1293,7 +1287,6 @@ const GnDivisionForm = () => {
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
-              
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
