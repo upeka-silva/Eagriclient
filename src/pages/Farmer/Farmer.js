@@ -16,7 +16,7 @@ import {
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import { deleteFarmer } from "../../redux/actions/farmer/action";
+import { deleteFarmer, handleFarmer } from "../../redux/actions/farmer/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { ActionButton } from "../../components/ActionButtons/ActionButton";
@@ -24,11 +24,39 @@ import FarmerList from "./FarmerList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 
-import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+
+
+export const farmerDto = {
+  firstName: "",
+  lastName: "",
+  dob: "",
+  gender: "",
+  nationality: "",
+  status: "",
+  profilePicture: "",
+  originalFileName: "",
+  prsignedUrl: "",
+  presignedExpDate: "",
+  createdBy: "",
+  createdDate: "",
+  modifiedDate: "",
+  address1: "",
+  address2: "",
+  city: "",
+  postalCode: "",
+  address: "",
+  mobile: "",
+  email: "",
+  nic: "",
+  landLine: "",
+  gnDivision: null,
+};
+
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -62,11 +90,22 @@ const Farmer = () => {
     setSelectedFarmer([]);
   };
 
-  const onCreate = () => {
+  const onCreate = async () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/farmer-form", {
-      state: { action: DEF_ACTIONS.ADD },
-    });
+    
+
+    try {
+      const response = await handleFarmer(farmerDto);
+      console.log(response);
+      if (response.httpCode == "201 CREATED") {
+        navigate("/farmer-form", {
+          state: { action: DEF_ACTIONS.ADD , farmerId: response.payload.id },
+          
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onEdit = () => {
@@ -152,51 +191,51 @@ const Farmer = () => {
   return (
     <div>
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
-        >
-          <Button  onClick={onCreate}>
-            <Add/>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectedFarmer.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
           >
-            <Button onClick={onEdit}>
-                <Edit/>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
+          {selectedFarmer.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
+            >
+              <Button onClick={onEdit}>
+                <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedFarmer.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
-          >
-            <Button onClick={onView}>
+            </PermissionWrapper>
+          )}
+          {selectedFarmer.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
+            >
+              <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedFarmer.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARMER}`}
-          >
-             <Button onClick={onDelete}>
+            </PermissionWrapper>
+          )}
+          {selectedFarmer.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARMER}`}
+            >
+              <Button onClick={onDelete}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-          </PermissionWrapper>
-        )}
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper

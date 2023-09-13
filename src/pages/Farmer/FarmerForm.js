@@ -67,11 +67,14 @@ import dayjs from "dayjs";
 const FarmerForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
+  console.log(state?.farmerId);
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState(state?.target || {});
+  const [formData, setFormData] = useState(
+    state?.target || { id: state?.farmerId }
+  );
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -132,7 +135,7 @@ const FarmerForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
+      Object.keys(formData || {}).length > 1
     ) {
       return true;
     }
@@ -162,10 +165,11 @@ const FarmerForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
+        if (formData?.id && state?.action === DEF_ACTIONS.EDIT) {
+          await updateFarmer(formData, onSuccess, onError);
+        }
         if (formData?.id) {
           await updateFarmer(formData, onSuccess, onError);
-        } else {
-          await handleFarmer(formData, onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
@@ -189,11 +193,33 @@ const FarmerForm = () => {
       };
       reader.readAsDataURL(file);
     }
-    const formData = new FormData();
-    formData.append("file", file);
+    const form = new FormData();
+    form.append("file", file);
 
     try {
-      await handleFarmerProfile(formData, onSuccess, onError);
+      if (formData?.id) {
+        const response = await handleFarmerProfile(
+          formData?.id,
+          form,
+          onSuccess,
+          onError
+        );
+        if ((response.httpCode = "200 OK")) {
+          const profilePicture = response.payload.storedFileName;
+          const originalFileName = response.payload.originalFileName;
+          const prsignedUrl = response.payload.presignedUrl;
+          const presignedExpDate = response.payload.expireDate;
+
+         
+          setFormData({
+            ...formData,
+            profilePicture: profilePicture,
+            originalFileName: originalFileName,
+            prsignedUrl: prsignedUrl,
+            presignedExpDate: presignedExpDate,
+          });
+        }
+      }
     } catch (error) {
       console.log(error);
     }
@@ -229,7 +255,7 @@ const FarmerForm = () => {
     <FormWrapper style={{ overflowY: "scroll" }}>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Farmer" />
-      <FormButtonGroup
+      {/* <FormButtonGroup
         {...{
           state,
           DEF_ACTIONS,
@@ -238,7 +264,49 @@ const FarmerForm = () => {
           handleFormSubmit,
           resetForm,
         }}
-      />
+      /> */}
+      <ButtonWrapper
+        isCeneter
+        style={{
+          width: "95%",
+          justifyContent: "flex-start",
+          margin: "0",
+          paddingLeft: "18px",
+        }}
+      >
+        {state?.action !== DEF_ACTIONS.VIEW && (
+          <ActionWrapper>
+            {saving ? (
+              <Button variant="contained" color="success" size="small">
+                {state?.action === DEF_ACTIONS.ADD
+                  ? "ADDING..."
+                  : "UPDATING..."}
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
+          </ActionWrapper>
+        )}
+      </ButtonWrapper>
       <Grid container>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
