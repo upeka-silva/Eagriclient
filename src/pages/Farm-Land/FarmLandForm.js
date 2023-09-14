@@ -43,6 +43,8 @@ import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import DynamicFormFarmLand from "../DynamicFormFarmLand/DynamicFormFarmLand";
 import CommonQuestionList from "../AuditForm/CommonQuestionList";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import {isEmpty} from "../../utils/helpers/stringUtils";
+import { Circle } from "@mui/icons-material";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -107,27 +109,25 @@ const FarmLandForm = () => {
     get_DistrictList().then(({ dataList = [] }) => {
       setDistrictList(dataList);
     });
-  }, []);
-  useEffect(() => {
+
     get_DsDivisionList().then(({ dataList = [] }) => {
       setDsDivisionList(dataList);
     });
-  }, []);
-  useEffect(() => {
+
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
+
+    get_SoilType()
+        .then(({ dataList = [] }) => {
+          setSoilType(dataList);
+        })
+        .catch(() => {
+          setSoilType([]);
+        });
+
   }, []);
 
-  useEffect(() => {
-    get_SoilType()
-      .then(({ dataList = [] }) => {
-        setSoilType(dataList);
-      })
-      .catch(() => {
-        setSoilType([]);
-      });
-  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -181,6 +181,55 @@ const FarmLandForm = () => {
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
+
+      if (isEmpty(formData.landName)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Land name is empty",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.landType)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Land type is empty",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.protectedHouse)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Protected House Type is empty",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.soilTypeDTO)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Soil Type is empty",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.area)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Area is empty",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.status)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Status is empty",
+        });
+        return;
+      }
+
       setSaving(true);
       try {
         if (formData?.id) {
@@ -199,6 +248,8 @@ const FarmLandForm = () => {
       ? ""
       : location.pathname;
   };
+
+  console.log('formdayta ', formData);
 
   return (
     <Box
@@ -232,6 +283,15 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
+            <Grid lg={12}>
+              <FieldWrapper style={{
+                float: "right",
+              }}>
+                <FieldName>Not verified <Circle style={{ color: 'yellow', marginBottom: "-6px" }}  /></FieldName>
+
+              </FieldWrapper>
+
+            </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
@@ -243,6 +303,8 @@ const FarmLandForm = () => {
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "landName")
                   }
+                  error={!(formData?.landName?.length > 0)}
+                  //error={isEmpty(formData?.landName)}
                   size="small"
                   fullWidth
                   sx={{
@@ -262,8 +324,9 @@ const FarmLandForm = () => {
                     name="landType"
                     id="landType"
                     value={formData?.landType || ""}
+                    error={!(formData?.landType?.length > 0)}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
+/*                    onChange={(e) =>
                       e?.target?.value === "Protected House"
                         ? (setProtectedHouseType(false),
                           handleChange(e?.target?.value || "", "landType"))
@@ -271,6 +334,9 @@ const FarmLandForm = () => {
                         ? (setProtectedHouseType(true),
                           handleChange(e?.target?.value || "", "landType"))
                         : handleChange(e?.target?.value || "", "landType")
+                    }*/
+                    onChange={(e) =>
+                        handleChange(e?.target?.value || "", "landType")
                     }
                     fullWidth
                     sx={{
@@ -295,6 +361,7 @@ const FarmLandForm = () => {
                     name="protectedHouse"
                     id="protectedHouse"
                     value={formData?.protectedHouse || ""}
+                    error={!(formData?.protectedHouse?.length > 0)}
                     disabled={
                       protectedHouseType || state?.action === DEF_ACTIONS.VIEW
                     }
@@ -337,7 +404,8 @@ const FarmLandForm = () => {
                     id="soilTypeDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={soilType}
-                    value={formData ? formData.soilTypeDTO : ""}
+                    value={formData?.soilTypeDTO || ""}
+                    error={!(formData?.soilTypeDTO?.length > 0)}
                     getOptionLabel={(i) =>
                       `${i.soilTypeCode} - ${i.description}`
                     }
@@ -366,6 +434,7 @@ const FarmLandForm = () => {
                   name="area"
                   id="area"
                   value={formData?.area || ""}
+                  error={!(formData?.area?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "area")}
@@ -388,6 +457,7 @@ const FarmLandForm = () => {
                     name="status"
                     id="status"
                     value={formData?.status || ""}
+                    error={!(formData?.status?.length > 0)}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "status")
@@ -421,6 +491,7 @@ const FarmLandForm = () => {
                   name="addressLine01"
                   id="addressLine01"
                   value={formData?.addressLine01 || ""}
+                  error={!(formData?.addressLine01?.length > 0)}
                   placeholder="No/Po box"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -449,6 +520,7 @@ const FarmLandForm = () => {
                   name="addressLine02"
                   id="addressLine02"
                   value={formData?.addressLine02 || ""}
+                  error={!(formData?.addressLine02?.length > 0)}
                   placeholder="Street"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -477,6 +549,7 @@ const FarmLandForm = () => {
                   name="city"
                   id="city"
                   value={formData?.city || ""}
+                  error={!(formData?.city?.length > 0)}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "city")}
                   size="small"
@@ -499,7 +572,8 @@ const FarmLandForm = () => {
                     id="districtDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={districtList}
-                    value={formData ? formData.districtDTO : ""}
+                    value={formData?.districtDTO || ""}
+                    error={!(formData?.districtDTO?.length > 0)}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
                       handleChange(value, "districtDTO");
@@ -530,7 +604,8 @@ const FarmLandForm = () => {
                     id="dsDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={dsDivisionList}
-                    value={formData ? formData.dsDivisionDTO : ""}
+                    value={formData?.dsDivisionDTO || ""}
+                    error={!(formData?.dsDivisionDTO?.length > 0)}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
                       handleChange(value, "dsDivisionDTO");
@@ -561,7 +636,8 @@ const FarmLandForm = () => {
                     id="gnDivisionDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={gnDivisionList}
-                    value={formData ? formData.gnDivisionDTO : ""}
+                    value={formData?.gnDivisionDTO || ""}
+                    error={!(formData?.gnDivisionDTO?.length > 0)}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
                     onChange={(event, value) => {
                       handleChange(value, "gnDivisionDTO");
@@ -590,6 +666,7 @@ const FarmLandForm = () => {
                   name="latitude"
                   id="latitude"
                   value={formData?.latitude || ""}
+                  error={!(formData?.latitude?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -613,6 +690,7 @@ const FarmLandForm = () => {
                   name="longitude"
                   id="longitude"
                   value={formData?.longitude || ""}
+                  error={!(formData?.longitude?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -636,6 +714,7 @@ const FarmLandForm = () => {
                   name="elevation"
                   id="elevation"
                   value={formData?.elevation || ""}
+                  error={!(formData?.elevation?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
