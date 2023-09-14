@@ -22,7 +22,7 @@ export const handleFarmer = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -101,13 +101,14 @@ export const updateFarmer = async (
 };
 
 export const handleFarmerProfile = async (
+  id,
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("file-upload/farmer-profile/1/1", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await post(`file-upload/${id}/farmer-profile`, payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -121,7 +122,7 @@ export const handleFarmerProfile = async (
       };
       throw exception;
     }
-    console.log(response);
+   return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
