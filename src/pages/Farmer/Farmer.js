@@ -99,7 +99,7 @@ const Farmer = () => {
       console.log(response);
       if (response.httpCode == "201 CREATED") {
         navigate("/farmer-form", {
-          state: { action: DEF_ACTIONS.ADD , farmerId: response.payload.id },
+          state: { action: DEF_ACTIONS.ADD , target:{ id : response.payload.id} },
           
         });
       }
