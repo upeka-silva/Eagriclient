@@ -2,9 +2,6 @@
 
 # dependencies
 /node_modules
-.idea/
-/.idea/
-.idea/*
 /.pnp
 .pnp.js
 
