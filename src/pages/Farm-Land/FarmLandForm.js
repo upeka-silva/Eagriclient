@@ -54,7 +54,7 @@ const FarmLandForm = () => {
 
     const [formData, setFormData] = useState(state?.target || {});
     const [saving, setSaving] = useState(false);
-    const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.name);
+    const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
     const [districtList, setDistrictList] = useState([]);
     const [dsDivisionList, setDsDivisionList] = useState([]);
     const [gnDivisionList, setGnDivisionList] = useState([]);
@@ -109,7 +109,13 @@ const FarmLandForm = () => {
     };
 
     useEffect(() => {
-        console.log('state ', state);
+        get_SoilType()
+            .then(({dataList = []}) => {
+                setSoilType(dataList);
+            })
+            .catch(() => {
+                setSoilType([]);
+            });
     }, []);
 
 
@@ -127,13 +133,7 @@ const FarmLandForm = () => {
             setGnDivisionList(dataList);
         });
 
-        get_SoilType()
-            .then(({dataList = []}) => {
-                setSoilType(dataList);
-            })
-            .catch(() => {
-                setSoilType([]);
-            });
+
 
     }, []);
 
@@ -145,21 +145,8 @@ const FarmLandForm = () => {
             return newData;
         });
 
-        if (target === 'landType') {
-
-            if (value === 'Protected House') {
-                setIsProtectedHouseTypeEnable(true);
-            } else {
-                console.log('formadata old ', formData);
-                setFormData((current = {}) => {
-                    let newData = {...current};
-                    newData['landType'] = null;
-                    return newData;
-                });
-                console.log('formadata aa ', formData);
-                //setIsProtectedHouseTypeEnable(false);
-            }
-
+        if (target === 'landType' && value === 'Protected House') {
+            setIsProtectedHouseTypeEnable(true);
         }
     };
 

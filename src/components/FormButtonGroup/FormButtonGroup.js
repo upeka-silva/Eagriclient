@@ -14,8 +14,7 @@ const FormButtonGroup = ({
   handleFormSubmit,
   resetForm, isVerifiedFunctionality, verifyForm, verifiedStatus
 }) => {
-console.log('isVerifiedFunctionality ', isVerifiedFunctionality);
-console.log('verifiedStatus ', verifiedStatus);
+
   return (
     <ButtonWrapper
       style={{
