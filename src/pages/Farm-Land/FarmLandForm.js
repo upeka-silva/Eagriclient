@@ -402,7 +402,7 @@ const FarmLandForm = () => {
                         <Grid item sm={3} md={3} lg={3}>
                             <FieldWrapper>
                                 <FormControl fullWidth>
-                                    <FieldName>Soil Type</FieldName>
+                                    <FieldName>Soil Type {formData?.soilTypeDTO?.length}</FieldName>
 
                                     <Autocomplete
                                         name="soilTypeDTO"
@@ -410,7 +410,6 @@ const FarmLandForm = () => {
                                         disabled={state?.action === DEF_ACTIONS.VIEW}
                                         options={soilType}
                                         value={formData?.soilTypeDTO || ""}
-                                        error={!(formData?.soilTypeDTO?.length > 0)}
                                         getOptionLabel={(i) =>
                                             (i.soilTypeCode ? `${i.soilTypeCode} - ${i.description}` : '')
                                         }
@@ -426,7 +425,7 @@ const FarmLandForm = () => {
                                         }}
                                         size="small"
                                         renderInput={(params) => (
-                                            <TextField {...params} size="small"/>
+                                            <TextField error={!(formData?.soilTypeDTO?.soilTypeCode?.length > 0)} {...params} size="small"/>
                                         )}
                                     />
                                 </FormControl>
@@ -581,7 +580,6 @@ const FarmLandForm = () => {
                                         disabled={state?.action === DEF_ACTIONS.VIEW}
                                         options={gnDivisionList}
                                         value={formData?.gnDivisionDTO || ""}
-                                        error={!(formData?.gnDivisionDTO?.length > 0)}
                                         getOptionLabel={(i) =>
                                             (i.code ? `${i.code} - ${i.name}` : '')
                                         }
@@ -598,7 +596,7 @@ const FarmLandForm = () => {
                                         size="small"
                                         renderInput={(params) => (
                                             <>
-                                                <TextField {...params} size="small"/>
+                                                <TextField error={!(formData?.gnDivisionDTO?.code?.length > 0)} {...params} size="small"/>
                                             </>
                                         )}
                                     />

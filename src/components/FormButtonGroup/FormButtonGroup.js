@@ -1,10 +1,11 @@
-import { Button } from "@mui/material";
+import {Button, useTheme} from "@mui/material";
 import React from "react";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
 import {Add, Circle, Edit} from "@mui/icons-material";
 import { ButtonWrapper } from "../FormLayout/ButtonWrapper";
 import {FieldWrapper} from "../FormLayout/FieldWrapper";
 import {FieldName} from "../FormLayout/FieldName";
+import {tokens} from "../../utils/theme/app-theme";
 
 const FormButtonGroup = ({
   state,
@@ -14,6 +15,8 @@ const FormButtonGroup = ({
   handleFormSubmit,
   resetForm, isVerifiedFunctionality, verifyForm, verifiedStatus
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   return (
     <ButtonWrapper
@@ -75,11 +78,11 @@ const FormButtonGroup = ({
         }}>
             {verifiedStatus === true ?
                 <FieldName>Verified <Circle
-                    style={{color: 'green', marginBottom: "-6px"}}/>
+                    style={{color: colors.green[400], marginBottom: "-6px"}}/>
                 </FieldName>
             :
                 <FieldName>Not Verified <Circle
-                    style={{color: 'yellow', marginBottom: "-6px"}}/>
+                    style={{color: colors.yellow[100], marginBottom: "-6px"}}/>
                 </FieldName>
             }
 

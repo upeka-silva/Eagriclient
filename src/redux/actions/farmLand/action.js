@@ -8,8 +8,8 @@ export const handleFarmLand = async (
 ) => {
   try {
     const response = await post("farm-land", payload, true);
-    if (response.httpCode === "201 CREATED") {
-      onSuccess(response);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
     } else {
       const exception = {
         error: {
