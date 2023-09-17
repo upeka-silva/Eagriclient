@@ -115,7 +115,8 @@ const SideBar = () => {
   };
 
   const renderSideBarRoutes = () => {
-    return Routes.filter((r) => r.isSideBar === true&&r.isService === service).map((r, key) => {
+    //TODO: Add this condition later: r.isService === service
+    return Routes.filter((r) => r.isSideBar === true).map((r, key) => {
       if (r.children) {
         const toggleCollapseState = () => {
           setSelectedRoute((current) => (current === r.name ? null : r.name));
