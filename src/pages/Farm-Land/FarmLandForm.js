@@ -1,42 +1,42 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
-    TextField,
-    Button,
-    Grid,
-    Autocomplete,
-    FormControl,
-    Select,
-    MenuItem,
-    Box,
-    Stack,
+  TextField,
+  Button,
+  Grid,
+  Autocomplete,
+  FormControl,
+  Select,
+  MenuItem,
+  Box,
+  Stack,
 } from "@mui/material";
-import {DataGrid} from "@mui/x-data-grid";
-import {useUserAccessValidation} from "../../hooks/authentication";
-import {useLocation, useNavigate} from "react-router";
-import {useSnackBars} from "../../context/SnackBarContext";
-import {DEF_ACTIONS} from "../../utils/constants/permission";
-import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
+import { DataGrid } from "@mui/x-data-grid";
+import { useUserAccessValidation } from "../../hooks/authentication";
+import { useLocation, useNavigate } from "react-router";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
-    handleFarmLand,
-    updateFarmLand,
+  handleFarmLand,
+  updateFarmLand,
 } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
-import {Colors} from "../../utils/constants/Colors";
-import {Fonts} from "../../utils/constants/Fonts";
+import { Colors } from "../../utils/constants/Colors";
+import { Fonts } from "../../utils/constants/Fonts";
 
-import {FieldWrapper} from "../../components/FormLayout/FieldWrapper";
-import {FieldName} from "../../components/FormLayout/FieldName";
-import {get_DistrictList} from "../../redux/actions/district/action";
-import {get_DsDivisionList} from "../../redux/actions/dsDivision/action";
-import {get_GnDivisionList} from "../../redux/actions/gnDivision/action";
-import {get_SoilType} from "../../redux/actions/soil/soilType/action";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { get_DistrictList } from "../../redux/actions/district/action";
+import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
+import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
-import {Add, Edit} from "@mui/icons-material";
+import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
@@ -47,64 +47,64 @@ import {isEmpty} from "../../utils/helpers/stringUtils";
 import {Circle} from "@mui/icons-material";
 
 const FarmLandForm = () => {
-    useUserAccessValidation();
-    const {state} = useLocation();
-    const location = useLocation();
-    const navigate = useNavigate();
+  useUserAccessValidation();
+  const { state } = useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
     const [formData, setFormData] = useState(state?.target || {});
     const [saving, setSaving] = useState(false);
-    const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
     const [gnDivisionList, setGnDivisionList] = useState([]);
     const [soilType, setSoilType] = useState([]);
     const [toggleState, setToggleState] = useState(1);
-    const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] = useState(false);
     const [otherField, setOtherField] = useState("none");
     const [farmLandId, setFarmLandId] = useState(null);
     const isVerifiedFunctionality = true;
+    const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
+    const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] = useState(false);
 
-    const {addSnackBar} = useSnackBars();
+  const { addSnackBar } = useSnackBars();
 
-    const columns = [
-        {field: "id", headerName: "ID", width: 70},
-        {field: "firstName", headerName: "First name", width: 130},
-        {field: "lastName", headerName: "Last name", width: 130},
-        {
-            field: "age",
-            headerName: "Age",
-            type: "number",
-            width: 90,
-        },
-        {
-            field: "fullName",
-            headerName: "Full name",
-            description: "This column has a value getter and is not sortable.",
-            sortable: false,
-            width: 160,
-            valueGetter: (params) =>
-                `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-        },
-    ];
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "firstName", headerName: "First name", width: 130 },
+    { field: "lastName", headerName: "Last name", width: 130 },
+    {
+      field: "age",
+      headerName: "Age",
+      type: "number",
+      width: 90,
+    },
+    {
+      field: "fullName",
+      headerName: "Full name",
+      description: "This column has a value getter and is not sortable.",
+      sortable: false,
+      width: 160,
+      valueGetter: (params) =>
+        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    },
+  ];
 
-    const rows = [
-        {id: 1, lastName: "Snow", firstName: "Jon", age: 35},
-        {id: 2, lastName: "Lannister", firstName: "Cersei", age: 42},
-        {id: 3, lastName: "Lannister", firstName: "Jaime", age: 45},
-        {id: 4, lastName: "Stark", firstName: "Arya", age: 16},
-        {id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null},
-        {id: 6, lastName: "Melisandre", firstName: null, age: 150},
-        {id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44},
-        {id: 8, lastName: "Frances", firstName: "Rossini", age: 36},
-        {id: 9, lastName: "Roxie", firstName: "Harvey", age: 65},
-    ];
+  const rows = [
+    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
+    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+  ];
 
-    const toggleTab = (index) => {
-        setToggleState(index);
-    };
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
 
-    const goBack = () => {
-        navigate("/farm-land");
-    };
+  const goBack = () => {
+    navigate("/farm-land");
+  };
 
     useEffect(() => {
         get_SoilType()
@@ -125,27 +125,25 @@ const FarmLandForm = () => {
 
     }, []);
 
+  const handleChange = (value, target) => {
+    setFormData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
 
-    const handleChange = (value, target) => {
-        setFormData((current = {}) => {
-            let newData = {...current};
-            newData[target] = value;
-            return newData;
-        });
+      if (target === 'landType' && value === 'Protected House') {
+          setIsProtectedHouseTypeEnable(true);
+      }
+  };
 
-        if (target === 'landType' && value === 'Protected House') {
-            setIsProtectedHouseTypeEnable(true);
-        }
-    };
-
-    const resetForm = () => {
-        if (state?.action === DEF_ACTIONS.EDIT) {
-            setFormData(state?.target || {});
-        } else {
-            setFormData({});
-        }
-    };
-
+  const resetForm = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setFormData(state?.target || {});
+    } else {
+      setFormData({});
+    }
+  };
     const verifyForm = async () => {
         setSaving(true);
         try {
@@ -160,50 +158,50 @@ const FarmLandForm = () => {
         }
     };
 
-    const enableSave = () => {
-        if (state?.action === DEF_ACTIONS.EDIT) {
-            if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
-                return true;
-            }
-        }
-        if (
-            state?.action === DEF_ACTIONS.ADD &&
-            Object.keys(formData || {}).length > 0
-        ) {
-            return true;
-        }
-        return false;
-    };
+  const enableSave = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+        return true;
+      }
+    }
+    if (
+      state?.action === DEF_ACTIONS.ADD &&
+      Object.keys(formData || {}).length > 0
+    ) {
+      return true;
+    }
+    return false;
+  };
 
-    const onSuccess = (response) => {
-        addSnackBar({
-            type: SnackBarTypes.success,
-            message:
-                state?.action === DEF_ACTIONS.ADD
-                    ? "Successfully Added"
-                    : "Successfully Updated",
-        });
-        setFarmLandId(response?.payload?.id);
-        setFormData(prevState => ({
-            ...prevState,
-            id: farmLandId,
-        }))
-        setSaving(false);
-        navigate("/farm-land-form", {
-            state: {
-                action: DEF_ACTIONS.EDIT,
-                target: farmLandId,
-            },
-        });
-    };
+  const onSuccess = (response) => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        state?.action === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+      setFarmLandId(response?.payload?.id);
+      setFormData(prevState => ({
+          ...prevState,
+          id: farmLandId,
+      }))
+      setSaving(false);
+      navigate("/farm-land-form", {
+          state: {
+              action: DEF_ACTIONS.EDIT,
+              target: farmLandId,
+          },
+      });
+  };
 
-    const onError = (message) => {
-        addSnackBar({
-            type: SnackBarTypes.error,
-            message: message || "Login Failed",
-        });
-        setSaving(false);
-    };
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
+  };
 
     const handleFormSubmit = async () => {
         if (enableSave()) {
@@ -261,26 +259,26 @@ const FarmLandForm = () => {
         }
     };
 
-    const getPathName = () => {
-        return location.pathname === "/" || !location.pathname
-            ? ""
-            : location.pathname;
-    };
+  const getPathName = () => {
+    return location.pathname === "/" || !location.pathname
+      ? ""
+      : location.pathname;
+  };
 
-    return (
-        <Box
-            sx={{
-                fontFamily: `${Fonts.fontStyle1}`,
-                marginTop: "10px",
-                overflowY: "scroll",
-            }}
-        >
-            <Box>
-                <BackToList goBack={goBack}/>
+  return (
+    <Box
+      sx={{
+        // backgroundColor: `${Colors.formBackgroundColor}`,
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        overflowY: "scroll",
+      }}
+    >
+      <Box>
+        <BackToList goBack={goBack} />
 
-                <CustFormHeader saving={saving} state={state} formName="Farm Land"/>
-
-            </Box>
+        <CustFormHeader saving={saving} state={state} formName="Farm Land" />
+      </Box>
 
             <TabContent
                 style={{
@@ -1138,16 +1136,13 @@ export const TabButton = styled(Button)`
     line-height: 0px;
     box-shadow: none;
     cursor: pointer;
-
     &:hover {
       background-color: ${Colors.iconColor};
       box-shadow: none;
     }
-
     &:not(:last-child) {
       border-right: 2px solid white;
     }
-
     &.active-tabs {
       background: white;
       color: black;
@@ -1171,7 +1166,6 @@ export const TabContent = styled(Stack)`
   && {
     display: none;
   }
-
   &.active-content {
     display: flex;
   }
