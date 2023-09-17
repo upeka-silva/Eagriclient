@@ -29,7 +29,6 @@ import Vector from "../../assets/images/Vector.png";
 import Farmer from "../../assets/images/farmer.png";
 import Factory from "../../assets/images/corporate.png";
 import { useAuthContext } from "../../context/AuthContext";
-import SubmitButton from "./SubmitButton";
 
 const Login = () => {
   const theme = useTheme();
