@@ -55,8 +55,6 @@ const FarmLandForm = () => {
     const [formData, setFormData] = useState(state?.target || {});
     const [saving, setSaving] = useState(false);
     const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
-    const [districtList, setDistrictList] = useState([]);
-    const [dsDivisionList, setDsDivisionList] = useState([]);
     const [gnDivisionList, setGnDivisionList] = useState([]);
     const [soilType, setSoilType] = useState([]);
     const [toggleState, setToggleState] = useState(1);
@@ -121,19 +119,9 @@ const FarmLandForm = () => {
 
     useEffect(() => {
 
-        get_DistrictList().then(({dataList = []}) => {
-            setDistrictList(dataList);
-        });
-
-        get_DsDivisionList().then(({dataList = []}) => {
-            setDsDivisionList(dataList);
-        });
-
         get_GnDivisionList().then(({dataList = []}) => {
             setGnDivisionList(dataList);
         });
-
-
 
     }, []);
 
@@ -236,20 +224,12 @@ const FarmLandForm = () => {
                 return;
             }
 
-            if (isEmpty(formData.protectedHouse)) {
-                addSnackBar({
-                    type: SnackBarTypes.error,
-                    message: "Protected House Type is empty",
-                });
-                return;
-            }
-
             if (isEmpty(formData.soilTypeDTO)) {
                 addSnackBar({
                     type: SnackBarTypes.error,
                     message: "Soil Type is empty",
                 });
-               // return;
+               return;
             }
 
             if (isEmpty(formData.area)) {
@@ -260,10 +240,10 @@ const FarmLandForm = () => {
                 return;
             }
 
-            if (isEmpty(formData.status)) {
+            if (isEmpty(formData.gnDivisionDTO)) {
                 addSnackBar({
                     type: SnackBarTypes.error,
-                    message: "Status is empty",
+                    message: "GN Division is empty",
                 });
                 return;
             }
@@ -290,7 +270,6 @@ const FarmLandForm = () => {
     return (
         <Box
             sx={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
                 fontFamily: `${Fonts.fontStyle1}`,
                 marginTop: "10px",
                 overflowY: "scroll",
@@ -340,7 +319,6 @@ const FarmLandForm = () => {
                                         handleChange(e?.target?.value || "", "name")
                                     }
                                     error={!(formData?.name?.length > 0)}
-                                    //error={isEmpty(formData?.landName)}
                                     size="small"
                                     fullWidth
                                     sx={{
@@ -362,15 +340,6 @@ const FarmLandForm = () => {
                                         value={formData?.landType || ""}
                                         error={!(formData?.landType?.length > 0)}
                                         disabled={state?.action === DEF_ACTIONS.VIEW}
-                                        /*                    onChange={(e) =>
-                                                              e?.target?.value === "Protected House"
-                                                                ? (setProtectedHouseType(false),
-                                                                  handleChange(e?.target?.value || "", "landType"))
-                                                                : e?.target?.value === "Open Field"
-                                                                ? (setProtectedHouseType(true),
-                                                                  handleChange(e?.target?.value || "", "landType"))
-                                                                : handleChange(e?.target?.value || "", "landType")
-                                                            }*/
                                         onChange={(e) =>
                                             handleChange(e?.target?.value || "", "landType")
                                         }
@@ -442,9 +411,6 @@ const FarmLandForm = () => {
                                         options={soilType}
                                         value={formData?.soilTypeDTO || ""}
                                         error={!(formData?.soilTypeDTO?.length > 0)}
-/*                                        getOptionLabel={(i) =>
-                                            `${i.soilTypeCode} - ${i.description}`
-                                        }*/
                                         getOptionLabel={(i) =>
                                             (i.soilTypeCode ? `${i.soilTypeCode} - ${i.description}` : '')
                                         }
@@ -488,32 +454,6 @@ const FarmLandForm = () => {
                                 />
                             </FieldWrapper>
                         </Grid>
-                        <Grid item sm={2} md={2} lg={2}>
-                            <FieldWrapper>
-                                <FormControl fullWidth>
-                                    <FieldName>Status</FieldName>
-                                    <Select
-                                        name="status"
-                                        id="status"
-                                        value={formData?.status || ""}
-                                        error={!(formData?.status?.length > 0)}
-                                        disabled={state?.action === DEF_ACTIONS.VIEW}
-                                        onChange={(e) =>
-                                            handleChange(e?.target?.value || "", "status")
-                                        }
-                                        fullWidth
-                                        sx={{
-                                            borderRadius: "8px",
-                                            backgroundColor: `${Colors.white}`,
-                                        }}
-                                        size="small"
-                                    >
-                                        <MenuItem value={"VERIFIED"}>Verified</MenuItem>
-                                        <MenuItem value={"NOTVERIFIED"}>Not Verified</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </FieldWrapper>
-                        </Grid>
                     </Grid>
 
                     <Grid
@@ -523,6 +463,35 @@ const FarmLandForm = () => {
                             borderRadius: "5px",
                         }}
                     >
+                        <Grid item sm={4} md={4} lg={4}>
+                            <FieldWrapper>
+                                <FieldName>Address </FieldName>
+                                <TextField
+                                    name="address"
+                                    id="address"
+                                    value={formData?.address || ""}
+                                    error={!(formData?.address?.length > 0)}
+                                    placeholder="No/Po box"
+                                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                                    onChange={(e) =>
+                                        handleChange(e?.target?.value || "", "address")
+                                    }
+                                    size="small"
+                                    fullWidth
+                                    sx={{
+                                        "& .MuiInputBase-root": {
+                                            borderRadius: "8px",
+                                            backgroundColor: `${Colors.white}`,
+                                        },
+                                        "& ::placeholder": {
+                                            fontSize: 11,
+                                            fontWeight: 400,
+                                            color: `${Colors.iconColor}`,
+                                        },
+                                    }}
+                                />
+                            </FieldWrapper>
+                        </Grid>
                         <Grid item sm={4} md={4} lg={4}>
                             <FieldWrapper>
                                 <FieldName>Address Line 01</FieldName>
@@ -602,70 +571,6 @@ const FarmLandForm = () => {
                                 />
                             </FieldWrapper>
                         </Grid>
-                        <Grid item sm={2} md={2} lg={2}>
-                            <FieldWrapper>
-                                <FormControl fullWidth>
-                                    <FieldName>District</FieldName>
-                                    <Autocomplete
-                                        name="districtDTO"
-                                        id="districtDTO"
-                                        disabled={state?.action === DEF_ACTIONS.VIEW}
-                                        options={districtList}
-                                        value={formData?.districtDTO || ""}
-                                        error={!(formData?.districtDTO?.length > 0)}
-                                        getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                                        onChange={(event, value) => {
-                                            handleChange(value, "districtDTO");
-                                        }}
-                                        fullWidth
-                                        sx={{
-                                            "& .MuiOutlinedInput-root": {
-                                                borderRadius: "8px",
-                                                backgroundColor: `${Colors.white}`,
-                                            },
-                                        }}
-                                        size="small"
-                                        renderInput={(params) => (
-                                            <>
-                                                <TextField {...params} size="small"/>
-                                            </>
-                                        )}
-                                    />
-                                </FormControl>
-                            </FieldWrapper>
-                        </Grid>
-                        <Grid item sm={3} md={3} lg={3}>
-                            <FieldWrapper>
-                                <FormControl fullWidth>
-                                    <FieldName>DS Division</FieldName>
-                                    <Autocomplete
-                                        name="dsDivisionDTO"
-                                        id="dsDivisionDTO"
-                                        disabled={state?.action === DEF_ACTIONS.VIEW}
-                                        options={dsDivisionList}
-                                        value={formData?.dsDivisionDTO || ""}
-                                        error={!(formData?.dsDivisionDTO?.length > 0)}
-                                        getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                                        onChange={(event, value) => {
-                                            handleChange(value, "dsDivisionDTO");
-                                        }}
-                                        fullWidth
-                                        sx={{
-                                            "& .MuiOutlinedInput-root": {
-                                                borderRadius: "8px",
-                                                backgroundColor: `${Colors.white}`,
-                                            },
-                                        }}
-                                        size="small"
-                                        renderInput={(params) => (
-                                            <>
-                                                <TextField {...params} size="small"/>
-                                            </>
-                                        )}
-                                    />
-                                </FormControl>
-                            </FieldWrapper>
-                        </Grid>
                         <Grid item sm={3} md={3} lg={3}>
                             <FieldWrapper>
                                 <FormControl fullWidth>
@@ -677,7 +582,9 @@ const FarmLandForm = () => {
                                         options={gnDivisionList}
                                         value={formData?.gnDivisionDTO || ""}
                                         error={!(formData?.gnDivisionDTO?.length > 0)}
-                                        getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                                        getOptionLabel={(i) =>
+                                            (i.code ? `${i.code} - ${i.name}` : '')
+                                        }
                                         onChange={(event, value) => {
                                             handleChange(value, "gnDivisionDTO");
                                         }}
