@@ -22,6 +22,7 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
+import HomeIcon from '@mui/icons-material/Home';
 import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 
@@ -73,7 +74,9 @@ const AppHeader = () => {
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
 
   const location = useLocation();
-
+// const handleClick= () =>{
+//   navigate("landing-page");
+// };
   const getCurrentScreenName = () => {
     let screenName = "";
     const r =
@@ -137,7 +140,10 @@ const AppHeader = () => {
       <ItemWrapper>
         <AppTitle>
           <Typography variant="h8">{getCurrentScreenName()}</Typography>
-          {/* <Typography
+            <IconButton>
+                <HomeIcon onClick={handleClick}/>
+            </IconButton>
+            {/* <Typography
             variant="subtitle2"
             // sx={{ color: `${theme.coreColors.primary}` }}
           >
@@ -266,8 +272,9 @@ export default AppHeader;
 const Wrapper = styled(Card)`
   display: block;
   min-height: 56px;
-  padding: 0px 30px;
+  padding: 5px 30px;
   background: ${Colors.white};
+  margin-top:10px;
   position: sticky;
 `;
 

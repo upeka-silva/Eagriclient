@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { styled } from "@mui/material/styles";
 import styledComponents from "styled-components";
+import { useServiceContext } from "../../context/ServiceContext";
 import {
   Drawer as MuiDrawer,
   Toolbar,
@@ -28,7 +29,8 @@ const SideBar = () => {
   const [openSecondary, setOpenSecondary] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
-
+  const { service } = useServiceContext();
+  console.log(service)
   const toggleDrawer = () => {
     setOpen((current) => !current);
   };
@@ -113,6 +115,7 @@ const SideBar = () => {
   };
 
   const renderSideBarRoutes = () => {
+    //TODO: Add this condition later: r.isService === service
     return Routes.filter((r) => r.isSideBar === true).map((r, key) => {
       if (r.children) {
         const toggleCollapseState = () => {

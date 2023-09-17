@@ -29,7 +29,6 @@ import Vector from "../../assets/images/Vector.png";
 import Farmer from "../../assets/images/farmer.png";
 import Factory from "../../assets/images/corporate.png";
 import { useAuthContext } from "../../context/AuthContext";
-import SubmitButton from "./SubmitButton";
 
 const Login = () => {
   const theme = useTheme();
@@ -52,21 +51,24 @@ const Login = () => {
 
   const { updateAuthContext } = useAuthContext();
 
-  const onSuccess = () => {
+  const onSuccess = (role) => {
     addSnackBar({
       type: SnackBarTypes.success,
       message: "Successfully Logged In",
     });
-    navigate(location.state?.toPath || "/main-dashboard");
+    if(role === "ADMIN"){
+      navigate(location.state?.toPath || "/landing-page");
+    }
+
   };
 
-  const onError = (message) => {
-    addSnackBar({
-      type: SnackBarTypes.error,
-      message: message || "Login Failed",
-    });
-    setLoading(false);
-  };
+	const onError = (message) => {
+		addSnackBar({
+			type: SnackBarTypes.error,
+			message: message || 'Login Failed',
+		});
+		setLoading(false);
+	};
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
@@ -108,9 +110,9 @@ const Login = () => {
     navigate("/temp-farmer");
   };
 
-  const goOrganization = () => {
-    navigate("/organization");
-  };
+	const goOrganization = () => {
+		navigate('/organization');
+	};
 
   return (
     <LoginWrapper>
@@ -339,8 +341,8 @@ const OtherLinkWrapper = styled.div`
 `;
 
 const CustomCard = styled.div`
-  margin: 0px;
-  padding: 18px 24px;
+	margin: 0px;
+	padding: 18px 24px;
 `;
 
 const LoginWrapper = styled.div`

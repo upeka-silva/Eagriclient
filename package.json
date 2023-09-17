@@ -9,6 +9,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mapbox/mapbox-gl-draw": "^1.4.2",
+    "@material-ui/core": "^4.12.4",
     "@mui/icons-material": "^5.11.11",
     "@mui/lab": "^5.0.0-alpha.93",
     "@mui/material": "^5.12.0",
@@ -35,8 +36,10 @@
     "react-scripts": "5.0.1",
     "recharts": "^2.8.0",
     "redux": "^4.2.1",
+    "react-select": "^5.7.4",
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.7",
+    "source-map-loader": "^4.0.1",
     "styled-components": "^5.3.9",
     "web-vitals": "^2.1.4"
   },

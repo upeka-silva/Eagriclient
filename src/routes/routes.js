@@ -787,6 +787,7 @@ export const Routes = [
     name: "Crop",
     isSideBar: true,
     icon: SpaIcon,
+    isService :"SC",
     children: [
       {
         path: "/category",
@@ -936,6 +937,8 @@ export const Routes = [
     name: "Farm Land",
     isSideBar: true,
     icon: GiIsland,
+    isService: "SC",
+
     element: <FarmLand />,
   },
   {
@@ -962,6 +965,7 @@ export const Routes = [
     name: "Farmer",
     element: <Farmer />,
     isSideBar: true,
+    isService: "SC",
     icon: AccessibilityIcon,
   },
   {
@@ -992,6 +996,7 @@ export const Routes = [
     name: "Users",
     element: <Users />,
     isSideBar: true,
+    isService: "SC",
     icon: SupervisedUserCircleIcon,
   },
   {
@@ -1012,6 +1017,7 @@ export const Routes = [
     name: "GAP Registration",
     element: <GapRegs />,
     isSideBar: true,
+    isService: "GAP",
     icon: AppRegistrationIcon,
   },
   {
