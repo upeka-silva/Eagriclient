@@ -241,7 +241,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Form Name</FieldName>
+            <FieldName>Form ID</FieldName>
             <TextField
               name="formName"
               id="formName"
@@ -295,53 +295,57 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Category</FieldName>
+        {(auditFormType !== 'SELF_ASSESSMENT') &&
+            <>
+              <Grid item sm={2} md={2} lg={2}>
+                <FieldWrapper>
+                  <FieldName>Category</FieldName>
 
-            <Select
-              value={formData?.category || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "category")}
-              sx={{
-                // width: "264px",
-                // height: "30px",
-                borderRadius: "8px",
-                backgroundColor: `${Colors.white}`,
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
-              <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Sub Category</FieldName>
+                  <Select
+                      value={formData?.category || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) => handleChange(e?.target?.value || "", "category")}
+                      sx={{
+                        // width: "264px",
+                        // height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      }}
+                      size="small"
+                      fullWidth
+                  >
+                    <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
+                    <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={2} md={2} lg={2}>
+                <FieldWrapper>
+                  <FieldName>Sub Category</FieldName>
 
-            <Select
-              value={formData?.subcategory || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "subcategory")
-              }
-              sx={{
-                // width: "264px",
-                // height: "30px",
-                borderRadius: "8px",
-                backgroundColor: `${Colors.white}`,
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"VEG"}>Veg</MenuItem>
-              <MenuItem value={"FRUIT"}>Fruit</MenuItem>
-              <MenuItem value={"PADDY"}>Paddy</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
+                  <Select
+                      value={formData?.subcategory || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) =>
+                          handleChange(e?.target?.value || "", "subcategory")
+                      }
+                      sx={{
+                        // width: "264px",
+                        // height: "30px",
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      }}
+                      size="small"
+                      fullWidth
+                  >
+                    <MenuItem value={"VEG"}>Veg</MenuItem>
+                    <MenuItem value={"FRUIT"}>Fruit</MenuItem>
+                    <MenuItem value={"PADDY"}>Paddy</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+            </>
+        }
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Active From</FieldName>

@@ -173,6 +173,7 @@ const CommonQuestionList = ({
                                         variant="contained"
                                         size="small"
                                         sx={{marginLeft: "10px"}}
+                                        disabled={formMode === DEF_ACTIONS.VIEW}
                                     >
                                         EDIT
                                     </Button>
@@ -182,6 +183,7 @@ const CommonQuestionList = ({
                                         variant="contained"
                                         size="small"
                                         sx={{marginLeft: "10px"}}
+                                        disabled={formMode === DEF_ACTIONS.VIEW}
                                     >
                                         DELETE
                                     </Button>
