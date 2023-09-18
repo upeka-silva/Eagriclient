@@ -138,6 +138,8 @@ import InternalAuditForm from "../pages/AuditForm/InternalAuditForm/InternalAudi
 import ExternalAudit from "../pages/AuditForm/ExternalAuditForm/ExternalAudit";
 import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAuditForm";
 import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
+import Role from "../pages/AppSettings/Role/Role";
+import RoleForm from "../pages/AppSettings/Role/RoleForm";
 
 export const Routes = [
   {
@@ -311,7 +313,7 @@ export const Routes = [
             path: "/ai-region-form",
             name: "ASC Form",
             isSideBar: false,
-            element: <ProvincialAiRegionForm/>,
+            element: <ProvincialAiRegionForm />,
           },
           // {
           //   path: "/ai-region",
@@ -673,7 +675,7 @@ export const Routes = [
             isSideBar: false,
             element: <MahaweliBlockForm />,
           },
-          
+
           {
             path: "/mahaweli-unit",
             name: "Mahaweli Unit",
@@ -708,42 +710,6 @@ export const Routes = [
             element: <AgroEcoForm />,
           },
         ],
-      },
-    ],
-  },
-
-  {
-    path: "/authentication",
-    name: "Authentication",
-    isSideBar: true,
-    icon: LockIcon,
-    children: [
-      {
-        path: "/actions",
-        name: "Actions",
-        isSideBar: true,
-        icon: HighlightAltIcon,
-        element: <Actions />,
-      },
-      {
-        path: "/components",
-        name: "Components",
-        isSideBar: true,
-        icon: ViewModuleIcon,
-        element: <Components />,
-      },
-      {
-        path: "/component-form",
-        name: "Component Form",
-        isSideBar: false,
-        element: <ComponentForm />,
-      },
-      {
-        path: "/permissions",
-        name: "Permissions",
-        isSideBar: true,
-        icon: KeyIcon,
-        element: <Permissions />,
       },
     ],
   },
@@ -787,7 +753,7 @@ export const Routes = [
     name: "Crop",
     isSideBar: true,
     icon: SpaIcon,
-    isService :"SC",
+    isService: "SC",
     children: [
       {
         path: "/category",
@@ -1081,6 +1047,55 @@ export const Routes = [
         isSideBar: false,
         element: <ExternalAuditForm />,
         icon: SouthAmericaIcon,
+      },
+    ],
+  },
+  {
+    path: "/app-settings",
+    name: "Application Settings",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/roles",
+        name: "Roles",
+        isSideBar: true,
+        element: <Role />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/role-form",
+        name: "Role Form",
+        isSideBar: false,
+        element: <RoleForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/actions",
+        name: "Actions",
+        isSideBar: true,
+        icon: HighlightAltIcon,
+        element: <Actions />,
+      },
+      {
+        path: "/components",
+        name: "Components",
+        isSideBar: true,
+        icon: ViewModuleIcon,
+        element: <Components />,
+      },
+      {
+        path: "/component-form",
+        name: "Component Form",
+        isSideBar: false,
+        element: <ComponentForm />,
+      },
+      {
+        path: "/permissions",
+        name: "Permissions",
+        isSideBar: true,
+        icon: KeyIcon,
+        element: <Permissions />,
       },
     ],
   },

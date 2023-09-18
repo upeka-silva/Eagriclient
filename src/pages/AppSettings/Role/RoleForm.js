@@ -1,56 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-  Button,
-  TextField,
-  Autocomplete,
-  Select,
-  MenuItem,
-  Grid,
-} from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAI } from "../../../redux/actions/aiRegion/action";
-
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import React, { useState } from "react";
+import BackToList from "../../../components/BackToList/BackToList";
+import { useLocation, useNavigate } from "react-router";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import { Button, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { handleRoles } from "../../../redux/actions/app_settings/roles/action";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-import { get_ASC } from "../../../redux/actions/asc/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-
-const AIForm = () => {
-  useUserAccessValidation();
-  const { state } = useLocation();
-  const location = useLocation();
-
+const RoleForm = () => {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
-  const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [ascList, setAscList] = useState([]);
-  const [parentValue, setParentValue] = useState([]);
+  const [formData, setFormData] = useState(state?.target || {});
 
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/zone/aa-structure/ai-region");
+    navigate("/app-settings/roles");
   };
-
-  useEffect(() => {
-    get_ASC().then(({ dataList = [] }) => {
-      setAscList(dataList);
-    });
-  }, []);
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -106,7 +80,7 @@ const AIForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
-        await handleAI(formData, onSuccess, onError);
+        await handleRoles(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
       }
@@ -116,7 +90,7 @@ const AIForm = () => {
   return (
     <FormWrapper>
       <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="AI Region" />
+      <CustFormHeader saving={saving} state={state} formName="Role" />
       <ButtonWrapper
         isCeneter
         style={{
@@ -163,7 +137,6 @@ const AIForm = () => {
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -171,7 +144,7 @@ const AIForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Region ID</FieldName>
+            <FieldName>Code</FieldName>
             <TextField
               name="id"
               id="id"
@@ -214,82 +187,9 @@ const AIForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Parent Type</FieldName>
-
-            <Select
-              value={formData?.parentType || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "parentType")
-              }
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"PROVINCIAL"}>Provincial</MenuItem>
-              <MenuItem value={"INTERPROVINCIAL"}>Inter Provincial</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Parent Value</FieldName>
-            <Autocomplete
-              options={parentValue}
-              getOptionLabel={(option) => option.name}
-              onChange={(event, value) => {
-                handleChange(value, "");
-              }}
-              sx={{
-                // width: "264px",
-                "& .MuiOutlinedInput-root": {
-                  // height: "30px",
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  size="small"
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                />
-              )}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>ASC Region ID</FieldName>
-            <Autocomplete
-              options={ascList}
-              getOptionLabel={(i) => `${i.code} - ${i.name}`}
-              onChange={(event, value) => {
-                handleChange(value, "");
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  size="small"
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                />
-              )}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
       </Grid>
     </FormWrapper>
   );
 };
 
-export default AIForm;
+export default RoleForm;
