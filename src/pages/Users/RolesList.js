@@ -1,6 +1,4 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
-import { DataTable } from "../../components/PageLayout/Table";
 import { DataList } from "../../components/PageLayout/List";
 
 const RolesList = ({
@@ -18,7 +16,7 @@ const RolesList = ({
 
       <DataList
         loadingTable
-        dataEndPoint={"roles"}
+        dataEndPoint={"app-settings/roles"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

@@ -3,7 +3,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const fetchAllRoles = async (onSuccess = () => { }, onError = (_message) => { }) => {
     try {
-        const { httpCode, payloadDto, message = '' } = await get('roles', true);
+        const { httpCode, payloadDto, message = '' } = await get('app-settings/roles', true);
         if (httpCode === '200 OK') {
             return payloadDto;
         } else {
