@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
     TextField,
     Button,
@@ -34,8 +34,12 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
+import RoleSelection from "./RoleSelection";
+import { get } from '../../services/api/index';
+import { margin } from "@mui/system";
 
 const UsersForm = () => {
+
     useUserAccessValidation();
     const {state} = useLocation();
     const location = useLocation();
@@ -66,6 +70,30 @@ const UsersForm = () => {
     const [view, setView] = useState(false)
     const [isview, setIsview] = useState(false);
     const [message, setMessage] = useState('');
+
+    const [roles, setRoles] = useState([]);
+
+    const [selectedRoles, setSelectedRoles] = useState([]);
+
+    const handleRolesChange = (role) => {
+      setSelectedRoles([...selectedRoles, role]);
+    };
+
+    useEffect(() => {
+      const fetchRoles = async (path, page = 0, size = 10) => {
+        try {
+            const { totalElements, httpCode, payloadDto } = await get(
+                `${path}?page=${page}&size=1000&sort=asc&sort`,
+                true
+            );
+            setRoles(payloadDto);
+        } catch(error) {
+            console.log(error);
+        }
+      };
+  
+      fetchRoles('roles');
+    }, []);
 
     const getSelectedFilterType = (value) => {
         console.log('value ', value);
@@ -149,7 +177,7 @@ const UsersForm = () => {
                             ...formData,
                             startDate: firstName.valueOf() || null,
                             endDate: lastName.valueOf() || null,
-                            roleDTOs: selectRoles,
+                            roleDTOs: selectedRoles,
                             serviceDTO: selectServices,
                         },
                         onSuccess,
@@ -299,6 +327,7 @@ const UsersForm = () => {
                                     borderRadius: "8px",
                                 },
                             }}
+                            size="small"
                         />
                     </FieldWrapper>
                 </Grid>
@@ -502,21 +531,8 @@ const UsersForm = () => {
                     borderRadius: "5px",
                 }}
             >
-                <Grid item lg={3}>
-                    <RoleList
-                        selectedRows={selectRoles}
-                        onRowSelect={toggleRolesSelect}
-                        selectAll={selectAllRoles}
-                        unSelectAll={resetSelectedRoles}
-                    />
-
-                </Grid>
-                <Grid item lg={5}>
-                    <ServicesList
-                        selectedRows={selectServices}
-                        onRowSelect={toggleServicesSelect}
-                        selectAll={selectAllServices}
-                        unSelectAll={resetSelectedServices}/>
+                <Grid item lg={12} sx={{margin: "15px"}}>
+                    <RoleSelection roles={roles} selectedRoles={selectedRoles} onRolesChange={handleRolesChange} />
                 </Grid>
             </Grid>
         </FormWrapper>
