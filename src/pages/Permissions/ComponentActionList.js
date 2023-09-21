@@ -54,7 +54,7 @@ const ComponentActionList = ({
                         actions.map((a, k) => {
                             let checked = rolePermissions.findIndex(p => p?.componentId === c?.id && p?.actionId === a?.id) > -1;
                             return (
-                                <TableCell key={`${key}${k}`} onClick={() => setRolePermission(c?.id, a?.id, !checked)}>
+                                <TableCell key={`${key}${k}`} onClick={() => setRolePermission(c?.id, a?.id, !checked)} >
                                     <FormControlLabel
                                         control={
                                             <Checkbox

@@ -140,6 +140,9 @@ import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAudi
 import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import Role from "../pages/AppSettings/Role/Role";
 import RoleForm from "../pages/AppSettings/Role/RoleForm";
+import PermissionsRoles from "../pages/AppSettings/Permissions/RolesList";
+import Permission from "../pages/AppSettings/Permissions/Permission";
+import PermissionsByRole from "../pages/AppSettings/Permissions/PermissionsByRole";
 
 export const Routes = [
   {
@@ -1091,12 +1094,26 @@ export const Routes = [
         element: <ComponentForm />,
       },
       {
+        path: "/permissionss",
+        name: "Permissions",
+        isSideBar: false,
+        icon: KeyIcon,
+        element: <Permissions />,
+      },
+      {
         path: "/permissions",
         name: "Permissions",
         isSideBar: true,
         icon: KeyIcon,
-        element: <Permissions />,
+        element: <Permission />,
       },
+      {
+        path: "/permissions-by-role",
+        name: "Permissions",
+        isSideBar: false,
+        icon: KeyIcon,
+        element: <PermissionsByRole />,
+      }
     ],
   },
   {

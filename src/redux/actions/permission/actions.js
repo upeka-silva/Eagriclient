@@ -24,7 +24,7 @@ export const fetchAllRoles = async (onSuccess = () => { }, onError = (_message) 
 
 export const fetchAllComponents = async (onSuccess = () => { }, onError = (_message) => { }) => {
     try {
-        const { httpCode, payloadDto, message = '' } = await get('components', true);
+        const { httpCode, payloadDto, message = '' } = await get(`components/?page=0&size=1000&sort=asc&sort`, true);
         if (httpCode === '200 OK') {
             return payloadDto;
         } else {

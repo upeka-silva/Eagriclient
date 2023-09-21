@@ -30,6 +30,7 @@ const RoleList = () => {
       const result = await fetchAllRoles(() => {}, onError);
       setRoles(result);
       fetchExisitingData(result);
+      console.log(result)
     } catch (error) {
       console.log(error);
     }
@@ -50,8 +51,10 @@ const RoleList = () => {
               })
             : [],
       };
+      
       return newRoleData;
     });
+    console.log(newFormData)
     setFormData(newFormData);
   };
 
@@ -74,7 +77,7 @@ const RoleList = () => {
           <RoleAccordion
             role={role}
             key={key}
-            roleFormData={formData.find((f) => f?.roleId === role?.id)}
+            roleFormData={formData.find((f) => f?.roleId == role?.id)}
             setRoleFormData={handleChange}
           />
         );
