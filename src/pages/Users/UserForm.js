@@ -178,7 +178,7 @@ const UsersForm = () => {
             let firstName = new Date(formData.firstName);
             let lastName = new Date(formData.lastName);
             let dateOfBirth = new Date(formData.dateOfBirth);
-
+            
             try {
                 if (formData?.id) {
                     await updateUsers(
@@ -361,6 +361,48 @@ const UsersForm = () => {
                             fullWidth
                             disabled={state?.action === DEF_ACTIONS.VIEW}
                             onChange={(e) => handleChange(e?.target?.value || "", "lastName")}
+                            sx={{
+                                // width: "264px",
+                                "& .MuiInputBase-root": {
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                },
+                            }}
+                            size="small"
+                        />
+                    </FieldWrapper>
+                </Grid>
+                <Grid item lg={3}>
+                    <FieldWrapper>
+                        <FieldName>Phone number</FieldName>
+                        <TextField
+                            name="phone"
+                            id="phone"
+                            value={formData?.phone || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) => handleChange(e?.target?.value || "", "phone")}
+                            sx={{
+                                // width: "264px",
+                                "& .MuiInputBase-root": {
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                },
+                            }}
+                            size="small"
+                        />
+                    </FieldWrapper>
+                </Grid>
+                <Grid item lg={3}>
+                    <FieldWrapper>
+                        <FieldName>Address</FieldName>
+                        <TextField
+                            name="address1"
+                            id="address1"
+                            value={formData?.address1 || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) => handleChange(e?.target?.value || "", "address1")}
                             sx={{
                                 // width: "264px",
                                 "& .MuiInputBase-root": {
