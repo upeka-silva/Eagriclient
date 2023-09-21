@@ -69,9 +69,9 @@ const UsersForm = () => {
 
     const handleRolesChange = (roleId) => {
         // Toggle the selected state of the role
-        const updatedRoles = selectedRoles.some(role => role?.id === roleId)
-        ? selectedRoles.filter((selectedRole) => selectedRole?.id !== roleId)
-        : [...selectedRoles, {"id": roleId}];
+        const updatedRoles = selectedRoles.some(role => role?.roleDTO?.id === roleId)
+        ? selectedRoles.filter((selectedRole) => selectedRole?.roleDTO?.id !== roleId)
+        : [...selectedRoles, {"roleDTO": {"id": roleId}}];
 
         setSelectedRoles(updatedRoles);
     };
@@ -97,14 +97,16 @@ const UsersForm = () => {
                     `${path}/${id}`,
                     true
                 );
+                const dob = payload?.dateOfBirth ? dateAdapter.date(payload?.dateOfBirth) : null;
+                payload.dateOfBirth = dob;
                 setFormData(payload);
-                const roleIds = payload?.roleDTOs.map(role => role.id);
-                setSelectedRoles(payload?.roleDTOs);
+                const roles = payload?.userRoleDTOs.map(userRole => ({roleDTO:userRole?.roleDTO}));
+                setSelectedRoles(roles);
             } catch(error) {
                 console.log(error);
             }
         };
-        fetchUser('user', formData?.id);
+        fetchUser('user', formData?.id); 
       }
 
     }, []);
@@ -175,13 +177,15 @@ const UsersForm = () => {
 
             let firstName = new Date(formData.firstName);
             let lastName = new Date(formData.lastName);
+            let dateOfBirth = new Date(formData.dateOfBirth);
 
             try {
                 if (formData?.id) {
                     await updateUsers(
                         {
                             ...formData,
-                            roleDTOs: selectedRoles,
+                            dateOfBirth: dateOfBirth.valueOf() || null,
+                            userRoleDTOs: selectedRoles,
                         },
                         onSuccess,
                         onError
@@ -192,7 +196,8 @@ const UsersForm = () => {
                             ...formData,
                             startDate: firstName.valueOf() || null,
                             endDate: lastName.valueOf() || null,
-                            roleDTOs: selectedRoles,
+                            dateOfBirth: dateOfBirth.valueOf() || null,
+                            userRoleDTOs: selectedRoles,
                             serviceDTO: selectServices,
                         },
                         onSuccess,
@@ -378,7 +383,7 @@ const UsersForm = () => {
                                 disabled={state?.action === DEF_ACTIONS.VIEW}
                                 slotProps={{textField: {size: "small"}}}
                                 value={formData?.dateOfBirth || ""}
-                                onChange={(newValue) => handleChange(newValue || "", "startDate")}
+                                onChange={(newValue) => handleChange(newValue || "", "dateOfBirth")}
                                 in="DD-MM-YYYY"
                                 sx={{
                                     // width: "246px",
