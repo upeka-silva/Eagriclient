@@ -48,15 +48,7 @@ const UsersForm = () => {
 
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-                                                 ...(state?.target || {}),
-                                                 startDate: state?.target?.startDate
-                                                            ? dateAdapter.date(state?.target?.startDate)
-                                                            : null,
-                                                 endDate: state?.target?.endDate
-                                                          ? dateAdapter.date(state?.target?.endDate)
-                                                          : null,
-                                             });
+    const [formData, setFormData] = useState({"id": state?.target?.id});
     const [saving, setSaving] = useState(false);
     const [selectRoles, setSelectRoles] = useState([]);
     const [selectServices, setSelectServices] = useState([]);
@@ -75,8 +67,13 @@ const UsersForm = () => {
 
     const [selectedRoles, setSelectedRoles] = useState([]);
 
-    const handleRolesChange = (role) => {
-      setSelectedRoles([...selectedRoles, role]);
+    const handleRolesChange = (roleId) => {
+        // Toggle the selected state of the role
+        const updatedRoles = selectedRoles.some(role => role?.id === roleId)
+        ? selectedRoles.filter((selectedRole) => selectedRole?.id !== roleId)
+        : [...selectedRoles, {"id": roleId}];
+
+        setSelectedRoles(updatedRoles);
     };
 
     useEffect(() => {
@@ -91,8 +88,25 @@ const UsersForm = () => {
             console.log(error);
         }
       };
-  
-      fetchRoles('roles');
+      fetchRoles('app-settings/roles');
+
+      if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+        const fetchUser = async (path, id) => {
+            try {
+                const { payload } = await get(
+                    `${path}/${id}`,
+                    true
+                );
+                setFormData(payload);
+                const roleIds = payload?.roleDTOs.map(role => role.id);
+                setSelectedRoles(payload?.roleDTOs);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+        fetchUser('user', formData?.id);
+      }
+
     }, []);
 
     const getSelectedFilterType = (value) => {
@@ -167,6 +181,7 @@ const UsersForm = () => {
                     await updateUsers(
                         {
                             ...formData,
+                            roleDTOs: selectedRoles,
                         },
                         onSuccess,
                         onError
@@ -362,7 +377,7 @@ const UsersForm = () => {
                                 id="dob"
                                 disabled={state?.action === DEF_ACTIONS.VIEW}
                                 slotProps={{textField: {size: "small"}}}
-                                value={formData?.dob || ""}
+                                value={formData?.dateOfBirth || ""}
                                 onChange={(newValue) => handleChange(newValue || "", "startDate")}
                                 in="DD-MM-YYYY"
                                 sx={{

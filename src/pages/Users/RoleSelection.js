@@ -8,10 +8,11 @@ import { FieldName } from '../../components/FormLayout/FieldName';
 const RoleSelection = ({ roles, selectedRoles, onRolesChange }) => {
   const numberOfColumns = 5; // Number of columns you want to divide the roles into
   const columnSize = Math.ceil(roles.length / numberOfColumns);
+  console.log('selected roles -------------->');
+  console.log(selectedRoles);
 
-  const handleRoleChange = (role) => {
-    const roleDTO = {"id": role};
-    onRolesChange(roleDTO);
+  const handleRoleChange = (roleId) => {
+    onRolesChange(roleId);
   };
 
   return (
@@ -28,6 +29,7 @@ const RoleSelection = ({ roles, selectedRoles, onRolesChange }) => {
                     key={role.id}
                     control={
                     <Checkbox
+                        checked={selectedRoles.some(selectedRole => selectedRole.id === role.id)}
                         onChange={() => handleRoleChange(role.id)}
                         name={role.name}
                     />
