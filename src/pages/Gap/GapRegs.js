@@ -32,11 +32,11 @@ const GapRegs = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [selectUsers, setSelectUsers] = useState([]);
+  const [selectGapReq, setSelectGapReq] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleUsersSelect = (component) => {
-    setSelectUsers((current = []) => {
+    setSelectGapReq((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -49,11 +49,11 @@ const GapRegs = () => {
   };
 
   const selectAllUsers = (all = []) => {
-    setSelectUsers(all);
+    setSelectGapReq(all);
   };
 
   const resetSelectedUsers = () => {
-    setSelectUsers([]);
+    setSelectGapReq([]);
   };
 
   const onCreate = () => {
@@ -63,36 +63,20 @@ const GapRegs = () => {
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/users-form", {
+    navigate("/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: {
-          ...(selectUsers[0] || {}),
-          startDate: selectUsers[0]?.startDate
-            ? new Date(selectUsers[0]?.startDate)
-            : null,
-          endDate: selectUsers[0]?.endDate
-            ? new Date(selectUsers[0]?.endDate)
-            : null,
-        },
+        target: {...(selectGapReq[0] || {})},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/users-form", {
+    navigate("/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: {
-          ...(selectUsers[0] || {}),
-          startDate: selectUsers[0]?.startDate
-            ? new Date(selectUsers[0]?.startDate)
-            : null,
-          endDate: selectUsers[0]?.endDate
-            ? new Date(selectUsers[0]?.endDate)
-            : null,
-        },
+        target: {...(selectGapReq[0] || {})},
       },
     });
   };
@@ -108,7 +92,7 @@ const GapRegs = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectUsers.map((p, key) => {
+        {selectGapReq.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -145,7 +129,7 @@ const GapRegs = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const users of selectUsers) {
+      for (const users of selectGapReq) {
         await deleteUsers(users?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -162,57 +146,7 @@ const GapRegs = () => {
       <Typography variant="h6" fontWeight={500} mt={1} fontFamily={Fonts.fontStyle1}>
         Gap Registration
       </Typography>
-      {/* <ActionWrapper isLeft>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-        >
-          <Button variant="contained" onClick={onCreate}>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-        {selectUsers.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-          >
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.EDIT}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectUsers.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-          >
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onView}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectUsers.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
-          >
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
-            >
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
-      </ActionWrapper> */}
+
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -229,7 +163,7 @@ const GapRegs = () => {
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectUsers.length === 1 && (
+          {selectGapReq.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
@@ -239,7 +173,7 @@ const GapRegs = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectUsers.length === 1 && (
+          {selectGapReq.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
@@ -249,7 +183,7 @@ const GapRegs = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectUsers.length > 0 && (
+          {selectGapReq.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
@@ -266,7 +200,7 @@ const GapRegs = () => {
       >
         {loading === false && (
           <GapRegList
-            selectedRows={selectUsers}
+            selectedRows={selectGapReq}
             onRowSelect={toggleUsersSelect}
             selectAll={selectAllUsers}
             unSelectAll={resetSelectedUsers}

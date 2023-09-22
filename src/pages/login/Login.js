@@ -56,10 +56,7 @@ const Login = () => {
       type: SnackBarTypes.success,
       message: "Successfully Logged In",
     });
-    if(role === "ADMIN"){
-      navigate(location.state?.toPath || "/landing-page");
-    }
-
+    navigate(location.state?.toPath || "/main-dashboard");
   };
 
 	const onError = (message) => {

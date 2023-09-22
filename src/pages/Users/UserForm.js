@@ -17,8 +17,6 @@ import {useLocation, useNavigate} from "react-router";
 import {DEF_ACTIONS} from "../../utils/constants/permission";
 import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
 import {useSnackBars} from "../../context/SnackBarContext";
-import RoleList from "./RolesList";
-import ServicesList from "./ServicesList";
 import data from "../../dropdown/drodwnlist"
 import {FormWrapper} from "../../components/FormLayout/FormWrapper";
 import {FormHeader} from "../../components/FormLayout/FormHeader";
