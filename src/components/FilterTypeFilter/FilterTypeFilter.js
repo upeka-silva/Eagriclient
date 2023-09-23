@@ -1,10 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {Autocomplete, FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
-import {FieldName} from "../FormLayout/FieldName";
-import {get_DataList} from "../../redux/actions/list/list";
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import {
+    Autocomplete,
+    FormControl, InputLabel, MenuItem, Select, TextField, Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow, Button
+} from "@mui/material";
+import { FieldName } from "../FormLayout/FieldName";
+import { get_DataList } from "../../redux/actions/list/list";
 import data from "../../dropdown/drodwnlist";
-import {TextFields} from "@mui/icons-material";
+import { TextFields } from "@mui/icons-material";
 
 const useStyles = makeStyles(theme => ({
     dropdownContainer: {
@@ -13,16 +21,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FilterTypeFilter = ({
-                              data,
-                              originalPath,
-                              parentLinks,
-                              parentFilter,
-                              currentLinkIndex,
-                              apiResponse,
-                              curSelectedVal,
-                              nextResponse,
-                              outPutSelectedFilterType
-                          }) => {
+    data,
+    originalPath,
+    parentLinks,
+    parentFilter,
+    currentLinkIndex,
+    apiResponse,
+    curSelectedVal,
+    nextResponse,
+    outPutSelectedFilterType
+}) => {
 
     const [nextIndex, setNextIndex] = useState(null);
     const [currentKeyValuePair, setCurrentKeyValuePair] = useState([]);
@@ -31,6 +39,7 @@ const FilterTypeFilter = ({
     const [nextResponseData, setNextResponseData] = useState(null);
     const [finalFilter, setFinalFilter] = useState(null);
     const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
+    const [dataListTemplates, setDataListTemplates] = useState([]);
     const [view, setView] = useState(false)
     const classes = useStyles();
 
@@ -46,38 +55,60 @@ const FilterTypeFilter = ({
 
                 let response = null;
                 let nameValue = [];
+                let apiPath = '';
 
                 // API call
                 if (currentLinkIndex == 0) {
+                    console.log('index 0 fk ', filterKey);
 
-                    if (filterKey == 'district') {
-                        response = await get_DataList("geo-data/districts");
-                        setApiResponseData(response.dataList);
-                        nameValue = convertNameValuePair(response.dataList)
-                    } else if (filterKey == 'province') {
-                        response = await get_DataList("geo-data/provinces");
-                        setApiResponseData(response.dataList);
-                        nameValue = convertNameValuePair(response.dataList)
-                    } else if (filterKey == 'deputiyDirOfAgriProvincial') {
+                    apiPath = getAPIUrl(filterKey, false);
+                    response = await get_DataList(apiPath);
+                    console.log('index 0 response ', response);
+                    setApiResponseData(response.dataList);
 
-                    } else if (filterKey == 'deputiyDirOfAgriInterProvincial') {
 
-                    } else if (filterKey == 'mahaweliSystems') {
-
-                    } else if (filterKey == 'districtCommisioner') {
-
-                    } else if (filterKey == 'deptOfAgrarianDevelopment') {
-
+                    if (filterKey == 'deputiyDirOfAgriInterProvincial') {
+                        nameValue = convertNameValuePair(response.dataList, true, 'id', 'ddId');
                     } else if (filterKey == 'mahaweliAuthority') {
-
+                        nameValue = convertNameValuePair(response.dataList, true, 'id', 'description');
                     } else if (filterKey == 'directorDOA') {
-
+                        nameValue = convertNameValuePair(response.dataList, true, 'id', 'description');
                     } else if (filterKey == 'provincialDirectorOfAgri') {
-
-                    } else if (filterKey == 'agroEcologicalZones') {
-
+                        nameValue = convertNameValuePair(response.dataList, true, 'id', 'description');
+                    }
+                    else {
+                        nameValue = convertNameValuePair(response.dataList);
                     }
 
+
+                    /*                    if (filterKey == 'district') {
+                                            response = await get_DataList("geo-data/districts");
+                                            setApiResponseData(response.dataList);
+                                            nameValue = convertNameValuePair(response.dataList)
+                                        } else if (filterKey == 'province') {
+                                            response = await get_DataList("geo-data/provinces");
+                                            setApiResponseData(response.dataList);
+                                            nameValue = convertNameValuePair(response.dataList)
+                                        } else if (filterKey == 'deputiyDirOfAgriProvincial') {
+                    
+                                        } else if (filterKey == 'deputiyDirOfAgriInterProvincial') {
+                    
+                                        } else if (filterKey == 'mahaweliSystems') {
+                    
+                                        } else if (filterKey == 'districtCommisioner') {
+                    
+                                        } else if (filterKey == 'deptOfAgrarianDevelopment') {
+                    
+                                        } else if (filterKey == 'mahaweliAuthority') {
+                    
+                                        } else if (filterKey == 'directorDOA') {
+                    
+                                        } else if (filterKey == 'provincialDirectorOfAgri') {
+                    
+                                        } else if (filterKey == 'agroEcologicalZones') {
+                    
+                                        }*/
+                    console.log('currentLinkIndex == 0 nameValue ', nameValue);
                     setCurrentKeyValuePair(nameValue);
 
                     return;
@@ -95,36 +126,106 @@ const FilterTypeFilter = ({
         fetchData();
     }, []);
 
-    const filterData = () => {
+    const getAPIUrl = (filterKeyParam, typeParam = false) => {
+        let response = null;
+        console.log('filter key get url ', filterKeyParam);
+        if (filterKeyParam == 'district') {
+            return "geo-data/districts"
+        } else if (filterKeyParam == 'province') {
+            return "geo-data/provinces";
+        } else if (filterKeyParam == 'DSDivision') {
+            return typeParam ? "geo-data/ds-divisions/by-district/" : "geo-data/provinces";
+        } else if (filterKeyParam == 'ADASegmantProvincial') {
+            return typeParam ? "geo-data/provincial-ada-segments" : "geo-data/provincial-ada-segments";
+        } else if (filterKeyParam == 'GNDivision') {
+            return typeParam ? "geo-data/gn-divisions/ds-division/" : "";
+        } else if (filterKeyParam == 'deputiyDirOfAgriProvincial') {
+            return typeParam ? "" : "geo-data/provincial-deputy-director-level";
+        } else if (filterKeyParam == 'deputiyDirOfAgriInterProvincial') {
+            return typeParam ? "geo-data/director-doa/" : "geo-data/interprovincial-dd-levels";
+        } else if (filterKeyParam == 'mahaweliUnit') {
+            return typeParam ? "" : "geo-data/mahaweli-units";
+        } else if (filterKeyParam == 'mahaweliSystems') {
+            return typeParam ? "" : "geo-data/mahaweli-systems";
+        } else if (filterKeyParam == 'block') {
+            return typeParam ? "" : "geo-data/mahaweli-blocks";
+        } else if (filterKeyParam == 'districtCommisioner') {
+            return typeParam ? "" : "geo-data/district-commissioner-level";
+        } else if (filterKeyParam == 'deptOfAgrarianDevelopment') {
+            return typeParam ? "" : "geo-data/do_agrarian_development";
+        } else if (filterKeyParam == 'mahaweliAuthority') {
+            return typeParam ? "" : "geo-data/mahaweli-authorities";
+        } else if (filterKeyParam == 'directorDOA') {
+            return typeParam ? "" : "geo-data/director-doa";
+        } else if (filterKeyParam == 'provincialDirectorOfAgri') {
+            return typeParam ? "" : "geo-data/provincial-director-levels";
+        } else if (filterKeyParam == 'agroEcologicalZones') {
+            return typeParam ? "" : "aez";
+        }
+
+        return null;
+    }
+
+    const filterData = async () => {
         // Data filtering without API
         let nameValue = [];
+        let apiPath = '';
         if (apiResponse) {
 
             const filt = apiResponse.filter((d) =>
-                                                d.id == curSelectedValData
+                d.id == curSelectedValData
             );
 
             const fk = parentLinks[currentLinkIndex - 1];
+            console.log('fk ', fk)
+            console.log('currentLinkIndex ', currentLinkIndex)
+            console.log('parentLinks ', parentLinks)
+            console.log('curSelectedValData ', curSelectedValData)
 
-            if (filt && filt[0]) {
-                if (fk == 'district') {
-                    nameValue = convertNameValuePair(filt[0].dsDivisionDTOList);
-                } else if (fk == 'DSDivision') {
-                    nameValue = convertNameValuePair(filt[0].dsDivisionDTOList[0].gnDivisionDTOList);
-                }
-                setCurrentKeyValuePair(nameValue);
+            console.log('originalPath ', originalPath);
+
+            /*            if (filt && filt[0]) {
+                            if (fk == 'district') {
+                                nameValue = convertNameValuePair(filt[0].dsDivisionDTOList);
+                            } else if (fk == 'DSDivision') {
+                                nameValue = convertNameValuePair(filt[0].dsDivisionDTOList[0].gnDivisionDTOList);
+                            }
+                            setCurrentKeyValuePair(nameValue);
+                        }*/
+            console.log('isValueFilter ', isValueFilter);
+            if (isValueFilter) {
+                apiPath = getAPIUrl(originalPath, true);
+            } else {
+                apiPath = getAPIUrl(parentLinks[currentLinkIndex], true);
             }
+
+            const filteredResponse = await get_DataList(apiPath + curSelectedValData);
+            console.log('apiPath ', apiPath);
+            console.log('filteredResponse ', filteredResponse);
+            //setApiResponseData(response.dataList);
+            nameValue = convertNameValuePair(filteredResponse.dataList);
+            setCurrentKeyValuePair(nameValue);
+
         }
 
     }
 
-    const convertNameValuePair = (data, isKey = null) => {
+    const convertNameValuePair = (data, isKey = false, idKey = '', nameKey = '') => {
         const nameValue = [];
         for (const obj of data) {
-            const newobj = {
-                id: obj.id,
-                name: obj.name
+            let newobj = {};
+            if (isKey) {
+                newobj = {
+                    id: obj[idKey],
+                    name: obj[nameKey]
+                }
+            } else {
+                newobj = {
+                    id: obj.id,
+                    name: obj.name
+                }
             }
+
             nameValue.push(newobj);
         }
         return nameValue;
@@ -141,9 +242,10 @@ const FilterTypeFilter = ({
 
         if (isValueFilter) {
             passToParent(value);
-            setFinalFilter(value);
+            setFinalFilter(value?.id);
+            console.log('sgsggggg ', value);
         }
-        setCurSelectedValData(value);
+        setCurSelectedValData(value?.id);
 
         if (parentLinks == null) {
             return;
@@ -163,7 +265,7 @@ const FilterTypeFilter = ({
             <div className={classes.dropdownContainer}>
 
 
-                <FormControl disabled={view} sx={{minWidth: "364px"}} size="small">
+                <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
                     <FieldName>{data[filterKey]?.displayName}</FieldName>
                     <Autocomplete
                         sx={{
@@ -174,7 +276,7 @@ const FilterTypeFilter = ({
                         disabled={view}
                         id="dropdown"
                         options={currentKeyValuePair}
-                        onChange={(event, value) => handleAdvanceDataChange(value?.id)}
+                        onChange={(event, value) => handleAdvanceDataChange(value)}
                         getOptionLabel={(option) => option.name}
                         renderInput={(params) => <TextField {...params} />}
                     />
@@ -184,9 +286,9 @@ const FilterTypeFilter = ({
             {isShow && (
                 <>
                     {<FilterTypeFilter view={view} data={data} originalPath={originalPath} parentLinks={parentLinks}
-                                       currentLinkIndex={nextIndex} apiResponse={apiResponseData}
-                                       curSelectedVal={curSelectedValData} nextResponse={nextResponseData}
-                                       outPutSelectedFilterType={passToParent}/>}
+                        currentLinkIndex={nextIndex} apiResponse={apiResponseData}
+                        curSelectedVal={curSelectedValData} nextResponse={nextResponseData}
+                        outPutSelectedFilterType={passToParent} />}
                 </>
 
             )}
