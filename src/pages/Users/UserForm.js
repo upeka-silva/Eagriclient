@@ -20,11 +20,6 @@ import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import {useUserAccessValidation} from "../../hooks/authentication";
-import {useLocation, useNavigate} from "react-router";
-import {DEF_ACTIONS} from "../../utils/constants/permission";
-import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
-import {useSnackBars} from "../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
@@ -131,8 +126,6 @@ const UsersForm = () => {
     }, []);
 
     const getSelectedFilterType = (value) => {
-        console.log('value ', value);
-        console.log('originalPath ', originalPath);
         setDataListTemplates([
             ...dataListTemplates,
             value
@@ -259,16 +252,12 @@ const UsersForm = () => {
     const resetSelectedRoles = () => {
         setSelectRoles([]);
     };
-    // console.log(selectRoles)
 
     const handleAdvanceDataChange = (value) => {
-        console.log('use form value ', value);
         setOriginalPath(value);
         const curFilter = data[value];
-        console.log('use form curFilter ', curFilter);
         setParentFilter(curFilter);
         setParentLinks(curFilter.links);
-        console.log('use form view ', view);
         setView(!view);
         setIsview(true);
         setVal(value)
@@ -301,7 +290,6 @@ const UsersForm = () => {
     const resetSelectedServices = () => {
         setSelectServices([]);
     };
-    // console.log(selectServices)
     return (
         <>
             <FormWrapper>

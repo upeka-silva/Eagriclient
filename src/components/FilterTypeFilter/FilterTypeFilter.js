@@ -59,11 +59,8 @@ const FilterTypeFilter = ({
 
                 // API call
                 if (currentLinkIndex == 0) {
-                    console.log('index 0 fk ', filterKey);
-
                     apiPath = getAPIUrl(filterKey, false);
                     response = await get_DataList(apiPath);
-                    console.log('index 0 response ', response);
                     setApiResponseData(response.dataList);
 
 
@@ -79,36 +76,6 @@ const FilterTypeFilter = ({
                     else {
                         nameValue = convertNameValuePair(response.dataList);
                     }
-
-
-                    /*                    if (filterKey == 'district') {
-                                            response = await get_DataList("geo-data/districts");
-                                            setApiResponseData(response.dataList);
-                                            nameValue = convertNameValuePair(response.dataList)
-                                        } else if (filterKey == 'province') {
-                                            response = await get_DataList("geo-data/provinces");
-                                            setApiResponseData(response.dataList);
-                                            nameValue = convertNameValuePair(response.dataList)
-                                        } else if (filterKey == 'deputiyDirOfAgriProvincial') {
-                    
-                                        } else if (filterKey == 'deputiyDirOfAgriInterProvincial') {
-                    
-                                        } else if (filterKey == 'mahaweliSystems') {
-                    
-                                        } else if (filterKey == 'districtCommisioner') {
-                    
-                                        } else if (filterKey == 'deptOfAgrarianDevelopment') {
-                    
-                                        } else if (filterKey == 'mahaweliAuthority') {
-                    
-                                        } else if (filterKey == 'directorDOA') {
-                    
-                                        } else if (filterKey == 'provincialDirectorOfAgri') {
-                    
-                                        } else if (filterKey == 'agroEcologicalZones') {
-                    
-                                        }*/
-                    console.log('currentLinkIndex == 0 nameValue ', nameValue);
                     setCurrentKeyValuePair(nameValue);
 
                     return;
@@ -128,7 +95,6 @@ const FilterTypeFilter = ({
 
     const getAPIUrl = (filterKeyParam, typeParam = false) => {
         let response = null;
-        console.log('filter key get url ', filterKeyParam);
         if (filterKeyParam == 'district') {
             return "geo-data/districts"
         } else if (filterKeyParam == 'province') {
@@ -177,22 +143,6 @@ const FilterTypeFilter = ({
             );
 
             const fk = parentLinks[currentLinkIndex - 1];
-            console.log('fk ', fk)
-            console.log('currentLinkIndex ', currentLinkIndex)
-            console.log('parentLinks ', parentLinks)
-            console.log('curSelectedValData ', curSelectedValData)
-
-            console.log('originalPath ', originalPath);
-
-            /*            if (filt && filt[0]) {
-                            if (fk == 'district') {
-                                nameValue = convertNameValuePair(filt[0].dsDivisionDTOList);
-                            } else if (fk == 'DSDivision') {
-                                nameValue = convertNameValuePair(filt[0].dsDivisionDTOList[0].gnDivisionDTOList);
-                            }
-                            setCurrentKeyValuePair(nameValue);
-                        }*/
-            console.log('isValueFilter ', isValueFilter);
             if (isValueFilter) {
                 apiPath = getAPIUrl(originalPath, true);
             } else {
@@ -200,9 +150,6 @@ const FilterTypeFilter = ({
             }
 
             const filteredResponse = await get_DataList(apiPath + curSelectedValData);
-            console.log('apiPath ', apiPath);
-            console.log('filteredResponse ', filteredResponse);
-            //setApiResponseData(response.dataList);
             nameValue = convertNameValuePair(filteredResponse.dataList);
             setCurrentKeyValuePair(nameValue);
 
@@ -232,7 +179,6 @@ const FilterTypeFilter = ({
     }
 
     const passToParent = (value) => {
-        console.log('final filter type ', value);
         outPutSelectedFilterType(value);
     };
 
@@ -243,7 +189,6 @@ const FilterTypeFilter = ({
         if (isValueFilter) {
             passToParent(value);
             setFinalFilter(value?.id);
-            console.log('sgsggggg ', value);
         }
         setCurSelectedValData(value?.id);
 
