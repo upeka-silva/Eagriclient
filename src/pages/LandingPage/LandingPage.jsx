@@ -38,21 +38,21 @@ const LandingPage = ({ loadingTable = false, loaderType = "circular" }) => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(loadingTable);
 
-    useEffect(() => {
-        async function fetchData() {
-            setLoading(true);
-            try {
-                const response = await get_DataList("app-services");
-                setServices(response.dataList);
-            } catch (error) {
-                console.error('Error fetching services:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
+    // useEffect(() => {
+    //     async function fetchData() {
+    //         setLoading(true);
+    //         try {
+    //             const response = await get_DataList("app-services");
+    //             setServices(response.dataList);
+    //         } catch (error) {
+    //             console.error('Error fetching services:', error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     }
 
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     const renderProgress = () => {
         switch (loaderType) {

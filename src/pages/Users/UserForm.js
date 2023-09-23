@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState, useEffect} from "react";
 import {
     TextField,
     Button,
@@ -20,6 +20,11 @@ import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useUserAccessValidation} from "../../hooks/authentication";
+import {useLocation, useNavigate} from "react-router";
+import {DEF_ACTIONS} from "../../utils/constants/permission";
+import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
+import {useSnackBars} from "../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
@@ -42,8 +47,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
+import RoleSelection from "./RoleSelection";
+import { get } from '../../services/api/index';
+import { margin } from "@mui/system";
 
 const UsersForm = () => {
+
     useUserAccessValidation();
     const { state } = useLocation();
     const location = useLocation();
@@ -52,15 +61,7 @@ const UsersForm = () => {
 
     const navigate = useNavigate();
 
-    const [formData, setFormData] = useState({
-        ...(state?.target || {}),
-        startDate: state?.target?.startDate
-            ? dateAdapter.date(state?.target?.startDate)
-            : null,
-        endDate: state?.target?.endDate
-            ? dateAdapter.date(state?.target?.endDate)
-            : null,
-    });
+    const [formData, setFormData] = useState({"id": state?.target?.id});
     const [saving, setSaving] = useState(false);
     const [selectRoles, setSelectRoles] = useState([]);
     const [selectServices, setSelectServices] = useState([]);
@@ -80,6 +81,54 @@ const UsersForm = () => {
     const toggleTab = (index) => {
         setToggleState(index);
     };
+
+    const [roles, setRoles] = useState([]);
+
+    const [selectedRoles, setSelectedRoles] = useState([]);
+
+    const handleRolesChange = (roleId) => {
+        // Toggle the selected state of the role
+        const updatedRoles = selectedRoles.some(role => role?.roleDTO?.id === roleId)
+        ? selectedRoles.filter((selectedRole) => selectedRole?.roleDTO?.id !== roleId)
+        : [...selectedRoles, {"roleDTO": {"id": roleId}}];
+
+        setSelectedRoles(updatedRoles);
+    };
+
+    useEffect(() => {
+      const fetchRoles = async (path, page = 0, size = 10) => {
+        try {
+            const { totalElements, httpCode, payloadDto } = await get(
+                `${path}?page=${page}&size=1000&sort=asc&sort`,
+                true
+            );
+            setRoles(payloadDto);
+        } catch(error) {
+            console.log(error);
+        }
+      };
+      fetchRoles('app-settings/roles');
+
+      if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+        const fetchUser = async (path, id) => {
+            try {
+                const { payload } = await get(
+                    `${path}/${id}`,
+                    true
+                );
+                const dob = payload?.dateOfBirth ? dateAdapter.date(payload?.dateOfBirth) : null;
+                payload.dateOfBirth = dob;
+                setFormData(payload);
+                const roles = payload?.userRoleDTOs.map(userRole => ({roleDTO:userRole?.roleDTO}));
+                setSelectedRoles(roles);
+            } catch(error) {
+                console.log(error);
+            }
+        };
+        fetchUser('user', formData?.id);
+      }
+
+    }, []);
 
     const getSelectedFilterType = (value) => {
         console.log('value ', value);
@@ -151,12 +200,15 @@ const UsersForm = () => {
 
             let firstName = new Date(formData.firstName);
             let lastName = new Date(formData.lastName);
+            let dateOfBirth = new Date(formData.dateOfBirth);
 
             try {
                 if (formData?.id) {
                     await updateUsers(
                         {
                             ...formData,
+                            dateOfBirth: dateOfBirth.valueOf() || null,
+                            userRoleDTOs: selectedRoles,
                         },
                         onSuccess,
                         onError
@@ -167,7 +219,8 @@ const UsersForm = () => {
                             ...formData,
                             startDate: firstName.valueOf() || null,
                             endDate: lastName.valueOf() || null,
-                            roleDTOs: selectRoles,
+                            dateOfBirth: dateOfBirth.valueOf() || null,
+                            userRoleDTOs: selectedRoles,
                             serviceDTO: selectServices,
                         },
                         onSuccess,
@@ -349,22 +402,22 @@ const UsersForm = () => {
                             <FieldName>Date of Birth</FieldName>
                             <LocalizationProvider dateAdapter={AdapterDayjs}>
 
-                                <DatePicker
-                                    name="dob"
-                                    id="dob"
-                                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                                    slotProps={{ textField: { size: "small" } }}
-                                    value={formData?.dob || ""}
-                                    onChange={(newValue) => handleChange(newValue || "", "startDate")}
-                                    in="DD-MM-YYYY"
-                                    sx={{
-                                        // width: "246px",
-                                        "& .MuiInputBase-root": {
-                                            // height: "30px",
-                                            borderRadius: "8px",
-                                        },
-                                    }}
-                                />
+                            <DatePicker
+                                name="dob"
+                                id="dob"
+                                disabled={state?.action === DEF_ACTIONS.VIEW}
+                                slotProps={{textField: {size: "small"}}}
+                                value={formData?.dateOfBirth || ""}
+                                onChange={(newValue) => handleChange(newValue || "", "dateOfBirth")}
+                                in="DD-MM-YYYY"
+                                sx={{
+                                    // width: "246px",
+                                    "& .MuiInputBase-root": {
+                                        // height: "30px",
+                                        borderRadius: "8px",
+                                    },
+                                }}
+                            />
 
                             </LocalizationProvider>
                         </FieldWrapper>

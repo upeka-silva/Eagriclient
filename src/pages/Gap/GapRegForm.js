@@ -50,6 +50,7 @@ import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmL
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
+import { get } from "../../services/api";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -80,6 +81,22 @@ const GapRegForm = () => {
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGn(dataList);
     });
+
+    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+      const fetchGapReq = async (path, id) => {
+          try {
+              const { payload } = await get(
+                  `${path}/${id}`,
+                  true
+              );
+              setFormData(payload);
+          } catch(error) {
+              console.log(error);
+          }
+      };
+      fetchGapReq('gap-request', formData?.id); 
+    }
+
   }, []);
 
   useEffect(() => {
@@ -124,7 +141,8 @@ const GapRegForm = () => {
     return false;
   };
 
-  const onSuccess = () => {
+  const onSuccess = (gapReqId) => {
+    console.log('gap req id ' + gapReqId);
     addSnackBar({
       type: SnackBarTypes.success,
       message:
@@ -133,6 +151,7 @@ const GapRegForm = () => {
           : "Successfully Updated",
     });
     setSaving(false);
+    formData.id = gapReqId;
   };
 
   const onError = (message) => {
@@ -146,12 +165,16 @@ const GapRegForm = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+      if(!formData.businessNature){
+        formData.businessNature = 'OTHER';
+      }
+      if(!formData.irrigationMethod) {
+        formData.irrigationMethod = 'OTHER';
+      }
       try {
         if (formData?.id) {
           await updateGap(formData, onSuccess, onError);
         } else {
-          console.log(formData);
-
           await handleGap(formData, onSuccess, onError);
         }
       } catch (error) {
@@ -1785,7 +1808,7 @@ const GapRegForm = () => {
                 <Select
                   name="irrigationMethod"
                   id="irrigationMethod"
-                  value={formData?.irrigationMethod || ""}
+                  value={formData?.irrigationMethod || "OTHER"}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "irrigationMethod")
@@ -2612,8 +2635,8 @@ const GapRegForm = () => {
         </Grid>
       </TabContent>
 
-      <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <CropDetails state={state} />
+      <TabContent style={{ marginTop: '20px' }} className={toggleState === 2 ? "active-content" : ""}>
+        <CropDetails gapReqId={formData.id} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
