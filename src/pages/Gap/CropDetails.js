@@ -14,11 +14,11 @@ import CropAreaViewDialog from "./CropAreaViewDialog/CropAreaViewDialog";
 import { Fonts } from "../../utils/constants/Fonts";
 import GapCropDetails from "./gapCropDetails";
 
-export default function CropDetails({ gapReqId }) {
+export default function CropDetails({ actionMode, gapReqId }) {
 
   return (
     <div>
-      <GapCropDetails gapReqId = {gapReqId}/>
+      <GapCropDetails actionMode={actionMode} gapReqId = {gapReqId}/>
     </div>
   );
 }
