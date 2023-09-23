@@ -27,34 +27,28 @@ import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import {useLocation} from "react-router-dom";
 import AddQuestionDialog from '../AuditForm/AddQuestionDialog';
 import AddCropDetailsDialog from './AddCropDetailsDialog';
-import { handleCropDetails } from '../../redux/actions/gap/action';
+import { deleteCropDetails, getCropDetailsList, handleCropDetails, updateCropDetails } from '../../redux/actions/gap/action';
 
-const GapCropDetails = ({
-                                selectedRows = [],
-                                onRowSelect = (_c) => {
-                                },
-                                selectAll = (_list = []) => {
-                                },
-                                unSelectAll = () => {
-                                },
-                                dataList = [],
-                                onFormSaveSuccess = false,
-                                formId = null,
-                                formMode = null
-                            }) => {
-    const { state } = useLocation();
+const GapCropDetails = ({gapReqId}) => {
+
     const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({});
-    const [dataListQuestions, setDataListQuestions] = useState([]);
+    const [cropAreaList, setCropAreaList] = useState([]);
     const [dialogMode, setDialogMode] = useState(null);
     const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
     const [open, setOpen] = useState(false);
     const [deleteItem, setDeleteItem] = useState(null);
     const {addSnackBar} = useSnackBars();
 
+    const fetchCropAreaData = () => {
+        getCropDetailsList(gapReqId).then(({dataList = {}}) => {
+            setCropAreaList(dataList);
+        });
+    }
+
     useEffect(() => {
-        setDataListQuestions(dataList)
-    }, [dataList]);
+        fetchCropAreaData();
+    }, []);
 
     const handleCropAreaAdd = (prop, mode) => (event) => {
         setFormData({});
@@ -80,9 +74,9 @@ const GapCropDetails = ({
                         message: "Successfully executed !!!"
                     });
 
-        getQuestionsByFormId(formId).then(({dataList = []}) => {
-            setDataListQuestions(dataList);
-        });
+        // getQuestionsByFormId(formId).then(({dataList = []}) => {
+        //     setDataListQuestions(dataList);
+        // });
 
     };
 
@@ -94,12 +88,13 @@ const GapCropDetails = ({
     };
 
     const handle = async (event, data, functionMode) => {
-        console.log('inside handle -------------->')
+        data.gapRequestDto = {id: gapReqId};
         if (functionMode === DEF_ACTIONS.ADD) {
             await handleCropDetails(data, onSuccess, onError);
         } else if (functionMode === DEF_ACTIONS.EDIT) {
             await updateCropDetails(data, onSuccess, onError);
         }
+        fetchCropAreaData();
         setOpenCropAreaAddDlg(false);
     };
 
@@ -110,7 +105,7 @@ const GapCropDetails = ({
     }
 
     const onConfirm = async () => {
-        await deleteAuditFormQuestion(formId, deleteItem?.id, onSuccess, onError);
+        await deleteCropDetails(gapReqId, deleteItem?.id, onSuccess, onError);
         close();
     };
 
@@ -128,8 +123,7 @@ const GapCropDetails = ({
 
     return (
         <div>
-            <CustFormHeader saving={saving} state={state} formName="Audit Form Questions" />
-            {(formMode !== DEF_ACTIONS.VIEW) &&
+            {(dialogMode !== DEF_ACTIONS.VIEW) &&
              <Button
                  onClick={() => addQ()}
                  color="success"
@@ -145,22 +139,23 @@ const GapCropDetails = ({
                 <Table sx={{minWidth: 650}} aria-label="caption table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>Question</TableCell>
-                            <TableCell>Question Type</TableCell>
-                            <TableCell>Item Group</TableCell>
-                            <TableCell>Order</TableCell>
-                            <TableCell>Action</TableCell>
+                            <TableCell>Season</TableCell>
+                            <TableCell>Crop</TableCell>
+                            <TableCell>Crop Variety</TableCell>
+                            <TableCell>Plot Number</TableCell>
+                            <TableCell>Extent</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {dataListQuestions.map((row, index) => (
-                            <TableRow key={row.name}>
-                                <TableCell>{row.questionString}</TableCell>
-                                <TableCell>{row.questionType}</TableCell>
-                                <TableCell>{row.itemGroup}</TableCell>
-                                <TableCell>{row.order}</TableCell>
+                        {cropAreaList.map((row, index) => (
+                            <TableRow key={row.index}>
+                                <TableCell>{row?.gapCropSeason}</TableCell>
+                                <TableCell>{row?.cropDTO?.cropId}</TableCell>
+                                <TableCell>{row?.cropVarietyDTO?.varietyName}</TableCell>
+                                <TableCell>{row?.plotNumber}</TableCell>
+                                <TableCell>{row?.extent}</TableCell>
                                 <TableCell>
-                                    <Button
+                                    {/* <Button
                                         onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
                                         color="success"
                                         variant="contained"
@@ -175,17 +170,17 @@ const GapCropDetails = ({
                                         variant="contained"
                                         size="small"
                                         sx={{marginLeft: "10px"}}
-                                        disabled={formMode === DEF_ACTIONS.VIEW}
+                                        disabled={dialogMode === DEF_ACTIONS.VIEW}
                                     >
                                         EDIT
-                                    </Button>
+                                    </Button> */}
                                     <Button
                                         onClick={handleCropAreaDelete(row)}
                                         color="success"
                                         variant="contained"
                                         size="small"
                                         sx={{marginLeft: "10px"}}
-                                        disabled={formMode === DEF_ACTIONS.VIEW}
+                                        disabled={dialogMode === DEF_ACTIONS.VIEW}
                                     >
                                         DELETE
                                     </Button>
@@ -203,7 +198,7 @@ const GapCropDetails = ({
                 handleClose={closeAddCropArea}
                 formData={formData}
                 mode={dialogMode}
-            />
+            /> 
             <DialogBox
                 open={open}
                 title={`Delete Question`}

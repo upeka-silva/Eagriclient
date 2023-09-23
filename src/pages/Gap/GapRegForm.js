@@ -141,7 +141,8 @@ const GapRegForm = () => {
     return false;
   };
 
-  const onSuccess = () => {
+  const onSuccess = (gapReqId) => {
+    console.log('gap req id ' + gapReqId);
     addSnackBar({
       type: SnackBarTypes.success,
       message:
@@ -150,6 +151,7 @@ const GapRegForm = () => {
           : "Successfully Updated",
     });
     setSaving(false);
+    formData.id = gapReqId;
   };
 
   const onError = (message) => {
@@ -2633,8 +2635,8 @@ const GapRegForm = () => {
         </Grid>
       </TabContent>
 
-      <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <CropDetails state={state} />
+      <TabContent style={{ marginTop: '20px' }} className={toggleState === 2 ? "active-content" : ""}>
+        <CropDetails gapReqId={formData.id} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>

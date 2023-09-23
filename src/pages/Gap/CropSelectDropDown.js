@@ -4,8 +4,11 @@ import { get } from '../../services/api';
 import { FieldWrapper } from '../../components/FormLayout/FieldWrapper';
 import { FieldName } from '../../components/FormLayout/FieldName';
 import { Colors } from '../../utils/constants/Colors';
+import { DEF_ACTIONS } from '../../utils/constants/permission';
 
-const CropSelectDropDown = () => {
+const CropSelectDropDown = (props) => {
+
+  const { selectedCropCallback, selectedVarietyCallback, mode } = props;
 
   const [cropCategories, setCropCategories] = useState([]);
   const [selectedCropCategory, setSelectedCropCategory] = useState('');
@@ -101,7 +104,7 @@ const CropSelectDropDown = () => {
                   name="questionType"
                   id="questionType"
                   value={selectedCropCategory}
-                  //disabled={mode === DEF_ACTIONS.VIEW}
+                  disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     setSelectedCropCategory(e?.target?.value)
                   }
@@ -176,8 +179,10 @@ const CropSelectDropDown = () => {
                   id="questionType"
                   value={selectedCrop}
                   //disabled={mode === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    setSelectedCrop(e?.target?.value)
+                  onChange={(e) => {
+                      setSelectedCrop(e?.target?.value);
+                      selectedCropCallback(e?.target?.value);
+                    }
                   }
                   size="small"
                   fullWidth
@@ -213,8 +218,10 @@ const CropSelectDropDown = () => {
                   id="questionType"
                   value={selectedCropVariety}
                   //disabled={mode === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    setSelectedCropVariety(e?.target?.value)
+                  onChange={(e) => {
+                      setSelectedCropVariety(e?.target?.value);
+                      selectedVarietyCallback(e?.target?.value);
+                    }
                   }
                   size="small"
                   fullWidth

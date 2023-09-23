@@ -14,15 +14,11 @@ import CropAreaViewDialog from "./CropAreaViewDialog/CropAreaViewDialog";
 import { Fonts } from "../../utils/constants/Fonts";
 import GapCropDetails from "./gapCropDetails";
 
-export default function CropDetails({ state }) {
-  const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState(state?.target || {});
-  const [openCropDlg, setOpenCropDlg] = useState(false);
-  const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
-  const [openCropAreaViewDlg, setOpenCropAreaViewDlg] = useState(false);
-
+export default function CropDetails({ gapReqId }) {
 
   return (
-      <GapCropDetails></GapCropDetails>
+    <div>
+      <GapCropDetails gapReqId = {gapReqId}/>
+    </div>
   );
 }

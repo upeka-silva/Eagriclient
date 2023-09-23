@@ -33,6 +33,22 @@ export default function AddCropDetailsDialog({
     });
   };
 
+  const onSelectedCrop = (cropId) => {
+    setFormDataQ((current = {}) => {
+      let newData = { ...current };
+      newData['cropDTO'] = {id: cropId};
+      return newData;
+    });
+  };
+
+  const onSelectedCropVariety = (cropVarietyId) => {
+    setFormDataQ((current = {}) => {
+      let newData = { ...current };
+      newData['cropVarietyDTO'] = {id: cropVarietyId};
+      return newData;
+    });
+  };
+
   return (
     <Dialog
       open={open}
@@ -59,7 +75,10 @@ export default function AddCropDetailsDialog({
               borderRadius: "5px",
             }}
           >
-            <CropSelectDropDown></CropSelectDropDown>
+            <CropSelectDropDown 
+              selectedCropCallback = {onSelectedCrop} 
+              selectedVarietyCallback = {onSelectedCropVariety}
+              mode= {mode}/>
 
             <Grid item sm={12} md={12} lg={12}>
               <FieldWrapper>
@@ -74,10 +93,10 @@ export default function AddCropDetailsDialog({
                 <Select
                   name="questionType"
                   id="questionType"
-                  value={formDataQ?.season || ""}
-                  //disabled={mode === DEF_ACTIONS.VIEW}
+                  value={formDataQ?.gapCropSeason || ""}
+                  disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "season")
+                    handleChange(e?.target?.value || "", "gapCropSeason")
                   }
                   size="small"
                   fullWidth
@@ -90,8 +109,8 @@ export default function AddCropDetailsDialog({
                     },
                   }}
                 >
-                  <MenuItem value={"1"}>Current Season</MenuItem>
-                  <MenuItem value={"2"}>Next Season</MenuItem>
+                  <MenuItem value={"CURRENT_SEASON"}>Current Season</MenuItem>
+                  <MenuItem value={"NEXT_SEASON"}>Next Season</MenuItem>
                 </Select>
               </FieldWrapper>
             </Grid>
