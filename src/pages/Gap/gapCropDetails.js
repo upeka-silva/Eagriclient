@@ -29,7 +29,7 @@ import AddQuestionDialog from '../AuditForm/AddQuestionDialog';
 import AddCropDetailsDialog from './AddCropDetailsDialog';
 import { deleteCropDetails, getCropDetailsList, handleCropDetails, updateCropDetails } from '../../redux/actions/gap/action';
 
-const GapCropDetails = ({gapReqId}) => {
+const GapCropDetails = ({actionMode, gapReqId}) => {
 
     const [saving, setSaving] = useState(false);
     const [formData, setFormData] = useState({});
@@ -123,7 +123,8 @@ const GapCropDetails = ({gapReqId}) => {
 
     return (
         <div>
-            {(dialogMode !== DEF_ACTIONS.VIEW) &&
+            <FormHeader>Crop Details</FormHeader>
+            {(actionMode !== DEF_ACTIONS.VIEW) &&
              <Button
                  onClick={() => addQ()}
                  color="success"
@@ -131,7 +132,7 @@ const GapCropDetails = ({gapReqId}) => {
                  size="small"
                  sx={{marginLeft: "10px"}}
              >
-                 ADD Crop Details
+                 ADD
              </Button>
             }
 
@@ -180,7 +181,7 @@ const GapCropDetails = ({gapReqId}) => {
                                         variant="contained"
                                         size="small"
                                         sx={{marginLeft: "10px"}}
-                                        disabled={dialogMode === DEF_ACTIONS.VIEW}
+                                        disabled={actionMode === DEF_ACTIONS.VIEW}
                                     >
                                         DELETE
                                     </Button>
