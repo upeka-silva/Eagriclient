@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-// import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import { Autocomplete, FormControl, TextField } from "@mui/material";
 import { FieldName } from "../FormLayout/FieldName";
 import { get_DataList } from "../../redux/actions/list/list";
 
-// const useStyles = makeStyles(theme => ({
-//     dropdownContainer: {
-//         // Adjust the margin value as needed
-//     },
-// }));
+const useStyles = makeStyles(theme => ({
+    dropdownContainer: {
+        // Adjust the margin value as needed
+    },
+}));
 
 const FilterTypeFilter = ({
   data,
@@ -29,7 +29,7 @@ const FilterTypeFilter = ({
   const [finalFilter, setFinalFilter] = useState(null);
   const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
   const [view, setView] = useState(false);
-  // const classes = useStyles();
+  const classes = useStyles();
 
   // check value filter for original parent
   const isValueFilter =
@@ -146,7 +146,7 @@ const FilterTypeFilter = ({
 
   return (
     <>
-      {/* <div className={classes.dropdownContainer}> */}
+      <div className={classes.dropdownContainer}>
 
       <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
         <FieldName>{data[filterKey]?.displayName}</FieldName>
@@ -165,7 +165,7 @@ const FilterTypeFilter = ({
         />
       </FormControl>
 
-      {/* </div> */}
+      </div>
       {isShow && (
         <>
           {
