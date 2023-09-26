@@ -12,37 +12,31 @@ import styled from "styled-components";
 import theme from "../../../utils/theme/theme.json";
 
 const RoleAccordion = ({ role, key, roleFormData, setRoleFormData }) => {
-  const { id, code } = role;
+  const { roleId, code } = role;
 
   // const [formData,setFormData] = useState(roleFormData)
 
   const [expanded, setExpanded] = useState(true);
 
-  const handleChange = (component, action, state) => {
+  const handleChange = (p, state) => {
     let r = {
-      roleId: id,
+      roleId: roleId,
       permissions: [...(roleFormData || [])],
     };
 
     if (state) {
-      r.permissions.push({
-        componentDTO: { id: component },
-        actionDTO: { id: action },
-      });
+      r.permissions.push(p);
       // console.log(r);
-      console.log(state)
+      console.log(state);
     } else {
-      let i = (r?.permissions || []).findIndex(
-        (r) => r?.componentDTO?.id === component && r?.actionDTO?.id === action
-      );
+      let i = (r?.permissions || []).findIndex((r) => r?.id === p.id);
       r.permissions.splice(i, 1);
-      console.log(state)
+      console.log(state);
     }
-    console.log(component + "/" + action + "/" + state);
+    // console.log(component + "/" + action + "/" + state);
+    console.log(r.permissions)
     setRoleFormData(r.permissions);
   };
-
-  
 
   return (
     <CustomAccordion
@@ -59,7 +53,7 @@ const RoleAccordion = ({ role, key, roleFormData, setRoleFormData }) => {
       <Divider />
       <AccordionDetails>
         <ComponentActionList
-          roleId={id}
+          roleId={roleId}
           rolePermissions={roleFormData || []}
           setRolePermission={handleChange}
         />

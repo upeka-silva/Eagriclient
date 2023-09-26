@@ -15,6 +15,7 @@ import styled from "styled-components";
 import {
   fetchAllActions,
   fetchAllComponents,
+  fetchAllPermissions,
 } from "../../../redux/actions/permission/actions";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -23,12 +24,13 @@ import theme from "../../../utils/theme/theme.json";
 const ComponentActionList = ({
   roleId,
   rolePermissions = [],
-  setRolePermission = (_component, _action, _state) => {},
+  setRolePermission = (id, _component, _action, _state) => {},
 }) => {
   const [loading, setLoading] = useState(true);
 
   const [components, setComponents] = useState([]);
   const [actions, setActions] = useState([]);
+  const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     fetchData();
@@ -39,6 +41,7 @@ const ComponentActionList = ({
     setLoading(true);
     await fetchComponents();
     await fetchActions();
+    await fetchPermissions();
     setLoading(false);
   };
 
@@ -58,6 +61,15 @@ const ComponentActionList = ({
     }
   };
 
+  const fetchPermissions = async () => {
+    try {
+      setPermissions(await fetchAllPermissions());
+      console.log(await fetchAllPermissions());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const renderTableBody = () => {
     return components.map((c, key) => {
       return (
@@ -65,13 +77,31 @@ const ComponentActionList = ({
           <TableCell key={`${key}-1`}>
             {c?.code || c?.name || "Component Code"}
           </TableCell>
-          {actions.map((a, k) => {
+          {/* {actions.map((a, k) => {
             let checked =
               rolePermissions.findIndex(
                 (p) =>
                   p?.componentDTO?.id === c?.id && p?.actionDTO?.id === a?.id
               ) > -1;
             console.log(checked);
+            // Use the find method to search for the object
+            let foundObject;
+            if(checked){
+               foundObject = permissions.find((obj) => {
+                return (
+                  obj.actionDTO.id === a?.id && obj.componentDTO.id === c?.id
+                );
+              });
+              console.log(foundObject)
+            }else{
+               foundObject = permissions.find((obj) => {
+                return (
+                  obj.actionDTO.id === a?.id && obj.componentDTO.id === c?.id
+                );
+              });
+              console.log(foundObject)
+            }
+            
             return (
               <TableCell
                 key={`${key}${k}`}
@@ -82,7 +112,7 @@ const ComponentActionList = ({
                     <Checkbox
                       checked={checked}
                       onChange={(e) => {
-                        setRolePermission(c?.id, a?.id, !checked);
+                        setRolePermission(foundObject?.id,c?.id, a?.id, !checked);
                       }}
                     />
                   }
@@ -90,6 +120,33 @@ const ComponentActionList = ({
                 />
               </TableCell>
             );
+          })} */}
+          {permissions.map((p, k) => {
+            if (c?.id == p?.componentDTO?.id) {
+              let checked =
+                rolePermissions.findIndex((rp) => rp?.id === p?.id) > -1;
+
+              return (
+                <TableCell
+                  key={`${key}${k}`}
+                  onClick={(e) => {
+                    setRolePermission(p, !checked);
+                  }}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={checked}
+                        onChange={(e) => {
+                          setRolePermission(p, !checked);
+                        }}
+                      />
+                    }
+                    label=""
+                  />
+                </TableCell>
+              );
+            }
           })}
         </TableRow>
       );

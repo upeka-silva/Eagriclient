@@ -25,7 +25,7 @@ const ComponentActionList = ({
     const fetchData = async () => {
         setLoading(true);
         await fetchComponents();
-        await fetchActions();
+        // await fetchActions();
         setLoading(false);
     }
 
@@ -37,13 +37,13 @@ const ComponentActionList = ({
         }
     }
 
-    const fetchActions = async () => {
-        try {
-            setActions(await fetchAllActions());
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const fetchActions = async () => {
+    //     try {
+    //         setActions(await fetchAllActions());
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const renderTableBody = () => {
         return components.map((c, key) => {

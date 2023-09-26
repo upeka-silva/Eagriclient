@@ -63,3 +63,24 @@ export const fetchAllActions = async (onSuccess = () => { }, onError = (_message
         return [];
     }
 }
+
+export const fetchAllPermissions = async (onSuccess = () => { }, onError = (_message) => { }) => {
+    try {
+        const { httpCode, payloadDto, message = '' } = await get('permissions/?page=0&size=1000&sort=asc&sort', true);
+        if (httpCode === '200 OK') {
+            return payloadDto;
+        } else {
+            const exception = { error: { data: { apiError: { message: message } } } };
+            throw exception;
+        }
+    } catch (error) {
+        if (typeof error === 'object') {
+            const { data } = error;
+            const { apiError } = data;
+            onError(apiError?.message || defaultMessages.apiErrorUnknown);
+        } else {
+            onError(error);
+        }
+        return [];
+    }
+}
