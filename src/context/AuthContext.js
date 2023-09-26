@@ -17,6 +17,7 @@ export const AuthContext = createContext(defaultAuthContext);
 export const AuthContextProvider = (props) => {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [user, setUser] = useState({});
+  const [role, setRole] = useState({});
   const [permissionList, setPermissionList] = useState([]);
 
   useEffect(() => {
@@ -27,6 +28,7 @@ export const AuthContextProvider = (props) => {
     const tokenBody = atob(token?.split(".")[1] || "");
     const data = tokenBody ? JSON.parse(tokenBody) : {};
     extractData(data);
+    return role;
   };
 
   const getData = async () => {
@@ -37,15 +39,18 @@ export const AuthContextProvider = (props) => {
   };
 
   const extractData = (data = {}) => {
-    const { permissions = [], firstName = "", lastName = "" } = data || {};
+    const { roles = [],permissions = [], firstName = "", lastName = "" } = data || {};
     setUserLoggedIn(Object.keys(data || {}).length > 0);
     setPermissionList(permissions.map((perm) => perm?.authority || ""));
     setUser({
       ...(data?.user || {}),
       userName: firstName + " " + lastName || "",
-    });
-  };
 
+    });
+    setRole(roles[0]);
+
+  };
+  console.log(role)
   const getUserLoggedState = () => !!userLoggedIn;
 
   const getUserPermissionStateByModule = (module = "") => {

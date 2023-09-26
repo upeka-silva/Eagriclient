@@ -10,26 +10,35 @@ export const initiateLogin = async (
   onSuccess = () => {},
   onError = (_val) => {}
 ) => {
-  try {
-    const response = await post("user/login", body, false);
-    if (response.httpCode === "200 OK" && response.payload.jwtToken) {
-      const jwtToken = decompressJWT(response.payload.jwtToken);
-      setLSItem(StorageConstants.token, jwtToken);
-      setLSItem(StorageConstants.compress_token, response.payload.jwtToken);
-      updateAuthContext(jwtToken);
-      onSuccess();
-    } else {
-      throw response;
-    }
-  } catch ({ error }) {
-    if (typeof error === "object") {
-      const { data } = error;
-      const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
-    } else {
-      onError(error);
-    }
-  }
+	try {
+		const response = await post('user/login', body, false);
+		if (response.httpCode === '200 OK' && response.payload.jwtToken) {
+			const jwtToken = decompressJWT(response.payload.jwtToken);
+			await setLSItem(StorageConstants.token, jwtToken);
+			await setLSItem(
+				StorageConstants.compress_token,
+				response.payload.jwtToken
+			);
+			const role = updateAuthContext(jwtToken);
+			if(role === "ADMIN"){
+				onSuccess(role);
+			}else {
+				throw response;
+			}
+
+
+		} else {
+			throw response;
+		}
+	} catch ({ error }) {
+		if (typeof error === 'object') {
+			const { data } = error;
+			const { apiError } = data;
+			onError(apiError?.message || defaultMessages.apiErrorUnknown);
+		} else {
+			onError(error);
+		}
+	}
 };
 
 export const initiateLogout = async (

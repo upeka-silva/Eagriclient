@@ -3,14 +3,11 @@ import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   TextField,
-  CircularProgress,
   Autocomplete,
-  FormControl,
   Select,
   MenuItem,
   Grid,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -28,7 +25,6 @@ import { AddButton } from "../../../components/FormLayout/AddButton";
 import { ResetButton } from "../../../components/FormLayout/ResetButton";
 
 import { get_ASC } from "../../../redux/actions/asc/action";
-import { ArrowCircleLeftRounded } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
@@ -116,16 +112,6 @@ const AIForm = () => {
       }
     }
   };
-
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
 
   return (
     <FormWrapper>
@@ -286,9 +272,7 @@ const AIForm = () => {
                 handleChange(value, "");
               }}
               sx={{
-                // width: "264px",
                 "& .MuiOutlinedInput-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}

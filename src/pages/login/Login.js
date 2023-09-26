@@ -1,28 +1,24 @@
 import React, { useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme} from "@mui/material/styles";
 import styled from "styled-components";
-import CssBaseline from "@mui/material/CssBaseline";
 import {
-  Card,
   Box,
   TextField,
   Link,
-  Checkbox,
   CircularProgress,
   IconButton,
+  useTheme,
   Grid,
-  Button,
 } from "@mui/material/";
 import Typography from "@mui/material/Typography";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { initiateLogin } from "../../redux/actions/login/actions";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import theme from "../../utils/theme/theme.json";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
+import { tokens } from "../../utils/theme/app-theme";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -34,9 +30,10 @@ import Farmer from "../../assets/images/farmer.png";
 import Factory from "../../assets/images/corporate.png";
 import { useAuthContext } from "../../context/AuthContext";
 
-const CustomTheme = createTheme();
-
 const Login = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -54,7 +51,7 @@ const Login = () => {
 
   const { updateAuthContext } = useAuthContext();
 
-  const onSuccess = () => {
+  const onSuccess = (role) => {
     addSnackBar({
       type: SnackBarTypes.success,
       message: "Successfully Logged In",
@@ -62,13 +59,13 @@ const Login = () => {
     navigate(location.state?.toPath || "/main-dashboard");
   };
 
-  const onError = (message) => {
-    addSnackBar({
-      type: SnackBarTypes.error,
-      message: message || "Login Failed",
-    });
-    setLoading(false);
-  };
+	const onError = (message) => {
+		addSnackBar({
+			type: SnackBarTypes.error,
+			message: message || 'Login Failed',
+		});
+		setLoading(false);
+	};
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
@@ -110,9 +107,9 @@ const Login = () => {
     navigate("/temp-farmer");
   };
 
-  const goOrganization = () => {
-    navigate("/organization");
-  };
+	const goOrganization = () => {
+		navigate('/organization');
+	};
 
   return (
     <LoginWrapper>
@@ -192,7 +189,7 @@ const Login = () => {
                           "& .MuiInputBase-root": {
                             height: 45,
                             border: "1px solid #899393",
-                            background: `${Colors.white}`,
+                            background: `${colors.white}`,
                             borderRadius:'15px'
                           },
                         }}
@@ -341,8 +338,8 @@ const OtherLinkWrapper = styled.div`
 `;
 
 const CustomCard = styled.div`
-  margin: 0px;
-  padding: 18px 24px;
+	margin: 0px;
+	padding: 18px 24px;
 `;
 
 const LoginWrapper = styled.div`

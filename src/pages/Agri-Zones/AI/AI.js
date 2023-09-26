@@ -34,7 +34,7 @@ const AI = () => {
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const[dataEndPoint,setDataEndPoint] = useState("geo-data/ai-region")
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/ai-region");
   const [selectedAI, setSelectedAI] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
@@ -152,64 +152,52 @@ const AI = () => {
     <div>
       <ListHeader title="AI Regions" />
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_I_REGIONS}`}
-        >
-          <Button  onClick={onCreate}>
-          <Add />
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_I_REGIONS}`}
+          >
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
 
-        {selectedAI.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
-          >
-            <Button
-              
-              onClick={onEdit}
-              sx={{ ml: "8px" }}
+          {selectedAI.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
             >
-              <Edit/>
-              {DEF_ACTIONS.EDIT}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectedAI.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_I_REGIONS}`}
-          >
-            <Button
-             
-              onClick={onView}
-              sx={{ ml: "8px" }}
+              <Button onClick={onEdit} sx={{ ml: "8px" }}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedAI.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_I_REGIONS}`}
             >
-              <Vrpano/>
-              {DEF_ACTIONS.VIEW}
-            </Button>
-          </PermissionWrapper>
-        )}
-        {selectedAI.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_I_REGIONS}`}
-          >
-            <Button
-              
-              onClick={onDelete}
-              sx={{ ml: "8px" }}
+              <Button onClick={onView} sx={{ ml: "8px" }}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            </PermissionWrapper>
+          )}
+          {selectedAI.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_I_REGIONS}`}
             >
-              <Delete/>
-              {DEF_ACTIONS.DELETE}
-            </Button>
-          </PermissionWrapper>
-        )}
+              <Button onClick={onDelete} sx={{ ml: "8px" }}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper

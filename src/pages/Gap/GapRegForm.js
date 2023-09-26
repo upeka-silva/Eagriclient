@@ -50,6 +50,7 @@ import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmL
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
+import { get } from "../../services/api";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -64,7 +65,7 @@ const GapRegForm = () => {
   const [gn, setGn] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
-  const [protectedHouseType, setProtectedHouseType] = useState(true);
+  const [tabEnabled, setTabInabled] = useState(true);
 
   const { addSnackBar } = useSnackBars();
 
@@ -80,6 +81,23 @@ const GapRegForm = () => {
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGn(dataList);
     });
+
+    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+      setTabInabled(false);
+      const fetchGapReq = async (path, id) => {
+          try {
+              const { payload } = await get(
+                  `${path}/${id}`,
+                  true
+              );
+              setFormData(payload);
+          } catch(error) {
+              console.log(error);
+          }
+      };
+      fetchGapReq('gap-request', formData?.id); 
+    }
+
   }, []);
 
   useEffect(() => {
@@ -124,7 +142,8 @@ const GapRegForm = () => {
     return false;
   };
 
-  const onSuccess = () => {
+  const onSuccess = (gapReqId) => {
+    console.log('gap req id ' + gapReqId);
     addSnackBar({
       type: SnackBarTypes.success,
       message:
@@ -133,6 +152,8 @@ const GapRegForm = () => {
           : "Successfully Updated",
     });
     setSaving(false);
+    formData.id = gapReqId;
+    setTabInabled(false);
   };
 
   const onError = (message) => {
@@ -146,12 +167,16 @@ const GapRegForm = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+      if(!formData.businessNature){
+        formData.businessNature = 'OTHER';
+      }
+      if(!formData.irrigationMethod) {
+        formData.irrigationMethod = 'OTHER';
+      }
       try {
         if (formData?.id) {
           await updateGap(formData, onSuccess, onError);
         } else {
-          console.log(formData);
-
           await handleGap(formData, onSuccess, onError);
         }
       } catch (error) {
@@ -455,42 +480,49 @@ const GapRegForm = () => {
           General
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
           Crop Details
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 3 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
           Land Details
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
         >
           Internal Audit
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
         >
           External Audit
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
           Test
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 7 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
           Certificate
         </TabButton>
         <TabButton
+          disabled={tabEnabled}
           className={toggleState === 8 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
         >
@@ -1785,7 +1817,7 @@ const GapRegForm = () => {
                 <Select
                   name="irrigationMethod"
                   id="irrigationMethod"
-                  value={formData?.irrigationMethod || ""}
+                  value={formData?.irrigationMethod || "OTHER"}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "irrigationMethod")
@@ -2612,8 +2644,8 @@ const GapRegForm = () => {
         </Grid>
       </TabContent>
 
-      <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <CropDetails state={state} />
+      <TabContent style={{ marginTop: '10px' }} className={toggleState === 2 ? "active-content" : ""}>
+        <CropDetails actionMode={state?.action} gapReqId={formData.id} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
