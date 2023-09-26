@@ -1,31 +1,33 @@
-import React from "react";
-import { DataList } from "../../components/PageLayout/List";
+import React, { useEffect } from "react";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+import { DataTable } from "../../../components/PageLayout/Table";
 
 const RolesList = ({
+
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
-  onChanges = () => {},
 }) => {
   const columns = [
-    { field: "name", headerName: "Role" },
-   
+    { field: "name", headerName: "Role Name" },
+    { field: "createdDate", headerName: "createdDate"  },
+    { field: "modifiedDate", headerName: "modifiedDate" },
   ];
+ 
   return (
-
-      <DataList
+    <TableWrapper>
+      <DataTable
         loadingTable
         dataEndPoint={"app-settings/roles"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
-        selectAll={selectAll}
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
-        onChange={onChanges}
+        
       />
-   
+    </TableWrapper>
   );
 };
 

@@ -25,7 +25,7 @@ const ComponentActionList = ({
     const fetchData = async () => {
         setLoading(true);
         await fetchComponents();
-        await fetchActions();
+        // await fetchActions();
         setLoading(false);
     }
 
@@ -37,13 +37,13 @@ const ComponentActionList = ({
         }
     }
 
-    const fetchActions = async () => {
-        try {
-            setActions(await fetchAllActions());
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const fetchActions = async () => {
+    //     try {
+    //         setActions(await fetchAllActions());
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const renderTableBody = () => {
         return components.map((c, key) => {
@@ -54,7 +54,7 @@ const ComponentActionList = ({
                         actions.map((a, k) => {
                             let checked = rolePermissions.findIndex(p => p?.componentId === c?.id && p?.actionId === a?.id) > -1;
                             return (
-                                <TableCell key={`${key}${k}`} onClick={() => setRolePermission(c?.id, a?.id, !checked)}>
+                                <TableCell key={`${key}${k}`} onClick={() => setRolePermission(c?.id, a?.id, !checked)} >
                                     <FormControlLabel
                                         control={
                                             <Checkbox

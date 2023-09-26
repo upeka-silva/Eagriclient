@@ -1,47 +1,48 @@
-import React, { useState } from "react";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
   Button,
+  ButtonGroup,
   CircularProgress,
   Divider,
-  Typography,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  ButtonGroup,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import AIList from "./AIList";
-import { useUserAccessValidation } from "../../../hooks/authentication";
+import React, { useState } from "react";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteAI } from "../../../redux/actions/aiRegion/action";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { useNavigate } from "react-router";
+import RoleList from "./RoleList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import { deleteRole } from "../../../redux/actions/app_settings/roles/action";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
-const AI = () => {
+const Role = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
-  const [dataEndPoint, setDataEndPoint] = useState("geo-data/ai-region");
-  const [selectedAI, setSelectedAI] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [selectedRole, setSelectedRole] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [open, setOpen] = useState(false);
 
-  const toggleAISelect = (component) => {
-    setSelectedAI((current = []) => {
+  const [dataEndPoint, setDataEndPoint] = useState("app-settings/roles");
+
+  const toggleRoleSelect = (component) => {
+    setSelectedRole((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -53,70 +54,12 @@ const AI = () => {
     });
   };
 
-  const selectAllAI = (all = []) => {
-    setSelectedAI(all);
+  const selectAllRoles = (all = []) => {
+    setSelectedRole(all);
   };
 
-  const resetSelectedAI = () => {
-    setSelectedAI([]);
-  };
-
-  const onCreate = () => {
-    setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/provincial-structure/ai-region-form", {
-      state: { action: DEF_ACTIONS.ADD },
-    });
-  };
-
-  const onEdit = () => {
-    setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/provincial-structure/ai-region-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectedAI[0] || {},
-      },
-    });
-  };
-
-  const onView = () => {
-    setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/provincial-structure/ai-region-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectedAI[0] || {},
-      },
-    });
-  };
-
-  const onDelete = () => {
-    setOpen(true);
-  };
-
-  const close = () => {
-    setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedAI.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+  const unSelectAllRoles = () => {
+    setSelectedRole([]);
   };
 
   const onSuccess = () => {
@@ -133,34 +76,86 @@ const AI = () => {
     });
   };
 
+  const close = () => {
+    setOpen(false);
+  };
+
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const ai of selectedAI) {
-        await deleteAI(ai?.id, onSuccess, onError);
+      for (const ai of selectedRole) {
+        await deleteRole(ai?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedAI();
+      unSelectAllRoles();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedRole.map((role) => {
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {role.code} - {role.name}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
+
+  const onCreate = () => {
+    setAction(DEF_ACTIONS.ADD);
+    navigate(`/app-settings/role-form`, {
+      state: { action: DEF_ACTIONS.ADD },
+    });
+  };
+
+  const onEdit = () => {
+    setAction(DEF_ACTIONS.EDIT);
+    navigate(`/app-settings/role-form`, {
+      state: { action: DEF_ACTIONS.EDIT, target: selectedRole[0] },
+    });
+  };
+
+  const onView = () => {
+    setAction(DEF_ACTIONS.VIEW);
+    navigate(`/app-settings/role-form`, {
+      state: { action: DEF_ACTIONS.VIEW, target: selectedRole[0] },
+    });
+  };
+
+  const onDelete = () => {
+    setOpen(true);
+  };
+
   return (
     <div>
-      <ListHeader title="AI Regions" />
+      <ListHeader title="Roles" />
       <ActionWrapper isLeft>
         <ButtonGroup
-          variant="outlined"
+          variant="contained"
+          aria-label="contained primary button group"
           disableElevation
           size="small"
-          aria-label="action button group"
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.A_I_REGIONS}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ROLE}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -168,9 +163,9 @@ const AI = () => {
             </Button>
           </PermissionWrapper>
 
-          {selectedAI.length === 1 && (
+          {selectedRole.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.A_I_REGIONS}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.ROLE}`}
             >
               <Button onClick={onEdit} sx={{ ml: "8px" }}>
                 <Edit />
@@ -178,9 +173,9 @@ const AI = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAI.length === 1 && (
+          {selectedRole.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.A_I_REGIONS}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ROLE}`}
             >
               <Button onClick={onView} sx={{ ml: "8px" }}>
                 <Vrpano />
@@ -188,9 +183,9 @@ const AI = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAI.length > 0 && (
+          {selectedRole.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.A_I_REGIONS}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ROLE}`}
             >
               <Button onClick={onDelete} sx={{ ml: "8px" }}>
                 <Delete />
@@ -201,21 +196,21 @@ const AI = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.A_I_REGIONS}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ROLE}`}
       >
         {loading === false && (
-          <AIList
-            selectedRows={selectedAI}
-            onRowSelect={toggleAISelect}
-            selectAll={selectAllAI}
-            unSelectAll={resetSelectedAI}
+          <RoleList
+            selectedRows={selectedRole}
+            onRowSelect={toggleRoleSelect}
+            selectAll={selectAllRoles}
+            unSelectAll={unSelectAllRoles}
             dataEndPoint={dataEndPoint}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete AI Region"
+        title="Delete Roles"
         actions={
           <ActionWrapper>
             <Button
@@ -247,4 +242,4 @@ const AI = () => {
   );
 };
 
-export default AI;
+export default Role;

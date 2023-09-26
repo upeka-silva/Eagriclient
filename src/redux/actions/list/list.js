@@ -1,4 +1,4 @@
-import { get, getWithBody, post } from '../../../services/api/index';
+import { get, post } from '../../../services/api/index';
 export const get_DataList = async (path, page = 0, size = 10) => {
 	try {
 		const { totalElements, httpCode, payloadDto } = await get(
