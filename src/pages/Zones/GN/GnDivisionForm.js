@@ -77,7 +77,7 @@ import { get_DistrictCommList } from "../../../redux/actions/districtComm/action
 const GnDivisionForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
+  console.log(state);
 
   const navigate = useNavigate();
 
@@ -160,6 +160,11 @@ const GnDivisionForm = () => {
     description: "",
   });
 
+  const [selectedMahaweliUnit, setSelectedMahaweliUnit] = useState({
+    unitId: "",
+    description: "",
+  });
+
   const [dcomms, setDcomms] = useState([]);
   const [selectedDcomm, setSelectedDcomm] = useState({
     districtCommId: "",
@@ -177,7 +182,6 @@ const GnDivisionForm = () => {
     name: "",
   });
 
-  const [agriEcoZones, setAgriEcoZones] = useState([]);
   const [selectedAgriEcoZone, setSelectedAgriEcoZone] = useState({
     aeZoneId: "",
     name: "",
@@ -285,12 +289,6 @@ const GnDivisionForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   useEffect(() => {
     get_ProvinceList().then(({ dataList = [] }) => {
       console.log(dataList);
@@ -363,6 +361,16 @@ const GnDivisionForm = () => {
     setSelectedInterProDdoa({ ddId: "", description: "" });
     setSelectedInterProAda({ segmentId: "", description: "" });
     setSelectedInterProDoa({ doaId: "", description: "" });
+    setSelectedSystem({ systemId: "", description: "" });
+    setSelectedBlock({ code: "", description: "" });
+    resetAiRegion();
+  };
+
+  const resetAiRegion = () => {
+    setFormData({
+      ...formData,
+      aiRegionsDTO: { regionId: "", description: "" },
+    });
   };
 
   const getAiRegions = (value) => {
@@ -417,12 +425,6 @@ const GnDivisionForm = () => {
       setArps(dataList);
     });
   };
-
-  useEffect(() => {
-    get_agroEcoList().then(({ dataList = [] }) => {
-      setAgriEcoZones(dataList);
-    });
-  }, []);
 
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
@@ -603,7 +605,6 @@ const GnDivisionForm = () => {
               getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);
-                setSelectedDsDevision(value);
                 handleChange(value || "", "dsDivisionDTO");
               }}
               fullWidth
@@ -632,314 +633,383 @@ const GnDivisionForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Type Of DOA Structure</FieldName>
-            <Select
-              name="doaType"
-              id="doaType"
-              value={doaType}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                setDoaType(e.target.value);
-                resetProAndIntProFields();
-              }}
-              fullWidth
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-            >
-              <MenuItem value={"PROVINCIAL"}> Provincial</MenuItem>
-              <MenuItem value={"INTER_PROVINCIAL"}>Inter Provincial</MenuItem>
-              <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}></Grid>
-        <Grid item lg={4}></Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Provincial DOA</FieldName>
-            <Autocomplete
-              disabled={doaType !== "PROVINCIAL"}
-              options={doas}
-              value={selectedDoa}
-              getOptionLabel={(i) => `${i?.proDirectorId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedDoa(value);
-                setSelectedDdoa({ provincialDdId: "", description: "" });
-                setSelectedAda({ provinceSegmentId: "", description: "" });
-                getDDOAS(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
+        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Type Of DOA Structure</FieldName>
+              <Select
+                name="doaType"
+                id="doaType"
+                value={doaType}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  setDoaType(e.target.value);
+                  resetProAndIntProFields();
+                }}
+                fullWidth
+                sx={{
                   borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Provincial DDOA</FieldName>
-            <Autocomplete
-              disabled={selectedDoa?.id == null}
-              options={ddoas}
-              value={selectedDdoa}
-              getOptionLabel={(i) => `${i?.provincialDdId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedDdoa(value);
-                setSelectedAda({ provinceSegmentId: "", description: "" });
-                getADAS(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Provincial ADA</FieldName>
-            <Autocomplete
-              disabled={selectedDdoa?.id == null}
-              options={adas}
-              value={selectedAda}
-              getOptionLabel={(i) =>
-                `${i?.provinceSegmentId} - ${i?.description}`
-              }
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedAda(value);
-                getAiRegions(value);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}></Grid>
+                }}
+                size="small"
+              >
+                <MenuItem value={"PROVINCIAL"}> Provincial</MenuItem>
+                <MenuItem value={"INTER_PROVINCIAL"}>Inter Provincial</MenuItem>
+                <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isAdmin || state.isAgrarian || state.isEcoz  ? <Grid item lg={4}></Grid> : null}
+        {state.isAdmin || state.isAgrarian || state.isEcoz  ? <Grid item lg={4}></Grid> : null}
+        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial DOA</FieldName>
+              <Autocomplete
+                disabled={doaType !== "PROVINCIAL" && !state.isProvincial}
+                options={doas}
+                value={selectedDoa}
+                getOptionLabel={(i) =>
+                  `${i?.proDirectorId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDoa(value);
+                  setSelectedDdoa({ provincialDdId: "", description: "" });
+                  setSelectedAda({ provinceSegmentId: "", description: "" });
+                  resetAiRegion();
+                  getDDOAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : (
+          ""
+        )}
+        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz  ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial DDOA</FieldName>
+              <Autocomplete
+                disabled={selectedDoa?.id == null}
+                options={ddoas}
+                value={selectedDdoa}
+                getOptionLabel={(i) =>
+                  `${i?.provincialDdId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedDdoa(value);
+                  setSelectedAda({ provinceSegmentId: "", description: "" });
+                  resetAiRegion();
+                  getADAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : (
+          ""
+        )}
+        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz  ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Provincial ADA</FieldName>
+              <Autocomplete
+                disabled={selectedDdoa?.id == null}
+                options={adas}
+                value={selectedAda}
+                getOptionLabel={(i) =>
+                  `${i?.provinceSegmentId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedAda(value);
+                  getAiRegions(value);
+                  resetAiRegion();
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : (
+          ""
+        )}
+        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select AI Region</FieldName>
+              <Autocomplete
+                disabled={selectedAda?.id == null}
+                options={aiRegions}
+                value={formData.aiRegionsDTO || selectedAiRegion}
+                getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  handleChange(value, "aiRegionsDTO");
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : (
+          ""
+        )}
+        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Director DOA</FieldName>
+              <Autocomplete
+                disabled={doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial}
+                options={interProDoas}
+                value={selectedInterProDoa}
+                getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedInterProDoa(value);
+                  setSelectedInterProDdoa({ ddId: "", description: "" });
+                  setSelectedInterProAda({ segmentId: "", description: "" });
+                  resetAiRegion();
+                  getInterProDDOAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Inter Provincial DDOA</FieldName>
+              <Autocomplete
+                disabled={selectedInterProDoa?.id == null}
+                options={interProDdoas}
+                value={selectedInterProDdoa}
+                getOptionLabel={(i) => `${i?.ddId} - ${i?.description}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedInterProDdoa(value);
+                  setSelectedInterProAda({ segmentId: "", description: "" });
+                  resetAiRegion();
+                  getInterProADAS(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Inter Provincial ADA</FieldName>
+              <Autocomplete
+                disabled={selectedInterProDdoa?.id == null}
+                options={interProAdas}
+                value={selectedInterProAda}
+                getOptionLabel={(i) =>
+                  selectedInterProDdoa?.id == null
+                    ? ""
+                    : `${i?.segmentId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedInterProAda(value);
+                  resetAiRegion();
+                  getAiRegions(value);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Select AI Region</FieldName>
+              <Autocomplete
+                disabled={selectedInterProAda?.id == null}
+                options={aiRegions}
+                value={formData.aiRegionsDTO || selectedAiRegion}
+                getOptionLabel={(i) =>
+                  selectedInterProAda?.id == null
+                    ? ""
+                    : `${i?.regionId} - ${i?.description}`
+                }
+                onChange={(event, value) => {
+                  console.log(value);
+                  handleChange(value, "aiRegionsDTO");
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>Select Mahaweli System</FieldName>
+              <Autocomplete
+                disabled={doaType !== "MAHAWELI" && !state.isMahaweli}
+                options={mahaweliSystems}
+                value={selectedSystem}
+                getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedSystem(value);
+                  getBlocks(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>Select Mahaweli Block</FieldName>
+              <Autocomplete
+                disabled={selectedSystem?.id == null}
+                options={mahaweliBlocks}
+                value={selectedBlock}
+                getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  setSelectedBlock(value);
 
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Director DOA</FieldName>
-            <Autocomplete
-              disabled={doaType !== "INTER_PROVINCIAL"}
-              options={interProDoas}
-              value={selectedInterProDoa}
-              getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedInterProDoa(value);
-                setSelectedInterProDdoa({ ddId: "", description: "" });
-                setSelectedInterProAda({ segmentId: "", description: "" });
-                getInterProDDOAS(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Inter Provincial DDOA</FieldName>
-            <Autocomplete
-              disabled={selectedInterProDoa?.id == null}
-              options={interProDdoas}
-              value={selectedInterProDdoa}
-              getOptionLabel={(i) => `${i?.ddId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedInterProDdoa(value);
-                setSelectedInterProAda({ segmentId: "", description: "" });
-                getInterProADAS(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select Inter Provincial ADA</FieldName>
-            <Autocomplete
-              disabled={selectedInterProDdoa?.id == null}
-              options={interProAdas}
-              value={selectedInterProAda}
-              getOptionLabel={(i) => `${i?.segmentId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedInterProAda(value);
-                // getFilteredData(value.id);
-                getAiRegions(value);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Select AI Region</FieldName>
-            <Autocomplete
-              disabled={
-                selectedAda?.id == null && selectedInterProAda?.id == null
-              }
-              options={aiRegions}
-              value={formData.aiRegionsDTO || selectedAiRegion}
-              getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                handleChange(value, "aiRegionsDTO");
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Select Mahaweli System</FieldName>
-            <Autocomplete
-              // disabled={selectedAuthority?.id == null}
-              options={mahaweliSystems}
-              value={selectedSystem}
-              getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedSystem(value);
-
-                getBlocks(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Select Mahaweli Block</FieldName>
-            <Autocomplete
-              disabled={selectedSystem?.id == null}
-              options={mahaweliBlocks}
-              value={selectedBlock}
-              getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedBlock(value);
-
-                getMahaweliUnits(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={4}>
-          <FieldWrapper>
-            <FieldName>Mahaweli Unit</FieldName>
-            <Autocomplete
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW || selectedBlock?.id == null
-              }
-              options={mahaweliUnitList}
-              value={formData ? formData.mahaweliUnitDTO : ""}
-              getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
-              onChange={(event, value) => {
-                handleChange(value, "mahaweliUnitDTO");
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
+                  getMahaweliUnits(value.id);
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
+        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item sm={3} md={3} lg={4}>
+            <FieldWrapper>
+              <FieldName>Mahaweli Unit</FieldName>
+              <Autocomplete
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  selectedBlock?.id == null
+                }
+                options={mahaweliUnitList}
+                value={formData.mahaweliUnitDTO || selectedMahaweliUnit}
+                getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
+                onChange={(event, value) => {
+                  handleChange(value, "mahaweliUnitDTO");
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid>
+        ) : null}
       </Grid>
       <Grid
         container
@@ -1017,7 +1087,7 @@ const GnDivisionForm = () => {
                 selectedAscDivision.id == null
               }
               options={arps}
-              value={formData ? formData.arpaDTO : ""}
+              value={ formData.arpaDTO || selectedArp}
               getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "arpaDTO");
@@ -1050,7 +1120,7 @@ const GnDivisionForm = () => {
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={agroEcoList}
-              value={formData ? formData.agroEcologicalZoneDTO : ""}
+              value={formData?.agroEcologicalZoneDTO || selectedAgriEcoZone}
               getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "agroEcologicalZoneDTO");

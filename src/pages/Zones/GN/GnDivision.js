@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import {
   Autocomplete,
   Button,
@@ -33,7 +33,14 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, RestartAlt, Search, Vrpano } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Search,
+  Vrpano,
+} from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -44,6 +51,16 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 const GnDivision = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
+
+  const location = useLocation();
+  console.log(location.pathname);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isProvincial, setIsProvincial] = useState(false);
+  const [isIntProvincial, setIsIntProvincial] = useState(false);
+  const [isMahaweli, setIsMahaweli] = useState(false);
+  const [isAgrarian, setIsAgrarian] = useState(false);
+  const [isEcoz, setIsEcoz] = useState(false);
 
   const { addSnackBar } = useSnackBars();
 
@@ -70,6 +87,27 @@ const GnDivision = () => {
     code: "",
   });
 
+  useEffect(() => {
+    if (location.pathname == "/zone/ga-structure/gn-division") {
+      setIsAdmin(true);
+    }
+    if (location.pathname == "/zone/provincial-structure/gn-division") {
+      setIsProvincial(true);
+    }
+    if (location.pathname == "/zone/inter-provincial-structure/gn-division") {
+      setIsIntProvincial(true);
+    }
+    if (location.pathname == "/zone/mahaweli-structure/gn-division") {
+      setIsMahaweli(true);
+    }
+    if (location.pathname == "/zone/agrarian/gn-division") {
+      setIsAgrarian(true);
+    }
+    if (location.pathname == "/zone/ez-structure/gn-division") {
+      setIsEcoz(true);
+    }
+  }, []);
+
   const toggleGnDivisionSelect = (component) => {
     setSelectedGnDivisions((current = []) => {
       let newList = [...current];
@@ -93,29 +131,251 @@ const GnDivision = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/zone/ga-structure/gn-division-form", {
-      state: { action: DEF_ACTIONS.ADD },
-    });
+    if (isAdmin) {
+      navigate("/zone/ga-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+          
+        },
+      });
+    }
+    if (isProvincial) {
+      navigate("/zone/provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isIntProvincial) {
+      navigate("/zone/inter-provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isMahaweli) {
+      navigate("/zone/mahaweli-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isEcoz) {
+      navigate("/zone/ez-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isAgrarian) {
+      navigate("/zone/agrarian/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.ADD,
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/zone/ga-structure/gn-division-form", {
-      state: {
-        action: DEF_ACTIONS.EDIT,
-        target: selectedGnDivisions[0] || {},
-      },
-    });
+
+    if (isAdmin) {
+      navigate("/zone/ga-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isProvincial) {
+      navigate("/zone/provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isIntProvincial) {
+      navigate("/zone/inter-provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isMahaweli) {
+      navigate("/zone/mahaweli-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isAgrarian) {
+      navigate("/zone/agrarian/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
+    if (isEcoz) {
+      navigate("/zone/ez-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.EDIT,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+          isAgrarian : isAgrarian,
+          isEcoz:isEcoz
+        },
+      });
+    }
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/zone/ga-structure/gn-division-form", {
-      state: {
-        action: DEF_ACTIONS.VIEW,
-        target: selectedGnDivisions[0] || {},
-      },
-    });
+
+    if (isAdmin) {
+      navigate("/zone/ga-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
+    if (isProvincial) {
+      navigate("/zone/provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
+    if (isIntProvincial) {
+      navigate("/zone/inter-provincial-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
+    if (isMahaweli) {
+      navigate("/zone/mahaweli-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
+    if (isAgrarian) {
+      navigate("/zone/agrarian/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
+    if (isEcoz) {
+      navigate("/zone/ez-structure/gn-division-form", {
+        state: {
+          action: DEF_ACTIONS.VIEW,
+          target: selectedGnDivisions[0] || {},
+          isAdmin: isAdmin,
+          isProvincial: isProvincial,
+          isIntProvincial: isIntProvincial,
+          isMahaweli: isMahaweli,
+        },
+      });
+    }
   };
 
   const onDelete = () => {
@@ -235,7 +495,7 @@ const GnDivision = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-             <Button onClick={onEdit}>
+              <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
@@ -245,7 +505,7 @@ const GnDivision = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-             <Button onClick={onView}>
+              <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
@@ -255,7 +515,7 @@ const GnDivision = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
             >
-             <Button onClick={onDelete}>
+              <Button onClick={onDelete}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
@@ -269,7 +529,6 @@ const GnDivision = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-                
                 options={provinces}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -278,7 +537,7 @@ const GnDivision = () => {
                   setSelectedProvince(value);
                   setSelectedDistrict({ name: "", code: "" });
                   setSelectedDsDevision({ name: "", code: "" });
-                 
+
                   getDistricts(value.id);
                 }}
                 fullWidth
@@ -307,7 +566,7 @@ const GnDivision = () => {
                   console.log(value);
                   setSelectedDistrict(value);
                   setSelectedDsDevision({ name: "", code: "" });
-                  
+
                   getDsDivisions(value.id);
                 }}
                 fullWidth
