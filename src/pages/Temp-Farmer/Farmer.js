@@ -240,70 +240,81 @@ const Farmer = () => {
           </Grid>
         </Grid>
 
-        <Grid container>
-          <Grid item lg={2} sm={6} sx={12}>
-            <FieldWrapper>
-              <FieldName>User Name</FieldName>
-              <TextField
-                name="userName"
-                id="userName"
-                value={formData?.userName || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "userName")
-                }
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2} sm={6} sx={12}>
-            <FieldWrapper>
-              <FieldName>Password</FieldName>
-              <TextField
-                name="password"
-                id="password"
-                value={formData?.password || ""}
-                fullWidth
-                placeholder="At least 6 characters"
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "password")
-                }
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item lg={2} sm={6} sx={12}>
-            <FieldWrapper>
-              <FieldName>Verify Password</FieldName>
-              <TextField
-                name="verifyPassword"
-                id="verifyPassword"
-                value={formData?.verifyPassword || ""}
-                fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "verifyPassword")
-                }
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
+        <Grid container sx={{ mt: "15px", mb: "15px", width: "99%" }}>
+          <Grid
+            container
+            sm={6}
+            md={6}
+            lg={6}
+            sx={{
+              border: "1px solid #000000",
+              borderRadius: "13px",
+            }}
+          >
+            <Grid item lg={4} sm={6} sx={12}>
+              <FieldWrapper>
+                <FieldName>User Name</FieldName>
+                <TextField
+                  name="userName"
+                  id="userName"
+                  value={formData?.userName || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "userName")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4} sm={6} sx={12}>
+              <FieldWrapper>
+                <FieldName>Password</FieldName>
+                <TextField
+                  name="password"
+                  id="password"
+                  value={formData?.password || ""}
+                  fullWidth
+                  placeholder="At least 6 characters"
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "password")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={4} sm={6} sx={12}>
+              <FieldWrapper>
+                <FieldName>Verify Password</FieldName>
+                <TextField
+                  name="verifyPassword"
+                  id="verifyPassword"
+                  value={formData?.verifyPassword || ""}
+                  fullWidth
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "verifyPassword")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -468,10 +479,7 @@ const Farmer = () => {
             container
             sm={6}
             md={6}
-            sm={6}
-            md={6}
             lg={6}
-            sm={6}
             sx={{
               border: "1px solid #000000",
               borderRadius: "13px",
@@ -563,22 +571,47 @@ const Farmer = () => {
             </Grid>
             <Grid item lg={6} sm={12} sx={12}>
               <FieldWrapper>
-                <FieldName>Country</FieldName>
-                <TextField
-                  name="country"
-                  id="country"
-                  value={formData?.country || ""}
-                  fullWidth
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "country")
-                  }
+                <FieldName>DS Division</FieldName>
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={options}
+                  value={formData ? formData.dsDivisionDto : ""}
+                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "dsDivisionDTO");
+                  }}
                   sx={{
-                    "& .MuiInputBase-root": {
+                    "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
                     },
                   }}
-                  size="small"
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item lg={6} sm={12} sx={12}>
+              <FieldWrapper>
+                <FieldName>GN Division</FieldName>
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={options}
+                  value={formData ? formData.gnDivision : ""}
+                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "gnDivisionDTO");
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
                 />
               </FieldWrapper>
             </Grid>
