@@ -15,7 +15,7 @@ const AgroEcoList = ({
     { field: "averageRainfall", headerName: "Avg Rainfall" },
     { field: "averageTemperature", headerName: "Avg Temp" },
     { field: "averageHumidity", headerName: "Avg Humidity" },
-    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type" },
+   
   ];
 
   return (
