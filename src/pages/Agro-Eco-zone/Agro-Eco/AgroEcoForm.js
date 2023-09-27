@@ -53,11 +53,7 @@ const AgroEcoForm = () => {
     navigate("/zone/ez-structure/agro-eco-zone");
   };
 
-  useEffect(() => {
-    get_SoilType().then(({ dataList = [] }) => {
-      setOptions(dataList);
-    });
-  }, []);
+ 
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -330,32 +326,7 @@ const AgroEcoForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={4} md={4} lg={4}>
-            <FieldWrapper>
-              <FieldName>Soil Type</FieldName>
-              <Autocomplete
-                options={options}
-                value={formData ? formData.soilTypeDTO : ""}
-                onChange={(event, value) => {
-                  handleChange(value, "soilTypeDTO");
-                }}
-                getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    size="small"
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                  />
-                )}
-                fullWidth
-              />
-            </FieldWrapper>
-          </Grid>
+          
         </Grid>
       </FormWrapper>
     </div>

@@ -194,6 +194,21 @@ const GnDivisionForm = () => {
   };
 
   useEffect(() => {
+    if (state.isProvincial) {
+      setDoaType("PROVINCIAL");
+      // handleChange("PROVINCIAL", "gnDivisionType");
+    }
+    if (state.isIntProvincial) {
+      setDoaType("INTER_PROVINCIAL");
+      // handleChange("INTER_PROVINCIAL", "gnDivisionType");
+    }
+    if (state.isMahaweli) {
+      setDoaType("MAHAWELI");
+      // handleChange("MAHAWELI", "gnDivisionType");
+    }
+  }, []);
+
+  useEffect(() => {
     get_MahaweliUnitList().then(({ dataList = [] }) => {
       setMahaweliUnitList(dataList);
     });
@@ -274,6 +289,7 @@ const GnDivisionForm = () => {
   };
 
   const handleFormSubmit = async () => {
+    console.log(formData);
     if (enableSave()) {
       setSaving(true);
       try {
@@ -374,6 +390,7 @@ const GnDivisionForm = () => {
   };
 
   const getAiRegions = (value) => {
+    console.log(doaType + " " + value);
     if (doaType === "PROVINCIAL") {
       get_ProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
@@ -659,9 +676,16 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isAdmin || state.isAgrarian || state.isEcoz  ? <Grid item lg={4}></Grid> : null}
-        {state.isAdmin || state.isAgrarian || state.isEcoz  ? <Grid item lg={4}></Grid> : null}
-        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={4}></Grid>
+        ) : null}
+        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item lg={4}></Grid>
+        ) : null}
+        {state.isProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Provincial DOA</FieldName>
@@ -697,7 +721,10 @@ const GnDivisionForm = () => {
         ) : (
           ""
         )}
-        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz  ? (
+        {state.isProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Provincial DDOA</FieldName>
@@ -732,7 +759,10 @@ const GnDivisionForm = () => {
         ) : (
           ""
         )}
-        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz  ? (
+        {state.isProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Provincial ADA</FieldName>
@@ -766,7 +796,10 @@ const GnDivisionForm = () => {
         ) : (
           ""
         )}
-        {state.isProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select AI Region</FieldName>
@@ -778,6 +811,7 @@ const GnDivisionForm = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   handleChange(value, "aiRegionsDTO");
+                  handleChange("PROVINCIAL", "gnDivisionType");
                 }}
                 fullWidth
                 disableClearable
@@ -796,12 +830,17 @@ const GnDivisionForm = () => {
         ) : (
           ""
         )}
-        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isIntProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Director DOA</FieldName>
               <Autocomplete
-                disabled={doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial}
+                disabled={
+                  doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial
+                }
                 options={interProDoas}
                 value={selectedInterProDoa}
                 getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
@@ -828,7 +867,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isIntProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Inter Provincial DDOA</FieldName>
@@ -859,7 +901,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isIntProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select Inter Provincial ADA</FieldName>
@@ -893,7 +938,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isIntProvincial || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isIntProvincial ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Select AI Region</FieldName>
@@ -909,6 +957,7 @@ const GnDivisionForm = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   handleChange(value, "aiRegionsDTO");
+                  handleChange("INTER_PROVINCIAL", "gnDivisionType");
                 }}
                 fullWidth
                 disableClearable
@@ -925,7 +974,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isMahaweli ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={4}>
             <FieldWrapper>
               <FieldName>Select Mahaweli System</FieldName>
@@ -954,7 +1006,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isMahaweli ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item lg={4}>
             <FieldWrapper>
               <FieldName>Select Mahaweli Block</FieldName>
@@ -984,7 +1039,10 @@ const GnDivisionForm = () => {
             </FieldWrapper>
           </Grid>
         ) : null}
-        {state.isMahaweli || state.isAdmin || state.isAgrarian || state.isEcoz ? (
+        {state.isMahaweli ||
+        state.isAdmin ||
+        state.isAgrarian ||
+        state.isEcoz ? (
           <Grid item sm={3} md={3} lg={4}>
             <FieldWrapper>
               <FieldName>Mahaweli Unit</FieldName>
@@ -998,6 +1056,7 @@ const GnDivisionForm = () => {
                 getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
                 onChange={(event, value) => {
                   handleChange(value, "mahaweliUnitDTO");
+                  handleChange("MAHAWELI", "gnDivisionType");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -1087,7 +1146,7 @@ const GnDivisionForm = () => {
                 selectedAscDivision.id == null
               }
               options={arps}
-              value={ formData.arpaDTO || selectedArp}
+              value={formData.arpaDTO || selectedArp}
               getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
               onChange={(event, value) => {
                 handleChange(value, "arpaDTO");
@@ -1158,9 +1217,10 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "totalHouseholds")
-              }
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "totalHouseholds");
+              }}
               InputProps={{
                 inputProps: { min: 0 },
               }}
@@ -1183,9 +1243,11 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "totalPopulation")
-              }
+              onChange={(e) => {
+                // console.log(e?.target?.value);
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "totalPopulation");
+              }}
               InputProps={{
                 inputProps: { min: 0 },
               }}
@@ -1208,9 +1270,10 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "malePopulation")
-              }
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "malePopulation");
+              }}
               InputProps={{
                 inputProps: { min: 0 },
               }}
@@ -1233,9 +1296,10 @@ const GnDivisionForm = () => {
               fullWidth
               type="number"
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "femalePopulation")
-              }
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "femalePopulation");
+              }}
               InputProps={{
                 inputProps: { min: 0 },
               }}
@@ -1292,7 +1356,10 @@ const GnDivisionForm = () => {
               value={formData?.landArea || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "landArea")}
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "landArea");
+              }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -1312,9 +1379,10 @@ const GnDivisionForm = () => {
               value={formData?.agriculturalLandArea || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "agriculturalLandArea")
-              }
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "agriculturalLandArea");
+              }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -1334,9 +1402,10 @@ const GnDivisionForm = () => {
               value={formData?.nonAgriculturalLandArea || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "nonAgriculturalLandArea")
-              }
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "nonAgriculturalLandArea");
+              }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -1356,7 +1425,10 @@ const GnDivisionForm = () => {
               value={formData?.cropArea || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "cropArea")}
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                handleChange(value, "cropArea");
+              }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",

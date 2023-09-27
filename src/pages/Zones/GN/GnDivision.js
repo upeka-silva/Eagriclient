@@ -12,6 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
+  useStepContext,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -47,6 +48,20 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
+import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
+import { isA } from "@jest/expect-utils";
+import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
+import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
+import { get_MahaweliUnitListByBlockId } from "../../../redux/actions/mahaweliUnit/action";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
+import { get_ASCListByComId } from "../../../redux/actions/asc/action";
+import { get_arpaListByAscId } from "../../../redux/actions/arpa/action";
+import { get_AiRegionListByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -61,6 +76,12 @@ const GnDivision = () => {
   const [isMahaweli, setIsMahaweli] = useState(false);
   const [isAgrarian, setIsAgrarian] = useState(false);
   const [isEcoz, setIsEcoz] = useState(false);
+  const [filters, setFilters] = useState({
+    filter_01: "",
+    filter_02: "",
+    filter_03: "",
+    filter_04: "",
+  });
 
   const { addSnackBar } = useSnackBars();
 
@@ -69,7 +90,7 @@ const GnDivision = () => {
 
   const [selectedGnDivisions, setSelectedGnDivisions] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [dataEndPoint, setDataEndPoint] = useState("geo-data/gn-divisions");
+  const [dataEndPoint, setDataEndPoint] = useState("");
 
   const [provinces, setProvinces] = useState([]);
   const [districs, setDistrics] = useState([]);
@@ -87,26 +108,145 @@ const GnDivision = () => {
     code: "",
   });
 
+  const [pdoas, setPDoas] = useState([]);
+  const [pddoas, setPDdoas] = useState([]);
+  const [padas, setPAdas] = useState([]);
+  const [selectedPDdoa, setSelectedPDdoa] = useState({
+    provincialDdId: "",
+    description: "",
+  });
+  const [selectedPDoa, setSelectedPDoa] = useState({
+    proDirectorId: "",
+    description: "",
+  });
+  const [selectedPAda, setSelectedPAda] = useState({
+    provinceSegmentId: "",
+    description: "",
+  });
+
+  const [ipdoas, setIpDoas] = useState([]);
+  const [ipddoas, setIpDdoas] = useState([]);
+  const [ipadas, setIpAdas] = useState([]);
+  const [selectedIpDdoa, setSelectedIpDdoa] = useState({
+    ddId: "",
+    description: "",
+  });
+  const [selectedIpDoa, setSelectedIpDoa] = useState({
+    doaId: "",
+    description: "",
+  });
+  const [selectedIpAda, setSelectedIpAda] = useState({
+    segmentId: "",
+    description: "",
+  });
+
+  const [aiRegions, setAiRegions] = useState([]);
+  const [selectedAiregion, setSelectedAiRegion] = useState({
+    regionId: "",
+    description: "",
+  });
+
+  const [mahaweliSystems, setMahaweliSystems] = useState([]);
+  const [mahaweliBlocks, setMahaweliBlocks] = useState([]);
+  const [mahaweliUnits, setMahaweliUnits] = useState([]);
+
+  const [selectedSystem, setSelectedSystem] = useState({
+    systemId: "",
+    description: "",
+  });
+  const [selectedBlock, setSelectedBlock] = useState({
+    code: "",
+    description: "",
+  });
+
+  const [selectedMahaweliUnit, setSelectedMahaweliUnit] = useState({
+    unitId: "",
+    description: "",
+  });
+
+  const [dcomms, setDcomms] = useState([]);
+  const [selectedDcomm, setSelectedDcomm] = useState({
+    districtCommId: "",
+    name: "",
+  });
+  const [ascDivisions, setAscDivisions] = useState([]);
+  const [selectedAscDivision, setSelectedAscDivision] = useState({
+    ascId: "",
+    name: "",
+  });
+
+  const [arpas, setArpas] = useState([]);
+  const [selectedArpa, setSelectedArpa] = useState({
+    arpaId: "",
+    name: "",
+  });
+
   useEffect(() => {
     if (location.pathname == "/zone/ga-structure/gn-division") {
-      setIsAdmin(true);
+      changeZone(true, false, false, false, false);
+      changeFilters("Province", "District", "Ds Division", "");
+      setDataEndPoint("geo-data/gn-divisions");
     }
     if (location.pathname == "/zone/provincial-structure/gn-division") {
-      setIsProvincial(true);
+      changeZone(false, true, false, false, false);
+      changeFilters(
+        "Provincial DOA",
+        "Provincial DDOA",
+        "Provincial ADA",
+        "AI Region"
+      );
+      setDataEndPoint("geo-data/gn-divisions/get-by-type/provincial");
     }
     if (location.pathname == "/zone/inter-provincial-structure/gn-division") {
-      setIsIntProvincial(true);
+      changeZone(false, false, true, false, false);
+      changeFilters("Director DOA", "Int Pro DDOA", "Int Pro ADA", "AI Region");
+      setDataEndPoint("geo-data/gn-divisions/get-by-type/inter_provincial");
     }
     if (location.pathname == "/zone/mahaweli-structure/gn-division") {
-      setIsMahaweli(true);
+      changeZone(false, false, false, true, false);
+      changeFilters("Mahaweli System", "Mahaweli Block", "Mahaweli Unit", "");
+      setDataEndPoint("geo-data/gn-divisions/get-by-type/mahaweli");
     }
     if (location.pathname == "/zone/agrarian/gn-division") {
-      setIsAgrarian(true);
+      changeZone(false, false, false, false, true);
+      changeFilters(
+        "District Commissioner",
+        "Asc Division",
+        "ARPA Division",
+        ""
+      );
+      setDataEndPoint("geo-data/gn-divisions");
     }
     if (location.pathname == "/zone/ez-structure/gn-division") {
-      setIsEcoz(true);
+      changeZone(true, false, false, false, false);
+      changeFilters("Province", "District", "Ds Division", "");
+      setDataEndPoint("geo-data/gn-divisions");
     }
-  }, []);
+    resetFilter();
+  }, [location.pathname]);
+
+  const changeZone = (
+    isAdmin,
+    isProvincial,
+    isIntProvincial,
+    isMahaweli,
+    isAgrarian
+  ) => {
+    setIsAdmin(isAdmin);
+    setIsProvincial(isProvincial);
+    setIsIntProvincial(isIntProvincial);
+    setIsMahaweli(isMahaweli);
+    setIsAgrarian(isAgrarian);
+  };
+
+  const changeFilters = (f1, f2, f3, f4) => {
+    setFilters({
+      filter_01: f1,
+      filter_02: f2,
+      filter_03: f3,
+      filter_04: f4,
+    });
+  };
 
   const toggleGnDivisionSelect = (component) => {
     setSelectedGnDivisions((current = []) => {
@@ -139,9 +279,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
-          
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -153,8 +292,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -166,8 +305,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -179,8 +318,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -192,8 +331,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -205,8 +344,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -224,8 +363,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -238,8 +377,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -252,8 +391,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -266,8 +405,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -280,8 +419,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -294,8 +433,8 @@ const GnDivision = () => {
           isProvincial: isProvincial,
           isIntProvincial: isIntProvincial,
           isMahaweli: isMahaweli,
-          isAgrarian : isAgrarian,
-          isEcoz:isEcoz
+          isAgrarian: isAgrarian,
+          isEcoz: isEcoz,
         },
       });
     }
@@ -437,12 +576,6 @@ const GnDivision = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    get_ProvinceList().then(({ dataList = [] }) => {
-      console.log(dataList);
-      setProvinces(dataList);
-    });
-  }, []);
 
   const getFilteredData = (selectedDsDevision) => {
     setDataEndPoint(
@@ -451,10 +584,33 @@ const GnDivision = () => {
   };
 
   const resetFilter = () => {
-    setSelectedProvince({ code: "", name: "" });
-    setSelectedDistrict({ code: "", name: "" });
-    setSelectedDsDevision({ code: "", name: "" });
-    setDataEndPoint("geo-data/gn-divisions");
+    setSelectedProvince(null);
+    setSelectedDistrict(null);
+    setSelectedDsDevision(null);
+    setSelectedPDoa(null);
+    setSelectedPDdoa(null);
+    setSelectedPAda(null);
+    setSelectedIpDoa(null);
+    setSelectedIpDdoa(null);
+    setSelectedIpAda(null);
+    setSelectedSystem(null);
+    setSelectedBlock(null);
+    setSelectedMahaweliUnit(null);
+    setSelectedDcomm(null);
+    setSelectedAscDivision(null);
+    setSelectedArpa(null);
+    setSelectedAiRegion(null);
+    if(isAdmin){
+      setDataEndPoint("geo-data/gn-divisions");
+    }
+    // setDataEndPoint("geo-data/gn-divisions");
+  };
+
+  const resetAllFilters = () => {
+    setSelectedProvince(null);
+    setSelectedDistrict(null);
+    setSelectedDsDevision(null);
+    setSelectedPDoa(null);
   };
 
   const getDistricts = (id) => {
@@ -469,6 +625,144 @@ const GnDivision = () => {
       setDsDivisions(dataList);
     });
   };
+
+  useEffect(() => {
+    isAdmin == true &&
+      get_ProvinceList().then(({ dataList = [] }) => {
+        console.log(dataList);
+        setProvinces(dataList);
+      });
+
+    isAdmin == false && setProvinces(null);
+    isAdmin == false && setDistrics(null);
+    isAdmin == false && setDsDivisions(null);
+  }, [isAdmin]);
+
+  useEffect(() => {
+    isProvincial == true &&
+      get_ProvincialDoaList().then(({ dataList = [] }) => {
+        console.log(dataList);
+        setPDoas(dataList);
+      });
+
+    isProvincial == false && setPDoas(null);
+    isProvincial == false && setPDdoas(null);
+    isProvincial == false && setPAdas(null);
+  }, [isProvincial]);
+
+  useEffect(() => {
+    isIntProvincial == true &&
+      get_InterProvincialDoaList().then(({ dataList = [] }) => {
+        console.log(dataList);
+        setIpDoas(dataList);
+      });
+
+    isIntProvincial == false && setIpDoas(null);
+    isIntProvincial == false && setIpDdoas(null);
+    isIntProvincial == false && setIpAdas(null);
+  }, [isIntProvincial]);
+
+  useEffect(() => {
+    isMahaweli == true &&
+      get_MahaweliSystemList().then(({ dataList = [] }) => {
+        console.log(dataList);
+        setMahaweliSystems(dataList);
+      });
+
+    isMahaweli == false && setMahaweliSystems(null);
+    isMahaweli == false && setMahaweliBlocks(null);
+    isMahaweli == false && setMahaweliUnits(null);
+  }, [isMahaweli]);
+
+  useEffect(() => {
+    isAgrarian == true &&
+      get_DistrictCommList().then(({ dataList = [] }) => {
+        setDcomms(dataList);
+      });
+
+    isMahaweli == false && setDcomms(null);
+    isMahaweli == false && setAscDivisions(null);
+    isMahaweli == false && setArpas(null);
+  }, [isMahaweli]);
+
+  const getDDOAS = (id) => {
+    get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setPDdoas(dataList);
+    });
+  };
+
+  const getADAS = (id) => {
+    get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setPAdas(dataList);
+    });
+  };
+
+  const getIpDDOAS = (id) => {
+    get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setIpDdoas(dataList);
+    });
+  };
+
+  const getIpADAS = (id) => {
+    get_InterProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setIpAdas(dataList);
+    });
+  };
+
+  const getBlocks = (id) => {
+    get_MahaweliBlockListBySystemId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setMahaweliBlocks(dataList);
+    });
+  };
+
+  const getMahaweliUnits = (id) => {
+    get_MahaweliUnitListByBlockId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setMahaweliUnits(dataList);
+    });
+  };
+
+  const getAscDivisions = (id) => {
+    get_ASCListByComId(id).then(({ dataList = [] }) => {
+      setAscDivisions(dataList);
+    });
+  };
+
+  const getArpas = (id) => {
+    get_arpaListByAscId(id).then(({ dataList = [] }) => {
+      setArpas(dataList);
+    });
+  };
+
+  const getAiRegions = (type, id) => {
+    get_AiRegionListByTypeByAdaId(type, id).then(({ dataList = [] }) => {
+      setAiRegions(dataList);
+    });
+  };
+
+  const changeDataEndPoint = (id)=>{
+    if(isAdmin){
+      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`)
+    }
+    if(isProvincial){
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    }
+    if(isIntProvincial){
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    }
+    if(isMahaweli){
+      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`)
+    }
+    if(isAgrarian){
+      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`)
+    }
+   
+  }
 
   return (
     <div>
@@ -525,26 +819,182 @@ const GnDivision = () => {
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item>
             <FieldWrapper>
-              <FieldName>Select Province</FieldName>
+              <FieldName>Select {filters.filter_01}</FieldName>
               <Autocomplete
-                options={provinces}
-                value={selectedProvince}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                options={
+                  provinces ||
+                  pdoas ||
+                  ipdoas ||
+                  mahaweliSystems ||
+                  dcomms ||
+                  []
+                }
+                value={
+                  selectedProvince ||
+                  selectedPDoa ||
+                  selectedIpDoa ||
+                  selectedSystem ||
+                  selectedDcomm
+                }
+                getOptionLabel={(i) =>
+                  `${
+                    i?.code ||
+                    i?.proDirectorId ||
+                    i?.doaId ||
+                    i?.systemId ||
+                    i?.districtCommId ||
+                    ""
+                  } - ${i?.name || i?.description || ""}`
+                }
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedProvince(value);
-                  setSelectedDistrict({ name: "", code: "" });
-                  setSelectedDsDevision({ name: "", code: "" });
-
-                  getDistricts(value.id);
+                  if (isAdmin) {
+                    setSelectedProvince(value);
+                    setSelectedDistrict({ name: "", code: "" });
+                    setSelectedDsDevision({ name: "", code: "" });
+                    getDistricts(value.id);
+                  }
+                  if (isProvincial) {
+                    setSelectedPDoa(value);
+                    setSelectedPDdoa({ provincialDdId: "", description: "" });
+                    setSelectedPAda({ provinceSegmentId: "", description: "" });
+                    getDDOAS(value.id);
+                  }
+                  if (isIntProvincial) {
+                    setSelectedIpDoa(value);
+                    setSelectedIpDdoa({
+                      ddId: "",
+                      description: "",
+                    });
+                    setSelectedIpAda({
+                      segmentId: "",
+                      description: "",
+                    });
+                    getIpDDOAS(value.id);
+                  }
+                  if (isMahaweli) {
+                    setSelectedSystem(value);
+                    setSelectedBlock({
+                      code: "",
+                      description: "",
+                    });
+                    setSelectedMahaweliUnit({
+                      unitId: "",
+                      description: "",
+                    });
+                    getBlocks(value.id);
+                  }
+                  if (isAgrarian) {
+                    setSelectedDcomm(value);
+                    setSelectedAscDivision({
+                      ascId: "",
+                      name: "",
+                    });
+                    setSelectedArpa({
+                      arpaId: "",
+                      name: "",
+                    });
+                    getAscDivisions(value.id);
+                  }
                 }}
                 fullWidth
                 disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
+                    fontSize: "14px",
+                    width: "200px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    size="small"
+                    fullWidth
+                    sx={{ fontSize: "12px" }}
+                  />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item>
+            <FieldWrapper>
+              <FieldName>Select {filters.filter_02}</FieldName>
+              <Autocomplete
+                disabled={
+                  selectedProvince?.id == null &&
+                  selectedPDoa?.id == null &&
+                  selectedIpDoa?.id == null &&
+                  selectedSystem?.id == null &&
+                  selectedDcomm?.id == null
+                }
+                options={
+                  districs ||
+                  pddoas ||
+                  ipddoas ||
+                  mahaweliBlocks ||
+                  ascDivisions ||
+                  []
+                }
+                value={
+                  selectedDistrict ||
+                  selectedPDdoa ||
+                  selectedIpDdoa ||
+                  selectedBlock ||
+                  selectedAscDivision
+                }
+                getOptionLabel={(i) =>
+                  `${
+                    i?.code || i?.provincialDdId || i?.ddId || i?.ascId || ""
+                  } - ${i?.name || i?.description || ""}`
+                }
+                onChange={(event, value) => {
+                  if (isAdmin) {
+                    console.log(value);
+                    setSelectedDistrict(value);
+                    setSelectedDsDevision({ name: "", code: "" });
+                    getDsDivisions(value.id);
+                  }
+                  if (isProvincial) {
+                    setSelectedPDdoa(value);
+                    setSelectedPAda({ provinceSegmentId: "", description: "" });
+                    getADAS(value.id);
+                  }
+                  if (isIntProvincial) {
+                    setSelectedIpDdoa(value);
+                    setSelectedIpAda({
+                      segmentId: "",
+                      description: "",
+                    });
+                    getIpADAS(value.id);
+                  }
+                  if (isMahaweli) {
+                    setSelectedBlock(value);
+                    setSelectedMahaweliUnit({
+                      unitId: "",
+                      description: "",
+                    });
+                    getMahaweliUnits(value.id);
+                  }
+                  if (isAgrarian) {
+                    setSelectedAscDivision(value);
+                    setSelectedArpa({
+                      arpaId: "",
+                      name: "",
+                    });
+                    getArpas(value.id);
+                  }
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
+                    fontSize: "14px",
+                    width: "200px",
                   },
                   marginRight: "5px",
                 }}
@@ -554,26 +1004,69 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item>
             <FieldWrapper>
-              <FieldName>Select District</FieldName>
+              <FieldName>Select {filters.filter_03}</FieldName>
               <Autocomplete
-                disabled={selectedProvince?.id == null}
-                options={districs}
-                value={selectedDistrict}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                disabled={
+                  selectedDistrict?.id == null &&
+                  selectedPDdoa?.id == null &&
+                  selectedIpDdoa?.id == null &&
+                  selectedBlock?.id == null &&
+                  selectedAscDivision?.id == null
+                }
+                options={
+                  dsDivisions || padas || ipadas || mahaweliUnits || arpas || []
+                }
+                value={
+                  selectedDsDevision ||
+                  selectedPAda ||
+                  selectedIpAda ||
+                  selectedMahaweliUnit ||
+                  selectedArpa
+                }
+                getOptionLabel={(i) =>
+                  `${
+                    i?.code ||
+                    i?.provinceSegmentId ||
+                    i?.segmentId ||
+                    i?.unitId ||
+                    i?.arpaId ||
+                    ""
+                  } - ${i?.name || i?.description || ""}`
+                }
                 onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDistrict(value);
-                  setSelectedDsDevision({ name: "", code: "" });
-
-                  getDsDivisions(value.id);
+                  if (isAdmin) {
+                    console.log(value);
+                    setSelectedDsDevision(value);
+                    changeDataEndPoint(value.id)
+                  } 
+                  if (isProvincial) {
+                    setSelectedPAda(value);
+                    getAiRegions("PROVINCIAL", value.id);
+                    
+                  }
+                  if (isIntProvincial) {
+                    setSelectedIpAda(value);
+                    getAiRegions("INTER_PROVINCIAL", value.id);
+                    
+                  }
+                  if (isMahaweli) {
+                    setSelectedMahaweliUnit(value);
+                    changeDataEndPoint(value.id)
+                  }
+                  if (isAgrarian) {
+                    setSelectedArpa(value);
+                    changeDataEndPoint(value.id)
+                  }
                 }}
                 fullWidth
                 disableClearable
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
+                    fontSize: "14px",
+                    width: "200px",
                   },
                   marginRight: "5px",
                 }}
@@ -583,34 +1076,50 @@ const GnDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Select Ds Devision</FieldName>
-              <Autocomplete
-                disabled={selectedDistrict?.id == null}
-                options={dsDivisions}
-                value={selectedDsDevision}
-                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDsDevision(value);
-                  getFilteredData(value);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "4px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+          {filters.filter_04 !== "" && (
+            <Grid item>
+              <FieldWrapper>
+                <FieldName>Select {filters.filter_04}</FieldName>
+                <Autocomplete
+                  disabled={
+                    selectedPAda?.id == null && selectedIpAda?.id == null
+                  }
+                  options={aiRegions || []}
+                  value={selectedAiregion}
+                  getOptionLabel={(i) =>
+                    `${i?.regionId || ""} - ${i?.name || i?.description || ""}`
+                  }
+                  onChange={(event, value) => {
+                    if (isProvincial || isIntProvincial) {
+                      setSelectedAiRegion(value);
+                      changeDataEndPoint(value.id)
+                    }
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "4px",
+                      fontSize: "14px",
+                      width: "200px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      size="small"
+                      fullWidth
+                      sx={{
+                        "& .MuiInputBase-root": {},
+                      }}
+                    />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          )}
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
@@ -631,6 +1140,14 @@ const GnDivision = () => {
       >
         {loading === false && (
           <GnDivisionList
+            geoZoneStucture={{
+              isAdmin: isAdmin,
+              isProvincial: isProvincial,
+              isIntProvincial: isIntProvincial,
+              isMahaweli: isMahaweli,
+              isAgrarian: isAgrarian,
+              isEcoz: isEcoz,
+            }}
             selectedRows={selectedGnDivisions}
             onRowSelect={toggleGnDivisionSelect}
             selectAll={selectAllGnDivisions}
