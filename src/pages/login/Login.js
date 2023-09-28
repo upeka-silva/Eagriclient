@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { createTheme} from "@mui/material/styles";
 import styled from "styled-components";
 import {
   Box,
@@ -18,7 +17,6 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
-import { tokens } from "../../utils/theme/app-theme";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -32,7 +30,6 @@ import { useAuthContext } from "../../context/AuthContext";
 
 const Login = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
 
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -150,7 +147,7 @@ const Login = () => {
                   }}
                 >
                   <CircularProgress
-                    sx={{ color: theme.coreColors.secondary }}
+                    sx={{ color: theme.coreColors.white }}
                   />
                   <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
                     Initializing
@@ -188,8 +185,7 @@ const Login = () => {
                         sx={{
                           "& .MuiInputBase-root": {
                             height: 45,
-                            border: "1px solid #899393",
-                            background: `${colors.white}`,
+                            background: `${Colors.white}`,
                             borderRadius:'15px'
                           },
                         }}
@@ -215,7 +211,6 @@ const Login = () => {
                         sx={{
                           "& .MuiInputBase-root": {
                             height: 45,
-                            border: "1px solid #899393",
                             background: `${Colors.white}`,
                             borderRadius:'15px'
                           },

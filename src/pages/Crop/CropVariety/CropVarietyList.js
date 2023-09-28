@@ -33,11 +33,11 @@ const CropVarietyList = ({
   const columns = [
     { field: "varietyId", headerName: "Variety ID" },
     { field: "varietyName", headerName: "Variety Name" },
+    { field: "grainSize", headerName: "Grain Size" },
+    { field: "pericarpColor", headerName: "Pericarp Color" },
+    { field: "maturityTime", headerName: "Maturity Time" },
+    { field: "averageYield", headerName: "Avg. Yeild" },
   ];
-  // const columns1 = [
-  //     {field: "payloadDto.varietyId", headerName: "Variety ID"},
-  //     {field: "payloadDto.varietyName", headerName: "Variety Name"},
-  // ];
   const [options, setOptions] = useState([]);
   const [id, setId] = useState(null);
   const [subcat, setSubcat] = useState([]);

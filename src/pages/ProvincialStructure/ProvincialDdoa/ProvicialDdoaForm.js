@@ -5,43 +5,23 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import {
-  Autocomplete,
-  Button,
-  CircularProgress,
-  Grid,
-  TextField,
-  getPaginationItemUtilityClass,
-} from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
-import { handleInterProvincialDdoa, updateInterProvincialDdoa , } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 
-
 const ProvincialDdoaForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
-console.log(state)
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -162,7 +142,6 @@ console.log(state)
                   size="small"
                   color="success"
                 >
-                 
                   {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
@@ -182,7 +161,6 @@ console.log(state)
       <Grid
         container
         sx={{
-         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -240,8 +218,7 @@ console.log(state)
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDirectorLevels}
-              value={formData.proDirectorLevelDTO || selectedProDirectorLevel
-              }
+              value={formData.proDirectorLevelDTO || selectedProDirectorLevel}
               getOptionLabel={(i) => `${i?.proDirectorId}-${i?.description}`}
               onChange={(event, value) => {
                 console.log(value);

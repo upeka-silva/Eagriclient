@@ -144,6 +144,7 @@ const CropVarietyForm = () => {
                     borderRadius: "8px",
                   },
                 }}
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 size="small"
               />
             </FieldWrapper>
