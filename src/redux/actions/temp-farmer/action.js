@@ -7,8 +7,8 @@ export const handleFarmer = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("", payload, true);
-    if (response.httpCode === "200 OK") {
+    const response = await post("temp-farmers", payload, true);
+    if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
       const exception = {

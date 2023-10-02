@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { Autocomplete, Grid, TextField } from "@mui/material";
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import RadioGroup from "@mui/material/RadioGroup";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -20,13 +20,22 @@ import { useLocation } from "react-router";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import BackToList from "../../components/BackToList/BackToList";
 import { get_DistrictList } from "../../redux/actions/district/action";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { handleFarmer } from "../../redux/actions/temp-farmer/action";
+import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 
 const Farmer = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState([]);
+  const [formData, setFormData] = useState();
   const [open, setOpen] = useState(false);
   const { state } = useLocation();
   const [options, setOptions] = useState([]);
+  const [dob, setDob] = useState();
+  const [saving, setSaving] = useState(false);
+
+  const { addSnackBar } = useSnackBars();
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -48,12 +57,65 @@ const Farmer = () => {
     setOpen(false);
   };
 
+  const enableSave = () => {
+    if (JSON.stringify(formData)) {
+      return true;
+    }
+
+    return false;
+  };
+
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
     } else {
       setFormData({});
     }
+  };
+
+  const handleFormSubmit = async () => {
+    if (enableSave()) {
+      setSaving(true);
+      let dob = new Date(formData.dob);
+
+      try {
+        if (formData?.password.length < 6) {
+          onError("Password should be at least 6 characters");
+          return;
+        }
+
+        if (formData.password == formData.verifyPassword) {
+          await handleFarmer(
+            {
+              ...formData,
+              dob: dob.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
+        } else {
+          onError("Verify Password doesn't match");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Added",
+    });
+    setSaving(false);
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
   };
 
   useEffect(() => {
@@ -70,6 +132,7 @@ const Farmer = () => {
         backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
+        height: "100vh",
       }}
     >
       <div
@@ -81,7 +144,7 @@ const Farmer = () => {
       >
         <BackToList goBack={goBack} />
         <FormHeader>Register Farmer</FormHeader>
-        <ButtonWrapper
+        {/* <ButtonWrapper
           style={{
             width: "95%",
             justifyContent: "flex-start",
@@ -91,6 +154,43 @@ const Farmer = () => {
         >
           <AddButton>Save</AddButton>
           <ResetButton onClick={resetForm}>Reset</ResetButton>
+        </ButtonWrapper> */}
+        <ButtonWrapper
+          style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}
+        >
+          <ActionWrapper>
+            {saving ? (
+              <Button variant="contained" color="success" size="small">
+                ADDING...
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  disabled={!enableSave()}
+                  onClick={handleFormSubmit}
+                  size="small"
+                  color="success"
+                >
+                  SAVE
+                </Button>
+                <Button
+                  onClick={resetForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  RESET
+                </Button>
+              </>
+            )}
+          </ActionWrapper>
         </ButtonWrapper>
         <Grid container>
           <Grid item lg={2} sm={4} sx={12}>
@@ -175,23 +275,21 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2} sm={4} sx={12}>
+          <Grid item lg={2}>
             <FieldWrapper>
               <FieldName>Date of Birth</FieldName>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
                   name="dob"
                   id="dob"
-                  value={formData?.dob || ""}
                   slotProps={{ textField: { size: "small" } }}
                   sx={{
-                    width: "184px",
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
                   }}
-                  onChange={(e) => handleChange(e?.target?.value || "", "dob")}
+                  onChange={(value) => handleChange(value || "", "dob")}
                 />
               </LocalizationProvider>
             </FieldWrapper>
@@ -202,13 +300,11 @@ const Farmer = () => {
             <FieldWrapper>
               <FieldName>Mobile Number</FieldName>
               <TextField
-                name="mobileNumber"
-                id="mobileNumber"
-                value={formData?.mobileNumber || ""}
+                name="mobile"
+                id="mobile"
+                value={formData?.mobile || ""}
                 fullWidth
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "mobileNumber")
-                }
+                onChange={(e) => handleChange(e?.target?.value || "", "mobile")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -219,7 +315,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Email</FieldName>
               <TextField
@@ -238,6 +334,296 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <FieldName>Educational Level</FieldName>
+              <TextField
+                name="educationalLevel"
+                id="educationalLevel"
+                value={formData?.educationalLevel || ""}
+                fullWidth
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "educationalLevel")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <FieldName>Occupation</FieldName>
+              <TextField
+                name="occupation"
+                id="occupation"
+                value={formData?.occupation || ""}
+                fullWidth
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "occupation")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}></Grid>
+          <Grid item lg={2}>
+            <FieldWrapper>
+              <FieldName> Gender</FieldName>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.gender || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "gender")}
+              >
+                <FormControlLabel
+                  value="M"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="F"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Female"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="O"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Other"
+                />
+              </RadioGroup>
+            </FieldWrapper>
+          </Grid>
+          <Grid item>
+            <FieldWrapper>
+              <FieldName> Preferred Language</FieldName>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.userLanguage || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "userLanguage")
+                }
+              >
+                <FormControlLabel
+                  value="si"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Sinhala"
+                />
+                <FormControlLabel
+                  value="ta"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Tamil"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="en"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="English"
+                />
+              </RadioGroup>
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={5}>
+            <FieldWrapper>
+              <FieldName> Ethnicity</FieldName>
+              <RadioGroup
+                row
+                aria-labelledby="demo-row-radio-buttons-group-label"
+                name="row-radio-buttons-group"
+                style={{ gap: "10px" }}
+                value={formData?.ethnicity || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "ethnicity")
+                }
+              >
+                <FormControlLabel
+                  value="SINHALESE"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Sinhalese"
+                />
+                <FormControlLabel
+                  value="SRILANKANTAMIL"
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Srilankan Tamil"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="SRILANKANMOORS"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Srilankan Moors"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="INDIANTAMIL"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Indian Tamil"
+                />
+                <FormControlLabel
+                  sx={{
+                    "& .MuiFormControlLabel-label": {
+                      fontSize: "11px",
+                    },
+                  }}
+                  value="OTHERS"
+                  control={
+                    <Radio
+                      sx={{
+                        "& .MuiSvgIcon-root": {
+                          fontSize: 15,
+                        },
+                      }}
+                    />
+                  }
+                  label="Others"
+                />
+              </RadioGroup>
+            </FieldWrapper>
+          </Grid>
         </Grid>
 
         <Grid container sx={{ mt: "15px", mb: "15px", width: "99%" }}>
@@ -247,20 +633,20 @@ const Farmer = () => {
             md={6}
             lg={6}
             sx={{
-              border: "1px solid #000000",
-              borderRadius: "13px",
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
             }}
           >
             <Grid item lg={4} sm={6} sx={12}>
               <FieldWrapper>
                 <FieldName>User Name</FieldName>
                 <TextField
-                  name="userName"
-                  id="userName"
-                  value={formData?.userName || ""}
+                  name="username"
+                  id="username"
+                  value={formData?.username || ""}
                   fullWidth
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "userName")
+                    handleChange(e?.target?.value || "", "username")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
@@ -291,6 +677,7 @@ const Farmer = () => {
                     },
                   }}
                   size="small"
+                  type="password"
                 />
               </FieldWrapper>
             </Grid>
@@ -312,180 +699,22 @@ const Farmer = () => {
                     },
                   }}
                   size="small"
+                  type="password"
                 />
               </FieldWrapper>
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid container>
-          <Grid
-            item
-            sx={{
-              border: "1px solid #000000",
-              borderRadius: "13px",
-              marginX: "15px",
-            }}
-          >
-            <FieldWrapper>
-              <FieldName> Gender</FieldName>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                style={{ gap: "10px" }}
-                value={formData?.gender || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "gender")}
-              >
-                <FormControlLabel
-                  value="MALE"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="Male"
-                />
-                <FormControlLabel
-                  value="FEMALE"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="Female"
-                />
-                <FormControlLabel
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  value="OTHER"
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="Other"
-                />
-              </RadioGroup>
-            </FieldWrapper>
-          </Grid>
-          <Grid
-            item
-            sx={{
-              border: "1px solid #000000",
-              borderRadius: "13px",
-            }}
-          >
-            <FieldWrapper>
-              <FieldName> Preferred Language</FieldName>
-              <RadioGroup
-                row
-                aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                style={{ gap: "10px" }}
-                value={formData?.nationality || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "nationality")
-                }
-              >
-                <FormControlLabel
-                  value="SINHALA"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="Sinhala"
-                />
-                <FormControlLabel
-                  value="TAMIL"
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="Tamil"
-                />
-                <FormControlLabel
-                  sx={{
-                    "& .MuiFormControlLabel-label": {
-                      fontSize: "11px",
-                    },
-                  }}
-                  value="ENGLISH"
-                  control={
-                    <Radio
-                      sx={{
-                        "& .MuiSvgIcon-root": {
-                          fontSize: 15,
-                        },
-                      }}
-                    />
-                  }
-                  label="English"
-                />
-              </RadioGroup>
-            </FieldWrapper>
-          </Grid>
-        </Grid>
-
-        <Grid container sx={{ marginTop: "25px", width: "97%" }}>
+        <Grid container sx={{ marginTop: "10px", width: "98%" }}>
           <Grid
             container
-            sm={6}
-            md={6}
-            lg={6}
             sx={{
-              border: "1px solid #000000",
-              borderRadius: "13px",
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
             }}
           >
-            <Grid item lg={4} sm={12} sx={12}>
+            <Grid item lg={3} sm={12} sx={12}>
               <FieldWrapper>
                 <FieldName>Address 1</FieldName>
                 <TextField
@@ -506,7 +735,7 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4} sm={12} sx={12}>
+            <Grid item lg={3} sm={12} sx={12}>
               <FieldWrapper>
                 <FieldName>Address 2</FieldName>
                 <TextField
@@ -527,7 +756,7 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4} sm={12} sx={12}>
+            <Grid item lg={2} sm={12} sx={12}>
               <FieldWrapper>
                 <FieldName>City</FieldName>
                 <TextField
@@ -546,75 +775,9 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={6} sm={12} sx={12}>
-              <FieldWrapper>
-                <FieldName>District</FieldName>
-                <Autocomplete
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  options={options}
-                  value={formData ? formData.districtDTO : ""}
-                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                  onChange={(event, value) => {
-                    handleChange(value, "districtDTO");
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={6} sm={12} sx={12}>
-              <FieldWrapper>
-                <FieldName>DS Division</FieldName>
-                <Autocomplete
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  options={options}
-                  value={formData ? formData.dsDivisionDto : ""}
-                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                  onChange={(event, value) => {
-                    handleChange(value, "dsDivisionDTO");
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={6} sm={12} sx={12}>
-              <FieldWrapper>
-                <FieldName>GN Division</FieldName>
-                <Autocomplete
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  options={options}
-                  value={formData ? formData.gnDivision : ""}
-                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                  onChange={(event, value) => {
-                    handleChange(value, "gnDivisionDTO");
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
-            </Grid>
+            <Grid item lg={4}></Grid>
+
+            <GnDivisionSelector handleChange={handleChange} />
           </Grid>
         </Grid>
 
