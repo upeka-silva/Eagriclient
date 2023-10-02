@@ -41,8 +41,8 @@ const FormButtonGroup = ({
                 size="small"
                 color="success"
               >
-                {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
+                {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
               </Button>
               <Button
                 onClick={resetForm}

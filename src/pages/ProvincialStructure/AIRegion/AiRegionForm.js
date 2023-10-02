@@ -30,6 +30,7 @@ import {
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const ProvincialAiRegionForm = () => {
   useUserAccessValidation();
@@ -163,51 +164,16 @@ const ProvincialAiRegionForm = () => {
       <CustFormHeader
         saving={saving}
         state={state}
-        formName="Provincial AI Region"
+        formName="Provincial Ai Region"
       />
-
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+     <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
       <Grid
         container
         sx={{

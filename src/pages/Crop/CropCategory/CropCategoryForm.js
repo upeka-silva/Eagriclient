@@ -138,7 +138,7 @@ const CropCategoryForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                inputProps={{ style: { textTransform: "uppercase" } }}
+                inputProps={{style: {textTransform: 'uppercase'}}}
                 size="small"
               />
             </FieldWrapper>

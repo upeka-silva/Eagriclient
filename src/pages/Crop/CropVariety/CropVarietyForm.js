@@ -120,7 +120,7 @@ const CropVarietyForm = () => {
         <Grid
           container
           sx={{
-            // border: "1px solid #bec0c2",
+           
             margin: "15px",
             width: "97%",
             borderRadius: "5px",
@@ -144,7 +144,7 @@ const CropVarietyForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                inputProps={{ style: { textTransform: "uppercase" } }}
+                inputProps={{style: {textTransform: 'uppercase'}}}
                 size="small"
               />
             </FieldWrapper>

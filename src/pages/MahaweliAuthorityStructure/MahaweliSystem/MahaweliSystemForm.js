@@ -30,10 +30,19 @@ import {
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
-import { handleInterProvincialDdoa, updateInterProvincialDdoa , } from "../../../redux/actions/interProvincialDdoa/action";
+import {
+  handleInterProvincialDdoa,
+  updateInterProvincialDdoa,
+} from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
-import { handleMahaweliSystem, updateMahaweliSystem } from "../../../redux/actions/mahaweliSystem/action";
+import {
+  handleMahaweliSystem,
+  updateMahaweliSystem,
+} from "../../../redux/actions/mahaweliSystem/action";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import BackToList from "../../../components/BackToList/BackToList";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const MahaweliSystemForm = () => {
   useUserAccessValidation();
@@ -46,7 +55,8 @@ const MahaweliSystemForm = () => {
   const [saving, setSaving] = useState(false);
 
   const [mahaweliAuthorityLevels, setMahaweliAuthorityLevels] = useState([]);
-  const [selectedMahaweliAuthorityLevel, setMahaweliAuthorityLevel] = useState();
+  const [selectedMahaweliAuthorityLevel, setMahaweliAuthorityLevel] =
+    useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -128,67 +138,23 @@ const MahaweliSystemForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Mahaweli System
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Mahaweli System"
+      />
+      <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -206,13 +172,9 @@ const MahaweliSystemForm = () => {
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "systemId")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "systemId")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -233,9 +195,7 @@ const MahaweliSystemForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -247,7 +207,7 @@ const MahaweliSystemForm = () => {
           <FieldWrapper>
             <FieldName>Mahaweli Authority Level</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={mahaweliAuthorityLevels}
               value={selectedMahaweliAuthorityLevel}
               getOptionLabel={(i) => `${i?.authorityId}-${i?.description}`}
