@@ -34,8 +34,14 @@ import {
   handleProvincialDdoa,
   updateProvincialDdoa,
 } from "../../../redux/actions/provincialDdoa/action";
-import { handleMahaweliUnit, updateMahaweliUnit } from "../../../redux/actions/mahaweliUnit/action";
+import {
+  handleMahaweliUnit,
+  updateMahaweliUnit,
+} from "../../../redux/actions/mahaweliUnit/action";
 import { get_MahaweliBlockList } from "../../../redux/actions/mahaweliBlock/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const MahaweliUnitForm = () => {
   useUserAccessValidation();
@@ -130,67 +136,19 @@ const MahaweliUnitForm = () => {
 
   return (
     <FormWrapper>
-      <ActionWrapper isLeft>
-        <Button
-          startIcon={<ArrowCircleLeftRounded />}
-          onClick={goBack}
-          color="success"
-        >
-          Go back to list
-        </Button>
-      </ActionWrapper>
-      {/* <PathName>{}</PathName> */}
-      <FormHeader style={{ padding: "0px 15px" }}>
-        {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-        {makeCapitalize(state?.action)} Mahaweli Unit
-      </FormHeader>
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="Mahaweli Unit" />
+      <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -208,13 +166,9 @@ const MahaweliUnitForm = () => {
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "unitId")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "unitId")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -235,9 +189,7 @@ const MahaweliUnitForm = () => {
                 handleChange(e?.target?.value || "", "description")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -249,7 +201,7 @@ const MahaweliUnitForm = () => {
           <FieldWrapper>
             <FieldName>Mahaweli Block</FieldName>
             <Autocomplete
-              // disabled={state?.action === DEF_ACTIONS.VIEW}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               options={mahaweliBlocks}
               value={selectedMahaweliBlock}
               getOptionLabel={(i) => `${i?.code}-${i?.description}`}

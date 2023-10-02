@@ -16,6 +16,7 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const ProvincialDoaForm = () => {
   useUserAccessValidation();
@@ -102,49 +103,14 @@ const ProvincialDoaForm = () => {
     <FormWrapper>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Director DOA" />
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
       <Grid
         container
         sx={{

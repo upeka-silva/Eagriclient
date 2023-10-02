@@ -132,7 +132,7 @@ const CropForm = () => {
               <TextField
                 name="cropId"
                 id="cropId"
-                type="number"
+                type="text"
                 value={formData?.cropId || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -143,6 +143,7 @@ const CropForm = () => {
                   },
                 }}
                 size="small"
+                inputProps={{style: {textTransform: 'uppercase'}}}
               />
             </FieldWrapper>
           </Grid>

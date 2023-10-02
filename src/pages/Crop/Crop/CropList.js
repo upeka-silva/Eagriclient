@@ -32,6 +32,7 @@ const CropList = ({
   const columns = [
     { field: "cropId", headerName: "Crop ID" },
     { field: "scientificName", headerName: "Scientific Name" },
+    { field: "cropSubCategoryDTO.subCategoryId", headerName: "Sub Category" },
   ];
   const [options, setOptions] = useState([]);
   const [subcat, setSubcat] = useState([]);

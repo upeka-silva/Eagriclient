@@ -23,8 +23,12 @@ import { get_DistrictList } from "../../redux/actions/district/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { handleFarmer } from "../../redux/actions/temp-farmer/action";
+import {
+  handleFarmer,
+  handleFarmerOTP,
+} from "../../redux/actions/temp-farmer/action";
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
+import OTPDialog from "./OTPDialog/OTPDialog";
 
 const Farmer = () => {
   const navigate = useNavigate();
@@ -34,6 +38,7 @@ const Farmer = () => {
   const [options, setOptions] = useState([]);
   const [dob, setDob] = useState();
   const [saving, setSaving] = useState(false);
+  const [otp,setOTP] = useState()
 
   const { addSnackBar } = useSnackBars();
 
@@ -85,7 +90,7 @@ const Farmer = () => {
         }
 
         if (formData.password == formData.verifyPassword) {
-          await handleFarmer(
+          const response = await handleFarmer(
             {
               ...formData,
               dob: dob.valueOf() || null,
@@ -93,6 +98,12 @@ const Farmer = () => {
             onSuccess,
             onError
           );
+          if (response.httpCode === "201 CREATED") {
+            setFormData(response?.payload)
+            setOpen(true)
+          }
+          console.log(response)
+         
         } else {
           onError("Verify Password doesn't match");
         }
@@ -124,6 +135,25 @@ const Farmer = () => {
     });
   }, []);
 
+  const handleOTPSubmit = async () => {
+    const data = {
+      farmerId: formData?.id,
+      otp: otp,
+    };
+    try {
+      const response = await handleFarmerOTP(data, onSuccess, onError);
+      if (response.httpCode === "201 CREATED") {
+        close()
+      }
+      console.log(response)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const changeOTP = (value)=>{
+    setOTP(value)
+  }
   return (
     <div
       style={{
@@ -144,17 +174,7 @@ const Farmer = () => {
       >
         <BackToList goBack={goBack} />
         <FormHeader>Register Farmer</FormHeader>
-        {/* <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            marginTop: "10px",
-            paddingLeft: "18px",
-          }}
-        >
-          <AddButton>Save</AddButton>
-          <ResetButton onClick={resetForm}>Reset</ResetButton>
-        </ButtonWrapper> */}
+        
         <ButtonWrapper
           style={{
             width: "95%",
@@ -781,15 +801,13 @@ const Farmer = () => {
           </Grid>
         </Grid>
 
-        {/* <Divider style={{ marginTop: "20px" }} />
-        <ContactWrapper>
-          <Contact>Contact</Contact>
-          <AddButton style={{ fontSize: "11px" }} onClick={addContact}>
-            ADD CONTACT
-          </AddButton>
-        </ContactWrapper>
-        <ContactForm open={open} onClose={close} />
-        <ContactList /> */}
+        <OTPDialog
+          open={open}
+          handleClose={close}
+          ConfirmAction={handleOTPSubmit}
+          otp={otp}
+          changeOTP = {changeOTP}
+        />
       </div>
     </div>
   );
