@@ -26,8 +26,6 @@ import { Fonts } from "../../utils/constants/Fonts";
 
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { get_DistrictList } from "../../redux/actions/district/action";
-import { get_DsDivisionList } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
@@ -36,7 +34,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import FarmLandLocation from "./FarmLandLocation";
-import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
@@ -255,16 +252,9 @@ const FarmLandForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   return (
     <Box
       sx={{
-        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
         overflowY: "scroll",
@@ -272,7 +262,6 @@ const FarmLandForm = () => {
     >
       <Box>
         <BackToList goBack={goBack} />
-
         <CustFormHeader saving={saving} state={state} formName="Farm Land" />
       </Box>
 
@@ -338,8 +327,8 @@ const FarmLandForm = () => {
                     }}
                     size="small"
                   >
-                    <MenuItem value={"Open Field"}>Open Field</MenuItem>
-                    <MenuItem value={"Protected House"}>
+                    <MenuItem value={"OPEN_FIELD"}>Open Field</MenuItem>
+                    <MenuItem value={"PROTECTED_HOUSE"}>
                       Protected House
                     </MenuItem>
                   </Select>
@@ -369,19 +358,15 @@ const FarmLandForm = () => {
                     }}
                     size="small"
                   >
-                    <MenuItem value={"Greenhouses"}>Greenhouses</MenuItem>
-                    <MenuItem value={"Net houses"}>Net houses</MenuItem>
-                    <MenuItem value={"Shade houses"}>Shade houses</MenuItem>
-                    <MenuItem value={"Poly houses"}>Poly houses</MenuItem>
-                    <MenuItem value={"Glass houses"}>Glass houses</MenuItem>
-                    <MenuItem value={"Hydroponic houses"}>
-                      Hydroponic houses
-                    </MenuItem>
-                    <MenuItem value={"Aeroponic houses"}>
-                      Aeroponic houses
-                    </MenuItem>
-                    <MenuItem value={"Vertical farming structures"}>
-                      Vertical farming structures
+                    <MenuItem value={"GREEN_HOUSE"}>Greenhouse</MenuItem>
+                    <MenuItem value={"NET_HOUSE"}>Net house</MenuItem>
+                    <MenuItem value={"SHADE_HOUSE"}>Shade house</MenuItem>
+                    <MenuItem value={"POLY_HOUSE"}>Poly house</MenuItem>
+                    <MenuItem value={"GLASS_HOUSE"}>Glass house</MenuItem>
+                    <MenuItem value={"HYDROPONIC"}>Hydroponic house</MenuItem>
+                    <MenuItem value={"AEROPONIC"}>Aeroponic house</MenuItem>
+                    <MenuItem value={"VERTICAL_FARMING"}>
+                      Vertical farming structure
                     </MenuItem>
                   </Select>
                 </FormControl>
@@ -461,7 +446,6 @@ const FarmLandForm = () => {
               borderRadius: "5px",
             }}
           >
-            
             <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Address 1</FieldName>
