@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import {
     Autocomplete,
     FormControl, InputLabel, MenuItem, Select, TextField, Table,
@@ -14,11 +14,11 @@ import { get_DataList } from "../../redux/actions/list/list";
 import data from "../../dropdown/drodwnlist";
 import { TextFields } from "@mui/icons-material";
 
-const useStyles = makeStyles(theme => ({
-    dropdownContainer: {
-        // Adjust the margin value as needed
-    },
-}));
+// const useStyles = makeStyles(theme => ({
+//     dropdownContainer: {
+//         // Adjust the margin value as needed
+//     },
+// }));
 
 const FilterTypeFilter = ({
     data,
@@ -41,7 +41,7 @@ const FilterTypeFilter = ({
     const [curSelectedValData, setCurSelectedValData] = useState(curSelectedVal);
     const [dataListTemplates, setDataListTemplates] = useState([]);
     const [view, setView] = useState(false)
-    const classes = useStyles();
+    // const classes = useStyles();
 
     // check value filter for original parent
     const isValueFilter = (parentLinks == null) || (parentLinks == []) || (parentLinks.length == currentLinkIndex);
@@ -207,7 +207,7 @@ const FilterTypeFilter = ({
 
     return (
         <>
-            <div className={classes.dropdownContainer}>
+            {/* <div className={classes.dropdownContainer}> */}
 
 
                 <FormControl disabled={view} sx={{ minWidth: "364px" }} size="small">
@@ -227,7 +227,7 @@ const FilterTypeFilter = ({
                     />
                 </FormControl>
 
-            </div>
+            {/* </div> */}
             {isShow && (
                 <>
                     {<FilterTypeFilter view={view} data={data} originalPath={originalPath} parentLinks={parentLinks}

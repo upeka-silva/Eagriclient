@@ -32,6 +32,9 @@ import {
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 import { Add, Edit } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const SoilTestFrom = () => {
   useUserAccessValidation();
@@ -125,65 +128,20 @@ const SoilTestFrom = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
       }}
     >
-      <div>
-        <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} SOIL TEST
-        </FormHeader>
-      </div>
-      <ButtonWrapper
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="Soil Test" />
+      <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
 
       <Grid
         container
@@ -208,9 +166,7 @@ const SoilTestFrom = () => {
               }
               onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -234,9 +190,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "dateSampled")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -255,9 +209,7 @@ const SoilTestFrom = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "labNo")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -276,9 +228,7 @@ const SoilTestFrom = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "testType")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -299,9 +249,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "sampleDescription")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -373,9 +321,7 @@ const SoilTestFrom = () => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "soilPH")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -398,9 +344,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "organicMatter")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -423,9 +367,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableP")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -448,9 +390,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableK")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -473,9 +413,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableS")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -498,9 +436,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableMg")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -533,9 +469,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableCa")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -558,9 +492,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "exchangeableAl")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -583,9 +515,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableCu")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -608,9 +538,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableFe")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -633,9 +561,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableMn")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -658,9 +584,7 @@ const SoilTestFrom = () => {
                 handleChange(e?.target?.value || "", "availableZn")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                 },
               }}
@@ -694,9 +618,7 @@ const SoilTestFrom = () => {
                   handleChange(e?.target?.value || "", "baseSaturation")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -717,9 +639,7 @@ const SoilTestFrom = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "ec")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -740,9 +660,7 @@ const SoilTestFrom = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "cec")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -763,9 +681,7 @@ const SoilTestFrom = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "nh4N")}
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -786,9 +702,7 @@ const SoilTestFrom = () => {
                   handleChange(e?.target?.value || "", "additionalComments")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}

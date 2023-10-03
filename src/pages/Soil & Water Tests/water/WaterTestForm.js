@@ -30,6 +30,9 @@ import {
 } from "../../../redux/actions/soil & water tests/water/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Edit } from "@mui/icons-material";
+import BackToList from "../../../components/BackToList/BackToList";
+import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 
 const WaterTestForm = () => {
   useUserAccessValidation();
@@ -152,65 +155,24 @@ const WaterTestForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
       }}
     >
-      <div>
-        <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        {/* <PathName>{getPathName()}</PathName> */}
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} WATER TEST
-        </FormHeader>
-      </div>
-      <ButtonWrapper
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Water Test"
+      />
+     <FormButtonGroup
+        state={state}
+        DEF_ACTIONS={DEF_ACTIONS}
+        saving={saving}
+        enableSave={enableSave}
+        handleFormSubmit={handleFormSubmit}
+        resetForm={resetForm}
+      />
       <Grid
         container
         sx={{

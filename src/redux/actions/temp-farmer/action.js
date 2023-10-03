@@ -7,8 +7,8 @@ export const handleFarmer = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("", payload, true);
-    if (response.httpCode === "200 OK") {
+    const response = await post("temp-farmers", payload, true);
+    if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
       const exception = {
@@ -23,7 +23,7 @@ export const handleFarmer = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -164,6 +164,40 @@ export const updateFarmerContact = async (
       throw exception;
     }
     console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const handleFarmerOTP = async (
+  payload = {},
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await post("temp-farmers/otp-verifications", payload, true);
+    if (response.httpCode === "201 CREATED") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
