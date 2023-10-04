@@ -39,7 +39,7 @@ const Farmer = () => {
   const [options, setOptions] = useState([]);
   const [dob, setDob] = useState();
   const [saving, setSaving] = useState(false);
-  const [otp,setOTP] = useState()
+  const [otp, setOTP] = useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -100,11 +100,10 @@ const Farmer = () => {
             onError
           );
           if (response.httpCode === "201 CREATED") {
-            setFormData(response?.payload)
-            setOpen(true)
+            setFormData(response?.payload);
+            setOpen(true);
           }
-          console.log(response)
-         
+          console.log(response);
         } else {
           onError("Verify Password doesn't match");
         }
@@ -144,17 +143,18 @@ const Farmer = () => {
     try {
       const response = await handleFarmerOTP(data, onSuccess, onError);
       if (response.httpCode === "201 CREATED") {
-        close()
+        close();
       }
-      console.log(response)
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const changeOTP = (value)=>{
-    setOTP(value)
-  }
+  const changeOTP = (value) => {
+    setOTP(value);
+  };
+  
   return (
     <div
       style={{
@@ -183,7 +183,7 @@ const Farmer = () => {
           </Button>
         </ActionWrapper>
         <FormHeader>Register Farmer</FormHeader>
-        
+
         <ButtonWrapper
           style={{
             width: "95%",
@@ -815,7 +815,7 @@ const Farmer = () => {
           handleClose={close}
           ConfirmAction={handleOTPSubmit}
           otp={otp}
-          changeOTP = {changeOTP}
+          changeOTP={changeOTP}
         />
       </div>
     </div>
