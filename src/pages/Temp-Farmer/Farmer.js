@@ -29,6 +29,7 @@ import {
 } from "../../redux/actions/temp-farmer/action";
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 import OTPDialog from "./OTPDialog/OTPDialog";
+import { ArrowCircleLeftRounded } from "@mui/icons-material";
 
 const Farmer = () => {
   const navigate = useNavigate();
@@ -172,7 +173,15 @@ const Farmer = () => {
           flexDirection: "column",
         }}
       >
-        <BackToList goBack={goBack} />
+        <ActionWrapper isLeft>
+          <Button
+            startIcon={<ArrowCircleLeftRounded />}
+            onClick={goBack}
+            color="success"
+          >
+            Back
+          </Button>
+        </ActionWrapper>
         <FormHeader>Register Farmer</FormHeader>
         
         <ButtonWrapper

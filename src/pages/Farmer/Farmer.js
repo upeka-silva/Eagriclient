@@ -92,8 +92,6 @@ const Farmer = () => {
 
   const onCreate = async () => {
     setAction(DEF_ACTIONS.ADD);
-    
-
     try {
       const response = await handleFarmer(farmerDto);
       console.log(response);
@@ -113,7 +111,7 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectedFarmer[0] || {},
+        id: selectedFarmer[0]?.id,
       },
     });
   };
@@ -123,7 +121,7 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectedFarmer[0] || {},
+        id: selectedFarmer[0]?.id,
       },
     });
   };

@@ -80,6 +80,7 @@ const RoleForm = () => {
     if (enableSave()) {
       setSaving(true);
       try {
+        console.log(formData);
         await handleRoles(formData, onSuccess, onError);
       } catch (error) {
         console.log(error);
@@ -146,15 +147,15 @@ const RoleForm = () => {
           <FieldWrapper>
             <FieldName>Code</FieldName>
             <TextField
-              name="id"
-              id="id"
-              value={formData?.id || ""}
+              name="code"
+              id="code"
+              value={formData?.code || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) => handleChange(e?.target?.value || "", "id")}
+              onChange={(e) => handleChange(e?.target?.value || "", "code")}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -168,15 +169,15 @@ const RoleForm = () => {
 
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Description</FieldName>
+            <FieldName>Name</FieldName>
             <TextField
               name="description"
               id="id"
-              value={formData?.description || ""}
+              value={formData?.name || ""}
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
+                handleChange(e?.target?.value || "", "name")
               }
               sx={{
                 "& .MuiInputBase-root": {

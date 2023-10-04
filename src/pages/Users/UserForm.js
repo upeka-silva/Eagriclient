@@ -82,6 +82,7 @@ const UsersForm = () => {
     const [selectedRoles, setSelectedRoles] = useState([]);
 
     const handleRolesChange = (roleId) => {
+        console.log(roleId);
         // Toggle the selected state of the role
         const updatedRoles = selectedRoles.some(role => role?.roleDTO?.id === roleId)
         ? selectedRoles.filter((selectedRole) => selectedRole?.roleDTO?.id !== roleId)
@@ -361,6 +362,7 @@ const UsersForm = () => {
                                         borderRadius: "8px",
                                     },
                                 }}
+                                size="small"
                             />
                         </FieldWrapper>
                     </Grid>
@@ -374,6 +376,27 @@ const UsersForm = () => {
                                 fullWidth
                                 disabled={state?.action === DEF_ACTIONS.VIEW}
                                 onChange={(e) => handleChange(e?.target?.value || "", "lastName")}
+                                sx={{
+                                    // width: "264px",
+                                    "& .MuiInputBase-root": {
+                                        // height: "30px",
+                                        borderRadius: "8px",
+                                    },
+                                }}
+                                size="small"
+                            />
+                        </FieldWrapper>
+                    </Grid>
+                    <Grid item lg={3}>
+                        <FieldWrapper>
+                            <FieldName>Address</FieldName>
+                            <TextField
+                                name="address1"
+                                id="address1"
+                                value={formData?.address1 || ""}
+                                fullWidth
+                                disabled={state?.action === DEF_ACTIONS.VIEW}
+                                onChange={(e) => handleChange(e?.target?.value || "", "address1")}
                                 sx={{
                                     // width: "264px",
                                     "& .MuiInputBase-root": {
@@ -412,45 +435,22 @@ const UsersForm = () => {
                     </Grid>
                     <Grid item lg={3}>
                         <FieldWrapper>
-                            <FieldName>Password</FieldName>
+                            <FieldName>Phone No</FieldName>
                             <TextField
-                                name="password"
-                                id="password"
-                                value={formData?.password || ""}
-                                fullWidth
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) => handleChange(e?.target?.value || "", "password")}
-                                sx={{
-                                    // width: "264px",
-                                    "& .MuiInputBase-root": {
-                                        // height: "30px",
-                                        borderRadius: "8px",
-                                    },
-                                }}
-                                size="small"
-                            />
-                        </FieldWrapper>
-                    </Grid>
-                    <Grid item lg={3}>
-                        <FieldWrapper>
-                            <FieldName>Verify password</FieldName>
-                            <TextField
-                                name="matchingPassword"
-                                id="matchingPassword"
-                                value={formData?.matchingPassword || ""}
-                                fullWidth
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "matchingPassword")
-                                }
-                                sx={{
-                                    // width: "264px",
-                                    "& .MuiInputBase-root": {
-                                        // height: "30px",
-                                        borderRadius: "8px",
-                                    },
-                                }}
-                                size="small"
+                            name="phone"
+                            id="phone"
+                            value={formData?.phone || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) => handleChange(e?.target?.value || "", "phone")}
+                            sx={{
+                                // width: "264px",
+                                "& .MuiInputBase-root": {
+                                    // height: "30px",
+                                    borderRadius: "8px",
+                                },
+                            }}
+                            size="small"
                             />
                         </FieldWrapper>
                     </Grid>
@@ -472,6 +472,52 @@ const UsersForm = () => {
                                     },
                                 }}
                                 size='small'
+                            />
+                        </FieldWrapper>
+                    </Grid>
+                    <Grid item lg={3}>
+                        <FieldWrapper>
+                            <FieldName>Password</FieldName>
+                            <TextField
+                                type="password"
+                                name="password"
+                                id="password"
+                                value={formData?.password || ""}
+                                fullWidth
+                                disabled={state?.action === DEF_ACTIONS.VIEW}
+                                onChange={(e) => handleChange(e?.target?.value || "", "password")}
+                                sx={{
+                                    // width: "264px",
+                                    "& .MuiInputBase-root": {
+                                        // height: "30px",
+                                        borderRadius: "8px",
+                                    },
+                                }}
+                                size="small"
+                            />
+                        </FieldWrapper>
+                    </Grid>
+                    <Grid item lg={3}>
+                        <FieldWrapper>
+                            <FieldName>Verify password</FieldName>
+                            <TextField
+                                type="password"
+                                name="matchingPassword"
+                                id="matchingPassword"
+                                value={formData?.matchingPassword || ""}
+                                fullWidth
+                                disabled={state?.action === DEF_ACTIONS.VIEW}
+                                onChange={(e) =>
+                                    handleChange(e?.target?.value || "", "matchingPassword")
+                                }
+                                sx={{
+                                    // width: "264px",
+                                    "& .MuiInputBase-root": {
+                                        // height: "30px",
+                                        borderRadius: "8px",
+                                    },
+                                }}
+                                size="small"
                             />
                         </FieldWrapper>
                     </Grid>
@@ -502,13 +548,13 @@ const UsersForm = () => {
                         >
                             Roles
                         </TabButton>
-                        <TabButton
+                        {/* <TabButton
                             variant="contained"
                             className={toggleState === 2 ? "active-tabs" : ""}
                             onClick={() => toggleTab(2)}
                         >
                             Services
-                        </TabButton>
+                        </TabButton> */}
                         <TabButton
                             variant="contained"
                             className={toggleState === 3 ? "active-tabs" : ""}
@@ -526,18 +572,12 @@ const UsersForm = () => {
                                 borderRadius: "5px",
                             }}
                         >
-                            <Grid item lg={3}>
-                                <RoleList
-                                    selectedRows={selectRoles}
-                                    onRowSelect={toggleRolesSelect}
-                                    selectAll={selectAllRoles}
-                                    unSelectAll={resetSelectedRoles}
-                                />
-
+                            <Grid item lg={12} sx={{margin: "15px"}}>
+                                <RoleSelection roles={roles} selectedRoles={selectedRoles} onRolesChange={handleRolesChange} />
                             </Grid>
                         </Grid>
                     </TabContent>
-                    <TabContent className={toggleState === 2 ? "active-content" : ""}>
+                    {/* <TabContent className={toggleState === 2 ? "active-content" : ""}>
                         <Grid
                             container
                             sx={{
@@ -554,7 +594,7 @@ const UsersForm = () => {
                                     unSelectAll={resetSelectedServices} />
                             </Grid>
                         </Grid>
-                    </TabContent>
+                    </TabContent> */}
                     <TabContent className={toggleState === 3 ? "active-content" : ""}>
                         <Grid
                             container

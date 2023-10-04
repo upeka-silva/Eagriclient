@@ -2,11 +2,12 @@ import { api_delete, get, post, put } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleRoles = async (
+  payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("app-settings/roles", true);
+    const response = await post("app-settings/roles", payload, true);
     if (response?.httpCode === "200 OK") {
       onSuccess(response?.payloadDto);
     } else {

@@ -63,20 +63,24 @@ import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import dayjs from "dayjs";
+import FarmerService from "./FarmerServce";
+import { get } from "../../services/api";
 
 const FarmerForm = () => {
   useUserAccessValidation();
+
   const { state } = useLocation();
-  console.log(state?.farmerId);
+
+
+
   const location = useLocation();
 
   const navigate = useNavigate();
 
   const dateAdapter = new AdapterDayjs();
-  const [formData, setFormData] = useState({
-    ...state?.target,
-    dob: state?.target?.dob ? dateAdapter.date(state?.target?.dob) : null,
-  });
+
+  const [formData, setFormData] = useState({});
+
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -110,6 +114,27 @@ const FarmerForm = () => {
   const [dob, setDob] = useState();
 
   const { addSnackBar } = useSnackBars();
+
+  useEffect(() => {
+    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+      const fetchFarmer = async (path, id) => {
+          try {
+              const { payload } = await get(
+                  `${path}/${id}`,
+                  true
+              );
+              console.log(payload);
+              const dob = payload?.dob ? dateAdapter.date(payload?.dob) : null;
+              payload.dob = dob;
+              setFormData(payload);
+              setSelectedGnDevision(payload?.gnDivision);
+          } catch(error) {
+              console.log(error);
+          }
+      };
+      fetchFarmer('farmers', state?.id);
+    }
+  }, []);
 
   const goBack = () => {
     navigate("/farmer");
@@ -175,6 +200,7 @@ const FarmerForm = () => {
             {
               ...formData,
               dob: dob.valueOf() || null,
+              gnDivision: {id: selectedGnDivision?.id}
             },
             onSuccess,
             onError
@@ -185,6 +211,7 @@ const FarmerForm = () => {
             {
               ...formData,
               dob: dob.valueOf() || null,
+              gnDivision: {id: selectedGnDivision?.id}
             },
             onSuccess,
             onError
@@ -244,30 +271,11 @@ const FarmerForm = () => {
   };
 
   useEffect(() => {
-    get_ProvinceList().then(({ dataList = [] }) => {
-      console.log(dataList);
-      setProvinces(dataList);
-    });
-  }, []);
-
-  const getDistricts = (id) => {
-    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
-      console.log(dataList);
-      setDistrics(dataList);
-    });
-  };
-  const getDsDivisions = (id) => {
-    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
-      console.log(dataList);
-      setDsDivisions(dataList);
-    });
-  };
-  const getGnDivisions = (id) => {
-    get_GnDivisionListByDsDivisionId(id).then(({ dataList = [] }) => {
+    get_GnDivisionList().then(({ dataList = [] }) => {
       console.log(dataList);
       setGnDivisions(dataList);
     });
-  };
+  }, []);
 
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
@@ -397,6 +405,7 @@ const FarmerForm = () => {
       <Grid
         container
         sx={{
+          border: "1px solid #bec0c2",
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -470,7 +479,6 @@ const FarmerForm = () => {
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Ethnicity</FieldName>
-
             <Select
               value={formData?.nationality || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -599,7 +607,6 @@ const FarmerForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-
       <Grid
         container
         sx={{
@@ -609,91 +616,17 @@ const FarmerForm = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Province Name</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={provinces}
-              value={selectedProvince}
-              getOptionLabel={(i) => `${i.code} - ${i.name}`}
-              onChange={(event, value) => {
-                setSelectedProvince(value);
-                setSelectedDistrict({ code: "", name: "" });
-                setSelectedDsDevision({ code: "", name: "" });
-                setSelectedGnDevision({ code: "", name: "" });
-                getDistricts(value.id);
-              }}
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>District</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={districs}
-              value={selectedDistrict}
-              getOptionLabel={(i) => `${i.code} - ${i.name}`}
-              disableClearable
-              onChange={(event, value) => {
-                setSelectedDistrict(value);
-                setSelectedDsDevision({ code: "", name: "" });
-                setSelectedGnDevision({ code: "", name: "" });
-                getDsDivisions(value.id);
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Divisional Secretariats Division </FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={dsDivisions}
-              value={selectedDsDevision}
-              getOptionLabel={(i) => `${i.code} - ${i.name}`}
-              onChange={(event, value) => {
-                setSelectedDsDevision(value);
-                setSelectedGnDevision({ code: "", name: "" });
-                getGnDivisions(value.id);
-              }}
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Grama Niladari Division</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisions}
-              value={formData.gnDivisionDTO || selectedGnDivision}
+              value={selectedGnDivision}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
-                handleChange(value, "gnDivisionDTO");
+                //handleChange(value, "gnDivision");
+                setSelectedGnDevision(value);
               }}
               disableClearable
               sx={{
@@ -706,16 +639,6 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Address 01</FieldName>

@@ -143,6 +143,7 @@ export default function GnDivisionSelector({  handleChange }) {
             getOptionLabel={(i) => `${i.code} - ${i.name}`}
             onChange={(event, value) => {
               handleChange(value, "gnDivisionDTO");
+              setSelectedGnDevision(value);
             }}
             disableClearable
             sx={{
