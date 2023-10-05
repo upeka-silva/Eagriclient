@@ -45,6 +45,7 @@ import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter
 import RoleSelection from "./RoleSelection";
 import { get } from '../../services/api/index';
 import { margin } from "@mui/system";
+import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
 
 const UsersForm = () => {
 
@@ -80,6 +81,10 @@ const UsersForm = () => {
     const [roles, setRoles] = useState([]);
 
     const [selectedRoles, setSelectedRoles] = useState([]);
+
+    const [selectedAdminDivType, setSelectedAdminDivType] = useState("");
+    const [selectedAdminDiv, setSelectedAdminDiv] = useState(null);
+    const [selectedAdminDivOpt, setSelectedAdminDivOpt] = useState(null);
 
     const handleRolesChange = (roleId) => {
         console.log(roleId);
@@ -264,6 +269,15 @@ const UsersForm = () => {
         setVal(value)
 
     };
+
+    // Handle administrative division select
+    const handleAdministrativeDivTypeSelect = (key) => {
+        console.log('handle drop down');
+        console.log(data[key]);
+        setSelectedAdminDiv(data[key]);
+        setSelectedAdminDivType(data[key]?.type);
+        setSelectedAdminDivOpt({value: key, label: data[key]?.displayName});
+    }
 
     const toggleServicesSelect = (component) => {
         setSelectServices((current = []) => {
@@ -606,10 +620,8 @@ const UsersForm = () => {
                         >
                             <Grid item lg={4}>
                                 <FieldWrapper>
-
-
                                     <FormControl sx={{ display: "flex", justifyContent: "row", minWidth: "364px" }} size="small">
-                                        <FieldName>Filter type</FieldName>
+                                        <FieldName>Select Adminstrative Division Type</FieldName>
                                         <Autocomplete
                                             id="dropdown"
                                             isDisabled={view}
@@ -617,9 +629,9 @@ const UsersForm = () => {
                                                 value: key,
                                                 label: data[key].displayName,
                                             }))}
-                                            getOptionLabel={(option) => option.label}
-                                            onChange={(event, selectedOption) => handleAdvanceDataChange(selectedOption?.value)}
-                                            value={{ value: val, label: data[val]?.displayName || "Choose an option" }}
+                                            //getOptionLabel={(option) => option.label}
+                                            onChange={(event, selectedOption) => handleAdministrativeDivTypeSelect(selectedOption?.value)}
+                                            value={selectedAdminDivOpt || "Choose an option" }
                                             isSearchable
                                             renderInput={(params) => <TextField {...params} />}
                                             sx={{
@@ -630,28 +642,13 @@ const UsersForm = () => {
                                             }}
                                         />
                                     </FormControl>
-
-                                </FieldWrapper>
-
-
-                            </Grid>
-
-                            <Grid item lg={8}>
-
-                                <FieldWrapper>
-                                    {parentFilter != null && (
-                                        <FilterTypeFilter data={data}
-                                            originalPath={originalPath}
-                                            parentLinks={parentLinks}
-                                            parentFilter={parentFilter}
-                                            currentLinkIndex={0}
-                                            apiResponse={null}
-                                            curSelectedVal={null}
-                                            nextResponse={null}
-                                            outPutSelectedFilterType={getSelectedFilterType} />
-                                    )}
                                 </FieldWrapper>
                             </Grid>
+
+                            {selectedAdminDiv != null ? <AdministrativeDivisionSelectFilter 
+                                selectedOption={selectedAdminDiv}
+                            /> : null}
+
                             <Grid item lg={12}>
                                 {isview &&
                                     <div style={{
