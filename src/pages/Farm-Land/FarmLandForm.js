@@ -127,7 +127,7 @@ const FarmLandForm = () => {
       return newData;
     });
 
-    if (target === "landType" && value === "Protected House") {
+    if (target === "farmLandType" && value === "PROTECTED_HOUSE") {
       setIsProtectedHouseTypeEnable(true);
     }
   };
@@ -207,7 +207,7 @@ const FarmLandForm = () => {
         return;
       }
 
-      if (isEmpty(formData.landType)) {
+      if (isEmpty(formData.farmLandType)) {
         addSnackBar({
           type: SnackBarTypes.error,
           message: "Land type is empty",
@@ -312,13 +312,13 @@ const FarmLandForm = () => {
                 <FormControl fullWidth>
                   <FieldName>Land Type</FieldName>
                   <Select
-                    name="landType"
-                    id="landType"
-                    value={formData?.landType || ""}
-                    error={!(formData?.landType?.length > 0)}
+                    name="farmLandType"
+                    id="farmLandType"
+                    value={formData?.farmLandType || ""}
+                    error={!(formData?.farmLandType?.length > 0)}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      handleChange(e?.target?.value || "", "landType")
+                      handleChange(e?.target?.value || "", "farmLandType")
                     }
                     fullWidth
                     sx={{

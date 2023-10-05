@@ -12,9 +12,9 @@ const FarmLandList = ({
   const columns = [
     { field: "name", headerName: "Land Name" },
     { field: "address", headerName: "Address" },
-    { field: "protectedHouseType", headerName: "Protected House Type" },
     { field: "landType", headerName: "Land Type" },
-    { field: "gnDivisionDTO", headerName: "Grama Niladari Division" },
+    { field: "protectedHouseType", headerName: "Protected House Type" },    
+    // { field: "gnDivisionDTO", headerName: "GN Division" },
     { field: "latitude", headerName: "Latitude" },
     { field: "longitude", headerName: "Longitude" },
     { field: "elevation", headerName: "Elevation" },

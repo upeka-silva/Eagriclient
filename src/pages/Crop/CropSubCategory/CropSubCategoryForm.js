@@ -169,7 +169,6 @@ const CropSubCategoryForm = () => {
                 }}
                 inputProps={{ style: { textTransform: "uppercase" } }}
                 size="small"
-                inputProps={{style: {textTransform: 'uppercase'}}}
               />
             </FieldWrapper>
           </Grid>
