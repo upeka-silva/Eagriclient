@@ -143,6 +143,8 @@ import RoleForm from "../pages/AppSettings/Role/RoleForm";
 import PermissionsRoles from "../pages/AppSettings/Permissions/RolesList";
 import Permission from "../pages/AppSettings/Permissions/Permission";
 import PermissionsByRole from "../pages/AppSettings/Permissions/PermissionsByRole";
+import ProtectedHouseType from "../pages/ProtectedHouseType/ProtectedHouseType";
+import ProtectedHouseTypeForm from "../pages/ProtectedHouseType/ProtectedHouseTypeForm";
 
 export const Routes = [
   {
@@ -1068,6 +1070,21 @@ export const Routes = [
     name: "Farmer Form",
     element: <FarmerForm />,
     isSideBar: false,
+  },
+
+  {
+    path: "/protected-house-type",
+    name: "Protected House Type",
+    element: <ProtectedHouseType />,
+    isSideBar: true,
+    isService: "SC",
+    icon: AccessibilityIcon,
+  },
+  {
+    path: "/protected-house-type-form",
+    name: "Protected House Type",
+    element: <ProtectedHouseTypeForm />,
+    isSideBar: false
   },
 
   {

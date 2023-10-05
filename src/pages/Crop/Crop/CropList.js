@@ -3,21 +3,8 @@ import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Search,
-  Vrpano,
-} from "@mui/icons-material";
-import {
-  Button,
-  TextField,
-  CircularProgress,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { RestartAlt } from "@mui/icons-material";
+import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useEffect, useState } from "react";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
