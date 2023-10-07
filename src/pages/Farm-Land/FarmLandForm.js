@@ -9,6 +9,7 @@ import {
   MenuItem,
   Box,
   Stack,
+  CircularProgress,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -17,6 +18,7 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
+  getFarmLandById,
   handleFarmLand,
   updateFarmLand,
 } from "../../redux/actions/farmLand/action";
@@ -37,11 +39,11 @@ import FarmLandLocation from "./FarmLandLocation";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
-import DynamicFormFarmLand from "../DynamicFormFarmLand/DynamicFormFarmLand";
-import CommonQuestionList from "../AuditForm/CommonQuestionList";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
 import { isEmpty } from "../../utils/helpers/stringUtils";
-import { Circle } from "@mui/icons-material";
+import GridFormField from "../../components/GridFormField/GridFormField";
+import { FORM_CONTROL_TYPE } from "../../components/GridFormField/FieldType";
+import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -61,7 +63,23 @@ const FarmLandForm = () => {
   const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] =
     useState(false);
 
+  const [protectedHouseList, setProtectedHoseList] = useState([]);
+  const [phLoading, setPhLoading] = useState(true);
+
   const { addSnackBar } = useSnackBars();
+
+  const landTypeItems = [
+    { value: "OPEN_FIELD", label: "Open Field" },
+    { value: "PROTECTED_HOUSE", label: "Protected House" },
+  ];
+
+  const areaUnits = [
+    { value: "SQUARE_METERS", label: "Square Meters" },
+    { value: "ACRES", label: "Acres" },
+    { value: "HECTARES", label: "Hectares" },
+    { value: "PERCH", label: "Perch" },
+    { value: "SQUARE_FEET", label: "Squre Feet" },
+  ];
 
   const columns = [
     { field: "id", headerName: "ID", width: 70 },
@@ -118,6 +136,10 @@ const FarmLandForm = () => {
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
+    console.log("FORM DATA ----------->", formData);
+    // getFarmLandById(state?.target?.id).then(({ payload }) => {
+    //   setFormData(payload);
+    // });
   }, []);
 
   const handleChange = (value, target) => {
@@ -127,8 +149,23 @@ const FarmLandForm = () => {
       return newData;
     });
 
-    if (target === "farmLandType" && value === "PROTECTED_HOUSE") {
-      setIsProtectedHouseTypeEnable(true);
+    if (target === "farmLandType") {
+      if (value === "PROTECTED_HOUSE") {
+        setIsProtectedHouseTypeEnable(true);
+        setPhLoading(false);
+        get_ProtectedHousTypeList()
+          .then(({ dataList = [] }) => {
+            setProtectedHoseList(dataList);
+          })
+          .catch(() => {
+            setProtectedHoseList([]);
+          });
+        setPhLoading(true);
+      } else {
+        setIsProtectedHouseTypeEnable(false);
+        setProtectedHoseList([]);
+        setFormData((current) => ({ ...current, protectedHouseTypeDTO: null }));
+      }
     }
   };
 
@@ -198,11 +235,19 @@ const FarmLandForm = () => {
   };
 
   const handleFormSubmit = async () => {
+    console.log("form data", formData);
     if (enableSave()) {
+      if (isEmpty(formData.code)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "Code must have a value",
+        });
+        return;
+      }
       if (isEmpty(formData.name)) {
         addSnackBar({
           type: SnackBarTypes.error,
-          message: "Land name is empty",
+          message: "Land name must have a value",
         });
         return;
       }
@@ -210,7 +255,7 @@ const FarmLandForm = () => {
       if (isEmpty(formData.farmLandType)) {
         addSnackBar({
           type: SnackBarTypes.error,
-          message: "Land type is empty",
+          message: "Land type must have a value",
         });
         return;
       }
@@ -218,7 +263,7 @@ const FarmLandForm = () => {
       if (isEmpty(formData.soilTypeDTO)) {
         addSnackBar({
           type: SnackBarTypes.error,
-          message: "Soil Type is empty",
+          message: "Soil Type must have a value",
         });
         return;
       }
@@ -226,7 +271,7 @@ const FarmLandForm = () => {
       if (isEmpty(formData.area)) {
         addSnackBar({
           type: SnackBarTypes.error,
-          message: "Area is empty",
+          message: "Area must have a value",
         });
         return;
       }
@@ -234,7 +279,7 @@ const FarmLandForm = () => {
       if (isEmpty(formData.gnDivisionDTO)) {
         addSnackBar({
           type: SnackBarTypes.error,
-          message: "GN Division is empty",
+          message: "GN Division must have a value",
         });
         return;
       }
@@ -285,7 +330,27 @@ const FarmLandForm = () => {
         />
         <Box sx={{ padding: "20px" }}>
           <Grid container sx={{ marginBottom: "10px" }}>
-            <Grid lg={12}></Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FieldWrapper>
+                <FieldName>Code</FieldName>
+                <TextField
+                  name="code"
+                  id="code"
+                  value={formData?.code || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) => handleChange(e?.target?.value || "", "code")}
+                  error={!(formData?.code?.length > 0)}
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Land Name</FieldName>
@@ -335,43 +400,50 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
+
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName>Protected House Type</FieldName>
-                  <Select
-                    name="protectedHouse"
-                    id="protectedHouse"
-                    value={formData?.protectedHouse || ""}
-                    error={!(formData?.protectedHouse?.length > 0)}
-                    disabled={
-                      !isProtectedHouseTypeEnable ||
-                      state?.action === DEF_ACTIONS.VIEW
+                  <FieldName>
+                    Protected House Type
+                  </FieldName>
+
+                  <Autocomplete
+                    name="protectedHouseTypeDTO"
+                    id="protectedHouseTypeDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={soilType}
+                    value={formData?.protectedHouseTypeDTO || ""}
+                    getOptionLabel={(i) =>
+                      i.typeId
+                        ? `${i.typeId} - ${i.description}`
+                        : ""
                     }
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "protectedHouse")
-                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "protectedHouseTypeDTO");
+                    }}
                     fullWidth
                     sx={{
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
                     }}
                     size="small"
-                  >
-                    <MenuItem value={"GREEN_HOUSE"}>Greenhouse</MenuItem>
-                    <MenuItem value={"NET_HOUSE"}>Net house</MenuItem>
-                    <MenuItem value={"SHADE_HOUSE"}>Shade house</MenuItem>
-                    <MenuItem value={"POLY_HOUSE"}>Poly house</MenuItem>
-                    <MenuItem value={"GLASS_HOUSE"}>Glass house</MenuItem>
-                    <MenuItem value={"HYDROPONIC"}>Hydroponic house</MenuItem>
-                    <MenuItem value={"AEROPONIC"}>Aeroponic house</MenuItem>
-                    <MenuItem value={"VERTICAL_FARMING"}>
-                      Vertical farming structure
-                    </MenuItem>
-                  </Select>
+                    renderInput={(params) => (
+                      <TextField
+                        error={
+                          !(formData?.protectedHouseTypeDTO?.typeId?.length > 0)
+                        }
+                        {...params}
+                        size="small"
+                      />
+                    )}
+                  />
                 </FormControl>
               </FieldWrapper>
             </Grid>
+            
 
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>

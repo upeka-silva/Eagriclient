@@ -99,3 +99,22 @@ export const updateFarmLand = async (
     }
   }
 };
+
+export const getFarmLandById = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(`farm-land/${id}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
