@@ -22,6 +22,7 @@ import {
   TableRow,
   Typography,
   Paper,
+  Divider,
 } from "@mui/material";
 import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import styled from "styled-components";
@@ -53,6 +54,8 @@ import RoleSelection from "./RoleSelection";
 import { get } from "../../services/api/index";
 import { margin } from "@mui/system";
 import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
 
 const UsersForm = () => {
   useUserAccessValidation();
@@ -93,6 +96,7 @@ const UsersForm = () => {
   const [selectedAdminDiv, setSelectedAdminDiv] = useState(null);
   const [selectedAdminDivOpt, setSelectedAdminDivOpt] = useState(null);
   const [selectedAdminDivOjbects, setSelectedAdminDivObjects] = useState([]);
+  const [isAdminDivDialogOpen, setAdminDivDialogOpen] = useState(false);
 
   const handleRolesChange = (roleId) => {
     console.log(roleId);
@@ -273,6 +277,12 @@ const UsersForm = () => {
     );
   };
 
+  // This will close the dialog
+  const closeAdminDivDialog = () => {
+    setSelectedAdminDiv(null);
+    setAdminDivDialogOpen(false);
+  }
+
   const getPathName = () => {
     return location.pathname === "/" || !location.pathname
       ? ""
@@ -312,6 +322,9 @@ const UsersForm = () => {
 
   // Handle administrative division select
   const handleAdministrativeDivTypeSelect = (key) => {
+    if(state?.action === DEF_ACTIONS.EDIT) {
+      setAdminDivDialogOpen(true);
+    }
     console.log("key --------->");
     console.log(key);
     setSelectedAdminDiv(data[key]?.child);
@@ -642,6 +655,7 @@ const UsersForm = () => {
                   roles={roles}
                   selectedRoles={selectedRoles}
                   onRolesChange={handleRolesChange}
+                  action={state?.action}
                 />
               </Grid>
             </Grid>
@@ -674,7 +688,7 @@ const UsersForm = () => {
               //     borderRadius: "5px",
               //   }}
             >
-              <Grid item lg={3}>
+              {(state?.action !== DEF_ACTIONS.VIEW) ? <Grid item lg={3}>
                 <FieldWrapper>
                   <FormControl
                     sx={{
@@ -687,7 +701,6 @@ const UsersForm = () => {
                     <FieldName>Select Adminstrative Division Type</FieldName>
                     <Autocomplete
                       id="dropdown"
-                      isDisabled={view}
                       options={Object.keys(data).map((key) => ({
                         value: key,
                         label: data[key]?.displayName,
@@ -709,7 +722,7 @@ const UsersForm = () => {
                     />
                   </FormControl>
                 </FieldWrapper>
-              </Grid>
+              </Grid> : null}
               {selectedAdminDiv != null ? (
                 <AdministrativeDivisionSelectFilter
                   selectedOption={selectedAdminDiv}
@@ -755,6 +768,32 @@ const UsersForm = () => {
           </TabContent>
         </Grid>
       </Grid>
+      <DialogBox
+        open={isAdminDivDialogOpen}
+        title={`Please Confirm`}
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={() => setAdminDivDialogOpen(false)}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={closeAdminDivDialog}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <Typography>This will delete your existing administrative divisions and replace with newly added values</Typography>
+      </DialogBox>
     </>
   );
 };
