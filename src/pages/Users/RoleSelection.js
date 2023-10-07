@@ -4,8 +4,9 @@ import {
     Grid, FormGroup, Checkbox,
 } from "@mui/material";
 import { FieldName } from '../../components/FormLayout/FieldName';
+import { DEF_ACTIONS } from '../../utils/constants/permission';
 
-const RoleSelection = ({ roles, selectedRoles, onRolesChange }) => {
+const RoleSelection = ({ roles, selectedRoles, onRolesChange, action }) => {
   const numberOfColumns = 5; // Number of columns you want to divide the roles into
   const columnSize = Math.ceil(roles.length / numberOfColumns);
   const handleRoleChange = (roleId) => {
@@ -29,6 +30,7 @@ const RoleSelection = ({ roles, selectedRoles, onRolesChange }) => {
                         checked={selectedRoles?.some(selectedRole => selectedRole?.roleDTO?.id === role.id)}
                         onChange={() => handleRoleChange(role.id)}
                         name={role.name}
+                        disabled={action === DEF_ACTIONS.VIEW}
                     />
                     }
                     label={role.name}
