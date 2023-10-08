@@ -226,6 +226,7 @@ const FarmLand = () => {
               sx={{ ml: "8px" }}
             >
               Close
+              
             </Button>
           </ActionWrapper>
         }

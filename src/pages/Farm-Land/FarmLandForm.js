@@ -404,20 +404,19 @@ const FarmLandForm = () => {
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName>
-                    Protected House Type
-                  </FieldName>
+                  <FieldName>Protected House Type</FieldName>
 
                   <Autocomplete
                     name="protectedHouseTypeDTO"
                     id="protectedHouseTypeDTO"
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    options={soilType}
+                    disabled={
+                      state?.action === DEF_ACTIONS.VIEW ||
+                      !isProtectedHouseTypeEnable
+                    }
+                    options={protectedHouseList}
                     value={formData?.protectedHouseTypeDTO || ""}
                     getOptionLabel={(i) =>
-                      i.typeId
-                        ? `${i.typeId} - ${i.description}`
-                        : ""
+                      i.typeId ? `${i.typeId} - ${i.description}` : ""
                     }
                     onChange={(event, value) => {
                       handleChange(value, "protectedHouseTypeDTO");
@@ -443,7 +442,6 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-            
 
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
@@ -484,6 +482,35 @@ const FarmLandForm = () => {
                       />
                     )}
                   />
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>Aria Unit</FieldName>
+                  <Select
+                    name="landAreaUnit"
+                    id="landAreaUnit"
+                    value={formData?.landAreaUnit || ""}
+                    error={!(formData?.landAreaUnit?.length > 0)}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "landAreaUnit")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"SQUARE_METERS"}>Square Meters</MenuItem>
+                    <MenuItem value={"ACRES"}>Acres</MenuItem>
+                    <MenuItem value={"HECTARES"}>Hectares</MenuItem>
+                    <MenuItem value={"PERCH"}>Perch</MenuItem>
+                    <MenuItem value={"SQUARE_FEET"}>Square Feet</MenuItem>
+                  </Select>
                 </FormControl>
               </FieldWrapper>
             </Grid>
