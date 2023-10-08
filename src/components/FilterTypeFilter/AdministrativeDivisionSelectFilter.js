@@ -76,14 +76,70 @@ const AdministrativeDivisionSelectFilter = ({
         "id",
         "description"
       );
-    } else if (type == "provincialDirectorOfAgri") {
+    } else if (type == "provincialDOA") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "deputiyDirOfAgriProvincial") {
+    } else if (type === "deputiyDirOfAgriProvincial") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "interProvincialDOA") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "ADASegmantInterProvincial") { 
+      nameValue = convertNameValuePair(
+        response?.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "deputiyDirOfAgriInterProvincial") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "AiRegionInterProvincial") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "mahaweliAuthority") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "mahaweliSystems") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "mahaweliBlock") { 
+      nameValue = convertNameValuePair(
+        response.payloadDto,
+        true,
+        "id",
+        "description"
+      );
+    } else if (type === "mahaweliUnit") { 
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
