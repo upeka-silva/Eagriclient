@@ -67,7 +67,7 @@ const Wrapper = styled.div`
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: calc(100vw - 270px);
   ${(props) => (props.sx ? props.sx : "")}
   /* padding-right: 12px; */
   

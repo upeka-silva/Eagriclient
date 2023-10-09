@@ -37,7 +37,7 @@ const FarmLandList = ({
     },
     { field: "landAreaUnit", headerName: "Unit" },
     { field: "area", headerName: "Area" },
-    { field: "status", headerName: "Status" },
+    
   ];
 
   return (
