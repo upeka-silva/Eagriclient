@@ -10,34 +10,19 @@ const FarmLandList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "Code" },
     { field: "name", headerName: "Land Name" },
     { field: "address", headerName: "Address" },
-    { field: "farmLandType", headerName: "Land Type" },
     {
-      field: [
-        "protectedHouseTypeDTO.typeId",
-        "protectedHouseTypeDTO.description",
-      ],
-      joinString: " - ",
+      field: "protectedHouseTypeDTO.description",
       headerName: "Protected House Type",
     },
-    {
-      field: ["gnDivisionDTO.code", "gnDivisionDTO.name"],
-      joinString: " - ",
-      headerName: "GN Division",
-    },
+    { field: "farmLandType", headerName: "Land Type" },
+    { field: "gnDivisionDTO.name", headerName: "Grama Niladari Division" },
     { field: "latitude", headerName: "Latitude" },
     { field: "longitude", headerName: "Longitude" },
     { field: "elevation", headerName: "Elevation" },
-    {
-      field: ["soilTypeDTO.soilTypeCode", "soilTypeDTO.description"],
-      joinString: " - ",
-      headerName: "Soil Type",
-    },
-    { field: "landAreaUnit", headerName: "Unit" },
-    { field: "area", headerName: "Area" },
-    { field: "status", headerName: "Status" },
+    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type" },
+    { field: "area", headerName: "Area" }
   ];
 
   return (
