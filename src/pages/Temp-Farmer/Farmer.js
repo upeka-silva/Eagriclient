@@ -164,6 +164,7 @@ const Farmer = () => {
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
         height: "100vh",
+        marginRight:"-260px"
       }}
     >
       <div
