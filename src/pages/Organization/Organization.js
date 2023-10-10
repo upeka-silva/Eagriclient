@@ -55,6 +55,7 @@ const Organization = () => {
         backgroundColor: `${Colors.white}`,
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
+        marginRight:"-260px"
       }}
     >
       <ActionWrapper isLeft>

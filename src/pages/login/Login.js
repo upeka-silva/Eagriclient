@@ -343,6 +343,7 @@ const LoginWrapper = styled.div`
   flex-direction: column;
   background-color: ${Colors.white};
   font-family: ${Fonts.fontStyle1};
+  margin-right: -260px;
 `;
 
 const ButtonContainer = styled.button`

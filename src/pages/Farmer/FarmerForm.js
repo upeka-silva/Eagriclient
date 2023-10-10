@@ -278,7 +278,7 @@ const FarmerForm = () => {
   }, []);
 
   return (
-    <FormWrapper style={{ overflowY: "scroll" }}>
+    <FormWrapper style={{ overflowY: "scroll"  }}>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Farmer" />
       {/* <FormButtonGroup
