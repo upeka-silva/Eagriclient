@@ -7,21 +7,22 @@ const BranchList = ({
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
+  id,
 }) => {
   const columns = [
-    { field: "name", headerName: "Manage Name" },
-    { field: "managerNIC", headerName: "Manager NIC" },
-    { field: "phone1", headerName: "Phone 1" },
-    { field: "phone2", headerName: "Phone 2" },
-    { field: "addressL1", headerName: "Address L1" },
-    { field: "addressL2", headerName: "Address L2" },
+    { field: "branchName", headerName: "Branch Name" },
+    { field: "managerName", headerName: "Manager Name" },
+    { field: "contactNo", headerName: "Phone 1" },
+    { field: "contactNo2", headerName: "Phone 2" },
+    { field: "address1", headerName: "Address L1" },
+    { field: "address2", headerName: "Address L2" },
     { field: "city", headerName: "City" },
     { field: "email", headerName: "Email" },
   ];
   return (
     <TableWrapper>
       <DataTable
-        dataEndPoint={"organization-contacts"}
+        dataEndPoint={`temp-farmer-businesses/${id}/branches`}
         columns={columns}
         selectable
         selectedRows={selectedRows}
