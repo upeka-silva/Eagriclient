@@ -84,7 +84,7 @@ const BranchForm = ({
             size="small"
             color="success"
           >
-            SAVE
+            Save
           </Button>}
           {action !== DEF_ACTIONS.VIEW && <Button
             color="success"
@@ -92,7 +92,7 @@ const BranchForm = ({
             size="small"
             onClick={resetForm}
           >
-            RESET
+            Reset
           </Button>}
 
           <Button
