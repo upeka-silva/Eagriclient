@@ -69,6 +69,7 @@ export default function OTPDialog({
                 changeOTP(e.target.value);
               }}
             />
+            <Button sx={{ marginTop:"20px" }} >Resend Otp Again</Button>
           </FieldWrapper>
         </Box>
       </DialogContent>
