@@ -23,6 +23,7 @@ import UsersList from "./UserList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const Users = () => {
   useUserAccessValidation();
@@ -158,6 +159,7 @@ const Users = () => {
 
   return (
     <div>
+      <ListHeader title="Users" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
