@@ -30,8 +30,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
-
-
 const Farmer = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -69,20 +67,6 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
-    // try {
-    //   const response = await handleFarmer(farmerDto);
-    //   console.log(response);
-    //   if (response.httpCode == "201 CREATED") {
-    //     navigate("/farmer-form", {
-    //       state: {
-    //         action: DEF_ACTIONS.ADD,
-    //         target: { id: response.payload.id },
-    //       },
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
 
   const onEdit = () => {
@@ -90,7 +74,7 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        // id: selectedFarmer[0]?.id,
+
         target: selectedFarmer[0] || {},
       },
     });
@@ -101,7 +85,7 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        // id: selectedFarmer[0]?.id,
+
         target: selectedFarmer[0] || {},
       },
     });

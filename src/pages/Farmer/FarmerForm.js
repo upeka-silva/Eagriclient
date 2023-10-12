@@ -142,27 +142,6 @@ const FarmerForm = () => {
 
   const { addSnackBar } = useSnackBars();
 
-  // useEffect(() => {
-  //   if (
-  //     state?.action === DEF_ACTIONS.EDIT ||
-  //     state?.action === DEF_ACTIONS.VIEW
-  //   ) {
-  //     const fetchFarmer = async (path, id) => {
-  //       try {
-  //         const { payload } = await get(`${path}/${id}`, true);
-  //         console.log(payload);
-  //         const dob = payload?.dob ? dateAdapter.date(payload?.dob) : null;
-  //         payload.dob = dob;
-  //         setFormData(payload);
-  //         setSelectedGnDevision(payload?.gnDivision);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchFarmer("farmers", state?.id);
-  //   }
-  // }, []);
-
   const goBack = () => {
     navigate("/farmer");
   };
@@ -345,16 +324,7 @@ const FarmerForm = () => {
     <FormWrapper style={{ overflowY: "scroll" }}>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Farmer" />
-      {/* <FormButtonGroup
-        {...{
-          state,
-          DEF_ACTIONS,
-          saving,
-          enableSave,
-          handleFormSubmit,
-          resetForm,
-        }}
-      /> */}
+      
       <ButtonWrapper
         isCeneter
         style={{
