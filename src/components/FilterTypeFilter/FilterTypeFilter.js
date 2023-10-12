@@ -62,8 +62,10 @@ const FilterTypeFilter = ({
                     apiPath = getAPIUrl(filterKey, false);
                     response = await get_DataList(apiPath);
                     setApiResponseData(response.dataList);
+                    console.log('data 111111111 ------>');
+                    console.log(response.dataList)
 
-
+                    console.log(filterKey);
                     if (filterKey == 'deputiyDirOfAgriInterProvincial') {
                         nameValue = convertNameValuePair(response.dataList, true, 'id', 'ddId');
                     } else if (filterKey == 'mahaweliAuthority') {
@@ -72,8 +74,9 @@ const FilterTypeFilter = ({
                         nameValue = convertNameValuePair(response.dataList, true, 'id', 'description');
                     } else if (filterKey == 'provincialDirectorOfAgri') {
                         nameValue = convertNameValuePair(response.dataList, true, 'id', 'description');
-                    }
-                    else {
+                    } else if (filterKey === 'deputiyDirOfAgriProvincial') {
+                        nameValue = convertNameValuePair(response.dataList, true, 'id', 'description'); 
+                    } else {
                         nameValue = convertNameValuePair(response.dataList);
                     }
                     setCurrentKeyValuePair(nameValue);
@@ -175,6 +178,8 @@ const FilterTypeFilter = ({
 
             nameValue.push(newobj);
         }
+        console.log('name value--------->');
+        console.log(nameValue);
         return nameValue;
     }
 
