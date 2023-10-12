@@ -145,6 +145,8 @@ import Permission from "../pages/AppSettings/Permissions/Permission";
 import PermissionsByRole from "../pages/AppSettings/Permissions/PermissionsByRole";
 import ProtectedHouseType from "../pages/ProtectedHouseType/ProtectedHouseType";
 import ProtectedHouseTypeForm from "../pages/ProtectedHouseType/ProtectedHouseTypeForm";
+import CropRegistration from "../pages/CropLook/crop-registration";
+import CropRegistrationForm from "../pages/CropLook/crop-registration-from";
 
 export const Routes = [
   {
@@ -1195,6 +1197,28 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
     ],
+  },
+  {
+    path: "/crop-look",
+    name: "Crop Look",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/crop-registration",
+        name: "Crop Registration",
+        isSideBar: true,
+        element: <CropRegistration />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-registration-form",
+        name: "Crop Registration Form",
+        isSideBar: false,
+        element: <CropRegistrationForm />,
+        icon: SouthAmericaIcon,
+      },
+    ]
   },
   {
     path: "/app-settings",
