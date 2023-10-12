@@ -676,7 +676,7 @@ const Organization = () => {
         >
           <Button onClick={addBranch}>
             <Add />
-            {DEF_ACTIONS.ADD}
+            {DEF_ACTIONS.ADD} Another Branch
           </Button>
           {selectedBranch.length === 1 && (
             <Button onClick={onEdit}>

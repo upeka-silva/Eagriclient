@@ -56,6 +56,9 @@ import { margin } from "@mui/system";
 import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
+import BackToList from "../../components/BackToList/BackToList";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const UsersForm = () => {
   useUserAccessValidation();
@@ -188,10 +191,11 @@ const UsersForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
+      Object.keys(formData || {}).length > 1
     ) {
       return true;
     }
+
     return false;
   };
 
@@ -281,7 +285,7 @@ const UsersForm = () => {
   const closeAdminDivDialog = () => {
     setSelectedAdminDiv(null);
     setAdminDivDialogOpen(false);
-  }
+  };
 
   const getPathName = () => {
     return location.pathname === "/" || !location.pathname
@@ -322,7 +326,7 @@ const UsersForm = () => {
 
   // Handle administrative division select
   const handleAdministrativeDivTypeSelect = (key) => {
-    if(state?.action === DEF_ACTIONS.EDIT) {
+    if (state?.action === DEF_ACTIONS.EDIT) {
       setAdminDivDialogOpen(true);
     }
     console.log("key --------->");
@@ -367,17 +371,15 @@ const UsersForm = () => {
   return (
     <>
       <FormWrapper>
-        <ActionWrapper isLeft>
+        {/* <ActionWrapper isLeft>
           <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
             Go back to users list
           </Button>
-        </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} New User
-        </FormHeader>
-        <ButtonWrapper
+        </ActionWrapper> */}
+        <BackToList goBack={goBack} />
+        <CustFormHeader saving={saving} state={state} formName="New User" />
+
+        {/* <ButtonWrapper
           style={{
             width: "95%",
             justifyContent: "flex-start",
@@ -407,7 +409,15 @@ const UsersForm = () => {
               )}
             </ActionWrapper>
           )}
-        </ButtonWrapper>
+        </ButtonWrapper> */}
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
         <Grid
           container
           sx={{
@@ -688,41 +698,45 @@ const UsersForm = () => {
               //     borderRadius: "5px",
               //   }}
             >
-              {(state?.action !== DEF_ACTIONS.VIEW) ? <Grid item lg={3}>
-                <FieldWrapper>
-                  <FormControl
-                    sx={{
-                      display: "flex",
-                      justifyContent: "row",
-                      minWidth: "364px",
-                    }}
-                    size="small"
-                  >
-                    <FieldName>Select Adminstrative Division Type</FieldName>
-                    <Autocomplete
-                      id="dropdown"
-                      options={Object.keys(data).map((key) => ({
-                        value: key,
-                        label: data[key]?.displayName,
-                      }))}
-                      //getOptionLabel={(option) => option.label}
-                      onChange={(event, selectedOption) =>
-                        handleAdministrativeDivTypeSelect(selectedOption?.value)
-                      }
-                      value={selectedAdminDivOpt || "Choose an option"}
-                      isSearchable
-                      renderInput={(params) => <TextField {...params} />}
+              {state?.action !== DEF_ACTIONS.VIEW ? (
+                <Grid item lg={3}>
+                  <FieldWrapper>
+                    <FormControl
                       sx={{
-                        borderRadius: "8px",
-                        "& .MuiInputBase-root": {
-                          backgroundColor: "transparent", // Set the background color to transparent
-                        },
+                        display: "flex",
+                        justifyContent: "row",
+                        minWidth: "364px",
                       }}
                       size="small"
-                    />
-                  </FormControl>
-                </FieldWrapper>
-              </Grid> : null}
+                    >
+                      <FieldName>Select Adminstrative Division Type</FieldName>
+                      <Autocomplete
+                        id="dropdown"
+                        options={Object.keys(data).map((key) => ({
+                          value: key,
+                          label: data[key]?.displayName,
+                        }))}
+                        //getOptionLabel={(option) => option.label}
+                        onChange={(event, selectedOption) =>
+                          handleAdministrativeDivTypeSelect(
+                            selectedOption?.value
+                          )
+                        }
+                        value={selectedAdminDivOpt || "Choose an option"}
+                        isSearchable
+                        renderInput={(params) => <TextField {...params} />}
+                        sx={{
+                          borderRadius: "8px",
+                          "& .MuiInputBase-root": {
+                            backgroundColor: "transparent", // Set the background color to transparent
+                          },
+                        }}
+                        size="small"
+                      />
+                    </FormControl>
+                  </FieldWrapper>
+                </Grid>
+              ) : null}
               {selectedAdminDiv != null ? (
                 <AdministrativeDivisionSelectFilter
                   selectedOption={selectedAdminDiv}
@@ -792,7 +806,10 @@ const UsersForm = () => {
           </ActionWrapper>
         }
       >
-        <Typography>This will delete your existing administrative divisions and replace with newly added values</Typography>
+        <Typography>
+          This will delete your existing administrative divisions and replace
+          with newly added values
+        </Typography>
       </DialogBox>
     </>
   );

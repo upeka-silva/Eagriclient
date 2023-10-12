@@ -31,32 +31,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 
 
-export const farmerDto = {
-  firstName: "",
-  lastName: "",
-  dob: "",
-  gender: "",
-  nationality: "",
-  status: "",
-  profilePicture: "",
-  originalFileName: "",
-  prsignedUrl: "",
-  presignedExpDate: "",
-  createdBy: "",
-  createdDate: "",
-  modifiedDate: "",
-  address1: "",
-  address2: "",
-  city: "",
-  postalCode: "",
-  address: "",
-  mobile: "",
-  email: "",
-  nic: "",
-  landLine: "",
-  gnDivision: null,
-};
-
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -92,18 +66,23 @@ const Farmer = () => {
 
   const onCreate = async () => {
     setAction(DEF_ACTIONS.ADD);
-    try {
-      const response = await handleFarmer(farmerDto);
-      console.log(response);
-      if (response.httpCode == "201 CREATED") {
-        navigate("/farmer-form", {
-          state: { action: DEF_ACTIONS.ADD , target:{ id : response.payload.id} },
-          
-        });
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    navigate("/farmer-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
+    // try {
+    //   const response = await handleFarmer(farmerDto);
+    //   console.log(response);
+    //   if (response.httpCode == "201 CREATED") {
+    //     navigate("/farmer-form", {
+    //       state: {
+    //         action: DEF_ACTIONS.ADD,
+    //         target: { id: response.payload.id },
+    //       },
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
   const onEdit = () => {
@@ -111,7 +90,8 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        id: selectedFarmer[0]?.id,
+        // id: selectedFarmer[0]?.id,
+        target: selectedFarmer[0] || {},
       },
     });
   };
@@ -121,7 +101,8 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        id: selectedFarmer[0]?.id,
+        // id: selectedFarmer[0]?.id,
+        target: selectedFarmer[0] || {},
       },
     });
   };

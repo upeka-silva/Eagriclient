@@ -66,12 +66,36 @@ import dayjs from "dayjs";
 import FarmerService from "./FarmerServce";
 import { get } from "../../services/api";
 
+export const farmerDto = {
+  firstName: "",
+  lastName: "",
+  dob: "",
+  gender: "",
+  nationality: "",
+  status: "",
+  profilePicture: "",
+  originalFileName: "",
+  prsignedUrl: "",
+  presignedExpDate: "",
+  createdBy: "",
+  createdDate: "",
+  modifiedDate: "",
+  address1: "",
+  address2: "",
+  city: "",
+  postalCode: "",
+  address: "",
+  mobile: "",
+  email: "",
+  nic: "",
+  landLine: "",
+  gnDivision: null,
+};
+
 const FarmerForm = () => {
   useUserAccessValidation();
 
   const { state } = useLocation();
-
-
 
   const location = useLocation();
 
@@ -79,7 +103,10 @@ const FarmerForm = () => {
 
   const dateAdapter = new AdapterDayjs();
 
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    ...(state?.target || {}),
+    dob: state?.target?.dob ? dateAdapter.date(state?.target?.dob) : null,
+  });
 
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
@@ -115,26 +142,26 @@ const FarmerForm = () => {
 
   const { addSnackBar } = useSnackBars();
 
-  useEffect(() => {
-    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
-      const fetchFarmer = async (path, id) => {
-          try {
-              const { payload } = await get(
-                  `${path}/${id}`,
-                  true
-              );
-              console.log(payload);
-              const dob = payload?.dob ? dateAdapter.date(payload?.dob) : null;
-              payload.dob = dob;
-              setFormData(payload);
-              setSelectedGnDevision(payload?.gnDivision);
-          } catch(error) {
-              console.log(error);
-          }
-      };
-      fetchFarmer('farmers', state?.id);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (
+  //     state?.action === DEF_ACTIONS.EDIT ||
+  //     state?.action === DEF_ACTIONS.VIEW
+  //   ) {
+  //     const fetchFarmer = async (path, id) => {
+  //       try {
+  //         const { payload } = await get(`${path}/${id}`, true);
+  //         console.log(payload);
+  //         const dob = payload?.dob ? dateAdapter.date(payload?.dob) : null;
+  //         payload.dob = dob;
+  //         setFormData(payload);
+  //         setSelectedGnDevision(payload?.gnDivision);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     };
+  //     fetchFarmer("farmers", state?.id);
+  //   }
+  // }, []);
 
   const goBack = () => {
     navigate("/farmer");
@@ -200,7 +227,7 @@ const FarmerForm = () => {
             {
               ...formData,
               dob: dob.valueOf() || null,
-              gnDivision: {id: selectedGnDivision?.id}
+              gnDivision: { id: selectedGnDivision?.id },
             },
             onSuccess,
             onError
@@ -211,12 +238,25 @@ const FarmerForm = () => {
             {
               ...formData,
               dob: dob.valueOf() || null,
-              gnDivision: {id: selectedGnDivision?.id}
+              gnDivision: { id: selectedGnDivision?.id },
             },
             onSuccess,
             onError
           );
+        } else {
+          const response = await handleFarmer(
+            {
+              ...formData,
+              dob: dob.valueOf() || null,
+              gnDivision: selectedGnDivision,
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
+          console.log(response);
         }
+        setSaving(false);
       } catch (error) {
         console.log(error);
       }
@@ -264,6 +304,30 @@ const FarmerForm = () => {
             presignedExpDate: presignedExpDate,
           });
         }
+      } else {
+        const res = await handleFarmer(farmerDto);
+        console.log(res);
+        setFormData(res.payload);
+        const response = await handleFarmerProfile(
+          res.payload?.id,
+          form,
+          onSuccess("Success"),
+          onError
+        );
+        if ((response.httpCode = "200 OK")) {
+          const profilePicture = response.payload.storedFileName;
+          const originalFileName = response.payload.originalFileName;
+          const prsignedUrl = response.payload.presignedUrl;
+          const presignedExpDate = response.payload.expireDate;
+
+          setFormData({
+            ...formData,
+            profilePicture: profilePicture,
+            originalFileName: originalFileName,
+            prsignedUrl: prsignedUrl,
+            presignedExpDate: presignedExpDate,
+          });
+        }
       }
     } catch (error) {
       console.log(error);
@@ -278,7 +342,7 @@ const FarmerForm = () => {
   }, []);
 
   return (
-    <FormWrapper style={{ overflowY: "scroll"  }}>
+    <FormWrapper style={{ overflowY: "scroll" }}>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Farmer" />
       {/* <FormButtonGroup
@@ -491,9 +555,11 @@ const FarmerForm = () => {
               size="small"
               fullWidth
             >
-              <MenuItem value={"SINHALA"}>Sinhala</MenuItem>
-              <MenuItem value={"ENGLISH"}>English</MenuItem>
-              <MenuItem value={"TAMIL"}>Tamil</MenuItem>
+              <MenuItem value={"SINHALESE"}>Sinhala</MenuItem>
+              <MenuItem value={"SRILANKANTAMIL"}>Srilankan Tamil</MenuItem>
+              <MenuItem value={"SRILANKANMOORS"}>Srilankan Moors</MenuItem>
+              <MenuItem value={"INDIANTAMIL"}>Indian Tamil</MenuItem>
+              <MenuItem value={"OTHERS"}>Others</MenuItem>
             </Select>
           </FieldWrapper>
         </Grid>
@@ -512,9 +578,9 @@ const FarmerForm = () => {
               size="small"
               fullWidth
             >
-              <MenuItem value={"MALE"}>MALE</MenuItem>
-              <MenuItem value={"FEMALE"}>FEMALE</MenuItem>
-              <MenuItem value={"OTHER"}>OTHER</MenuItem>
+              <MenuItem value={"MALE"}>Male</MenuItem>
+              <MenuItem value={"FEMALE"}>Female</MenuItem>
+              <MenuItem value={"OTHER"}>Other</MenuItem>
             </Select>
           </FieldWrapper>
         </Grid>
@@ -622,10 +688,11 @@ const FarmerForm = () => {
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisions}
-              value={selectedGnDivision}
+              value={formData?.gnDivision}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
-                //handleChange(value, "gnDivision");
+                console.log(value);
+                handleChange(value, "gnDivision");
                 setSelectedGnDevision(value);
               }}
               disableClearable
