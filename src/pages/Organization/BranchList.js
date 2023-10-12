@@ -10,13 +10,10 @@ const BranchList = ({
   id,
 }) => {
   const columns = [
-    { field: "branchName", headerName: "Branch Name" },
+    { field: "branchName", headerName: "Name" },
     { field: "managerName", headerName: "Manager Name" },
-    { field: "contactNo", headerName: "Phone 1" },
-    { field: "contactNo2", headerName: "Phone 2" },
-    { field: "address1", headerName: "Address L1" },
-    { field: "address2", headerName: "Address L2" },
-    { field: "city", headerName: "City" },
+    { field: "contactNo", headerName: "Contact" },
+    { field: "address", headerName: "Address" },
     { field: "email", headerName: "Email" },
   ];
   return (
