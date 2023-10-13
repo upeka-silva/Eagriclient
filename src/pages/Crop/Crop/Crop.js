@@ -22,11 +22,11 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { deleteCrop } from "../../../redux/actions/crop/crop/action";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -36,11 +36,11 @@ const Crop = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectCategory, setSelectCategory] = useState([]);
+  const [selectCrop, setSelectCrop] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleCategorySelect = (component) => {
-    setSelectCategory((current = []) => {
+    setSelectCrop((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -53,11 +53,11 @@ const Crop = () => {
   };
 
   const selectAllCategories = (all = []) => {
-    setSelectCategory(all);
+    setSelectCrop(all);
   };
 
   const resetSelectedCategory = () => {
-    setSelectCategory([]);
+    setSelectCrop([]);
   };
 
   const onCreate = () => {
@@ -70,7 +70,7 @@ const Crop = () => {
     navigate("/crop/crop-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCategory[0] || {},
+        target: selectCrop[0] || {},
       },
     });
   };
@@ -80,7 +80,7 @@ const Crop = () => {
     navigate("/crop/crop-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCategory[0] || {},
+        target: selectCrop[0] || {},
       },
     });
   };
@@ -96,7 +96,7 @@ const Crop = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCategory.map((p, key) => {
+        {selectCrop.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -133,8 +133,8 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
-        await deleteCropCategory(cropCat?.id, onSuccess, onError);
+      for (const crop of selectCrop) {
+        await deleteCrop(crop?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
@@ -159,27 +159,39 @@ const Crop = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
-          {selectCategory.length === 1 && (
+          {selectCrop.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectCategory.length === 1 && (
+          {selectCrop.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectCategory.length > 0 && (
+          {selectCrop.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -189,7 +201,7 @@ const Crop = () => {
       >
         {loading === false && (
           <CropList
-            selectedRows={selectCategory}
+            selectedRows={selectCrop}
             onRowSelect={toggleCategorySelect}
             selectAll={selectAllCategories}
             unSelectAll={resetSelectedCategory}
