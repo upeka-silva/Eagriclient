@@ -51,6 +51,8 @@ import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import { get } from "../../services/api";
+import FarmerList from "../Farmer/FarmerList";
+import { get_FarmerList } from "../../redux/actions/farmer/action";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -63,9 +65,21 @@ const GapRegForm = () => {
   const [formData, setFormData] = useState(state?.target || gapReqDto);
   const [saving, setSaving] = useState(false);
   const [gn, setGn] = useState([]);
+  const [farmerList, setFarmerList] = useState([]);
+  const [farmerLandList, setFarmerLandList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(true);
+
+  const [enablePreGAPReqNo, setEnablePreGAPReqNo] = useState(false);
+  const [enableOtherBusinessNature, setEnableOtherBusinessNature] =
+    useState(false);
+  const [enableOtherCeritications, setEnableOtherCeritications] =
+    useState(false);
+  const [enableOtherFertilizerMgt, setEnableOtherFertilizerMgt] =
+    useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const { addSnackBar } = useSnackBars();
 
@@ -78,29 +92,15 @@ const GapRegForm = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGn(dataList);
     });
 
-    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
-      setTabInabled(false);
-      const fetchGapReq = async (path, id) => {
-          try {
-              const { payload } = await get(
-                  `${path}/${id}`,
-                  true
-              );
-              setFormData(payload);
-          } catch(error) {
-              console.log(error);
-          }
-      };
-      fetchGapReq('gap-request', formData?.id); 
-    }
+    get_FarmerList().then(({ dataList = [] }) => {
+      setFarmerList(dataList);
+    });
 
-  }, []);
-
-  useEffect(() => {
     get_SoilType()
       .then(({ dataList = [] }) => {
         setSoilType(dataList);
@@ -108,6 +108,24 @@ const GapRegForm = () => {
       .catch(() => {
         setSoilType([]);
       });
+
+    setLoading(false);
+
+    if (
+      state?.action === DEF_ACTIONS.EDIT ||
+      state?.action === DEF_ACTIONS.VIEW
+    ) {
+      setTabInabled(false);
+      const fetchGapReq = async (path, id) => {
+        try {
+          const { payload } = await get(`${path}/${id}`, true);
+          setFormData(payload);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchGapReq("gap-request", formData?.id);
+    }
   }, []);
 
   const handleChange = (value, target) => {
@@ -116,6 +134,22 @@ const GapRegForm = () => {
       newData[target] = value;
       return newData;
     });
+
+    if (target === "appliedGapBefore") {
+      setEnablePreGAPReqNo(value);
+    }
+
+    if (target === "businessNature") {
+      setEnableOtherBusinessNature(value === "OTHER");
+    }
+
+    if (target === "hasOtherCertificates") {
+      setEnableOtherCeritications(value);
+    }
+
+    if (target === "fertilizerMangeOther") {
+      setEnableOtherFertilizerMgt(value);
+    }
   };
 
   const resetForm = () => {
@@ -143,7 +177,7 @@ const GapRegForm = () => {
   };
 
   const onSuccess = (gapReqId) => {
-    console.log('gap req id ' + gapReqId);
+    console.log("gap req id " + gapReqId);
     addSnackBar({
       type: SnackBarTypes.success,
       message:
@@ -167,11 +201,11 @@ const GapRegForm = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
-      if(!formData.businessNature){
-        formData.businessNature = 'OTHER';
+      if (!formData.businessNature) {
+        formData.businessNature = "OTHER";
       }
-      if(!formData.irrigationMethod) {
-        formData.irrigationMethod = 'OTHER';
+      if (!formData.irrigationMethod) {
+        formData.irrigationMethod = "OTHER";
       }
       try {
         if (formData?.id) {
@@ -196,7 +230,6 @@ const GapRegForm = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
         height: "100vh",
@@ -272,107 +305,7 @@ const GapRegForm = () => {
             </ActionWrapper>
           )}
         </ButtonWrapper>
-        <Grid
-          container
-          sx={{
-            // border: "1px solid #bec0c2",
-            margin: "20px",
-            width: "97%",
-            borderRadius: "5px",
-          }}
-          spacing={0}
-        >
-          <Grid item>
-            <FieldWrapper>
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                Applicant Title
-              </FieldName>
-              <Select
-                name="applicantTitle"
-                id="applicantTitle"
-                value={formData?.applicantTitle || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => {
-                  handleChange(e?.target?.value || "", "applicantTitle");
-                }}
-                fullWidth
-                sx={{
-                  borderRadius: "8px",
-                  backgroundColor: `${Colors.white}`,
-                }}
-                size="small"
-              >
-                <MenuItem value={"REV"}>REV</MenuItem>
-                <MenuItem value={"MR"}>MR</MenuItem>
-                <MenuItem value={"MRS"}>MRS</MenuItem>
-                <MenuItem value={"MISS"}>MISS</MenuItem>
-              </Select>
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={4} md={4} lg={4}>
-            <FieldWrapper>
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                Applicant Name
-              </FieldName>
-              <TextField
-                name="applicantName"
-                id="applicantName"
-                value={formData?.applicantName || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "applicantName")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                Farm Name
-              </FieldName>
-              <TextField
-                name="farmName"
-                id="farmName"
-                value={formData?.farmName || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "farmName")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-          </Grid>
+        <Grid container spacing={0}>
           <Grid
             item
             sx={{
@@ -398,74 +331,57 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid
-            item
-            style={{
-              // backgroundColor: `${Colors.formBackgroundColor}`,
-
-              width: "264px",
-            }}
-          >
+        </Grid>
+        <Grid container sx={{ marginBottom: "20px" }} spacing={1}>
+          <Grid item sm={12} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                Type Of Farmer
-              </FieldName>
-              <Select
-                name="farmerType"
-                id="farmerType"
-                value={formData?.farmerType || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "farmerType")
-                }
-                fullWidth
-                sx={{
-                  // width: "264px",
-                  // height: "30px",
-                  borderRadius: "8px",
-                  backgroundColor: `${Colors.white}`,
-                }}
-                size="small"
-              >
-                <MenuItem value={"FARMER"}> FARMER</MenuItem>
-                <MenuItem value={"FARMER_ORGANIZATION"}>
-                  FARMER ORGANIZATION
-                </MenuItem>
-              </Select>
+              <FieldName>Farmer</FieldName>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={farmerList}
+                  value={formData ? formData.farmerDTO : ""}
+                  getOptionLabel={(i) =>
+                    `${i.farmerId} - ${i.firstName} ${i.lastName}`
+                  }
+                  onChange={(event, value) => {
+                    handleChange(value, "farmerDTO");
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              )}
             </FieldWrapper>
           </Grid>
-
-          <Grid item sm={5} md={5} lg={5}>
+          <Grid item sm={12} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName
-                style={{
-                  width: "100%",
-                }}
-              >
-                Applicant Address
-              </FieldName>
-              <TextField
-                name="applicantAddress"
-                id="applicantAddress"
-                value={formData?.applicantAddress || ""}
+              <FieldName>Farm Land</FieldName>
+              <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "applicantAddress")
-                }
-                size="small"
-                fullWidth
+                options={farmerLandList}
+                value={formData ? formData.farmLandDTO : ""}
+                getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                onChange={(event, value) => {
+                  handleChange(value, "farmLandDTO");
+                }}
                 sx={{
-                  // width: "264px",
-                  "& .MuiInputBase-root": {
-                    // height: "30px",
+                  "& .MuiOutlinedInput-root": {
                     borderRadius: "8px",
                     backgroundColor: `${Colors.white}`,
                   },
                 }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
               />
             </FieldWrapper>
           </Grid>
@@ -552,18 +468,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-              spacing={0}
-            >
+            <Grid item sm={4} md={4} lg={4} spacing={0}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Have you applied for registration under the SL-GAP previously?
@@ -580,57 +485,53 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
-              <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Previous Gap Request Number
-                </FieldName>
-                <TextField
-                  name="previousGapReqNo"
-                  id="previousGapReqNo"
-                  value={formData?.previousGapReqNo || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "previousGapReqNo")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            {enablePreGAPReqNo && (
+              <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FieldName
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    Previous Gap Request Number
+                  </FieldName>
+                  <TextField
+                    name="previousGapReqNo"
+                    id="previousGapReqNo"
+                    value={formData?.previousGapReqNo || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "previousGapReqNo")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+            )}
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            sm={12}
+            md={12}
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -649,76 +550,70 @@ const GapRegForm = () => {
                   }
                   fullWidth
                   sx={{
-                    // width: "264px",
-                    // height: "30px",
                     borderRadius: "8px",
                     backgroundColor: `${Colors.white}`,
                   }}
                   size="small"
                 >
-                  <MenuItem value={"SOLE"}>SOLE</MenuItem>
-                  <MenuItem value={"PROPRIETORSHIP"}>PROPRIETORSHIP</MenuItem>
-                  <MenuItem value={"PARTNERSHIP"}>PARTNERSHIP</MenuItem>
-                  <MenuItem value={"COMPANY"}>COMPANY</MenuItem>
-                  <MenuItem value={"SOCIETY"}>SOCIETY</MenuItem>
-                  <MenuItem value={"OTHER"}>OTHER</MenuItem>
+                  <MenuItem value={"SOLE"}>Sole</MenuItem>
+                  <MenuItem value={"PROPRIETORSHIP"}>Proprietorship</MenuItem>
+                  <MenuItem value={"PARTNERSHIP"}>Partnership</MenuItem>
+                  <MenuItem value={"COMPANY"}>Company</MenuItem>
+                  <MenuItem value={"SOCIETY"}>Society</MenuItem>
+                  <MenuItem value={"OTHER"}>Other</MenuItem>
                 </Select>
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
-              <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Bussiness Nature Other Value
-                </FieldName>
-                <TextField
-                  name="businessNatureOtherValue"
-                  id="businessNatureOtherValue"
-                  value={formData?.businessNatureOtherValue || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(
-                      e?.target?.value || "",
-                      "businessNatureOtherValue"
-                    )
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            {enableOtherBusinessNature && (
+              <Grid item sm={6} md={6} lg={6}>
+                <FieldWrapper>
+                  <FieldName
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    Bussiness Nature Other Value
+                  </FieldName>
+                  <TextField
+                    name="businessNatureOtherValue"
+                    id="businessNatureOtherValue"
+                    value={formData?.businessNatureOtherValue || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(
+                        e?.target?.value || "",
+                        "businessNatureOtherValue"
+                      )
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+            )}
+          </Grid>
+          <Grid
+            item
+            container
+            flexDirection="row"
+            xs="auto"
+            sm={12}
+            md={12}
+            lg={12}
+            sx={{
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
+              marginBottom: "20px",
+            }}
+            spacing={0}
+          >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper style={{}}>
                 <FieldName
                   style={{
@@ -742,46 +637,38 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
-              <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  type of certification (Please attach a photocopy)
-                </FieldName>
-                <TextField
-                  name="landName"
-                  id="landName"
-                  value={formData?.landName || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "landName")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
+            {enableOtherCeritications && (
+              <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FieldName>
+                    Type of certification (Please attach a photocopy)
+                  </FieldName>
+                  <TextField
+                    name="otherCertificateDoc"
+                    id="otherCertificateDoc"
+                    value={formData?.otherCertificateDoc || ""}
+                    fullWidth
+                    inputProps={{ multiple: true }}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(
+                        e?.target?.value || "",
+                        "otherCertificateDoc"
+                      )
+                    }
+                    type="file"
+                    accept="image/*"
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                  ></TextField>
+                </FieldWrapper>
+              </Grid>
+            )}
           </Grid>
           <Grid
             item
@@ -798,17 +685,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -832,17 +709,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -867,17 +734,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have a checklist pertaining to SL-GAP standard?
@@ -894,17 +751,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -945,17 +792,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -982,7 +819,6 @@ const GapRegForm = () => {
               md={3}
               lg={3}
               style={{
-                // backgroundColor: `${Colors.formBackgroundColor}`,
                 paddingInline: "15px",
               }}
             >
@@ -1016,17 +852,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={2}
-              md={2}
-              lg={2}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1047,17 +873,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={1}
-              md={1}
-              lg={1}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={1} md={1} lg={1}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1078,17 +894,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1108,9 +914,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -1118,17 +922,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={12} md={12} lg={12}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1153,9 +947,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -1163,14 +955,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={12} md={12} lg={12}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1195,9 +980,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -1221,57 +1004,49 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Existing Soil Type
-                </FieldName>
-                <TextField
-                  name="existingSoilType"
-                  id="existingSoilType"
-                  value={formData?.existingSoilType || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "existingSoilType")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
+                <FormControl fullWidth>
+                  <FieldName>
+                    Soil Type {formData?.soilTypeDTO?.length}
+                  </FieldName>
+
+                  <Autocomplete
+                    name="soilTypeDTO"
+                    id="soilTypeDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={soilType}
+                    value={formData?.soilTypeDTO || ""}
+                    getOptionLabel={(i) =>
+                      i.soilTypeCode
+                        ? `${i.soilTypeCode} - ${i.description}`
+                        : ""
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "soilTypeDTO");
+                    }}
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <TextField
+                        error={
+                          !(formData?.soilTypeDTO?.soilTypeCode?.length > 0)
+                        }
+                        {...params}
+                        size="small"
+                      />
+                    )}
+                  />
+                </FormControl>
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Mention whether any soil test has been done for your farm?
@@ -1304,27 +1079,9 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName
-                  style={
-                    {
-                      // width: "70%",
-                    }
-                  }
-                >
-                  Fertilizer management based on soil test
-                </FieldName>
+                <FieldName>Fertilizer management based on soil test</FieldName>
                 <Switch
                   {...label}
                   name="fertilizerManageBasedOnSoilTest"
@@ -1340,25 +1097,9 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
-                <FieldName
-                  style={
-                    {
-                      // width: "70%",
-                    }
-                  }
-                >
+                <FieldName>
                   Following the recommendation of Department Of Agriculture
                 </FieldName>
                 <Switch
@@ -1376,17 +1117,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Following the recommendation of another recognized institute
@@ -1411,17 +1142,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1446,49 +1167,39 @@ const GapRegForm = () => {
               </FieldWrapper>
             </Grid>
 
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
-              <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Specify
-                </FieldName>
-                <TextField
-                  name="fertilizerManageSpecify"
-                  id="fertilizerManageSpecify"
-                  value={formData?.fertilizerManageSpecify || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(
-                      e?.target?.value || "",
-                      "fertilizerManageSpecify"
-                    )
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
+            {enableOtherFertilizerMgt && (
+              <Grid item sm={8} md={8} lg={8}>
+                <FieldWrapper>
+                  <FieldName
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    Specify
+                  </FieldName>
+                  <TextField
+                    name="fertilizerManageSpecify"
+                    id="fertilizerManageSpecify"
+                    value={formData?.fertilizerManageSpecify || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(
+                        e?.target?.value || "",
+                        "fertilizerManageSpecify"
+                      )
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+              </Grid>
+            )}
           </Grid>
           <Grid
             item
@@ -1505,17 +1216,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Mention whether you have added compost to the soil
@@ -1532,17 +1233,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={2}
-              md={2}
-              lg={2}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1566,17 +1257,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={2}
-              md={2}
-              lg={2}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={2} md={2} lg={2}>
               <FieldWrapper>
                 <FieldName style={{}}>Prepared outside the farm</FieldName>
                 <Checkbox
@@ -1594,17 +1275,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1627,9 +1298,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -1653,17 +1322,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={6}
-              md={6}
-              lg={6}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Mention whether human fecal matters were added to the field in
@@ -1684,17 +1343,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have any measures adopted to minimize soil erosion?
@@ -1730,17 +1379,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have water testing report with regard to the water used
@@ -1758,17 +1397,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1788,9 +1417,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -1798,14 +1425,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1836,17 +1456,7 @@ const GapRegForm = () => {
                 </Select>
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1893,17 +1503,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Whether the farm has been used for any other non-agricultural
@@ -1924,17 +1524,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={6}
-              md={6}
-              lg={6}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={6} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1965,17 +1555,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1998,9 +1578,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -2024,17 +1602,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -2054,9 +1622,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -2080,17 +1646,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have SL-GAP and the conventional agricultural practices
@@ -2111,14 +1667,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -2142,9 +1691,7 @@ const GapRegForm = () => {
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -2168,17 +1715,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have identified any risk due to the activities from the
@@ -2199,17 +1736,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Have you taken the corrective measures to minimize the risk?
@@ -2247,17 +1774,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Steps have been taken to prevent contamination at the
@@ -2278,17 +1795,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Produce / harvest washed at the farm?
@@ -2308,17 +1815,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   If yes water quality is similar to drinking water?
@@ -2354,17 +1851,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={3}
-              md={3}
-              lg={3}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   On farm packaging was carried out?
@@ -2381,17 +1868,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have method to maintain traceability of produce?
@@ -2411,17 +1888,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={5}
-              md={5}
-              lg={5}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you use the SL-GAP logo and the QR code on your product
@@ -2455,17 +1922,7 @@ const GapRegForm = () => {
             }}
             spacing={0}
           >
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -2490,17 +1947,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have protect the temporary stores and processing places
@@ -2521,17 +1968,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you store fertilizer and pesticides in same store?
@@ -2551,17 +1988,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have stored fertilizer and pesticide separately to
@@ -2582,17 +2009,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   The workers have been trained properly on relevant trainings?
@@ -2609,17 +2026,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid
-              item
-              sm={4}
-              md={4}
-              lg={4}
-              style={
-                {
-                  // backgroundColor: `${Colors.formBackgroundColor}`,
-                }
-              }
-            >
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName style={{}}>
                   Do you have provide first aid and sanitary facilities for
@@ -2644,7 +2051,10 @@ const GapRegForm = () => {
         </Grid>
       </TabContent>
 
-      <TabContent style={{ marginTop: '10px' }} className={toggleState === 2 ? "active-content" : ""}>
+      <TabContent
+        style={{ marginTop: "10px" }}
+        className={toggleState === 2 ? "active-content" : ""}
+      >
         <CropDetails actionMode={state?.action} gapReqId={formData.id} />
       </TabContent>
 
@@ -2684,7 +2094,6 @@ export const TabButton = styled(Button)`
   && {
     padding: 15px;
     padding-inline: 25px;
-    /* width: 200px; */
     position: relative;
     border: none;
     border-radius: 0px;

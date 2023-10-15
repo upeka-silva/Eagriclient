@@ -2,21 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
   Button,
   TextField,
-  CircularProgress,
   Autocomplete,
   Grid,
   MenuItem,
   Select,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
   IconButton,
-  Typography,
   Box,
 } from "@mui/material";
-import styled from "styled-components";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -28,43 +20,17 @@ import {
   handleFarmerProfile,
   updateFarmer,
 } from "../../redux/actions/farmer/action";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { PathName } from "../../components/FormLayout/PathName";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
-import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-
-import { get_ProvinceList } from "../../redux/actions/province/action";
-import {
-  get_DistrictList,
-  get_DistrictListByProvinceId,
-} from "../../redux/actions/district/action";
-import {
-  get_DsDivisionList,
-  get_DsDivisionListByDistrictId,
-} from "../../redux/actions/dsDivision/action";
-import {
-  get_GnDivisionList,
-  get_GnDivisionListByDsDivisionId,
-} from "../../redux/actions/gnDivision/action";
-import { Add, Edit, PhotoCamera } from "@mui/icons-material";
+import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { PhotoCamera } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
-import dayjs from "dayjs";
-import FarmerService from "./FarmerServce";
-import { get } from "../../services/api";
 
 export const farmerDto = {
   firstName: "",
@@ -111,34 +77,14 @@ const FarmerForm = () => {
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [gnDivisionList, setGnDivisionList] = useState([]);
-
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
   );
-
-  const [provinces, setProvinces] = useState([]);
-  const [districs, setDistrics] = useState([]);
-  const [dsDivisions, setDsDivisions] = useState([]);
   const [gnDivisions, setGnDivisions] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState({
-    name: "",
-    code: "",
-  });
-  const [selectedDistrict, setSelectedDistrict] = useState({
-    name: "",
-    code: "",
-  });
-  const [selectedDsDevision, setSelectedDsDevision] = useState({
-    name: "",
-    code: "",
-  });
   const [selectedGnDivision, setSelectedGnDevision] = useState({
     name: "",
     code: "",
   });
-
-  const [dob, setDob] = useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -242,12 +188,6 @@ const FarmerForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -324,7 +264,6 @@ const FarmerForm = () => {
     <FormWrapper style={{ overflowY: "scroll" }}>
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="Farmer" />
-      
       <ButtonWrapper
         isCeneter
         style={{
@@ -436,16 +375,47 @@ const FarmerForm = () => {
         </Grid>
       </Grid>
 
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={3} md={3} lg={3}>
+      <Grid container spacing={1}>
+        <Grid item sm={2} md={2} lg={2}>
+          <FieldWrapper>
+            <FieldName>Farmer ID</FieldName>
+            <TextField
+              name="farmerId"
+              id="farmerId"
+              value={formData?.farmerId || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "farmerId")}
+              type="text"
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={2} md={2} lg={2}>
+          <FieldWrapper>
+            <FieldName>NIC No</FieldName>
+            <TextField
+              name="nic"
+              id="nic"
+              value={formData?.nic || ""}
+              fullWidth
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "nic")}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>First Name</FieldName>
             <TextField
@@ -467,7 +437,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Last Name</FieldName>
             <TextField
@@ -487,6 +457,8 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
+      </Grid>
+      <Grid container spacing={1}>
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Date of Birth</FieldName>
@@ -510,7 +482,7 @@ const FarmerForm = () => {
             </LocalizationProvider>
           </FieldWrapper>
         </Grid>
-        <Grid item sm={2} md={2} lg={2}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Ethnicity</FieldName>
             <Select
@@ -537,7 +509,6 @@ const FarmerForm = () => {
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Gender</FieldName>
-
             <Select
               value={formData?.gender || ""}
               disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -566,32 +537,13 @@ const FarmerForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Nic</FieldName>
-            <TextField
-              name="nic"
-              id="nic"
-              value={formData?.nic || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "nic")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
             <FieldName>Mobile</FieldName>
             <TextField
               name="mobile"
               id="mobile"
               value={formData?.mobile || ""}
               fullWidth
-              type="number"
+              type="text"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "mobile")}
               sx={{
@@ -611,7 +563,7 @@ const FarmerForm = () => {
               id="landLine"
               value={formData?.landLine || ""}
               fullWidth
-              type="number"
+              type="text"
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "landLine")}
               sx={{
@@ -623,7 +575,7 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Email</FieldName>
             <TextField
@@ -654,7 +606,7 @@ const FarmerForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Grama Niladari Division</FieldName>
+            <FieldName>GN Division</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisions}
@@ -678,7 +630,7 @@ const FarmerForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Address 01</FieldName>
+            <FieldName>Address 1</FieldName>
             <TextField
               name="address1"
               id="address1"
@@ -698,7 +650,7 @@ const FarmerForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Address 02</FieldName>
+            <FieldName>Address 2</FieldName>
             <TextField
               name="address2"
               id="address2"
