@@ -133,3 +133,22 @@ export const handleFarmerProfile = async (
     }
   }
 };
+
+export const get_FarmerList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get("farmers/lov", true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
