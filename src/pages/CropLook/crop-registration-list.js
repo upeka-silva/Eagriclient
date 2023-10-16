@@ -15,14 +15,10 @@ const CropRegistrationList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "subCategoryId", headerName: "DD Division" },
-    { field: "description", headerName: "Description" },
-
     {
-      field: ["provincialDD", "interProvincialDD"],
-      join: " ",
-      headerName: "Crop Category ",
+      field: "ddLabel", headerName: "DD Division ",
     },
+    { field: "season.label", headerName: "Season" },
   ];
 
   const [id, setId] = useState(null);

@@ -87,7 +87,8 @@ const CropRegistration = () => {
     setAction(DEF_ACTIONS.VIEW);
     navigate("/crop-look/crop-registration-form", {
       state: {
-        action: DEF_ACTIONS.VIEW
+        action: DEF_ACTIONS.VIEW,
+        target: selectSubCategory[0] || {},
       },
     });
   };

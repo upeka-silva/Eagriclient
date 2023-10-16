@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import SingleTile from "./SingleTile";
 import { Grid } from "@mui/material";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
 
-const MultiSelectTils = ({ options, handleSelectedValues }) => {
-  const handleOptionClick = (optionId, selected) => {
-    handleSelectedValues(optionId, selected);
-  };
+const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
 
   return (
     <Grid container spacing={1}>
@@ -14,9 +12,11 @@ const MultiSelectTils = ({ options, handleSelectedValues }) => {
           <SingleTile
             key={option.id}
             id={option.id}
-            name={option.name}
+            name={option.varietyId}
             imageUrl={option.imageUrl}
-            onOptionClick={handleOptionClick}
+            onOptionClick={handleSelectedValues}
+            isSelected={option?.selected || false}
+            isDisabled={isItemDisabled}
           />
         </Grid>
       ))}
