@@ -4,7 +4,9 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@material-ui/core";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Chip, Select } from "@mui/material";
+import { pureFinalPropsSelectorFactory } from "react-redux/es/connect/selectorFactory";
+import { Done, Face, SelectAllRounded } from "@mui/icons-material";
 
 const useStyles = makeStyles({
   selectedCard: {
@@ -15,21 +17,16 @@ const useStyles = makeStyles({
   },
 });
 
-const SingleTile = ({ id, name, imageUrl, onOptionClick }) => {
-  const classes = useStyles();
-
-  const [selected, setSelected] = useState(false);
+const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled }) => {
 
   const handleTileClick = () => {
-    setSelected(!selected);
+    if(!isDisabled) {
+      onOptionClick(id, !isSelected);
+    }
   };
 
-  useEffect(() => {
-    onOptionClick(id, selected);
-  }, [selected]);
-
   const getStyle = () => {
-    if (selected) {
+    if (isSelected) {
       return "red";
     } else {
       return "blue";
@@ -57,7 +54,8 @@ const SingleTile = ({ id, name, imageUrl, onOptionClick }) => {
               src="https://source.unsplash.com/random"
               sx={{ height: "100px", width: "100px" }}
             /> */}
-            <Typography variant="h6">{name + " " + selected}</Typography>
+            <Typography variant="h6">{name}</Typography>
+            {isSelected ? <Done /> : <div></div>}
           </Box>
         </CardContent>
       </Card>

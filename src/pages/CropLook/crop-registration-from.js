@@ -28,6 +28,12 @@ import { Factory } from "@mui/icons-material";
 import MultiSelectTils from "../../components/MultiSelectTiles/multi-select-tiles";
 import { TabButton, TabContent, TabWrapper } from "../Farm-Land/FarmLandForm";
 import CropRegistrationTab from "./crop-registration-tab";
+import {
+  createCropRegistration,
+  getDDDivisionsByLogedInUser,
+  getDDDivisionsByUser,
+  getSeasons,
+} from "../../redux/actions/cropLook/cropRegistration/actions";
 
 const CropRegistrationForm = () => {
   useUserAccessValidation();
@@ -39,11 +45,67 @@ const CropRegistrationForm = () => {
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [options, setOptions] = useState([]);
+  const [seasons, setSeasons] = useState([]);
+  const [cropCategoryList, setCropCategoryList] = useState([]);
+  const [selectedSeason, setSelectedSeason] = useState({});
+  const [selectedDDDivision, setSelectedDDDivision] = useState({});
+  const [registrationId, setRegistrationId] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
 
   // start of crop registration code
+
+  useEffect(() => {
+    getDDDivisionsByLogedInUser().then(({ dataList = [] }) => {
+      setOptions(dataList);
+      console.log(dataList);
+    });
+
+    getSeasons().then(({ dataList = [] }) => {
+      setSeasons(dataList);
+      console.log(dataList);
+    });
+
+    get_CategoryList().then(({ dataList = [] }) => {
+      setCropCategoryList(dataList);
+      console.log(dataList);
+    });
+
+    if (
+      state?.action === DEF_ACTIONS.EDIT ||
+      state?.action === DEF_ACTIONS.VIEW
+    ) {
+      setRegistrationId(state?.target?.id);
+      setSelectedSeason(state?.target?.season);
+
+      var ddDivision = {};
+      if (state?.target?.isProvincial) {
+        const provincialDD = state?.target?.provincialDD;
+        ddDivision = {
+          id: provincialDD.id,
+          name: provincialDD.provincialDdId,
+          isProvincial: true,
+        };
+      } else {
+        const interProvincialDD = state?.target?.interProvincialDD;
+        ddDivision = {
+          id: interProvincialDD.id,
+          name: interProvincialDD.ddId,
+          isProvincial: false,
+        };
+      }
+      setSelectedDDDivision(ddDivision);
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log("in second use effect registration id: " + registrationId);
+    if (registrationId) {
+      setIsLoading(false);
+    }
+  }, [registrationId]);
 
   // end of crop registration code
 
@@ -56,18 +118,12 @@ const CropRegistrationForm = () => {
     navigate("/crop-look/crop-registration");
   };
 
-  useEffect(() => {
-    get_CategoryList().then(({ dataList = [] }) => {
-      setOptions(dataList);
-    });
-  }, []);
+  const handleDDChange = (value) => {
+    setSelectedDDDivision(value);
+  };
 
-  const handleChange = (value, target) => {
-    setFormData((current = {}) => {
-      let newData = { ...current };
-      newData[target] = value;
-      return newData;
-    });
+  const handlSeasonChange = (value) => {
+    setSelectedSeason(value);
   };
 
   const resetForm = () => {
@@ -86,7 +142,9 @@ const CropRegistrationForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
+      selectedDDDivision &&
+      selectedSeason &&
+      !registrationId
     ) {
       return true;
     }
@@ -114,9 +172,25 @@ const CropRegistrationForm = () => {
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
+      setIsLoading(true);
       setSaving(true);
       try {
-        if (formData?.id) {
+        let payload1 = {};
+        if (selectedDDDivision.isProvincial) {
+          payload1 = {
+            provincialDD: { id: selectedDDDivision.id },
+            season: { id: selectedSeason.id },
+            isProvincial: true,
+          };
+        } else {
+          payload1 = {
+            interProvincialDD: { id: selectedDDDivision.id },
+            season: { id: selectedSeason.id },
+            isProvincial: false,
+          };
+        }
+
+        if (false) {
           await updateCropSubCategory(
             {
               ...formData,
@@ -126,14 +200,17 @@ const CropRegistrationForm = () => {
             onError
           );
         } else {
-          await handleCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
+          const dataList = await createCropRegistration(
+            payload1,
             onSuccess,
             onError
           );
+          console.log("registration id afte save ");
+          console.log(dataList);
+          console.log(dataList.dataList.id);
+          setRegistrationId(dataList.dataList.id);
+          //setSelectedDDDivision(dataList?.provincialDD);
+          //setSelectedSeason(dataList?.season);
         }
       } catch (error) {
         console.log(error);
@@ -172,14 +249,14 @@ const CropRegistrationForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Category ID</FieldName>
+              <FieldName>Deputy Director Division</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
+                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
                 options={options}
-                value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                value={selectedDDDivision}
+                getOptionLabel={(i) => `${i.name}`}
                 onChange={(event, value) => {
-                  handleChange(value, "cropCategoryDTO");
+                  handleDDChange(value);
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -193,14 +270,14 @@ const CropRegistrationForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Category ID</FieldName>
+              <FieldName>Season</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={options}
-                value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                options={seasons}
+                value={selectedSeason}
+                getOptionLabel={(i) => `${i.label}`}
                 onChange={(event, value) => {
-                  handleChange(value, "cropCategoryDTO");
+                  handlSeasonChange(value);
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -214,74 +291,29 @@ const CropRegistrationForm = () => {
           </Grid>
           <Grid item sx={{ marginTop: "20px" }}>
             <TabWrapper style={{ margin: "0px 0px" }}>
-              <TabButton
-                className={toggleState === 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(1)}
-              >
-                General
-              </TabButton>
-              <TabButton
-                disabled={tabEnabled}
-                className={toggleState === 2 ? "active-tabs" : ""}
-                onClick={() => toggleTab(2)}
-              >
-                Crop Details
-              </TabButton>
-              <TabButton
-                disabled={tabEnabled}
-                className={toggleState === 3 ? "active-tabs" : ""}
-                onClick={() => toggleTab(3)}
-              >
-                Land Details
-              </TabButton>
-              <TabButton
-                disabled={tabEnabled}
-                className={toggleState === 4 ? "active-tabs" : ""}
-                onClick={() => toggleTab(4)}
-              >
-                Internal Audit
-              </TabButton>
-              <TabButton
-                disabled={tabEnabled}
-                className={toggleState === 5 ? "active-tabs" : ""}
-                onClick={() => toggleTab(5)}
-              >
-                External Audit
-              </TabButton>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.categoryId}
+                </TabButton>
+              ))}
             </TabWrapper>
 
-            <TabContent
-              style={{ marginTop: "10px" }}
-              className={toggleState === 1 ? "active-content" : ""}
-            >
-              <CropRegistrationTab />
-            </TabContent>
-
-            <TabContent
-              style={{ marginTop: "10px" }}
-              className={toggleState === 2 ? "active-content" : ""}
-            >
-              <CropRegistrationTab />
-            </TabContent>
-            <TabContent
-              style={{ marginTop: "10px" }}
-              className={toggleState === 3 ? "active-content" : ""}
-            >
-              <CropRegistrationTab />
-            </TabContent>
-
-            <TabContent
-              style={{ marginTop: "10px" }}
-              className={toggleState === 4 ? "active-content" : ""}
-            >
-              <CropRegistrationTab />
-            </TabContent>
-            <TabContent
-              style={{ marginTop: "10px" }}
-              className={toggleState === 5 ? "active-content" : ""}
-            >
-              <CropRegistrationTab />
-            </TabContent>
+            {!isLoading &&
+              cropCategoryList.map((category, index) => (
+                <TabContent
+                  style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
+                >
+                  <CropRegistrationTab
+                    registrationId={registrationId}
+                    cropCategoryId={category?.id}
+                    mode={state?.action}
+                  />
+                </TabContent>
+              ))}
           </Grid>
         </Grid>
       </FormWrapper>
