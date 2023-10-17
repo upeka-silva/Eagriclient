@@ -42,7 +42,7 @@ export const deleteUsers = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`user//${id || ''}`, true);
+    const response = await api_delete(`user/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
