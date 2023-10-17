@@ -10,6 +10,7 @@ import {
   Box,
   Stack,
   CircularProgress,
+  ButtonGroup,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -44,6 +45,12 @@ import { isEmpty } from "../../utils/helpers/stringUtils";
 import GridFormField from "../../components/GridFormField/GridFormField";
 import { FORM_CONTROL_TYPE } from "../../components/GridFormField/FieldType";
 import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
+import FarmLandOwnershipList from "./FarmLandOwnership/FarmLandOwnershipList";
+import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import OwnershipList from "./FarmLandOwnership/OwnershipList";
+import { get_FarmLandOwnershipList } from "../../redux/actions/farmerLandOwnership/action";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -67,6 +74,12 @@ const FarmLandForm = () => {
   const [phLoading, setPhLoading] = useState(true);
 
   const { addSnackBar } = useSnackBars();
+
+  const [flODataList, setFlODataList] = useState([]);
+  const [flOData, setFlOData] = useState();
+  const [openFlO, setOpenFlO] = useState(false);
+  const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
+  const [selectedOwnership, setSelectedOwnership] = useState([]);
 
   const landTypeItems = [
     { value: "OPEN_FIELD", label: "Open Field" },
@@ -296,6 +309,76 @@ const FarmLandForm = () => {
       }
     }
   };
+
+  const closeFlO = () => {
+    setOpenFlO(false);
+  };
+  const handleFlOData = (value, target) => {
+    setFlOData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const onCreateFlOData = () => {
+    setOpenFlO(true);
+  };
+  const onEditFlOData = () => {
+    console.log(selectedOwnership[0])
+    setFlOData(selectedOwnership[0])
+    setOpenFlO(true);
+  };
+  const onDeleteFlOData = () => {
+    setOpenFlO(true);
+  };
+
+  const onViewFlOData = () => {
+    const data = flODataList.filter((item)=>item?.id == selectedOwnership[0])
+    console.log(data)
+    setFlOData(data)
+    setOpenFlO(true);
+  };
+
+  const resetData = () => {
+    setFlOData({});
+  };
+
+  const toggleFarmLandOwnershipSelect = (component) => {
+    console.log(component)
+    // setSelectedOwnership((current = []) => {
+    //   let newList = [...current];
+    //   let index = newList.findIndex((c) => c?.id === component?.id);
+    //   if (index > -1) {
+    //     newList.splice(index, 1);
+    //   } else {
+    //     newList.push(component);
+    //   }
+    //   console.log(newList)
+    //   return newList;
+    // });
+    setSelectedOwnership(component)
+   
+  };
+
+  useEffect(() => {
+    const data = [
+      { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
+      { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
+      { id: 13, lastName: "Lannister", firstName: "Jaime", age: 45 },
+      { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
+      { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: 12 },
+      { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
+      { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+      { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+      { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+    ];
+    // get_FarmLandOwnershipList().then(({ dataList = [] }) => {
+    //   console.log(dataList);
+    //   setFlODataList(dataList);
+    // });
+    setFlODataList(data)
+  }, []);
 
   return (
     <Box
@@ -786,291 +869,43 @@ const FarmLandForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 2 ? "active-content" : ""}>
-        <FormButtonGroup
-          {...{
-            state,
-            DEF_ACTIONS,
-            saving,
-            enableSave,
-            handleFormSubmit,
-            resetForm,
-          }}
-        />
-        <Box sx={{ padding: "20px" }}>
-          <Grid
-            container
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-            }}
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Grid item sm={6} md={6} lg={6}>
-              <FieldWrapper>
-                <FieldName>Ownership ID</FieldName>
-                <TextField
-                  name="ownershipID"
-                  id="ownershipID"
-                  value={formData?.ownershipID || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "ownershipID")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={6} md={6} lg={6}>
-              <FieldWrapper>
-                <FormControl fullWidth>
-                  <FieldName>Owner Type</FieldName>
-                  <Select
-                    name="ownerType"
-                    id="ownerType"
-                    value={formData?.ownerType || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      e?.target?.value === "Other"
-                        ? (setOtherField("flex"),
-                          handleChange(e?.target?.value || "", "ownerType"))
-                        : e?.target?.value === "Farmer"
-                        ? (setOtherField("none"),
-                          handleChange(e?.target?.value || "", "ownerType"))
-                        : handleChange(e?.target?.value || "", "ownerType")
-                    }
-                    fullWidth
-                    sx={{
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    }}
-                    size="small"
-                  >
-                    <MenuItem value={"Farmer"}>Farmer</MenuItem>
-                    <MenuItem value={"Other"}>Other</MenuItem>
-                  </Select>
-                </FormControl>
-              </FieldWrapper>
-            </Grid>
-            <Grid container style={{ display: `${otherField}` }}>
-              <Grid item sm={6} md={6} lg={6}>
-                <FieldWrapper>
-                  <FieldName>NIC</FieldName>
-                  <TextField
-                    name="nic"
-                    id="nic"
-                    value={formData?.nic || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "nic")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={6} md={6} lg={6}>
-                <FieldWrapper>
-                  <FieldName>Address Line 01</FieldName>
-                  <TextField
-                    name="addressLine01"
-                    id="addressLine01"
-                    value={formData?.addressLine01 || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "addressLine01")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={4} md={4} lg={4}>
-                <FieldWrapper>
-                  <FieldName>Address Line 02</FieldName>
-                  <TextField
-                    name="addressLine02"
-                    id="addressLine02"
-                    value={formData?.addressLine02 || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "addressLine02")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={4} md={4} lg={4}>
-                <FieldWrapper>
-                  <FieldName>City</FieldName>
-                  <TextField
-                    name="city"
-                    id="city"
-                    value={formData?.city || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "city")
-                    }
-                    size="small"
-                    fullWidth
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={4} md={4} lg={4}>
-                <FieldWrapper>
-                  <FormControl fullWidth>
-                    <FieldName>GN Division</FieldName>
-                    <Autocomplete
-                      name="gnDivisionDTO"
-                      id="gnDivisionDTO"
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      options={gnDivisionList}
-                      value={formData ? formData.gnDivisionDTO : ""}
-                      getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                      onChange={(event, value) => {
-                        handleChange(value, "gnDivisionDTO");
-                      }}
-                      fullWidth
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "8px",
-                          backgroundColor: `${Colors.white}`,
-                        },
-                      }}
-                      size="small"
-                      renderInput={(params) => (
-                        <>
-                          <TextField {...params} size="small" />
-                        </>
-                      )}
-                    />
-                  </FormControl>
-                </FieldWrapper>
-              </Grid>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>Ownership Proof Document</FieldName>
-                <TextField
-                  name="ownershipProofDocument"
-                  id="ownershipProofDocument"
-                  value={formData?.ownershipProofDocument || ""}
-                  fullWidth
-                  inputProps={{ multiple: true }}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(
-                      e?.target?.value || "",
-                      "ownershipProofDocument"
-                    )
-                  }
-                  type="file"
-                  accept="image/*"
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                  size="small"
-                ></TextField>
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>Date From</FieldName>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    components={["DatePicker"]}
-                    sx={{
-                      width: "100%",
-                      padding: "0",
-                    }}
-                    size="small"
-                  >
-                    <DatePicker
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-root": {
-                          borderRadius: "8px",
-                          backgroundColor: `${Colors.white}`,
-                        },
-                      }}
-                      slotProps={{ textField: { size: "small" } }}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>Date Until</FieldName>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer
-                    components={["DatePicker"]}
-                    sx={{
-                      width: "100%",
-                      padding: "0",
-                    }}
-                  >
-                    <DatePicker
-                      sx={{
-                        width: "100%",
-                        "& .MuiInputBase-root": {
-                          borderRadius: "8px",
-                          backgroundColor: `${Colors.white}`,
-                        },
-                      }}
-                      slotProps={{ textField: { size: "small" } }}
-                    />
-                  </DemoContainer>
-                </LocalizationProvider>
-              </FieldWrapper>
-            </Grid>
-          </Grid>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            sx={{ borderRadius: "0px", marginTop: "40px" }}
-            hideFooterSelectedRowCount
-          />
-        </Box>
+            <Button onClick={onCreateFlOData}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+
+            {selectedOwnership.length == 1 && (
+              <Button onClick={onEditFlOData}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            )}
+
+            {selectedOwnership.length == 1 && (
+              <Button onClick={onViewFlOData}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            )}
+
+            {selectedOwnership.length > 0 && (
+              <Button onClick={onDeleteFlOData}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            )}
+          </ButtonGroup>
+        </ActionWrapper>
+        {/* <FarmLandOwnershipList /> */}
+        <OwnershipList onRowSelect={toggleFarmLandOwnershipSelect} data={flODataList}/>
       </TabContent>
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
@@ -1171,6 +1006,15 @@ const FarmLandForm = () => {
           auditFormType={"BASIC_ASSESSMENT"}
         />
       </TabContent>
+      <FarmLandOwnershipForm
+        open={openFlO}
+        action={fLOAction}
+        onClose={closeFlO}
+        farmLandData={formData}
+        data={flOData}
+        onChange={handleFlOData}
+        resetData={resetData}
+      />
     </Box>
   );
 };

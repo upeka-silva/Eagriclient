@@ -100,7 +100,7 @@ import ASCForm from "../pages/Agrarian/ASC/ASCForm";
 import ARPA from "../pages/Agrarian/ARPA/ARPA";
 import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
-import NewUserRegistration from "../pages/UserRegistration/NewUserRegistration";
+// import NewUserRegistration from "../pages/UserRegistration/NewUserRegistration";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
@@ -1095,13 +1095,7 @@ export const Routes = [
     icon: ManageAccountsIcon,
   },
 
-  {
-    path: "/new-user-registration",
-    name: "New User Registration",
-    element: <NewUserRegistration />,
-    isSideBar: true,
-    icon: AccountCircleIcon,
-  },
+  
 
   {
     path: "/users",
