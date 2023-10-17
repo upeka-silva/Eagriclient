@@ -119,7 +119,7 @@ const Users = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.description}
+                {p.email} - {p.firstName} {p.lastName}
               </ListItemText>
             </ListItem>
           );
@@ -210,7 +210,7 @@ const Users = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Agriculture Season"
+        title="Delete Application Users"
         actions={
           <ActionWrapper>
             <Button

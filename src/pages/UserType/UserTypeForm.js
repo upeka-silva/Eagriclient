@@ -1,40 +1,26 @@
 import React, { useState } from "react";
 import {
-  Button,
   TextField,
-  CircularProgress,
   Grid,
   MenuItem,
   Select,
-  FormControl,
 } from "@mui/material";
 
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { PathName } from "../../components/FormLayout/PathName";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
-import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
 import {
   handleUserType,
   updateUserType,
 } from "../../redux/actions/userType/action";
-
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import BackToList from "../../components/BackToList/BackToList";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const UserTypeForm = () => {
   useUserAccessValidation();
@@ -124,254 +110,91 @@ const UserTypeForm = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: `${Colors.formBackgroundColor}`,
-        fontFamily: `${Fonts.fontStyle1}`,
-      }}
-    >
-      <div style={{ padding: "0px 18px" }}>
-        <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to list
-          </Button>
-        </ActionWrapper>
-        <PathName>{getPathName()}</PathName>
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} USER TYPE
-        </FormHeader>
-      </div>
+    <FormWrapper>
+      <BackToList goBack={goBack} />
+      <CustFormHeader saving={saving} state={state} formName="User Type" />
+      <FormButtonGroup
+        {...{
+          state,
+          DEF_ACTIONS,
+          saving,
+          enableSave,
+          handleFormSubmit,
+          resetForm,
+        }}
+      />
       <Grid container flexDirection="row">
         <Grid flexDirection="column">
-          <Grid
-            style={{
-              border: "1px solid #D2D2D2",
-              borderRadius: "10px",
-              margin: "20px",
-              backgroundColor: `${Colors.formBackgroundColor}`,
-            }}
-          >
-            <FormWrapper
-              style={{ backgroundColor: `${Colors.formBackgroundColor}` }}
-            >
-              <FieldWrapper>
-                <FieldName>First Name</FieldName>
-                <TextField
-                  name="firstName"
-                  id="firstName"
-                  value={formData?.firstName || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "firstName")
-                  }
-                  sx={{
-                    width: "264px",
-                    "& .MuiInputBase-root": {
-                      height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-              <FieldWrapper>
-                <FieldName>Last Name</FieldName>
-                <TextField
-                  name="lastName"
-                  id="lastName"
-                  value={formData?.lastName || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "lastName")
-                  }
-                  sx={{
-                    width: "264px",
-                    "& .MuiInputBase-root": {
-                      height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-              <FieldWrapper>
-                <FieldName>User Name</FieldName>
-                <TextField
-                  name="userName"
-                  id="userName"
-                  value={formData?.userName || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "userName")
-                  }
-                  sx={{
-                    width: "264px",
-                    "& .MuiInputBase-root": {
-                      height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-              <FieldWrapper>
-                <FieldName>Email</FieldName>
-                <TextField
-                  name="email"
-                  id="email"
-                  value={formData?.email || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "email")
-                  }
-                  sx={{
-                    width: "264px",
-                    "& .MuiInputBase-root": {
-                      height: "30px",
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </FormWrapper>
-          </Grid>
+          <FieldWrapper>
+            <FieldName>User Type ID</FieldName>
+            <TextField
+              name="userTypeId"
+              id="userTypeId"
+              value={formData?.userTypeId || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "userTypeId")
+              }
+              inputProps={{ style: { textTransform: "uppercase" } }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
         </Grid>
-        <Grid
-          style={{
-            border: "1px solid #D2D2D2",
-            borderRadius: "10px",
-            margin: "20px",
-            backgroundColor: `${Colors.formBackgroundColor}`,
-          }}
-        >
-          <FormWrapper
-            style={{ backgroundColor: `${Colors.formBackgroundColor}` }}
-          >
-            <FieldWrapper>
-              <FieldName>Phone</FieldName>
-              <TextField
-                name="phone"
-                id="phone"
-                value={formData?.phone || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "phone")}
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>Address</FieldName>
-              <TextField
-                name="address"
-                id="address"
-                value={formData?.address || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "address")
-                }
-                sx={{
-                  width: "264px",
-                  "& .MuiInputBase-root": {
-                    height: "30px",
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            <FieldWrapper>
-              <FieldName>Date of Birth</FieldName>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DemoContainer components={["DatePicker"]}>
-                  <DatePicker
-                    slotProps={{ textField: { size: "small" } }}
-                    name="dateOfBirth"
-                    id="dateOfBirth"
-                    value={formData?.dateOfBirth || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "dateOfBirth")
-                    }
-                    in="DD-MM-YYYY"
-                    sx={{
-                      width: "264px",
-                      "& .MuiInputBase-root": {
-                        height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                  />
-                </DemoContainer>
-              </LocalizationProvider>
-            </FieldWrapper>
-            <FieldWrapper>
-        <FieldName>Gender</FieldName>
-        <FormControl>
-          <Select
-            value={formData?.gender || ""}
-            disabled={state?.action === DEF_ACTIONS.VIEW}
-            onChange={(e) =>
-              handleChange(e?.target?.value || "", "gender")
-            }
-            sx={{
-              width: "264px",
-              height: "30px",
-              borderRadius: "8px",
-              backgroundColor: `${Colors.white}`,
-            }}
-            size="small"
-          >
-            <MenuItem value={"MALE"}>Male</MenuItem>
-            <MenuItem value={"FEMALE"}>Female</MenuItem>
-            <MenuItem value={"CUSTOM"}>Custom</MenuItem>
-          </Select>
-        </FormControl>
-      </FieldWrapper>
-          </FormWrapper>
+        <Grid flexDirection="column" sm={6} lg={6} xl={6}>
+          <FieldWrapper>
+            <FieldName>Description</FieldName>
+            <TextField
+              name="description"
+              id="description"
+              value={formData?.description || ""}
+              fullWidth
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "description")
+              }
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid flexDirection="column" sm={3} lg={3} xl={3}>
+          <FieldWrapper>
+            <FieldName>User Type Format</FieldName>
+            <Select
+              value={formData?.userTypeFunction || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "userTypeFunction")
+              }
+              sx={{
+                borderRadius: "8px",
+              }}
+              size="small"
+              fullWidth
+            >
+              <MenuItem value={"FARMER"}>Farmer</MenuItem>
+              <MenuItem value={"OFFICER"}>Officer</MenuItem>
+            </Select>
+          </FieldWrapper>
         </Grid>
       </Grid>
-      <ButtonWrapper style={{ width: "95%" }}>
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <AddButton variant="contained" disabled>
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </AddButton>
-            ) : (
-              <>
-                <AddButton
-                  variant="contained"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                </AddButton>
-                <ResetButton onClick={resetForm}>RESET</ResetButton>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
-    </div>
+    </FormWrapper>
   );
 };
 

@@ -30,7 +30,7 @@ const SideBar = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const { service } = useServiceContext();
-  console.log(service)
+  console.log(service);
   const toggleDrawer = () => {
     setOpen((current) => !current);
   };
@@ -246,11 +246,12 @@ const SideBar = () => {
         >
           {open && (
             <Typography
-              variant="h7"
+              variant="h5"
               fontWeight="bold"
               fontFamily={Fonts.fontStyle1}
+              alignContent={"center"}
             >
-              E-EXTENSION SYSTEM
+              E-Agri Portal
             </Typography>
           )}
           <SideBarItemToolTip

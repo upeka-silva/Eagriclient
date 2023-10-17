@@ -55,6 +55,7 @@ import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
+import UserTypeForm from "../pages/UserType/UserTypeForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -1096,6 +1097,12 @@ export const Routes = [
     element: <UserType />,
     isSideBar: true,
     icon: ManageAccountsIcon,
+  },
+  {
+    path: "/user-type-form",
+    name: "User Type",
+    element: <UserTypeForm />,
+    isSideBar: false
   },
   {
     path: "/users",
