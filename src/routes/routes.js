@@ -146,6 +146,8 @@ import ProtectedHouseType from "../pages/ProtectedHouseType/ProtectedHouseType";
 import ProtectedHouseTypeForm from "../pages/ProtectedHouseType/ProtectedHouseTypeForm";
 import CropRegistration from "../pages/CropLook/crop-registration";
 import CropRegistrationForm from "../pages/CropLook/crop-registration-from";
+import CropTarget from "../pages/CropLook/cropTarget/crop-target";
+import CropTargetForm from "../pages/CropLook/cropTarget/crop-target-from";
 
 export const Routes = [
   {
@@ -1206,6 +1208,20 @@ export const Routes = [
         name: "Crop Registration Form",
         isSideBar: false,
         element: <CropRegistrationForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-target",
+        name: "Crop Target",
+        isSideBar: true,
+        element: <CropTarget />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-target-form",
+        name: "Crop Targets Form",
+        isSideBar: false,
+        element: <CropTargetForm />,
         icon: SouthAmericaIcon,
       },
     ]
