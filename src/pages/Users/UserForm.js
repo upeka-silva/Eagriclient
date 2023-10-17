@@ -5,12 +5,7 @@ import {
   CircularProgress,
   MenuItem,
   FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Grid,
-  InputLabel,
   Autocomplete,
   Stack,
   Box,
@@ -21,43 +16,29 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Paper,
-  Divider,
   IconButton,
   Select,
 } from "@mui/material";
-import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
-import RoleList from "./RolesList";
-import ServicesList from "./ServicesList";
 import data from "../../dropdown/drodwnlist";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
-import { PathName } from "../../components/FormLayout/PathName";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { handleUsers, updateUsers } from "../../redux/actions/users/action";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import FilterTypeFilter from "../../components/FilterTypeFilter/FilterTypeFilter";
 import RoleSelection from "./RoleSelection";
 import { get } from "../../services/api/index";
-import { margin } from "@mui/system";
 import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
 import DialogBox from "../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
@@ -89,7 +70,7 @@ const UsersForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [dataListTemplates, setDataListTemplates] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [userTypes,setUserTypes] = useState([]);
+  const [userTypes, setUserTypes] = useState([]);
 
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
@@ -100,9 +81,7 @@ const UsersForm = () => {
   };
 
   const [roles, setRoles] = useState([]);
-
   const [selectedRoles, setSelectedRoles] = useState([]);
-
   const [selectedAdminDivType, setSelectedAdminDivType] = useState("");
   const [selectedAdminDiv, setSelectedAdminDiv] = useState(null);
   const [selectedAdminDivOpt, setSelectedAdminDivOpt] = useState(null);
@@ -202,6 +181,19 @@ const UsersForm = () => {
     };
     fetchRoles("app-settings/roles");
 
+    const fetchUserTypes = async (path, page = 0, size = 10) => {
+      try {
+        const { totalElements, httpCode, payloadDto } = await get(
+          `${path}?page=${page}&size=1000&sort=asc&sort`,
+          true
+        );
+        setUserTypes(payloadDto);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUserTypes("user-types");
+
     if (
       state?.action === DEF_ACTIONS.EDIT ||
       state?.action === DEF_ACTIONS.VIEW
@@ -239,11 +231,7 @@ const UsersForm = () => {
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
-
-      // Special handling for the "roleDTOs" field to update the "id" value
-
       newData[target] = value;
-
       return newData;
     });
   };
@@ -737,29 +725,33 @@ const UsersForm = () => {
                   </Select>
                 </FieldWrapper>
               </Grid>
-              <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FormControl fullWidth>
-              <FieldName>User Type</FieldName>
-              <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={userTypes}
-                value={formData ? formData.userTypeDTO : ""}
-                getOptionLabel={(i) => `${i.userTypeId} - ${i.description}`}
-                onChange={(event, value) => {
-                  handleChange(value, "userTypeDTO");
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                size="small"
-                renderInput={(params) => <TextField {...params} size="small" />}
-              />
-            </FormControl>
-          </FieldWrapper>
-        </Grid>
+              <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FormControl fullWidth>
+                    <FieldName>User Type</FieldName>
+                    <Autocomplete
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={userTypes}
+                      value={formData ? formData.userTypeDTO : ""}
+                      getOptionLabel={(i) =>
+                        `${i.userTypeId} - ${i.description}`
+                      }
+                      onChange={(event, value) => {
+                        handleChange(value, "userTypeDTO");
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                    />
+                  </FormControl>
+                </FieldWrapper>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
