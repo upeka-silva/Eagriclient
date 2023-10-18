@@ -23,6 +23,7 @@ import {
   Typography,
   Paper,
   Divider,
+  IconButton,
 } from "@mui/material";
 import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 import styled from "styled-components";
@@ -59,6 +60,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import { PhotoCamera } from "@mui/icons-material";
 
 const UsersForm = () => {
   useUserAccessValidation();
@@ -100,6 +102,10 @@ const UsersForm = () => {
   const [selectedAdminDivOpt, setSelectedAdminDivOpt] = useState(null);
   const [selectedAdminDivOjbects, setSelectedAdminDivObjects] = useState([]);
   const [isAdminDivDialogOpen, setAdminDivDialogOpen] = useState(false);
+
+  const [selectedImage, setSelectedImage] = useState(
+    state?.target?.prsignedUrl || null
+  );
 
   const handleRolesChange = (roleId) => {
     console.log(roleId);
@@ -180,6 +186,7 @@ const UsersForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setSelectedImage(null)
     }
   };
 
@@ -267,6 +274,69 @@ const UsersForm = () => {
       } catch (error) {
         console.log(error);
       }
+    }
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        console.log(reader.result);
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    const form = new FormData();
+    form.append("file", file);
+
+    try {
+      // if (formData?.id) {
+      //   const response = await handleFarmerProfile(
+      //     formData?.id,
+      //     form,
+      //     onSuccess,
+      //     onError
+      //   );
+      //   if ((response.httpCode = "200 OK")) {
+      //     const profilePicture = response.payload.storedFileName;
+      //     const originalFileName = response.payload.originalFileName;
+      //     const prsignedUrl = response.payload.presignedUrl;
+      //     const presignedExpDate = response.payload.expireDate;
+      //     setFormData({
+      //       ...formData,
+      //       profilePicture: profilePicture,
+      //       originalFileName: originalFileName,
+      //       prsignedUrl: prsignedUrl,
+      //       presignedExpDate: presignedExpDate,
+      //     });
+      //   }
+      // } else {
+      //   const res = await handleFarmer(farmerDto);
+      //   console.log(res);
+      //   setFormData(res.payload);
+      //   const response = await handleFarmerProfile(
+      //     res.payload?.id,
+      //     form,
+      //     onSuccess("Success"),
+      //     onError
+      //   );
+      //   if ((response.httpCode = "200 OK")) {
+      //     const profilePicture = response.payload.storedFileName;
+      //     const originalFileName = response.payload.originalFileName;
+      //     const prsignedUrl = response.payload.presignedUrl;
+      //     const presignedExpDate = response.payload.expireDate;
+      //     setFormData({
+      //       ...formData,
+      //       profilePicture: profilePicture,
+      //       originalFileName: originalFileName,
+      //       prsignedUrl: prsignedUrl,
+      //       presignedExpDate: presignedExpDate,
+      //     });
+      //   }
+      // }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -370,46 +440,9 @@ const UsersForm = () => {
   };
   return (
     <>
-      <FormWrapper>
-        {/* <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to users list
-          </Button>
-        </ActionWrapper> */}
+      <FormWrapper style={{ overflowY: "scroll" }}>
         <BackToList goBack={goBack} />
         <CustFormHeader saving={saving} state={state} formName="New User" />
-
-        {/* <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <AddButton variant="contained" disabled>
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </AddButton>
-              ) : (
-                <>
-                  <AddButton
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper> */}
         <FormButtonGroup
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}
@@ -418,6 +451,82 @@ const UsersForm = () => {
           handleFormSubmit={handleFormSubmit}
           resetForm={resetForm}
         />
+        <Grid
+          container
+          sx={{
+            // border: "1px solid #bec0c2",
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Select Profile Picture</FieldName>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="profile-picture-input"
+                  style={{ display: "none" }}
+                  onChange={handleImageChange}
+                />
+
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  sx={{ position: "relative" }}
+                >
+                  <label
+                    htmlFor="profile-picture-input"
+                    style={{
+                      width: "140px",
+                      height: "140px",
+                      border: "1px solid #7a879d",
+                      borderRadius: "70px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <IconButton component="span" style={{ zIndex: "2" }}>
+                      <PhotoCamera />
+                    </IconButton>
+                  </label>
+                  {selectedImage && (
+                    <div
+                      style={{
+                        position: "absolute",
+                        zIndex: "1",
+                        backgroundColor: "rgb(46,125,50,0.1)",
+                        width: "140px",
+                        height: "140px",
+                        borderRadius: "70px",
+                      }}
+                    >
+                      <img
+                        src={selectedImage}
+                        alt="Profile"
+                        style={{
+                          width: "140px",
+                          height: "140px",
+                          borderRadius: "70px",
+                        }}
+                      />
+                    </div>
+                  )}
+                </Box>
+              </div>
+            </FieldWrapper>
+          </Grid>
+        </Grid>
         <Grid
           container
           sx={{
@@ -618,7 +727,7 @@ const UsersForm = () => {
             <FieldWrapper></FieldWrapper>
           </Grid>
         </Grid>
-      </FormWrapper>
+      
       <Grid
         container
         sx={{
@@ -811,6 +920,7 @@ const UsersForm = () => {
           with newly added values
         </Typography>
       </DialogBox>
+      </FormWrapper>
     </>
   );
 };
