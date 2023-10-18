@@ -114,7 +114,7 @@ const CropSubCategory = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {p.subCategoryId} - {p.description}
               </ListItemText>
             </ListItem>
           );
