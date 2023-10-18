@@ -9,10 +9,16 @@ const UsersList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "firstName", headerName: "First Name" },
-    { field: "lastName", headerName: "Last Name" },
     { field: "email", headerName: "Email" },
+    { field: ["firstName", "lastName"], joinString: " ", headerName: "Name" },
+    { field: "genderClient", headerName: "Gender" },
+    {
+      field: ["userTypeDTO.userTypeId", "userTypeDTO.description"],
+      headerName: "Type",
+    },
+    { field: "address", headerName: "Address" },
+    { field: "phone", headerName: "Phone No" },
+    { field: "userLanguageClient", headerName: "Language" },
   ];
   return (
     <TableWrapper>

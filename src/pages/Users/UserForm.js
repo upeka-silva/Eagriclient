@@ -687,6 +687,8 @@ const UsersForm = () => {
                 <FieldWrapper>
                   <FieldName>Gender</FieldName>
                   <Select
+                    name="gender"
+                    id="gender"
                     value={formData?.gender || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
@@ -708,6 +710,8 @@ const UsersForm = () => {
                 <FieldWrapper>
                   <FieldName>Language</FieldName>
                   <Select
+                    name="userLanguage"
+                    id="userLanguage"
                     value={formData?.userLanguage || ""}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
@@ -843,162 +847,142 @@ const UsersForm = () => {
             </FieldWrapper>
           </Grid>
         </Grid>
-      </FormWrapper>
-      <Grid
-        container
-        sx={{
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item lg={12}>
-          <TabWrapper>
-            <TabButton
-              variant="contained"
-              className={toggleState === 1 ? "active-tabs" : ""}
-              onClick={() => toggleTab(1)}
-            >
-              Roles
-            </TabButton>
-            {/* <TabButton
-                            variant="contained"
-                            className={toggleState === 2 ? "active-tabs" : ""}
-                            onClick={() => toggleTab(2)}
-                        >
-                            Services
-                        </TabButton> */}
-            <TabButton
-              variant="contained"
-              className={toggleState === 3 ? "active-tabs" : ""}
-              onClick={() => toggleTab(3)}
-            >
-              Filter Type
-            </TabButton>
-          </TabWrapper>
-          <TabContent className={toggleState === 1 ? "active-content" : ""}>
-            <Grid
-              container
-              sx={{
-                margin: "15px",
-                width: "97%",
-                borderRadius: "5px",
-              }}
-            >
-              <Grid item lg={12} sx={{ margin: "15px" }}>
-                <RoleSelection
-                  roles={roles}
-                  selectedRoles={selectedRoles}
-                  onRolesChange={handleRolesChange}
-                  action={state?.action}
-                />
+
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item lg={12}>
+            <TabWrapper>
+              <TabButton
+                variant="contained"
+                className={toggleState === 1 ? "active-tabs" : ""}
+                onClick={() => toggleTab(1)}
+              >
+                Roles
+              </TabButton>
+              <TabButton
+                variant="contained"
+                className={toggleState === 3 ? "active-tabs" : ""}
+                onClick={() => toggleTab(3)}
+              >
+                Filter Type
+              </TabButton>
+            </TabWrapper>
+            <TabContent className={toggleState === 1 ? "active-content" : ""}>
+              <Grid
+                container
+                sx={{
+                  margin: "15px",
+                  width: "97%",
+                  borderRadius: "5px",
+                }}
+              >
+                <Grid item lg={12} sx={{ margin: "15px" }}>
+                  <RoleSelection
+                    roles={roles}
+                    selectedRoles={selectedRoles}
+                    onRolesChange={handleRolesChange}
+                    action={state?.action}
+                  />
+                </Grid>
               </Grid>
-            </Grid>
-          </TabContent>
-          {/* <TabContent className={toggleState === 2 ? "active-content" : ""}>
-                        <Grid
-                            container
-                            sx={{
-                                margin: "15px",
-                                width: "97%",
-                                borderRadius: "5px",
-                            }}
-                        >
-                            <Grid item lg={5}>
-                                <ServicesList
-                                    selectedRows={selectServices}
-                                    onRowSelect={toggleServicesSelect}
-                                    selectAll={selectAllServices}
-                                    unSelectAll={resetSelectedServices} />
-                            </Grid>
-                        </Grid>
-                    </TabContent> */}
-          <TabContent className={toggleState === 3 ? "active-content" : ""}>
-            <Grid container spacing={2}>
-              {state?.action !== DEF_ACTIONS.VIEW ? (
-                <Grid item lg={3}>
-                  <FieldWrapper>
-                    <FormControl
-                      sx={{
-                        display: "flex",
-                        justifyContent: "row",
-                        minWidth: "364px",
-                      }}
-                      size="small"
-                    >
-                      <FieldName>Select Adminstrative Division Type</FieldName>
-                      <Autocomplete
-                        id="dropdown"
-                        options={Object.keys(data).map((key) => ({
-                          value: key,
-                          label: data[key]?.displayName,
-                        }))}
-                        //getOptionLabel={(option) => option.label}
-                        onChange={(event, selectedOption) =>
-                          handleAdministrativeDivTypeSelect(
-                            selectedOption?.value
-                          )
-                        }
-                        value={selectedAdminDivOpt || "Choose an option"}
-                        isSearchable
-                        renderInput={(params) => <TextField {...params} />}
+            </TabContent>
+            <TabContent className={toggleState === 3 ? "active-content" : ""}>
+              <Grid container spacing={2}>
+                {state?.action !== DEF_ACTIONS.VIEW ? (
+                  <Grid item lg={3}>
+                    <FieldWrapper>
+                      <FormControl
                         sx={{
-                          borderRadius: "8px",
-                          "& .MuiInputBase-root": {
-                            backgroundColor: "transparent", // Set the background color to transparent
-                          },
+                          display: "flex",
+                          justifyContent: "row",
+                          minWidth: "364px",
                         }}
                         size="small"
-                      />
-                    </FormControl>
-                  </FieldWrapper>
-                </Grid>
-              ) : null}
-              {selectedAdminDiv != null ? (
-                <AdministrativeDivisionSelectFilter
-                  selectedOption={selectedAdminDiv}
-                  onAdministrativeValueSelect={handleAdministrativeValueSelect}
-                />
-              ) : null}
+                      >
+                        <FieldName>
+                          Select Adminstrative Division Type
+                        </FieldName>
+                        <Autocomplete
+                          id="dropdown"
+                          options={Object.keys(data).map((key) => ({
+                            value: key,
+                            label: data[key]?.displayName,
+                          }))}
+                          //getOptionLabel={(option) => option.label}
+                          onChange={(event, selectedOption) =>
+                            handleAdministrativeDivTypeSelect(
+                              selectedOption?.value
+                            )
+                          }
+                          value={selectedAdminDivOpt || "Choose an option"}
+                          isSearchable
+                          renderInput={(params) => <TextField {...params} />}
+                          sx={{
+                            borderRadius: "8px",
+                            "& .MuiInputBase-root": {
+                              backgroundColor: "transparent", // Set the background color to transparent
+                            },
+                          }}
+                          size="small"
+                        />
+                      </FormControl>
+                    </FieldWrapper>
+                  </Grid>
+                ) : null}
+                {selectedAdminDiv != null ? (
+                  <AdministrativeDivisionSelectFilter
+                    selectedOption={selectedAdminDiv}
+                    onAdministrativeValueSelect={
+                      handleAdministrativeValueSelect
+                    }
+                  />
+                ) : null}
 
-              {!loading ? (
-                <Grid item lg={12}>
-                  {formData?.administrativeDivisionDTO &&
-                    state.action !== DEF_ACTIONS.ADD && (
-                      <>
-                        <Typography variant="h6" gutterBottom>
-                          {formData.administrativeDivisionDTO?.type}
-                        </Typography>
-                        <TableContainer>
-                          <Table>
-                            <TableHead>
-                              <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Division Id</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {formData.administrativeDivisionDTO?.values?.map(
-                                (row, index) => (
-                                  <TableRow key={row.name}>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.divisionId}</TableCell>
-                                  </TableRow>
-                                )
-                              )}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </>
-                    )}
-                </Grid>
-              ) : (
-                <CircularProgress />
-              )}
-            </Grid>
-          </TabContent>
+                {!loading ? (
+                  <Grid item lg={12}>
+                    {formData?.administrativeDivisionDTO &&
+                      state.action !== DEF_ACTIONS.ADD && (
+                        <>
+                          <Typography variant="h6" gutterBottom>
+                            {formData.administrativeDivisionDTO?.type}
+                          </Typography>
+                          <TableContainer>
+                            <Table>
+                              <TableHead>
+                                <TableRow>
+                                  <TableCell>Name</TableCell>
+                                  <TableCell>Division Id</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {formData.administrativeDivisionDTO?.values?.map(
+                                  (row, index) => (
+                                    <TableRow key={row.name}>
+                                      <TableCell>{row.name}</TableCell>
+                                      <TableCell>{row.divisionId}</TableCell>
+                                    </TableRow>
+                                  )
+                                )}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </>
+                      )}
+                  </Grid>
+                ) : (
+                  <CircularProgress />
+                )}
+              </Grid>
+            </TabContent>
+          </Grid>
         </Grid>
-      </Grid>
+      </FormWrapper>
       <DialogBox
         open={isAdminDivDialogOpen}
         title={`Please Confirm`}
