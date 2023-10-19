@@ -19,6 +19,7 @@ const CropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex }) => {
             targetedExtentHandler={targetedExtentHandler}
             cropIndex={cropIndex}
             varietyIndex={varietyIndex}
+            mode={mode}
           />
         </Grid>
       ))}

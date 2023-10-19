@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import MultiSelectTils from "../../components/MultiSelectTiles/multi-select-tiles";
-import { Factory } from "@mui/icons-material";
 import { Button, Grid } from "@mui/material";
 import { getCropVaritesByCropCategory } from "../../redux/actions/crop/cropVariety/action";
 import {
-  createCropRegistration,
   getCropRegistrationById,
   updateCropRegistrationItems,
 } from "../../redux/actions/cropLook/cropRegistration/actions";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
+  const { addSnackBar } = useSnackBars();
+
   const [selectedCrops, setSelectedCrops] = useState([]);
   const [cropVarietyList, setCropVarietyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const handleSelectedCrops = (cropId, selected) => {
-    setIsLoading(true);
     if (selected) {
       var cropToUpdate = cropVarietyList.find((crop) => crop.id === cropId);
       cropToUpdate.selected = true;
@@ -31,59 +32,24 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   };
 
   useEffect(() => {
-    console.log(
-      "registration id: " +
-        registrationId +
-        " | crop category id: " +
-        cropCategoryId
-    );
     // load crop varites by crop category id
     getCropVaritesByCropCategory(cropCategoryId).then(({ dataList = [] }) => {
       getCropRegistrationById(registrationId).then(({ data = {} }) => {
-        console.log("data for registration id " + registrationId);
-        console.log(data);
         data?.items?.map((item) => {
           if (item?.cropCategory.id == cropCategoryId) {
             var selectedVarity = dataList.find(
               (ele) => ele.id === item?.cropVariety.id
             );
-            console.log("selected varty ");
-            console.log(selectedVarity);
             selectedVarity.selected = true;
           }
         });
-        console.log("data list in each tab -----------");
-        console.log(dataList);
         setCropVarietyList(dataList);
       });
     });
   }, []);
 
-  const handleCropClear = () => {
-    cropVarietyList.map((varity) => {
-      varity.selected = false;
-    });
-    console.log("inside crop clear");
-    setCropVarietyList([]);
-    setCropVarietyList(cropVarietyList);
-  };
-
   const handleCropUpdate = async () => {
-    console.log("registration id ------->");
-    console.log(registrationId);
-
-    console.log("all crop varieties to update ------->");
-    console.log(selectedCrops);
-
-    // const items = cropVarietyList.map((variety) => {
-    //   if(variety.selected) {
-    //     return {
-    //       cropCategory: { id: cropCategoryId },
-    //       cropVariety: { id: variety },
-    //     }
-    //   }
-    // });
-
+    setSaving(true);
     var items = [];
     for (const variety of cropVarietyList) {
       if (variety.selected) {
@@ -101,36 +67,50 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
     };
 
     try {
-      await updateCropRegistrationItems(payload);
+      await updateCropRegistrationItems(payload, onSuccess, onError);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        mode === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+    setSaving(false);
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
   };
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
         <div style={{ textAlign: "right" }}>
-          <Button
-            disabled={mode === DEF_ACTIONS.VIEW}
-            style={{ marginRight: "10px" }}
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={handleCropClear}
-            sx={{ marginTop: "10px" }}
-          >
-            Clear
-          </Button>
-          <Button
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={handleCropUpdate}
-            sx={{ marginTop: "10px" }}
-          >
-            Update
-          </Button>
+          {saving ? (
+            <Button variant="contained" size="small">
+              {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+            </Button>
+          ) : (
+            <Button
+              disabled={mode === DEF_ACTIONS.VIEW}
+              variant="outlined"
+              color="success"
+              size="small"
+              onClick={handleCropUpdate}
+              sx={{ marginTop: "10px" }}
+            >
+              Update
+            </Button>
+          )}
         </div>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>

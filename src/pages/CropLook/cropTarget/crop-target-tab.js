@@ -9,73 +9,117 @@ import {
 } from "../../../redux/actions/cropLook/cropRegistration/actions";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
-import { getTargetCropsByAiAndSeasonAndCropCategory } from "../../../redux/actions/cropLook/cropTarget/actions";
+import {
+  getTargetCropsByAiAndSeasonAndCropCategory,
+  getTargetSeasonalRegion,
+  updateCropTarget,
+} from "../../../redux/actions/cropLook/cropTarget/actions";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-const CropTargetTab = ({ mode, registrationId, cropCategoryId, aiRegionId, seasonId }) => {
+const CropTargetTab = ({
+  mode,
+  registrationId,
+  cropCategoryId,
+  aiRegionId,
+  seasonId,
+  savedCropCategoryTarget,
+}) => {
+  const { addSnackBar } = useSnackBars();
   const [cropTargets, setCropTargets] = useState([]);
   const [cropVarietyList, setCropVarietyList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleSelectedCrops = (cropId, selected) => {
-
-  };
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-
-    getTargetCropsByAiAndSeasonAndCropCategory(aiRegionId, seasonId, cropCategoryId).then(({ dataList = [] }) => {
-      setCropTargets(dataList);
-    });
+    if (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) {
+      // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
+      //   setCropTargets(dataList?.cropTargets);
+      // });
+      setCropTargets(savedCropCategoryTarget?.cropTargets);
+    } else {
+      getTargetCropsByAiAndSeasonAndCropCategory(
+        aiRegionId,
+        seasonId,
+        cropCategoryId
+      ).then(({ dataList = [] }) => {
+        setCropTargets(dataList);
+      });
+    }
   }, []);
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
-    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] = value;
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
+      value;
     setCropTargets(updatedVarietyTargets);
   };
 
   const handleCropClear = () => {
-    // cropVarietyList.map((varity) => {
-    //   varity.selected = false;
-    // });
-    // console.log("inside crop clear");
-    // setCropVarietyList([]);
-    // setCropVarietyList(cropVarietyList);
+
+    const newCropTargets = [...cropTargets];
+
+    for (const crop of newCropTargets) {
+      if (crop.varietyTargets) {
+        for (const variety of crop.varietyTargets) {
+          if(variety.targetedExtentMajor)
+            variety.targetedExtentMajor = 0;
+          if(variety.targetedExtentMinor)
+            variety.targetedExtentMinor = 0;
+          if(variety.targetedExtentRainfed)
+            variety.targetedExtentRainfed = 0;
+          if(variety.targetedExtentIrrigate)
+            variety.targetedExtentIrrigate = 0;
+          if(variety.targetedExtent)
+            variety.targetedExtent = 0;
+        }
+      }
+    }
+    setCropTargets(newCropTargets);
   };
 
   const handleCropUpdate = async () => {
-    console.log('crop targets ------------->');
-    console.log(cropTargets);
+    setSaving(true);
+    const payload = {
+      id: registrationId,
+      cropCategoryTargets: [
+        {
+          cropCategory: { id: cropCategoryId },
+          cropTargets: cropTargets,
+        },
+      ],
+    };
 
-    // const items = cropVarietyList.map((variety) => {
-    //   if(variety.selected) {
-    //     return {
-    //       cropCategory: { id: cropCategoryId },
-    //       cropVariety: { id: variety },
-    //     }
-    //   }
-    // });
+    try {
+      await updateCropTarget(
+        registrationId,
+        cropCategoryId,
+        payload,
+        onSuccess,
+        onError
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-    // var items = [];
-    // for (const variety of cropVarietyList) {
-    //   if (variety.selected) {
-    //     items.push({
-    //       cropCategory: { id: cropCategoryId },
-    //       cropVariety: { id: variety?.id },
-    //     });
-    //   }
-    // }
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        mode === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+    setSaving(false);
+  };
 
-    // const payload = {
-    //   id: registrationId,
-    //   categoryId: cropCategoryId,
-    //   items: items,
-    // };
-
-    // try {
-    //   await updateCropRegistrationItems(payload);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
   };
 
   return (
@@ -93,27 +137,35 @@ const CropTargetTab = ({ mode, registrationId, cropCategoryId, aiRegionId, seaso
           >
             Clear
           </Button>
-          <Button
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={handleCropUpdate}
-            sx={{ marginTop: "10px" }}
-          >
-            Update
-          </Button>
+
+          {saving ? (
+            <Button variant="contained" size="small">
+              {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+            </Button>
+          ) : (
+            <Button
+              disabled={mode === DEF_ACTIONS.VIEW}
+              variant="outlined"
+              color="success"
+              size="small"
+              onClick={handleCropUpdate}
+              sx={{ marginTop: "10px" }}
+            >
+              Update
+            </Button>
+          )}
         </div>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
-        {cropTargets.map((cropTarget, cropIndex) => (
-          <CropInput
-          cropTarget={cropTarget}
-          targetedExtentHandler={targetedExtentHandler}
-          mode={mode}
-          cropIndex={cropIndex}
-        />
-        ))}
+        {cropTargets &&
+          cropTargets.map((cropTarget, cropIndex) => (
+            <CropInput
+              cropTarget={cropTarget}
+              targetedExtentHandler={targetedExtentHandler}
+              mode={mode}
+              cropIndex={cropIndex}
+            />
+          ))}
       </Grid>
     </Grid>
   );
