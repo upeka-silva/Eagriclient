@@ -167,7 +167,6 @@ const ASCForm = () => {
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "name")}
-             
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",

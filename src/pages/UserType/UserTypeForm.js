@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Grid,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { TextField, Grid, MenuItem, Select } from "@mui/material";
 
 import { useLocation, useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -101,12 +96,6 @@ const UserTypeForm = () => {
         console.log(error);
       }
     }
-  };
-
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
   };
 
   return (
