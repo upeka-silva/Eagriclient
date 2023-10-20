@@ -111,7 +111,7 @@ export const handleUserProfile = async (
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("user/register", payload, true);
+    const response = await post(`user/${id}/profile`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
