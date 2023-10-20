@@ -23,7 +23,8 @@ export const handleUsers = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
+    
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -127,7 +128,8 @@ export const handleUserProfile = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
+    
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
