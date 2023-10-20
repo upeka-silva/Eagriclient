@@ -107,7 +107,7 @@ const Crop = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.cropId} - {p.cropName}
+                {p.cropId} - {p.description}
               </ListItemText>
             </ListItem>
           );

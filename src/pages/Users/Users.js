@@ -119,7 +119,7 @@ const Users = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.description}
+                {p.email} - {p.firstName} {p.lastName}
               </ListItemText>
             </ListItem>
           );
@@ -171,27 +171,39 @@ const Users = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
           >
-            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
           {selectUsers.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
-              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
           {selectUsers.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
-              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
           {selectUsers.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
-              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -210,7 +222,7 @@ const Users = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Agriculture Season"
+        title="Delete Application Users"
         actions={
           <ActionWrapper>
             <Button

@@ -10,7 +10,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import CropSubCategoryList from "./CropSubCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -34,12 +33,13 @@ import {
   CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import CropTargetList from "./crop-target-list";
 
-const CropSubCategory = () => {
+const CropTarget = () => {
+
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
-
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -69,12 +69,12 @@ const CropSubCategory = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/sub-category-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-look/crop-target-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/sub-category-form", {
+    navigate("/crop-look/crop-target-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectSubCategory[0] || {},
@@ -84,7 +84,7 @@ const CropSubCategory = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/sub-category-form", {
+    navigate("/crop-look/crop-target-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectSubCategory[0] || {},
@@ -114,7 +114,7 @@ const CropSubCategory = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.subCategoryId} - {p.description}
+                {p.code} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -154,7 +154,7 @@ const CropSubCategory = () => {
 
   return (
     <div>
-      <ListHeader title="Crop Sub Category" />
+      <ListHeader title="Crop Registration Details" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -222,7 +222,7 @@ const CropSubCategory = () => {
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
       >
         {loading === false && (
-          <CropSubCategoryList
+          <CropTargetList
             selectedRows={selectSubCategory}
             onRowSelect={toggleSubCategorySelect}
             selectAll={selectAllSubCategories}
@@ -264,4 +264,4 @@ const CropSubCategory = () => {
   );
 };
 
-export default CropSubCategory;
+export default CropTarget;

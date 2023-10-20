@@ -3,8 +3,8 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleUserType = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("user-types", payload, true);
@@ -15,8 +15,7 @@ export const handleUserType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,17 +34,14 @@ export const handleUserType = async (
   }
 };
 
-
-
-
 export const deleteUserType = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`user-type/s${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`user-types/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -53,8 +49,7 @@ export const deleteUserType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -70,15 +65,19 @@ export const deleteUserType = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateUserType = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`user-types/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `user-types/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -86,8 +85,7 @@ export const updateUserType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -105,4 +103,3 @@ export const updateUserType = async (
     }
   }
 };
-
