@@ -15,9 +15,8 @@ const CropTargetList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {
-      field: "ddLabel", headerName: "DD Division ",
-    },
+    {field: "aiRegion.regionId", headerName: "Ai Region "},
+    {field: "aiRegion.parentType", headerName: "Ai Region Type"},
     { field: "season.label", headerName: "Season" },
   ];
 
@@ -111,7 +110,7 @@ const CropTargetList = ({
 
         <DataTable
           loadingTable
-          dataEndPoint={`crop-look/crop-registration`}
+          dataEndPoint={`crop-look/target-seasonal-region`}
           columns={columns}
           selectable
           selectedRows={selectedRows}

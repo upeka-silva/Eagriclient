@@ -32,6 +32,7 @@ import {
   getSeasons,
 } from "../../../redux/actions/cropLook/cropRegistration/actions";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
+import { createCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
 
 const CropTargetForm = () => {
   useUserAccessValidation();
@@ -47,7 +48,8 @@ const CropTargetForm = () => {
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [selectedAiRegion, setSelectedAiRegion] = useState(null);
-  const [registrationId, setRegistrationId] = useState(null);
+  const [cropTargetId, setCropTargetId] = useState(null);
+  const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const [toggleState, setToggleState] = useState(1);
@@ -75,35 +77,19 @@ const CropTargetForm = () => {
       state?.action === DEF_ACTIONS.EDIT ||
       state?.action === DEF_ACTIONS.VIEW
     ) {
-      // setRegistrationId(state?.target?.id);
-      // setSelectedSeason(state?.target?.season);
-
-      // var ddDivision = {};
-      // if (state?.target?.isProvincial) {
-      //   const provincialDD = state?.target?.provincialDD;
-      //   ddDivision = {
-      //     id: provincialDD.id,
-      //     name: provincialDD.provincialDdId,
-      //     isProvincial: true,
-      //   };
-      // } else {
-      //   const interProvincialDD = state?.target?.interProvincialDD;
-      //   ddDivision = {
-      //     id: interProvincialDD.id,
-      //     name: interProvincialDD.ddId,
-      //     isProvincial: false,
-      //   };
-      // }
-      // setSelectedDDDivision(ddDivision);
+      setCropTargetId(state?.target?.id);
+      setSelectedSeason(state?.target?.season);
+      setSelectedAiRegion(state?.target?.aiRegion);
+      setCropCategoryTarget(state?.target?.cropCategoryTargets);
     }
   }, []);
 
   useEffect(() => {
-    console.log("in second use effect registration id: " + registrationId);
-    if (registrationId) {
+    console.log("in second use effect registration id: " + cropTargetId);
+    if (cropTargetId) {
       setIsLoading(false);
     }
-  }, [registrationId]);
+  }, [cropTargetId]);
 
   // end of crop registration code
 
@@ -142,7 +128,7 @@ const CropTargetForm = () => {
       state?.action === DEF_ACTIONS.ADD &&
       selectedAiRegion &&
       selectedSeason &&
-      !registrationId
+      !cropTargetId
     ) {
       return true;
     }
@@ -173,20 +159,11 @@ const CropTargetForm = () => {
       setIsLoading(true);
       setSaving(true);
       try {
-        let payload1 = {};
-        if (selectedAiRegion.isProvincial) {
-          payload1 = {
-            provincialDD: { id: selectedAiRegion.id },
-            season: { id: selectedSeason.id },
-            isProvincial: true,
-          };
-        } else {
-          payload1 = {
-            interProvincialDD: { id: selectedAiRegion.id },
-            season: { id: selectedSeason.id },
-            isProvincial: false,
-          };
-        }
+        const payload = {
+          aiRegion: { id: selectedAiRegion.id },
+          aiRegionType: selectedAiRegion.parentType,
+          season: { id: selectedSeason.id },
+        };
 
         if (false) {
           await updateCropSubCategory(
@@ -198,17 +175,13 @@ const CropTargetForm = () => {
             onError
           );
         } else {
-          const dataList = await createCropRegistration(
-            payload1,
+          const dataList = await createCropTarget(
+            payload,
             onSuccess,
             onError
           );
-          console.log("registration id afte save ");
-          console.log(dataList);
-          console.log(dataList.dataList.id);
-          setRegistrationId(dataList.dataList.id);
-          //setSelectedDDDivision(dataList?.provincialDD);
-          //setSelectedSeason(dataList?.season);
+          setCropTargetId(dataList.dataList.id);
+          setCropCategoryTarget();
         }
       } catch (error) {
         console.log(error);
@@ -299,18 +272,18 @@ const CropTargetForm = () => {
               ))}
             </TabWrapper>
 
-            {
-              cropCategoryList.map((category, index) => (
+            {!isLoading && cropCategoryList.map((category, index) => (
                 <TabContent
                   style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {(selectedAiRegion && selectedSeason) ? <CropTargetTab
-                    registrationId={registrationId}
+                  {cropTargetId ? <CropTargetTab
+                    registrationId={cropTargetId}
                     aiRegionId={selectedAiRegion?.id}
                     seasonId={selectedSeason?.id}
                     cropCategoryId={category?.id}
                     mode={state?.action}
+                    savedCropCategoryTarget={cropCategoryTarget ? cropCategoryTarget.find(target => target?.cropCategory?.id === category?.id) : null}
                   /> : null}
                 </TabContent>
               ))}
