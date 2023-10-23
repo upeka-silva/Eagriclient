@@ -12,12 +12,7 @@ import {
   Vrpano,
 } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import {
-  Button,
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
@@ -37,58 +32,55 @@ const CropVarietyList = ({
     { field: "maturityTime", headerName: "Maturity Time" },
     { field: "averageYield", headerName: "Avg. Yeild" },
   ];
-  const [options, setOptions] = useState([]);
-  const [id, setId] = useState(null);
-  const [subcat, setSubcat] = useState([]);
-  const [subcrop, setSubcrop] = useState([]);
-  const [show, setShow] = useState(false);
-  const [data, setData] = useState(null);
-  const [isdisable, setIsdisable] = useState({
-    cat: false,
-    subcat: false,
+  
+
+  const [cats, setCats] = useState([]);
+  const [subCats, setSubcats] = useState([]);
+  const [crops, setCrops] = useState([]);
+  const [category, setCategory] = useState({ categoryId: "", description: "" });
+  const [subCategory, setSubCategory] = useState({
+    subCategoryId: "",
+    description: "",
   });
+  const [crop, setCrop] = useState({
+    cropId: "",
+    description: "",
+  });
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/crop-varieties");
+
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
-      setOptions(dataList);
       console.log(dataList);
+      setCats(dataList);
     });
   }, []);
+
   const reset = () => {
-    const allTrueIsdisable = {
-      cat: false,
-      subcat: false,
-      crop: false,
-    };
-    setIsdisable(allTrueIsdisable);
-    setData(null);
-    setShow(null);
+    setCategory({ categoryId: "", description: "" });
+    setSubCategory({
+      subCategoryId: "",
+      description: "",
+    });
+    setCrop({
+      cropId: "",
+      description: "",
+    });
+    setDataEndPoint("geo-data/crop-varieties");
   };
-  const handleChange = (value, target) => {
-    console.log(value?.id);
-    setId(value?.id);
-    setIsdisable((prevState) => ({
-      ...prevState,
-      [target]: true,
-    }));
-    get_SubCategoryById(value?.id).then(({ dataList = [] }) => {
+  
+
+  const getSubCategories = (id) => {
+    get_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
-      setSubcat(dataList);
+      setSubcats(dataList);
     });
-
-    // if (Object.keys(subcat).length > 0) {
-    //     setShow(!show);
-    // }
-    get_CropById(value?.id).then(({ dataList = [] }) => {
-      console.log("crops", dataList);
-      setSubcrop(dataList);
-    });
-
-    if (Object.keys(subcrop).length > 0) {
-      setShow(!show);
-    }
   };
 
-  // console.log(options)
+  const getCrops = (id) => {
+    get_CropById(id).then(({ dataList = [] }) => {
+      setCrops(dataList);
+    });
+  };
 
   return (
     <div>
@@ -98,15 +90,21 @@ const CropVarietyList = ({
             <FieldWrapper>
               <FieldName>Crop Category</FieldName>
               <Autocomplete
-                disabled={isdisable.cat}
-                // disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={options}
-                value={data}
+                options={cats}
+                value={category}
                 disableClearable
-                // value={formData ? formData.cropCategoryDTO : ""}
                 getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                 onChange={(event, value) => {
-                  handleChange(value, "cat");
+                  setCategory(value);
+                  getSubCategories(value?.id);
+                  setSubCategory({
+                    subCategoryId: "",
+                    description: "",
+                  });
+                  setCrop({
+                    cropId: "",
+                    description: "",
+                  });
                 }}
                 fullWidth
                 sx={{
@@ -130,13 +128,17 @@ const CropVarietyList = ({
             <FieldWrapper>
               <FieldName>Crop Sub Category</FieldName>
               <Autocomplete
-                disabled={isdisable.subcat}
-                options={subcat}
-                value={data}
-                // // value={formData ? formData.cropCategoryDTO : ""}
+                disabled={category?.id == null}
+                options={subCats}
+                value={subCategory}
                 getOptionLabel={(i) => `${i.subCategoryId} - ${i.description} `}
                 onChange={(event, value) => {
-                  handleChange(value, "subcat");
+                  setSubCategory(value);
+                  getCrops(value?.id);
+                  setCrop({
+                    cropId: "",
+                    description: "",
+                  });
                 }}
                 fullWidth
                 sx={{
@@ -152,6 +154,7 @@ const CropVarietyList = ({
                     placeholder="Select Crop Sub Category"
                   />
                 )}
+                disableClearable
               />
             </FieldWrapper>
           </Grid>
@@ -160,13 +163,13 @@ const CropVarietyList = ({
             <FieldWrapper>
               <FieldName>Crop</FieldName>
               <Autocomplete
-                disabled={isdisable.crop}
-                options={subcrop}
-                value={data}
-                // // value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.cropId} - ${i.scientificName} `}
+                disabled={subCategory?.id == null}
+                options={crops}
+                value={crop}
+                getOptionLabel={(i) => `${i.cropId} - ${i.description} `}
                 onChange={(event, value) => {
-                  handleChange(value, "crop");
+                  setCrop(value);
+                  setDataEndPoint(`geo-data/crop-varieties/crop/${value?.id}`);
                 }}
                 fullWidth
                 sx={{
@@ -182,6 +185,7 @@ const CropVarietyList = ({
                     placeholder="Select Crop "
                   />
                 )}
+                disableClearable
               />
             </FieldWrapper>
           </Grid>
@@ -202,33 +206,19 @@ const CropVarietyList = ({
           </Grid>
         </Grid>
       </ActionWrapper>
-      {show ? (
-        <>
-          <DataTable
-            loadingTable
-            dataEndPoint={`geo-data/crop-varieties/crop/${id}`}
-            columns={columns}
-            selectable
-            selectedRows={selectedRows}
-            selectAll={selectAll}
-            onRowSelect={onRowSelect}
-            unSelectAll={unSelectAll}
-          />
-        </>
-      ) : (
-        <>
-          <DataTable
-            loadingTable
-            dataEndPoint={"geo-data/crop-varieties"}
-            columns={columns}
-            selectable
-            selectedRows={selectedRows}
-            selectAll={selectAll}
-            onRowSelect={onRowSelect}
-            unSelectAll={unSelectAll}
-          />
-        </>
-      )}
+
+      <>
+        <DataTable
+          loadingTable
+          dataEndPoint={dataEndPoint}
+          columns={columns}
+          selectable
+          selectedRows={selectedRows}
+          selectAll={selectAll}
+          onRowSelect={onRowSelect}
+          unSelectAll={unSelectAll}
+        />
+      </>
     </div>
   );
 };
