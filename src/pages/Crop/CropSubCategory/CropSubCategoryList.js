@@ -7,6 +7,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+import { RestartAlt } from "@mui/icons-material";
 
 const CropSubCategoryList = ({
   selectedRows = [],
@@ -17,7 +18,6 @@ const CropSubCategoryList = ({
   const columns = [
     { field: "subCategoryId", headerName: "Code" },
     { field: "description", headerName: "Description" },
-
     {
       field: ["subCategoryId", "description"],
       join: "-",
@@ -50,6 +50,7 @@ const CropSubCategoryList = ({
       ...prevState,
       [target]: true,
     }));
+    setData(value)
   };
 
   const reset = () => {
@@ -65,17 +66,17 @@ const CropSubCategoryList = ({
 
   return (
     <div>
-      <TableWrapper>
+      <TableWrapper style={{ marginTop:"0px" }}>
         <ActionWrapper isLeft>
           <Grid container>
             <Grid item lg={3}>
               <FieldWrapper>
                 <FieldName>Crop Category</FieldName>
                 <Autocomplete
-                  disabled={isdisable.cat}
+                  
                   options={options}
                   value={data}
-                  // value={formData ? formData.cropCategoryDTO : ""}
+                 
                   getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                   onChange={(event, value) => {
                     handleChange(value, "cat");
@@ -91,7 +92,7 @@ const CropSubCategoryList = ({
                     <TextField
                       {...params}
                       size="small"
-                      placeholder="Select Crop Category"
+                      
                     />
                   )}
                 />
@@ -106,6 +107,7 @@ const CropSubCategoryList = ({
                   onClick={reset}
                   sx={{ marginTop: "40px" }}
                 >
+                  <RestartAlt />
                   Reset
                 </Button>
               </FieldWrapper>

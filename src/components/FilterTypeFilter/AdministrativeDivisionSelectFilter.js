@@ -83,63 +83,63 @@ const AdministrativeDivisionSelectFilter = ({
         "id",
         "description"
       );
-    } else if (type === "deputiyDirOfAgriProvincial") { 
+    } else if (type === "deputiyDirOfAgriProvincial") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "interProvincialDOA") { 
+    } else if (type === "interProvincialDOA") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "ADASegmantInterProvincial") { 
+    } else if (type === "ADASegmantInterProvincial") {
       nameValue = convertNameValuePair(
         response?.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "deputiyDirOfAgriInterProvincial") { 
+    } else if (type === "deputiyDirOfAgriInterProvincial") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "AiRegionInterProvincial") { 
+    } else if (type === "AiRegionInterProvincial") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "mahaweliAuthority") { 
+    } else if (type === "mahaweliAuthority") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "mahaweliSystems") { 
+    } else if (type === "mahaweliSystems") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "mahaweliBlock") { 
+    } else if (type === "mahaweliBlock") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
         "id",
         "description"
       );
-    } else if (type === "mahaweliUnit") { 
+    } else if (type === "mahaweliUnit") {
       nameValue = convertNameValuePair(
         response.payloadDto,
         true,
@@ -194,48 +194,43 @@ const AdministrativeDivisionSelectFilter = ({
     <>
       <Grid item lg={3}>
         <FieldWrapper>
-          <FormControl
-            //sx={{ display: "flex", justifyContent: "row", minWidth: "364px" }}
-            size="small"
-          >
-            <FieldName>{parentSelectedOpt?.displayName}</FieldName>
-            {loading ? (
-              parentSelectedOpt?.child === null ? (
-                <Autocomplete
-                  sx={{
-                    minWidth: "364px",
-                    minHeight: "28px", // Adjust the height as needed
-                    //padding: "4px", // Adjust the padding as needed
-                    borderRadius: "8px",
-                  }}
-                  multiple
-                  id="dropdown"
-                  options={fetchedOptions}
-                  onChange={(event, value) => handleAdminDivSelect(value)}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} />}
-                  size="small"
-                />
-              ) : (
-                <Autocomplete
-                  sx={{
-                    minWidth: "364px",
-                    minHeight: "28px", // Adjust the height as needed
-                    //padding: "4px", // Adjust the padding as needed
-                    borderRadius: "8px",
-                  }}
-                  id="dropdown"
-                  options={fetchedOptions}
-                  onChange={(event, value) => handleOptionSelect(value)}
-                  getOptionLabel={(option) => option.name}
-                  renderInput={(params) => <TextField {...params} />}
-                  size="small"
-                />
-              )
+          <FieldName>{parentSelectedOpt?.displayName}</FieldName>
+          {loading ? (
+            parentSelectedOpt?.child === null ? (
+              <Autocomplete
+                sx={{
+                  minHeight: "28px", // Adjust the height as needed
+                
+                  borderRadius: "8px",
+                }}
+                multiple
+                id="dropdown"
+                options={fetchedOptions}
+                onChange={(event, value) => handleAdminDivSelect(value)}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => <TextField {...params} />}
+                size="small"
+                fullWidth
+              />
             ) : (
-              <CircularProgress />
-            )}
-          </FormControl>
+              <Autocomplete
+                sx={{
+                  minHeight: "28px", // Adjust the height as needed
+                 
+                  borderRadius: "8px",
+                }}
+                id="dropdown"
+                options={fetchedOptions}
+                onChange={(event, value) => handleOptionSelect(value)}
+                getOptionLabel={(option) => option.name}
+                renderInput={(params) => <TextField {...params} />}
+                size="small"
+                fullWidth
+              />
+            )
+          ) : (
+            <CircularProgress />
+          )}
         </FieldWrapper>
       </Grid>
       {selectedDivId !== null ? (

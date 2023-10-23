@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Autocomplete, Select, MenuItem, Grid } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Select,
+  MenuItem,
+  Grid,
+  Button,
+  Box,
+  IconButton,
+} from "@mui/material";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -8,6 +17,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import {
   handleCrop,
+  handleCropImage,
   updateCrop,
 } from "../../../redux/actions/crop/crop/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -16,6 +26,8 @@ import { get_SubCategoryList } from "../../../redux/actions/crop/cropSubCategory
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { PhotoCamera } from "@mui/icons-material";
 
 const CropForm = () => {
   useUserAccessValidation();
@@ -27,6 +39,11 @@ const CropForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const [subOptions, setSubOptions] = useState([]);
+  const [selectedFile, setSelectedFile] = useState();
+  const [selectedImage, setSelectedImage] = useState(
+    state?.target?.prsignedUrl || null
+  );
+  const [form, setForm] = useState();
 
   const goBack = () => {
     navigate("/crop/crop");
@@ -49,8 +66,11 @@ const CropForm = () => {
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
+      setForm(null);
     } else {
       setFormData({});
+      setForm(null);
+      setSelectedImage(null)
     }
   };
 
@@ -64,6 +84,9 @@ const CropForm = () => {
       state?.action === DEF_ACTIONS.ADD &&
       Object.keys(formData || {}).length > 0
     ) {
+      return true;
+    }
+    if (state?.action === DEF_ACTIONS.EDIT && form) {
       return true;
     }
     return false;
@@ -88,18 +111,120 @@ const CropForm = () => {
     setSaving(false);
   };
 
+
+
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+
       try {
-        if (formData?.id) {
-          await updateCrop(formData, onSuccess, onError);
-        } else {
-          await handleCrop(formData, onSuccess, onError);
+        if (form && state?.action === DEF_ACTIONS.ADD) {
+          const response = await handleCrop(formData, onSuccess, onError);
+          setFormData(response.payload);
+          console.log(response);
+          const res = await handleCropImageUpload(response.payload?.id);
+          console.log(res);
+          if ((res.httpCode = "200 OK")) {
+            const cropImageUrl = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateCrop(
+              {
+                ...formData,
+                id: response.payload?.id,
+                cropImageUrl: cropImageUrl,
+                originalFileName: originalFileName,
+                prsignedUrl: prsignedUrl,
+                presignedExpDate: presignedExpDate,
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
         }
+        if (form && state?.action === DEF_ACTIONS.EDIT) {
+          const res = await handleCropImageUpload(formData?.id);
+          if ((res.httpCode = "200 OK")) {
+            const cropImageUrl = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateCrop(
+              {
+                ...formData,
+                cropImageUrl: cropImageUrl,
+                originalFileName: originalFileName,
+                prsignedUrl: prsignedUrl,
+                presignedExpDate: presignedExpDate,
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
+        }
+        if (formData?.id && state?.action === DEF_ACTIONS.EDIT) {
+          await updateCrop(
+            {
+              ...formData,
+            },
+            onSuccess,
+            onError
+          );
+        } else {
+          const response = await handleCrop(
+            {
+              ...formData,
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
+          console.log(response);
+        }
+        setSaving(false);
       } catch (error) {
         console.log(error);
       }
+    }
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(event?.target?.file);
+    console.log(event?.target);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        console.log(reader.result);
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+      const form = new FormData();
+      form.append("file", file);
+      setForm(form);
+    } else {
+      setSelectedImage(null);
+      setForm(null);
+    }
+  };
+
+  const handleCropImageUpload = async (id) => {
+    try {
+      const response = await handleCropImage(
+        id,
+        form,
+        onSuccess("Success"),
+        onError
+      );
+
+      return response;
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -108,6 +233,7 @@ const CropForm = () => {
       <FormWrapper>
         <BackToList goBack={goBack} />
         <CustFormHeader saving={saving} state={state} formName="Crop" />
+
         <FormButtonGroup
           {...{
             state,
@@ -118,6 +244,7 @@ const CropForm = () => {
             resetForm,
           }}
         />
+
         <Grid
           container
           sx={{
@@ -126,135 +253,195 @@ const CropForm = () => {
             borderRadius: "5px",
           }}
         >
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Crop ID</FieldName>
-              <TextField
-                name="cropId"
-                id="cropId"
-                type="text"
-                value={formData?.cropId || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => handleChange(e?.target?.value || "", "cropId")}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                inputProps={{ style: { textTransform: "uppercase" } }}
-                size="small"
-              />
-            </FieldWrapper>
+          <Grid item lg={7}>
+            <Grid container spacing={1}>
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Crop ID</FieldName>
+                  <TextField
+                    name="cropId"
+                    id="cropId"
+                    type="text"
+                    value={formData?.cropId || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "cropId")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    inputProps={{ style: { textTransform: "uppercase" } }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={4} md={4} lg={8}>
+                <FieldWrapper>
+                  <FieldName>Description</FieldName>
+                  <TextField
+                    name="description"
+                    id="description"
+                    value={formData?.description || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "description")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Sub Category ID</FieldName>
+                  <Autocomplete
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={subOptions}
+                    value={formData ? formData.cropSubCategoryDTO : ""}
+                    getOptionLabel={(i) =>
+                      `${i.subCategoryId} - ${i.description}`
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "cropSubCategoryDTO");
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Grid>
+
+              <Grid item sm={2} md={2} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Crop Type</FieldName>
+                  <Select
+                    name="cropType"
+                    id="cropType"
+                    value={formData?.cropType || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "cropType")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"ANNUAL"}>Annual</MenuItem>
+                    <MenuItem value={"PERENNIAL"}>Perennial</MenuItem>
+                    <MenuItem value={"SEASONAL"}>Seasonal</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={7}>
+                <FieldWrapper>
+                  <FieldName>Scientific Name</FieldName>
+                  <TextField
+                    name="scientificName"
+                    id="scientificName"
+                    value={formData?.scientificName || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "scientificName")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item sm={4} md={4} lg={4}>
-            <FieldWrapper>
-              <FieldName>Description</FieldName>
-              <TextField
-                name="description"
-                id="description"
-                value={formData?.description || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "description")
-                }
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Sub Category ID</FieldName>
-              <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={subOptions}
-                value={formData ? formData.cropSubCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
-                onChange={(event, value) => {
-                  handleChange(value, "cropSubCategoryDTO");
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Crop Image</FieldName>
-              <TextField
-                name="cropImage"
-                id="cropImage"
-                value={formData?.cropImage || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "cropImage")
-                }
-                type="file"
-                accept="image/*"
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                size="small"
-              ></TextField>
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={2} md={2} lg={2}>
-            <FieldWrapper>
-              <FieldName>Crop Type</FieldName>
-              <Select
-                name="cropType"
-                id="cropType"
-                value={formData?.cropType || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "cropType")
-                }
-                fullWidth
-                sx={{
-                  borderRadius: "8px",
-                }}
-                size="small"
-              >
-                <MenuItem value={"Annual"}>Annual</MenuItem>
-                <MenuItem value={"Perennial"}>Perennial</MenuItem>
-                <MenuItem value={"Seasonal"}>Seasonal</MenuItem>
-              </Select>
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Scientific Name</FieldName>
-              <TextField
-                name="scientificName"
-                id="scientificName"
-                value={formData?.scientificName || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "scientificName")
-                }
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                size="small"
-              />
-            </FieldWrapper>
+          <Grid item sm={3} md={3} lg={5}>
+            <Grid container spacing={1}>
+              <Grid item sm={3} md={3} lg={9}>
+                <FieldWrapper>
+                  <FieldName>Select Crop Image</FieldName>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <input
+                      type="file"
+                      accept="image/*"
+                      id="profile-picture-input"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                    />
+
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      sx={{ position: "relative" }}
+                    >
+                      <label
+                        htmlFor="profile-picture-input"
+                        style={{
+                          width: "250px",
+                          height: "140px",
+                          border: "1px solid #7a879d",
+                          borderRadius: "8px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "rgb(46,125,50,0.1)",
+                        }}
+                      >
+                        <IconButton component="span" style={{ zIndex: "2" }}>
+                          <PhotoCamera />
+                        </IconButton>
+                      </label>
+                      {selectedImage && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            zIndex: "1",
+                            backgroundColor: "rgb(46,125,50,0.1)",
+                            width: "250px",
+                            height: "140px",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <img
+                            src={selectedImage}
+                            alt="Profile"
+                            style={{
+                              width: "250px",
+                              height: "140px",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>
+                      )}
+                    </Box>
+                  </div>
+                </FieldWrapper>
+              </Grid>
+              
+            </Grid>
           </Grid>
         </Grid>
       </FormWrapper>
