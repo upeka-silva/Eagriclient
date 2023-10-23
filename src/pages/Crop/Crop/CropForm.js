@@ -27,7 +27,6 @@ import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import crop from "../../../assets/images/crop.jpeg";
 import { PhotoCamera } from "@mui/icons-material";
 
 const CropForm = () => {

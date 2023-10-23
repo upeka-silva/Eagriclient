@@ -18,7 +18,6 @@ import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import crop from "../../../assets/images/crop.jpeg";
 import { PhotoCamera } from "@mui/icons-material";
 
 const CropVarietyForm = () => {
