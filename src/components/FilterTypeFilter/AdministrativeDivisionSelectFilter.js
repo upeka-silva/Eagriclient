@@ -200,7 +200,7 @@ const AdministrativeDivisionSelectFilter = ({
               <Autocomplete
                 sx={{
                   minHeight: "28px", // Adjust the height as needed
-                  //padding: "4px", // Adjust the padding as needed
+                
                   borderRadius: "8px",
                 }}
                 multiple
@@ -216,7 +216,7 @@ const AdministrativeDivisionSelectFilter = ({
               <Autocomplete
                 sx={{
                   minHeight: "28px", // Adjust the height as needed
-                  //padding: "4px", // Adjust the padding as needed
+                 
                   borderRadius: "8px",
                 }}
                 id="dropdown"
