@@ -113,7 +113,7 @@ const Farmer = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.farmerId} - {p.firstName}- {p.lastName}
+                {p.farmerId} - {p.firstName}{" "}{p.lastName}
               </ListItemText>
             </ListItem>
           );
