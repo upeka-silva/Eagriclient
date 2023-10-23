@@ -700,9 +700,9 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "matchingPassword")
                     }
                     sx={{
-                      // width: "264px",
+                      
                       "& .MuiInputBase-root": {
-                        // height: "30px",
+                       
                         borderRadius: "8px",
                       },
                     }}
@@ -1040,8 +1040,7 @@ const UsersForm = () => {
           }
         >
           <Typography>
-            This will delete your existing administrative divisions and replace
-            with newly added values
+          This will replace your existing filter type with the newly added filter type
           </Typography>
         </DialogBox>
       </FormWrapper>
