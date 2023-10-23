@@ -786,7 +786,7 @@ const UsersForm = () => {
         <Grid
           container
           spacing={1}
-          sx={{ marginTop: "15px", width: "97%", marginLeft: "15px" }}
+          sx={{  width: "97%", marginLeft: "15px" }}
         >
           <Grid item lg={12} sm={12} xs={12}>
             <hr></hr>
@@ -795,7 +795,7 @@ const UsersForm = () => {
         <Grid
           container
           spacing={1}
-          sx={{ margin: "15px", width: "97%", borderRadius: "5px" }}
+          sx={{ margin: "15px", width: "97%", borderRadius: "5px" ,marginTop: "0px" }}
         >
           <Grid item lg={3} sm={3} xs={3}>
             <FieldWrapper>

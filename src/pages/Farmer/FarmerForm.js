@@ -105,9 +105,11 @@ const FarmerForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
       setForm(null);
+      
     } else {
       setFormData({});
       setForm(null);
+      setSelectedImage(null)
     }
   };
 
@@ -558,15 +560,24 @@ const FarmerForm = () => {
           </Grid>
         </Grid>
       </Grid>
-
+      <Grid
+          container
+          spacing={1}
+          sx={{  width: "97%", marginLeft: "15px",marginTop:"5px" }}
+        >
+          <Grid item lg={12} sm={12} xs={12}>
+            <hr></hr>
+          </Grid>
+        </Grid>
       
       <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
+          margintop: "0px",
         }}
       >
         <Grid item sm={3} md={3} lg={3}>
@@ -630,9 +641,18 @@ const FarmerForm = () => {
         </Grid>
       </Grid>
       <Grid
+          container
+          spacing={1}
+          sx={{  width: "97%", marginLeft: "15px" }}
+        >
+          <Grid item lg={12} sm={12} xs={12}>
+            <hr></hr>
+          </Grid>
+        </Grid>
+      <Grid
         container
         sx={{
-          border: "1px solid #bec0c2",
+          
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
