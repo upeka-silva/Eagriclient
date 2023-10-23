@@ -31,7 +31,11 @@ import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { handleUsers, updateUsers } from "../../redux/actions/users/action";
+import {
+  handleUserProfile,
+  handleUsers,
+  updateUsers,
+} from "../../redux/actions/users/action";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -73,7 +77,7 @@ const UsersForm = () => {
   const [userTypes, setUserTypes] = useState([]);
 
   const [selectedImage, setSelectedImage] = useState(
-    state?.target?.prsignedUrl || null
+    state?.target?.profilePictureUrl || null
   );
 
   const toggleTab = (index) => {
@@ -88,6 +92,7 @@ const UsersForm = () => {
   const [selectedAdminDivOjbects, setSelectedAdminDivObjects] = useState([]);
   const [isAdminDivDialogOpen, setAdminDivDialogOpen] = useState(false);
 
+  const [form, setForm] = useState();
   const handleRolesChange = (roleId) => {
     console.log(roleId);
     // Toggle the selected state of the role
@@ -100,71 +105,6 @@ const UsersForm = () => {
       : [...selectedRoles, { roleDTO: { id: roleId } }];
 
     setSelectedRoles(updatedRoles);
-  };
-
-  const handleImageChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        console.log(reader.result);
-        setSelectedImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-    const form = new FormData();
-    form.append("file", file);
-
-    try {
-      if (formData?.id) {
-        const response = await handleFormSubmit(
-          formData?.id,
-          form,
-          onSuccess,
-          onError
-        );
-        if ((response.httpCode = "200 OK")) {
-          const profilePicture = response.payload.storedFileName;
-          const originalFileName = response.payload.originalFileName;
-          const prsignedUrl = response.payload.presignedUrl;
-          const presignedExpDate = response.payload.expireDate;
-
-          setFormData({
-            ...formData,
-            profilePicture: profilePicture,
-            originalFileName: originalFileName,
-            prsignedUrl: prsignedUrl,
-            presignedExpDate: presignedExpDate,
-          });
-        }
-      } else {
-        const res = await handleUsers(formData);
-        console.log(res);
-        setFormData(res.payload);
-        const response = await handleUsers(
-          res.payload?.id,
-          form,
-          onSuccess("Success"),
-          onError
-        );
-        if ((response.httpCode = "200 OK")) {
-          const profilePicture = response.payload.storedFileName;
-          const originalFileName = response.payload.originalFileName;
-          const prsignedUrl = response.payload.presignedUrl;
-          const presignedExpDate = response.payload.expireDate;
-
-          setFormData({
-            ...formData,
-            profilePicture: profilePicture,
-            originalFileName: originalFileName,
-            prsignedUrl: prsignedUrl,
-            presignedExpDate: presignedExpDate,
-          });
-        }
-      }
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   useEffect(() => {
@@ -241,6 +181,7 @@ const UsersForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setSelectedImage(null);
     }
   };
 
@@ -279,20 +220,19 @@ const UsersForm = () => {
     setSaving(false);
   };
 
+ 
+
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
-
-      let firstName = new Date(formData.firstName);
-      let lastName = new Date(formData.lastName);
-      let dateOfBirth = new Date(formData.dateOfBirth);
-
+      let dob = new Date(formData.dateOfBirth);
       try {
-        if (formData?.id) {
-          await updateUsers(
+        if (form && state?.action === DEF_ACTIONS.ADD) {
+          console.log("save");
+          const response = await handleUsers(
             {
               ...formData,
-              dateOfBirth: dateOfBirth.valueOf() || null,
+              dateOfBirth: dob.valueOf() || null,
               userRoleDTOs: selectedRoles,
               administrativeDivisionDTO: {
                 administrativeDivisionType: selectedAdminDivType,
@@ -301,17 +241,82 @@ const UsersForm = () => {
                   name: obj.name,
                 })),
               },
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
+          console.log(response);
+          const res = await handleUserProfilePicture(response.payload?.id);
+          console.log(res);
+          if ((res.httpCode = "200 OK")) {
+            const storedFileName = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateUsers(
+              {
+                ...formData,
+                id: response.payload?.id,
+                dateOfBirth: dob.valueOf() || null,
+                storedFileName: storedFileName,
+                originalFileName: originalFileName,
+                profilePictureUrl: prsignedUrl,
+                presignedExpDate: presignedExpDate,
+                userRoleDTOs: selectedRoles,
+                administrativeDivisionDTO: {
+                  administrativeDivisionType: selectedAdminDivType,
+                  values: selectedAdminDivOjbects?.map((obj) => ({
+                    divisionId: obj.id,
+                    name: obj.name,
+                  })),
+                },
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
+        }
+        if (form && state?.action === DEF_ACTIONS.EDIT) {
+          const res = await handleUserProfilePicture(formData?.id);
+          console.log("update");
+          if ((res.httpCode = "200 OK")) {
+            const storedFileName = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateUsers(
+              {
+                ...formData,
+                dateOfBirth: dob.valueOf() || null,
+                profilePictureUrl: prsignedUrl,
+                originalFileName: originalFileName,
+                storedFileName: storedFileName,
+                presignedExpDate: presignedExpDate,
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
+        }
+        if (formData?.id && state?.action === DEF_ACTIONS.EDIT) {
+          await updateUsers(
+            {
+              ...formData,
+              dateOfBirth: dob.valueOf() || null,
             },
             onSuccess,
             onError
           );
         } else {
-          await handleUsers(
+          const response = await handleUsers(
             {
               ...formData,
-              startDate: firstName.valueOf() || null,
-              endDate: lastName.valueOf() || null,
-              dateOfBirth: dateOfBirth.valueOf() || null,
+              dateOfBirth: dob.valueOf() || null,
               userRoleDTOs: selectedRoles,
               administrativeDivisionDTO: {
                 administrativeDivisionType: selectedAdminDivType,
@@ -324,10 +329,44 @@ const UsersForm = () => {
             onSuccess,
             onError
           );
+          setFormData(response.payload);
+          console.log(response);
         }
+        setSaving(false);
       } catch (error) {
         console.log(error);
       }
+    }
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        console.log(reader.result);
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    const form = new FormData();
+    form.append("file", file);
+    setForm(form);
+  };
+
+  const handleUserProfilePicture = async (id) => {
+    try {
+      const response = await handleUserProfile(
+        id,
+        form,
+        onSuccess("Success"),
+        onError
+      );
+
+      return response;
+      
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -431,46 +470,9 @@ const UsersForm = () => {
   };
   return (
     <>
-      <FormWrapper>
-        {/* <ActionWrapper isLeft>
-          <Button startIcon={<ArrowBackIcon />} onClick={goBack}>
-            Go back to users list
-          </Button>
-        </ActionWrapper> */}
+      <FormWrapper style={{ overflowY: "scroll" }}>
         <BackToList goBack={goBack} />
         <CustFormHeader saving={saving} state={state} formName="New User" />
-
-        {/* <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <AddButton variant="contained" disabled>
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </AddButton>
-              ) : (
-                <>
-                  <AddButton
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
-                </>
-              )}
-            </ActionWrapper>
-          )}
-        </ButtonWrapper> */}
         <FormButtonGroup
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}
@@ -479,15 +481,24 @@ const UsersForm = () => {
           handleFormSubmit={handleFormSubmit}
           resetForm={resetForm}
         />
-        <Grid container>
-          <Grid item sm={2} md={2} lg={2}>
+        <Grid
+          container
+          sx={{
+            
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+          flex={"flex"}
+        >
+          <Grid item sm={3} md={3} lg={2} sx={{}}>
             <FieldWrapper>
               <FieldName>Select Profile Picture</FieldName>
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "5px",
+                  gap: "10px",
                 }}
               >
                 <input
@@ -546,77 +557,89 @@ const UsersForm = () => {
               </div>
             </FieldWrapper>
           </Grid>
-          <Grid container spacing={1} lg={10} sm={10} xs={10}>
-            <Grid item lg={4} sm={4} xs={4}>
-              <FieldWrapper>
-                <FieldName>First name</FieldName>
-                <TextField
-                  name="firstName"
-                  id="firstName"
-                  value={formData?.firstName || ""}
-                  fullWidth
-                  disabled={
-                    state?.action === DEF_ACTIONS.VIEW ||
-                    state?.action === DEF_ACTIONS.EDIT
-                  }
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "firstName")
-                  }
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  size="small"
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={4} sm={4} xs={4}>
-              <FieldWrapper>
-                <FieldName>Last name</FieldName>
-                <TextField
-                  name="lastName"
-                  id="lastName"
-                  value={formData?.lastName || ""}
-                  fullWidth
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "lastName")
-                  }
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  size="small"
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item lg={4} sm={4} xs={4}>
-              <FieldWrapper>
-                <FieldName>Date of Birth</FieldName>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DatePicker
-                    name="dob"
-                    id="dob"
+          <Grid item sm={3} md={3} lg={9}>
+            <Grid
+              container
+              sx={{
+                
+                width: "100%",
+                borderRadius: "5px",
+              }}
+            >
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FieldName>First name</FieldName>
+                  <TextField
+                    name="firstName"
+                    id="firstName"
+                    value={formData?.firstName || ""}
+                    fullWidth
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    slotProps={{ textField: { size: "small" } }}
-                    value={formData?.dateOfBirth || ""}
-                    onChange={(newValue) =>
-                      handleChange(newValue || "", "dateOfBirth")
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "firstName")
                     }
-                    in="DD-MM-YYYY"
                     sx={{
+                      
                       "& .MuiInputBase-root": {
+                       
                         borderRadius: "8px",
                       },
                     }}
+                    size="small"
                   />
-                </LocalizationProvider>
-              </FieldWrapper>
-            </Grid>
-            <Grid container spacing={1}>
-              <Grid item lg={6} sm={6} xs={6}>
+                </FieldWrapper>
+              </Grid>
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FieldName>Last name</FieldName>
+                  <TextField
+                    name="lastName"
+                    id="lastName"
+                    value={formData?.lastName || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "lastName")
+                    }
+                    sx={{
+                     
+                      "& .MuiInputBase-root": {
+                     
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              
+              <Grid item lg={3}>
+                <FieldWrapper>
+                  <FieldName>Date of Birth</FieldName>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                      name="dob"
+                      id="dob"
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      slotProps={{ textField: { size: "small" } }}
+                      value={formData?.dateOfBirth || ""}
+                      onChange={(newValue) =>
+                        handleChange(newValue || "", "dateOfBirth")
+                      }
+                      in="DD-MM-YYYY"
+                      sx={{
+                      
+                        "& .MuiInputBase-root": {
+                       
+                          borderRadius: "8px",
+                        },
+                      }}
+                    />
+                  </LocalizationProvider>
+                </FieldWrapper>
+              </Grid>
+
+              <Grid item lg={4}>
                 <FieldWrapper>
                   <FieldName>Email</FieldName>
                   <TextField
@@ -629,7 +652,9 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "email")
                     }
                     sx={{
+                     
                       "& .MuiInputBase-root": {
+                       
                         borderRadius: "8px",
                       },
                     }}
@@ -637,7 +662,7 @@ const UsersForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={3} sm={3} xs={3}>
+              <Grid item sm={3} md={3} lg={3}>
                 <FieldWrapper>
                   <FieldName>Password</FieldName>
                   <TextField
@@ -651,7 +676,9 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "password")
                     }
                     sx={{
+                      
                       "& .MuiInputBase-root": {
+                       
                         borderRadius: "8px",
                       },
                     }}
@@ -659,7 +686,7 @@ const UsersForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item lg={3} sm={3} xs={3}>
+              <Grid item sm={3} md={3} lg={3}>
                 <FieldWrapper>
                   <FieldName>Verify password</FieldName>
                   <TextField
@@ -673,7 +700,9 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "matchingPassword")
                     }
                     sx={{
+                      
                       "& .MuiInputBase-root": {
+                       
                         borderRadius: "8px",
                       },
                     }}
@@ -682,89 +711,92 @@ const UsersForm = () => {
                 </FieldWrapper>
               </Grid>
             </Grid>
-            <Grid container spacing={1}>
-              <Grid item sm={3} md={3} lg={3}>
-                <FieldWrapper>
-                  <FieldName>Gender</FieldName>
-                  <Select
-                    name="gender"
-                    id="gender"
-                    value={formData?.gender || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "gender")
-                    }
-                    sx={{
+          </Grid>
+          <Grid item sm={3} md={3} lg={2}>
+            <FieldWrapper>
+              <FieldName>Gender</FieldName>
+              <Select
+                name="gender"
+                id="gender"
+                value={formData?.gender || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "gender")}
+                sx={{
+                  borderRadius: "8px",
+                }}
+                size="small"
+                fullWidth
+              >
+                <MenuItem value={"M"}>Male</MenuItem>
+                <MenuItem value={"F"}>Female</MenuItem>
+                <MenuItem value={"O"}>Other</MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={2}>
+            <FieldWrapper>
+              <FieldName>Language</FieldName>
+              <Select
+                name="userLanguage"
+                id="userLanguage"
+                value={formData?.userLanguage || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "userLanguage")
+                }
+                sx={{
+                  borderRadius: "8px",
+                }}
+                size="small"
+                fullWidth
+              >
+                <MenuItem value={"SINHALA"}>Sinhala</MenuItem>
+                <MenuItem value={"TAMIL"}>Tamil</MenuItem>
+                <MenuItem value={"ENGLISH"}>English</MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={4} md={4} lg={3}>
+            <FieldWrapper>
+              <FormControl fullWidth>
+                <FieldName>User Type</FieldName>
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={userTypes}
+                  value={formData ? formData.userTypeDTO : ""}
+                  getOptionLabel={(i) => `${i.userTypeId} - ${i.description}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "userTypeDTO");
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
                       borderRadius: "8px",
-                    }}
-                    size="small"
-                    fullWidth
-                  >
-                    <MenuItem value={"M"}>Male</MenuItem>
-                    <MenuItem value={"F"}>Female</MenuItem>
-                    <MenuItem value={"O"}>Other</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={3} md={3} lg={3}>
-                <FieldWrapper>
-                  <FieldName>Language</FieldName>
-                  <Select
-                    name="userLanguage"
-                    id="userLanguage"
-                    value={formData?.userLanguage || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "userLanguage")
-                    }
-                    sx={{
-                      borderRadius: "8px",
-                    }}
-                    size="small"
-                    fullWidth
-                  >
-                    <MenuItem value={"SINHALA"}>Sinhala</MenuItem>
-                    <MenuItem value={"TAMIL"}>Tamil</MenuItem>
-                    <MenuItem value={"ENGLISH"}>English</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={4} md={4} lg={4}>
-                <FieldWrapper>
-                  <FormControl fullWidth>
-                    <FieldName>User Type</FieldName>
-                    <Autocomplete
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      options={userTypes}
-                      value={formData ? formData.userTypeDTO : ""}
-                      getOptionLabel={(i) =>
-                        `${i.userTypeId} - ${i.description}`
-                      }
-                      onChange={(event, value) => {
-                        handleChange(value, "userTypeDTO");
-                      }}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "8px",
-                        },
-                      }}
-                      size="small"
-                      renderInput={(params) => (
-                        <TextField {...params} size="small" />
-                      )}
-                    />
-                  </FormControl>
-                </FieldWrapper>
-              </Grid>
-            </Grid>
+                    },
+                  }}
+                  size="small"
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                />
+              </FormControl>
+            </FieldWrapper>
           </Grid>
         </Grid>
-        <Grid container spacing={1} sx={{ mt: "15px" }}>
+
+        <Grid
+          container
+          spacing={1}
+          sx={{ marginTop: "15px", width: "97%", marginLeft: "15px" }}
+        >
           <Grid item lg={12} sm={12} xs={12}>
             <hr></hr>
           </Grid>
         </Grid>
-        <Grid container spacing={1}>
+        <Grid
+          container
+          spacing={1}
+          sx={{ margin: "15px", width: "97%", borderRadius: "5px" }}
+        >
           <Grid item lg={3} sm={3} xs={3}>
             <FieldWrapper>
               <FieldName>Address 1</FieldName>
@@ -865,6 +897,7 @@ const UsersForm = () => {
               >
                 Roles
               </TabButton>
+              
               <TabButton
                 variant="contained"
                 className={toggleState === 3 ? "active-tabs" : ""}
@@ -892,46 +925,46 @@ const UsersForm = () => {
                 </Grid>
               </Grid>
             </TabContent>
+            
             <TabContent className={toggleState === 3 ? "active-content" : ""}>
-              <Grid container spacing={2}>
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  margin: "15px",
+                  width: "97%",
+                  borderRadius: "5px",
+                  // border: "1px solid #bec0c2",
+                }}
+              >
                 {state?.action !== DEF_ACTIONS.VIEW ? (
                   <Grid item lg={3}>
                     <FieldWrapper>
-                      <FormControl
+                      <FieldName>Select Adminstrative Division Type</FieldName>
+                      <Autocomplete
+                        id="dropdown"
+                        options={Object.keys(data).map((key) => ({
+                          value: key,
+                          label: data[key]?.displayName,
+                        }))}
+                        //getOptionLabel={(option) => option.label}
+                        onChange={(event, selectedOption) =>
+                          handleAdministrativeDivTypeSelect(
+                            selectedOption?.value
+                          )
+                        }
+                        value={selectedAdminDivOpt || "Choose an option"}
+                        isSearchable
+                        renderInput={(params) => <TextField {...params} />}
                         sx={{
-                          display: "flex",
-                          justifyContent: "row",
-                          minWidth: "364px",
+                          borderRadius: "8px",
+                          "& .MuiInputBase-root": {
+                            backgroundColor: "transparent", // Set the background color to transparent
+                          },
                         }}
                         size="small"
-                      >
-                        <FieldName>
-                          Select Adminstrative Division Type
-                        </FieldName>
-                        <Autocomplete
-                          id="dropdown"
-                          options={Object.keys(data).map((key) => ({
-                            value: key,
-                            label: data[key]?.displayName,
-                          }))}
-                          //getOptionLabel={(option) => option.label}
-                          onChange={(event, selectedOption) =>
-                            handleAdministrativeDivTypeSelect(
-                              selectedOption?.value
-                            )
-                          }
-                          value={selectedAdminDivOpt || "Choose an option"}
-                          isSearchable
-                          renderInput={(params) => <TextField {...params} />}
-                          sx={{
-                            borderRadius: "8px",
-                            "& .MuiInputBase-root": {
-                              backgroundColor: "transparent", // Set the background color to transparent
-                            },
-                          }}
-                          size="small"
-                        />
-                      </FormControl>
+                        fullWidth
+                      />
                     </FieldWrapper>
                   </Grid>
                 ) : null}
@@ -945,9 +978,9 @@ const UsersForm = () => {
                 ) : null}
 
                 {!loading ? (
-                  <Grid item lg={12}>
+                  <Grid item lg={3}>
                     {formData?.administrativeDivisionDTO &&
-                      state.action !== DEF_ACTIONS.ADD && (
+                      state.action != DEF_ACTIONS.ADD && (
                         <>
                           <Typography variant="h6" gutterBottom>
                             {formData.administrativeDivisionDTO?.type}
@@ -982,36 +1015,35 @@ const UsersForm = () => {
             </TabContent>
           </Grid>
         </Grid>
+        <DialogBox
+          open={isAdminDivDialogOpen}
+          title={`Please Confirm`}
+          actions={
+            <ActionWrapper>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() => setAdminDivDialogOpen(false)}
+                sx={{ ml: "8px" }}
+              >
+                Confirm
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={closeAdminDivDialog}
+                sx={{ ml: "8px" }}
+              >
+                Close
+              </Button>
+            </ActionWrapper>
+          }
+        >
+          <Typography>
+          This will replace your existing filter type with the newly added filter type
+          </Typography>
+        </DialogBox>
       </FormWrapper>
-      <DialogBox
-        open={isAdminDivDialogOpen}
-        title={`Please Confirm`}
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={() => setAdminDivDialogOpen(false)}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={closeAdminDivDialog}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <Typography>
-          This will delete your existing administrative divisions and replace
-          with newly added values
-        </Typography>
-      </DialogBox>
     </>
   );
 };

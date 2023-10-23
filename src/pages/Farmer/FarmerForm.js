@@ -85,6 +85,7 @@ const FarmerForm = () => {
     name: "",
     code: "",
   });
+  const [form, setForm] = useState();
 
   const { addSnackBar } = useSnackBars();
 
@@ -103,8 +104,10 @@ const FarmerForm = () => {
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
+      setForm(null);
     } else {
       setFormData({});
+      setForm(null);
     }
   };
 
@@ -147,23 +150,69 @@ const FarmerForm = () => {
       setSaving(true);
       let dob = new Date(formData.dob);
       try {
+        if (form && state?.action === DEF_ACTIONS.ADD) {
+          const response = await handleFarmer(
+            {
+              ...formData,
+              dob: dob.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
+          console.log(response);
+          const res = await handleFarmerProfilePicture(response.payload?.id);
+          console.log(res);
+          if ((res.httpCode = "200 OK")) {
+            const profilePicture = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateFarmer(
+              {
+                ...formData,
+                id: response.payload?.id,
+                dob: dob.valueOf() || null,
+                profilePicture: profilePicture,
+                originalFileName: originalFileName,
+                prsignedUrl: prsignedUrl,
+                presignedExpDate: presignedExpDate,
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
+        }
+        if (form && state?.action === DEF_ACTIONS.EDIT) {
+          const res = await handleFarmerProfilePicture(formData?.id);
+          if ((res.httpCode = "200 OK")) {
+            const profilePicture = res.payload.storedFileName;
+            const originalFileName = res.payload.originalFileName;
+            const prsignedUrl = res.payload.presignedUrl;
+            const presignedExpDate = res.payload.expireDate;
+
+            await updateFarmer(
+              {
+                ...formData,
+                dob: dob.valueOf() || null,
+                profilePicture: profilePicture,
+                originalFileName: originalFileName,
+                prsignedUrl: prsignedUrl,
+                presignedExpDate: presignedExpDate,
+              },
+              onSuccess,
+              onError
+            );
+          }
+          return;
+        }
         if (formData?.id && state?.action === DEF_ACTIONS.EDIT) {
           await updateFarmer(
             {
               ...formData,
               dob: dob.valueOf() || null,
-              gnDivision: { id: selectedGnDivision?.id },
-            },
-            onSuccess,
-            onError
-          );
-        }
-        if (formData?.id) {
-          await updateFarmer(
-            {
-              ...formData,
-              dob: dob.valueOf() || null,
-              gnDivision: { id: selectedGnDivision?.id },
             },
             onSuccess,
             onError
@@ -173,7 +222,6 @@ const FarmerForm = () => {
             {
               ...formData,
               dob: dob.valueOf() || null,
-              gnDivision: selectedGnDivision,
             },
             onSuccess,
             onError
@@ -200,53 +248,35 @@ const FarmerForm = () => {
     }
     const form = new FormData();
     form.append("file", file);
+    setForm(form);
 
+   
+  };
+
+  const handleFarmerProfilePicture = async (id) => {
+    console.log("handleFarmerProfile");
     try {
-      if (formData?.id) {
-        const response = await handleFarmerProfile(
-          formData?.id,
-          form,
-          onSuccess,
-          onError
-        );
-        if ((response.httpCode = "200 OK")) {
-          const profilePicture = response.payload.storedFileName;
-          const originalFileName = response.payload.originalFileName;
-          const prsignedUrl = response.payload.presignedUrl;
-          const presignedExpDate = response.payload.expireDate;
+      const response = await handleFarmerProfile(
+        id,
+        form,
+        onSuccess("Success"),
+        onError
+      );
 
-          setFormData({
-            ...formData,
-            profilePicture: profilePicture,
-            originalFileName: originalFileName,
-            prsignedUrl: prsignedUrl,
-            presignedExpDate: presignedExpDate,
-          });
-        }
-      } else {
-        const res = await handleFarmer(farmerDto);
-        console.log(res);
-        setFormData(res.payload);
-        const response = await handleFarmerProfile(
-          res.payload?.id,
-          form,
-          onSuccess("Success"),
-          onError
-        );
-        if ((response.httpCode = "200 OK")) {
-          const profilePicture = response.payload.storedFileName;
-          const originalFileName = response.payload.originalFileName;
-          const prsignedUrl = response.payload.presignedUrl;
-          const presignedExpDate = response.payload.expireDate;
+      return response;
+      if ((response.httpCode = "200 OK")) {
+        const profilePicture = response.payload.storedFileName;
+        const originalFileName = response.payload.originalFileName;
+        const prsignedUrl = response.payload.presignedUrl;
+        const presignedExpDate = response.payload.expireDate;
 
-          setFormData({
-            ...formData,
-            profilePicture: profilePicture,
-            originalFileName: originalFileName,
-            prsignedUrl: prsignedUrl,
-            presignedExpDate: presignedExpDate,
-          });
-        }
+        setFormData({
+          ...formData,
+          profilePicture: profilePicture,
+          originalFileName: originalFileName,
+          prsignedUrl: prsignedUrl,
+          presignedExpDate: presignedExpDate,
+        });
       }
     } catch (error) {
       console.log(error);
@@ -307,7 +337,7 @@ const FarmerForm = () => {
         )}
       </ButtonWrapper>
       <Grid container>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={3} md={3} lg={2}>
           <FieldWrapper>
             <FieldName>Select Profile Picture</FieldName>
             <div
@@ -373,116 +403,117 @@ const FarmerForm = () => {
             </div>
           </FieldWrapper>
         </Grid>
-      </Grid>
-
-      <Grid container spacing={1}>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Farmer ID</FieldName>
-            <TextField
-              name="farmerId"
-              id="farmerId"
-              value={formData?.farmerId || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "farmerId")}
-              type="text"
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>NIC No</FieldName>
-            <TextField
-              name="nic"
-              id="nic"
-              value={formData?.nic || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "nic")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>First Name</FieldName>
-            <TextField
-              name="firstName"
-              id="firstName"
-              value={formData?.firstName || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "firstName")
-              }
-              type="text"
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>Last Name</FieldName>
-            <TextField
-              name="lastName"
-              id="lastName"
-              value={formData?.lastName || ""}
-              fullWidth
-              type="text"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "lastName")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-      <Grid container spacing={1}>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Date of Birth</FieldName>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                slotProps={{ textField: { size: "small" } }}
-                name="dob"
-                id="dob"
-                value={formData?.dob || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(value) => {
-                  handleChange(value || "", "dob");
-                }}
-                in="DD-MM-YYYY"
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-              />
-            </LocalizationProvider>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={3} md={3} lg={9}>
+          <Grid container spacing={1}>
+            <Grid item sm={2} md={2} lg={2}>
+              <FieldWrapper>
+                <FieldName>Farmer ID</FieldName>
+                <TextField
+                  name="farmerId"
+                  id="farmerId"
+                  value={formData?.farmerId || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "farmerId")
+                  }
+                  type="text"
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={2} md={2} lg={3}>
+              <FieldWrapper>
+                <FieldName>NIC No</FieldName>
+                <TextField
+                  name="nic"
+                  id="nic"
+                  value={formData?.nic || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) => handleChange(e?.target?.value || "", "nic")}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={4} md={4} lg={4}>
+              <FieldWrapper>
+                <FieldName>First Name</FieldName>
+                <TextField
+                  name="firstName"
+                  id="firstName"
+                  value={formData?.firstName || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "firstName")
+                  }
+                  type="text"
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={4} md={4} lg={4}>
+              <FieldWrapper>
+                <FieldName>Last Name</FieldName>
+                <TextField
+                  name="lastName"
+                  id="lastName"
+                  value={formData?.lastName || ""}
+                  fullWidth
+                  type="text"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "lastName")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={2} md={2} lg={3}>
+              <FieldWrapper>
+                <FieldName>Date of Birth</FieldName>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    slotProps={{ textField: { size: "small" } }}
+                    name="dob"
+                    id="dob"
+                    value={formData?.dob || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(value) => {
+                      handleChange(value || "", "dob");
+                    }}
+                    in="DD-MM-YYYY"
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                  />
+                </LocalizationProvider>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Ethnicity</FieldName>
             <Select
@@ -505,7 +536,6 @@ const FarmerForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
-
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Gender</FieldName>
@@ -525,7 +555,11 @@ const FarmerForm = () => {
             </Select>
           </FieldWrapper>
         </Grid>
+          </Grid>
+        </Grid>
       </Grid>
+
+      
       <Grid
         container
         sx={{
@@ -615,7 +649,7 @@ const FarmerForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 handleChange(value, "gnDivision");
-                setSelectedGnDevision(value);
+               
               }}
               disableClearable
               sx={{
