@@ -96,7 +96,7 @@ export const getDDDivisionsByLogedInUser = async () => {
 
 export const getSeasons = async () => {
     try {
-      const { httpCode, payloadDto } = await get("seasons", true);
+      const { httpCode, payloadDto } = await get("crop-look/seasons?size=1000", true);
       if (httpCode === "200 OK") {
         return {
           dataList: payloadDto,

@@ -149,6 +149,10 @@ import CropRegistration from "../pages/CropLook/crop-registration";
 import CropRegistrationForm from "../pages/CropLook/crop-registration-from";
 import CropTarget from "../pages/CropLook/cropTarget/crop-target";
 import CropTargetForm from "../pages/CropLook/cropTarget/crop-target-from";
+import BiWeeklyReporting from "../pages/CropLook/biWeekReporting/biweekly-reporting";
+import BiWeeklyReportingForm from "../pages/CropLook/biWeekReporting/biweekly-reporting-from";
+import CropLookSeason from "../pages/CropLook/crop-look-Season/CropLookSeason";
+import CropLookSeasonForm from "../pages/CropLook/crop-look-Season/CropLookSeasonForm";
 
 export const Routes = [
   {
@@ -1204,6 +1208,20 @@ export const Routes = [
     icon: ContentPasteSearchIcon,
     children: [
       {
+        path: "/season",
+        name: "Crop Look Season",
+        isSideBar: true,
+        element: <CropLookSeason />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/season-form",
+        name: "Crop Look Season Form",
+        isSideBar: false,
+        element: <CropLookSeasonForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
         path: "/crop-registration",
         name: "Crop Registration",
         isSideBar: true,
@@ -1229,6 +1247,20 @@ export const Routes = [
         name: "Crop Targets Form",
         isSideBar: false,
         element: <CropTargetForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/biweekly-reporting",
+        name: "Bi Weekly Reporting",
+        isSideBar: true,
+        element: <BiWeeklyReporting />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/biweekly-reporting-form",
+        name: "Bi Weekly Reporting Form",
+        isSideBar: false,
+        element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
     ]

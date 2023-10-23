@@ -25,7 +25,6 @@ import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { TabButton, TabContent, TabWrapper } from "../../Farm-Land/FarmLandForm";
-import CropTargetTab from "./crop-target-tab";
 import {
   createCropRegistration,
   getDDDivisionsByLogedInUser,
@@ -33,8 +32,10 @@ import {
 } from "../../../redux/actions/cropLook/cropRegistration/actions";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 import { createCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
+import BiWeeklyReportingTab from "./biweekly-reporting-tab";
+import { getCropLookSeasons } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 
-const CropTargetForm = () => {
+const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -47,6 +48,7 @@ const CropTargetForm = () => {
   const [seasons, setSeasons] = useState([]);
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
+  const [selectedWeek, setSelectedWeek] = useState(null);
   const [selectedAiRegion, setSelectedAiRegion] = useState(null);
   const [cropTargetId, setCropTargetId] = useState(null);
   const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
@@ -63,7 +65,7 @@ const CropTargetForm = () => {
       console.log(dataList);
     });
 
-    getSeasons().then(({ dataList = [] }) => {
+    getCropLookSeasons().then(({ dataList = [] }) => {
       setSeasons(dataList);
       console.log(dataList);
     });
@@ -99,7 +101,7 @@ const CropTargetForm = () => {
   };
 
   const goBack = () => {
-    navigate("/crop-look/crop-target");
+    navigate("/crop-look/biweekly-reporting");
   };
 
   const handleAiRegionChange = (value) => {
@@ -109,6 +111,10 @@ const CropTargetForm = () => {
   const handlSeasonChange = (value) => {
     setSelectedSeason(value);
   };
+
+  const handlWeekChange = (value) => {
+    setSelectedWeek(value);
+  }
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -196,7 +202,7 @@ const CropTargetForm = () => {
         <CustFormHeader
           saving={saving}
           state={state}
-          formName="Crop Target"
+          formName="Bi Weekly Report"
         />
         <FormButtonGroup
           {...{
@@ -210,13 +216,6 @@ const CropTargetForm = () => {
         />
         <Grid
           container
-          //   spacing={1}
-          //   sx={{
-          //     // border: "1px solid #bec0c2",
-          //     margin: "15px",
-          //     width: "97%",
-          //     borderRadius: "5px",
-          //  }}
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
@@ -260,6 +259,27 @@ const CropTargetForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          {selectedSeason ? <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Week</FieldName>
+              <Autocomplete
+                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                options={selectedSeason?.biWeekDataList}
+                value={selectedWeek}
+                getOptionLabel={(i) => `${i.weekDescription}`}
+                onChange={(event, value) => {
+                  handlWeekChange(value);
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid> : null}
           <Grid item sx={{ marginTop: "20px" }}>
             <TabWrapper style={{ margin: "0px 0px" }}>
               {cropCategoryList.map((category, index) => (
@@ -277,7 +297,7 @@ const CropTargetForm = () => {
                   style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {cropTargetId ? <CropTargetTab
+                  {cropTargetId ? <BiWeeklyReportingTab
                     registrationId={cropTargetId}
                     aiRegionId={selectedAiRegion?.id}
                     seasonId={selectedSeason?.id}
@@ -294,4 +314,4 @@ const CropTargetForm = () => {
   );
 };
 
-export default CropTargetForm;
+export default BiWeeklyReportingForm;

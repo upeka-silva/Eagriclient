@@ -275,7 +275,7 @@ const CropRegistrationForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => `${i.label}`}
+                getOptionLabel={(i) => `${i.code}`}
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
