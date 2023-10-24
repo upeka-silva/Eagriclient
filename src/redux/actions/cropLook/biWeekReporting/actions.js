@@ -1,15 +1,13 @@
 import { put, get, post, api_delete } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
-export const createCropTarget = async (
+export const createBiWeeklyReport = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("crop-look/target-seasonal-region", payload, true);
-    // console.log('after crop look registration action ');
-    // console.log(payload);
+    const response = await post("crop-look/bi-week-reporting", payload, true);
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -38,7 +36,7 @@ export const createCropTarget = async (
   }
 };
 
-export const updateCropTarget = async (
+export const updateBiWeekReporting = async (
   id,
   cropCategoryId,
   payload = {},
@@ -46,7 +44,7 @@ export const updateCropTarget = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/target-seasonal-region/${id}/category/${cropCategoryId}/crop-targets`, payload, true);
+    const response = await put(`crop-look/bi-week-reporting/${id}/category/${cropCategoryId}/crop-targets`, payload, true);
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {

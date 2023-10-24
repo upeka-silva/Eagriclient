@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import { Grid } from "@mui/material";
+import { Avatar, Chip, Grid } from "@mui/material";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 
 const BiWeeklySingleInput = ({
@@ -9,21 +9,25 @@ const BiWeeklySingleInput = ({
   cropIndex,
   varietyIndex,
   targetedExtentHandler,
-  mode
+  mode,
 }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item xs={1}>
-        <InputLabel htmlFor="input-label">
-          {varietyTarget.varietyName}
-        </InputLabel>
+        <Chip
+          avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
+          label={varietyTarget.varietyName}
+          variant="outlined"
+          sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px"}}
+        />
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input1"
-          label="Targeted Extent Major (In Ha)"
+          label="Extent Major (In Ha)"
           value={varietyTarget.targetedExtentMajor}
           onChange={(e) =>
             targetedExtentHandler(
@@ -33,15 +37,22 @@ const BiWeeklySingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1, marginRight: 8 }}
+          //style={{ flex: 1, marginRight: 8 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
         <TextField
+        type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input2"
-          label="Targeted Extent Minor (In Ha)"
+          label="Extent Minor (In Ha)"
           value={varietyTarget.targetedExtentMinor}
           onChange={(e) =>
             targetedExtentHandler(
@@ -51,15 +62,22 @@ const BiWeeklySingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1, marginRight: 8 }}
+          //style={{ flex: 1, marginRight: 8 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
         <TextField
+        type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input3"
-          label="Targeted Extent Rainfed (In Ha)"
+          label="Extent Rainfed (In Ha)"
           value={varietyTarget.targetedExtentRainfed}
           onChange={(e) =>
             targetedExtentHandler(
@@ -69,15 +87,22 @@ const BiWeeklySingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          //style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
         <TextField
+        type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input4"
-          label="Targeted Extent Irrigate (In Ha)"
+          label="Extent Irrigate (In Ha)"
           value={varietyTarget.targetedExtentIrrigate}
           onChange={(e) =>
             targetedExtentHandler(
@@ -87,15 +112,22 @@ const BiWeeklySingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          // style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
         <TextField
+        type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input5"
-          label="Targeted Extent (In Ha)"
+          label="Extent (In Ha)"
           value={varietyTarget.targetedExtent}
           onChange={(e) =>
             targetedExtentHandler(
@@ -105,7 +137,13 @@ const BiWeeklySingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          // style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
     </Grid>

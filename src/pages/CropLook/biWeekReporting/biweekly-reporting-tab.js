@@ -10,6 +10,7 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
+import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -26,11 +27,13 @@ const BiWeeklyReportingTab = ({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    console.log('inside tab ========>');
     if (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) {
       // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
       //   setCropTargets(dataList?.cropTargets);
       // });
-      setCropTargets(savedCropCategoryTarget?.cropTargets);
+      console.log(savedCropCategoryTarget);
+      setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
         aiRegionId,
@@ -76,16 +79,16 @@ const BiWeeklyReportingTab = ({
     setSaving(true);
     const payload = {
       id: registrationId,
-      cropCategoryTargets: [
+      biWeekCropCategoryReport: [
         {
           cropCategory: { id: cropCategoryId },
-          cropTargets: cropTargets,
+          biWeekCropReport: cropTargets,
         },
       ],
     };
 
     try {
-      await updateCropTarget(
+      await updateBiWeekReporting(
         registrationId,
         cropCategoryId,
         payload,
@@ -119,7 +122,7 @@ const BiWeeklyReportingTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
-        <div style={{ textAlign: "right" }}>
+        <div style={{ textAlign: "left" }}>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
             style={{ marginRight: "10px" }}

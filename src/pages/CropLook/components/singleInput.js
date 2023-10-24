@@ -10,7 +10,7 @@ const SingleInput = ({
   cropIndex,
   varietyIndex,
   targetedExtentHandler,
-  mode
+  mode,
 }) => {
   return (
     <Grid container spacing={2}>
@@ -21,6 +21,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input1"
@@ -39,6 +40,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input2"
@@ -57,6 +59,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input3"
@@ -75,6 +78,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input4"
@@ -93,6 +97,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input5"

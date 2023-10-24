@@ -5,13 +5,14 @@ import BiWeeklySingleInput from "./biweekly-singleInput";
 
 const BiweeklyCropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex }) => {
   return (
-    <Grid container spacing={1}>
+    <Grid container>
       <Grid item xs={12}>
         <p>{cropTarget.cropName}</p>
+        <hr/>
       </Grid>
 
       {cropTarget.varietyTargets.map((varietyTarget, varietyIndex) => (
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{mb:"15px"}}>
           <BiWeeklySingleInput
             varietyTarget={varietyTarget}
             targetedExtentHandler={targetedExtentHandler}
