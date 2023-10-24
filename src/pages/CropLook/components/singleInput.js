@@ -2,7 +2,7 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
-import { Grid } from "@mui/material";
+import { Avatar, Chip, Grid } from "@mui/material";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 
 const SingleInput = ({
@@ -15,9 +15,12 @@ const SingleInput = ({
   return (
     <Grid container spacing={2}>
       <Grid item xs={1}>
-        <InputLabel htmlFor="input-label">
-          {varietyTarget.varietyName}
-        </InputLabel>
+        <Chip
+          avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
+          label={varietyTarget.varietyName}
+          variant="outlined"
+          sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
+        />
       </Grid>
       <Grid item xs={2}>
         <TextField
@@ -35,7 +38,13 @@ const SingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1, marginRight: 8 }}
+          //style={{ flex: 1, marginRight: 8 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
@@ -54,7 +63,13 @@ const SingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1, marginRight: 8 }}
+          //style={{ flex: 1, marginRight: 8 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
@@ -73,7 +88,13 @@ const SingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          //style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
@@ -92,7 +113,13 @@ const SingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          //style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
       <Grid item xs={2}>
@@ -111,7 +138,13 @@ const SingleInput = ({
               e.target.value
             )
           }
-          style={{ flex: 1 }}
+          //style={{ flex: 1 }}
+          sx={{
+            "& .MuiInputBase-root": {
+              borderRadius: "8px",
+            },
+          }}
+          size="small"
         />
       </Grid>
     </Grid>

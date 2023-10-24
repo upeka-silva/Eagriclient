@@ -1,7 +1,7 @@
 import React from "react";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
-import { Avatar, Chip, Grid } from "@mui/material";
+import { Avatar, Button, Chip, Grid } from "@mui/material";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 
 const BiWeeklySingleInput = ({
@@ -18,7 +18,7 @@ const BiWeeklySingleInput = ({
           avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
           label={varietyTarget.varietyName}
           variant="outlined"
-          sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px"}}
+          sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
         />
       </Grid>
       <Grid item xs={2}>
@@ -48,7 +48,7 @@ const BiWeeklySingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
-        type="number"
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input2"
@@ -73,7 +73,7 @@ const BiWeeklySingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
-        type="number"
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input3"
@@ -98,7 +98,7 @@ const BiWeeklySingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
-        type="number"
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input4"
@@ -123,7 +123,7 @@ const BiWeeklySingleInput = ({
       </Grid>
       <Grid item xs={2}>
         <TextField
-        type="number"
+          type="number"
           disabled={mode === DEF_ACTIONS.VIEW}
           variant="outlined"
           id="input5"
@@ -145,6 +145,18 @@ const BiWeeklySingleInput = ({
           }}
           size="small"
         />
+      </Grid>
+      <Grid item xs={1}>
+        <Button
+          disabled={mode === DEF_ACTIONS.VIEW}
+          variant="outlined"
+          color="success"
+          size="small"
+          //onClick={handleCropUpdate}
+          sx={{ marginTop: "10px" }}
+        >
+          Add Damage
+        </Button>
       </Grid>
     </Grid>
   );
