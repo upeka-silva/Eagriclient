@@ -24,6 +24,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
+import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
 
 const FarmLand = () => {
   useUserAccessValidation();
@@ -237,6 +238,7 @@ const FarmLand = () => {
           {renderSelectedItems()}
         </>
       </DialogBox>
+     
     </div>
   );
 };
