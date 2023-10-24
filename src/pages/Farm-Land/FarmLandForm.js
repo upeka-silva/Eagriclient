@@ -57,6 +57,7 @@ import OwnershipList from "./FarmLandOwnership/OwnershipList";
 import {
   deleteFarmLandOwnership,
   get_FarmLandOwnershipList,
+  get_FarmLandOwnershipListByLandId,
 } from "../../redux/actions/farmerLandOwnership/action";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
@@ -79,7 +80,8 @@ const FarmLandForm = () => {
   const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
   const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] =
     useState(false);
-
+  const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
+  console.log(state?.target?.id == undefined);
   const [protectedHouseList, setProtectedHoseList] = useState([]);
   const [phLoading, setPhLoading] = useState(true);
 
@@ -315,10 +317,13 @@ const FarmLandForm = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          await updateFarmLand(formData, onSuccess, onError);
+          const response = await updateFarmLand(formData, onSuccess, onError);
+          setFormData(response?.payload);
         } else {
-          await handleFarmLand(formData, onSuccess, onError);
+          const response = await handleFarmLand(formData, onSuccess, onError);
+          setFormData(response?.payload);
         }
+        setTabEnabled(true);
       } catch (error) {
         console.log(error);
       }
@@ -380,7 +385,7 @@ const FarmLandForm = () => {
   };
 
   useEffect(() => {
-    get_FarmLandOwnershipList().then(({ dataList = [] }) => {
+   formData?.id &&  get_FarmLandOwnershipListByLandId(formData?.id).then(({ dataList = [] }) => {
       console.log(dataList);
       setFlODataList(dataList);
     });
@@ -885,26 +890,22 @@ const FarmLandForm = () => {
           className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}
         >
-          Land Location
+          Location
         </TabButton>
         <TabButton
           variant="contained"
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
+          disabled={!tabEnabled}
         >
-          Farm Land Ownership
+          Ownership
         </TabButton>
-        <TabButton
-          variant="contained"
-          className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(3)}
-        >
-          Soil Type Per Land
-        </TabButton>
+
         <TabButton
           variant="contained"
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
+          disabled={!tabEnabled}
         >
           Self Assessment
         </TabButton>
@@ -912,6 +913,7 @@ const FarmLandForm = () => {
           variant="contained"
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
+          disabled={!tabEnabled}
         >
           Basic Assessment
         </TabButton>
@@ -970,86 +972,6 @@ const FarmLandForm = () => {
         />
       </TabContent>
 
-      <TabContent className={toggleState === 3 ? "active-content" : ""}>
-        <FormButtonGroup
-          {...{
-            state,
-            DEF_ACTIONS,
-            saving,
-            enableSave,
-            handleFormSubmit,
-            resetForm,
-          }}
-        />
-        <Box sx={{ padding: "20px" }}>
-          <Grid
-            container
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-            }}
-          >
-            <Grid item sm={6} md={6} lg={6}>
-              <FieldWrapper>
-                <FieldName>Land ID</FieldName>
-                <TextField
-                  name="landId"
-                  id="landId"
-                  value={formData?.landId || ""}
-                  type="number"
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "landId")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={6} md={6} lg={6}>
-              <FieldWrapper>
-                <FieldName>Soil Type ID</FieldName>
-                <TextField
-                  name="soilTypeId"
-                  id="soilTypeId"
-                  value={formData?.soilTypeId || ""}
-                  type="number"
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "soilTypeId")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-          </Grid>
-          <DataGrid
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-            sx={{ borderRadius: "0px", marginTop: "40px" }}
-            hideFooterSelectedRowCount
-          />
-        </Box>
-      </TabContent>
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
         <DynamicFormListFarmLand
           dataList={null}

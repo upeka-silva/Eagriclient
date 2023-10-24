@@ -10,6 +10,7 @@ import {
   MenuItem,
   InputLabel,
   Stack,
+  ButtonGroup,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -23,6 +24,7 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
+  getFarmLandByFarmerId,
   handleFarmLand,
   updateFarmLand,
 } from "../../redux/actions/farmLand/action";
@@ -42,10 +44,20 @@ import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
-import { handleGap, updateGap } from "../../redux/actions/gap/action";
+import {
+  getCropDetailsList,
+  handleGap,
+  updateGap,
+} from "../../redux/actions/gap/action";
 import CropDetails from "./CropDetails";
 import { gapReqDto } from "./gap-type";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import {
+  Add,
+  ArrowCircleLeftRounded,
+  Delete,
+  Edit,
+  Vrpano,
+} from "@mui/icons-material";
 import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
@@ -53,6 +65,7 @@ import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import { get } from "../../services/api";
 import FarmerList from "../Farmer/FarmerList";
 import { get_FarmerList } from "../../redux/actions/farmer/action";
+import CropDetailsList from "./CropDetails/CropDetailsList";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -81,10 +94,15 @@ const GapRegForm = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [selectedCrop, setSelectedCrop] = useState([]);
+  const [cropList, setCropList] = useState([]);
+  const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
+
   const { addSnackBar } = useSnackBars();
 
   const toggleTab = (index) => {
     setToggleState(index);
+    console.log(index);
   };
 
   const goBack = () => {
@@ -209,9 +227,11 @@ const GapRegForm = () => {
       }
       try {
         if (formData?.id) {
-          await updateGap(formData, onSuccess, onError);
+          const response = await updateGap(formData, onSuccess, onError);
+          setFormData(response?.payload);
         } else {
-          await handleGap(formData, onSuccess, onError);
+          const response = await handleGap(formData, onSuccess, onError);
+          setFormData(response?.payload);
         }
       } catch (error) {
         console.log(error);
@@ -224,6 +244,31 @@ const GapRegForm = () => {
       ? ""
       : location.pathname;
   };
+  const getLandsByFarmerId = (id) => {
+    getFarmLandByFarmerId(id).then(({ dataList = {} }) => {
+      setFarmerLandList(dataList);
+    });
+  };
+  const fetchCropAreaData = () => {
+    getCropDetailsList(formData?.id).then(({ dataList = {} }) => {
+      setCropList(dataList);
+    });
+  };
+
+  useEffect(() => {
+    fetchCropAreaData();
+  }, []);
+
+  const toggleCropSelect = (component) => {
+    console.log(component);
+    setSelectedCrop(component);
+  };
+
+  const onCreateCropDetails = () => {};
+  const onEditCropDetails = () => {};
+  const onDeleteCropDetails = () => {};
+
+  const onViewCropDetails = () => {};
 
   return (
     <div
@@ -255,24 +300,6 @@ const GapRegForm = () => {
         >
           {state?.action !== DEF_ACTIONS.VIEW && (
             <ActionWrapper>
-              {/* {saving ? (
-                <AddButton variant="contained" disabled>
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </AddButton>
-              ) : (
-                <>
-                  <AddButton
-                    variant="contained"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"}
-                  </AddButton>
-                  <ResetButton onClick={resetForm}>RESET</ResetButton>
-                </>
-              )} */}
               {saving ? (
                 <Button variant="contained">
                   {state?.action === DEF_ACTIONS.ADD
@@ -288,8 +315,7 @@ const GapRegForm = () => {
                     size="small"
                     color="success"
                   >
-                    {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                    {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
+                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
                   <Button
                     onClick={resetForm}
@@ -311,6 +337,7 @@ const GapRegForm = () => {
             sx={{
               display: "flex",
             }}
+            lg={2}
           >
             <FieldWrapper>
               <FieldName
@@ -318,7 +345,7 @@ const GapRegForm = () => {
                   width: "100%",
                 }}
               >
-                Certificate Renewal
+                Renewal
               </FieldName>
               <Checkbox
                 {...label}
@@ -331,9 +358,7 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
-        </Grid>
-        <Grid container sx={{ marginBottom: "20px" }} spacing={1}>
-          <Grid item sm={12} md={6} lg={6}>
+          <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farmer</FieldName>
               {loading ? (
@@ -348,6 +373,7 @@ const GapRegForm = () => {
                   }
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
+                    getLandsByFarmerId(value?.id)
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -363,11 +389,14 @@ const GapRegForm = () => {
               )}
             </FieldWrapper>
           </Grid>
-          <Grid item sm={12} md={6} lg={6}>
+          <Grid item sm={12} md={6} lg={5}>
             <FieldWrapper>
               <FieldName>Farm Land</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  formData?.farmerDTO == null
+                }
                 options={farmerLandList}
                 value={formData ? formData.farmLandDTO : ""}
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
@@ -386,6 +415,7 @@ const GapRegForm = () => {
             </FieldWrapper>
           </Grid>
         </Grid>
+        <Grid container sx={{ marginBottom: "20px" }} spacing={1}></Grid>
       </TabContent>
 
       <TabWrapper style={{ margin: "0px 0px" }}>
@@ -396,51 +426,51 @@ const GapRegForm = () => {
           General
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
+          // disabled = {formData?.id !== null}
         >
           Crop Details
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(3)}
+          disabled={formData?.id !== null}
         >
           Land Details
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
+          disabled={formData?.id !== null}
         >
           Internal Audit
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
+          disabled={formData?.id !== null}
         >
           External Audit
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 6 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(6)}
+          disabled={formData?.id !== null}
         >
           Test
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 7 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(7)}
+          disabled={formData?.id !== null}
         >
           Certificate
         </TabButton>
         <TabButton
-          disabled={tabEnabled}
           className={toggleState === 8 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          onClick={() => toggleTab(8)}
+          disabled={formData?.id !== null}
         >
           Initial Assesment
         </TabButton>
@@ -2055,7 +2085,43 @@ const GapRegForm = () => {
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
       >
-        <CropDetails actionMode={state?.action} gapReqId={formData.id} />
+        {/* <CropDetails actionMode={state?.action} gapReqId={formData.id} /> */}
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <Button onClick={onCreateCropDetails}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+
+            {selectedCrop.length == 1 && (
+              <Button onClick={onEditCropDetails}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            )}
+
+            {selectedCrop.length == 1 && (
+              <Button onClick={onViewCropDetails}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            )}
+
+            {selectedCrop.length > 0 && (
+              <Button onClick={onDeleteCropDetails}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            )}
+          </ButtonGroup>
+        </ActionWrapper>
+        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
@@ -2077,6 +2143,15 @@ const GapRegForm = () => {
           auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
+      {/* <AddCropDetailsDialog
+        open={openCropAreaAddDlg}
+        setConfirmDialog={setOpenCropAreaAddDlg}
+        // setConfirmDialog={setOpenDlg}
+        confirmAction={handle}
+        handleClose={closeAddCropArea}
+        formData={formData}
+        mode={dialogMode}
+      /> */}
     </div>
   );
 };
