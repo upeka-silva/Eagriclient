@@ -18,7 +18,7 @@ const CropRegistrationList = ({
     {
       field: "ddLabel", headerName: "DD Division ",
     },
-    { field: "season.label", headerName: "Season" },
+    { field: "season.code", headerName: "Season" },
   ];
 
   const [id, setId] = useState(null);

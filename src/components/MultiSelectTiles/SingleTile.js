@@ -44,7 +44,7 @@ const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled 
         
       >
         <CardContent style={{ alignContent: "center" }}>
-          <Box sx={{ flexDirection: "column", pl: "30px"}}>
+          <Box sx={{ flexDirection: "column", pl: "25px"}}>
             <Avatar
               alt="Remy Sharp"
               src={imageUrl ? imageUrl : CropImg}

@@ -225,7 +225,7 @@ const CropTargetForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) => `${i.regionId}`}
+                getOptionLabel={(i) => `${i.regionId} - ${i.description}`}
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
