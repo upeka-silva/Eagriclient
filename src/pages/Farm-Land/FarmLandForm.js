@@ -11,6 +11,11 @@ import {
   Stack,
   CircularProgress,
   ButtonGroup,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -45,12 +50,17 @@ import { isEmpty } from "../../utils/helpers/stringUtils";
 import GridFormField from "../../components/GridFormField/GridFormField";
 import { FORM_CONTROL_TYPE } from "../../components/GridFormField/FieldType";
 import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
-import FarmLandOwnershipList from "./FarmLandOwnership/FarmLandOwnershipList";
 import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import OwnershipList from "./FarmLandOwnership/OwnershipList";
-import { get_FarmLandOwnershipList } from "../../redux/actions/farmerLandOwnership/action";
+import {
+  deleteFarmLandOwnership,
+  get_FarmLandOwnershipList,
+} from "../../redux/actions/farmerLandOwnership/action";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -80,6 +90,11 @@ const FarmLandForm = () => {
   const [openFlO, setOpenFlO] = useState(false);
   const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [selectedOwnership, setSelectedOwnership] = useState([]);
+  const [openDeleteOwnership, setOpenDeleteOwnership] = useState(false);
+  const [refreshFLOwnership, setRefreshFLOwnership] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const dateAdapter = new AdapterDayjs();
 
   const landTypeItems = [
     { value: "OPEN_FIELD", label: "Open Field" },
@@ -325,18 +340,28 @@ const FarmLandForm = () => {
     setOpenFlO(true);
   };
   const onEditFlOData = () => {
-    console.log(selectedOwnership[0])
-    setFlOData(selectedOwnership[0])
+    const data = flODataList.filter((item) => item?.id == selectedOwnership[0]);
+    console.log(data[0]);
+    const dateFrom = dateAdapter.date(data[0].dateFrom);
+    const dateUntil = dateAdapter.date(data[0].dateUntil);
+
+    setFlOAction(DEF_ACTIONS.EDIT);
+    setFlOData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
     setOpenFlO(true);
   };
   const onDeleteFlOData = () => {
-    setOpenFlO(true);
+    setOpenDeleteOwnership(true);
+    //setOpenFlO(true);
   };
 
   const onViewFlOData = () => {
-    const data = flODataList.filter((item)=>item?.id == selectedOwnership[0])
-    console.log(data)
-    setFlOData(data)
+    const data = flODataList.filter((item) => item?.id == selectedOwnership[0]);
+    console.log(data[0]);
+    const dateFrom = dateAdapter.date(data[0].dateFrom);
+    const dateUntil = dateAdapter.date(data[0].dateUntil);
+
+    setFlOAction(DEF_ACTIONS.VIEW);
+    setFlOData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
     setOpenFlO(true);
   };
 
@@ -345,40 +370,74 @@ const FarmLandForm = () => {
   };
 
   const toggleFarmLandOwnershipSelect = (component) => {
-    console.log(component)
-    // setSelectedOwnership((current = []) => {
-    //   let newList = [...current];
-    //   let index = newList.findIndex((c) => c?.id === component?.id);
-    //   if (index > -1) {
-    //     newList.splice(index, 1);
-    //   } else {
-    //     newList.push(component);
-    //   }
-    //   console.log(newList)
-    //   return newList;
-    // });
-    setSelectedOwnership(component)
-   
+    console.log(component);
+    setSelectedOwnership(component);
+  };
+
+  const resetSelectedFarmLandOwnership = () => {
+    setSelectedOwnership([]);
+    refreshFLOList();
   };
 
   useEffect(() => {
-    const data = [
-      { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-      { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-      { id: 13, lastName: "Lannister", firstName: "Jaime", age: 45 },
-      { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-      { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: 12 },
-      { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-      { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-      { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-      { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-    ];
-    // get_FarmLandOwnershipList().then(({ dataList = [] }) => {
-    //   console.log(dataList);
-    //   setFlODataList(dataList);
-    // });
-    setFlODataList(data)
-  }, []);
+    get_FarmLandOwnershipList().then(({ dataList = [] }) => {
+      console.log(dataList);
+      setFlODataList(dataList);
+    });
+  }, [refreshFLOwnership]);
+
+  const closeOwnershipDelete = () => {
+    setOpenDeleteOwnership(false);
+  };
+  const refreshFLOList = () => {
+    setRefreshFLOwnership(!refreshFLOwnership);
+  };
+
+  const onConfirmDeleteOwnership = async () => {
+    try {
+      setLoading(true);
+      for (const id of selectedOwnership) {
+        await deleteFarmLandOwnership(id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeOwnershipDelete();
+      resetSelectedFarmLandOwnership();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedOwnership.map((p, key) => {
+          console.log(p);
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p} - {p.ownerType}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
 
   return (
     <Box
@@ -904,8 +963,11 @@ const FarmLandForm = () => {
             )}
           </ButtonGroup>
         </ActionWrapper>
-        {/* <FarmLandOwnershipList /> */}
-        <OwnershipList onRowSelect={toggleFarmLandOwnershipSelect} data={flODataList}/>
+
+        <OwnershipList
+          onRowSelect={toggleFarmLandOwnershipSelect}
+          data={flODataList}
+        />
       </TabContent>
 
       <TabContent className={toggleState === 3 ? "active-content" : ""}>
@@ -1014,7 +1076,38 @@ const FarmLandForm = () => {
         data={flOData}
         onChange={handleFlOData}
         resetData={resetData}
+        refresh={refreshFLOList}
       />
+      <DialogBox
+        open={openDeleteOwnership}
+        title="Delete Farm Land Ownership"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirmDeleteOwnership}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={closeOwnershipDelete}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </Box>
   );
 };
