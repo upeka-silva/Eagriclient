@@ -119,3 +119,22 @@ export const get_FarmLandOwnershipList = async () => {
     };
   }
 };
+
+export const get_FarmLandOwnershipListByLandId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(`farm-land-ownership/${id}/farm-land-ownerships`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

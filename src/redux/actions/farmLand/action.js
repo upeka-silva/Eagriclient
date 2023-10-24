@@ -23,6 +23,7 @@ export const handleFarmLand = async (
       throw exception;
     }
     console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -56,6 +57,7 @@ export const deleteFarmLand = async (
       };
       throw exception;
     }
+    
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -89,6 +91,7 @@ export const updateFarmLand = async (
       throw exception;
     }
     console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -103,6 +106,25 @@ export const updateFarmLand = async (
 export const getFarmLandById = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(`farm-land/${id}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getFarmLandByFarmerId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(`farm-land/get-farmer-own-lands/${id}`, true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
