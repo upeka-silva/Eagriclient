@@ -13,7 +13,7 @@ const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
             key={option.id}
             id={option.id}
             name={option.varietyId}
-            imageUrl={option.imageUrl}
+            imageUrl={option?.presignedUrl}
             onOptionClick={handleSelectedValues}
             isSelected={option?.selected || false}
             isDisabled={isItemDisabled}
