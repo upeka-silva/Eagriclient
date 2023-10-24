@@ -1,14 +1,14 @@
 import { put, post, get, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
-export const handleFarmLand = async (
+export const handleFarmLandOwnership = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("farm-land", payload, true);
-    if (response.httpCode === "201 CREATED") {
+    const response = await post("farm-land-ownership", payload, true);
+    if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
       const exception = {
@@ -22,7 +22,7 @@ export const handleFarmLand = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -34,13 +34,13 @@ export const handleFarmLand = async (
   }
 };
 
-export const deleteFarmLand = async (
+export const deleteFarmLandOwnership = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`farm-land/${id || ""}`, true);
+    const response = await api_delete(`farm-land-ownership/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -67,13 +67,13 @@ export const deleteFarmLand = async (
   }
 };
 
-export const updateFarmLand = async (
+export const updateFarmLandOwnership= async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`farm-land/${payload?.id || ""}`, payload, true);
+    const response = await put(`farm-land-ownership/${payload?.id || ""}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -100,9 +100,10 @@ export const updateFarmLand = async (
   }
 };
 
-export const getFarmLandById = async (id) => {
+
+export const get_FarmLandOwnershipList = async () => {
   try {
-    const { httpCode, payloadDto } = await get(`farm-land/${id}`, true);
+    const { httpCode, payloadDto } = await get("farm-land-ownership", true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
