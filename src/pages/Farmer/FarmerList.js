@@ -9,11 +9,12 @@ const FarmerList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "Code" },
-    { field: "firstName", headerName: "First Name" },
-    { field: "lastName", headerName: "Last Name" },
-    { field: "nationality", headerName: "Nationality" },
+    { field: "farmerId", headerName: "ID" },
+    { field: ["firstName", "lastName"], headerName: "Name" },
+    { field: "nationality", headerName: "Ethnicity" },
     { field: "nic", headerName: "Nic" },
+    { field: "address", headerName: "Address" },
+    { field: "mobile", headerName: "Contact Number" },
   ];
 
   return (

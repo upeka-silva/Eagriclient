@@ -22,7 +22,7 @@ export const handleCrop = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -143,6 +143,41 @@ export const deleteCrop = async (
       };
       throw exception;
     }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+
+export const handleCropImage = async (
+  id,
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await post(`geo-data/crops/${id}/crop-image`, payload, true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+   return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

@@ -19,16 +19,12 @@ import { defaultMessages } from "../../utils/constants/apiMessages";
 import { deleteUserType } from "../../redux/actions/userType/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-import { ActionButton } from "../../components/ActionButtons/ActionButton";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import UserTypeList from "./UserTypeList";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const UserType = () => {
   useUserAccessValidation();
@@ -151,6 +147,7 @@ const UserType = () => {
 
   return (
     <div>
+      <ListHeader title="User Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -162,17 +159,17 @@ const UserType = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.USER_TYPE}`}
           >
-           <Button  onClick={onCreate}>
-            <Add/>
-            {DEF_ACTIONS.ADD}
-          </Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
           {selectUserType.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.USER_TYPE}`}
             >
-               <Button onClick={onEdit}>
-                <Edit/>
+              <Button onClick={onEdit}>
+                <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
             </PermissionWrapper>
@@ -181,7 +178,7 @@ const UserType = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.USER_TYPE}`}
             >
-               <Button onClick={onView}>
+              <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>

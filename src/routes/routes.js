@@ -55,6 +55,7 @@ import FarmLandForm from "../pages/Farm-Land/FarmLandForm";
 import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
+import UserTypeForm from "../pages/UserType/UserTypeForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -100,7 +101,6 @@ import ASCForm from "../pages/Agrarian/ASC/ASCForm";
 import ARPA from "../pages/Agrarian/ARPA/ARPA";
 import ARPAForm from "../pages/Agrarian/ARPA/ARPAForm";
 import PrivateCompaniesForm from "../pages/PrivateCompanies/PrivateCompaniesForm";
-// import NewUserRegistration from "../pages/UserRegistration/NewUserRegistration";
 import Users from "../pages/Users/Users";
 import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
@@ -145,6 +145,14 @@ import Permission from "../pages/AppSettings/Permissions/Permission";
 import PermissionsByRole from "../pages/AppSettings/Permissions/PermissionsByRole";
 import ProtectedHouseType from "../pages/ProtectedHouseType/ProtectedHouseType";
 import ProtectedHouseTypeForm from "../pages/ProtectedHouseType/ProtectedHouseTypeForm";
+import CropRegistration from "../pages/CropLook/crop-registration";
+import CropRegistrationForm from "../pages/CropLook/crop-registration-from";
+import CropTarget from "../pages/CropLook/cropTarget/crop-target";
+import CropTargetForm from "../pages/CropLook/cropTarget/crop-target-from";
+import BiWeeklyReporting from "../pages/CropLook/biWeekReporting/biweekly-reporting";
+import BiWeeklyReportingForm from "../pages/CropLook/biWeekReporting/biweekly-reporting-from";
+import CropLookSeason from "../pages/CropLook/crop-look-Season/CropLookSeason";
+import CropLookSeasonForm from "../pages/CropLook/crop-look-Season/CropLookSeasonForm";
 
 export const Routes = [
   {
@@ -1094,9 +1102,12 @@ export const Routes = [
     isSideBar: true,
     icon: ManageAccountsIcon,
   },
-
-  
-
+  {
+    path: "/user-type-form",
+    name: "User Type",
+    element: <UserTypeForm />,
+    isSideBar: false
+  },
   {
     path: "/users",
     name: "Users",
@@ -1189,6 +1200,70 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
     ],
+  },
+  {
+    path: "/crop-look",
+    name: "Crop Look",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/season",
+        name: "Crop Look Season",
+        isSideBar: true,
+        element: <CropLookSeason />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/season-form",
+        name: "Crop Look Season Form",
+        isSideBar: false,
+        element: <CropLookSeasonForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-registration",
+        name: "Crop Registration",
+        isSideBar: true,
+        element: <CropRegistration />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-registration-form",
+        name: "Crop Registration Form",
+        isSideBar: false,
+        element: <CropRegistrationForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-target",
+        name: "Crop Target",
+        isSideBar: true,
+        element: <CropTarget />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-target-form",
+        name: "Crop Targets Form",
+        isSideBar: false,
+        element: <CropTargetForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/biweekly-reporting",
+        name: "Bi Weekly Reporting",
+        isSideBar: true,
+        element: <BiWeeklyReporting />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/biweekly-reporting-form",
+        name: "Bi Weekly Reporting Form",
+        isSideBar: false,
+        element: <BiWeeklyReportingForm />,
+        icon: SouthAmericaIcon,
+      },
+    ]
   },
   {
     path: "/app-settings",

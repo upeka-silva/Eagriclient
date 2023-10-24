@@ -9,8 +9,9 @@ const UserTypeList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "userTypeId", headerName: "Code" },
-    { field: "name", headerName: "Name" },
+    { field: "userTypeId", headerName: "User Type ID" },
+    { field: "description", headerName: "Description" },
+    { field: "userTypeFunctionLabel", headerName: "User Type Format" },
   ];
   return (
     <TableWrapper>

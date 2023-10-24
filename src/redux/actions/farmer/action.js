@@ -134,10 +134,9 @@ export const handleFarmerProfile = async (
   }
 };
 
-
 export const get_FarmerList = async () => {
   try {
-    const { httpCode, payloadDto } = await get("farmers", true);
+    const { httpCode, payloadDto } = await get("farmers/lov", true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,

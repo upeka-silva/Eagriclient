@@ -20,68 +20,67 @@ const CropList = ({
     { field: "cropId", headerName: "Crop ID" },
     { field: "description", headerName: "Description" },
     { field: "scientificName", headerName: "Scientific Name" },
-    { field: "cropSubCategoryDTO.subCategoryId", headerName: "Sub Category" },
+    {
+      field: [
+        "cropSubCategoryDTO.subCategoryId",
+        "cropSubCategoryDTO.description",
+      ],
+      joinString: " - ",
+      headerName: "Sub Category",
+    },
     { field: "cropType", headerName: "Crop Type" },
   ];
   const [options, setOptions] = useState([]);
-  const [subcat, setSubcat] = useState([]);
-  const [show, setShow] = useState(false);
-  const [id, setId] = useState(null);
+  const [cats, setCats] = useState([]);
+  const [subCats, setSubcats] = useState([]);
+ 
   const [data, setData] = useState(null);
-  const [isdisable, setIsdisable] = useState({
-    cat: false,
-    subcat: false,
+  
+  const [category, setCategory] = useState({ categoryId: "", description: "" });
+  const [subCategory, setSubCategory] = useState({
+    subCategoryId: "",
+    description: "",
   });
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/crops");
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
-      setOptions(dataList);
+     
       console.log(dataList);
+      setCats(dataList);
     });
   }, []);
 
-  const handleChange = (value, target) => {
-    console.log(value?.id);
-    const val = target;
+  
 
-    console.log(val);
-    setId(value?.id);
-    setIsdisable((prevState) => ({
-      ...prevState,
-      [val]: true,
-    }));
-
-    get_SubCategoryById(value?.id).then(({ dataList = [] }) => {
+  const getSubCategories = (id) => {
+    get_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
-      setSubcat(dataList);
+      setSubcats(dataList);
     });
-
-    if (Object.keys(subcat).length > 0) {
-      setShow(!show);
-    }
   };
 
   const reset = () => {
-    setIsdisable(false);
-    setData(null);
-    setShow(null);
+    setCategory({ categoryId: "", description: "" });
+    setSubCategory({ subCategoryId: "", description: "" });
+    setDataEndPoint("geo-data/crops");
   };
-  // console.log(options)
+ 
 
   return (
-    <TableWrapper>
+    <TableWrapper style={{ marginTop: "0px" }}>
       <ActionWrapper isLeft>
         <Grid container>
           <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Crop Category</FieldName>
               <Autocomplete
-                disabled={isdisable.cat}
-                options={options}
-                value={data}
-                // value={formData ? formData.cropCategoryDTO : ""}
+                options={cats}
+                value={category}
                 getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                 onChange={(event, value) => {
-                  handleChange(value, "cat");
+                  setCategory(value);
+                  getSubCategories(value.id);
+                  setSubCategory({ subCategoryId: "", description: "" });
                 }}
                 fullWidth
                 sx={{
@@ -97,6 +96,7 @@ const CropList = ({
                     placeholder="Select Crop Category"
                   />
                 )}
+                disableClearable
               />
             </FieldWrapper>
           </Grid>
@@ -104,12 +104,15 @@ const CropList = ({
             <FieldWrapper>
               <FieldName>Crop Sub Category</FieldName>
               <Autocomplete
-                disabled={isdisable.subcat}
-                options={subcat}
-                value={data}
+                disabled={category?.id == null}
+                options={subCats}
+                value={subCategory}
                 getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
                 onChange={(event, value) => {
-                  handleChange(value, "subcat");
+                  setSubCategory(value);
+                  setDataEndPoint(
+                    `geo-data/crops/crop-sub-category/${value?.id}`
+                  );
                 }}
                 fullWidth
                 sx={{
@@ -128,6 +131,7 @@ const CropList = ({
                     }
                   />
                 )}
+                disableClearable
               />
             </FieldWrapper>
           </Grid>
@@ -147,34 +151,19 @@ const CropList = ({
           </Grid>
         </Grid>
       </ActionWrapper>
-      {show ? (
-        <>
-          <DataTable
-            loadingTable
-            dataEndPoint={`geo-data/crops/crop-sub-category/${id}`}
-            columns={columns}
-            selectable
-            selectedRows={selectedRows}
-            selectAll={selectAll}
-            onRowSelect={onRowSelect}
-            unSelectAll={unSelectAll}
-          />
-        </>
-      ) : (
-        <>
-          {" "}
-          <DataTable
-            loadingTable
-            dataEndPoint={"geo-data/crops"}
-            columns={columns}
-            selectable
-            selectedRows={selectedRows}
-            selectAll={selectAll}
-            onRowSelect={onRowSelect}
-            unSelectAll={unSelectAll}
-          />
-        </>
-      )}
+
+      <>
+        <DataTable
+          loadingTable
+          dataEndPoint={dataEndPoint}
+          columns={columns}
+          selectable
+          selectedRows={selectedRows}
+          selectAll={selectAll}
+          onRowSelect={onRowSelect}
+          unSelectAll={unSelectAll}
+        />
+      </>
     </TableWrapper>
   );
 };

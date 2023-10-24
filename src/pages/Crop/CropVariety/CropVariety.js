@@ -109,7 +109,7 @@ const CropVariety = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.cropId} - {p.cropName}
+                {p.varietyId} - {p.varietyName}
               </ListItemText>
             </ListItem>
           );
