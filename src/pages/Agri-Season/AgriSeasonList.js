@@ -12,6 +12,8 @@ const AgriSeasonList = ({
     { field: "code", headerName: "Code" },
     { field: "description", headerName: "Description" },
     { field: "climateZone", headerName: "Climate Zone" },
+    { field: "startDate", headerName: "Start Date", type: "date" },
+    { field: "endDate", headerName: "End Date", type: "date" },
   ];
   return (
     <TableWrapper>

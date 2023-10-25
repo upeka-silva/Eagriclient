@@ -8,7 +8,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
   Stack,
   ButtonGroup,
 } from "@mui/material";
@@ -25,8 +24,6 @@ import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
   getFarmLandByFarmerId,
-  handleFarmLand,
-  updateFarmLand,
 } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
@@ -66,6 +63,7 @@ import { get } from "../../services/api";
 import FarmerList from "../Farmer/FarmerList";
 import { get_FarmerList } from "../../redux/actions/farmer/action";
 import CropDetailsList from "./CropDetails/CropDetailsList";
+import AddCropDetailsDialog from "./AddCropDetailsDialog";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -373,7 +371,7 @@ const GapRegForm = () => {
                   }
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
-                    getLandsByFarmerId(value?.id)
+                    getLandsByFarmerId(value?.id);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -442,7 +440,7 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
-          disabled={formData?.id !== null}
+          // disabled={formData?.id !== null}
         >
           Internal Audit
         </TabButton>
@@ -2085,8 +2083,8 @@ const GapRegForm = () => {
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
       >
-        {/* <CropDetails actionMode={state?.action} gapReqId={formData.id} /> */}
-        <ActionWrapper isLeft>
+        <CropDetails actionMode={state?.action} gapReqId={formData.id} />
+        {/* <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -2120,8 +2118,8 @@ const GapRegForm = () => {
               </Button>
             )}
           </ButtonGroup>
-        </ActionWrapper>
-        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
+        </ActionWrapper> */}
+        {/* <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} /> */}
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
