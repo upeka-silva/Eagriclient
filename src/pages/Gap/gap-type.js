@@ -1,11 +1,8 @@
 export const gapReqDto = () => {
   return {
+    id:"",
     code: 0,
-    farmName: "",
-    farmAddress: "",
-    applicantAddress: "",
-    applicantTitle: "",
-    applicantName: "",
+    farmer: {},
     isRenewal:false,
     appliedGapBefore: false,
     previousGapReqNo: "",
@@ -66,9 +63,6 @@ export const gapReqDto = () => {
     gapRequestType: "NEW",
     nameOnCertificate: "",
     gnDivision: "",
-    districtId: 0,
-    farmerId: 0,
-    farmLandId: 0,
     slgapConvPracExists: false,
     waterQualitySimilarToDrinkingWater: false,
     correctiveMeasuresTakenForSurroundingLands: false,
