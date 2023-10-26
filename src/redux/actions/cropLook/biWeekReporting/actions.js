@@ -48,7 +48,7 @@ export const updateBiWeekReporting = async (
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
-        dataList: response?.payloadDto,
+        dataList: response?.payload,
       };
     } else {
       const exception = {
@@ -70,6 +70,96 @@ export const updateBiWeekReporting = async (
     } else {
       onError(error);
     }
+  }
+};
+
+export const createDamageExtents = async (
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await post("crop-look/bi-week-damage-extents", payload, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+      return {
+        dataList: response?.payload,
+      };
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateDamageExtents = async (
+  varietyReportId,
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`crop-look/bi-week-damage-extents/variety-report/${varietyReportId}`, payload, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+      return {
+        dataList: response?.payload,
+      };
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const getDamageExtentsByVarietyReportId = async (varietyReportId) => {
+  try {
+    const { httpCode, payloadDto } = await get(`crop-look/bi-week-damage-extents/variety-report/${varietyReportId}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
   }
 };
 

@@ -32,7 +32,6 @@ const BiWeeklyReportingTab = ({
       // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
       //   setCropTargets(dataList?.cropTargets);
       // });
-      console.log(savedCropCategoryTarget);
       setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
@@ -47,8 +46,9 @@ const BiWeeklyReportingTab = ({
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
-    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
-      value;
+
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] = value;
+    
     setCropTargets(updatedVarietyTargets);
   };
 
@@ -88,13 +88,16 @@ const BiWeeklyReportingTab = ({
     };
 
     try {
-      await updateBiWeekReporting(
+      const dataList = await updateBiWeekReporting(
         registrationId,
         cropCategoryId,
         payload,
         onSuccess,
         onError
       );
+      console.log('after saving biweek crop report------------>');
+      console.log(dataList.dataList.biWeekCropReport);
+      setCropTargets(dataList?.dataList?.biWeekCropReport);
     } catch (error) {
       console.log(error);
     }
