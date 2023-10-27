@@ -1,6 +1,5 @@
 import React from "react";
 import { DataTable } from "../../components/PageLayout/Table";
-import { unixToDate } from "../../utils/unixDateConverter";
 
 const CommonAuditList = ({
   selectedRows = [],
@@ -11,13 +10,13 @@ const CommonAuditList = ({
 }) => {
   let columns = [];
 
-  if (pathParm != "SELF_ASSESSMENT") {
+  if (pathParm !== "SELF_ASSESSMENT") {
     columns = [
       { field: "formName", headerName: "Name" },
       { field: "formDescription", headerName: "Description" },
       { field: "category", headerName: "Category" },
       { field: "subcategory", headerName: "Sub Category" },
-      { field: "activeFrom", headerName: "Active From" },
+      { field: "activeFrom", headerName: "Active From", type: "date" },
     ];
   } else {
     columns = [

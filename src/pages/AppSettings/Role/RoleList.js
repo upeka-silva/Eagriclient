@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
@@ -12,12 +12,10 @@ const RoleList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    { field: "createdDate", headerName: "Created Date" },
-    { field: "modifiedDate", headerName: "Modified Date" },
+    { field: "createdDate", headerName: "Created Date", type: "datetime" },
+    { field: "modifiedDate", headerName: "Modified Date", type: "datetime" },
   ];
-  useEffect(() => {
-    console.log("aaaaaaaaaaaaa", dataEndPoint);
-  }, []);
+  
   return (
     <TableWrapper>
       <DataTable

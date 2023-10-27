@@ -22,9 +22,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import {
-  getFarmLandByFarmerId,
-} from "../../redux/actions/farmLand/action";
+import { getFarmLandByFarmerId } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
@@ -356,6 +354,34 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName
+                style={{
+                  width: "100%",
+                }}
+              >
+                GAP Request No
+              </FieldName>
+              <TextField
+                name="id"
+                id="id"
+                value={formData?.id || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "id")}
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={0}>
           <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farmer</FieldName>
