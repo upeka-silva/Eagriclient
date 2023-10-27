@@ -6,6 +6,7 @@ import {
   Grid,
   Select,
   MenuItem,
+  Paper,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
@@ -28,6 +29,7 @@ import CommonQuestionList from "./CommonQuestionList";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const CommonAuditForm = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -169,7 +171,6 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
       style={{
         display: "flex",
         flexDirection: "column",
-        // backgroundColor: `${Colors.formBackgroundColor}`,
         fontFamily: `${Fonts.fontStyle1}`,
       }}
     >
@@ -192,8 +193,6 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
         style={{
           width: "95%",
           justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
         }}
       >
         {state?.action !== DEF_ACTIONS.VIEW && (
@@ -205,36 +204,24 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
                   : "UPDATING..."}
               </Button>
             ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
-                  {/* {state?.action === DEF_ACTIONS.ADD ? "ADD" : "UPDATE"} */}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
+              <FormButtonGroup
+                state={state}
+                DEF_ACTIONS={DEF_ACTIONS}
+                saving={saving}
+                enableSave={enableSave}
+                handleFormSubmit={handleFormSubmit}
+                resetForm={resetForm}
+              />
             )}
           </ActionWrapper>
         )}
       </ButtonWrapper>
+
       <Grid
         container
         sx={{
-          // border: "1px solid #bec0c2",
-          margin: "15px",
+          marginTop: "10px",
+          marginBottom: "10px",
           width: "97%",
           borderRadius: "5px",
         }}
@@ -250,9 +237,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "formName")}
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                   backgroundColor: `${Colors.white}`,
                 },
@@ -266,7 +251,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FieldName>Form Description</FieldName>
             <TextField
@@ -279,9 +264,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
                 handleChange(e?.target?.value || "", "formDescription")
               }
               sx={{
-                // width: "264px",
                 "& .MuiInputBase-root": {
-                  // height: "30px",
                   borderRadius: "8px",
                   backgroundColor: `${Colors.white}`,
                 },
@@ -295,57 +278,55 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
             />
           </FieldWrapper>
         </Grid>
-        {(auditFormType !== 'SELF_ASSESSMENT') &&
-            <>
-              <Grid item sm={2} md={2} lg={2}>
-                <FieldWrapper>
-                  <FieldName>Category</FieldName>
+        {auditFormType !== "SELF_ASSESSMENT" && (
+          <>
+            <Grid item sm={2} md={2} lg={2}>
+              <FieldWrapper>
+                <FieldName>Category</FieldName>
 
-                  <Select
-                      value={formData?.category || ""}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(e) => handleChange(e?.target?.value || "", "category")}
-                      sx={{
-                        // width: "264px",
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      }}
-                      size="small"
-                      fullWidth
-                  >
-                    <MenuItem value={"SL_GAP"}>SL_GAP</MenuItem>
-                    <MenuItem value={"GAP_B"}>GAP_B</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={2} md={2} lg={2}>
-                <FieldWrapper>
-                  <FieldName>Sub Category</FieldName>
+                <Select
+                  value={formData?.category || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "category")
+                  }
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  }}
+                  size="small"
+                  fullWidth
+                >
+                  <MenuItem value={"SL_GAP"}>SL GAP</MenuItem>
+                  <MenuItem value={"GAP_B"}>GAP B</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FieldWrapper>
+                <FieldName>Sub Category</FieldName>
 
-                  <Select
-                      value={formData?.subcategory || ""}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(e) =>
-                          handleChange(e?.target?.value || "", "subcategory")
-                      }
-                      sx={{
-                        // width: "264px",
-                        // height: "30px",
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      }}
-                      size="small"
-                      fullWidth
-                  >
-                    <MenuItem value={"VEG"}>Veg</MenuItem>
-                    <MenuItem value={"FRUIT"}>Fruit</MenuItem>
-                    <MenuItem value={"PADDY"}>Paddy</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
-            </>
-        }
+                <Select
+                  value={formData?.subcategory || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "subcategory")
+                  }
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  }}
+                  size="small"
+                  fullWidth
+                >
+                  <MenuItem value={"VEG"}>Veg</MenuItem>
+                  <MenuItem value={"FRUIT"}>Fruit</MenuItem>
+                  <MenuItem value={"PADDY"}>Paddy</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+          </>
+        )}
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
             <FieldName>Active From</FieldName>
@@ -359,11 +340,10 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
                 onChange={(newValue) =>
                   handleChange(newValue || "", "activeFrom")
                 }
+                disablePast
                 in="DD-MM-YYYY"
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                   },
                 }}
@@ -372,25 +352,25 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
           </FieldWrapper>
         </Grid>
       </Grid>
-
-      <Grid
-        container
-        sx={{
-          // border: "1px solid #bec0c2",
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={12} md={12} lg={12}>
-          <CommonQuestionList
-            dataList={questions}
-            onFormSaveSuccess={saveSuccess}
-            formId={savedFormId}
-            formMode={state?.action}
-          />
+      <Paper style={{ height: "500px" }}>
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={12} md={12} lg={12}>
+            <CommonQuestionList
+              dataList={questions}
+              onFormSaveSuccess={saveSuccess}
+              formId={savedFormId}
+              formMode={state?.action}
+            />
+          </Grid>
         </Grid>
-      </Grid>
+      </Paper>
     </div>
   );
 };
