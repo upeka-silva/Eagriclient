@@ -2250,7 +2250,7 @@ const GapRegForm = () => {
               </Button>
             )}
           </ButtonGroup>
-        </ActionWrapper> */}
+        </ActionWrapper> 
         {/* <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} /> */}
       </TabContent>
 
