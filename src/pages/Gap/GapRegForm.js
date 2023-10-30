@@ -11,6 +11,11 @@ import {
   InputLabel,
   Stack,
   ButtonGroup,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -45,8 +50,11 @@ import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
 import {
+  deleteCropDetails,
   getCropDetailsList,
+  handleCropDetails,
   handleGap,
+  updateCropDetails,
   updateGap,
 } from "../../redux/actions/gap/action";
 import CropDetails from "./CropDetails";
@@ -66,6 +74,10 @@ import { get } from "../../services/api";
 import FarmerList from "../Farmer/FarmerList";
 import { get_FarmerList } from "../../redux/actions/farmer/action";
 import CropDetailsList from "./CropDetails/CropDetailsList";
+import AddCropDetailsDialog from "./AddCropDetailsDialog";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -97,6 +109,10 @@ const GapRegForm = () => {
   const [selectedCrop, setSelectedCrop] = useState([]);
   const [cropList, setCropList] = useState([]);
   const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
+  const [cdFormData, setCdFormData] = useState({ gapRequestDto: formData });
+  const [cdAction, setCdAction] = useState(DEF_ACTIONS.ADD);
+  const [refreshCList, setRefreshCList] = useState(false);
+  const [openDeleteCropDetail, setOpenDeleteCropDetail] = useState(false);
 
   const { addSnackBar } = useSnackBars();
 
@@ -249,6 +265,9 @@ const GapRegForm = () => {
       setFarmerLandList(dataList);
     });
   };
+
+  // Implementation Of Crop Details Tab
+
   const fetchCropAreaData = () => {
     getCropDetailsList(formData?.id).then(({ dataList = {} }) => {
       setCropList(dataList);
@@ -257,18 +276,101 @@ const GapRegForm = () => {
 
   useEffect(() => {
     fetchCropAreaData();
-  }, []);
+  }, [refreshCList]);
 
   const toggleCropSelect = (component) => {
     console.log(component);
     setSelectedCrop(component);
   };
 
-  const onCreateCropDetails = () => {};
-  const onEditCropDetails = () => {};
-  const onDeleteCropDetails = () => {};
+  const resetSelectedCropDetails = () => {
+    setSelectedCrop([]);
+    refreshCList();
+  };
 
-  const onViewCropDetails = () => {};
+  const onCreateCropDetails = () => {
+    setCdAction(DEF_ACTIONS.ADD);
+    setOpenCropAreaAddDlg(true);
+  };
+  const onEditCropDetails = () => {
+    const data = cropList.filter((item) => item?.id == selectedCrop[0]);
+    console.log(data[0]);
+
+    setCdAction(DEF_ACTIONS.EDIT);
+    setCdFormData({ ...data[0] });
+    setOpenCropAreaAddDlg(true);
+  };
+  const onDeleteCropDetails = () => {
+    setOpenDeleteCropDetail(true);
+  };
+
+  const onViewCropDetails = () => {
+    const data = cropList.filter((item) => item?.id == selectedCrop[0]);
+    console.log(data[0]);
+
+    setCdAction(DEF_ACTIONS.VIEW);
+    setCdFormData({ ...data[0] });
+    setOpenCropAreaAddDlg(true);
+  };
+
+  const refreshCropList = () => {
+    setRefreshCList(!refreshCList);
+  };
+
+  const closeCropDetailsDlg = () => {
+    setOpenCropAreaAddDlg(false);
+  };
+
+  const onConfirmDeleteCropDetail = async () => {
+    try {
+      setLoading(true);
+      for (const id of selectedCrop) {
+        await deleteCropDetails(formData?.id, id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      setOpenDeleteCropDetail(false);
+      resetSelectedCropDetails();
+      setRefreshCList(!refreshCList);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const closeCropDelete = () => {
+    setOpenDeleteCropDetail(false);
+  };
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedCrop.map((p, key) => {
+          console.log(p);
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p} - {p.ownerType}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
 
   return (
     <div
@@ -373,7 +475,7 @@ const GapRegForm = () => {
                   }
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
-                    getLandsByFarmerId(value?.id)
+                    getLandsByFarmerId(value?.id);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -428,49 +530,49 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
-          // disabled = {formData?.id !== null}
+          disabled = {formData?.id == null}
         >
           Crop Details
         </TabButton>
         <TabButton
           className={toggleState === 3 ? "active-tabs" : ""}
           onClick={() => toggleTab(3)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Land Details
         </TabButton>
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Internal Audit
         </TabButton>
         <TabButton
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           External Audit
         </TabButton>
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Test
         </TabButton>
         <TabButton
           className={toggleState === 7 ? "active-tabs" : ""}
           onClick={() => toggleTab(7)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Certificate
         </TabButton>
         <TabButton
           className={toggleState === 8 ? "active-tabs" : ""}
           onClick={() => toggleTab(8)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Initial Assesment
         </TabButton>
@@ -2143,15 +2245,46 @@ const GapRegForm = () => {
           auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
-      {/* <AddCropDetailsDialog
+      <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
         // setConfirmDialog={setOpenDlg}
-        confirmAction={handle}
-        handleClose={closeAddCropArea}
-        formData={formData}
-        mode={dialogMode}
-      /> */}
+        //confirmAction={handleCropDetailsFormSubmit}
+        handleClose={closeCropDetailsDlg}
+        formData={cdFormData}
+        action={cdAction}
+        refresh={refreshCropList}
+      />
+      <DialogBox
+        open={openDeleteCropDetail}
+        title="Delete Farm Land Ownership"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirmDeleteCropDetail}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={closeCropDelete}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };

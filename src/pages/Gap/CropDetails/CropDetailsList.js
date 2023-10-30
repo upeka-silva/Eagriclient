@@ -118,14 +118,14 @@ export default function CropDetailsList({ onRowSelect = (_c) => {}, data }) {
       headerName: "Crop",
       width: 400,
       headerClassName: "super-app-theme--header",
-      
+      renderCell: (params) => params.row.cropDTO.cropId + "-" +  params.row.cropDTO.description,
     },
     {
       field: "cropVarietyDTO",
       headerName: "Crop Variety",
       width: 180,
       headerClassName: "super-app-theme--header",
-      
+      renderCell: (params) => params.row.cropVarietyDTO.varietyId + "-" +  params.row.cropVarietyDTO.varietyDescription
     },
     {
       field: "plotNumber",

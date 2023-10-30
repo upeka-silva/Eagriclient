@@ -3,7 +3,16 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Button, Grid, MenuItem, Select, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  Slide,
+  TextField,
+} from "@mui/material";
 import { Colors } from "../../utils/constants/Colors";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
@@ -11,15 +20,32 @@ import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import Checkbox from "@mui/material/Checkbox";
 import CropSelectDropDown from "./CropSelectDropDown";
+import { FormHeader } from "../../components/FormLayout/FormHeader";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import {
+  handleCropDetails,
+  updateCropDetails,
+} from "../../redux/actions/gap/action";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function AddCropDetailsDialog({
   open,
   handleClose,
   confirmAction,
   formData,
-  mode,
+  action,
+  refresh,
 }) {
+  const { addSnackBar } = useSnackBars();
   const [formDataQ, setFormDataQ] = useState({});
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     setFormDataQ(formData);
@@ -36,7 +62,7 @@ export default function AddCropDetailsDialog({
   const onSelectedCrop = (cropId) => {
     setFormDataQ((current = {}) => {
       let newData = { ...current };
-      newData['cropDTO'] = {id: cropId};
+      newData["cropDTO"] = { id: cropId };
       return newData;
     });
   };
@@ -44,78 +70,171 @@ export default function AddCropDetailsDialog({
   const onSelectedCropVariety = (cropVarietyId) => {
     setFormDataQ((current = {}) => {
       let newData = { ...current };
-      newData['cropVarietyDTO'] = {id: cropVarietyId};
+      newData["cropVarietyDTO"] = { id: cropVarietyId };
       return newData;
     });
   };
 
+  const enableSave = () => {
+    if (action === DEF_ACTIONS.EDIT) {
+      if (JSON.stringify(formData || {}) !== JSON.stringify(formDataQ)) {
+        return true;
+      }
+    }
+    if (action === DEF_ACTIONS.ADD && Object.keys(formDataQ || {}).length > 0) {
+      return true;
+    }
+    return false;
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        action === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+    setSaving(false);
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
+  };
+
+  const handleFormSubmit = async (event, data, action) => {
+    console.log(formDataQ);
+    setSaving(true);
+    try {
+      if (formDataQ?.id) {
+        await updateCropDetails(formDataQ, onSuccess, onError);
+        refresh();
+      } else {
+        await handleCropDetails(formDataQ, onSuccess, onError);
+        refresh();
+      }
+     
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="delete-question"
-      aria-describedby="delete-description"
-    >
-      <DialogTitle
-        id="delete-question"
-        style={{
-          fontFamily: Fonts.fontStyle1,
-        }}
+    <div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+        maxWidth={"md"}
       >
-        {mode} Crop Details
-      </DialogTitle>
-      <DialogContent>
-        <Box sx={{ display: "flex" }}>
+        <FormWrapper>
+          <FormHeader style={{ marginLeft: "15px" }}>
+            {action == DEF_ACTIONS.ADD ? "Add" : ""} Crop Details
+          </FormHeader>
+          <ButtonWrapper
+            isCeneter
+            style={{
+              width: "95%",
+              justifyContent: "flex-start",
+              margin: "0",
+              paddingLeft: "18px",
+            }}
+          >
+            {action !== DEF_ACTIONS.VIEW && (
+              <ActionWrapper>
+                {saving ? (
+                  <Button variant="contained" color="success" size="small">
+                    {action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+                  </Button>
+                ) : (
+                  <>
+                    <Button
+                      variant="outlined"
+                      disabled={!enableSave()}
+                      onClick={handleFormSubmit}
+                      size="small"
+                      color="success"
+                    >
+                      {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                    </Button>
+                    <Button
+                      //onClick={resetData}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                    >
+                      RESET
+                    </Button>
+                  </>
+                )}
+              </ActionWrapper>
+            )}
+            <Button
+              color="success"
+              variant="contained"
+              size="small"
+              onClick={handleClose}
+            >
+              Cancel
+            </Button>
+          </ButtonWrapper>
+
           <Grid
             container
             sx={{
-              // border: "1px solid #bec0c2",
+              border: "1px solid #bec0c2",
+              borderRadius: "5px",
               margin: "15px",
               width: "97%",
-              borderRadius: "5px",
             }}
           >
-            <CropSelectDropDown 
-              selectedCropCallback = {onSelectedCrop} 
-              selectedVarietyCallback = {onSelectedCropVariety}
-              mode= {mode}/>
+            <CropSelectDropDown
+              selectedCropCallback={onSelectedCrop}
+              selectedVarietyCallback={onSelectedCropVariety}
+              mode={action}
+            />
 
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={12} lg={4}>
               <FieldWrapper>
-                <FieldName
-                  style={{
-                    width: "100%",
-                  }}
-                >
-                  Season
-                </FieldName>
+                <FormControl fullWidth>
+                  <FieldName
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    Season
+                  </FieldName>
 
-                <Select
-                  name="questionType"
-                  id="questionType"
-                  value={formDataQ?.gapCropSeason || ""}
-                  disabled={mode === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "gapCropSeason")
-                  }
-                  size="small"
-                  fullWidth
-                  sx={{
-                    // width: "264px",
-                    "& .MuiInputBase-root": {
-                      // height: "30px",
+                  <Select
+                    name="questionType"
+                    id="questionType"
+                    value={formDataQ?.gapCropSeason || ""}
+                    disabled={action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "gapCropSeason")
+                    }
+                    size="small"
+                    fullWidth
+                    sx={{
                       borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                >
-                  <MenuItem value={"CURRENT_SEASON"}>Current Season</MenuItem>
-                  <MenuItem value={"NEXT_SEASON"}>Next Season</MenuItem>
-                </Select>
+                      "& .MuiInputBase-root": {
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  >
+                    <MenuItem value={"CURRENT_SEASON"}>Current Season</MenuItem>
+                    <MenuItem value={"NEXT_SEASON"}>Next Season</MenuItem>
+                  </Select>
+                </FormControl>
               </FieldWrapper>
             </Grid>
-  
-            <Grid item sm={12} md={12} lg={12}>
+
+            <Grid item sm={12} md={12} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -128,16 +247,14 @@ export default function AddCropDetailsDialog({
                   name="questionString"
                   id="questionString"
                   value={formDataQ?.plotNumber || ""}
-                  disabled={mode === DEF_ACTIONS.VIEW}
+                  disabled={action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "plotNumber")
                   }
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -145,7 +262,7 @@ export default function AddCropDetailsDialog({
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={12} lg={4}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -158,16 +275,14 @@ export default function AddCropDetailsDialog({
                   name="order"
                   id="order"
                   value={formDataQ?.extent || ""}
-                  //disabled={mode === DEF_ACTIONS.VIEW}
+                  //disabled={action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "extent")
                   }
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -176,19 +291,8 @@ export default function AddCropDetailsDialog({
               </FieldWrapper>
             </Grid>
           </Grid>
-        </Box>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} autoFocus>
-          Cancel
-        </Button>
-        <Button
-          disabled={mode === DEF_ACTIONS.VIEW}
-          onClick={(event) => confirmAction(event, formDataQ, mode)}
-        >
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+        </FormWrapper>
+      </Dialog>
+    </div>
   );
 }
