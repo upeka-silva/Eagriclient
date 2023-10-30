@@ -125,7 +125,7 @@ const CropTargetTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
-        <div style={{ textAlign: "right" }}>
+        <div style={{ textAlign: "left" }}>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
             style={{ marginRight: "10px" }}

@@ -49,7 +49,10 @@ export default function AddCropDetailsDialog({
 
   useEffect(() => {
     setFormDataQ(formData);
+    console.log(formData)
   }, [formData]);
+
+  
 
   const handleChange = (value, target) => {
     setFormDataQ((current = {}) => {
@@ -117,9 +120,18 @@ export default function AddCropDetailsDialog({
         await handleCropDetails(formDataQ, onSuccess, onError);
         refresh();
       }
-     
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const resetData = () => {
+    console.log("reset Data")
+   
+    if (action === DEF_ACTIONS.EDIT) {
+      setFormDataQ(formData || {});
+    } else {
+      setFormDataQ(null);
     }
   };
 
@@ -162,7 +174,7 @@ export default function AddCropDetailsDialog({
                       {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                     </Button>
                     <Button
-                      //onClick={resetData}
+                      onClick={resetData}
                       color="success"
                       variant="contained"
                       size="small"
@@ -197,6 +209,8 @@ export default function AddCropDetailsDialog({
               selectedCropCallback={onSelectedCrop}
               selectedVarietyCallback={onSelectedCropVariety}
               mode={action}
+              crop={formData?.cropDTO}
+              cropVariety={formData?.cropVarietyDTO}
             />
 
             <Grid item sm={12} md={12} lg={4}>
@@ -275,12 +289,13 @@ export default function AddCropDetailsDialog({
                   name="order"
                   id="order"
                   value={formDataQ?.extent || ""}
-                  //disabled={action === DEF_ACTIONS.VIEW}
+                  disabled={action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "extent")
                   }
                   size="small"
                   fullWidth
+                  type="number"
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",

@@ -12,8 +12,8 @@ const CropLookSeasonList = ({
     { field: "code", headerName: "Code" },
     { field: "description", headerName: "Description" },
     { field: "status", headerName: "status" },
-    { field: "startDate", headerName: "Start Date" },
-    { field: "endDate", headerName: "End Date" },
+    { field: "startDate", headerName: "Start Date", type: "date" },
+    { field: "endDate", headerName: "End Date", type: "date" },
   ];
   return (
     <TableWrapper>

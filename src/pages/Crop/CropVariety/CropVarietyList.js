@@ -12,7 +12,7 @@ import {
   Vrpano,
 } from "@mui/icons-material";
 import { useState, useEffect } from "react";
-import { Button, TextField, Autocomplete, Grid } from "@mui/material";
+import { Button, TextField, Autocomplete, Grid, Avatar } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
@@ -25,7 +25,7 @@ const CropVarietyList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "varietyId", headerName: "Variety ID" },
+    { field: ["varietyId"], headerName: "Variety ID" },
     { field: "varietyName", headerName: "Variety Name" },
     { field: "grainSize", headerName: "Grain Size" },
     { field: "pericarpColor", headerName: "Pericarp Color" },

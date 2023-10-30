@@ -8,7 +8,6 @@ import {
   FormControl,
   Select,
   MenuItem,
-  InputLabel,
   Stack,
   ButtonGroup,
   Divider,
@@ -28,11 +27,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import {
-  getFarmLandByFarmerId,
-  handleFarmLand,
-  updateFarmLand,
-} from "../../redux/actions/farmLand/action";
+import { getFarmLandByFarmerId } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
@@ -202,8 +197,8 @@ const GapRegForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD
-      // &&
-      // Object.keys(formData || {}).length > 0
+      &&
+      Object.keys(formData || {}).length > 0
     ) {
       return true;
     }
@@ -289,6 +284,7 @@ const GapRegForm = () => {
   };
 
   const onCreateCropDetails = () => {
+     setCdFormData({ gapRequestDto: formData })
     setCdAction(DEF_ACTIONS.ADD);
     setOpenCropAreaAddDlg(true);
   };
@@ -296,8 +292,9 @@ const GapRegForm = () => {
     const data = cropList.filter((item) => item?.id == selectedCrop[0]);
     console.log(data[0]);
 
+    
+    setCdFormData({ ...data[0] , gapRequestDto: formData });
     setCdAction(DEF_ACTIONS.EDIT);
-    setCdFormData({ ...data[0] });
     setOpenCropAreaAddDlg(true);
   };
   const onDeleteCropDetails = () => {
@@ -315,10 +312,12 @@ const GapRegForm = () => {
 
   const refreshCropList = () => {
     setRefreshCList(!refreshCList);
+   
   };
 
   const closeCropDetailsDlg = () => {
     setOpenCropAreaAddDlg(false);
+    
   };
 
   const onConfirmDeleteCropDetail = async () => {
@@ -326,11 +325,12 @@ const GapRegForm = () => {
       setLoading(true);
       for (const id of selectedCrop) {
         await deleteCropDetails(formData?.id, id, onSuccessDelete, onError);
+        setRefreshCList(!refreshCList);
       }
       setLoading(false);
       setOpenDeleteCropDetail(false);
       resetSelectedCropDetails();
-      setRefreshCList(!refreshCList);
+      
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -460,6 +460,34 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName
+                style={{
+                  width: "100%",
+                }}
+              >
+                GAP Request No
+              </FieldName>
+              <TextField
+                name="id"
+                id="id"
+                value={formData?.id || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "id")}
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={0}>
           <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farmer</FieldName>
@@ -2186,9 +2214,9 @@ const GapRegForm = () => {
       <TabContent
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
-      >
-        {/* <CropDetails actionMode={state?.action} gapReqId={formData.id} /> */}
+      >        
         <ActionWrapper isLeft>
+
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -2222,8 +2250,8 @@ const GapRegForm = () => {
               </Button>
             )}
           </ButtonGroup>
-        </ActionWrapper>
-        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
+        </ActionWrapper> */}
+        {/* <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} /> */}
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
@@ -2248,8 +2276,7 @@ const GapRegForm = () => {
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
-        // setConfirmDialog={setOpenDlg}
-        //confirmAction={handleCropDetailsFormSubmit}
+       
         handleClose={closeCropDetailsDlg}
         formData={cdFormData}
         action={cdAction}

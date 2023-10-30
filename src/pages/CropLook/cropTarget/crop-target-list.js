@@ -17,7 +17,7 @@ const CropTargetList = ({
   const columns = [
     {field: "aiRegion.regionId", headerName: "Ai Region "},
     {field: "aiRegion.parentType", headerName: "Ai Region Type"},
-    { field: "season.label", headerName: "Season" },
+    { field: ["season.code", "season.description"], headerName: "Season" },
   ];
 
   const [id, setId] = useState(null);
