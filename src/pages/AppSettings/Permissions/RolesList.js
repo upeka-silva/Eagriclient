@@ -11,7 +11,7 @@ const RolesList = ({
 }) => {
   const columns = [
     { field: "name", headerName: "Role Name" },
-    { field: "createdDate", headerName: "createdDate"  },
+    { field: "createdDate", headerName: "createdDate", type:"date"  },
     { field: "modifiedDate", headerName: "modifiedDate" },
   ];
  

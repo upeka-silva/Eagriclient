@@ -17,7 +17,8 @@ const BiWeeklyReportingList = ({
   const columns = [
     {field: "aiRegion.regionId", headerName: "Ai Region "},
     {field: "aiRegion.parentType", headerName: "Ai Region Type"},
-    { field: "season.label", headerName: "Season" },
+    { field: "season.code", headerName: "Season" },
+    { field: "week.weekDescription", headerName: "Week" },
   ];
 
   const [id, setId] = useState(null);
@@ -110,7 +111,7 @@ const BiWeeklyReportingList = ({
 
         <DataTable
           loadingTable
-          dataEndPoint={`crop-look/target-seasonal-region`}
+          dataEndPoint={`crop-look/bi-week-reporting`}
           columns={columns}
           selectable
           selectedRows={selectedRows}

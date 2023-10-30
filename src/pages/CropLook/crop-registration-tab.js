@@ -113,7 +113,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
           )}
         </div>
       </Grid>
-      <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
+      <Grid item sm={12} md={12} lg={12} >
         <MultiSelectTils
           options={cropVarietyList}
           handleSelectedValues={handleSelectedCrops}

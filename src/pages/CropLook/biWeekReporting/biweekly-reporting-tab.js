@@ -10,6 +10,7 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
+import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -26,11 +27,12 @@ const BiWeeklyReportingTab = ({
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
+    console.log('inside tab ========>');
     if (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) {
       // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
       //   setCropTargets(dataList?.cropTargets);
       // });
-      setCropTargets(savedCropCategoryTarget?.cropTargets);
+      setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
         aiRegionId,
@@ -44,8 +46,9 @@ const BiWeeklyReportingTab = ({
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
-    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
-      value;
+
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] = value;
+    
     setCropTargets(updatedVarietyTargets);
   };
 
@@ -76,22 +79,25 @@ const BiWeeklyReportingTab = ({
     setSaving(true);
     const payload = {
       id: registrationId,
-      cropCategoryTargets: [
+      biWeekCropCategoryReport: [
         {
           cropCategory: { id: cropCategoryId },
-          cropTargets: cropTargets,
+          biWeekCropReport: cropTargets,
         },
       ],
     };
 
     try {
-      await updateCropTarget(
+      const dataList = await updateBiWeekReporting(
         registrationId,
         cropCategoryId,
         payload,
         onSuccess,
         onError
       );
+      console.log('after saving biweek crop report------------>');
+      console.log(dataList.dataList.biWeekCropReport);
+      setCropTargets(dataList?.dataList?.biWeekCropReport);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +125,7 @@ const BiWeeklyReportingTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
-        <div style={{ textAlign: "right" }}>
+        <div style={{ textAlign: "left" }}>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
             style={{ marginRight: "10px" }}

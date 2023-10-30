@@ -9,10 +9,22 @@ const GapRegList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "id", headerName: "ID" },
-    { field: "applicantName", headerName: "Applicant Name" },
-    { field: "applicantAddress", headerName: "Applicant Address" },
-    { field: "farmName", headerName: "Farm Name" },
+    // { field: "id", headerName: "ID" },
+    {
+      field: ["farmerDTO.firstName", "farmerDTO.lastName"],
+      headerName: "Applicant Name",
+    },
+    { field: "farmerDTO.address", headerName: "Applicant Address" },
+    {
+      field: ["farmLandDTO.code", "farmLandDTO.name"],
+      headerName: "Farm Land",
+    },
+    { field: ["farmLandDTO.address"], headerName: "Land Address" },
+    { field: "previousGapReqNo", headerName: "Prev. GAP" },
+    {
+      field: ["businessNature", "businessNatureOtherValue"],
+      headerName: "Business Nature",
+    },
   ];
   return (
     <TableWrapper>

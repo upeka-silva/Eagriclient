@@ -33,7 +33,7 @@ import {
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 import { createCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
 import BiWeeklyReportingTab from "./biweekly-reporting-tab";
-import { getCropLookSeasons } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { createBiWeeklyReport, getCropLookSeasons } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -50,7 +50,7 @@ const BiWeeklyReportingForm = () => {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState(null);
   const [selectedAiRegion, setSelectedAiRegion] = useState(null);
-  const [cropTargetId, setCropTargetId] = useState(null);
+  const [biWeekReportId, setBiWeekReportId] = useState(null);
   const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -79,19 +79,19 @@ const BiWeeklyReportingForm = () => {
       state?.action === DEF_ACTIONS.EDIT ||
       state?.action === DEF_ACTIONS.VIEW
     ) {
-      setCropTargetId(state?.target?.id);
+      setBiWeekReportId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
       setSelectedAiRegion(state?.target?.aiRegion);
-      setCropCategoryTarget(state?.target?.cropCategoryTargets);
+      setSelectedWeek(state?.target?.week);
+      setCropCategoryTarget(state?.target?.biWeekCropCategoryReport);
     }
   }, []);
 
   useEffect(() => {
-    console.log("in second use effect registration id: " + cropTargetId);
-    if (cropTargetId) {
+    if (biWeekReportId) {
       setIsLoading(false);
     }
-  }, [cropTargetId]);
+  }, [biWeekReportId]);
 
   // end of crop registration code
 
@@ -134,7 +134,7 @@ const BiWeeklyReportingForm = () => {
       state?.action === DEF_ACTIONS.ADD &&
       selectedAiRegion &&
       selectedSeason &&
-      !cropTargetId
+      !biWeekReportId
     ) {
       return true;
     }
@@ -169,6 +169,7 @@ const BiWeeklyReportingForm = () => {
           aiRegion: { id: selectedAiRegion.id },
           aiRegionType: selectedAiRegion.parentType,
           season: { id: selectedSeason.id },
+          week: {id: selectedWeek.id}
         };
 
         if (false) {
@@ -181,13 +182,12 @@ const BiWeeklyReportingForm = () => {
             onError
           );
         } else {
-          const dataList = await createCropTarget(
+          const dataList = await createBiWeeklyReport(
             payload,
             onSuccess,
             onError
           );
-          setCropTargetId(dataList.dataList.id);
-          setCropCategoryTarget();
+          setBiWeekReportId(dataList.dataList.id);
         }
       } catch (error) {
         console.log(error);
@@ -224,7 +224,7 @@ const BiWeeklyReportingForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) => `${i.regionId}`}
+                getOptionLabel={(i) => `${i.regionId} - ${i.description}`}
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
@@ -294,11 +294,11 @@ const BiWeeklyReportingForm = () => {
 
             {!isLoading && cropCategoryList.map((category, index) => (
                 <TabContent
-                  style={{ marginTop: "10px" }}
+                  //style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {cropTargetId ? <BiWeeklyReportingTab
-                    registrationId={cropTargetId}
+                  {biWeekReportId ? <BiWeeklyReportingTab
+                    registrationId={biWeekReportId}
                     aiRegionId={selectedAiRegion?.id}
                     seasonId={selectedSeason?.id}
                     cropCategoryId={category?.id}

@@ -66,7 +66,7 @@ const GapRegs = () => {
     navigate("/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: {...(selectGapReq[0] || {})},
+        target: { ...(selectGapReq[0] || {}) },
       },
     });
   };
@@ -76,7 +76,7 @@ const GapRegs = () => {
     navigate("/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: {...(selectGapReq[0] || {})},
+        target: { ...(selectGapReq[0] || {}) },
       },
     });
   };
@@ -143,7 +143,12 @@ const GapRegs = () => {
 
   return (
     <div>
-      <Typography variant="h6" fontWeight={500} mt={1} fontFamily={Fonts.fontStyle1}>
+      <Typography
+        variant="h6"
+        fontWeight={500}
+        mt={1}
+        fontFamily={Fonts.fontStyle1}
+      >
         Gap Registration
       </Typography>
 
@@ -158,7 +163,7 @@ const GapRegs = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
           >
-            <Button onClick={onCreate}  title="add">
+            <Button onClick={onCreate} title="add">
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
