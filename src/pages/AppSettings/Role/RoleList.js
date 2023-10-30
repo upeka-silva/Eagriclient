@@ -12,8 +12,8 @@ const RoleList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    { field: "createdDate", headerName: "Created Date", type: "datetime" },
-    { field: "modifiedDate", headerName: "Modified Date", type: "datetime" },
+    { field: "createdDate", headerName: "Created Date" , type:"date"},
+    { field: "modifiedDate", headerName: "Modified Date" , type:"date"},
   ];
   
   return (
