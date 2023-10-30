@@ -202,8 +202,8 @@ const GapRegForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD
-      // &&
-      // Object.keys(formData || {}).length > 0
+      &&
+      Object.keys(formData || {}).length > 0
     ) {
       return true;
     }
@@ -289,6 +289,7 @@ const GapRegForm = () => {
   };
 
   const onCreateCropDetails = () => {
+     setCdFormData({ gapRequestDto: formData })
     setCdAction(DEF_ACTIONS.ADD);
     setOpenCropAreaAddDlg(true);
   };
@@ -296,8 +297,9 @@ const GapRegForm = () => {
     const data = cropList.filter((item) => item?.id == selectedCrop[0]);
     console.log(data[0]);
 
+    
+    setCdFormData({ ...data[0] , gapRequestDto: formData });
     setCdAction(DEF_ACTIONS.EDIT);
-    setCdFormData({ ...data[0] });
     setOpenCropAreaAddDlg(true);
   };
   const onDeleteCropDetails = () => {
@@ -315,10 +317,12 @@ const GapRegForm = () => {
 
   const refreshCropList = () => {
     setRefreshCList(!refreshCList);
+   
   };
 
   const closeCropDetailsDlg = () => {
     setOpenCropAreaAddDlg(false);
+    
   };
 
   const onConfirmDeleteCropDetail = async () => {
@@ -326,11 +330,12 @@ const GapRegForm = () => {
       setLoading(true);
       for (const id of selectedCrop) {
         await deleteCropDetails(formData?.id, id, onSuccessDelete, onError);
+        setRefreshCList(!refreshCList);
       }
       setLoading(false);
       setOpenDeleteCropDetail(false);
       resetSelectedCropDetails();
-      setRefreshCList(!refreshCList);
+      
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -2187,7 +2192,7 @@ const GapRegForm = () => {
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
       >
-        {/* <CropDetails actionMode={state?.action} gapReqId={formData.id} /> */}
+        
         <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
@@ -2248,8 +2253,7 @@ const GapRegForm = () => {
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
-        // setConfirmDialog={setOpenDlg}
-        //confirmAction={handleCropDetailsFormSubmit}
+       
         handleClose={closeCropDetailsDlg}
         formData={cdFormData}
         action={cdAction}

@@ -132,7 +132,8 @@ export const updateGap = async (
     onError = (_message) => {}
   ) => {
     try {
-      const response = await put(`gap-request/${payload?.id || ""}`, payload, true);
+      const gapReqId = payload?.gapRequestDto?.id;
+      const response = await put(`gap-request/` + gapReqId  + `/crop-areas/${payload?.id || ""}`, payload, true);
       if (response.httpCode === "200 OK") {
         onSuccess();
       } else {

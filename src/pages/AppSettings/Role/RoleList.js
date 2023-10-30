@@ -12,8 +12,8 @@ const RoleList = ({
   const columns = [
     { field: "code", headerName: "Code" },
     { field: "name", headerName: "Description" },
-    { field: "createdDate", headerName: "Created Date" },
-    { field: "modifiedDate", headerName: "Modified Date" },
+    { field: "createdDate", headerName: "Created Date" , type:"date"},
+    { field: "modifiedDate", headerName: "Modified Date" , type:"date"},
   ];
   useEffect(() => {
     console.log("aaaaaaaaaaaaa", dataEndPoint);
