@@ -220,8 +220,6 @@ const UsersForm = () => {
     setSaving(false);
   };
 
- 
-
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
@@ -364,7 +362,6 @@ const UsersForm = () => {
       );
 
       return response;
-      
     } catch (error) {
       console.log(error);
     }
@@ -484,14 +481,13 @@ const UsersForm = () => {
         <Grid
           container
           sx={{
-            
-            margin: "15px",
+            margin: "8px",
             width: "97%",
             borderRadius: "5px",
           }}
           flex={"flex"}
         >
-          <Grid item sm={3} md={3} lg={2} sx={{}}>
+          <Grid item sm={3} md={3} lg={2}>
             <FieldWrapper>
               <FieldName>Select Profile Picture</FieldName>
               <div
@@ -561,7 +557,6 @@ const UsersForm = () => {
             <Grid
               container
               sx={{
-                
                 width: "100%",
                 borderRadius: "5px",
               }}
@@ -579,9 +574,7 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "firstName")
                     }
                     sx={{
-                      
                       "& .MuiInputBase-root": {
-                       
                         borderRadius: "8px",
                       },
                     }}
@@ -602,9 +595,7 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "lastName")
                     }
                     sx={{
-                     
                       "& .MuiInputBase-root": {
-                     
                         borderRadius: "8px",
                       },
                     }}
@@ -612,7 +603,7 @@ const UsersForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              
+
               <Grid item lg={3}>
                 <FieldWrapper>
                   <FieldName>Date of Birth</FieldName>
@@ -628,9 +619,7 @@ const UsersForm = () => {
                       }
                       in="DD-MM-YYYY"
                       sx={{
-                      
                         "& .MuiInputBase-root": {
-                       
                           borderRadius: "8px",
                         },
                       }}
@@ -652,9 +641,7 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "email")
                     }
                     sx={{
-                     
                       "& .MuiInputBase-root": {
-                       
                         borderRadius: "8px",
                       },
                     }}
@@ -676,9 +663,7 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "password")
                     }
                     sx={{
-                      
                       "& .MuiInputBase-root": {
-                       
                         borderRadius: "8px",
                       },
                     }}
@@ -700,9 +685,7 @@ const UsersForm = () => {
                       handleChange(e?.target?.value || "", "matchingPassword")
                     }
                     sx={{
-                      
                       "& .MuiInputBase-root": {
-                       
                         borderRadius: "8px",
                       },
                     }}
@@ -782,20 +765,13 @@ const UsersForm = () => {
             </FieldWrapper>
           </Grid>
         </Grid>
-
         <Grid
           container
-          spacing={1}
-          sx={{  width: "97%", marginLeft: "15px" }}
-        >
-          <Grid item lg={12} sm={12} xs={12}>
-            <hr></hr>
-          </Grid>
-        </Grid>
-        <Grid
-          container
-          spacing={1}
-          sx={{ margin: "15px", width: "97%", borderRadius: "5px" ,marginTop: "0px" }}
+          sx={{
+            margin: "8px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
         >
           <Grid item lg={3} sm={3} xs={3}>
             <FieldWrapper>
@@ -883,7 +859,7 @@ const UsersForm = () => {
         <Grid
           container
           sx={{
-            margin: "15px",
+            margin: "8px",
             width: "97%",
             borderRadius: "5px",
           }}
@@ -897,7 +873,7 @@ const UsersForm = () => {
               >
                 Roles
               </TabButton>
-              
+
               <TabButton
                 variant="contained"
                 className={toggleState === 3 ? "active-tabs" : ""}
@@ -925,16 +901,15 @@ const UsersForm = () => {
                 </Grid>
               </Grid>
             </TabContent>
-            
+
             <TabContent className={toggleState === 3 ? "active-content" : ""}>
               <Grid
                 container
                 spacing={2}
                 sx={{
-                  margin: "15px",
+                  margin: "8px",
                   width: "97%",
                   borderRadius: "5px",
-                  // border: "1px solid #bec0c2",
                 }}
               >
                 {state?.action !== DEF_ACTIONS.VIEW ? (
@@ -978,27 +953,30 @@ const UsersForm = () => {
                 ) : null}
 
                 {!loading ? (
-                  <Grid item lg={3}>
+                  <Grid item lg={12} sm={12} sx={12}>
                     {formData?.administrativeDivisionDTO &&
-                      state.action != DEF_ACTIONS.ADD && (
+                      state.action !== DEF_ACTIONS.ADD && (
                         <>
                           <Typography variant="h6" gutterBottom>
-                            {formData.administrativeDivisionDTO?.type}
+                            {
+                              formData.administrativeDivisionDTO
+                                ?.administrativeDivisionType
+                            }
                           </Typography>
                           <TableContainer>
                             <Table>
                               <TableHead>
                                 <TableRow>
+                                  <TableCell>ID</TableCell>
                                   <TableCell>Name</TableCell>
-                                  <TableCell>Division Id</TableCell>
                                 </TableRow>
                               </TableHead>
                               <TableBody>
                                 {formData.administrativeDivisionDTO?.values?.map(
                                   (row, index) => (
-                                    <TableRow key={row.name}>
-                                      <TableCell>{row.name}</TableCell>
+                                    <TableRow key={index}>
                                       <TableCell>{row.divisionId}</TableCell>
+                                      <TableCell>{row.name}</TableCell>
                                     </TableRow>
                                   )
                                 )}
@@ -1040,7 +1018,8 @@ const UsersForm = () => {
           }
         >
           <Typography>
-          This will replace your existing filter type with the newly added filter type
+            This will replace your existing filter type with the newly added
+            filter type
           </Typography>
         </DialogBox>
       </FormWrapper>

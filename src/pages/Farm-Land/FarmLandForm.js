@@ -318,10 +318,14 @@ const FarmLandForm = () => {
       try {
         if (formData?.id) {
           const response = await updateFarmLand(formData, onSuccess, onError);
-          setFormData(response?.payload);
+          if (response.httpCode === "200 OK") {
+            setFormData(response?.payload);
+          }
         } else {
           const response = await handleFarmLand(formData, onSuccess, onError);
-          setFormData(response?.payload);
+          if (response.httpCode === "200 OK") {
+            setFormData(response?.payload);
+          }
         }
         setTabEnabled(true);
       } catch (error) {
@@ -385,10 +389,13 @@ const FarmLandForm = () => {
   };
 
   useEffect(() => {
-   formData?.id &&  get_FarmLandOwnershipListByLandId(formData?.id).then(({ dataList = [] }) => {
-      console.log(dataList);
-      setFlODataList(dataList);
-    });
+    formData?.id &&
+      get_FarmLandOwnershipListByLandId(formData?.id).then(
+        ({ dataList = [] }) => {
+          console.log(dataList);
+          setFlODataList(dataList);
+        }
+      );
   }, [refreshFLOwnership]);
 
   const closeOwnershipDelete = () => {

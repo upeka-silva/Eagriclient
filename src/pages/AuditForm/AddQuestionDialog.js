@@ -36,11 +36,11 @@ export default function AddQuestionDialog({
     <Dialog
       open={open}
       onClose={handleClose}
-      aria-labelledby="delete-question"
-      aria-describedby="delete-description"
+      aria-labelledby="add-question"
+      aria-describedby="add a description to audit forms"
     >
       <DialogTitle
-        id="delete-question"
+        id="add-question"
         style={{
           fontFamily: Fonts.fontStyle1,
         }}
@@ -52,7 +52,6 @@ export default function AddQuestionDialog({
           <Grid
             container
             sx={{
-              // border: "1px solid #bec0c2",
               margin: "15px",
               width: "97%",
               borderRadius: "5px",
@@ -78,9 +77,7 @@ export default function AddQuestionDialog({
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -88,7 +85,7 @@ export default function AddQuestionDialog({
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -100,6 +97,7 @@ export default function AddQuestionDialog({
                 <TextField
                   name="order"
                   id="order"
+                  type="number"
                   value={formDataQ?.order || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -108,9 +106,7 @@ export default function AddQuestionDialog({
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -118,7 +114,7 @@ export default function AddQuestionDialog({
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -139,9 +135,7 @@ export default function AddQuestionDialog({
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -152,7 +146,7 @@ export default function AddQuestionDialog({
                 </Select>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -173,9 +167,7 @@ export default function AddQuestionDialog({
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -188,7 +180,7 @@ export default function AddQuestionDialog({
                 </Select>
               </FieldWrapper>
             </Grid>
-            <Grid item sm={12} md={12} lg={12}>
+            <Grid item sm={12} md={6} lg={6}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -209,9 +201,7 @@ export default function AddQuestionDialog({
                   size="small"
                   fullWidth
                   sx={{
-                    // width: "264px",
                     "& .MuiInputBase-root": {
-                      // height: "30px",
                       borderRadius: "8px",
                       backgroundColor: `${Colors.white}`,
                     },
@@ -254,12 +244,23 @@ export default function AddQuestionDialog({
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} autoFocus>
+        <Button
+          onClick={handleClose}
+          autoFocus
+          color="info"
+          variant="contained"
+          size="small"
+          sx={{ marginLeft: "10px" }}
+        >
           Cancel
         </Button>
         <Button
           disabled={mode === DEF_ACTIONS.VIEW}
           onClick={(event) => confirmAction(event, formDataQ, mode)}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginLeft: "20px" }}
         >
           Save
         </Button>

@@ -10,6 +10,12 @@ import {
   MenuItem,
   Stack,
   ButtonGroup,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Chip,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -22,9 +28,7 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import {
-  getFarmLandByFarmerId,
-} from "../../redux/actions/farmLand/action";
+import { getFarmLandByFarmerId } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
@@ -42,8 +46,12 @@ import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
 import {
+  changeStatus,
+  deleteCropDetails,
   getCropDetailsList,
+  handleCropDetails,
   handleGap,
+  updateCropDetails,
   updateGap,
 } from "../../redux/actions/gap/action";
 import CropDetails from "./CropDetails";
@@ -64,6 +72,9 @@ import FarmerList from "../Farmer/FarmerList";
 import { get_FarmerList } from "../../redux/actions/farmer/action";
 import CropDetailsList from "./CropDetails/CropDetailsList";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import DeleteMsg from "../../utils/constants/DeleteMsg";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -95,6 +106,20 @@ const GapRegForm = () => {
   const [selectedCrop, setSelectedCrop] = useState([]);
   const [cropList, setCropList] = useState([]);
   const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
+  const [cdFormData, setCdFormData] = useState({ gapRequestDto: formData });
+  const [cdAction, setCdAction] = useState(DEF_ACTIONS.ADD);
+  const [refreshCList, setRefreshCList] = useState(false);
+  const [openDeleteCropDetail, setOpenDeleteCropDetail] = useState(false);
+
+  const [statusLoading, setStatusLoading] = useState(false);
+
+  const initStatus = {
+    lblText: "Draft",
+    lblColor: "primary",
+  };
+
+  const [gapReqStatus, setGapReqStatus] = useState(initStatus);
+  const [stateResponse, setStateResponse] = useState("");
 
   const { addSnackBar } = useSnackBars();
 
@@ -136,6 +161,13 @@ const GapRegForm = () => {
         try {
           const { payload } = await get(`${path}/${id}`, true);
           setFormData(payload);
+
+          const statusColor =
+            payload.status === "SUBMITTED" ? "success" : "primary";
+          setGapReqStatus({
+            lblText: payload.statusClient,
+            lblColor: statusColor,
+          });
         } catch (error) {
           console.log(error);
         }
@@ -176,6 +208,31 @@ const GapRegForm = () => {
     }
   };
 
+  const setSubmitted = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      try {
+        if (formData?.id) {
+          setStatusLoading(true);
+          const resValue = changeStatus(
+            formData?.id,
+            "SUBMITTED",
+            onSuccess,
+            onError
+          );
+
+          setStateResponse(resValue.payload);
+          setGapReqStatus({
+            lblText: resValue.payload,
+            lblColor: "success",
+          });
+          setStatusLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
@@ -183,9 +240,8 @@ const GapRegForm = () => {
       }
     }
     if (
-      state?.action === DEF_ACTIONS.ADD
-      // &&
-      // Object.keys(formData || {}).length > 0
+      state?.action === DEF_ACTIONS.ADD &&
+      Object.keys(formData || {}).length > 0
     ) {
       return true;
     }
@@ -237,16 +293,14 @@ const GapRegForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
   const getLandsByFarmerId = (id) => {
     getFarmLandByFarmerId(id).then(({ dataList = {} }) => {
       setFarmerLandList(dataList);
     });
   };
+
+  // Implementation Of Crop Details Tab
+
   const fetchCropAreaData = () => {
     getCropDetailsList(formData?.id).then(({ dataList = {} }) => {
       setCropList(dataList);
@@ -255,18 +309,102 @@ const GapRegForm = () => {
 
   useEffect(() => {
     fetchCropAreaData();
-  }, []);
+  }, [refreshCList]);
 
   const toggleCropSelect = (component) => {
     console.log(component);
     setSelectedCrop(component);
   };
 
-  const onCreateCropDetails = () => {};
-  const onEditCropDetails = () => {};
-  const onDeleteCropDetails = () => {};
+  const resetSelectedCropDetails = () => {
+    setSelectedCrop([]);
+    refreshCList();
+  };
 
-  const onViewCropDetails = () => {};
+  const onCreateCropDetails = () => {
+    setCdFormData({ gapRequestDto: formData });
+    setCdAction(DEF_ACTIONS.ADD);
+    setOpenCropAreaAddDlg(true);
+  };
+  const onEditCropDetails = () => {
+    const data = cropList.filter((item) => item?.id === selectedCrop[0]);
+    console.log(data[0]);
+
+    setCdFormData({ ...data[0], gapRequestDto: formData });
+    setCdAction(DEF_ACTIONS.EDIT);
+    setOpenCropAreaAddDlg(true);
+  };
+  const onDeleteCropDetails = () => {
+    setOpenDeleteCropDetail(true);
+  };
+
+  const onViewCropDetails = () => {
+    const data = cropList.filter((item) => item?.id === selectedCrop[0]);
+    console.log(data[0]);
+
+    setCdAction(DEF_ACTIONS.VIEW);
+    setCdFormData({ ...data[0] });
+    setOpenCropAreaAddDlg(true);
+  };
+
+  const refreshCropList = () => {
+    setRefreshCList(!refreshCList);
+  };
+
+  const closeCropDetailsDlg = () => {
+    setOpenCropAreaAddDlg(false);
+  };
+
+  const onConfirmDeleteCropDetail = async () => {
+    try {
+      setLoading(true);
+      for (const id of selectedCrop) {
+        await deleteCropDetails(formData?.id, id, onSuccessDelete, onError);
+        setRefreshCList(!refreshCList);
+      }
+      setLoading(false);
+      setOpenDeleteCropDetail(false);
+      resetSelectedCropDetails();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const closeCropDelete = () => {
+    setOpenDeleteCropDetail(false);
+  };
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedCrop.map((p, key) => {
+          console.log(p);
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p} - {p.ownerType}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
 
   return (
     <div
@@ -288,47 +426,69 @@ const GapRegForm = () => {
           flexDirection: "column",
         }}
       >
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+        <Stack direction="row" spacing={1}>
+          <ButtonWrapper
+            style={{
+              width: "95%",
+              justifyContent: "flex-start",
+              margin: "0",
+              paddingLeft: "18px",
+            }}
+          >
+            {state?.action !== DEF_ACTIONS.VIEW && (
+              <ActionWrapper>
+                {saving ? (
+                  <Button variant="contained">
+                    {state?.action === DEF_ACTIONS.ADD
+                      ? "ADDING..."
+                      : "UPDATING..."}
                   </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
+                ) : (
+                  <>
+                    <ButtonGroup>
+                      <Button
+                        variant="contained"
+                        disabled={!enableSave()}
+                        onClick={handleFormSubmit}
+                        size="small"
+                        color="success"
+                      >
+                        {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                      </Button>
+                      <Button
+                        onClick={resetForm}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        RESET
+                      </Button>
+                    </ButtonGroup>
+                    <Button
+                      onClick={setSubmitted}
+                      color="success"
+                      variant="outlined"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                    >
+                      SUBMIT
+                    </Button>
+                  </>
+                )}
+              </ActionWrapper>
+            )}
+          </ButtonWrapper>
+          {!statusLoading ? (
+            <Chip
+              label={gapReqStatus.lblText}
+              color={gapReqStatus.lblColor}
+              variant="filled"
+            />
+          ) : (
+            <CircularProgress />
           )}
-        </ButtonWrapper>
+        </Stack>
         <Grid container spacing={0}>
           <Grid
             item
@@ -356,6 +516,34 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName
+                style={{
+                  width: "100%",
+                }}
+              >
+                GAP Request No
+              </FieldName>
+              <TextField
+                name="id"
+                id="id"
+                value={formData?.id || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "id")}
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+        <Grid container spacing={0}>
           <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farmer</FieldName>
@@ -426,52 +614,46 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
-          // disabled = {formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Crop Details
         </TabButton>
-        <TabButton
-          className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(3)}
-          disabled={formData?.id !== null}
-        >
-          Land Details
-        </TabButton>
+       
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
-          // disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Internal Audit
         </TabButton>
         <TabButton
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           External Audit
         </TabButton>
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Test
         </TabButton>
         <TabButton
           className={toggleState === 7 ? "active-tabs" : ""}
           onClick={() => toggleTab(7)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Certificate
         </TabButton>
-        <TabButton
+        {/* <TabButton
           className={toggleState === 8 ? "active-tabs" : ""}
           onClick={() => toggleTab(8)}
-          disabled={formData?.id !== null}
+          disabled={formData?.id == null}
         >
           Initial Assesment
-        </TabButton>
+        </TabButton> */}
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
@@ -2083,8 +2265,7 @@ const GapRegForm = () => {
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
       >
-        <CropDetails actionMode={state?.action} gapReqId={formData.id} />
-        {/* <ActionWrapper isLeft>
+        <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -2097,14 +2278,14 @@ const GapRegForm = () => {
               {DEF_ACTIONS.ADD}
             </Button>
 
-            {selectedCrop.length == 1 && (
+            {selectedCrop.length === 1 && (
               <Button onClick={onEditCropDetails}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
             )}
 
-            {selectedCrop.length == 1 && (
+            {selectedCrop.length === 1 && (
               <Button onClick={onViewCropDetails}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
@@ -2118,15 +2299,15 @@ const GapRegForm = () => {
               </Button>
             )}
           </ButtonGroup>
-        </ActionWrapper> */}
-        {/* <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} /> */}
+        </ActionWrapper>
+        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
         <DynamicFormListGap
           dataList={null}
           onFormSaveSuccess={null}
-          formId={null}
+          formId={formData?.id}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
         />
@@ -2141,15 +2322,44 @@ const GapRegForm = () => {
           auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
-      {/* <AddCropDetailsDialog
+      <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
-        // setConfirmDialog={setOpenDlg}
-        confirmAction={handle}
-        handleClose={closeAddCropArea}
-        formData={formData}
-        mode={dialogMode}
-      /> */}
+        handleClose={closeCropDetailsDlg}
+        formData={cdFormData}
+        action={cdAction}
+        refresh={refreshCropList}
+      />
+      <DialogBox
+        open={openDeleteCropDetail}
+        title="Delete Farm Land Ownership"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirmDeleteCropDetail}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={closeCropDelete}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
     </div>
   );
 };
