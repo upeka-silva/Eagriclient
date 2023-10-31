@@ -481,13 +481,13 @@ const UsersForm = () => {
         <Grid
           container
           sx={{
-            margin: "15px",
+            margin: "8px",
             width: "97%",
             borderRadius: "5px",
           }}
           flex={"flex"}
         >
-          <Grid item sm={3} md={3} lg={2} sx={{}}>
+          <Grid item sm={3} md={3} lg={2}>
             <FieldWrapper>
               <FieldName>Select Profile Picture</FieldName>
               <div
@@ -765,20 +765,12 @@ const UsersForm = () => {
             </FieldWrapper>
           </Grid>
         </Grid>
-
-        <Grid container spacing={1} sx={{ width: "97%", marginLeft: "15px" }}>
-          <Grid item lg={12} sm={12} xs={12}>
-            <hr></hr>
-          </Grid>
-        </Grid>
         <Grid
           container
-          spacing={1}
           sx={{
-            margin: "15px",
+            margin: "8px",
             width: "97%",
             borderRadius: "5px",
-            marginTop: "0px",
           }}
         >
           <Grid item lg={3} sm={3} xs={3}>
@@ -867,7 +859,7 @@ const UsersForm = () => {
         <Grid
           container
           sx={{
-            margin: "15px",
+            margin: "8px",
             width: "97%",
             borderRadius: "5px",
           }}
@@ -915,10 +907,9 @@ const UsersForm = () => {
                 container
                 spacing={2}
                 sx={{
-                  margin: "15px",
+                  margin: "8px",
                   width: "97%",
                   borderRadius: "5px",
-                  // border: "1px solid #bec0c2",
                 }}
               >
                 {state?.action !== DEF_ACTIONS.VIEW ? (
@@ -967,7 +958,10 @@ const UsersForm = () => {
                       state.action !== DEF_ACTIONS.ADD && (
                         <>
                           <Typography variant="h6" gutterBottom>
-                            {formData.administrativeDivisionDTO?.administrativeDivisionType}
+                            {
+                              formData.administrativeDivisionDTO
+                                ?.administrativeDivisionType
+                            }
                           </Typography>
                           <TableContainer>
                             <Table>
