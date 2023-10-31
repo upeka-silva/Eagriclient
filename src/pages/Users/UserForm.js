@@ -962,12 +962,12 @@ const UsersForm = () => {
                 ) : null}
 
                 {!loading ? (
-                  <Grid item lg={3}>
+                  <Grid item lg={12} sm={12} sx={12}>
                     {formData?.administrativeDivisionDTO &&
-                      state.action != DEF_ACTIONS.ADD && (
+                      state.action !== DEF_ACTIONS.ADD && (
                         <>
                           <Typography variant="h6" gutterBottom>
-                            {formData.administrativeDivisionDTO?.type}
+                            {formData.administrativeDivisionDTO?.administrativeDivisionType}
                           </Typography>
                           <TableContainer>
                             <Table>
