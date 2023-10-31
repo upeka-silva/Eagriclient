@@ -15,6 +15,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Chip,
 } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -45,6 +46,7 @@ import { AddButton } from "../../components/FormLayout/AddButton";
 import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
 import {
+  changeStatus,
   deleteCropDetails,
   getCropDetailsList,
   handleCropDetails,
@@ -109,6 +111,16 @@ const GapRegForm = () => {
   const [refreshCList, setRefreshCList] = useState(false);
   const [openDeleteCropDetail, setOpenDeleteCropDetail] = useState(false);
 
+  const [statusLoading, setStatusLoading] = useState(false);
+
+  const initStatus = {
+    lblText: "Draft",
+    lblColor: "primary",
+  };
+
+  const [gapReqStatus, setGapReqStatus] = useState(initStatus);
+  const [stateResponse, setStateResponse] = useState("");
+
   const { addSnackBar } = useSnackBars();
 
   const toggleTab = (index) => {
@@ -149,6 +161,13 @@ const GapRegForm = () => {
         try {
           const { payload } = await get(`${path}/${id}`, true);
           setFormData(payload);
+
+          const statusColor =
+            payload.status === "SUBMITTED" ? "success" : "primary";
+          setGapReqStatus({
+            lblText: payload.statusClient,
+            lblColor: statusColor,
+          });
         } catch (error) {
           console.log(error);
         }
@@ -189,6 +208,31 @@ const GapRegForm = () => {
     }
   };
 
+  const setSubmitted = () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      try {
+        if (formData?.id) {
+          setStatusLoading(true);
+          const resValue = changeStatus(
+            formData?.id,
+            "SUBMITTED",
+            onSuccess,
+            onError
+          );
+
+          setStateResponse(resValue.payload);
+          setGapReqStatus({
+            lblText: resValue.payload,
+            lblColor: "success",
+          });
+          setStatusLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
@@ -196,8 +240,7 @@ const GapRegForm = () => {
       }
     }
     if (
-      state?.action === DEF_ACTIONS.ADD
-      &&
+      state?.action === DEF_ACTIONS.ADD &&
       Object.keys(formData || {}).length > 0
     ) {
       return true;
@@ -250,11 +293,6 @@ const GapRegForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
   const getLandsByFarmerId = (id) => {
     getFarmLandByFarmerId(id).then(({ dataList = {} }) => {
       setFarmerLandList(dataList);
@@ -284,16 +322,15 @@ const GapRegForm = () => {
   };
 
   const onCreateCropDetails = () => {
-     setCdFormData({ gapRequestDto: formData })
+    setCdFormData({ gapRequestDto: formData });
     setCdAction(DEF_ACTIONS.ADD);
     setOpenCropAreaAddDlg(true);
   };
   const onEditCropDetails = () => {
-    const data = cropList.filter((item) => item?.id == selectedCrop[0]);
+    const data = cropList.filter((item) => item?.id === selectedCrop[0]);
     console.log(data[0]);
 
-    
-    setCdFormData({ ...data[0] , gapRequestDto: formData });
+    setCdFormData({ ...data[0], gapRequestDto: formData });
     setCdAction(DEF_ACTIONS.EDIT);
     setOpenCropAreaAddDlg(true);
   };
@@ -302,7 +339,7 @@ const GapRegForm = () => {
   };
 
   const onViewCropDetails = () => {
-    const data = cropList.filter((item) => item?.id == selectedCrop[0]);
+    const data = cropList.filter((item) => item?.id === selectedCrop[0]);
     console.log(data[0]);
 
     setCdAction(DEF_ACTIONS.VIEW);
@@ -312,12 +349,10 @@ const GapRegForm = () => {
 
   const refreshCropList = () => {
     setRefreshCList(!refreshCList);
-   
   };
 
   const closeCropDetailsDlg = () => {
     setOpenCropAreaAddDlg(false);
-    
   };
 
   const onConfirmDeleteCropDetail = async () => {
@@ -330,7 +365,6 @@ const GapRegForm = () => {
       setLoading(false);
       setOpenDeleteCropDetail(false);
       resetSelectedCropDetails();
-      
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -392,47 +426,69 @@ const GapRegForm = () => {
           flexDirection: "column",
         }}
       >
-        <ButtonWrapper
-          style={{
-            width: "95%",
-            justifyContent: "flex-start",
-            margin: "0",
-            paddingLeft: "18px",
-          }}
-        >
-          {state?.action !== DEF_ACTIONS.VIEW && (
-            <ActionWrapper>
-              {saving ? (
-                <Button variant="contained">
-                  {state?.action === DEF_ACTIONS.ADD
-                    ? "ADDING..."
-                    : "UPDATING..."}
-                </Button>
-              ) : (
-                <>
-                  <Button
-                    variant="outlined"
-                    disabled={!enableSave()}
-                    onClick={handleFormSubmit}
-                    size="small"
-                    color="success"
-                  >
-                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+        <Stack direction="row" spacing={1}>
+          <ButtonWrapper
+            style={{
+              width: "95%",
+              justifyContent: "flex-start",
+              margin: "0",
+              paddingLeft: "18px",
+            }}
+          >
+            {state?.action !== DEF_ACTIONS.VIEW && (
+              <ActionWrapper>
+                {saving ? (
+                  <Button variant="contained">
+                    {state?.action === DEF_ACTIONS.ADD
+                      ? "ADDING..."
+                      : "UPDATING..."}
                   </Button>
-                  <Button
-                    onClick={resetForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    RESET
-                  </Button>
-                </>
-              )}
-            </ActionWrapper>
+                ) : (
+                  <>
+                    <ButtonGroup>
+                      <Button
+                        variant="contained"
+                        disabled={!enableSave()}
+                        onClick={handleFormSubmit}
+                        size="small"
+                        color="success"
+                      >
+                        {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                      </Button>
+                      <Button
+                        onClick={resetForm}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        RESET
+                      </Button>
+                    </ButtonGroup>
+                    <Button
+                      onClick={setSubmitted}
+                      color="success"
+                      variant="outlined"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                    >
+                      SUBMIT
+                    </Button>
+                  </>
+                )}
+              </ActionWrapper>
+            )}
+          </ButtonWrapper>
+          {!statusLoading ? (
+            <Chip
+              label={gapReqStatus.lblText}
+              color={gapReqStatus.lblColor}
+              variant="filled"
+            />
+          ) : (
+            <CircularProgress />
           )}
-        </ButtonWrapper>
+        </Stack>
         <Grid container spacing={0}>
           <Grid
             item
@@ -558,7 +614,7 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
-          disabled = {formData?.id == null}
+          disabled={formData?.id == null}
         >
           Crop Details
         </TabButton>
@@ -597,13 +653,13 @@ const GapRegForm = () => {
         >
           Certificate
         </TabButton>
-        <TabButton
+        {/* <TabButton
           className={toggleState === 8 ? "active-tabs" : ""}
           onClick={() => toggleTab(8)}
           disabled={formData?.id == null}
         >
           Initial Assesment
-        </TabButton>
+        </TabButton> */}
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
@@ -2214,9 +2270,8 @@ const GapRegForm = () => {
       <TabContent
         style={{ marginTop: "10px" }}
         className={toggleState === 2 ? "active-content" : ""}
-      >        
+      >
         <ActionWrapper isLeft>
-
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -2229,14 +2284,14 @@ const GapRegForm = () => {
               {DEF_ACTIONS.ADD}
             </Button>
 
-            {selectedCrop.length == 1 && (
+            {selectedCrop.length === 1 && (
               <Button onClick={onEditCropDetails}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
             )}
 
-            {selectedCrop.length == 1 && (
+            {selectedCrop.length === 1 && (
               <Button onClick={onViewCropDetails}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
@@ -2250,8 +2305,8 @@ const GapRegForm = () => {
               </Button>
             )}
           </ButtonGroup>
-        </ActionWrapper> 
-        {/* <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} /> */}
+        </ActionWrapper>
+        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
@@ -2276,7 +2331,6 @@ const GapRegForm = () => {
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
-       
         handleClose={closeCropDetailsDlg}
         formData={cdFormData}
         action={cdAction}
