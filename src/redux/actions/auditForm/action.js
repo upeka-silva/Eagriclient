@@ -146,7 +146,7 @@ export const getFormTemplatesByFormLandId = async (
 };
 
 export const getFormTemplatesByGapReqId = async (
-    gapReqId = null,
+    gapReqId ,
     type = ''
 ) => {
   try {

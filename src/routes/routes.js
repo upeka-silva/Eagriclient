@@ -153,6 +153,9 @@ import BiWeeklyReporting from "../pages/CropLook/biWeekReporting/biweekly-report
 import BiWeeklyReportingForm from "../pages/CropLook/biWeekReporting/biweekly-reporting-from";
 import CropLookSeason from "../pages/CropLook/crop-look-Season/CropLookSeason";
 import CropLookSeasonForm from "../pages/CropLook/crop-look-Season/CropLookSeasonForm";
+import DynamicFormGap from "../pages/DynamicFormGap/DynamicFormGap";
+import DynamicFormPage from "../pages/DynamicFormGap/DynamicFormPage";
+import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
 
 export const Routes = [
   {
@@ -1138,6 +1141,18 @@ export const Routes = [
     icon: AppRegistrationIcon,
   },
   {
+    path: "/internal-audit-form",
+    name: "Internal Audit Form",
+    element: <DynamicFormPage/>,
+    isSideBar: false,
+  },
+  {
+    path: "/internal-audit-form-edit-view",
+    name: "internal-audit-form-edit-view",
+    element: <FormPageEditView />,
+    isSideBar: false,
+  },
+  {
     path: "/gap",
     name: "GAP",
     isSideBar: true,
@@ -1334,6 +1349,7 @@ export const Routes = [
     element: <GapRegForm />,
     isSideBar: false,
   },
+  
   {
     path: "/map",
     name: "Map",
