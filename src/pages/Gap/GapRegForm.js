@@ -618,13 +618,7 @@ const GapRegForm = () => {
         >
           Crop Details
         </TabButton>
-        <TabButton
-          className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(3)}
-          disabled={formData?.id == null}
-        >
-          Land Details
-        </TabButton>
+       
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
@@ -2313,7 +2307,7 @@ const GapRegForm = () => {
         <DynamicFormListGap
           dataList={null}
           onFormSaveSuccess={null}
-          formId={null}
+          formId={formData?.id}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
         />

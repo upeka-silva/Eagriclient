@@ -23,7 +23,7 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DynamicFormDialogGap from "./DynamicFormDialogGap";
 import {
   getFormTemplateByType,
@@ -42,7 +42,7 @@ const DynamicFormListGap = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
   onFormSaveSuccess = false,
-  formId = null,
+  formId ,
   formMode = null,
   auditFormType = "",
 }) => {
@@ -58,6 +58,7 @@ const DynamicFormListGap = ({
   const [formTemplate, setFormTemplate] = useState({});
   let uriPath = "";
   let formHeader = "";
+  const navigate = useNavigate();
 
   const populateAttributes = () => {
     if (auditFormType === "SELF_ASSESSMENT") {
@@ -78,7 +79,7 @@ const DynamicFormListGap = ({
   populateAttributes();
 
   useEffect(() => {
-    getFormTemplatesByGapReqId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByGapReqId(formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   }, []);
@@ -87,7 +88,16 @@ const DynamicFormListGap = ({
     setFormData({});
     setFormData(prop);
     setDialogMode(mode);
-    setOpenCropAreaAddDlg(true);
+    //setOpenCropAreaAddDlg(true);
+    navigate("/internal-audit-form-edit-view", {
+      state: {
+        auditFormType: auditFormType,
+        action:mode,
+        formData:prop,
+        formId:{formId}
+      },
+    });
+
   };
 
   const handleCropAreaDelete = (prop) => (event) => {
@@ -106,7 +116,7 @@ const DynamicFormListGap = ({
       message: "Successfully executed !!!",
     });
 
-    getFormTemplatesByGapReqId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByGapReqId(formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   };
@@ -230,22 +240,11 @@ const DynamicFormListGap = ({
         isShowAction={false}
       />
 
-      {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD) && (
-        <DynamicFormGap auditFormType={auditFormType} afterSave={onSuccess} />
+      {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD || dialogMode === DEF_ACTIONS.VIEW || dialogMode === DEF_ACTIONS.EDIT) && (
+        <DynamicFormGap auditFormType={auditFormType} afterSave={onSuccess}  formId={formId}/>
       )}
 
-      {(dialogMode === DEF_ACTIONS.VIEW || dialogMode === DEF_ACTIONS.EDIT) && (
-        <DynamicFormDialogGap
-          open={openCropAreaAddDlg}
-          setConfirmDialog={setOpenCropAreaAddDlg}
-          confirmAction={handle}
-          handleClose={closeAddCropArea}
-          formData={formData}
-          mode={dialogMode}
-          addView={addQ}
-          uriPath={uriPath}
-        />
-      )}
+      
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
