@@ -1,22 +1,16 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-  Button,
-  ButtonGroup,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid, Button } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import {
-  handleCropSubCategory,
-  updateCropSubCategory,
-} from "../../../redux/actions/crop/cropSubCategory/action";
+import { updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
 import BackToList from "../../../components/BackToList/BackToList";
@@ -24,16 +18,26 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../Farm-Land/FarmLandForm";
 import {
-  createCropRegistration,
-  getDDDivisionsByLogedInUser,
-  getSeasons,
-} from "../../../redux/actions/cropLook/cropRegistration/actions";
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
-import { createCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../Farm-Land/FarmLandForm";
+import {
+  createCropTarget,
+  getAllAiAndMahaweliUnits,
+} from "../../../redux/actions/cropLook/cropTarget/actions";
 import BiWeeklyReportingTab from "./biweekly-reporting-tab";
-import { createBiWeeklyReport, getCropLookSeasons } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import {
+  changeStatusOfBiWeekReport,
+  createBiWeeklyReport,
+  getCropLookSeasons,
+} from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
+import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { Vrpano } from "@mui/icons-material";
+import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -53,14 +57,10 @@ const BiWeeklyReportingForm = () => {
   const [biWeekReportId, setBiWeekReportId] = useState(null);
   const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   const [toggleState, setToggleState] = useState(1);
-  const [tabEnabled, setTabInabled] = useState(false);
-
-  // start of crop registration code
 
   useEffect(() => {
-    get_AiRegionList().then(({ dataList = [] }) => {
+    getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
       console.log(dataList);
     });
@@ -81,7 +81,11 @@ const BiWeeklyReportingForm = () => {
     ) {
       setBiWeekReportId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
-      setSelectedAiRegion(state?.target?.aiRegion);
+      var region = state?.target?.aiRegion
+        ? state?.target?.aiRegion
+        : state?.target?.mahaweliUnit;
+      region.parentType = state?.target?.parentType;
+      setSelectedAiRegion(region);
       setSelectedWeek(state?.target?.week);
       setCropCategoryTarget(state?.target?.biWeekCropCategoryReport);
     }
@@ -114,7 +118,7 @@ const BiWeeklyReportingForm = () => {
 
   const handlWeekChange = (value) => {
     setSelectedWeek(value);
-  }
+  };
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -165,34 +169,63 @@ const BiWeeklyReportingForm = () => {
       setIsLoading(true);
       setSaving(true);
       try {
-        const payload = {
-          aiRegion: { id: selectedAiRegion.id },
-          aiRegionType: selectedAiRegion.parentType,
-          season: { id: selectedSeason.id },
-          week: {id: selectedWeek.id}
-        };
-
-        if (false) {
-          await updateCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
-            onSuccess,
-            onError
-          );
+        var payload = {};
+        if (selectedAiRegion.parentType === REGION_PARENT_TYPE.MAHAWELI) {
+          payload = {
+            mahaweliBlock: { id: selectedAiRegion.id },
+            parentType: selectedAiRegion.parentType,
+            season: { id: selectedSeason.id },
+            week: { id: selectedWeek.id },
+          };
         } else {
-          const dataList = await createBiWeeklyReport(
-            payload,
-            onSuccess,
-            onError
-          );
-          setBiWeekReportId(dataList.dataList.id);
+          payload = {
+            aiRegion: { id: selectedAiRegion.id },
+            parentType: selectedAiRegion.parentType,
+            season: { id: selectedSeason.id },
+            week: { id: selectedWeek.id },
+          };
         }
+        const dataList = await createBiWeeklyReport(
+          payload,
+          onSuccess,
+          onError
+        );
+        setBiWeekReportId(dataList.dataList.id);
       } catch (error) {
         console.log(error);
       }
     }
+  };
+
+  const filterBiWeekList = (biWeekList) => {
+    return biWeekList.filter(
+      (data) => data.status === BI_WEEK_DATA_STATUS.ENABLED
+    );
+  };
+
+  const approveBiWeekReport = () => {
+    changeStatusOfBiWeekReport(
+      biWeekReportId,
+      BI_WEEK_REPORT_STATUS.APPROVED,
+      onSuccessStatusChange,
+      onErrorStatusChange
+    );
+  };
+
+  const onSuccessStatusChange = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Approved",
+    });
+    setSaving(false);
+  };
+
+  const onErrorStatusChange = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
   };
 
   return (
@@ -204,27 +237,51 @@ const BiWeeklyReportingForm = () => {
           state={state}
           formName="Bi Weekly Report"
         />
-        <FormButtonGroup
-          {...{
-            state,
-            DEF_ACTIONS,
-            saving,
-            enableSave,
-            handleFormSubmit,
-            resetForm,
-          }}
-        />
-        <Grid
-          container
-        >
+        <Grid container>
+          <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
+            <Grid container>
+              <Grid item>
+                <FormButtonGroup
+                  {...{
+                    state,
+                    DEF_ACTIONS,
+                    saving,
+                    enableSave,
+                    handleFormSubmit,
+                    resetForm,
+                  }}
+                />
+              </Grid>
+              <Grid item sx={{ pt: "8px" }}>
+                <PermissionWrapper
+                  permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+                >
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    onClick={approveBiWeekReport}
+                    sx={{ ml: "8px" }}
+                    size="small"
+                  >
+                    Approve
+                  </Button>
+                </PermissionWrapper>
+              </Grid>
+            </Grid>
+          </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>AI Region</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) => `${i.regionId} - ${i.description}`}
+                getOptionLabel={(i) =>
+                  `${i.code || i.regionId} - ${i.description}`
+                }
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
@@ -242,7 +299,10 @@ const BiWeeklyReportingForm = () => {
             <FieldWrapper>
               <FieldName>Season</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={seasons}
                 value={selectedSeason}
                 getOptionLabel={(i) => `${i.code}`}
@@ -259,27 +319,34 @@ const BiWeeklyReportingForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          {selectedSeason ? <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Week</FieldName>
-              <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-                options={selectedSeason?.biWeekDataList}
-                value={selectedWeek}
-                getOptionLabel={(i) => `${i.weekDescription}`}
-                onChange={(event, value) => {
-                  handlWeekChange(value);
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
-            </FieldWrapper>
-          </Grid> : null}
+          {selectedSeason ? (
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Week</FieldName>
+                <Autocomplete
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    state?.action === DEF_ACTIONS.EDIT
+                  }
+                  options={filterBiWeekList(selectedSeason?.biWeekDataList)}
+                  value={selectedWeek}
+                  getOptionLabel={(i) => `${i.weekDescription}`}
+                  onChange={(event, value) => {
+                    handlWeekChange(value);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
           <Grid item sx={{ marginTop: "20px" }}>
             <TabWrapper style={{ margin: "0px 0px" }}>
               {cropCategoryList.map((category, index) => (
@@ -292,19 +359,29 @@ const BiWeeklyReportingForm = () => {
               ))}
             </TabWrapper>
 
-            {!isLoading && cropCategoryList.map((category, index) => (
+            {!isLoading &&
+              cropCategoryList.map((category, index) => (
                 <TabContent
                   //style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {biWeekReportId ? <BiWeeklyReportingTab
-                    registrationId={biWeekReportId}
-                    aiRegionId={selectedAiRegion?.id}
-                    seasonId={selectedSeason?.id}
-                    cropCategoryId={category?.id}
-                    mode={state?.action}
-                    savedCropCategoryTarget={cropCategoryTarget ? cropCategoryTarget.find(target => target?.cropCategory?.id === category?.id) : null}
-                  /> : null}
+                  {biWeekReportId ? (
+                    <BiWeeklyReportingTab
+                      registrationId={biWeekReportId}
+                      aiRegion={selectedAiRegion}
+                      seasonId={selectedSeason?.id}
+                      cropCategoryId={category?.id}
+                      mode={state?.action}
+                      savedCropCategoryTarget={
+                        cropCategoryTarget
+                          ? cropCategoryTarget.find(
+                              (target) =>
+                                target?.cropCategory?.id === category?.id
+                            )
+                          : null
+                      }
+                    />
+                  ) : null}
                 </TabContent>
               ))}
           </Grid>

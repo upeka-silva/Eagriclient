@@ -3,7 +3,7 @@ import { Grid } from "@mui/material";
 import SingleInput from "./singleInput";
 import BiWeeklySingleInput from "./biweekly-singleInput";
 
-const BiweeklyCropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex }) => {
+const BiweeklyCropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex, configFields }) => {
   return (
     <Grid container>
       <Grid item xs={12}>
@@ -19,6 +19,7 @@ const BiweeklyCropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex 
             cropIndex={cropIndex}
             varietyIndex={varietyIndex}
             mode={mode}
+            configFields={configFields}
           />
         </Grid>
       ))}

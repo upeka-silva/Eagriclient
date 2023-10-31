@@ -3,18 +3,14 @@ import { DataTable } from "../../../components/PageLayout/Table";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const BiWeeklyReportingList = ({
+const CropConfigurationList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {field: "aiRegionOrMahaweliUnitDisplayName", headerName: "Ai Region/ Mahaweli Unit "},
-    {field: "status", headerName: "Status"},
-    {field: "parentType", headerName: "Region Type"},
-    { field: "season.code", headerName: "Season" },
-    { field: "week.weekDescription", headerName: "Week" },
+    {field: "cropCategory.categoryId", headerName: "Crop Category"}
   ];
 
   const [id, setId] = useState(null);
@@ -52,7 +48,7 @@ const BiWeeklyReportingList = ({
       <TableWrapper>
         <DataTable
           loadingTable
-          dataEndPoint={`crop-look/bi-week-reporting`}
+          dataEndPoint={`crop-look/configuration`}
           columns={columns}
           selectable
           selectedRows={selectedRows}
@@ -65,4 +61,4 @@ const BiWeeklyReportingList = ({
   );
 };
 
-export default BiWeeklyReportingList;
+export default CropConfigurationList;

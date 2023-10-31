@@ -24,7 +24,11 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../Farm-Land/FarmLandForm";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../Farm-Land/FarmLandForm";
 import CropTargetTab from "./crop-target-tab";
 import {
   createCropRegistration,
@@ -32,7 +36,11 @@ import {
   getSeasons,
 } from "../../../redux/actions/cropLook/cropRegistration/actions";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
-import { createCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
+import {
+  createCropTarget,
+  getAllAiAndMahaweliUnits,
+} from "../../../redux/actions/cropLook/cropTarget/actions";
+import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 
 const CropTargetForm = () => {
   useUserAccessValidation();
@@ -58,7 +66,7 @@ const CropTargetForm = () => {
   // start of crop registration code
 
   useEffect(() => {
-    get_AiRegionList().then(({ dataList = [] }) => {
+    getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
       console.log(dataList);
     });
@@ -79,8 +87,11 @@ const CropTargetForm = () => {
     ) {
       setCropTargetId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
-      setSelectedAiRegion(state?.target?.aiRegion);
+      var region = state?.target?.aiRegion ? state?.target?.aiRegion : state?.target?.mahaweliUnit;
+      region.parentType = state?.target?.parentType;
+      setSelectedAiRegion(region);
       setCropCategoryTarget(state?.target?.cropCategoryTargets);
+
     }
   }, []);
 
@@ -159,30 +170,23 @@ const CropTargetForm = () => {
       setIsLoading(true);
       setSaving(true);
       try {
-        const payload = {
-          aiRegion: { id: selectedAiRegion.id },
-          aiRegionType: selectedAiRegion.parentType,
-          season: { id: selectedSeason.id },
-        };
-
-        if (false) {
-          await updateCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
-            onSuccess,
-            onError
-          );
+        var payload = {};
+        if(selectedAiRegion.parentType === REGION_PARENT_TYPE.MAHAWELI) {
+          payload = {
+            mahaweliBlock: { id: selectedAiRegion.id },
+            aiRegionType: selectedAiRegion.parentType,
+            season: { id: selectedSeason.id },
+          };
         } else {
-          const dataList = await createCropTarget(
-            payload,
-            onSuccess,
-            onError
-          );
-          setCropTargetId(dataList.dataList.id);
-          setCropCategoryTarget();
+          payload = {
+            aiRegion: { id: selectedAiRegion.id },
+            aiRegionType: selectedAiRegion.parentType,
+            season: { id: selectedSeason.id },
+          };
         }
+        const dataList = await createCropTarget(payload, onSuccess, onError);
+        setCropTargetId(dataList.dataList.id);
+        setCropCategoryTarget();
       } catch (error) {
         console.log(error);
       }
@@ -193,11 +197,7 @@ const CropTargetForm = () => {
     <div>
       <FormWrapper>
         <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Target"
-        />
+        <CustFormHeader saving={saving} state={state} formName="Crop Target" />
         <FormButtonGroup
           {...{
             state,
@@ -210,22 +210,18 @@ const CropTargetForm = () => {
         />
         <Grid
           container
-          //   spacing={1}
-          //   sx={{
-          //     // border: "1px solid #bec0c2",
-          //     margin: "15px",
-          //     width: "97%",
-          //     borderRadius: "5px",
-          //  }}
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>AI Region</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) => `${i.regionId} - ${i.description}`}
+                getOptionLabel={(i) => `${i.code || i.regionId} - ${i.description}`}
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
@@ -243,7 +239,10 @@ const CropTargetForm = () => {
             <FieldWrapper>
               <FieldName>Season</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={seasons}
                 value={selectedSeason}
                 getOptionLabel={(i) => `${i.code}`}
@@ -272,19 +271,29 @@ const CropTargetForm = () => {
               ))}
             </TabWrapper>
 
-            {!isLoading && cropCategoryList.map((category, index) => (
+            {!isLoading &&
+              cropCategoryList.map((category, index) => (
                 <TabContent
                   style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {cropTargetId ? <CropTargetTab
-                    registrationId={cropTargetId}
-                    aiRegionId={selectedAiRegion?.id}
-                    seasonId={selectedSeason?.id}
-                    cropCategoryId={category?.id}
-                    mode={state?.action}
-                    savedCropCategoryTarget={cropCategoryTarget ? cropCategoryTarget.find(target => target?.cropCategory?.id === category?.id) : null}
-                  /> : null}
+                  {cropTargetId ? (
+                    <CropTargetTab
+                      registrationId={cropTargetId}
+                      aiRegion={selectedAiRegion}
+                      seasonId={selectedSeason?.id}
+                      cropCategoryId={category?.id}
+                      mode={state?.action}
+                      savedCropCategoryTarget={
+                        cropCategoryTarget
+                          ? cropCategoryTarget.find(
+                              (target) =>
+                                target?.cropCategory?.id === category?.id
+                            )
+                          : null
+                      }
+                    />
+                  ) : null}
                 </TabContent>
               ))}
           </Grid>

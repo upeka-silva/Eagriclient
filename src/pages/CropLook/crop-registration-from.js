@@ -34,6 +34,7 @@ import {
   getDDDivisionsByUser,
   getSeasons,
 } from "../../redux/actions/cropLook/cropRegistration/actions";
+import { REGION_PARENT_TYPE } from "../../utils/constants/region-parent-type";
 
 const CropRegistrationForm = () => {
   useUserAccessValidation();
@@ -81,19 +82,26 @@ const CropRegistrationForm = () => {
       setSelectedSeason(state?.target?.season);
 
       var ddDivision = {};
-      if (state?.target?.isProvincial) {
+      if (state?.target?.parentType === REGION_PARENT_TYPE.PROVINCIAL) {
         const provincialDD = state?.target?.provincialDD;
         ddDivision = {
           id: provincialDD.id,
           name: provincialDD.provincialDdId,
-          isProvincial: true,
+          parentType: REGION_PARENT_TYPE.PROVINCIAL,
         };
-      } else {
+      } else if(state?.target?.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL) {
         const interProvincialDD = state?.target?.interProvincialDD;
         ddDivision = {
           id: interProvincialDD.id,
           name: interProvincialDD.ddId,
-          isProvincial: false,
+          parentType: REGION_PARENT_TYPE.INTER_PROVINCIAL,
+        };
+      } else {
+        const mahaweliBlock = state?.target?.mahaweliBlock;
+        ddDivision = {
+          id: mahaweliBlock.id,
+          name: mahaweliBlock.code,
+          parentType: REGION_PARENT_TYPE.MAHAWELI,
         };
       }
       setSelectedDDDivision(ddDivision);
@@ -176,42 +184,36 @@ const CropRegistrationForm = () => {
       setSaving(true);
       try {
         let payload1 = {};
-        if (selectedDDDivision.isProvincial) {
+        if (selectedDDDivision.parentType === REGION_PARENT_TYPE.PROVINCIAL) {
           payload1 = {
             provincialDD: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
-            isProvincial: true,
+            parentType: REGION_PARENT_TYPE.PROVINCIAL,
           };
-        } else {
+        } else if(selectedDDDivision.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL){
           payload1 = {
             interProvincialDD: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
-            isProvincial: false,
+            parentType: REGION_PARENT_TYPE.INTER_PROVINCIAL,
+          };
+        } else {
+          payload1 = {
+            mahaweliBlock: { id: selectedDDDivision.id },
+            season: { id: selectedSeason.id },
+            parentType: REGION_PARENT_TYPE.MAHAWELI,
           };
         }
-
-        if (false) {
-          await updateCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
-            onSuccess,
-            onError
-          );
-        } else {
-          const dataList = await createCropRegistration(
-            payload1,
-            onSuccess,
-            onError
-          );
-          console.log("registration id afte save ");
-          console.log(dataList);
-          console.log(dataList.dataList.id);
-          setRegistrationId(dataList.dataList.id);
-          //setSelectedDDDivision(dataList?.provincialDD);
-          //setSelectedSeason(dataList?.season);
-        }
+        const dataList = await createCropRegistration(
+          payload1,
+          onSuccess,
+          onError
+        );
+        console.log("registration id afte save ");
+        console.log(dataList);
+        console.log(dataList.dataList.id);
+        setRegistrationId(dataList.dataList.id);
+        //setSelectedDDDivision(dataList?.provincialDD);
+        //setSelectedSeason(dataList?.season);
       } catch (error) {
         console.log(error);
       }
@@ -237,21 +239,15 @@ const CropRegistrationForm = () => {
             resetForm,
           }}
         />
-        <Grid
-          container
-          //   spacing={1}
-          //   sx={{
-          //     // border: "1px solid #bec0c2",
-          //     margin: "15px",
-          //     width: "97%",
-          //     borderRadius: "5px",
-          //  }}
-        >
+        <Grid container>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Deputy Director Division</FieldName>
+              <FieldName>Deputy Director Division/ Mahaweli Block</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={options}
                 value={selectedDDDivision}
                 getOptionLabel={(i) => `${i.name}`}
@@ -272,7 +268,10 @@ const CropRegistrationForm = () => {
             <FieldWrapper>
               <FieldName>Season</FieldName>
               <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 options={seasons}
                 value={selectedSeason}
                 getOptionLabel={(i) => `${i.code}`}

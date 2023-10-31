@@ -5,7 +5,7 @@ import InputLabel from "@mui/material/InputLabel";
 import { Grid } from "@mui/material";
 import SingleInput from "./singleInput";
 
-const CropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex }) => {
+const CropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex, configFields }) => {
   return (
     <Grid container spacing={1}>
       <Grid item xs={12}>
@@ -20,6 +20,7 @@ const CropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex }) => {
             cropIndex={cropIndex}
             varietyIndex={varietyIndex}
             mode={mode}
+            configFields={configFields}
           />
         </Grid>
       ))}

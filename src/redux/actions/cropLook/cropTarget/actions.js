@@ -38,6 +38,26 @@ export const createCropTarget = async (
   }
 };
 
+export const getAllAiAndMahaweliUnits = async (
+  ) => {
+    try {
+      const {httpCode, payloadDto} = await get("geo-data/ai-region/all-ai-and-mahaweli-units", true);
+      if (httpCode === '200 OK') {
+        return {
+          dataList: payloadDto
+        }
+      }
+      return {
+        dataList: []
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        dataList: []
+      }
+    }
+  };
+
 export const updateCropTarget = async (
   id,
   cropCategoryId,
@@ -150,9 +170,9 @@ export const updateDistrict = async (
   }
 };
 
-export const getTargetCropsByAiAndSeasonAndCropCategory = async (aiId, seasonId, categoryId) => {
+export const getTargetCropsByAiAndSeasonAndCropCategory = async (aiId, seasonId, categoryId, type) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-registration/ai-region/${aiId}/season/${seasonId}/cropCategory/${categoryId}`, true);
+    const { httpCode, payloadDto } = await get(`crop-look/crop-registration/region/${aiId}/regionType/${type}/season/${seasonId}/cropCategory/${categoryId}`, true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,

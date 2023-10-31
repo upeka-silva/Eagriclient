@@ -21,7 +21,7 @@ const DamageAddModal = ({
   isModalOpen,
   handleModalCancel,
   mode,
-  varietyReportId,
+  variety,
 }) => {
   const [damageExtents, setDamageExtents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,7 +54,7 @@ const DamageAddModal = ({
       setDamageExtents(updatedDamageExts);
     }
 
-    fetchData(varietyReportId);
+    fetchData(variety.id);
   }, []);
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const DamageAddModal = ({
   }, [damageExtents]);
 
   const onSubmitDamageExtent = () => {
-    updateDamageExtents(varietyReportId, damageExtents);
+    updateDamageExtents(variety.id, damageExtents);
     handleModalCancel();
   };
 
@@ -113,7 +113,7 @@ const DamageAddModal = ({
   return (
     <DialogBox
       open={isModalOpen}
-      title="Add Crop Damage"
+      title={"Add Crop Damage For - " + variety?.varietyName} 
       maxWidth
       fullWidth
       actions={

@@ -1,0 +1,5 @@
+export const BI_WEEK_REPORT_STATUS = {
+    APPROVED: "APPROVED",
+    REJECTED: "REJECTED",
+    PEDNING: "PEDNING"
+}

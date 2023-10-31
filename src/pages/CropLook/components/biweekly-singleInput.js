@@ -15,6 +15,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { CancelOutlined, CheckRounded } from "@mui/icons-material";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DamageAddModal from "./damage-add";
+import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 
 const BiWeeklySingleInput = ({
   varietyTarget,
@@ -22,8 +23,10 @@ const BiWeeklySingleInput = ({
   varietyIndex,
   targetedExtentHandler,
   mode,
+  configFields,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalExtent, setTotalExtent] = useState(0);
 
   useEffect(() => {
     console.log("inside BiWeeklySingleInput comp ------------>");
@@ -38,6 +41,26 @@ const BiWeeklySingleInput = ({
     setIsModalOpen(false);
   };
 
+  const getDbFieldName = (field) => {
+    if (field === CROP_LOOK_FIELD.EXTENT_MAJOR) {
+      return "targetedExtentMajor";
+    } else if (field === CROP_LOOK_FIELD.EXTENT_MINOR) {
+      return "targetedExtentMinor";
+    } else if (field === CROP_LOOK_FIELD.EXTENT_RAINFED) {
+      return "targetedExtentRainfed";
+    } else if (field === CROP_LOOK_FIELD.EXTENT_IRRIGATE) {
+      return "targetedExtentIrrigate";
+    } else {
+      return "na";
+    }
+  };
+
+  const extentHandler = (cropIndex, varietyIndex, field, value) => {
+    const newExtent = parseInt(totalExtent) + parseInt(value);
+    setTotalExtent(newExtent);
+    targetedExtentHandler(cropIndex, varietyIndex, field, value);
+  };
+
   return (
     <>
       <Grid container spacing={1}>
@@ -49,123 +72,41 @@ const BiWeeklySingleInput = ({
             sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
           />
         </Grid>
+        {configFields.map((field) => (
+          <Grid item xs={2}>
+            <TextField
+              type="number"
+              disabled={mode === DEF_ACTIONS.VIEW}
+              variant="outlined"
+              id="input1"
+              label={field + " (In Ha)"}
+              value={varietyTarget[getDbFieldName(field)]}
+              onChange={(e) =>
+                extentHandler(
+                  cropIndex,
+                  varietyIndex,
+                  getDbFieldName(field),
+                  e.target.value
+                )
+              }
+              //style={{ flex: 1, marginRight: 8 }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </Grid>
+        ))}
         <Grid item xs={2}>
           <TextField
             type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="outlined"
-            id="input1"
-            label="Extent Major (In Ha)"
-            value={varietyTarget.targetedExtentMajor}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                "targetedExtentMajor",
-                e.target.value
-              )
-            }
-            //style={{ flex: 1, marginRight: 8 }}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="outlined"
-            id="input2"
-            label="Extent Minor (In Ha)"
-            value={varietyTarget.targetedExtentMinor}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                "targetedExtentMinor",
-                e.target.value
-              )
-            }
-            //style={{ flex: 1, marginRight: 8 }}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="outlined"
-            id="input3"
-            label="Extent Rainfed (In Ha)"
-            value={varietyTarget.targetedExtentRainfed}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                "targetedExtentRainfed",
-                e.target.value
-              )
-            }
-            //style={{ flex: 1 }}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="outlined"
-            id="input4"
-            label="Extent Irrigate (In Ha)"
-            value={varietyTarget.targetedExtentIrrigate}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                "targetedExtentIrrigate",
-                e.target.value
-              )
-            }
-            // style={{ flex: 1 }}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
+            disabled={true}
             variant="outlined"
             id="input5"
-            label="Extent (In Ha)"
-            value={varietyTarget.targetedExtent}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                "targetedExtent",
-                e.target.value
-              )
-            }
-            // style={{ flex: 1 }}
+            label="Total Extent (In Ha)"
+            value={varietyTarget['totalExtent'] || 0}
             sx={{
               "& .MuiInputBase-root": {
                 borderRadius: "8px",
@@ -190,12 +131,12 @@ const BiWeeklySingleInput = ({
         ) : null}
       </Grid>
 
-      {(varietyTarget?.id && isModalOpen) ? (
+      {varietyTarget?.id && isModalOpen ? (
         <DamageAddModal
           isModalOpen={isModalOpen}
           handleModalCancel={handleModalCancel}
           mode={mode}
-          varietyReportId={varietyTarget?.id}
+          variety={varietyTarget}
         />
       ) : null}
     </>

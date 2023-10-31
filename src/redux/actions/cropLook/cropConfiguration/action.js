@@ -1,13 +1,13 @@
 import { put, post, get, api_delete } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
-export const handleCropLookSeason = async (
+export const createCropConfig = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await post("crop-look/seasons", payload, true);
+    const response = await post("crop-look/configuration", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
       return response.payload
@@ -24,7 +24,6 @@ export const handleCropLookSeason = async (
       };
       throw exception;
     }
-    console.log(response);
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -36,13 +35,11 @@ export const handleCropLookSeason = async (
   }
 };
 
-export const getAgriSeasons = async () => {
+export const getConfigurationById = async (id) => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/agriculture-seasons/crop-look", true);
+    const { httpCode, payload } = await get(`crop-look/configuration/${id || ''}`, true);
     if (httpCode === "200 OK") {
-      return {
-        dataList: payloadDto,
-      };
+      return payload;
     }
     return {
       dataList: [],
@@ -56,13 +53,13 @@ export const getAgriSeasons = async () => {
 };
 
 
-export const deleteCropLookSeason = async (
+export const deleteCropConfiguration = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`crop-look/seasons/${id || ''}`, true);
+    const response = await api_delete(`crop-look/configuration/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -90,87 +87,17 @@ export const deleteCropLookSeason = async (
   }
 }
 
-export const changeStatusCropLookSeason = async (
+export const updateCropConfig = async (
   id,
-  status,
-  onSuccess = () => { },
-  onError = (_message) => { }
-) => {
-  try {
-    const response = await put(`crop-look/seasons/${id || ''}/status/${status}`, null, true);
-    console.log(response)
-    if (response?.httpCode === "200 OK") {
-      onSuccess();
-    } else {
-      const exception = {
-        error: {
-          data: {
-            apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
-            },
-          },
-        },
-      };
-      throw exception;
-    }
-  } catch ({ error }) {
-    if (typeof error === "object") {
-      const { data } = error;
-      const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
-    } else {
-      onError(error);
-    }
-  }
-}
-
-export const changeStatusBiWeekData = async (
-  seasonId,
-  id,
-  status,
-  onSuccess = () => { },
-  onError = (_message) => { }
-) => {
-  try {
-    const response = await put(`crop-look/seasons/${seasonId}/bi-week-data/${id}/status/${status}`, null, true);
-    console.log(response)
-    if (response?.httpCode === "200 OK") {
-      onSuccess();
-      return response.payload;
-    } else {
-      const exception = {
-        error: {
-          data: {
-            apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
-            },
-          },
-        },
-      };
-      throw exception;
-    }
-  } catch ({ error }) {
-    if (typeof error === "object") {
-      const { data } = error;
-      const { apiError } = data;
-      onError(apiError?.message || defaultMessages.apiErrorUnknown);
-    } else {
-      onError(error);
-    }
-  }
-}
-
-export const updateAgriSeason = async (
   payload = {},
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await put(`geo-data/agriculture-seasons/${payload?.id || ''}`, payload, true);
+    const response = await put(`crop-look/configuration/${id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
+      return response.payload;
     } else {
       const exception = {
         error: {

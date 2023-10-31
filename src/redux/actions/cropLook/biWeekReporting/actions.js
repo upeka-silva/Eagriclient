@@ -73,6 +73,40 @@ export const updateBiWeekReporting = async (
   }
 };
 
+export const changeStatusOfBiWeekReport = async (
+  id,
+  status,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`crop-look/bi-week-reporting/${id}/status/${status}`, null, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+      return response.payload;
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
 export const createDamageExtents = async (
   payload = {},
   onSuccess = () => {},
@@ -184,7 +218,7 @@ export const getDDDivisionsByLogedInUser = async () => {
 
 export const getCropLookSeasons = async () => {
     try {
-      const { httpCode, payloadDto } = await get("crop-look/seasons?size=1000", true);
+      const { httpCode, payloadDto } = await get("crop-look/seasons/enabled", true);
       if (httpCode === "200 OK") {
         return {
           dataList: payloadDto,

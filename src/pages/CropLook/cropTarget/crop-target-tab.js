@@ -1,57 +1,70 @@
 import React, { useEffect, useState } from "react";
-import MultiSelectTils from "../../../components/MultiSelectTiles/multi-select-tiles";
 import { Button, Grid } from "@mui/material";
-import { getCropVaritesByCropCategory } from "../../../redux/actions/crop/cropVariety/action";
-import {
-  createCropRegistration,
-  getCropRegistrationById,
-  updateCropRegistrationItems,
-} from "../../../redux/actions/cropLook/cropRegistration/actions";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
-  getTargetSeasonalRegion,
   updateCropTarget,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 
 const CropTargetTab = ({
   mode,
   registrationId,
   cropCategoryId,
-  aiRegionId,
+  aiRegion,
   seasonId,
   savedCropCategoryTarget,
 }) => {
   const { addSnackBar } = useSnackBars();
   const [cropTargets, setCropTargets] = useState([]);
-  const [cropVarietyList, setCropVarietyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [configFields, setConfigFields] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    if (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) {
-      // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
-      //   setCropTargets(dataList?.cropTargets);
-      // });
+    getConfigurationById(cropCategoryId).then((data = {}) => {
+      console.log('data fields');
+      console.log(data);
+      setConfigFields(data ? data.fields : []);
+      checkDataLoadStatus()
+    });
+
+    if ((mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) && savedCropCategoryTarget?.cropTargets) {
+      console.log('crop targets existig');
+      console.log(savedCropCategoryTarget?.cropTargets);
       setCropTargets(savedCropCategoryTarget?.cropTargets);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
-        aiRegionId,
+        aiRegion.id,
         seasonId,
-        cropCategoryId
+        cropCategoryId,
+        aiRegion.parentType
       ).then(({ dataList = [] }) => {
+        console.log('crop targets');
+        console.log(dataList);
         setCropTargets(dataList);
+        checkDataLoadStatus();
       });
     }
   }, []);
+
+  const checkDataLoadStatus = () => {
+    //if (configFields.length > 0 && cropTargets.length > 0) {
+      setDataLoaded(true);
+    //}
+  };
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
+    const existingTotalExtent = updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex]["totalExtent"];
+
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex]["totalExtent"] = parseFloat(existingTotalExtent || 0) + parseFloat(value);
+
     setCropTargets(updatedVarietyTargets);
   };
 
@@ -157,13 +170,14 @@ const CropTargetTab = ({
         </div>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
-        {cropTargets &&
+        {dataLoaded &&
           cropTargets.map((cropTarget, cropIndex) => (
             <CropInput
               cropTarget={cropTarget}
               targetedExtentHandler={targetedExtentHandler}
               mode={mode}
               cropIndex={cropIndex}
+              configFields={configFields}
             />
           ))}
       </Grid>

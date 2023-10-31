@@ -20,26 +20,18 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
-
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import {
-  handleAgriSeason,
-  updateAgriSeason,
-} from "../../../redux/actions/agriSeason/action";
-
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import { getAgriSeasons, handleCropLookSeason } from "../../../redux/actions/cropLook/season/action";
+import {
+  changeStatusBiWeekData,
+  getAgriSeasons,
+  handleCropLookSeason,
+} from "../../../redux/actions/cropLook/season/action";
+import BiWeekDataTable from "./BiWeekDataTable";
 
 const CropLookSeasonForm = () => {
   useUserAccessValidation();
@@ -62,13 +54,23 @@ const CropLookSeasonForm = () => {
   const [saving, setSaving] = useState(false);
   const [agriSeasons, setAgriSeasons] = useState([]);
   const [selectedAgriSeason, setSelectedAgriSeason] = useState({});
+  const [biWeekDataList, setBiWeekDataList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [seasonId, setSeasonId] = useState(null);
 
   useEffect(() => {
-    getAgriSeasons().then(({dataList = []}) => {
+    setIsLoading(false);
+  }, [biWeekDataList, seasonId]);
+
+  useEffect(() => {
+    getAgriSeasons().then(({ dataList = [] }) => {
       setAgriSeasons(dataList);
     });
 
+    setIsLoading(true);
     setSelectedAgriSeason(state?.target?.agriSeason);
+    setSeasonId(state?.target?.id);
+    setBiWeekDataList(state?.target?.biWeekDataList);
   }, []);
 
   const goBack = () => {
@@ -134,27 +136,37 @@ const CropLookSeasonForm = () => {
 
       try {
         if (formData?.id) {
-          await handleCropLookSeason(
+          setIsLoading(true);
+          const dataList = await handleCropLookSeason(
             {
               ...formData,
               startDate: sdate.valueOf() || null,
               endDate: edate.valueOf() || null,
-              agriSeason: {id: selectedAgriSeason.id},
+              agriSeason: { id: selectedAgriSeason.id },
             },
             onSuccess,
             onError
           );
+          console.log("updated crop season");
+          console.log(dataList);
+          setSeasonId(dataList?.id);
+          setBiWeekDataList(dataList?.biWeekDataList);
         } else {
-          await handleCropLookSeason(
+          setIsLoading(true);
+          const dataList = await handleCropLookSeason(
             {
               ...formData,
               startDate: sdate.valueOf() || null,
               endDate: edate.valueOf() || null,
-              agriSeason: {id: selectedAgriSeason.id},
+              agriSeason: { id: selectedAgriSeason.id },
             },
             onSuccess,
             onError
           );
+          console.log("created crop season");
+          console.log(dataList);
+          setSeasonId(dataList?.id);
+          setBiWeekDataList(dataList?.biWeekDataList);
         }
       } catch (error) {
         console.log(error);
@@ -166,6 +178,34 @@ const CropLookSeasonForm = () => {
     return location.pathname === "/" || !location.pathname
       ? ""
       : location.pathname;
+  };
+
+  const statusChangeHandler = async (id, status) => {
+    setIsLoading(true);
+    const data = await changeStatusBiWeekData(
+      seasonId,
+      id,
+      status,
+      onSuccessBiWeek,
+      onErrorBiWeek
+    );
+    setBiWeekDataList(data?.biWeekDataList);
+  };
+
+  const onSuccessBiWeek = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully change the status",
+    });
+    setSaving(false);
+  };
+
+  const onErrorBiWeek = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setSaving(false);
   };
 
   return (
@@ -239,21 +279,24 @@ const CropLookSeasonForm = () => {
           <FieldWrapper>
             <FieldName>Agriculture Season</FieldName>
             <Autocomplete
-                disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
-                options={agriSeasons}
-                value={selectedAgriSeason}
-                getOptionLabel={(i) => `${i.code}`}
-                onChange={(event, value) => {
-                  setSelectedAgriSeason(value);
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
+              disabled={
+                state?.action === DEF_ACTIONS.VIEW ||
+                state?.action === DEF_ACTIONS.EDIT
+              }
+              options={agriSeasons}
+              value={selectedAgriSeason}
+              getOptionLabel={(i) => `${i.code}`}
+              onChange={(event, value) => {
+                setSelectedAgriSeason(value);
+              }}
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+              fullWidth
+            />
           </FieldWrapper>
         </Grid>
         <Grid item sm={2} md={2} lg={2}>
@@ -298,6 +341,17 @@ const CropLookSeasonForm = () => {
               />
             </LocalizationProvider>
           </FieldWrapper>
+        </Grid>
+        <Grid item sm={12} md={12} lg={12}>
+          {!isLoading ? (
+            <BiWeekDataTable
+              biWeekDataList={biWeekDataList}
+              statusChangeHandler={statusChangeHandler}
+              mode={state?.action}
+            />
+          ) : (
+            <CircularProgress />
+          )}
         </Grid>
       </Grid>
     </FormWrapper>

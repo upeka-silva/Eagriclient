@@ -11,12 +11,13 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
 import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 
 const BiWeeklyReportingTab = ({
   mode,
   registrationId,
   cropCategoryId,
-  aiRegionId,
+  aiRegion,
   seasonId,
   savedCropCategoryTarget,
 }) => {
@@ -25,50 +26,71 @@ const BiWeeklyReportingTab = ({
   const [cropVarietyList, setCropVarietyList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [configFields, setConfigFields] = useState([]);
+  const [dataLoaded, setDataLoaded] = useState(false);
 
   useEffect(() => {
-    console.log('inside tab ========>');
-    if (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) {
-      // getTargetSeasonalRegion(registrationId).then(({ dataList = [] }) => {
-      //   setCropTargets(dataList?.cropTargets);
-      // });
+    getConfigurationById(cropCategoryId).then((data = {}) => {
+      console.log("data fields");
+      console.log(data);
+      setConfigFields(data ? data.fields : []);
+      checkDataLoadStatus();
+    });
+
+    console.log("inside tab ========>");
+    if (
+      (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
+      savedCropCategoryTarget?.biWeekCropReport
+    ) {
       setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
-        aiRegionId,
+        aiRegion.id,
         seasonId,
-        cropCategoryId
+        cropCategoryId,
+        aiRegion.parentType
       ).then(({ dataList = [] }) => {
         setCropTargets(dataList);
+        checkDataLoadStatus();
       });
     }
   }, []);
 
+  const checkDataLoadStatus = () => {
+    //if (configFields.length > 0 && cropTargets.length > 0) {
+    setDataLoaded(true);
+    //}
+  };
+
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
 
-    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] = value;
-    
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
+      value;
+
+    const existingTotal =
+      updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
+        "totalExtent"
+      ];
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
+      "totalExtent"
+    ] = parseFloat(existingTotal ? existingTotal : 0) + parseFloat(value);
+
     setCropTargets(updatedVarietyTargets);
   };
 
   const handleCropClear = () => {
-
     const newCropTargets = [...cropTargets];
 
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
-          if(variety.targetedExtentMajor)
-            variety.targetedExtentMajor = 0;
-          if(variety.targetedExtentMinor)
-            variety.targetedExtentMinor = 0;
-          if(variety.targetedExtentRainfed)
-            variety.targetedExtentRainfed = 0;
-          if(variety.targetedExtentIrrigate)
+          if (variety.targetedExtentMajor) variety.targetedExtentMajor = 0;
+          if (variety.targetedExtentMinor) variety.targetedExtentMinor = 0;
+          if (variety.targetedExtentRainfed) variety.targetedExtentRainfed = 0;
+          if (variety.targetedExtentIrrigate)
             variety.targetedExtentIrrigate = 0;
-          if(variety.targetedExtent)
-            variety.targetedExtent = 0;
+          if (variety.targetedExtent) variety.targetedExtent = 0;
         }
       }
     }
@@ -95,7 +117,7 @@ const BiWeeklyReportingTab = ({
         onSuccess,
         onError
       );
-      console.log('after saving biweek crop report------------>');
+      console.log("after saving biweek crop report------------>");
       console.log(dataList.dataList.biWeekCropReport);
       setCropTargets(dataList?.dataList?.biWeekCropReport);
     } catch (error) {
@@ -157,13 +179,14 @@ const BiWeeklyReportingTab = ({
         </div>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
-        {cropTargets &&
+        {dataLoaded &&
           cropTargets.map((cropTarget, cropIndex) => (
             <BiweeklyCropInput
               cropTarget={cropTarget}
               targetedExtentHandler={targetedExtentHandler}
               mode={mode}
               cropIndex={cropIndex}
+              configFields={configFields}
             />
           ))}
       </Grid>

@@ -153,6 +153,8 @@ import BiWeeklyReporting from "../pages/CropLook/biWeekReporting/biweekly-report
 import BiWeeklyReportingForm from "../pages/CropLook/biWeekReporting/biweekly-reporting-from";
 import CropLookSeason from "../pages/CropLook/crop-look-Season/CropLookSeason";
 import CropLookSeasonForm from "../pages/CropLook/crop-look-Season/CropLookSeasonForm";
+import CropConfiguration from "../pages/CropLook/cropConfiguration/crop-configuration";
+import CropConfigurationForm from "../pages/CropLook/cropConfiguration/crop-configuration-from";
 
 export const Routes = [
   {
@@ -1207,6 +1209,20 @@ export const Routes = [
     isSideBar: true,
     icon: ContentPasteSearchIcon,
     children: [
+      {
+        path: "/crop-configuration",
+        name: "Crop Configuration",
+        isSideBar: true,
+        element: <CropConfiguration />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/crop-configuration-form",
+        name: "Crop Configuration Form",
+        isSideBar: false,
+        element: <CropConfigurationForm />,
+        icon: SouthAmericaIcon,
+      },
       {
         path: "/season",
         name: "Crop Look Season",
