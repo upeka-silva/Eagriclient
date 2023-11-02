@@ -26,7 +26,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { getFarmLandByFarmerId } from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
@@ -75,10 +75,46 @@ import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-
+import { StorageConstants } from "../../services/storage/constant";
+import {
+  getUserPermissionByComponent,
+  getUserPermissionStateByModule,
+} from "../../utils/helpers/permission";
+import { useAuthContext } from "../../context/AuthContext";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
+  useEffect(() => {
+    console.log(getUserPermissionStateByModule("CROP_AREA"));
+    getUserPermissionByComponent("CROP_AREA").then((r) => {
+      console.log(r);
+      setCropAreaPermission(r);
+    });
+    getUserPermissionByComponent("INTERNAL_AUDIT").then((r) => {
+      console.log(r);
+      setIntAuditPermission(r);
+    });
+    getUserPermissionByComponent("EXTERNAL_AUDIT").then((r) => {
+      console.log(r);
+      setExtAuditPermission(r);
+    });
+    getUserPermissionByComponent("TEST").then((r) => {
+      console.log(r);
+      setTestPermission(r);
+    });
+    getUserPermissionByComponent("CERTIFICATE").then((r) => {
+      console.log(r);
+      setCertificatePermission(r);
+    });
+  }, []);
+
+  const [cropAreaPermission, setCropAreaPermission] = useState();
+  const [intAuditPermission, setIntAuditPermission] = useState();
+  const [extAuditPermission, setExtAuditPermission] = useState();
+  const [testPermission, setTestPermission] = useState();
+  const [certificatePermission, setCertificatePermission] = useState();
+
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -614,36 +650,36 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 2 ? "active-tabs" : ""}
           onClick={() => toggleTab(2)}
-          disabled={formData?.id == null}
+          disabled={formData?.id == null || !cropAreaPermission?.isEnabled}
         >
           Crop Details
         </TabButton>
-       
+
         <TabButton
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
-          disabled={formData?.id == null}
+          disabled={formData?.id == null || !intAuditPermission?.isEnabled}
         >
           Internal Audit
         </TabButton>
         <TabButton
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
-          disabled={formData?.id == null}
+          disabled={formData?.id == null || !extAuditPermission?.isEnabled}
         >
           External Audit
         </TabButton>
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id == null}
+          disabled={formData?.id == null || !testPermission?.isEnabled}
         >
           Test
         </TabButton>
         <TabButton
           className={toggleState === 7 ? "active-tabs" : ""}
           onClick={() => toggleTab(7)}
-          disabled={formData?.id == null}
+          disabled={formData?.id == null || !certificatePermission?.isEnabled}
         >
           Certificate
         </TabButton>
@@ -2273,34 +2309,53 @@ const GapRegForm = () => {
             aria-label="action button group"
             color="success"
           >
-            <Button onClick={onCreateCropDetails}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-
-            {selectedCrop.length === 1 && (
-              <Button onClick={onEditCropDetails}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_AREA}`}
+            >
+              <Button onClick={onCreateCropDetails}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
+            </PermissionWrapper>
+            {selectedCrop.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_AREA}`}
+              >
+                <Button onClick={onEditCropDetails}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
             )}
 
             {selectedCrop.length === 1 && (
-              <Button onClick={onViewCropDetails}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_AREA}`}
+              >
+                <Button onClick={onViewCropDetails}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
             )}
 
             {selectedCrop.length > 0 && (
-              <Button onClick={onDeleteCropDetails}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_AREA}`}
+              >
+                <Button onClick={onDeleteCropDetails}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
             )}
           </ButtonGroup>
         </ActionWrapper>
-        <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_AREA}`}
+        >
+          <CropDetailsList onRowSelect={toggleCropSelect} data={cropList} />
+        </PermissionWrapper>
       </TabContent>
 
       <TabContent className={toggleState === 4 ? "active-content" : ""}>
