@@ -93,6 +93,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   const afterFileUploadSave = async (qid, fileData) => {};
 
   const handleFormSubmit = async () => {
+    console.log('intrnal audit -----> save');
     console.log(enableSave())
     populateAttributes();
     if (enableSave()) {
@@ -182,7 +183,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
       templateId: formTemplate.id,
       auditId: formData.auditId,
       gapRequestDto: {
-        id: 1,
+        id: state.formId,
       },
       auditAnswers: auditAnswers,
     };
@@ -190,7 +191,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     try {
       await updateGapDataWithValues(
         id,
-        1,
+        state.formId,
         uriPath,
         updateData,
         onSuccess,
@@ -344,7 +345,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
                 {item.proofRequired === true && (
                   <FileUploadDynamic
                     qId={item.id}
-                    gapId={1}
+                    gapId={state.formId}
                     auditId={formData.id}
                     auditAPIPath={uriPath}
                     afterSelectedFile={afterFileUploadSave}

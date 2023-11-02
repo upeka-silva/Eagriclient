@@ -186,7 +186,7 @@ const DistrictComm = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -196,7 +196,7 @@ const DistrictComm = () => {
 
           {selectedDistrictComm.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -206,7 +206,7 @@ const DistrictComm = () => {
           )}
           {selectedDistrictComm.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -216,7 +216,7 @@ const DistrictComm = () => {
           )}
           {selectedDistrictComm.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -229,7 +229,7 @@ const DistrictComm = () => {
       
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
       >
         {loading === false && (
           <DistrictCommList

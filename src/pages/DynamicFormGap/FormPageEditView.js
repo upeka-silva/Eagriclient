@@ -187,7 +187,7 @@ export default function FormPageEditView(
       templateId: formTemplate.id,
       auditId: data.auditId,
       gapRequestDto: {
-        id: 1,
+        id: state?.formId.formId,
       },
       auditAnswers: auditAnswers,
     };
