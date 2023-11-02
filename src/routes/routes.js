@@ -158,6 +158,7 @@ import CropConfigurationForm from "../pages/CropLook/cropConfiguration/crop-conf
 import DynamicFormGap from "../pages/DynamicFormGap/DynamicFormGap";
 import DynamicFormPage from "../pages/DynamicFormGap/DynamicFormPage";
 import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
+import { DEF_COMPONENTS } from "../utils/constants/permission";
 
 export const Routes = [
   {
@@ -905,6 +906,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropCategory />,
         icon: ForestIcon,
+        component:DEF_COMPONENTS.CROP_CATEGORY
       },
       {
         path: "/category-form",
@@ -958,6 +960,7 @@ export const Routes = [
     name: "Institution",
     isSideBar: true,
     icon: ApartmentIcon,
+    component:DEF_COMPONENTS.INSTITUTION,
     children: [
       {
         path: "/institution-category",
@@ -993,6 +996,7 @@ export const Routes = [
     name: "Soil and Water Tests",
     isSideBar: true,
     icon: ContentPasteSearchIcon,
+    
     children: [
       {
         path: "/soil-test",
@@ -1028,6 +1032,7 @@ export const Routes = [
     element: <AgriSeason />,
     isSideBar: true,
     icon: WbSunnyIcon,
+    component:DEF_COMPONENTS.AGRICULTURE_SEASON
   },
   {
     path: "/agri-season-form",
@@ -1048,8 +1053,8 @@ export const Routes = [
     isSideBar: true,
     icon: GiIsland,
     isService: "SC",
-
     element: <FarmLand />,
+    component:DEF_COMPONENTS.FARM_LAND
   },
   {
     path: "/services",
@@ -1077,6 +1082,7 @@ export const Routes = [
     isSideBar: true,
     isService: "SC",
     icon: AccessibilityIcon,
+    component:DEF_COMPONENTS.FARMER
   },
   {
     path: "/farmer-form",
@@ -1106,6 +1112,7 @@ export const Routes = [
     element: <UserType />,
     isSideBar: true,
     icon: ManageAccountsIcon,
+    component:DEF_COMPONENTS.USER_TYPE
   },
   {
     path: "/user-type-form",
@@ -1120,6 +1127,7 @@ export const Routes = [
     isSideBar: true,
     isService: "SC",
     icon: SupervisedUserCircleIcon,
+   
   },
   {
     path: "/private-company",
@@ -1127,6 +1135,7 @@ export const Routes = [
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
+    component:DEF_COMPONENTS.PRIVATE_COMPANY
   },
   {
     path: "/private-company-form",
@@ -1141,6 +1150,7 @@ export const Routes = [
     isSideBar: true,
     isService: "GAP",
     icon: AppRegistrationIcon,
+    component:DEF_COMPONENTS.GAP_REQUEST
   },
   {
     path: "/internal-audit-form",

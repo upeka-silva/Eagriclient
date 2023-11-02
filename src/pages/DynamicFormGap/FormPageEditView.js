@@ -35,7 +35,7 @@ export default function FormPageEditView(
   addView,
   uriPath = "internal-audit"
 ) {
-   //useUserAccessValidation();
+   useUserAccessValidation();
   const { state } = useLocation();
   const [formDataQ, setFormDataQ] = useState({});
   const [saving, setSaving] = useState(false);
@@ -52,7 +52,7 @@ export default function FormPageEditView(
   }
 
   useEffect(() => {
-    getFormTemplatesByGapReqId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByGapReqId(state?.formId.formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   }, []);
@@ -114,7 +114,7 @@ export default function FormPageEditView(
     const formDataFile = new FormData();
     formDataFile.append("file", fileData);
     await fileUploadForm(
-      state.formId,
+      state.formId.formId,
       uriPath,
       formData.id,
       formDataFile,
@@ -196,7 +196,7 @@ export default function FormPageEditView(
     try {
         await updateGapDataWithValues(
             state.formData.id,
-            state.formId,
+            state.formId.formId,
             uriPath,
             saveData,
             onSuccess,
@@ -235,7 +235,7 @@ export default function FormPageEditView(
       message: "Successfully executed !!!",
     });
 
-    getFormTemplatesByGapReqId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByGapReqId(state.formId.formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   };
