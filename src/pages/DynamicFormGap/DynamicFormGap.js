@@ -12,7 +12,7 @@ import {
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Colors } from "../../utils/constants/Colors";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
@@ -32,8 +32,9 @@ import {
 } from "../../redux/actions/auditForm/action";
 import Checkbox from "@mui/material/Checkbox";
 import FileUploadDynamic from "./FileUploadDynamic";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
-const DynamicFormGap = ({ auditFormType = "", afterSave ,formId}) => {
+const DynamicFormGap = ({ auditFormType = "", afterSave, formId }) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -65,8 +66,8 @@ const DynamicFormGap = ({ auditFormType = "", afterSave ,formId}) => {
     navigate("/internal-audit-form", {
       state: {
         auditFormType: auditFormType,
-        action:DEF_ACTIONS.ADD,
-        formId:formId
+        action: DEF_ACTIONS.ADD,
+        formId: formId,
       },
     });
   };
@@ -369,22 +370,26 @@ const DynamicFormGap = ({ auditFormType = "", afterSave ,formId}) => {
           <ButtonWrapper>
             {state?.action !== DEF_ACTIONS.VIEW && (
               <ActionWrapper>
-                <Button
-                  variant="outlined"
-                  disabled={false}
-                  onClick={goIntAudit}
-                  size="small"
-                  color="success"
-                  style={{ marginTop:"30px" }}
+                <PermissionWrapper
+                  permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
                 >
-                  <Add />
-                </Button>
+                  <Button
+                    variant="outlined"
+                    disabled={false}
+                    onClick={goIntAudit}
+                    size="small"
+                    color="success"
+                    style={{ marginTop: "30px" }}
+                  >
+                    <Add />
+                  </Button>
+                </PermissionWrapper>
               </ActionWrapper>
             )}
           </ButtonWrapper>
         </Grid>
       </Grid>
-     {/* <Box sx={{ padding: "20px" }}>
+      {/* <Box sx={{ padding: "20px" }}>
         <Grid
           container
           sx={{

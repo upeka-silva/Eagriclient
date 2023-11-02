@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import styledComponents from "styled-components";
 import { useServiceContext } from "../../context/ServiceContext";
@@ -15,7 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronDownIcon from "@mui/icons-material/ChevronRight";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Routes } from "../../routes/routes";
-import { NavLink, useLocation } from "react-router-dom";
+import { Await, NavLink, useLocation } from "react-router-dom";
 import {
   CollapseContainer,
   DrawerToggleButton,
@@ -23,6 +23,7 @@ import {
   SideBarItemToolTip,
 } from "./Components";
 import { Fonts } from "../../utils/constants/Fonts";
+import { getUserPermissionByComponent } from "../../utils/helpers/permission";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -30,16 +31,63 @@ const SideBar = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const { service } = useServiceContext();
-  console.log(service);
+
   const toggleDrawer = () => {
     setOpen((current) => !current);
   };
+  const[loading,setLoading] = useState(false)
+  const [filteredRoutes, setFilteredRoutes] = useState([]);
 
   const location = useLocation();
 
   const isCurrentScreen = (paths = []) => {
     return paths.includes(location.pathname);
   };
+
+ useEffect( ()=>{
+  const getFilteredRoutes = async () => {
+    const filteredRoutes = await Promise.all(
+      Routes.map(async (r) => {
+        if (r?.isSideBar === true && r?.component) {
+          console.log("gap route sidebar");
+
+          const p = await getUserPermissionByComponent(r.component);
+          console.log(p);
+
+          if (!p.isEnabled) {
+            console.log(p.isEnabled);
+            return null; // returning null for routes to be filtered out
+          }
+        }
+        if(r?.children){
+          const filteredChildren = await Promise.all( r?.children.map( async (c)=>{
+            if (c?.isSideBar === true && c?.component) {
+              console.log("gap route sidebar");
+    
+              const p = await getUserPermissionByComponent(c.component);
+              console.log(p);
+    
+              if (!p.isEnabled) {
+                console.log(p.isEnabled);
+                return null; // returning null for routes to be filtered out
+              }
+            }
+            return c
+          }))
+          
+          r.children = filteredChildren
+        }
+        
+        return r; // keep the route in the array
+      })
+    );
+    console.log(filteredRoutes);
+    setFilteredRoutes(filteredRoutes);
+    
+  };
+  getFilteredRoutes()
+  setLoading(true)
+ },[])
 
   const renderSideBarRouteChildren = (parent) => {
     const { children = [] } = parent;
@@ -52,18 +100,18 @@ const SideBar = () => {
       >
         <List>
           {children
-            .filter((r) => r.isSideBar === true)
+            .filter((r) => r?.isSideBar === true)
             .map((r, key) => {
-              if (r.children) {
+              if (r?.children) {
                 return (
                   <SideBarItemToolTip
-                    title={!open ? r.name : ""}
+                    title={!open ? r?.name : ""}
                     placement="right"
                     arrow
                     key={key}
                   >
                     <SideBarItemButton
-                      selected={selectedSubRoute?.path === r.path}
+                      selected={selectedSubRoute?.path === r?.path}
                       onClick={() => {
                         setSelectedSubRoute(r);
                         setOpenSecondary(true);
@@ -71,7 +119,7 @@ const SideBar = () => {
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
-                        primary={r.name}
+                        primary={r?.name}
                         sx={{ textDecoration: "none !important" }}
                       />
                       <ListItemIcon sx={{ minWidth: "unset !important" }}>
@@ -116,10 +164,13 @@ const SideBar = () => {
 
   const renderSideBarRoutes = () => {
     //TODO: Add this condition later: r.isService === service
-    return Routes.filter((r) => r.isSideBar === true).map((r, key) => {
+
+    return filteredRoutes.filter((r) => r?.isSideBar === true).map((r, key) => {
+     
       if (r.children) {
         const toggleCollapseState = () => {
-          setSelectedRoute((current) => (current === r.name ? null : r.name));
+          console.log(selectedRoute)
+          setSelectedRoute((current) => (current === r?.name ? null : r?.name));
         };
 
         return (
@@ -132,13 +183,14 @@ const SideBar = () => {
               <SideBarItemButton
                 key={key}
                 selected={
-                  selectedRoute === r.name ||
-                  r.children?.findIndex(
-                    (c) => c.name === selectedSubRoute?.name
+                  selectedRoute === r?.name
+                   ||
+                  r?.children?.findIndex(
+                    (c) => c?.name === selectedSubRoute?.name
                   ) > -1
                 }
                 onClick={toggleCollapseState}
-                haschildren={selectedRoute === r.name || undefined}
+                haschildren={selectedRoute === r?.name || undefined}
               >
                 {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                 <ListItemText
@@ -150,7 +202,7 @@ const SideBar = () => {
                 </ListItemIcon>
               </SideBarItemButton>
             </SideBarItemToolTip>
-            {renderSideBarRouteChildren(r)}
+            {loading === true && renderSideBarRouteChildren(r)}
           </React.Fragment>
         );
       }
@@ -274,7 +326,7 @@ const SideBar = () => {
             overflowY: "scroll",
           }}
         >
-          {renderSideBarRoutes()}
+          {loading === true && renderSideBarRoutes()}
         </List>
       </Drawer>
       {openSecondary && selectedSubRoute !== null ? (
@@ -283,7 +335,7 @@ const SideBar = () => {
             <Typography variant="h7">{selectedSubRoute?.name || ""}</Typography>
           </Toolbar>
           <Divider />
-          <List component="nav">{renderSubRoutes()}</List>
+          <List component="nav">{loading === true && renderSubRoutes()}</List>
         </SubDrawer>
       ) : null}
     </DrawerWrapper>

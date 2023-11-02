@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
 import {
   getQuestionsByFormId,
@@ -35,6 +35,7 @@ import {
   updateGapDataWithValues,
 } from "../../redux/actions/auditForm/action";
 import DynamicFormGap from "./DynamicFormGap";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
 const DynamicFormListGap = ({
   selectedRows = [],
@@ -42,7 +43,7 @@ const DynamicFormListGap = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
   onFormSaveSuccess = false,
-  formId ,
+  formId,
   formMode = null,
   auditFormType = "",
 }) => {
@@ -92,12 +93,11 @@ const DynamicFormListGap = ({
     navigate("/internal-audit-form-edit-view", {
       state: {
         auditFormType: auditFormType,
-        action:mode,
-        formData:prop,
-        formId:{formId}
+        action: mode,
+        formData: prop,
+        formId: { formId },
       },
     });
-
   };
 
   const handleCropAreaDelete = (prop) => (event) => {
@@ -240,11 +240,16 @@ const DynamicFormListGap = ({
         isShowAction={false}
       />
 
-      {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD || dialogMode === DEF_ACTIONS.VIEW || dialogMode === DEF_ACTIONS.EDIT) && (
-        <DynamicFormGap auditFormType={auditFormType} afterSave={onSuccess}  formId={formId}/>
+      {(dialogMode === null ||
+        dialogMode === DEF_ACTIONS.ADD ||
+        dialogMode === DEF_ACTIONS.VIEW ||
+        dialogMode === DEF_ACTIONS.EDIT) && (
+        <DynamicFormGap
+          auditFormType={auditFormType}
+          afterSave={onSuccess}
+          formId={formId}
+        />
       )}
-
-      
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
@@ -262,33 +267,45 @@ const DynamicFormListGap = ({
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.auditId}</TableCell>
                   <TableCell>
-                    <Button
-                      onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
                     >
-                      VIEW
-                    </Button>
-                    <Button
-                      onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
+                      <Button
+                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
+                        color="success"
+                        variant="contained"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        VIEW
+                      </Button>
+                    </PermissionWrapper>
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
                     >
-                      EDIT
-                    </Button>
-                    <Button
-                      onClick={handleCropAreaDelete(row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
+                      <Button
+                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
+                        color="success"
+                        variant="contained"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        EDIT
+                      </Button>
+                    </PermissionWrapper>
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
                     >
-                      DELETE
-                    </Button>
+                      <Button
+                        onClick={handleCropAreaDelete(row)}
+                        color="success"
+                        variant="contained"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        DELETE
+                      </Button>
+                    </PermissionWrapper>
                   </TableCell>
                 </TableRow>
               ))}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
@@ -24,9 +24,21 @@ import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { getUserPermissionByComponent } from "../../utils/helpers/permission";
+import AccessDeniedMsg from "../../components/AccessDeniedMsg/AccessDeniedMsg";
 
 const GapRegs = () => {
   useUserAccessValidation();
+  
+  useEffect(()=>{
+    getUserPermissionByComponent('GAP_REQUEST').then((p)=>{
+        if(!p.isEnabled){
+          setPermission(false)
+        }
+    })
+  },[])
+
+
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
@@ -34,6 +46,7 @@ const GapRegs = () => {
   const [open, setOpen] = useState(false);
   const [selectGapReq, setSelectGapReq] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [permission,setPermission] = useState(true)
 
   const toggleUsersSelect = (component) => {
     setSelectGapReq((current = []) => {
@@ -152,6 +165,10 @@ const GapRegs = () => {
         Gap Registration
       </Typography>
 
+      {
+        permission == false && <AccessDeniedMsg/>
+      }
+
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -161,7 +178,7 @@ const GapRegs = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
           >
             <Button onClick={onCreate} title="add">
               <Add />
@@ -170,7 +187,7 @@ const GapRegs = () => {
           </PermissionWrapper>
           {selectGapReq.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.GAP_REQUEST}`}
             >
               <Button onClick={onEdit} title="edit">
                 <Edit />
@@ -180,7 +197,7 @@ const GapRegs = () => {
           )}
           {selectGapReq.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GAP_REQUEST}`}
             >
               <Button onClick={onView} title="view">
                 <Vrpano />
@@ -190,7 +207,7 @@ const GapRegs = () => {
           )}
           {selectGapReq.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GAP_REQUEST}`}
             >
               <Button onClick={onDelete} title="delete">
                 <Delete />
@@ -201,7 +218,7 @@ const GapRegs = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.GAP_REQUEST}`}
       >
         {loading === false && (
           <GapRegList
