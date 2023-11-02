@@ -31,7 +31,7 @@ const SideBar = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const { service } = useServiceContext();
-  // console.log(service);
+
   const toggleDrawer = () => {
     setOpen((current) => !current);
   };
@@ -83,7 +83,7 @@ const SideBar = () => {
     );
     console.log(filteredRoutes);
     setFilteredRoutes(filteredRoutes);
-    //setLoading(true)
+    
   };
   getFilteredRoutes()
   setLoading(true)
@@ -182,13 +182,13 @@ const SideBar = () => {
             >
               <SideBarItemButton
                 key={key}
-                // selected={
-                //   selectedRoute === r?.name
-                //    ||
-                //   r?.children?.findIndex(
-                //     (c) => c?.name === selectedSubRoute?.name
-                //   ) > 0
-                // }
+                selected={
+                  selectedRoute === r?.name
+                   ||
+                  r?.children?.findIndex(
+                    (c) => c?.name === selectedSubRoute?.name
+                  ) > -1
+                }
                 onClick={toggleCollapseState}
                 haschildren={selectedRoute === r?.name || undefined}
               >

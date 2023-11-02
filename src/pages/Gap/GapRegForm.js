@@ -86,25 +86,19 @@ const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
   useEffect(() => {
-    console.log(getUserPermissionStateByModule("CROP_AREA"));
     getUserPermissionByComponent("CROP_AREA").then((r) => {
-      console.log(r);
       setCropAreaPermission(r);
     });
     getUserPermissionByComponent("INTERNAL_AUDIT").then((r) => {
-      console.log(r);
       setIntAuditPermission(r);
     });
     getUserPermissionByComponent("EXTERNAL_AUDIT").then((r) => {
-      console.log(r);
       setExtAuditPermission(r);
     });
     getUserPermissionByComponent("TEST").then((r) => {
-      console.log(r);
       setTestPermission(r);
     });
     getUserPermissionByComponent("CERTIFICATE").then((r) => {
-      console.log(r);
       setCertificatePermission(r);
     });
   }, []);
@@ -669,13 +663,7 @@ const GapRegForm = () => {
         >
           External Audit
         </TabButton>
-        <TabButton
-          className={toggleState === 6 ? "active-tabs" : ""}
-          onClick={() => toggleTab(6)}
-          disabled={formData?.id == null || !testPermission?.isEnabled}
-        >
-          Test
-        </TabButton>
+        
         <TabButton
           className={toggleState === 7 ? "active-tabs" : ""}
           onClick={() => toggleTab(7)}
