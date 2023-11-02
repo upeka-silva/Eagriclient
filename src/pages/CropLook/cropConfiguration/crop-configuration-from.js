@@ -76,7 +76,7 @@ const CropConfigurationForm = () => {
   }, []);
 
   const goBack = () => {
-    navigate("/crop-look/biweekly-reporting");
+    navigate("/crop-look/crop-configuration");
   };
 
   const handleCropCategory = (value) => {

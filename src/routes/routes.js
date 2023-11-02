@@ -158,6 +158,8 @@ import CropConfigurationForm from "../pages/CropLook/cropConfiguration/crop-conf
 import DynamicFormGap from "../pages/DynamicFormGap/DynamicFormGap";
 import DynamicFormPage from "../pages/DynamicFormGap/DynamicFormPage";
 import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
+import CropDamage from "../pages/cropDamages/crop-damage";
+import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 
 export const Routes = [
   {
@@ -899,6 +901,19 @@ export const Routes = [
     icon: SpaIcon,
     isService: "SC",
     children: [
+      {
+        path: "/damages",
+        name: "Crop Damages",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: ForestIcon,
+      },
+      {
+        path: "/damage-form",
+        name: "Crop Damage Form",
+        isSideBar: false,
+        element: <CropDamageForm />,
+      },
       {
         path: "/category",
         name: "Crop Category",
