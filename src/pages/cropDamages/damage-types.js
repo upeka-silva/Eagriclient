@@ -46,6 +46,7 @@ const DamageTypes = ({
   const [openDamageTypeAddDialog, setOpenDamageTypeAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
+  const [isDataFetch, setIsDataFetch] = useState(true);
   const { addSnackBar } = useSnackBars();
 
   const [damageTypes, setDamageTypes] = useState([]);
@@ -76,9 +77,9 @@ const DamageTypes = ({
       type: SnackBarTypes.success,
       message: "Successfully executed !!!",
     });
-
-    getAllDamageTypes(formId).then(({ dataList = [] }) => {
-      setDamageTypes(dataList);
+    getAllDamageTypes(formId).then((data) => {
+      setDamageTypes(data);
+      setIsDataFetch(true);
     });
   };
 
@@ -91,8 +92,10 @@ const DamageTypes = ({
 
   const handleDamageAdd = async (event, data, functionMode) => {
     if (functionMode === DEF_ACTIONS.ADD) {
+      setIsDataFetch(false);
       await createDamageType(formId, data, onSuccess, onError);
     } else if (functionMode === DEF_ACTIONS.EDIT) {
+      setIsDataFetch(false);
       await updateAuditFormQuestions(formId, data.id, data, onSuccess, onError);
     }
     setOpenDamageTypeAddDialog(false);
@@ -148,7 +151,7 @@ const DamageTypes = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {damageTypes && damageTypes.map((row, index) => (
+            {damageTypes && isDataFetch && damageTypes.map((row, index) => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.description}</TableCell>

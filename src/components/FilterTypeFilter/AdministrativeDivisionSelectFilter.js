@@ -25,7 +25,6 @@ const AdministrativeDivisionSelectFilter = ({
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    console.log("inside use effect ===========>");
     setParentSelectedOpt(selectedOption);
 
     const fetchOptions = async (path) => {
@@ -33,9 +32,6 @@ const AdministrativeDivisionSelectFilter = ({
       try {
         let response = await get(`${path}`, true);
         let nameValPair = getNameValuePair(response, selectedOption.key);
-        console.log("name val pair ---------->");
-        console.log(nameValPair);
-        console.log(Array.isArray(nameValPair));
         setFetchedOptions(nameValPair);
         setLoading(true);
       } catch (error) {
@@ -48,8 +44,6 @@ const AdministrativeDivisionSelectFilter = ({
       url = url + "/" + selectedId;
     }
 
-    console.log("child url ==========>");
-    console.log(selectedOption.url);
     fetchOptions(url);
   }, [selectedOption]);
 
@@ -179,14 +173,10 @@ const AdministrativeDivisionSelectFilter = ({
   };
 
   const handleAdminDivSelect = (selectedValues) => {
-    console.log("final values ===========>");
-    console.log(selectedValues);
     onAdministrativeValueSelect(selectedValues);
   };
 
   const handleOptionSelect = (selectedValue) => {
-    console.log("handle option select ---------------->");
-    console.log(selectedValue);
     setSelectedDivId(selectedValue?.id);
   };
 

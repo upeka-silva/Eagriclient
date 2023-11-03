@@ -4,6 +4,7 @@ export const DEF_ACTIONS = {
   VIEW_LIST: "VIEW_LIST",
   EDIT: "EDIT",
   DELETE: "DELETE",
+  APPROVE: "APPROVE",
 };
 
 export const DEF_COMPONENTS = {
