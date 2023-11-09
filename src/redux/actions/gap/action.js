@@ -259,7 +259,7 @@ export const changeStatus = async (
       };
       throw exception;
     }
-    console.log(response);
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

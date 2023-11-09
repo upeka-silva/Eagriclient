@@ -82,23 +82,25 @@ import {
 } from "../../utils/helpers/permission";
 import { useAuthContext } from "../../context/AuthContext";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
   useEffect(() => {
-    getUserPermissionByComponent("CROP_AREA").then((r) => {
+    getUserPermissionByComponent(DEF_COMPONENTS.CROP_AREA).then((r) => {
       setCropAreaPermission(r);
     });
-    getUserPermissionByComponent("INTERNAL_AUDIT").then((r) => {
+    getUserPermissionByComponent(DEF_COMPONENTS.INTERNAL_AUDIT).then((r) => {
       setIntAuditPermission(r);
     });
-    getUserPermissionByComponent("EXTERNAL_AUDIT").then((r) => {
+    getUserPermissionByComponent(DEF_COMPONENTS.EXTERNAL_AUDIT).then((r) => {
+      console.log(r)
       setExtAuditPermission(r);
     });
     getUserPermissionByComponent("TEST").then((r) => {
       setTestPermission(r);
     });
-    getUserPermissionByComponent("CERTIFICATE").then((r) => {
+    getUserPermissionByComponent(DEF_COMPONENTS.GAP_CERTIFICATE_REQUEST).then((r) => {
       setCertificatePermission(r);
     });
   }, []);
@@ -150,6 +152,7 @@ const GapRegForm = () => {
 
   const [gapReqStatus, setGapReqStatus] = useState(initStatus);
   const [stateResponse, setStateResponse] = useState("");
+  const [openConfSubmit,setOpenConfSubmit] = useState(false)
 
   const { addSnackBar } = useSnackBars();
 
@@ -238,12 +241,12 @@ const GapRegForm = () => {
     }
   };
 
-  const setSubmitted = () => {
+  const setSubmitted = async () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       try {
         if (formData?.id) {
           setStatusLoading(true);
-          const resValue = changeStatus(
+          const resValue = await changeStatus(
             formData?.id,
             "SUBMITTED",
             onSuccess,
@@ -251,10 +254,12 @@ const GapRegForm = () => {
           );
 
           setStateResponse(resValue.payload);
+          console.log(resValue)
           setGapReqStatus({
             lblText: resValue.payload,
             lblColor: "success",
           });
+          setOpenConfSubmit(false)
           setStatusLoading(false);
         }
       } catch (error) {
@@ -496,7 +501,7 @@ const GapRegForm = () => {
                       </Button>
                     </ButtonGroup>
                     <Button
-                      onClick={setSubmitted}
+                      onClick={()=>setOpenConfSubmit(true)}
                       color="success"
                       variant="outlined"
                       size="small"
@@ -665,8 +670,8 @@ const GapRegForm = () => {
         </TabButton>
         
         <TabButton
-          className={toggleState === 7 ? "active-tabs" : ""}
-          onClick={() => toggleTab(7)}
+          className={toggleState === 6 ? "active-tabs" : ""}
+          onClick={() => toggleTab(6)}
           disabled={formData?.id == null || !certificatePermission?.isEnabled}
         >
           Certificate
@@ -2365,6 +2370,9 @@ const GapRegForm = () => {
           auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
+      <TabContent className={toggleState === 6 ? "active-content" : ""}>
+        <GapRequestCertificate/>
+      </TabContent>
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
@@ -2399,6 +2407,37 @@ const GapRegForm = () => {
       >
         <>
           <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
+      <DialogBox
+        open={openConfSubmit}
+        title="Submit Gap Request"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={setSubmitted}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={()=>setOpenConfSubmit(false)}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          {/* <DeleteMsg /> */}
+          If you submitted the gap request..<br></br>You can not make any changes to gap request
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
