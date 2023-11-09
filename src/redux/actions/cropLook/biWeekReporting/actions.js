@@ -182,9 +182,7 @@ export const getDamageExtentsByVarietyReportId = async (varietyReportId) => {
   try {
     const { httpCode, payloadDto } = await get(`crop-look/bi-week-damage-extents/variety-report/${varietyReportId}`, true);
     if (httpCode === "200 OK") {
-      return {
-        dataList: payloadDto,
-      };
+      return payloadDto;
     }
     return {
       dataList: [],

@@ -235,7 +235,7 @@ const ProvincialAda = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -245,7 +245,7 @@ const ProvincialAda = () => {
 
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -255,7 +255,7 @@ const ProvincialAda = () => {
           )}
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -265,7 +265,7 @@ const ProvincialAda = () => {
           )}
           {selectedProvincialAda.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -355,7 +355,7 @@ const ProvincialAda = () => {
       </ActionWrapper>
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
       >
         {loading === false && (
           <ProvincialAdaList

@@ -16,20 +16,22 @@ import {
   getDamageExtentsByVarietyReportId,
   updateDamageExtents,
 } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import {
+  getAllDamageCategory,
+  getAllDamageTypes,
+} from "../../../redux/actions/crop/cropDamage/action";
 
-const DamageAddModal = ({
-  isModalOpen,
-  handleModalCancel,
-  mode,
-  variety,
-}) => {
+const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
   const [damageExtents, setDamageExtents] = useState([]);
+  const [damageCategoryList, setDamageCategoryList] = useState([]);
+  const [damageTypeList, setDamageTypeList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isDamageTypeLoading, setIsDamageTypeLoading] = useState(false);
 
   const defaultDamageExt = [
     {
-      damageCategory: { id: 0 },
-      damageType: { id: 0 },
+      damageCategory: { id: 0, name: "Please Select", damageTypes: [{id: 0, name: "Please Select"}] },
+      damageType: { id: 0, name: "Please Select" },
       extent10: 0,
       extent25: 0,
       extent50: 0,
@@ -41,25 +43,34 @@ const DamageAddModal = ({
   useEffect(() => {
     async function fetchData(varietyId) {
       setIsLoading(true);
+
+      const damageTypes = await getAllDamageCategory();
+      setDamageCategoryList(damageTypes);
+
       const dataList = await getDamageExtentsByVarietyReportId(varietyId);
 
       var newDamageExt = [];
-      if (dataList.dataList && dataList?.dataList?.length > 0) {
-        newDamageExt = dataList.dataList;
+      if (dataList && dataList?.length > 0) {
+        newDamageExt = dataList;
       } else {
         newDamageExt = defaultDamageExt;
       }
+
+      const updatedTypes = [...damageTypeList];
+      newDamageExt.map((data, index) => {
+        updatedTypes[index] = data.damageCategory.damageTypes;
+      });
+      setDamageTypeList(updatedTypes);
+
       const updatedDamageExts = [...damageExtents, ...newDamageExt];
 
       setDamageExtents(updatedDamageExts);
+
+      setIsLoading(false);
     }
 
     fetchData(variety.id);
   }, []);
-
-  useEffect(() => {
-    setIsLoading(false);
-  }, [damageExtents]);
 
   const onSubmitDamageExtent = () => {
     updateDamageExtents(variety.id, damageExtents);
@@ -70,20 +81,26 @@ const DamageAddModal = ({
     const updatedExtents = [...damageExtents];
     updatedExtents[index][property] = value;
     setDamageExtents(updatedExtents);
+
+    if ("damageCategory" === property) {
+      setIsDamageTypeLoading(true);
+      getAllDamageTypes(value.id).then((data = []) => {
+        const updatedTypes = [...damageTypeList];
+        updatedTypes[index] = data;
+        setDamageTypeList(updatedTypes);
+        setIsDamageTypeLoading(false);
+      });
+    }
   };
 
-  const addNewRow = () => {
-    const newDamageExt = {
-      damageCategory: { id: 0 },
-      damageType: { id: 0 },
-      extent10: 0,
-      extent25: 0,
-      extent50: 0,
-      extent75: 0,
-      extent100: 0,
-    };
-    const updatedDamageExts = [...damageExtents, newDamageExt];
+  const addNewRow = (index) => {
+
+    const updatedDamageExts = [...damageExtents, defaultDamageExt[0]];
     setDamageExtents(updatedDamageExts);
+
+    const updatedTypes = [...damageTypeList];
+    updatedTypes[index + 1] = [{id: 0, name: "Please Select"}];
+    setDamageTypeList(updatedTypes);
   };
 
   const RemoveRow = (index) => {
@@ -94,26 +111,10 @@ const DamageAddModal = ({
     }
   };
 
-  const damageCategory = [
-    {
-      id: 1,
-      code: "DC1",
-      name: "Damage Category 1",
-    },
-  ];
-
-  const damageType = [
-    {
-      id: 1,
-      code: "DT1",
-      name: "Damage Type 1",
-    },
-  ];
-
   return (
     <DialogBox
       open={isModalOpen}
-      title={"Add Crop Damage For - " + variety?.varietyName} 
+      title={"Add Crop Damage For - " + variety?.varietyName}
       maxWidth
       fullWidth
       actions={
@@ -148,13 +149,13 @@ const DamageAddModal = ({
         {!isLoading ? (
           damageExtents.map((damageExtent, index) => (
             <div>
-              <Grid container sx={{ padding: "10px"}} >
+              <Grid container sx={{ padding: "10px" }}>
                 <Grid item sm={2} md={2} lg={2}>
                   <FieldWrapper>
                     <Autocomplete
                       disabled={mode === DEF_ACTIONS.VIEW}
-                      options={damageCategory}
-                      //value={selectedAiRegion}
+                      options={damageCategoryList}
+                      value={damageExtent.damageCategory || ""}
                       getOptionLabel={(i) => `${i.name}`}
                       onChange={(event, value) => {
                         damageExtentHandler(index, "damageCategory", value);
@@ -179,29 +180,33 @@ const DamageAddModal = ({
 
                 <Grid item sm={2} md={2} lg={2}>
                   <FieldWrapper>
-                    <Autocomplete
-                      disabled={mode === DEF_ACTIONS.VIEW}
-                      options={damageType}
-                      //value={selectedAiRegion}
-                      getOptionLabel={(i) => `${i.name}`}
-                      onChange={(event, value) => {
-                        damageExtentHandler(index, "damageType", value);
-                      }}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "8px",
-                        },
-                      }}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          size="small"
-                          variant="outlined"
-                          label="Damage Type"
-                        />
-                      )}
-                      fullWidth
-                    />
+                    {!isDamageTypeLoading ? (
+                      <Autocomplete
+                        disabled={mode === DEF_ACTIONS.VIEW}
+                        options={damageTypeList[index]}
+                        value={damageExtent?.damageType || ""}
+                        getOptionLabel={(i) => `${i.name}`}
+                        onChange={(event, value) => {
+                          damageExtentHandler(index, "damageType", value);
+                        }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            borderRadius: "8px",
+                          },
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            size="small"
+                            variant="outlined"
+                            label="Damage Type"
+                          />
+                        )}
+                        fullWidth
+                      />
+                    ) : (
+                      <CircularProgress />
+                    )}
                   </FieldWrapper>
                 </Grid>
 
@@ -335,7 +340,7 @@ const DamageAddModal = ({
                       variant="outlined"
                       color="success"
                       size="small"
-                      onClick={addNewRow}
+                      onClick={() => addNewRow(index)}
                     >
                       <Add />
                     </Button>

@@ -239,7 +239,7 @@ const ProvincialAiRegion = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AI_REGION}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -249,7 +249,7 @@ const ProvincialAiRegion = () => {
 
           {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AI_REGION}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -260,7 +260,7 @@ const ProvincialAiRegion = () => {
           {selectedProvincialAI.length === 1 && (
 
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AI_REGION}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -271,7 +271,7 @@ const ProvincialAiRegion = () => {
           {selectedProvincialAI.length > 0 && (
 
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AI_REGION}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -390,7 +390,7 @@ const ProvincialAiRegion = () => {
         </Grid>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AI_REGION}`}
       >
         {loading === false && (
           <ProvincialAiRegionList

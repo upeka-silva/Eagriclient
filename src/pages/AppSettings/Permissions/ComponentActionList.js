@@ -77,50 +77,6 @@ const ComponentActionList = ({
           <TableCell key={`${key}-1`}>
             {c?.code || c?.name || "Component Code"}
           </TableCell>
-          {/* {actions.map((a, k) => {
-            let checked =
-              rolePermissions.findIndex(
-                (p) =>
-                  p?.componentDTO?.id === c?.id && p?.actionDTO?.id === a?.id
-              ) > -1;
-            console.log(checked);
-            // Use the find method to search for the object
-            let foundObject;
-            if(checked){
-               foundObject = permissions.find((obj) => {
-                return (
-                  obj.actionDTO.id === a?.id && obj.componentDTO.id === c?.id
-                );
-              });
-              console.log(foundObject)
-            }else{
-               foundObject = permissions.find((obj) => {
-                return (
-                  obj.actionDTO.id === a?.id && obj.componentDTO.id === c?.id
-                );
-              });
-              console.log(foundObject)
-            }
-            
-            return (
-              <TableCell
-                key={`${key}${k}`}
-                onClick={() => setRolePermission(c?.id, a?.id, !checked)}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={(e) => {
-                        setRolePermission(foundObject?.id,c?.id, a?.id, !checked);
-                      }}
-                    />
-                  }
-                  label=""
-                />
-              </TableCell>
-            );
-          })} */}
           {permissions.map((p, k) => {
             if (c?.id == p?.componentDTO?.id) {
               let checked =
@@ -180,6 +136,7 @@ const ComponentActionList = ({
                 <TableCell>{DEF_ACTIONS.EDIT}</TableCell>
                 <TableCell>{DEF_ACTIONS.DELETE}</TableCell>
                 <TableCell>{DEF_ACTIONS.VIEW_LIST}</TableCell>
+                <TableCell>{DEF_ACTIONS.APPROVE}</TableCell>
               </>
             )}
           </TableRow>

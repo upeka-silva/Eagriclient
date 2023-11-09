@@ -186,7 +186,7 @@ const ASC = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC_DIVISION}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -196,7 +196,7 @@ const ASC = () => {
 
           {selectedAsc.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -206,7 +206,7 @@ const ASC = () => {
           )}
           {selectedAsc.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -216,7 +216,7 @@ const ASC = () => {
           )}
           {selectedAsc.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ASC}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ASC_DIVISION}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -272,7 +272,7 @@ const ASC = () => {
         </Grid>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ASC}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ASC_DIVISION}`}
       >
         {loading === false && (
           <ASCList
