@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Box,
   Checkbox,
   CircularProgress,
   FormControlLabel,
@@ -8,6 +9,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  TextField,
 } from "@mui/material";
 
 import styled from "styled-components";
@@ -89,17 +91,21 @@ const ComponentActionList = ({
                     setRolePermission(p, !checked);
                   }}
                 >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(e) => {
-                          setRolePermission(p, !checked);
-                        }}
-                      />
-                    }
-                    label=""
-                  />
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <div>{p?.actionDTO?.code}</div>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checked}
+                          onChange={(e) => {
+                            setRolePermission(p, !checked);
+                          }}
+                          sx={{ marginLeft: "10px" }}
+                        />
+                      }
+                      label=""
+                    />
+                  </Box>
                 </TableCell>
               );
             }
@@ -120,27 +126,7 @@ const ComponentActionList = ({
   return (
     <div>
       <CustomTable size="small" border>
-        <TableHead>
-          <TableRow>
-            <TableCell>Component</TableCell>
-            {actions.length > 0 ? (
-              actions.map((a, key) => (
-                <TableCell key={key}>
-                  {a?.code || a?.name || "ACTION_CODE"}
-                </TableCell>
-              ))
-            ) : (
-              <>
-                <TableCell>{DEF_ACTIONS.ADD}</TableCell>
-                <TableCell>{DEF_ACTIONS.VIEW}</TableCell>
-                <TableCell>{DEF_ACTIONS.EDIT}</TableCell>
-                <TableCell>{DEF_ACTIONS.DELETE}</TableCell>
-                <TableCell>{DEF_ACTIONS.VIEW_LIST}</TableCell>
-                <TableCell>{DEF_ACTIONS.APPROVE}</TableCell>
-              </>
-            )}
-          </TableRow>
-        </TableHead>
+        <TableHead></TableHead>
         <TableBody>{renderTableBody()}</TableBody>
       </CustomTable>
     </div>
