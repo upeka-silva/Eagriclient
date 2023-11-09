@@ -190,7 +190,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
-          {/* </PermissionWrapper> */}
+          </PermissionWrapper>
           {selectAuditForm.length === 1 && (
 
             <PermissionWrapper
@@ -201,7 +201,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-            // </PermissionWrapper>
+             </PermissionWrapper>
           )}
           {selectAuditForm.length === 1 && (
 
@@ -213,7 +213,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-            // </PermissionWrapper>
+             </PermissionWrapper>
           )}
           {selectAuditForm.length > 0 && (
 
@@ -225,7 +225,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-            // </PermissionWrapper>
+             </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
@@ -243,7 +243,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
             unSelectAll={resetSelectedAuditForms}
           />
         )}
-      {/* </PermissionWrapper> */}
+      </PermissionWrapper>
       <DialogBox
         open={open}
         title={`Delete ${formHeader}`}
