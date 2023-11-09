@@ -71,12 +71,12 @@ const GapRegs = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/gap-reg-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/gap/gap-reg-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/gap-reg-form", {
+    navigate("/gap/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: { ...(selectGapReq[0] || {}) },
@@ -86,7 +86,7 @@ const GapRegs = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/gap-reg-form", {
+    navigate("/gap/gap-reg-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: { ...(selectGapReq[0] || {}) },

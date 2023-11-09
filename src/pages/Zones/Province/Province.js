@@ -172,7 +172,7 @@ const Province = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -181,7 +181,7 @@ const Province = () => {
           </PermissionWrapper>
           {selectedProvinces.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -191,7 +191,7 @@ const Province = () => {
           )}
           {selectedProvinces.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -201,7 +201,7 @@ const Province = () => {
           )}
           {selectedProvinces.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCE}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
