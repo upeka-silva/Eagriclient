@@ -190,7 +190,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     try {
       await updateGapDataWithValues(
         id,
-        1,
+        state.formId,
         uriPath,
         updateData,
         onSuccess,

@@ -906,7 +906,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropCategory />,
         icon: ForestIcon,
-        component:DEF_COMPONENTS.CROP_CATEGORY
+       
       },
       {
         path: "/category-form",
@@ -1153,14 +1153,14 @@ export const Routes = [
     component:DEF_COMPONENTS.GAP_REQUEST
   },
   {
-    path: "/internal-audit-form",
-    name: "Internal Audit Form",
+    path: "/audit-form",
+    name: "Audit Form",
     element: <DynamicFormPage/>,
     isSideBar: false,
   },
   {
-    path: "/internal-audit-form-edit-view",
-    name: "internal-audit-form-edit-view",
+    path: "/audit-form-edit-view",
+    name: "Audit Form",
     element: <FormPageEditView />,
     isSideBar: false,
   },

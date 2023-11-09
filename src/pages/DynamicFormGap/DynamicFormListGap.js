@@ -90,12 +90,13 @@ const DynamicFormListGap = ({
     setFormData(prop);
     setDialogMode(mode);
     //setOpenCropAreaAddDlg(true);
-    navigate("/internal-audit-form-edit-view", {
+    navigate("/audit-form-edit-view", {
       state: {
         auditFormType: auditFormType,
         action: mode,
         formData: prop,
         formId: { formId },
+        uriPath:uriPath
       },
     });
   };
@@ -268,7 +269,11 @@ const DynamicFormListGap = ({
                   <TableCell>{row.auditId}</TableCell>
                   <TableCell>
                     <PermissionWrapper
-                      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
+                      permission={
+                        auditFormType === "INTERNAL_AUDIT"
+                          ? `${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTERNAL_AUDIT}`
+                          : `${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                      }
                     >
                       <Button
                         onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
@@ -281,7 +286,11 @@ const DynamicFormListGap = ({
                       </Button>
                     </PermissionWrapper>
                     <PermissionWrapper
-                      permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
+                      permission={
+                        auditFormType === "INTERNAL_AUDIT"
+                          ? `${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTERNAL_AUDIT}`
+                          : `${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                      }
                     >
                       <Button
                         onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
@@ -294,7 +303,11 @@ const DynamicFormListGap = ({
                       </Button>
                     </PermissionWrapper>
                     <PermissionWrapper
-                      permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
+                      permission={
+                        auditFormType === "INTERNAL_AUDIT"
+                          ? `${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INTERNAL_AUDIT}`
+                          : `${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                      }
                     >
                       <Button
                         onClick={handleCropAreaDelete(row)}

@@ -180,49 +180,49 @@ const CommonAudit = ({ auditFormType = "" }) => {
           aria-label="action button group"
           color="success"
         >
-          <PermissionWrapper
+          {/* <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
-          >
+          > */}
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
-          </PermissionWrapper>
+          {/* </PermissionWrapper> */}
           {selectAuditForm.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
-            >
+            // <PermissionWrapper
+            //   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
+            // >
               <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-            </PermissionWrapper>
+            // </PermissionWrapper>
           )}
           {selectAuditForm.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
-            >
+            // <PermissionWrapper
+            //   permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
+            // >
               <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-            </PermissionWrapper>
+            // </PermissionWrapper>
           )}
           {selectAuditForm.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
-            >
+            // <PermissionWrapper
+            //   permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
+            // >
               <Button onClick={onDelete}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-            </PermissionWrapper>
+            // </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
-      <PermissionWrapper
+      {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.QUESTIONNAIRE}`}
-      >
+      > */}
         {loading === false && (
           <CommonAuditList
             pathParm={auditFormType}
@@ -232,7 +232,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
             unSelectAll={resetSelectedAuditForms}
           />
         )}
-      </PermissionWrapper>
+      {/* </PermissionWrapper> */}
       <DialogBox
         open={open}
         title={`Delete ${formHeader}`}
