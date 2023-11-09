@@ -491,7 +491,7 @@ const Farmer = () => {
                 }
               >
                 <FormControlLabel
-                  value="si"
+                  value="SINHALA"
                   sx={{
                     "& .MuiFormControlLabel-label": {
                       fontSize: "11px",
@@ -509,7 +509,7 @@ const Farmer = () => {
                   label="Sinhala"
                 />
                 <FormControlLabel
-                  value="ta"
+                  value="TAMIL"
                   sx={{
                     "& .MuiFormControlLabel-label": {
                       fontSize: "11px",
@@ -532,7 +532,7 @@ const Farmer = () => {
                       fontSize: "11px",
                     },
                   }}
-                  value="en"
+                  value="ENGLISH"
                   control={
                     <Radio
                       sx={{
