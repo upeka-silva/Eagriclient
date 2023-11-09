@@ -169,7 +169,7 @@ const Users = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.USER}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -178,7 +178,7 @@ const Users = () => {
           </PermissionWrapper>
           {selectUsers.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -188,7 +188,7 @@ const Users = () => {
           )}
           {selectUsers.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.USER}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -198,7 +198,7 @@ const Users = () => {
           )}
           {selectUsers.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.USER}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -209,7 +209,7 @@ const Users = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.USER}`}
       >
         {loading === false && (
           <UsersList

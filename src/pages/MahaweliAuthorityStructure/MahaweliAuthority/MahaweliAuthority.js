@@ -166,7 +166,7 @@ const MahaweliAuthority = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_AUTHORITY}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -176,7 +176,7 @@ const MahaweliAuthority = () => {
 
           {selectedMahweliAuthority.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_AUTHORITY}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -186,7 +186,7 @@ const MahaweliAuthority = () => {
           )}
           {selectedMahweliAuthority.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_AUTHORITY}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -196,7 +196,7 @@ const MahaweliAuthority = () => {
           )}
           {selectedMahweliAuthority.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_AUTHORITY}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -207,7 +207,7 @@ const MahaweliAuthority = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_AUTHORITY}`}
       >
         {loading === false && (
           <MahaweliAuthorityList

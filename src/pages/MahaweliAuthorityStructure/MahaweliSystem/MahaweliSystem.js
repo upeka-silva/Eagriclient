@@ -211,7 +211,7 @@ const MahaweliSystem = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_SYSTEM}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -221,7 +221,7 @@ const MahaweliSystem = () => {
 
           {selectedMahaweliSystem.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_SYSTEM}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -231,7 +231,7 @@ const MahaweliSystem = () => {
           )}
           {selectedMahaweliSystem.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_SYSTEM}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -241,7 +241,7 @@ const MahaweliSystem = () => {
           )}
           {selectedMahaweliSystem.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_SYSTEM}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -300,7 +300,7 @@ const MahaweliSystem = () => {
       </ActionWrapper> */}
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_SYSTEM}`}
       >
         {loading === false && (
           <MahaweliSystemList

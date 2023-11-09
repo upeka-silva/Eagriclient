@@ -167,7 +167,7 @@ const IntProvincialDoa = () => {
           color="success"
         >
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
         >
           <Button  onClick={onCreate}>
           <Add/>
@@ -177,7 +177,7 @@ const IntProvincialDoa = () => {
 
         {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
           >
             <Button onClick={onEdit}>
                 <Edit />
@@ -187,7 +187,7 @@ const IntProvincialDoa = () => {
         )}
         {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
           >
             <Button onClick={onView}>
               <Vrpano />
@@ -197,7 +197,7 @@ const IntProvincialDoa = () => {
         )}
         {selectedProvincialDoa.length > 0 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
           >
             <Button onClick={onDelete}>
                 
@@ -209,7 +209,7 @@ const IntProvincialDoa = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
       >
         {loading === false && (
           <IntProvincialDoaList
