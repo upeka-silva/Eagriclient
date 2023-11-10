@@ -163,6 +163,7 @@ import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DDBiWeeklyReporting from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting";
 import DDBiWeeklyReportingForm from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting-from";
+import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 
 export const Routes = [
   {
@@ -692,6 +693,14 @@ export const Routes = [
         name: "Crop Damage Form",
         isSideBar: false,
         element: <CropDamageForm />,
+      },
+      {
+        path: "/activity",
+        name: "Crop Activity",
+        isSideBar: true,
+        element: <CropActivity />,
+        icon: ForestIcon,
+        component:DEF_COMPONENTS.CROP_ACTIVITY
       },
       {
         path: "/category",
