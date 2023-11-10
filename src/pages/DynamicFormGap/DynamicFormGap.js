@@ -63,7 +63,7 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId }) => {
   };
 
   const goIntAudit = () => {
-    navigate("/internal-audit-form", {
+    navigate("/audit-form", {
       state: {
         auditFormType: auditFormType,
         action: DEF_ACTIONS.ADD,

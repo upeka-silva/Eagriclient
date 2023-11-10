@@ -23,6 +23,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CommonAuditList from "./CommonAuditList";
 import { deleteAuditForm } from "../../redux/actions/auditForm/action";
+import { components } from "react-select";
 
 const CommonAudit = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -38,20 +39,25 @@ const CommonAudit = ({ auditFormType = "" }) => {
 
   let uRIPath = "";
   let formHeader = "";
+  let component = ""
 
   const populateAttributes = () => {
     if (auditFormType === "SELF_ASSESSMENT") {
       uRIPath = "self-assessment-form";
       formHeader = "Self Assessment Form";
+      component = DEF_COMPONENTS.SELF_ASSESSMENT_FORM
     } else if (auditFormType === "INTERNAL_AUDIT") {
       uRIPath = "internal-audit-form";
       formHeader = "Internal Audit Form";
+      component = DEF_COMPONENTS.INTERNAL_AUDIT_FORM
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uRIPath = "external-audit-form";
       formHeader = "External Audit Form";
+      component = DEF_COMPONENTS.EXTERNAL_AUDIT_FORM
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uRIPath = "basic-assessment-form";
       formHeader = "Basic Assessment Form";
+      component = DEF_COMPONENTS.BASIC_ASSESSMENT_FORM
     }
   };
 
@@ -180,49 +186,60 @@ const CommonAudit = ({ auditFormType = "" }) => {
           aria-label="action button group"
           color="success"
         >
+
+
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE}`}
+            permission={`${DEF_ACTIONS.ADD}_` + component}
           >
+
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
           {selectAuditForm.length === 1 && (
+
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE}`}
+              permission={`${DEF_ACTIONS.EDIT}_` + component}
             >
+
               <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-            </PermissionWrapper>
+             </PermissionWrapper>
           )}
           {selectAuditForm.length === 1 && (
+
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE}`}
+              permission={`${DEF_ACTIONS.VIEW}_` + component}
             >
+
               <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-            </PermissionWrapper>
+             </PermissionWrapper>
           )}
           {selectAuditForm.length > 0 && (
+
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE}`}
+              permission={`${DEF_ACTIONS.DELETE}_` + component}
             >
+
               <Button onClick={onDelete}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-            </PermissionWrapper>
+             </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
+
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_` + component}
       >
+
         {loading === false && (
           <CommonAuditList
             pathParm={auditFormType}

@@ -48,42 +48,59 @@ const SideBar = () => {
   const getFilteredRoutes = async () => {
     const filteredRoutes = await Promise.all(
       Routes.map(async (r) => {
+        
         if (r?.isSideBar === true && r?.component) {
-          console.log("gap route sidebar");
-
+        
           const p = await getUserPermissionByComponent(r.component);
-          console.log(p);
-
+         
           if (!p.isEnabled) {
-            console.log(p.isEnabled);
+          
             return null; // returning null for routes to be filtered out
           }
+         
         }
-        if(r?.children){
+        if(r?.children && r?.isSideBar === true){
           const filteredChildren = await Promise.all( r?.children.map( async (c)=>{
             if (c?.isSideBar === true && c?.component) {
-              console.log("gap route sidebar");
-    
               const p = await getUserPermissionByComponent(c.component);
-              console.log(p);
-    
               if (!p.isEnabled) {
-                console.log(p.isEnabled);
-                return null; // returning null for routes to be filtered out
+                 return null; // returning null for routes to be filtered out
               }
+             
+            }
+            if(c?.isSideBar === true && c?.children){
+               const filteredChildren = await Promise.all(c?.children.map(async (cc)=>{
+                  if(cc?.isSideBar === true && cc?.component){
+                    const p = await getUserPermissionByComponent(cc?.component);
+                    if(!p.isEnabled){
+                      return null
+                    }
+                  }
+                  return cc
+               }))
+               if(!filteredChildren.some((c)=>c?.isSideBar)){
+                return null
+              }
+               c.children = filteredChildren
             }
             return c
+            
           }))
-          
+
+          console.log(filteredChildren.some((c)=>c?.isSideBar))
+          if(!filteredChildren.some((c)=>c?.isSideBar)){
+            return null
+          }
           r.children = filteredChildren
+          
         }
         
-        return r; // keep the route in the array
+         return r; // keep the route in the array
       })
     );
-    console.log(filteredRoutes);
+   
     setFilteredRoutes(filteredRoutes);
-    
+    console.log(filteredRoutes)
   };
   getFilteredRoutes()
   setLoading(true)
@@ -169,7 +186,7 @@ const SideBar = () => {
      
       if (r.children) {
         const toggleCollapseState = () => {
-          console.log(selectedRoute)
+          //console.log(selectedRoute)
           setSelectedRoute((current) => (current === r?.name ? null : r?.name));
         };
 
@@ -182,13 +199,13 @@ const SideBar = () => {
             >
               <SideBarItemButton
                 key={key}
-                selected={
-                  selectedRoute === r?.name
-                   ||
-                  r?.children?.findIndex(
-                    (c) => c?.name === selectedSubRoute?.name
-                  ) > -1
-                }
+                // selected={
+                //   selectedRoute === r?.name
+                //    ||
+                //   r?.children?.findIndex(
+                //     (c) => c?.name === selectedSubRoute?.name
+                //   ) > -1
+                // }
                 onClick={toggleCollapseState}
                 haschildren={selectedRoute === r?.name || undefined}
               >
@@ -244,12 +261,12 @@ const SideBar = () => {
       const index = Routes.findIndex(
         (route) =>
           (route?.children || []).findIndex(
-            (cr) => cr.path === selectedSubRoute.path
+            (cr) => cr?.path === selectedSubRoute.path
           ) > -1
       );
       const parentPath = `${Routes[index].path}${selectedSubRoute.path}`;
       return selectedSubRoute.children.map((r, key) => {
-        if (r.isSideBar) {
+        if (r?.isSideBar) {
           return (
             <SideBarItemToolTip
               title={!openSecondary ? r.name : ""}

@@ -223,7 +223,7 @@ const MahaweliUnit = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -233,7 +233,7 @@ const MahaweliUnit = () => {
 
           {selectedMahaweliUnit.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -243,7 +243,7 @@ const MahaweliUnit = () => {
           )}
           {selectedMahaweliUnit.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -253,7 +253,7 @@ const MahaweliUnit = () => {
           )}
           {selectedMahaweliUnit.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -365,7 +365,7 @@ const MahaweliUnit = () => {
         </Grid>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DOA}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
       >
         {loading === false && (
           <MahaweliUnitList

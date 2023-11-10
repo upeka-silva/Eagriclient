@@ -10,6 +10,8 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { updateRolePermissions } from "../../../redux/actions/app_settings/roles/action";
+import BackToList from "../../../components/BackToList/BackToList";
+import { FormHeader } from "../../../components/FormLayout/FormHeader";
 
 export default function PermissionsByRole() {
   const navigate = useNavigate();
@@ -60,20 +62,25 @@ export default function PermissionsByRole() {
     }
   };
 
+  const goBack = () => {
+    navigate("/app-settings/permissions");
+  };
+
   return (
     <div style={{ overflowY: "scroll" }}>
+      <BackToList goBack={goBack} />
+      <FormHeader>Permissions Settings</FormHeader>
       <ActionWrapper isLeft>
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <Box sx={{ height: "20px", marginBottom: "10px" }}>
-            <Button onClick={submit}>Submit</Button>
-          </Box>
-        </ButtonGroup>
+        <Box sx={{ height: "20px", marginBottom: "10px", marginLeft: "10px" }}>
+          <Button
+            onClick={submit}
+            size="small"
+            variant="outlined"
+            color="success"
+          >
+            Save
+          </Button>
+        </Box>
       </ActionWrapper>
 
       <PermissionWrapper withoutPermissions>
