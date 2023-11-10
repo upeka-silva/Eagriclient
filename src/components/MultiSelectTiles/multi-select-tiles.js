@@ -1,26 +1,71 @@
 import React, { useState } from "react";
 import SingleTile from "./SingleTile";
-import { Grid } from "@mui/material";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+} from "@mui/material";
+
+const CropImg = require("../../assets/images/crop1.jpeg");
 
 const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
-
   return (
-    <Grid container spacing={1}>
+    <>
       {options.map((option) => (
-        <Grid item xs={2}>
-          <SingleTile
-            key={option.id}
-            id={option.id}
-            name={option.varietyId}
-            imageUrl={option?.presignedUrl}
-            onOptionClick={handleSelectedValues}
-            isSelected={option?.selected || false}
-            isDisabled={isItemDisabled}
-          />
-        </Grid>
+        <>
+          <Grid container spacing={4}>
+            <Grid item xs={2} key={option.id}>
+              <Card
+                style={{
+                  backgroundColor: "#A7E99C",
+                  borderColor: "#A7E99C",
+                  alignItems: "center",
+                }}
+                sx={{ display: "flex" }}
+              >
+                <CardContent style={{ alignContent: "center" }}>
+                  <Box sx={{ flexDirection: "column", pl: "25px" }}>
+                    <Avatar
+                      alt="Remy Sharp"
+                      src={CropImg}
+                      sx={{ 
+                        height: "100px", 
+                        width: "100px" 
+                      }}
+                    />
+                    <Typography pt={1} variant="body2">
+                      {option.cropId}
+                    </Typography>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={8}>
+              <Grid container spacing={1}>
+                {option.varietyList.map((variety) => (
+                  <Grid item xs={2} key={variety.id}>
+                    <SingleTile
+                      key={variety.id}
+                      id={variety.id}
+                      name={variety.varietyId}
+                      imageUrl={variety?.presignedUrl}
+                      onOptionClick={handleSelectedValues}
+                      isSelected={variety?.selected || false}
+                      isDisabled={isItemDisabled}
+                      cropId={option.id}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          </Grid>
+          <hr />
+        </>
       ))}
-    </Grid>
+    </>
   );
 };
 

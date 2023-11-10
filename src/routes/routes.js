@@ -161,6 +161,8 @@ import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
 import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
+import DDBiWeeklyReporting from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting";
+import DDBiWeeklyReportingForm from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting-from";
 
 export const Routes = [
   {
@@ -1317,6 +1319,20 @@ export const Routes = [
         name: "Bi Weekly Reporting Form",
         isSideBar: false,
         element: <BiWeeklyReportingForm />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/dd-biweekly-reporting",
+        name: "DD Bi Weekly Reporting",
+        isSideBar: true,
+        element: <DDBiWeeklyReporting />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/dd-biweekly-reporting-form",
+        name: "DD Bi Weekly Reporting Form",
+        isSideBar: false,
+        element: <DDBiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
     ]

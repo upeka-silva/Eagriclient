@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import MultiSelectTils from "../../components/MultiSelectTiles/multi-select-tiles";
 import { Button, Grid } from "@mui/material";
-import { getCropVaritesByCropCategory } from "../../redux/actions/crop/cropVariety/action";
+import {
+  getCropVaritesByCropCategory,
+  getCropsByCropCategory,
+} from "../../redux/actions/crop/cropVariety/action";
 import {
   getCropRegistrationById,
   updateCropRegistrationItems,
@@ -13,34 +16,36 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   const { addSnackBar } = useSnackBars();
 
-  const [selectedCrops, setSelectedCrops] = useState([]);
   const [cropVarietyList, setCropVarietyList] = useState([]);
   const [saving, setSaving] = useState(false);
 
-  const handleSelectedCrops = (cropId, selected) => {
-    if (selected) {
-      var cropToUpdate = cropVarietyList.find((crop) => crop.id === cropId);
-      cropToUpdate.selected = true;
-      setCropVarietyList([...cropVarietyList]);
-      setSelectedCrops([...selectedCrops, cropId]);
-    } else {
-      var cropToUpdate = cropVarietyList.find((crop) => crop.id === cropId);
-      cropToUpdate.selected = false;
-      setCropVarietyList([...cropVarietyList]);
-      setSelectedCrops(selectedCrops.filter((id) => id !== cropId));
-    }
+  const handleSelectedCrops = (varietyId, selected, cropId) => {
+    cropVarietyList.map((crop) => {
+      if (crop.id === cropId) {
+        var cropToUpdate = crop.varietyList.find(
+          (variety) => variety.id === varietyId
+        );
+        cropToUpdate.selected = selected;
+      }
+    });
+    setCropVarietyList([...cropVarietyList]);
   };
 
   useEffect(() => {
-    // load crop varites by crop category id
-    getCropVaritesByCropCategory(cropCategoryId).then(({ dataList = [] }) => {
+    getCropsByCropCategory(cropCategoryId).then(({ dataList = [] }) => {
       getCropRegistrationById(registrationId).then(({ data = {} }) => {
         data?.items?.map((item) => {
           if (item?.cropCategory.id == cropCategoryId) {
-            var selectedVarity = dataList.find(
-              (ele) => ele.id === item?.cropVariety.id
-            );
-            selectedVarity.selected = true;
+            dataList.map((crop) => {
+              if (crop.varietyList) {
+                var selectedVarity = crop?.varietyList.find(
+                  (ele) => ele.id === item?.cropVariety.id
+                );
+                if (selectedVarity) {
+                  selectedVarity.selected = true;
+                }
+              }
+            });
           }
         });
         setCropVarietyList(dataList);
@@ -51,12 +56,14 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   const handleCropUpdate = async () => {
     setSaving(true);
     var items = [];
-    for (const variety of cropVarietyList) {
-      if (variety.selected) {
-        items.push({
-          cropCategory: { id: cropCategoryId },
-          cropVariety: { id: variety?.id },
-        });
+    for (const crop of cropVarietyList) {
+      for (const variety of crop.varietyList) {
+        if (variety.selected) {
+          items.push({
+            cropCategory: { id: cropCategoryId },
+            cropVariety: { id: variety?.id },
+          });
+        }
       }
     }
 
@@ -93,8 +100,8 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   };
   return (
     <Grid container>
-      <Grid item sm={12} md={12} lg={12}>
-        <div style={{ textAlign: "right" }}>
+      <Grid item sm={11} md={11} lg={11}>
+        <div style={{ textAlign: "right", paddingBottom: "10px" }}>
           {saving ? (
             <Button variant="contained" size="small">
               {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
@@ -113,7 +120,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
           )}
         </div>
       </Grid>
-      <Grid item sm={12} md={12} lg={12} >
+      <Grid item sm={12} md={12} lg={12}>
         <MultiSelectTils
           options={cropVarietyList}
           handleSelectedValues={handleSelectedCrops}

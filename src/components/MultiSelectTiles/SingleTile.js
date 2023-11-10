@@ -19,11 +19,11 @@ const useStyles = makeStyles({
   },
 });
 
-const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled }) => {
+const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled, cropId }) => {
 
   const handleTileClick = () => {
     if(!isDisabled) {
-      onOptionClick(id, !isSelected);
+      onOptionClick(id, !isSelected, cropId);
     }
   };
 
@@ -39,17 +39,12 @@ const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled 
     <div>
       <Card
         style={{ backgroundColor: getStyle(), borderColor: "#A7E99C", alignItems: "center" }}
-        sx={{ display: "flex" }}
+        //sx={{ display: "flex" }}
         onClick={handleTileClick}
         
       >
         <CardContent style={{ alignContent: "center" }}>
-          <Box sx={{ flexDirection: "column", pl: "25px"}}>
-            <Avatar
-              alt="Remy Sharp"
-              src={imageUrl ? imageUrl : CropImg}
-              sx={{ height: "100px", width: "100px"}}
-            />
+          <Box sx={{ flexDirection: "column"}}>
             <Typography pt={1} variant="body2">{name}</Typography>
           </Box>
         </CardContent>

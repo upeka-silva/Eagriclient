@@ -83,11 +83,11 @@ export const get_CropById = async (
   }
 };
 
-export const getCropVaritesByCropCategory = async (
+export const getCropsByCropCategory = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {},
-  path = 'geo-data/crop-varieties/crop-category/' + id
+  path = 'geo-data/crops/crop-category/' + id
 ) => {
 try {
   const { httpCode, payloadDto } = await get(path, true);

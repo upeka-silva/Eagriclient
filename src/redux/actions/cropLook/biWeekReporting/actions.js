@@ -233,6 +233,23 @@ export const getCropLookSeasons = async () => {
     }
   };
 
+  export const getAggregateBiWeekReport = async (seasonId, weekId) => {
+    try {
+      const { httpCode, payloadDto } = await get(`crop-look/dd-bi-week-reporting/aggregate?seasonId=${seasonId}&weekId=${weekId}`, true);
+      if (httpCode === "200 OK") {
+        return payloadDto;
+      }
+      return {
+        dataList: [],
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        dataList: [],
+      };
+    }
+  };
+
 export const updateDistrict = async (
   payload = {},
   onSuccess = () => {},
