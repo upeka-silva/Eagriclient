@@ -107,6 +107,30 @@ try {
 }
 };
 
+export const getCropVarietiesByCropId = async (
+  cropId,
+  onSuccess = () => {},
+  onError = (_message) => {},
+) => {
+try {
+  const path = `geo-data/crop-varieties/crop/${cropId}`;
+  const { httpCode, payloadDto } = await get(path, true); 
+  if (httpCode === "200 OK") {
+    return {
+      dataList: payloadDto,
+    };
+  }
+  return {
+    dataList: [],
+  };
+} catch (error) {
+  console.error(error);
+  return {
+    dataList: [],
+  };
+}
+};
+
 export const updateCropVariety = async (
   payload = {},
   onSuccess = () => {},
