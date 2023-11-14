@@ -124,7 +124,7 @@ const CropCalendar = () => {
 
   return (
     <div>
-      <ListHeader title="Crop Configuration" />
+      <ListHeader title="Crop Calendar" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

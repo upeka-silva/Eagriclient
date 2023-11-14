@@ -32,6 +32,7 @@ import {
 } from "../../../redux/actions/crop/cropDamage/action";
 import { Add } from "@mui/icons-material";
 import AddCalendarActivityDialog from "./AddCalendarActivityDialog";
+import { createCalendarActivity, deleteCalendarActivity, getAllCalendarActivities, updateCalendarActivity } from "../../../redux/actions/crop/cropCalendar/action";
 
 const CalendarActivity = ({
   dataList = [],
@@ -43,33 +44,33 @@ const CalendarActivity = ({
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
   const [dialogMode, setDialogMode] = useState(null);
-  const [openDamageTypeAddDialog, setOpenDamageTypeAddDialog] = useState(false);
+  const [openCropActivityAddDialog, setOpenCropActivityAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
   const [isDataFetch, setIsDataFetch] = useState(true);
   const { addSnackBar } = useSnackBars();
 
-  const [damageTypes, setDamageTypes] = useState([]);
+  const [calendarActivities, setcalendarActivities] = useState([]);
 
   useEffect(() => {
-    setDamageTypes(dataList);
+    setcalendarActivities(dataList);
   }, [dataList]);
 
   const handleDamageTypeAdd = (prop, mode) => (event) => {
     setFormData({});
     setFormData(prop);
     setDialogMode(mode);
-    setOpenDamageTypeAddDialog(true);
+    setOpenCropActivityAddDialog(true);
   };
 
-  const handleDamageTypeDelete = (prop) => (event) => {
+  const handleCalendarActivityDelete = (prop) => (event) => {
     setDeleteItem(prop);
     setOpen(true);
   };
 
-  const closeDamageAddDialog = () => {
+  const closeCalendarActivityDialog = () => {
     setFormData({});
-    setOpenDamageTypeAddDialog(false);
+    setOpenCropActivityAddDialog(false);
   };
 
   const onSuccess = async (response) => {
@@ -77,8 +78,8 @@ const CalendarActivity = ({
       type: SnackBarTypes.success,
       message: "Successfully executed !!!",
     });
-    getAllDamageTypes(formId).then((data) => {
-      setDamageTypes(data);
+    getAllCalendarActivities(formId).then((data) => {
+      setcalendarActivities(data);
       setIsDataFetch(true);
     });
   };
@@ -90,25 +91,25 @@ const CalendarActivity = ({
     });
   };
 
-  const handleDamageAdd = async (event, data, functionMode) => {
+  const handleCalendarActivityAdd = async (event, data, functionMode) => {
     if (functionMode === DEF_ACTIONS.ADD) {
       setIsDataFetch(false);
-      await createDamageType(formId, data, onSuccess, onError);
+      await createCalendarActivity(formId, data, onSuccess, onError);
     } else if (functionMode === DEF_ACTIONS.EDIT) {
       setIsDataFetch(false);
-      await updateAuditFormQuestions(formId, data.id, data, onSuccess, onError);
+      await updateCalendarActivity(data.id, data, onSuccess, onError);
     }
-    setOpenDamageTypeAddDialog(false);
+    setOpenCropActivityAddDialog(false);
   };
 
   const addDamageType = () => {
     setFormData({});
     setDialogMode(DEF_ACTIONS.ADD);
-    setOpenDamageTypeAddDialog(true);
+    setOpenCropActivityAddDialog(true);
   };
 
   const onConfirm = async () => {
-    await deleteDamageType(formId, deleteItem?.id, onSuccess, onError);
+    await deleteCalendarActivity(formId, deleteItem?.id, onSuccess, onError);
     close();
   };
 
@@ -122,7 +123,7 @@ const CalendarActivity = ({
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={state} formName="Damage Types" />
+      <CustFormHeader saving={saving} state={state} formName="Crop Activities" />
       {/* {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && ( */}
       <Button
         disabled={!formId}
@@ -147,14 +148,20 @@ const CalendarActivity = ({
             <TableRow>
               <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Cost</TableCell>
+              <TableCell>Duration</TableCell>
+              <TableCell>Duration Type</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {damageTypes && isDataFetch && damageTypes.map((row, index) => (
+            {calendarActivities && isDataFetch && calendarActivities.map((row, index) => (
               <TableRow key={row.id}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.description}</TableCell>
+                <TableCell>{row?.cropActivity?.name}</TableCell>
+                <TableCell>{row?.cropActivity?.description}</TableCell>
+                <TableCell>{row?.cost}</TableCell>
+                <TableCell>{row?.duration}</TableCell>
+                <TableCell>{row?.durationType}</TableCell>
                 <TableCell>
                   <Button
                     onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
@@ -167,7 +174,7 @@ const CalendarActivity = ({
                     EDIT
                   </Button>
                   <Button
-                    onClick={handleDamageTypeDelete(row)}
+                    onClick={handleCalendarActivityDelete(row)}
                     color="success"
                     variant="contained"
                     size="small"
@@ -184,11 +191,11 @@ const CalendarActivity = ({
       </TableContainer>
 
       <AddCalendarActivityDialog
-        open={openDamageTypeAddDialog}
-        setConfirmDialog={setOpenDamageTypeAddDialog}
+        open={openCropActivityAddDialog}
+        setConfirmDialog={setOpenCropActivityAddDialog}
         // setConfirmDialog={setOpenDlg}
-        confirmAction={handleDamageAdd}
-        handleClose={closeDamageAddDialog}
+        confirmAction={handleCalendarActivityAdd}
+        handleClose={closeCalendarActivityDialog}
         formData={formData}
         mode={dialogMode}
       />

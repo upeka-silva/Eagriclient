@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { TextField, Autocomplete, Grid, Button, CircularProgress } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Grid,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { useEffect } from "react";
@@ -13,12 +22,20 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { createDamage, updateDamage } from "../../../redux/actions/crop/cropDamage/action";
+import {
+  createDamage,
+  updateDamage,
+} from "../../../redux/actions/crop/cropDamage/action";
 import { Paper } from "@material-ui/core";
 import DamageTypes from "./calendar-activity";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import { getCropVarietiesByCropId } from "../../../redux/actions/crop/cropVariety/action";
 import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
+import CalendarActivity from "./calendar-activity";
+import {
+  createCropCalendar,
+  updateCropCalendar,
+} from "../../../redux/actions/crop/cropCalendar/action";
 
 const CropCalendarForm = () => {
   useUserAccessValidation();
@@ -36,18 +53,13 @@ const CropCalendarForm = () => {
   const [zoneList, setZoneList] = useState([]);
 
   useEffect(() => {
-
-    get_CropList().then(({dataList = []}) => {
+    get_CropList().then(({ dataList = [] }) => {
       setCrops(dataList);
     });
 
-    get_agroEcoList().then(({ dataList = []}) => {
+    get_agroEcoList().then(({ dataList = [] }) => {
       setZoneList(dataList);
     });
-
-    // getCropVarietiesByCropId().then(({ dataList = []}) => {
-    //   setVarieties(dataList);
-    // });
 
     if (
       state?.action === DEF_ACTIONS.EDIT ||
@@ -56,6 +68,12 @@ const CropCalendarForm = () => {
       setFormData(state?.target);
     }
   }, []);
+
+  const getAllVarieties = (crop) => {
+    getCropVarietiesByCropId(crop.id).then(({ dataList = [] }) => {
+      setVarieties(dataList);
+    });
+  };
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -66,7 +84,7 @@ const CropCalendarForm = () => {
   };
 
   const goBack = () => {
-    navigate("/crop/damages");
+    navigate("/crop/calendar");
   };
 
   const resetForm = () => {
@@ -113,11 +131,13 @@ const CropCalendarForm = () => {
       setIsLoading(true);
       setSaving(true);
       try {
-        if(DEF_ACTIONS.ADD === state.action) {
-          const data = await createDamage(formData, onSuccess, onError);
+        if (DEF_ACTIONS.ADD === state.action) {
+          console.log("Form data ------------>");
+          console.log(formData);
+          const data = await createCropCalendar(formData, onSuccess, onError);
           setFormData(data);
         } else {
-          const data = await updateDamage(formData, onSuccess, onError);
+          const data = await updateCropCalendar(formData, onSuccess, onError);
           setFormData(data);
         }
         setIsLoading(false);
@@ -212,74 +232,78 @@ const CropCalendarForm = () => {
             </FieldWrapper>
           </Grid>
           <Grid item lg={2} sm={2} sx={2}>
-        <FieldWrapper>
-          <FieldName>Crop</FieldName>
-          <Autocomplete
-            //disabled={selectedDsDevision?.id == null}
-            options={crops}
-            value={formData?.crop}
-            getOptionLabel={(i) => `${i.cropId} - ${i.description}`}
-            onChange={(event, value) => {
-              handleChange(value, "crop");
-              //setSelectedGnDevision(value);
-            }}
-            disableClearable
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} size="small" />}
-            fullWidth
-          />
-        </FieldWrapper>
-      </Grid>
-      <Grid item lg={2} sm={2} sx={2}>
-        <FieldWrapper>
-          <FieldName>Variety List</FieldName>
-          <Autocomplete
-            //disabled={selectedDsDevision?.id == null}
-            options={varieties}
-            value={formData?.cropVarieties}
-            getOptionLabel={(i) => `${i.code} - ${i.name}`}
-            onChange={(event, value) => {
-              handleChange(value, "cropVarieties");
-              //setSelectedGnDevision(value);
-            }}
-            disableClearable
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} size="small" />}
-            fullWidth
-          />
-        </FieldWrapper>
-      </Grid>
-      <Grid item lg={2} sm={2} sx={2}>
-        <FieldWrapper>
-          <FieldName>Agriculture Zone</FieldName>
-          <Autocomplete
-            //disabled={selectedDsDevision?.id == null}
-            options={zoneList}
-            value={formData?.climateZone}
-            getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
-            onChange={(event, value) => {
-              handleChange(value, "climateZone");
-              //setSelectedGnDevision(value);
-            }}
-            disableClearable
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "8px",
-              },
-            }}
-            renderInput={(params) => <TextField {...params} size="small" />}
-            fullWidth
-          />
-        </FieldWrapper>
-      </Grid>
+            <FieldWrapper>
+              <FieldName>Crop</FieldName>
+              <Autocomplete
+                //disabled={selectedDsDevision?.id == null}
+                options={crops}
+                value={formData?.crop}
+                getOptionLabel={(i) => `${i.cropId} - ${i.description}`}
+                onChange={(event, value) => {
+                  handleChange(value, "crop");
+                  getAllVarieties(value);
+                }}
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={8} sm={8} sx={8}>
+            <FieldWrapper>
+              <FieldName>Variety List</FieldName>
+              <Autocomplete
+                //disabled={selectedDsDevision?.id == null}
+                multiple={true}
+                options={varieties || formData.cropVarieties}
+                value={formData?.cropVarieties}
+                getOptionLabel={(i) => `${i.varietyId} - ${i.varietyName}`}
+                onChange={(event, value) => {
+                  handleChange(value, "cropVarieties");
+                  //setSelectedGnDevision(value);
+                }}
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={2} sm={2} sx={2}>
+            <FieldWrapper>
+              <FieldName>Agriculture Zone</FieldName>
+              <Autocomplete
+                //disabled={selectedDsDevision?.id == null}
+                options={zoneList}
+                value={formData?.climateZone}
+                getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
+                onChange={(event, value) => {
+                  handleChange(value, "climateZone");
+                  //setSelectedGnDevision(value);
+                }}
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
           <Grid item sm={12} md={12} lg={12}>
             <Paper style={{ height: "500px" }}>
               <Grid
@@ -291,9 +315,15 @@ const CropCalendarForm = () => {
                 }}
               >
                 <Grid item sm={12} md={12} lg={12}>
-
-                  {!isLoading ? <DamageTypes formMode={state.action} formId={formData.id} dataList={formData.damageTypes} /> : <CircularProgress /> }
-                  
+                  {!isLoading ? (
+                    <CalendarActivity
+                      formMode={state.action}
+                      formId={formData.id}
+                      dataList={formData.activities}
+                    />
+                  ) : (
+                    <CircularProgress />
+                  )}
                 </Grid>
               </Grid>
             </Paper>

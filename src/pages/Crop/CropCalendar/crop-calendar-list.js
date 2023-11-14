@@ -10,8 +10,10 @@ const CropCalendarList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {field: "name", headerName: "Damage Category Name"},
-    {field: "description", headerName: "Damge Categor Description"}
+    {field: "name", headerName: "Crop Calendar Name"},
+    {field: "description", headerName: "Crop Calendar  Description"},
+    {field: "legacyCalendarUrl", headerName: "Url"}
+
   ];
 
   const [id, setId] = useState(null);
