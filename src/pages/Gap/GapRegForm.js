@@ -28,7 +28,10 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { getFarmLandByFarmerId } from "../../redux/actions/farmLand/action";
+import {
+  getAllAssessmentsByFarmLandId,
+  getFarmLandByFarmerId,
+} from "../../redux/actions/farmLand/action";
 import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
@@ -83,6 +86,7 @@ import {
 import { useAuthContext } from "../../context/AuthContext";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
+import HorizontalStepper from "../../components/HorizontalStepper/HorizontalStepper";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -94,15 +98,17 @@ const GapRegForm = () => {
       setIntAuditPermission(r);
     });
     getUserPermissionByComponent(DEF_COMPONENTS.EXTERNAL_AUDIT).then((r) => {
-      console.log(r)
+      console.log(r);
       setExtAuditPermission(r);
     });
     getUserPermissionByComponent("TEST").then((r) => {
       setTestPermission(r);
     });
-    getUserPermissionByComponent(DEF_COMPONENTS.GAP_CERTIFICATE_REQUEST).then((r) => {
-      setCertificatePermission(r);
-    });
+    getUserPermissionByComponent(DEF_COMPONENTS.GAP_CERTIFICATE_REQUEST).then(
+      (r) => {
+        setCertificatePermission(r);
+      }
+    );
   }, []);
 
   const [cropAreaPermission, setCropAreaPermission] = useState();
@@ -152,7 +158,9 @@ const GapRegForm = () => {
 
   const [gapReqStatus, setGapReqStatus] = useState(initStatus);
   const [stateResponse, setStateResponse] = useState("");
-  const [openConfSubmit,setOpenConfSubmit] = useState(false)
+  const [openConfSubmit, setOpenConfSubmit] = useState(false);
+
+  const [basicAssessments, setBasicAssessments] = useState([]);
 
   const { addSnackBar } = useSnackBars();
 
@@ -162,7 +170,7 @@ const GapRegForm = () => {
   };
 
   const goBack = () => {
-    navigate("/gap-registration");
+    navigate("/gap/gap-registration");
   };
 
   useEffect(() => {
@@ -254,12 +262,12 @@ const GapRegForm = () => {
           );
 
           setStateResponse(resValue.payload);
-          console.log(resValue)
+          console.log(resValue);
           setGapReqStatus({
             lblText: resValue.payload,
             lblColor: "success",
           });
-          setOpenConfSubmit(false)
+          setOpenConfSubmit(false);
           setStatusLoading(false);
         }
       } catch (error) {
@@ -441,6 +449,16 @@ const GapRegForm = () => {
     );
   };
 
+  const getAllAssessmentsByFLId = (id) => {
+    getAllAssessmentsByFarmLandId(id)
+      .then(({ dataList = {} }) => {
+        setBasicAssessments(dataList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div
       style={{
@@ -454,6 +472,25 @@ const GapRegForm = () => {
     >
       <BackToList goBack={goBack} />
       <CustFormHeader saving={saving} state={state} formName="GAP Request" />
+
+      <Grid container sx={{ marginTop: "10px", marginBottom: "10px" }}>
+        <Grid
+          item
+          md={12}
+          lg={12}
+          sx={{
+            paddingInline: "20px",
+            backgroundColor: "#DCE7DB",
+            display: "flex",
+            alignItems: "center",
+            paddingTop: "10px",
+            border: "1px solid #40a845",
+            borderRadius: "5px",
+          }}
+        >
+          <HorizontalStepper />
+        </Grid>
+      </Grid>
 
       <TabContent
         style={{
@@ -501,7 +538,7 @@ const GapRegForm = () => {
                       </Button>
                     </ButtonGroup>
                     <Button
-                      onClick={()=>setOpenConfSubmit(true)}
+                      onClick={() => setOpenConfSubmit(true)}
                       color="success"
                       variant="outlined"
                       size="small"
@@ -519,18 +556,20 @@ const GapRegForm = () => {
               label={gapReqStatus.lblText}
               color={gapReqStatus.lblColor}
               variant="filled"
+              style={{ marginTop: "5px" }}
             />
           ) : (
             <CircularProgress />
           )}
         </Stack>
+
         <Grid container spacing={0}>
           <Grid
             item
             sx={{
               display: "flex",
             }}
-            lg={2}
+            lg={1}
           >
             <FieldWrapper>
               <FieldName
@@ -551,7 +590,7 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={3} md={3} lg={2}>
             <FieldWrapper>
               <FieldName
                 style={{
@@ -564,7 +603,10 @@ const GapRegForm = () => {
                 name="id"
                 id="id"
                 value={formData?.id || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
                 onChange={(e) => handleChange(e?.target?.value || "", "id")}
                 size="small"
                 fullWidth
@@ -577,8 +619,6 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
-        </Grid>
-        <Grid container spacing={0}>
           <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farmer</FieldName>
@@ -610,6 +650,8 @@ const GapRegForm = () => {
               )}
             </FieldWrapper>
           </Grid>
+        </Grid>
+        <Grid container spacing={0}>
           <Grid item sm={12} md={6} lg={5}>
             <FieldWrapper>
               <FieldName>Farm Land</FieldName>
@@ -623,6 +665,32 @@ const GapRegForm = () => {
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
                 onChange={(event, value) => {
                   handleChange(value, "farmLandDTO");
+                  getAllAssessmentsByFLId(value?.id)
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={12} md={6} lg={4}>
+            <FieldWrapper>
+              <FieldName>Basic Assesment</FieldName>
+              <Autocomplete
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  formData?.farmerDTO == null
+                }
+                options={basicAssessments}
+                // value={formData ? formData.farmLandDTO : ""}
+                getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                onChange={(event, value) => {
+                  // handleChange(value, "farmLandDTO");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -668,7 +736,7 @@ const GapRegForm = () => {
         >
           External Audit
         </TabButton>
-        
+
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
@@ -2371,7 +2439,7 @@ const GapRegForm = () => {
         />
       </TabContent>
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
-        <GapRequestCertificate/>
+        <GapRequestCertificate />
       </TabContent>
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
@@ -2427,7 +2495,7 @@ const GapRegForm = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={()=>setOpenConfSubmit(false)}
+              onClick={() => setOpenConfSubmit(false)}
               sx={{ ml: "8px" }}
             >
               Close
@@ -2437,7 +2505,8 @@ const GapRegForm = () => {
       >
         <>
           {/* <DeleteMsg /> */}
-          If you submitted the gap request..<br></br>You can not make any changes to gap request
+          If you submitted the gap request..<br></br>You can not make any
+          changes to gap request
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

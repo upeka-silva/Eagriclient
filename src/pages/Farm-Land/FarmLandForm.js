@@ -983,7 +983,7 @@ const FarmLandForm = () => {
         <DynamicFormListFarmLand
           dataList={null}
           onFormSaveSuccess={null}
-          formId={null}
+          formId={formData?.id}
           formMode={null}
           auditFormType={"SELF_ASSESSMENT"}
         />
@@ -992,7 +992,7 @@ const FarmLandForm = () => {
         <DynamicFormListFarmLand
           dataList={null}
           onFormSaveSuccess={null}
-          formId={null}
+          formId={formData?.id}
           formMode={null}
           auditFormType={"BASIC_ASSESSMENT"}
         />
