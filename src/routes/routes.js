@@ -161,6 +161,7 @@ import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
 import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
+import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
 
 export const Routes = [
   {
@@ -231,7 +232,7 @@ export const Routes = [
             isSideBar: true,
             element: <Province />,
             icon: CropSquareIcon,
-            component:DEF_COMPONENTS.PROVINCE
+            component: DEF_COMPONENTS.PROVINCE,
           },
           {
             path: "/province-form",
@@ -245,7 +246,7 @@ export const Routes = [
             isSideBar: true,
             element: <District />,
             icon: StreetviewIcon,
-            component:DEF_COMPONENTS.DISTRICT
+            component: DEF_COMPONENTS.DISTRICT,
           },
           {
             path: "/district-form",
@@ -259,7 +260,7 @@ export const Routes = [
             isSideBar: true,
             element: <DsDivision />,
             icon: StreetviewIcon,
-            component:DEF_COMPONENTS.DS_DIVISION
+            component: DEF_COMPONENTS.DS_DIVISION,
           },
           {
             path: "/ds-division-form",
@@ -272,7 +273,7 @@ export const Routes = [
             name: "GN Division",
             isSideBar: true,
             element: <GnDivision />,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
             // icon: StreetviewIcon,
           },
           {
@@ -294,7 +295,7 @@ export const Routes = [
             isSideBar: true,
             element: <ProvincialDoa />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL
+            component: DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL,
           },
           {
             path: "/provincial-doa-form",
@@ -308,7 +309,7 @@ export const Routes = [
             isSideBar: true,
             element: <ProvincialDdoa />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.PROVINCIAL_DEPUTY_DIRECTOR_LEVEL
+            component: DEF_COMPONENTS.PROVINCIAL_DEPUTY_DIRECTOR_LEVEL,
           },
           {
             path: "/provincial-ddoa-form",
@@ -322,7 +323,7 @@ export const Routes = [
             isSideBar: true,
             element: <ProvincialAda />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT
+            component: DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT,
           },
           {
             path: "/provincial-ada-form",
@@ -336,7 +337,7 @@ export const Routes = [
             isSideBar: true,
             element: <ProvincialAiRegion />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.AI_REGION
+            component: DEF_COMPONENTS.AI_REGION,
           },
           {
             path: "/ai-region-form",
@@ -348,9 +349,9 @@ export const Routes = [
             path: "/gn-division",
             name: "GN Division",
             isSideBar: true,
-            element:  <GnDivision />,
+            element: <GnDivision />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
           },
           {
             path: "/gn-division-form",
@@ -358,7 +359,6 @@ export const Routes = [
             isSideBar: false,
             element: <GnDivisionForm />,
           },
-         
         ],
       },
       {
@@ -372,7 +372,7 @@ export const Routes = [
             isSideBar: true,
             element: <IntProvincialDoa />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.DIRECTOR_DOA
+            component: DEF_COMPONENTS.DIRECTOR_DOA,
           },
           {
             path: "/inter-provincial-doa-form",
@@ -386,7 +386,7 @@ export const Routes = [
             isSideBar: true,
             element: <IntProvincialDdoa />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.INTER_PROVINCE_DEPUTY_DIRECTOR_LEVEL
+            component: DEF_COMPONENTS.INTER_PROVINCE_DEPUTY_DIRECTOR_LEVEL,
           },
           {
             path: "/inter-provincial-ddoa-form",
@@ -400,7 +400,7 @@ export const Routes = [
             isSideBar: true,
             element: <IntProvincialAda />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT
+            component: DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT,
           },
           {
             path: "/inter-provincial-ada-form",
@@ -414,7 +414,7 @@ export const Routes = [
             isSideBar: true,
             element: <InterProvincialAiRegion />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.AI_REGION
+            component: DEF_COMPONENTS.AI_REGION,
           },
           {
             path: "/inter-ai-region-form",
@@ -426,9 +426,9 @@ export const Routes = [
             path: "/gn-division",
             name: "GN Division",
             isSideBar: true,
-            element:  <GnDivision />,
+            element: <GnDivision />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
           },
           {
             path: "/gn-division-form",
@@ -436,7 +436,6 @@ export const Routes = [
             isSideBar: false,
             element: <GnDivisionForm />,
           },
-          
         ],
       },
       {
@@ -450,7 +449,7 @@ export const Routes = [
             isSideBar: true,
             element: <MahaweliAuthority />,
             icon: CropSquareIcon,
-            component:DEF_COMPONENTS.MAHAWELI_AUTHORITY
+            component: DEF_COMPONENTS.MAHAWELI_AUTHORITY,
           },
           {
             path: "/mahaweli-authority-form",
@@ -464,7 +463,7 @@ export const Routes = [
             isSideBar: true,
             element: <MahaweliSystem />,
             icon: CropSquareIcon,
-            component:DEF_COMPONENTS.MAHAWELI_SYSTEM
+            component: DEF_COMPONENTS.MAHAWELI_SYSTEM,
           },
           {
             path: "/mahaweli-system-form",
@@ -478,7 +477,7 @@ export const Routes = [
             isSideBar: true,
             element: <MahaweliBlock />,
             icon: CropSquareIcon,
-            component:DEF_COMPONENTS.MAHAWELI_BLOCK
+            component: DEF_COMPONENTS.MAHAWELI_BLOCK,
           },
           {
             path: "/mahaweli-block-form",
@@ -486,14 +485,14 @@ export const Routes = [
             isSideBar: false,
             element: <MahaweliBlockForm />,
           },
-          
+
           {
             path: "/mahaweli-unit",
             name: "Mahaweli Unit",
             isSideBar: true,
             element: <MahaweliUnit />,
             icon: CropSquareIcon,
-            component:DEF_COMPONENTS.MAHAWELI_UNIT
+            component: DEF_COMPONENTS.MAHAWELI_UNIT,
           },
           {
             path: "/mahaweli-unit-form",
@@ -505,9 +504,9 @@ export const Routes = [
             path: "/gn-division",
             name: "GN Division",
             isSideBar: true,
-            element:  <GnDivision />,
+            element: <GnDivision />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
           },
           {
             path: "/gn-division-form",
@@ -528,7 +527,7 @@ export const Routes = [
             isSideBar: true,
             element: <AgrarDevDept />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.DO_AGRARIAN_DEVELOPMENT
+            component: DEF_COMPONENTS.DO_AGRARIAN_DEVELOPMENT,
           },
           {
             path: "/department-of-agrarian-development-form",
@@ -542,7 +541,7 @@ export const Routes = [
             isSideBar: true,
             element: <DistrictComm />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL
+            component: DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL,
           },
           {
             path: "/district-commissioner-form",
@@ -556,7 +555,7 @@ export const Routes = [
             isSideBar: true,
             element: <ASC />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.ASC_DIVISION
+            component: DEF_COMPONENTS.ASC_DIVISION,
           },
           {
             path: "/asc-division-form",
@@ -570,7 +569,7 @@ export const Routes = [
             isSideBar: true,
             element: <ARPA />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.ARPA
+            component: DEF_COMPONENTS.ARPA,
           },
           {
             path: "/arpa-division-form",
@@ -582,9 +581,9 @@ export const Routes = [
             path: "/gn-division",
             name: "GN Division",
             isSideBar: true,
-            element:  <GnDivision />,
+            element: <GnDivision />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
           },
           {
             path: "/gn-division-form",
@@ -594,7 +593,7 @@ export const Routes = [
           },
         ],
       },
-      
+
       {
         path: "/ez-structure",
         name: "Ecological Zone Structure",
@@ -606,7 +605,7 @@ export const Routes = [
             isSideBar: true,
             element: <AgroEco />,
             icon: AccountTreeIcon,
-            component:DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE
+            component: DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE,
           },
           {
             path: "/agro-eco-zone-form",
@@ -618,9 +617,9 @@ export const Routes = [
             path: "/gn-division",
             name: "GN Division",
             isSideBar: true,
-            element:  <GnDivision />,
+            element: <GnDivision />,
             icon: MyLocationIcon,
-            component:DEF_COMPONENTS.GN_DIVISION
+            component: DEF_COMPONENTS.GN_DIVISION,
           },
           {
             path: "/gn-division-form",
@@ -644,7 +643,7 @@ export const Routes = [
         isSideBar: true,
         element: <Soil />,
         icon: WaterIcon,
-        component:DEF_COMPONENTS.SOIL_TYPE
+        component: DEF_COMPONENTS.SOIL_TYPE,
       },
       {
         path: "/soil-type-form",
@@ -658,8 +657,7 @@ export const Routes = [
         isSideBar: true,
         element: <SoilSubType />,
         icon: WaterIcon,
-        component:DEF_COMPONENTS.SOIL_SUB_TYPE
-
+        component: DEF_COMPONENTS.SOIL_SUB_TYPE,
       },
       {
         path: "/soil-sub-type-form",
@@ -683,7 +681,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropDamage />,
         icon: ForestIcon,
-        component:DEF_COMPONENTS.CROP_DAMAGE_FORECAST
+        component: DEF_COMPONENTS.CROP_DAMAGE_FORECAST,
       },
       {
         path: "/damage-form",
@@ -697,8 +695,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropCategory />,
         icon: ForestIcon,
-        component:DEF_COMPONENTS.CROP_CATEGORY
-       
+        component: DEF_COMPONENTS.CROP_CATEGORY,
       },
       {
         path: "/category-form",
@@ -712,7 +709,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropSubCategory />,
         icon: ParkIcon,
-        component:DEF_COMPONENTS.CROP_SUB_CATEGORY
+        component: DEF_COMPONENTS.CROP_SUB_CATEGORY,
       },
       {
         path: "/sub-category-form",
@@ -726,7 +723,7 @@ export const Routes = [
         isSideBar: true,
         element: <Crop />,
         icon: YardIcon,
-        component:DEF_COMPONENTS.CROP
+        component: DEF_COMPONENTS.CROP,
       },
       {
         path: "/crop-form",
@@ -740,7 +737,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropVariety />,
         icon: YardIcon,
-        component:DEF_COMPONENTS.CROP_VARIETY
+        component: DEF_COMPONENTS.CROP_VARIETY,
       },
       {
         path: "/crop-variety-form",
@@ -755,7 +752,7 @@ export const Routes = [
     name: "Institution",
     isSideBar: true,
     icon: ApartmentIcon,
-    
+
     children: [
       {
         path: "/institution-category",
@@ -763,7 +760,7 @@ export const Routes = [
         isSideBar: true,
         element: <InstitutionCategory />,
         icon: ApartmentIcon,
-        component:DEF_COMPONENTS.INSTITUTION_CATEGORY,
+        component: DEF_COMPONENTS.INSTITUTION_CATEGORY,
       },
       {
         path: "/institution-category-form",
@@ -777,7 +774,7 @@ export const Routes = [
         isSideBar: true,
         element: <Institution />,
         icon: ApartmentIcon,
-        component:DEF_COMPONENTS.INSTITUTION,
+        component: DEF_COMPONENTS.INSTITUTION,
       },
       {
         path: "/institution-form",
@@ -793,7 +790,7 @@ export const Routes = [
     name: "Soil and Water Tests",
     isSideBar: true,
     icon: ContentPasteSearchIcon,
-    
+
     children: [
       {
         path: "/soil-test",
@@ -801,7 +798,7 @@ export const Routes = [
         isSideBar: true,
         element: <SoilTest />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.SOIL_SAMPLE,
+        component: DEF_COMPONENTS.SOIL_SAMPLE,
       },
       {
         path: "/soil-test-form",
@@ -815,7 +812,7 @@ export const Routes = [
         isSideBar: true,
         element: <WaterTest />,
         icon: WaterDamageIcon,
-        component:DEF_COMPONENTS.WATER_SAMPLE,
+        component: DEF_COMPONENTS.WATER_SAMPLE,
       },
       {
         path: "/water-test-form",
@@ -831,7 +828,7 @@ export const Routes = [
     element: <AgriSeason />,
     isSideBar: true,
     icon: WbSunnyIcon,
-    component:DEF_COMPONENTS.AGRICULTURE_SEASON
+    component: DEF_COMPONENTS.AGRICULTURE_SEASON,
   },
   {
     path: "/agri-season-form",
@@ -853,7 +850,21 @@ export const Routes = [
     icon: GiIsland,
     isService: "SC",
     element: <FarmLand />,
-    component:DEF_COMPONENTS.FARM_LAND
+    component: DEF_COMPONENTS.FARM_LAND,
+  },
+  {
+    path: "farm-land-form/self-assessment",
+    name: "Self Assessment",
+    element: <DynamicFormPageFarmLand />,
+    isSideBar: false,
+    component: DEF_COMPONENTS.SELF_ASSESSMENT,
+  },
+  {
+    path: "farm-land-form/basic-assessment",
+    name: "Basic Assessment",
+    element: <DynamicFormPageFarmLand />,
+    isSideBar: false,
+    component: DEF_COMPONENTS.BASIC_ASSESSMENT,
   },
   {
     path: "/services",
@@ -881,7 +892,7 @@ export const Routes = [
     isSideBar: true,
     isService: "SC",
     icon: AccessibilityIcon,
-    component:DEF_COMPONENTS.FARMER
+    component: DEF_COMPONENTS.FARMER,
   },
   {
     path: "/farmer-form",
@@ -897,14 +908,13 @@ export const Routes = [
     isSideBar: true,
     isService: "SC",
     icon: AccessibilityIcon,
-    component:DEF_COMPONENTS.PROTECTED_HOUSE_TYPE
+    component: DEF_COMPONENTS.PROTECTED_HOUSE_TYPE,
   },
   {
     path: "/protected-house-type-form",
     name: "Protected House Type",
     element: <ProtectedHouseTypeForm />,
     isSideBar: false,
-    
   },
 
   {
@@ -913,13 +923,13 @@ export const Routes = [
     element: <UserType />,
     isSideBar: true,
     icon: ManageAccountsIcon,
-    component:DEF_COMPONENTS.USER_TYPE
+    component: DEF_COMPONENTS.USER_TYPE,
   },
   {
     path: "/user-type-form",
     name: "User Type",
     element: <UserTypeForm />,
-    isSideBar: false
+    isSideBar: false,
   },
   {
     path: "/users",
@@ -928,8 +938,7 @@ export const Routes = [
     isSideBar: true,
     isService: "SC",
     icon: SupervisedUserCircleIcon,
-    component:DEF_COMPONENTS.USER
-   
+    component: DEF_COMPONENTS.USER,
   },
   {
     path: "/private-company",
@@ -937,7 +946,6 @@ export const Routes = [
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
-   
   },
   {
     path: "/private-company-form",
@@ -945,11 +953,11 @@ export const Routes = [
     element: <PrivateCompaniesForm />,
     isSideBar: false,
   },
-  
+
   {
     path: "/audit-form",
     name: "Audit Form",
-    element: <DynamicFormPage/>,
+    element: <DynamicFormPage />,
     isSideBar: false,
   },
   {
@@ -971,7 +979,7 @@ export const Routes = [
         isSideBar: true,
         isService: "GAP",
         icon: AppRegistrationIcon,
-        component:DEF_COMPONENTS.GAP_REQUEST
+        component: DEF_COMPONENTS.GAP_REQUEST,
       },
       {
         path: "/gap-reg-form",
@@ -985,7 +993,7 @@ export const Routes = [
         isSideBar: true,
         element: <SelfAssessment />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.SELF_ASSESSMENT_FORM
+        component: DEF_COMPONENTS.SELF_ASSESSMENT_FORM,
       },
       {
         path: "/self-assessment-form",
@@ -1000,7 +1008,7 @@ export const Routes = [
         isSideBar: true,
         element: <BasicData />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.BASIC_ASSESSMENT_FORM
+        component: DEF_COMPONENTS.BASIC_ASSESSMENT_FORM,
       },
       {
         path: "/basic-assessment-form",
@@ -1015,7 +1023,7 @@ export const Routes = [
         isSideBar: true,
         element: <InternalAudit />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.INTERNAL_AUDIT_FORM
+        component: DEF_COMPONENTS.INTERNAL_AUDIT_FORM,
       },
       {
         path: "/internal-audit-form",
@@ -1030,7 +1038,7 @@ export const Routes = [
         isSideBar: true,
         element: <ExternalAudit />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.EXTERNAL_AUDIT_FORM
+        component: DEF_COMPONENTS.EXTERNAL_AUDIT_FORM,
       },
       {
         path: "/external-audit-form",
@@ -1117,7 +1125,7 @@ export const Routes = [
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
-    ]
+    ],
   },
   {
     path: "/app-settings",
@@ -1131,7 +1139,7 @@ export const Routes = [
         isSideBar: true,
         element: <Role />,
         icon: SouthAmericaIcon,
-        component:DEF_COMPONENTS.ROLE
+        component: DEF_COMPONENTS.ROLE,
       },
       {
         path: "/role-form",
@@ -1146,7 +1154,7 @@ export const Routes = [
         isSideBar: true,
         icon: HighlightAltIcon,
         element: <Actions />,
-        component:DEF_COMPONENTS.ACTION
+        component: DEF_COMPONENTS.ACTION,
       },
       {
         path: "/components",
@@ -1154,7 +1162,7 @@ export const Routes = [
         isSideBar: true,
         icon: ViewModuleIcon,
         element: <Components />,
-        component:DEF_COMPONENTS.COMPONENT
+        component: DEF_COMPONENTS.COMPONENT,
       },
       {
         path: "/component-form",
@@ -1175,7 +1183,7 @@ export const Routes = [
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
-        component:DEF_COMPONENTS.PERMISSION
+        component: DEF_COMPONENTS.PERMISSION,
       },
       {
         path: "/permissions-by-role",
@@ -1183,7 +1191,7 @@ export const Routes = [
         isSideBar: false,
         icon: KeyIcon,
         element: <PermissionsByRole />,
-      }
+      },
     ],
   },
   {

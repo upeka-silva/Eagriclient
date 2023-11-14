@@ -34,7 +34,7 @@ const DynamicFormListFarmLand = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
   onFormSaveSuccess = false,
-  formId = null,
+  formId ,
   formMode = null,
   auditFormType = "",
 }) => {
@@ -98,7 +98,7 @@ const DynamicFormListFarmLand = ({
       message: "Successfully executed !!!",
     });
 
-    getFormTemplatesByFormLandId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByFormLandId(formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   };
@@ -131,7 +131,7 @@ const DynamicFormListFarmLand = ({
     const saveData = {
       assessmentId: data.assessmentId,
       farmLand: {
-        id: 1, // TODO
+        id: formId, // TODO
       },
       answerList: answerList,
     };
@@ -139,11 +139,11 @@ const DynamicFormListFarmLand = ({
     setSaving(true);
     try {
       if (functionMode === DEF_ACTIONS.ADD) {
-        await saveFormDataWithValues(1, uriPath, saveData, onSuccess, onError);
+        await saveFormDataWithValues(formId, uriPath, saveData, onSuccess, onError);
       } else if (functionMode === DEF_ACTIONS.EDIT) {
         await updateFormDataWithValues(
           data.id,
-          1,
+          formId,
           uriPath,
           saveData,
           onSuccess,
@@ -184,13 +184,14 @@ const DynamicFormListFarmLand = ({
         isShowAction={false}
         saving={saving}
         state={state}
-        formName="Self Assessment List"
+        formName= {formHeader}
       />
 
       {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD) && (
         <DynamicFormFarmLand
           auditFormType={auditFormType}
           afterSave={onSuccess}
+          formId={formId}
         />
       )}
 

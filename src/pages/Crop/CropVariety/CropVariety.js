@@ -159,27 +159,27 @@ const CropVariety = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_VARIETY}`}
           >
             <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
           </PermissionWrapper>
           {selectCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
               <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
             </PermissionWrapper>
           )}
           {selectCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
               <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
             </PermissionWrapper>
           )}
           {selectCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
               <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
             </PermissionWrapper>
@@ -187,7 +187,7 @@ const CropVariety = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_VARIETY}`}
       >
         {loading === false && (
           <CropVarietyList
