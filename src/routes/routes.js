@@ -162,6 +162,11 @@ import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
+import DDBiWeeklyReporting from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting";
+import DDBiWeeklyReportingForm from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting-from";
+import CropActivity from "../pages/Crop/CropActivity/crop-activity";
+import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
+import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
 
 export const Routes = [
   {
@@ -690,6 +695,28 @@ export const Routes = [
         element: <CropDamageForm />,
       },
       {
+        path: "/calendar",
+        name: "Crop Calendar",
+        isSideBar: true,
+        element: <CropCalendar />,
+        icon: ForestIcon,
+        component:DEF_COMPONENTS.CROP_ACTIVITY
+      },
+      {
+        path: "/calendar-form",
+        name: "Crop Calendar Form",
+        isSideBar: false,
+        element: <CropCalendarForm />,
+      },
+      {
+        path: "/activity",
+        name: "Crop Activity",
+        isSideBar: true,
+        element: <CropActivity />,
+        icon: ForestIcon,
+        component:DEF_COMPONENTS.CROP_ACTIVITY
+      },
+      {
         path: "/category",
         name: "Crop Category",
         isSideBar: true,
@@ -1125,7 +1152,21 @@ export const Routes = [
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
-    ],
+      {
+        path: "/dd-biweekly-reporting",
+        name: "DD Bi Weekly Reporting",
+        isSideBar: true,
+        element: <DDBiWeeklyReporting />,
+        icon: SouthAmericaIcon,
+      },
+      {
+        path: "/dd-biweekly-reporting-form",
+        name: "DD Bi Weekly Reporting Form",
+        isSideBar: false,
+        element: <DDBiWeeklyReportingForm />,
+        icon: SouthAmericaIcon,
+      },
+    ]
   },
   {
     path: "/app-settings",

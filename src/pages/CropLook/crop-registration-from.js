@@ -13,10 +13,6 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import {
-  handleCropSubCategory,
-  updateCropSubCategory,
-} from "../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
 import BackToList from "../../components/BackToList/BackToList";
@@ -24,17 +20,15 @@ import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { Factory } from "@mui/icons-material";
-import MultiSelectTils from "../../components/MultiSelectTiles/multi-select-tiles";
 import { TabButton, TabContent, TabWrapper } from "../Farm-Land/FarmLandForm";
 import CropRegistrationTab from "./crop-registration-tab";
 import {
   createCropRegistration,
   getDDDivisionsByLogedInUser,
-  getDDDivisionsByUser,
   getSeasons,
 } from "../../redux/actions/cropLook/cropRegistration/actions";
 import { REGION_PARENT_TYPE } from "../../utils/constants/region-parent-type";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CropRegistrationForm = () => {
   useUserAccessValidation();
@@ -89,7 +83,9 @@ const CropRegistrationForm = () => {
           name: provincialDD.provincialDdId,
           parentType: REGION_PARENT_TYPE.PROVINCIAL,
         };
-      } else if(state?.target?.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL) {
+      } else if (
+        state?.target?.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL
+      ) {
         const interProvincialDD = state?.target?.interProvincialDD;
         ddDivision = {
           id: interProvincialDD.id,
@@ -190,7 +186,9 @@ const CropRegistrationForm = () => {
             season: { id: selectedSeason.id },
             parentType: REGION_PARENT_TYPE.PROVINCIAL,
           };
-        } else if(selectedDDDivision.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL){
+        } else if (
+          selectedDDDivision.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL
+        ) {
           payload1 = {
             interProvincialDD: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
@@ -208,12 +206,7 @@ const CropRegistrationForm = () => {
           onSuccess,
           onError
         );
-        console.log("registration id afte save ");
-        console.log(dataList);
-        console.log(dataList.dataList.id);
         setRegistrationId(dataList.dataList.id);
-        //setSelectedDDDivision(dataList?.provincialDD);
-        //setSelectedSeason(dataList?.season);
       } catch (error) {
         console.log(error);
       }
@@ -221,7 +214,16 @@ const CropRegistrationForm = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "100vh",
+        overflowY: "scroll",
+      }}
+    >
       <FormWrapper>
         <BackToList goBack={goBack} />
         <CustFormHeader
