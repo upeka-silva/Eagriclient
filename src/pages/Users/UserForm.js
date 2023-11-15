@@ -294,6 +294,13 @@ const UsersForm = () => {
                 originalFileName: originalFileName,
                 storedFileName: storedFileName,
                 presignedExpDate: presignedExpDate,
+                administrativeDivisionDTO: {
+                  administrativeDivisionType: selectedAdminDivType,
+                  values: selectedAdminDivOjbects?.map((obj) => ({
+                    divisionId: obj.id,
+                    name: obj.name,
+                  })),
+                },
               },
               onSuccess,
               onError
@@ -306,6 +313,14 @@ const UsersForm = () => {
             {
               ...formData,
               dateOfBirth: dob.valueOf() || null,
+              userRoleDTOs: selectedRoles,
+              administrativeDivisionDTO: {
+                administrativeDivisionType: selectedAdminDivType,
+                values: selectedAdminDivOjbects?.map((obj) => ({
+                  divisionId: obj.id,
+                  name: obj.name,
+                })),
+              },
             },
             onSuccess,
             onError
@@ -365,10 +380,11 @@ const UsersForm = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  }; 
 
-  // In update action set administrative state values
+  // In update, action set administrative state values
   const mapAdministrativeDivStatus = (existigValue) => {
+    console.log('update administrative div ===========>');
     setSelectedAdminDivType(existigValue?.administrativeDivisionType);
     setSelectedAdminDivObjects(
       existigValue?.values?.map((value) => ({

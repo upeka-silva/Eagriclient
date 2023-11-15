@@ -32,7 +32,12 @@ import {
 } from "../../../redux/actions/crop/cropDamage/action";
 import { Add } from "@mui/icons-material";
 import AddCalendarActivityDialog from "./AddCalendarActivityDialog";
-import { createCalendarActivity, deleteCalendarActivity, getAllCalendarActivities, updateCalendarActivity } from "../../../redux/actions/crop/cropCalendar/action";
+import {
+  createCalendarActivity,
+  deleteCalendarActivity,
+  getAllCalendarActivities,
+  updateCalendarActivity,
+} from "../../../redux/actions/crop/cropCalendar/action";
 
 const CalendarActivity = ({
   dataList = [],
@@ -44,7 +49,8 @@ const CalendarActivity = ({
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
   const [dialogMode, setDialogMode] = useState(null);
-  const [openCropActivityAddDialog, setOpenCropActivityAddDialog] = useState(false);
+  const [openCropActivityAddDialog, setOpenCropActivityAddDialog] =
+    useState(false);
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
   const [isDataFetch, setIsDataFetch] = useState(true);
@@ -109,7 +115,7 @@ const CalendarActivity = ({
   };
 
   const onConfirm = async () => {
-    await deleteCalendarActivity(formId, deleteItem?.id, onSuccess, onError);
+    await deleteCalendarActivity(deleteItem?.id, onSuccess, onError);
     close();
   };
 
@@ -123,19 +129,23 @@ const CalendarActivity = ({
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={state} formName="Crop Activities" />
-      {/* {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && ( */}
-      <Button
-        disabled={!formId}
-        onClick={() => addDamageType()}
-        color="success"
-        variant="contained"
-        size="small"
-        sx={{ marginBottom: "15px", marginTop: "20px" }}
-      >
-        <Add />
-      </Button>
-      {/* )} */}
+      <CustFormHeader
+        saving={saving}
+        state={state}
+        formName="Crop Activities"
+      />
+      {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+        <Button
+          disabled={!formId}
+          onClick={() => addDamageType()}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginBottom: "15px", marginTop: "20px" }}
+        >
+          <Add />
+        </Button>
+      )}
 
       <TableContainer>
         <Table
@@ -155,37 +165,39 @@ const CalendarActivity = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {calendarActivities && isDataFetch && calendarActivities.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell>{row?.cropActivity?.name}</TableCell>
-                <TableCell>{row?.cropActivity?.description}</TableCell>
-                <TableCell>{row?.cost}</TableCell>
-                <TableCell>{row?.duration}</TableCell>
-                <TableCell>{row?.durationType}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    EDIT
-                  </Button>
-                  <Button
-                    onClick={handleCalendarActivityDelete(row)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    DELETE
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {calendarActivities &&
+              isDataFetch &&
+              calendarActivities.map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row?.cropActivity?.name}</TableCell>
+                  <TableCell>{row?.cropActivity?.description}</TableCell>
+                  <TableCell>{row?.cost}</TableCell>
+                  <TableCell>{row?.duration}</TableCell>
+                  <TableCell>{row?.durationType}</TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      EDIT
+                    </Button>
+                    <Button
+                      onClick={handleCalendarActivityDelete(row)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      DELETE
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -201,7 +213,7 @@ const CalendarActivity = ({
       />
       <DialogBox
         open={open}
-        title={`Delete Question`}
+        title={`Delete Calendar Activity`}
         actions={
           <ActionWrapper>
             <Button
@@ -225,8 +237,6 @@ const CalendarActivity = ({
       >
         <>
           <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
         </>
       </DialogBox>
     </div>

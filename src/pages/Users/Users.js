@@ -16,7 +16,7 @@ import {
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { deleteUsers } from "../../redux/actions/users/action";
+import { changePassword, deleteUsers } from "../../redux/actions/users/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import UsersList from "./UserList";
@@ -24,6 +24,7 @@ import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
+import PasswordChangeDialog from "./passwordChangeDialog";
 
 const Users = () => {
   useUserAccessValidation();
@@ -32,6 +33,7 @@ const Users = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [openPasswordReset, setOpenPasswordReset] = useState(false);
   const [selectUsers, setSelectUsers] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -59,6 +61,33 @@ const Users = () => {
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
     navigate("/users-form", { state: { action: DEF_ACTIONS.ADD } });
+  };
+
+  const onChangePassword = () => {
+    setOpenPasswordReset(true);
+  };
+
+  const handlePasswordChanegDialogClose = () => {
+    setOpenPasswordReset(false);
+  };
+
+  const handlePasswordChange = (event, formData) => {
+    changePassword(formData, onSuccessPassChange, onErrorPassChange);
+  };
+
+  const onSuccessPassChange = async (response) => {
+    setOpenPasswordReset(false);
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully changed password",
+    });
+  };
+
+  const onErrorPassChange = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
   };
 
   const onEdit = () => {
@@ -206,6 +235,16 @@ const Users = () => {
               </Button>
             </PermissionWrapper>
           )}
+          {selectUsers.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`}
+            >
+              <Button onClick={onChangePassword}>
+                <Edit />
+                Change Password
+              </Button>
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
@@ -250,6 +289,13 @@ const Users = () => {
           {renderSelectedItems()}
         </>
       </DialogBox>
+
+      {openPasswordReset && selectUsers[0]?.email ? <PasswordChangeDialog
+        open={openPasswordReset}
+        handleClose={handlePasswordChanegDialogClose}
+        confirmAction={handlePasswordChange}
+        email={selectUsers[0].email}
+      /> : null}
     </div>
   );
 };

@@ -177,7 +177,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Name</FieldName>
               <TextField
-                //disabled={true}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
                 value={formData.name || ""}
@@ -195,7 +195,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField
-                //disabled={true}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
                 value={formData.description || ""}
@@ -215,7 +215,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Existing Calendar URL</FieldName>
               <TextField
-                //disabled={true}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
                 value={formData.legacyCalendarUrl || ""}
@@ -235,7 +235,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Crop</FieldName>
               <Autocomplete
-                //disabled={selectedDsDevision?.id == null}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 options={crops}
                 value={formData?.crop}
                 getOptionLabel={(i) => `${i.cropId} - ${i.description}`}
@@ -259,7 +259,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Variety List</FieldName>
               <Autocomplete
-                //disabled={selectedDsDevision?.id == null}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 multiple={true}
                 options={varieties || formData.cropVarieties}
                 value={formData?.cropVarieties}
@@ -284,7 +284,7 @@ const CropCalendarForm = () => {
             <FieldWrapper>
               <FieldName>Agriculture Zone</FieldName>
               <Autocomplete
-                //disabled={selectedDsDevision?.id == null}
+                disabled={state.action === DEF_ACTIONS.VIEW}
                 options={zoneList}
                 value={formData?.climateZone}
                 getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
@@ -298,7 +298,7 @@ const CropCalendarForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                renderInput={(params) => <TextField {...params} size="small" />}
+                renderInput={(params) => <TextField {...params} size="small" />} 
                 fullWidth
                 size="small"
               />

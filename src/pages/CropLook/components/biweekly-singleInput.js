@@ -50,6 +50,8 @@ const BiWeeklySingleInput = ({
       return "targetedExtentRainfed";
     } else if (field === CROP_LOOK_FIELD.EXTENT_IRRIGATE) {
       return "targetedExtentIrrigate";
+    } else if (field === CROP_LOOK_FIELD.EXTENT) {
+      return "targetedExtent";
     } else {
       return "na";
     }
@@ -63,8 +65,8 @@ const BiWeeklySingleInput = ({
 
   return (
     <>
-      <Grid container spacing={1}>
-        <Grid item xs={1}>
+      <Grid container spacing={1} sx={{paddingTop: "20px"}}>
+        <Grid item xs={2}>
           <Chip
             avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
             label={varietyTarget.varietyName}
@@ -72,63 +74,72 @@ const BiWeeklySingleInput = ({
             sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
           />
         </Grid>
-        {configFields.map((field) => (
-          <Grid item xs={2}>
-            <TextField
-              type="number"
-              disabled={mode === DEF_ACTIONS.VIEW}
-              variant="outlined"
-              id="input1"
-              label={field + " (In Ha)"}
-              value={varietyTarget[getDbFieldName(field)]}
-              onChange={(e) =>
-                extentHandler(
-                  cropIndex,
-                  varietyIndex,
-                  getDbFieldName(field),
-                  e.target.value
-                )
-              }
-              //style={{ flex: 1, marginRight: 8 }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
+        <Grid item xs={8}>
+          <Grid container spacing={1}>
+            {configFields.map((field) => (
+              <Grid item xs={2}>
+                <TextField
+                  type="number"
+                  disabled={mode === DEF_ACTIONS.VIEW}
+                  variant="outlined"
+                  id="input1"
+                  label={field + " (In Ha)"}
+                  value={varietyTarget[getDbFieldName(field)]}
+                  onChange={(e) =>
+                    extentHandler(
+                      cropIndex,
+                      varietyIndex,
+                      getDbFieldName(field),
+                      e.target.value
+                    )
+                  }
+                  //style={{ flex: 1, marginRight: 8 }}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </Grid>
+            ))}
+
+            <Grid item xs={2}>
+              <TextField
+                type="number"
+                disabled={true}
+                variant="outlined"
+                id="input5"
+                label="Total Extent (In Ha)"
+                value={varietyTarget["totalExtent"] || 0}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </Grid>
           </Grid>
-        ))}
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={true}
-            variant="outlined"
-            id="input5"
-            label="Total Extent (In Ha)"
-            value={varietyTarget['totalExtent'] || 0}
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
         </Grid>
-        {varietyTarget?.id ? (
-          <Grid item xs={1}>
-            <Button
-              disabled={mode === DEF_ACTIONS.VIEW}
-              variant="outlined"
-              color="success"
-              size="small"
-              onClick={handleAddDamage}
-              sx={{ marginTop: "10px" }}
-            >
-              Add Damage
-            </Button>
+        <Grid item xs={2}>
+          <Grid container>
+            {varietyTarget?.id ? (
+              <Grid item xs={12}>
+                <Button
+                  disabled={mode === DEF_ACTIONS.VIEW}
+                  variant="outlined"
+                  color="success"
+                  size="small"
+                  onClick={handleAddDamage}
+                  //sx={{ marginTop: "10px" }}
+                >
+                  Add Damage
+                </Button>
+              </Grid>
+            ) : null}
           </Grid>
-        ) : null}
+        </Grid>
       </Grid>
 
       {varietyTarget?.id && isModalOpen ? (

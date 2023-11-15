@@ -1,14 +1,14 @@
 import React from "react";
-import { Grid } from "@mui/material";
-import SingleInput from "./singleInput";
+import { Divider, Grid } from "@mui/material";
 import BiWeeklySingleInput from "./biweekly-singleInput";
 
 const BiweeklyCropInput = ({ cropTarget, targetedExtentHandler, mode, cropIndex, configFields }) => {
+
   return (
     <Grid container>
       <Grid item xs={12}>
         <p>{cropTarget.cropName}</p>
-        <hr/>
+        <Divider />
       </Grid>
 
       {cropTarget.varietyTargets.map((varietyTarget, varietyIndex) => (
