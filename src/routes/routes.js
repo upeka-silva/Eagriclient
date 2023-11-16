@@ -87,7 +87,7 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import Organization from "../pages/Organization/Organization";
-import { PeopleAlt } from "@mui/icons-material";
+import { Assessment, CalendarMonth, Category, HowToReg, Moving, PeopleAlt, Preview, Rowing, Settings, TrendingDown } from "@mui/icons-material";
 import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -685,7 +685,7 @@ export const Routes = [
         name: "Crop Damages",
         isSideBar: true,
         element: <CropDamage />,
-        icon: ForestIcon,
+        icon: TrendingDown,
         component: DEF_COMPONENTS.CROP_DAMAGE_FORECAST,
       },
       {
@@ -699,7 +699,7 @@ export const Routes = [
         name: "Crop Calendar",
         isSideBar: true,
         element: <CropCalendar />,
-        icon: ForestIcon,
+        icon: CalendarMonth,
         component:DEF_COMPONENTS.CROP_ACTIVITY
       },
       {
@@ -713,7 +713,7 @@ export const Routes = [
         name: "Crop Activity",
         isSideBar: true,
         element: <CropActivity />,
-        icon: ForestIcon,
+        icon: Rowing,
         component:DEF_COMPONENTS.CROP_ACTIVITY
       },
       {
@@ -721,7 +721,7 @@ export const Routes = [
         name: "Crop Category",
         isSideBar: true,
         element: <CropCategory />,
-        icon: ForestIcon,
+        icon: Category,
         component: DEF_COMPONENTS.CROP_CATEGORY,
       },
       {
@@ -735,7 +735,7 @@ export const Routes = [
         name: "Crop Sub Category",
         isSideBar: true,
         element: <CropSubCategory />,
-        icon: ParkIcon,
+        icon: Category,
         component: DEF_COMPONENTS.CROP_SUB_CATEGORY,
       },
       {
@@ -1087,7 +1087,7 @@ export const Routes = [
         name: "Crop Configuration",
         isSideBar: true,
         element: <CropConfiguration />,
-        icon: SouthAmericaIcon,
+        icon: Settings,
       },
       {
         path: "/crop-configuration-form",
@@ -1101,7 +1101,7 @@ export const Routes = [
         name: "Crop Look Season",
         isSideBar: true,
         element: <CropLookSeason />,
-        icon: SouthAmericaIcon,
+        icon: WbSunnyIcon,
       },
       {
         path: "/season-form",
@@ -1115,7 +1115,7 @@ export const Routes = [
         name: "Crop Registration",
         isSideBar: true,
         element: <CropRegistration />,
-        icon: SouthAmericaIcon,
+        icon: HowToReg,
       },
       {
         path: "/crop-registration-form",
@@ -1129,7 +1129,7 @@ export const Routes = [
         name: "Crop Target",
         isSideBar: true,
         element: <CropTarget />,
-        icon: SouthAmericaIcon,
+        icon: Moving,
       },
       {
         path: "/crop-target-form",
@@ -1143,7 +1143,7 @@ export const Routes = [
         name: "Bi Weekly Reporting",
         isSideBar: true,
         element: <BiWeeklyReporting />,
-        icon: SouthAmericaIcon,
+        icon: Assessment,
       },
       {
         path: "/biweekly-reporting-form",
@@ -1157,7 +1157,7 @@ export const Routes = [
         name: "DD Bi Weekly Reporting",
         isSideBar: true,
         element: <DDBiWeeklyReporting />,
-        icon: SouthAmericaIcon,
+        icon: Preview,
       },
       {
         path: "/dd-biweekly-reporting-form",
