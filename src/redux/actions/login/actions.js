@@ -20,12 +20,8 @@ export const initiateLogin = async (
 				response.payload.jwtToken
 			);
 			const role = updateAuthContext(jwtToken);
-			if(role === "ADMIN"){
-				onSuccess(role);
-			}else {
-				throw response;
-			}
 
+			onSuccess(role);
 
 		} else {
 			throw response;

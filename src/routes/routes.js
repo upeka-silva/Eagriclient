@@ -686,7 +686,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropDamage />,
         icon: TrendingDown,
-        component: DEF_COMPONENTS.CROP_DAMAGE_FORECAST,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
       },
       {
         path: "/damage-form",
@@ -700,7 +700,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropCalendar />,
         icon: CalendarMonth,
-        component:DEF_COMPONENTS.CROP_ACTIVITY
+        component:DEF_COMPONENTS.CROP_CALENDAR
       },
       {
         path: "/calendar-form",
@@ -1084,10 +1084,11 @@ export const Routes = [
     children: [
       {
         path: "/crop-configuration",
-        name: "Crop Configuration",
+        name: "Crop Configuration", 
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
+        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
       {
         path: "/crop-configuration-form",
@@ -1102,6 +1103,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropLookSeason />,
         icon: WbSunnyIcon,
+        component: DEF_COMPONENTS.CROP_LOOK_SEASON,
       },
       {
         path: "/season-form",
@@ -1116,6 +1118,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropRegistration />,
         icon: HowToReg,
+        component: DEF_COMPONENTS.CROP_REGISTRATION,
       },
       {
         path: "/crop-registration-form",
@@ -1130,6 +1133,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropTarget />,
         icon: Moving,
+        component: DEF_COMPONENTS.CROP_TARGET,
       },
       {
         path: "/crop-target-form",
@@ -1144,6 +1148,7 @@ export const Routes = [
         isSideBar: true,
         element: <BiWeeklyReporting />,
         icon: Assessment,
+        component: DEF_COMPONENTS.BI_WEEK_REPORT,
       },
       {
         path: "/biweekly-reporting-form",
@@ -1158,6 +1163,7 @@ export const Routes = [
         isSideBar: true,
         element: <DDBiWeeklyReporting />,
         icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
         path: "/dd-biweekly-reporting-form",
