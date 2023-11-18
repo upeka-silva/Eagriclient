@@ -104,12 +104,8 @@ const ProvinceForm = () => {
   return (
     <FormWrapper>
       <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Province"
-      />
-     <FormButtonGroup
+      <CustFormHeader saving={saving} state={state} formName="Province" />
+      <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
         saving={saving}
@@ -126,15 +122,9 @@ const ProvinceForm = () => {
           marginTop: "0px",
         }}
       >
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName
-              style={{
-                width: "100%",
-              }}
-            >
-              Province Code
-            </FieldName>
+            <FieldName>Province Code</FieldName>
             <TextField
               name="code"
               id="code"
@@ -155,7 +145,7 @@ const ProvinceForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
+        <Grid item sm={6} md={6} lg={6}>
           <FieldWrapper>
             <FieldName>Province Name</FieldName>
             <TextField

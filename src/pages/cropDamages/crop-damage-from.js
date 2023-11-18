@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { TextField, Autocomplete, Grid, Button, CircularProgress } from "@mui/material";
+import { TextField, Grid, CircularProgress } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { useEffect } from "react";
@@ -13,10 +13,12 @@ import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { createDamage, updateDamage } from "../../redux/actions/crop/cropDamage/action";
+import {
+  createDamage,
+  updateDamage,
+} from "../../redux/actions/crop/cropDamage/action";
 import { Paper } from "@material-ui/core";
 import DamageTypes from "./damage-types";
-import { updateAuditForm } from "../../redux/actions/auditForm/action";
 
 const CropDamageForm = () => {
   useUserAccessValidation();
@@ -94,7 +96,7 @@ const CropDamageForm = () => {
       setIsLoading(true);
       setSaving(true);
       try {
-        if(DEF_ACTIONS.ADD === state.action) {
+        if (DEF_ACTIONS.ADD === state.action) {
           const data = await createDamage(formData, onSuccess, onError);
           setFormData(data);
         } else {
@@ -112,35 +114,31 @@ const CropDamageForm = () => {
     <div>
       <FormWrapper>
         <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Configuration"
+        <CustFormHeader saving={saving} state={state} formName="Crop Damage" />
+
+        <FormButtonGroup
+          {...{
+            state,
+            DEF_ACTIONS,
+            saving,
+            enableSave,
+            handleFormSubmit,
+            resetForm,
+          }}
         />
-        <Grid container spacing={2}>
-          <Grid item sm={12} md={12} lg={12} sx={{ alignItems: "center" }}>
-            <Grid container>
-              <Grid item>
-                <FormButtonGroup
-                  {...{
-                    state,
-                    DEF_ACTIONS,
-                    saving,
-                    enableSave,
-                    handleFormSubmit,
-                    resetForm,
-                  }}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Damage Name</FieldName>
               <TextField
-                //disabled={true}
                 variant="outlined"
-                //id={index}
                 value={formData.name || ""}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
@@ -149,16 +147,15 @@ const CropDamageForm = () => {
                   },
                 }}
                 size="small"
+                fullWidth
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+          <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>Damage Description</FieldName>
+              <FieldName>Description</FieldName>
               <TextField
-                //disabled={true}
                 variant="outlined"
-                //id={index}
                 value={formData.description || ""}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")
@@ -169,25 +166,23 @@ const CropDamageForm = () => {
                   },
                 }}
                 size="small"
+                fullWidth
               />
             </FieldWrapper>
           </Grid>
+        </Grid>
+        <Grid container>
           <Grid item sm={12} md={12} lg={12}>
-            <Paper style={{ height: "500px" }}>
-              <Grid
-                container
-                sx={{
-                  margin: "15px",
-                  width: "97%",
-                  borderRadius: "5px",
-                }}
-              >
-                <Grid item sm={12} md={12} lg={12}>
-
-                  {!isLoading ? <DamageTypes formMode={state.action} formId={formData.id} dataList={formData.damageTypes} /> : <CircularProgress /> }
-                  
-                </Grid>
-              </Grid>
+            <Paper style={{ height: "500px", padding:"20px", marginRight:"5px" }}>
+              {!isLoading ? (
+                <DamageTypes
+                  formMode={state.action}
+                  formId={formData.id}
+                  dataList={formData.damageTypes}
+                />
+              ) : (
+                <CircularProgress />
+              )}
             </Paper>
           </Grid>
         </Grid>
