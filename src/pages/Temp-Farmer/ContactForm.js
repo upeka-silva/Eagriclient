@@ -230,12 +230,9 @@ const ContactForm = ({ open = false, onClose = () => {} }) => {
                   handleChange(e?.target?.value || "", "contactValue")
                 }
                 sx={{
-                  // width: "264px",
                   "& .MuiInputBase-root": {
-                    // height: "30px",
                     borderRadius: "8px",
                     backgroundColor: `${Colors.white}`,
-                    // fontSize: "11px",
                   },
                 }}
                 size="small"

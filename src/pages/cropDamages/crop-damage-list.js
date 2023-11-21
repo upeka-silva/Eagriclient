@@ -10,8 +10,8 @@ const CropDamageList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {field: "name", headerName: "Damage Category Name"},
-    {field: "description", headerName: "Damge Categor Description"}
+    {field: "name", headerName: "Category Name"},
+    {field: "description", headerName: "Description"}
   ];
 
   const [id, setId] = useState(null);

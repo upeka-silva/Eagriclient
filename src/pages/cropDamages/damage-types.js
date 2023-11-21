@@ -15,11 +15,7 @@ import {
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
-import {
-  getQuestionsByFormId,
-  updateAuditFormQuestions,
-  deleteAuditFormQuestion,
-} from "../../redux/actions/auditForm/auditFormQuestions/actions";
+import { updateAuditFormQuestions } from "../../redux/actions/auditForm/auditFormQuestions/actions";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
@@ -151,34 +147,36 @@ const DamageTypes = ({
             </TableRow>
           </TableHead>
           <TableBody>
-            {damageTypes && isDataFetch && damageTypes.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.description}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    EDIT
-                  </Button>
-                  <Button
-                    onClick={handleDamageTypeDelete(row)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    DELETE
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {damageTypes &&
+              isDataFetch &&
+              damageTypes.map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.description}</TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      EDIT
+                    </Button>
+                    <Button
+                      onClick={handleDamageTypeDelete(row)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      DELETE
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
