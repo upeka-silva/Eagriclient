@@ -15,7 +15,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronDownIcon from "@mui/icons-material/ChevronRight";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Routes } from "../../routes/routes";
-import { Await, NavLink, useLocation } from "react-router-dom";
+import { Await, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   CollapseContainer,
   DrawerToggleButton,
@@ -31,6 +31,8 @@ const SideBar = () => {
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
   const { service } = useServiceContext();
+
+  const navigate = useNavigate();
 
   const toggleDrawer = () => {
     setOpen((current) => !current);
@@ -132,6 +134,7 @@ const SideBar = () => {
                       onClick={() => {
                         setSelectedSubRoute(r);
                         setOpenSecondary(true);
+                        if(r?.parentPath) { navigate(r?.parentPath)};
                       }}
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
@@ -186,7 +189,6 @@ const SideBar = () => {
      
       if (r.children) {
         const toggleCollapseState = () => {
-          //console.log(selectedRoute)
           setSelectedRoute((current) => (current === r?.name ? null : r?.name));
         };
 

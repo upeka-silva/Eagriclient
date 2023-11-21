@@ -86,7 +86,6 @@ export const decompressJWT = (jwt = "") => {
 export const getUserPermissionByComponent = async (module) => {
   try {
     const authorities = (await getCurrentUserPermissionList()) || [];
-    console.log(authorities);
     const filteredArray = authorities.filter((item) => {
       return item.authority.includes(module);
     });
