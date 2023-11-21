@@ -230,6 +230,7 @@ export const Routes = [
         path: "/ga-structure",
         name: "Administration Structure",
         isSideBar: true,
+        element: <Province />,
         children: [
           {
             path: "/province",
@@ -894,17 +895,11 @@ export const Routes = [
     component: DEF_COMPONENTS.BASIC_ASSESSMENT,
   },
   {
-    path: "/services",
-    name: "Services",
-    isSideBar: true,
-    icon: WindPowerIcon,
-    element: <Services />,
-  },
-  {
     path: "/user-access-log",
     name: "User Access Log",
     isSideBar: true,
     icon: PeopleAlt,
+    component: DEF_COMPONENTS.USER_ACCESS_LOG
   },
   {
     path: "/farm-land-form",
@@ -973,6 +968,7 @@ export const Routes = [
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
+    component: DEF_COMPONENTS.PRIVATE_COMPANY
   },
   {
     path: "/private-company-form",
@@ -1247,5 +1243,6 @@ export const Routes = [
     element: <Map />,
     isSideBar: true,
     icon: AddLocationAltIcon,
+    component: DEF_COMPONENTS.MAP
   },
 ];

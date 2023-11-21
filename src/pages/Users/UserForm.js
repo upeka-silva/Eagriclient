@@ -643,18 +643,17 @@ const UsersForm = () => {
                   </LocalizationProvider>
                 </FieldWrapper>
               </Grid>
-
               <Grid item lg={4}>
                 <FieldWrapper>
-                  <FieldName>Email</FieldName>
+                  <FieldName>Username</FieldName>
                   <TextField
-                    name="email"
-                    id="email"
-                    value={formData?.email || ""}
+                    name="username"
+                    id="username"
+                    value={formData?.username || ""}
                     fullWidth
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
-                      handleChange(e?.target?.value || "", "email")
+                      handleChange(e?.target?.value || "", "username")
                     }
                     sx={{
                       "& .MuiInputBase-root": {
@@ -699,6 +698,27 @@ const UsersForm = () => {
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "matchingPassword")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item lg={4}>
+                <FieldWrapper>
+                  <FieldName>Email</FieldName>
+                  <TextField
+                    name="email"
+                    id="email"
+                    value={formData?.email || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "email")
                     }
                     sx={{
                       "& .MuiInputBase-root": {

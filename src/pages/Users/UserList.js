@@ -9,7 +9,7 @@ const UsersList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "email", headerName: "Email" },
+    { field: "username", headerName: "Username" },
     { field: ["firstName", "lastName"], joinString: " ", headerName: "Name" },
     { field: "genderClient", headerName: "Gender" },
     {
