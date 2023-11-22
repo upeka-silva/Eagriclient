@@ -48,6 +48,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import MahaweliSystemList from "./MahaweliSystemList";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
 import { deleteMahaweliSystem } from "../../../redux/actions/mahaweliSystem/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const MahaweliSystem = () => {
   useUserAccessValidation();
@@ -202,6 +203,7 @@ const MahaweliSystem = () => {
 
   return (
     <div>
+      <ListHeader title="Mahaweli System" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

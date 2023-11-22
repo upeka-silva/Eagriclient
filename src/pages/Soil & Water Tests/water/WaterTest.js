@@ -27,6 +27,7 @@ import WaterTestList from "./WaterTestList";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader"
 
 const WaterTest = () => {
   useUserAccessValidation();
@@ -148,6 +149,7 @@ const WaterTest = () => {
 
   return (
     <div>
+      <ListHeader title="Water Test" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

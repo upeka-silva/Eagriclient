@@ -28,6 +28,7 @@ import { deleteSoilSubType } from "../../../redux/actions/soil/soilSubType/actio
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -150,6 +151,7 @@ const SoilSubType = () => {
 
   return (
     <div>
+      <ListHeader title="Soil Sub Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

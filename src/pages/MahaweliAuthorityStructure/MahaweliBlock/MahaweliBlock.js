@@ -50,6 +50,7 @@ import MahaweliBlockList from "./MahaweliBlockList";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
 import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliBlock/action";
+import ListHeader from "../../../components/ListHeader/ListHeader"
 
 const MahaweliBlock = () => {
   useUserAccessValidation();
@@ -213,6 +214,7 @@ const MahaweliBlock = () => {
 
   return (
     <div>
+      <ListHeader title="Mahaweli Block" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

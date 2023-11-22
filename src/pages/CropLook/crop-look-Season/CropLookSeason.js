@@ -26,6 +26,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CropLookSeasonList from "./CropLookSeasonList";
 import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -187,6 +188,7 @@ const CropLookSeason = () => {
 
   return (
     <div>
+      <ListHeader title="Crop Look Season" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

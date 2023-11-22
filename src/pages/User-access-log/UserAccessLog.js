@@ -20,6 +20,7 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import ServicesList from "./ServicesList";
 import { defaultMessages } from "../../utils/constants/apiMessages";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const UserAccessLog = () => {
   useUserAccessValidation();
@@ -141,6 +142,7 @@ const UserAccessLog = () => {
 
   return (
     <div>
+      <ListHeader title="User Access Log" />
       <ActionWrapper isLeft>
         <PermissionWrapper
           permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}

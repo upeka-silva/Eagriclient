@@ -115,7 +115,7 @@ export default function Permission() {
 
   return (
     <div>
-      <ListHeader title="Roles" />
+      <ListHeader title="Permissions" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

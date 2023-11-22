@@ -32,6 +32,7 @@ import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import MahaweliAuthorityList from "./MahaweliAuthorityList";
 import { deleteMahaweliAuthority } from "../../../redux/actions/mahaweliAuthority/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const MahaweliAuthority = () => {
   useUserAccessValidation();
@@ -157,6 +158,7 @@ const MahaweliAuthority = () => {
 
   return (
     <div>
+      <ListHeader title="Mahaweli Authority" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
