@@ -29,6 +29,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -153,6 +154,7 @@ const Farmer = () => {
 
   return (
     <div>
+      <ListHeader title="Farmer" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

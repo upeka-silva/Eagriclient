@@ -7,6 +7,7 @@ import ComponentList from './ComponentList';
 import { useNavigate } from 'react-router';
 import { useSnackBars } from '../../context/SnackBarContext';
 import { useUserAccessValidation } from '../../hooks/authentication';
+import ListHeader from '../../components/ListHeader/ListHeader';
 
 const Components = () => {
 
@@ -55,6 +56,7 @@ const Components = () => {
 
     return (
         <div>
+            <ListHeader title="Components" />
             <ActionWrapper>
                 <PermissionWrapper
                     permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.COMPONENT}`}

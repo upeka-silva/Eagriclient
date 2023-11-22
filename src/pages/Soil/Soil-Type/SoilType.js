@@ -29,6 +29,7 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -150,6 +151,7 @@ const SoilType = () => {
 
   return (
     <div>
+      <ListHeader title="Soil Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
