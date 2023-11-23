@@ -125,7 +125,7 @@ const CropDamage = () => {
 
   return (
     <div>
-      <ListHeader title="Crop Configuration" />
+      <ListHeader title="Crop Damages" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

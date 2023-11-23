@@ -27,6 +27,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader"
 
 const AgroEco = () => {
   useUserAccessValidation();
@@ -148,6 +149,7 @@ const AgroEco = () => {
 
   return (
     <div>
+      <ListHeader title="Agro Eco Zone" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

@@ -243,6 +243,7 @@ export const Routes = [
         path: "/ga-structure",
         name: "Administration Structure",
         isSideBar: true,
+        parentPath: "/zone/ga-structure/province",
         children: [
           {
             path: "/province",
@@ -306,6 +307,7 @@ export const Routes = [
         path: "/provincial-structure",
         name: "Provincial DOA Structure",
         isSideBar: true,
+        parentPath: "/zone/provincial-structure/provincial-director",
         children: [
           {
             path: "/provincial-director",
@@ -383,6 +385,7 @@ export const Routes = [
         path: "/inter-provincial-structure",
         name: "Inter Provincial DOA ",
         isSideBar: true,
+        parentPath: "/zone/inter-provincial-structure/inter-provincial-director",
         children: [
           {
             path: "/inter-provincial-director",
@@ -460,6 +463,7 @@ export const Routes = [
         path: "/mahaweli-structure",
         name: "Mahaweli Structure",
         isSideBar: true,
+        parentPath: "/zone/mahaweli-structure/mahaweli-authority",
         children: [
           {
             path: "/mahaweli-authority",
@@ -538,6 +542,7 @@ export const Routes = [
         path: "/agrarian",
         name: "Agrarian",
         isSideBar: true,
+        parentPath: "/zone/agrarian/department-of-agrarian-development",
         children: [
           {
             path: "/department-of-agrarian-development",
@@ -616,6 +621,7 @@ export const Routes = [
         path: "/ez-structure",
         name: "Ecological Zone Structure",
         isSideBar: true,
+        parentPath: "/zone/ez-structure/agro-eco-zone",
         children: [
           {
             path: "/agro-eco-zone",
@@ -922,17 +928,11 @@ export const Routes = [
     component: DEF_COMPONENTS.BASIC_ASSESSMENT,
   },
   {
-    path: "/services",
-    name: "Services",
-    isSideBar: true,
-    icon: WindPowerIcon,
-    element: <Services />,
-  },
-  {
     path: "/user-access-log",
     name: "User Access Log",
     isSideBar: true,
     icon: PeopleAlt,
+    component: DEF_COMPONENTS.USER_ACCESS_LOG
   },
   {
     path: "/farm-land-form",
@@ -1001,6 +1001,7 @@ export const Routes = [
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
+    component: DEF_COMPONENTS.PRIVATE_COMPANY
   },
   {
     path: "/private-company-form",
@@ -1275,5 +1276,6 @@ export const Routes = [
     element: <Map />,
     isSideBar: true,
     icon: AddLocationAltIcon,
+    component: DEF_COMPONENTS.MAP
   },
 ];

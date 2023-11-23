@@ -32,6 +32,7 @@ import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import IntProvincialDoaList from "./IntProvincialDoaList";
 import { deleteInterProvincialDoa } from "../../../redux/actions/interProvincialDoa/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const IntProvincialDoa = () => {
   useUserAccessValidation();
@@ -158,6 +159,7 @@ const IntProvincialDoa = () => {
 
   return (
     <div>
+      <ListHeader title="Director DOA" />
       <ActionWrapper isLeft>
       <ButtonGroup
           variant="outlined"

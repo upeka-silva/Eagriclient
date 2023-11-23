@@ -45,6 +45,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -229,6 +230,7 @@ const InterProvincialAiRegion = () => {
 
   return (
     <div>
+      <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

@@ -23,6 +23,7 @@ import AgriSeasonList from "./AgriSeasonList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../components/ListHeader/ListHeader"
 
 const AgriSeason = () => {
   useUserAccessValidation();
@@ -158,6 +159,7 @@ const AgriSeason = () => {
 
   return (
     <div>
+      <ListHeader title="Agriculture Season" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

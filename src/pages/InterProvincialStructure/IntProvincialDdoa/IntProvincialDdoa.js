@@ -39,6 +39,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import IntProvincialDdoaList from "./IntProvincialDdoaList";
 import { deleteInterProvincialDoa, get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { deleteInterProvincialDdoa } from "../../../redux/actions/interProvincialDdoa/action";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const IntProvincialDdoa = () => {
   useUserAccessValidation();
@@ -195,6 +196,7 @@ const IntProvincialDdoa = () => {
 
   return (
     <div>
+      <ListHeader title="Inter Provincial DDOA" />
       <ActionWrapper isLeft>
       <ButtonGroup
           variant="outlined"

@@ -26,6 +26,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import SoilTestList from "./SoilTestList";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader"
 
 const SoilTest = () => {
   useUserAccessValidation();
@@ -147,6 +148,7 @@ const SoilTest = () => {
 
   return (
     <div>
+      <ListHeader title="Soil Test" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

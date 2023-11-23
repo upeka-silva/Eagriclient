@@ -154,7 +154,7 @@ const CropTarget = () => {
 
   return (
     <div>
-      <ListHeader title="Crop Registration Details" />
+      <ListHeader title="Crop Target" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
