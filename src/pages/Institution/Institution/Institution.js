@@ -27,6 +27,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteInstitution } from "../../../redux/actions/institution/institution/action";
 import InstitutionList from "./InstitutionList";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import ListHeader from '../../../components/ListHeader/ListHeader'
 
 const Institution = () => {
   useUserAccessValidation();
@@ -148,6 +149,7 @@ const Institution = () => {
 
   return (
     <div>
+      <ListHeader title="Institution" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

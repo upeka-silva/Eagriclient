@@ -87,7 +87,20 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import Organization from "../pages/Organization/Organization";
-import { Assessment, CalendarMonth, Category, HowToReg, Moving, PeopleAlt, Preview, Rowing, Settings, TrendingDown } from "@mui/icons-material";
+import {
+  Apple,
+  Assessment,
+  CalendarMonth,
+  Category,
+  Grain,
+  HowToReg,
+  Moving,
+  PeopleAlt,
+  Preview,
+  Rowing,
+  Settings,
+  TrendingDown,
+} from "@mui/icons-material";
 import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -687,42 +700,6 @@ export const Routes = [
     isService: "SC",
     children: [
       {
-        path: "/damages",
-        name: "Crop Damages",
-        isSideBar: true,
-        element: <CropDamage />,
-        icon: TrendingDown,
-        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
-      },
-      {
-        path: "/damage-form",
-        name: "Crop Damage Form",
-        isSideBar: false,
-        element: <CropDamageForm />,
-      },
-      {
-        path: "/calendar",
-        name: "Crop Calendar",
-        isSideBar: true,
-        element: <CropCalendar />,
-        icon: CalendarMonth,
-        component:DEF_COMPONENTS.CROP_CALENDAR
-      },
-      {
-        path: "/calendar-form",
-        name: "Crop Calendar Form",
-        isSideBar: false,
-        element: <CropCalendarForm />,
-      },
-      {
-        path: "/activity",
-        name: "Crop Activity",
-        isSideBar: true,
-        element: <CropActivity />,
-        icon: Rowing,
-        component:DEF_COMPONENTS.CROP_ACTIVITY
-      },
-      {
         path: "/category",
         name: "Crop Category",
         isSideBar: true,
@@ -744,6 +721,7 @@ export const Routes = [
         icon: Category,
         component: DEF_COMPONENTS.CROP_SUB_CATEGORY,
       },
+      
       {
         path: "/sub-category-form",
         name: "Crop Category Form",
@@ -755,7 +733,7 @@ export const Routes = [
         name: "Crop",
         isSideBar: true,
         element: <Crop />,
-        icon: YardIcon,
+        icon: Apple,
         component: DEF_COMPONENTS.CROP,
       },
       {
@@ -777,6 +755,56 @@ export const Routes = [
         name: "Crop Variety Form",
         isSideBar: false,
         element: <CropVarietyForm />,
+      },
+      {
+        path: "/damages",
+        name: "Crop Damages",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: TrendingDown,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
+      },
+      {
+        path: "/damage-form",
+        name: "Crop Damage Form",
+        isSideBar: false,
+        element: <CropDamageForm />,
+      },
+      {
+        path: "/calendar",
+        name: "Crop Calendar",
+        isSideBar: true,
+        element: <CropCalendar />,
+        icon: CalendarMonth,
+        component: DEF_COMPONENTS.CROP_CALENDAR,
+      },
+      {
+        path: "/calendar-form",
+        name: "Crop Calendar Form",
+        isSideBar: false,
+        element: <CropCalendarForm />,
+      },
+      {
+        path: "/activity",
+        name: "Crop Activity",
+        isSideBar: true,
+        element: <CropActivity />,
+        icon: Rowing,
+        component: DEF_COMPONENTS.CROP_ACTIVITY,
+      },
+      {
+        path: "/grain-type",
+        name: "Grain Type",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: Grain,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
+      },
+      {
+        path: "/grain-type-form",
+        name: "Grain Type Form",
+        isSideBar: false,
+        element: <CropDamageForm />,
       },
     ],
   },
@@ -1085,7 +1113,7 @@ export const Routes = [
     children: [
       {
         path: "/crop-configuration",
-        name: "Crop Configuration", 
+        name: "Crop Configuration",
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
@@ -1173,7 +1201,7 @@ export const Routes = [
         element: <DDBiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
-    ]
+    ],
   },
   {
     path: "/app-settings",
