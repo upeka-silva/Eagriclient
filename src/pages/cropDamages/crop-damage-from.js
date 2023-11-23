@@ -139,6 +139,8 @@ const CropDamageForm = () => {
               <FieldName>Damage Name</FieldName>
               <TextField
                 variant="outlined"
+                id="name"
+                name="name"
                 value={formData.name || ""}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
@@ -156,6 +158,8 @@ const CropDamageForm = () => {
               <FieldName>Description</FieldName>
               <TextField
                 variant="outlined"
+                id="description"
+                name="description"
                 value={formData.description || ""}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")

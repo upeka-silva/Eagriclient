@@ -62,7 +62,7 @@ const CropVarietyForm = () => {
     } else {
       setFormData({});
       setForm(null);
-      setSelectedImage(null)
+      setSelectedImage(null);
     }
   };
 
@@ -102,8 +102,6 @@ const CropVarietyForm = () => {
     });
     setSaving(false);
   };
-
- 
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
@@ -247,7 +245,7 @@ const CropVarietyForm = () => {
         >
           <Grid item lg={8}>
             <Grid container>
-              <Grid item sm={3} md={3} lg={5}>
+              <Grid item sm={3} md={3} lg={4}>
                 <FieldWrapper>
                   <FieldName>Variety ID</FieldName>
                   <TextField
@@ -270,7 +268,7 @@ const CropVarietyForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item sm={3} md={3} lg={7}>
+              <Grid item sm={3} md={3} lg={8}>
                 <FieldWrapper>
                   <FieldName>Variety Name</FieldName>
                   <TextField
@@ -291,8 +289,9 @@ const CropVarietyForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-
-              <Grid item sm={3} md={3} lg={6}>
+            </Grid>
+            <Grid container>
+              <Grid item sm={12} md={12} lg={12}>
                 <FieldWrapper>
                   <FieldName>Variety Description</FieldName>
                   <TextField
@@ -313,6 +312,8 @@ const CropVarietyForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
+            </Grid>
+            <Grid container>
               <Grid item sm={2} md={2} lg={6}>
                 <FieldWrapper>
                   <FieldName>Crop ID</FieldName>
@@ -320,7 +321,7 @@ const CropVarietyForm = () => {
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={options}
                     value={formData ? formData.cropDTO : ""}
-                    getOptionLabel={(i) => `${i.cropId} - ${i.scientificName}`}
+                    getOptionLabel={(i) => `${i.cropId} - ${i.description}`}
                     onChange={(event, value) => {
                       handleChange(value, "cropDTO");
                     }}
@@ -454,7 +455,6 @@ const CropVarietyForm = () => {
             <Grid container>
               <Grid item sm={3} md={3} lg={9}>
                 <FieldWrapper>
-                  
                   <FieldName>Select Crop Variety Image</FieldName>
                   <div
                     style={{
@@ -520,7 +520,6 @@ const CropVarietyForm = () => {
                   </div>
                 </FieldWrapper>
               </Grid>
-              
             </Grid>
           </Grid>
         </Grid>
