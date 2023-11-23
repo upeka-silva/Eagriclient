@@ -176,9 +176,12 @@ export const saveFormDataWithValues = async (
 ) => {
   try {
     const response = await post('farm-land/' + farmLandId + '/' + uri, payload, true);
+    console.log('response code ----> >' + response.httpCode);
     if (response.httpCode === "200 OK") {
+      console.log(1);
       onSuccess(response);
     } else {
+      console.log(2);
       const exception = {
         error: {
           data: {
@@ -193,11 +196,13 @@ export const saveFormDataWithValues = async (
     }
     console.log(response);
   } catch ({ error }) {
+    console.log(3);
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
       onError(apiError?.message || "Something went wrong! Please try again.");
     } else {
+      console.log(4);
       onError(error);
     }
   }

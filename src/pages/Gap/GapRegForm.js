@@ -600,14 +600,14 @@ const GapRegForm = () => {
                 GAP Request No
               </FieldName>
               <TextField
-                name="id"
-                id="id"
-                value={formData?.id || ""}
+                name="code"
+                id="code"
+                value={formData?.code || ""}
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   state?.action === DEF_ACTIONS.EDIT
                 }
-                onChange={(e) => handleChange(e?.target?.value || "", "id")}
+                onChange={(e) => handleChange(e?.target?.value || "", "code")}
                 size="small"
                 fullWidth
                 sx={{
@@ -688,7 +688,7 @@ const GapRegForm = () => {
                 }
                 options={basicAssessments}
                 // value={formData ? formData.farmLandDTO : ""}
-                getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                getOptionLabel={(i) => `${i.assessmentId}`}
                 onChange={(event, value) => {
                   // handleChange(value, "farmLandDTO");
                 }}

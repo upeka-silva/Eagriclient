@@ -135,14 +135,12 @@ export default function FarmLandOwnershipForm({
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
-    console.log("FORM DATA ----------->", formData);
   }, []);
 
   useEffect(() => {
     get_FarmerList().then(({ dataList = [] }) => {
       setFarmerList(dataList);
     });
-    console.log("FORM DATA ----------->", formData);
   }, []);
 
   return (

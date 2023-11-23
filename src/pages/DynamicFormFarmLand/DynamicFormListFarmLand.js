@@ -18,7 +18,7 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import DynamicFormDialogFarmLand from "./DynamicFormDialogFarmLand";
 import {
   getFormTemplateByType,
@@ -27,17 +27,17 @@ import {
   updateFormDataWithValues,
 } from "../../redux/actions/auditForm/action";
 import DynamicFormFarmLand from "./DynamicFormFarmLand";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const DynamicFormListFarmLand = ({
-  selectedRows = [],
-  onRowSelect = (_c) => {},
-  selectAll = (_list = []) => {},
-  unSelectAll = () => {},
-  onFormSaveSuccess = false,
   formId ,
   formMode = null,
   auditFormType = "",
+  stateData = {},
 }) => {
+
+  const navigate = useNavigate();
+
   const { state } = useLocation();
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
@@ -47,7 +47,9 @@ const DynamicFormListFarmLand = ({
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
   const { addSnackBar } = useSnackBars();
-  const [formTemplate, setFormTemplate] = useState({});
+
+  const dateAdapter = new AdapterDayjs();
+  
   let uriPath = "";
   let formHeader = "";
 
@@ -74,13 +76,6 @@ const DynamicFormListFarmLand = ({
       setDataListTemplates(data);
     });
   }, []);
-
-  const handleCropAreaAdd = (prop, mode) => (event) => {
-    setFormData({});
-    setFormData(prop);
-    setDialogMode(mode);
-    setOpenCropAreaAddDlg(true);
-  };
 
   const handleCropAreaDelete = (prop) => (event) => {
     setDeleteItem(prop);
@@ -178,6 +173,30 @@ const DynamicFormListFarmLand = ({
     return <p>{deleteItem?.questionString}</p>;
   };
 
+  const viewAssessmentForm = (action, row) => {
+    if (auditFormType === "SELF_ASSESSMENT") {
+      navigate("/farm-land-form/self-assessment", {
+        state: {
+          auditFormType: auditFormType,
+          action: action,
+          formId: formId,
+          stateData: stateData,
+          data: row,
+        },
+      });
+    } else if (auditFormType === "BASIC_ASSESSMENT") {
+      navigate("/farm-land-form/basic-assessment", {
+        state: {
+          auditFormType: auditFormType,
+          action: action,
+          formId: formId,
+          stateData: stateData,
+          data: row,
+        },
+      });
+    }
+  };
+
   return (
     <div>
       <CustFormHeader
@@ -192,6 +211,7 @@ const DynamicFormListFarmLand = ({
           auditFormType={auditFormType}
           afterSave={onSuccess}
           formId={formId}
+          stateData={stateData}
         />
       )}
 
@@ -212,7 +232,8 @@ const DynamicFormListFarmLand = ({
           <TableHead>
             <TableRow>
               <TableCell>ID</TableCell>
-              <TableCell>Assessment Id</TableCell>
+              <TableCell>Assessment Name</TableCell>
+              <TableCell>Created Date</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -222,9 +243,10 @@ const DynamicFormListFarmLand = ({
                 <TableRow key={row.name}>
                   <TableCell>{row.id}</TableCell>
                   <TableCell>{row.assessmentId}</TableCell>
+                  <TableCell>{row.createdAt ? dateAdapter.date(state?.target?.dob).format('YYYY-MM-DD') : null}</TableCell>
                   <TableCell>
                     <Button
-                      onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
+                      onClick={() => viewAssessmentForm(DEF_ACTIONS.VIEW, row)}
                       color="success"
                       variant="contained"
                       size="small"
@@ -233,7 +255,8 @@ const DynamicFormListFarmLand = ({
                       VIEW
                     </Button>
                     <Button
-                      onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                      onClick={() => viewAssessmentForm(DEF_ACTIONS.EDIT, row)}
                       color="success"
                       variant="contained"
                       size="small"
@@ -242,6 +265,7 @@ const DynamicFormListFarmLand = ({
                       EDIT
                     </Button>
                     <Button
+                      disabled={formMode === DEF_ACTIONS.VIEW}
                       onClick={handleCropAreaDelete(row)}
                       color="success"
                       variant="contained"

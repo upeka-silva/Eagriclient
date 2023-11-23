@@ -163,6 +163,8 @@ const FarmLandForm = () => {
   }, []);
 
   useEffect(() => {
+    console.log('state -----------> > ');
+    console.log(state);
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
@@ -984,8 +986,9 @@ const FarmLandForm = () => {
           dataList={null}
           onFormSaveSuccess={null}
           formId={formData?.id}
-          formMode={null}
+          formMode={state?.action}
           auditFormType={"SELF_ASSESSMENT"}
+          stateData={formData}
         />
       </TabContent>
       <TabContent className={toggleState === 5 ? "active-content" : ""}>
@@ -993,8 +996,9 @@ const FarmLandForm = () => {
           dataList={null}
           onFormSaveSuccess={null}
           formId={formData?.id}
-          formMode={null}
+          formMode={state?.action}
           auditFormType={"BASIC_ASSESSMENT"}
+          stateData={formData}
         />
       </TabContent>
       <FarmLandOwnershipForm
