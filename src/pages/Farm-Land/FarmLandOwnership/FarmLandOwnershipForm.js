@@ -394,7 +394,7 @@ export default function FarmLandOwnershipForm({
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
-                    slotProps={{ textField: { size: "small" } }}
+                    slotProps={{ textField: { size: "small", error: false } }}
                     in="DD-MM-YYYY"
                     disabled={action === DEF_ACTIONS.VIEW}
                   />
@@ -417,7 +417,7 @@ export default function FarmLandOwnershipForm({
                       },
                     }}
                     value={data?.dateUntil}
-                    slotProps={{ textField: { size: "small" } }}
+                    slotProps={{ textField: { size: "small", error: false } }}
                     in="DD-MM-YYYY"
                     name="dob"
                     id="dob"

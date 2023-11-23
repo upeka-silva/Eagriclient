@@ -303,11 +303,11 @@ const CropLookSeasonForm = () => {
           <FieldWrapper>
             <FieldName>Start Date</FieldName>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
+              
                 name="startDate"
                 id="startDate"
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 value={formData?.startDate || ""}
                 onChange={(newValue) =>
                   handleChange(newValue || "", "startDate")
@@ -332,7 +332,7 @@ const CropLookSeasonForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 value={formData?.endDate || ""}
                 onChange={(newValue) => handleChange(newValue || "", "endDate")}
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
