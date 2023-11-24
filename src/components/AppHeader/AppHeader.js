@@ -25,6 +25,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import HomeIcon from '@mui/icons-material/Home';
 import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
+import { stringAvatar } from "../../utils/helpers/stringUtils";
 
 const ProfileImg = require("../../assets/images/profileImg.png");
 const ProfileImgBig = require("../../assets/images/profileImgBig.png");
@@ -192,7 +193,16 @@ const AppHeader = () => {
           <IconButton onClick={openProfileOptions}>
             <ProfileButton aria-describedby={id}>
               <Row>
-                <ProfileImage src={ProfileImg} />
+                {             
+                  user?.presignedUrl ?   
+                  <ProfileImage src={user?.presignedUrl} />
+                  : 
+                  (
+                    <Stack direction="row" spacing={2}>
+                      <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>
+                    </Stack>
+                  )
+                }
                 <UserName>{user?.userName || ""}</UserName>
               </Row>
               <ArrowDropDownIcon style={{ color: `${Colors.white}` }} />
@@ -217,11 +227,15 @@ const AppHeader = () => {
           }}
         >
           <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
-            <Avatar
+           { 
+            user?.presignedUrl ?
+           <Avatar
               alt="Profile Img"
-              src={ProfileImgBig}
+              src={user?.presignedUrl}
               sx={{ width: "98px", height: "98px" }}
-            />
+            /> : 
+            <Avatar {...stringAvatar(user?.userName, "ProfileImgBig")}/>  
+            }
             <Typography variant="h6">Dinidu Hewage</Typography>
             <Typography
               variant="subtitle1"
