@@ -19,8 +19,6 @@ import DsDivision from "../pages/Zones/DS/DsDivision";
 import DsDivisionForm from "../pages/Zones/DS/DsDivisionForm";
 import GnDivision from "../pages/Zones/GN/GnDivision";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
-import AI from "../pages/Agri-Zones/AI/AI";
-import AIForm from "../pages/Agri-Zones/AI/AIForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
 
@@ -62,15 +60,12 @@ import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import StreetviewIcon from "@mui/icons-material/Streetview";
-import LockIcon from "@mui/icons-material/Lock";
 import HighlightAltIcon from "@mui/icons-material/HighlightAlt";
 import ViewModuleIcon from "@mui/icons-material/ViewModule";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import WaterIcon from "@mui/icons-material/Water";
 import KeyIcon from "@mui/icons-material/Key";
-import ForestIcon from "@mui/icons-material/Forest";
 import SpaIcon from "@mui/icons-material/Spa";
-import ParkIcon from "@mui/icons-material/Park";
 import ApartmentIcon from "@mui/icons-material/Apartment";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
@@ -78,13 +73,11 @@ import WaterDamageIcon from "@mui/icons-material/WaterDamage";
 import GiIsland from "@mui/icons-material/WaterDamage";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
-import WindPowerIcon from "@mui/icons-material/WindPower";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 import Organization from "../pages/Organization/Organization";
 import {
@@ -101,7 +94,6 @@ import {
   Settings,
   TrendingDown,
 } from "@mui/icons-material";
-import Services from "../pages/Services/Services";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
 import ProvincialDoaForm from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoaForm";
@@ -150,10 +142,8 @@ import InternalAudit from "../pages/AuditForm/InternalAuditForm/InternalAudit";
 import InternalAuditForm from "../pages/AuditForm/InternalAuditForm/InternalAuditForm";
 import ExternalAudit from "../pages/AuditForm/ExternalAuditForm/ExternalAudit";
 import ExternalAuditForm from "../pages/AuditForm/ExternalAuditForm/ExternalAuditForm";
-import InterProvince from "../pages/Agri-Zones/inter-province/InterProvince";
 import Role from "../pages/AppSettings/Role/Role";
 import RoleForm from "../pages/AppSettings/Role/RoleForm";
-import PermissionsRoles from "../pages/AppSettings/Permissions/RolesList";
 import Permission from "../pages/AppSettings/Permissions/Permission";
 import PermissionsByRole from "../pages/AppSettings/Permissions/PermissionsByRole";
 import ProtectedHouseType from "../pages/ProtectedHouseType/ProtectedHouseType";
@@ -168,7 +158,6 @@ import CropLookSeason from "../pages/CropLook/crop-look-Season/CropLookSeason";
 import CropLookSeasonForm from "../pages/CropLook/crop-look-Season/CropLookSeasonForm";
 import CropConfiguration from "../pages/CropLook/cropConfiguration/crop-configuration";
 import CropConfigurationForm from "../pages/CropLook/cropConfiguration/crop-configuration-from";
-import DynamicFormGap from "../pages/DynamicFormGap/DynamicFormGap";
 import DynamicFormPage from "../pages/DynamicFormGap/DynamicFormPage";
 import FormPageEditView from "../pages/DynamicFormGap/FormPageEditView";
 import CropDamage from "../pages/cropDamages/crop-damage";

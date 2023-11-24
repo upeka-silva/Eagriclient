@@ -1,23 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  ButtonGroup,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import DialogBox from "../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
@@ -25,18 +13,15 @@ import { defaultMessages } from "../../utils/constants/apiMessages";
 import {
   Add,
   Delete,
-  Edit,
   Vrpano,
   CheckRounded,
   CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
-import { deleteCropConfiguration } from "../../redux/actions/cropLook/cropConfiguration/action";
 import CropDamageList from "./crop-damage-list";
 import { deleteDamageCategory } from "../../redux/actions/crop/cropDamage/action";
 
 const CropDamage = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();

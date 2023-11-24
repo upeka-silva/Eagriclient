@@ -150,7 +150,7 @@ const Farmer = () => {
   const changeOTP = (value) => {
     setOTP(value);
   };
-  
+
   return (
     <div
       style={{
@@ -160,7 +160,7 @@ const Farmer = () => {
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
         height: "100vh",
-        marginRight:"-260px"
+        marginRight: "-260px",
       }}
     >
       <div
