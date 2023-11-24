@@ -193,16 +193,20 @@ const AppHeader = () => {
           <IconButton onClick={openProfileOptions}>
             <ProfileButton aria-describedby={id}>
               <Row>
+                <Stack direction="row" spacing={2}>
                 {             
                   user?.presignedUrl ?   
-                  <ProfileImage src={user?.presignedUrl} />
+                  <Avatar 
+                    alt="Profile Img"
+                    src={user?.presignedUrl} 
+                    sx={{ width: "32px", height: "32px" }}
+                  />
                   : 
-                  (
-                    <Stack direction="row" spacing={2}>
-                      <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>
-                    </Stack>
+                  (                   
+                  <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>                   
                   )
                 }
+                </Stack>
                 <UserName>{user?.userName || ""}</UserName>
               </Row>
               <ArrowDropDownIcon style={{ color: `${Colors.white}` }} />
