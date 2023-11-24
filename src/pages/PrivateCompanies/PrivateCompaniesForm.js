@@ -351,7 +351,7 @@ const PrivateCompaniesForm = () => {
                       onChange={(newValue) =>
                         handleChange(newValue || "", "registrationDate")
                       }
-                      slotProps={{ textField: { size: "small" } }}
+                      slotProps={{ textField: { size: "small", error: false } }}
                       sx={{
                         width: "264px",
                         "& .MuiInputBase-root": {

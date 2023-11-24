@@ -1342,9 +1342,6 @@ const GapRegForm = () => {
                     size="small"
                     renderInput={(params) => (
                       <TextField
-                        error={
-                          !(formData?.soilTypeDTO?.soilTypeCode?.length > 0)
-                        }
                         {...params}
                         size="small"
                       />

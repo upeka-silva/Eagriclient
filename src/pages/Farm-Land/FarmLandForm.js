@@ -95,7 +95,6 @@ const FarmLandForm = () => {
   const [openDeleteOwnership, setOpenDeleteOwnership] = useState(false);
   const [refreshFLOwnership, setRefreshFLOwnership] = useState(true);
   const [loading, setLoading] = useState(false);
-
   const dateAdapter = new AdapterDayjs();
 
   const landTypeItems = [
@@ -495,7 +494,6 @@ const FarmLandForm = () => {
                   value={formData?.code || ""}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "code")}
-                  error={!(formData?.code?.length > 0)}
                   size="small"
                   fullWidth
                   sx={{
@@ -516,7 +514,6 @@ const FarmLandForm = () => {
                   value={formData?.name || ""}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "name")}
-                  error={!(formData?.name?.length > 0)}
                   size="small"
                   fullWidth
                   sx={{
@@ -536,7 +533,6 @@ const FarmLandForm = () => {
                     name="farmLandType"
                     id="farmLandType"
                     value={formData?.farmLandType || ""}
-                    error={!(formData?.farmLandType?.length > 0)}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "farmLandType")
@@ -587,9 +583,6 @@ const FarmLandForm = () => {
                     size="small"
                     renderInput={(params) => (
                       <TextField
-                        error={
-                          !(formData?.protectedHouseTypeDTO?.typeId?.length > 0)
-                        }
                         {...params}
                         size="small"
                       />
@@ -630,9 +623,6 @@ const FarmLandForm = () => {
                     size="small"
                     renderInput={(params) => (
                       <TextField
-                        error={
-                          !(formData?.soilTypeDTO?.soilTypeCode?.length > 0)
-                        }
                         {...params}
                         size="small"
                       />
@@ -649,7 +639,6 @@ const FarmLandForm = () => {
                     name="landAreaUnit"
                     id="landAreaUnit"
                     value={formData?.landAreaUnit || ""}
-                    error={!(formData?.landAreaUnit?.length > 0)}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "landAreaUnit")
@@ -677,7 +666,6 @@ const FarmLandForm = () => {
                   name="area"
                   id="area"
                   value={formData?.area || ""}
-                  error={!(formData?.area?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "area")}
@@ -708,7 +696,6 @@ const FarmLandForm = () => {
                   name="address1"
                   id="address1"
                   value={formData?.address1 || ""}
-                  error={!(formData?.address1?.length > 0)}
                   placeholder="No/Po box"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -737,7 +724,6 @@ const FarmLandForm = () => {
                   name="address2"
                   id="address2"
                   value={formData?.address2 || ""}
-                  error={!(formData?.address2?.length > 0)}
                   placeholder="Street"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -766,7 +752,6 @@ const FarmLandForm = () => {
                   name="city"
                   id="city"
                   value={formData?.city || ""}
-                  error={!(formData?.city?.length > 0)}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) => handleChange(e?.target?.value || "", "city")}
                   size="small"
@@ -807,7 +792,6 @@ const FarmLandForm = () => {
                     renderInput={(params) => (
                       <>
                         <TextField
-                          error={!(formData?.gnDivisionDTO?.code?.length > 0)}
                           {...params}
                           size="small"
                         />
@@ -824,7 +808,6 @@ const FarmLandForm = () => {
                   name="latitude"
                   id="latitude"
                   value={formData?.latitude || ""}
-                  error={!(formData?.latitude?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -848,7 +831,6 @@ const FarmLandForm = () => {
                   name="longitude"
                   id="longitude"
                   value={formData?.longitude || ""}
-                  error={!(formData?.longitude?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -872,7 +854,6 @@ const FarmLandForm = () => {
                   name="elevation"
                   id="elevation"
                   value={formData?.elevation || ""}
-                  error={!(formData?.elevation?.length > 0)}
                   type="number"
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
