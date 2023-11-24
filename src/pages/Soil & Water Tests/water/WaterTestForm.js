@@ -280,7 +280,7 @@ const WaterTestForm = () => {
               {/* <DemoContainer components={["DatePicker"]} > */}
               <DatePicker
                 label=""
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 name="dateOfCollection"
                 id="dateOfCollection"
                 value={formData?.dateOfCollection || ""}
@@ -300,7 +300,7 @@ const WaterTestForm = () => {
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
                 label=""
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 name="testDate"
                 id="testDate"
                 value={formData?.testDate || ""}

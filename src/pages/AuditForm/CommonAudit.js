@@ -24,6 +24,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CommonAuditList from "./CommonAuditList";
 import { deleteAuditForm } from "../../redux/actions/auditForm/action";
 import { components } from "react-select";
+import ListHeader from "../../components/ListHeader/ListHeader";
 
 const CommonAudit = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -45,19 +46,19 @@ const CommonAudit = ({ auditFormType = "" }) => {
     if (auditFormType === "SELF_ASSESSMENT") {
       uRIPath = "self-assessment-form";
       formHeader = "Self Assessment Form";
-      component = DEF_COMPONENTS.SELF_ASSESSMENT_FORM
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     } else if (auditFormType === "INTERNAL_AUDIT") {
       uRIPath = "internal-audit-form";
       formHeader = "Internal Audit Form";
-      component = DEF_COMPONENTS.INTERNAL_AUDIT_FORM
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uRIPath = "external-audit-form";
       formHeader = "External Audit Form";
-      component = DEF_COMPONENTS.EXTERNAL_AUDIT_FORM
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uRIPath = "basic-assessment-form";
       formHeader = "Basic Assessment Form";
-      component = DEF_COMPONENTS.BASIC_ASSESSMENT_FORM
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     }
   };
 
@@ -178,6 +179,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
 
   return (
     <div>
+      <ListHeader title={formHeader} />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

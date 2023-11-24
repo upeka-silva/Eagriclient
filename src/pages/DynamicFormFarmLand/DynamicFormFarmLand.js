@@ -42,7 +42,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
-const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
+const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId, stateData }) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -59,26 +59,6 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
 
   const toggleTab = (index) => {
     setToggleState(index);
-  };
-
-  const goBack = () => {
-    navigate("/farm-land");
-  };
-
-  const handleChange = (value, target) => {
-    setFormData((current = {}) => {
-      let newData = { ...current };
-      newData[target] = value;
-      return newData;
-    });
-  };
-
-  const resetForm = () => {
-    if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
-    } else {
-      setFormData({});
-    }
   };
 
   const enableSave = () => {
@@ -116,56 +96,6 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
     setSaving(false);
   };
 
-  const handleFormSubmit = async () => {
-    if (enableSave()) {
-      console.log("form ", formData);
-
-      const answerList = [];
-      const keysArray = Object.keys(formData);
-
-      for (const qKey of keysArray) {
-        console.log(qKey);
-        if (qKey.indexOf("question_") !== -1) {
-          const parts = qKey.split("_");
-          const questionId = parts[1];
-          const answer = formData[qKey];
-          answerList.push({
-            question: {
-              id: questionId,
-            },
-            answer: answer,
-          });
-        }
-      }
-      console.log("answerList ", answerList);
-
-      const saveData = {
-        assessmentId: formData.assessmentId,
-        farmLand: {
-          id: 1, // TODO
-        },
-        answerList: answerList,
-      };
-
-      setSaving(true);
-      try {
-        if (formData?.id) {
-          console.log("N/A");
-        } else {
-          await saveFormDataWithValues(
-            1,
-            uriPath,
-            saveData,
-            onSuccess,
-            onError
-          );
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
   const populateAttributes = () => {
     if (auditFormType === "SELF_ASSESSMENT") {
       uriPath = "self-assessments";
@@ -200,6 +130,7 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
           auditFormType: auditFormType,
           action: DEF_ACTIONS.ADD,
           formId: formId,
+          stateData: stateData,
         },
       });
     } else if (auditFormType === "BASIC_ASSESSMENT") {
@@ -208,6 +139,7 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
           auditFormType: auditFormType,
           action: DEF_ACTIONS.ADD,
           formId: formId,
+          stateData: stateData,
         },
       });
     }
@@ -239,116 +171,6 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId }) => {
           </ButtonWrapper>
         </Grid>
       </Grid>
-      {/* <ButtonWrapper>
-                {state?.action !== DEF_ACTIONS.VIEW && (
-                    <ActionWrapper>
-                        {saving ? (
-                            <Button variant="contained">
-                                {state?.action === DEF_ACTIONS.ADD
-                                 ? "ADDING..."
-                                 : "UPDATING..."}
-                            </Button>
-                        ) : (
-                             <>
-                                 <Button
-                                     variant="outlined"
-                                     disabled={!enableSave()}
-                                     onClick={handleFormSubmit}
-                                     size="small"
-                                     color="success"
-                                 >
-                                     {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>}
-                                     
-                                 </Button>
-                                 <Button
-                                     onClick={resetForm}
-                                     color="success"
-                                     variant="contained"
-                                     size="small"
-                                     sx={{marginLeft: "10px"}}
-                                 >
-                                     RESET
-                                 </Button>
-                             </>
-                         )}
-                    </ActionWrapper>
-                )}
-            </ButtonWrapper> */}
-      {/* <Box sx={{padding: "20px"}}>
-                <Grid
-                    container
-                    sx={{
-                        border: "1px solid #bec0c2",
-                        borderRadius: "5px",
-                    }}
-                >
-                    <Grid item lg={5}>
-                        <FieldWrapper>
-                            <FieldName>Assessment ID</FieldName>
-                            <TextField
-                                name="assessmentId"
-                                id="assessmentId"
-                                value={formData?.assessmentId || ""}
-                                disabled={state?.action === DEF_ACTIONS.VIEW}
-                                onChange={(e) =>
-                                    handleChange(e?.target?.value || "", "assessmentId")
-                                }
-                                size="small"
-                                fullWidth
-                                sx={{
-                                    "& .MuiInputBase-root": {
-                                        borderRadius: "8px",
-                                        backgroundColor: `${Colors.white}`,
-                                    },
-                                }}
-                            />
-
-                        </FieldWrapper>
-                    </Grid>
-                    <Grid item lg={7}></Grid>
-                    {formTemplate?.questionDTOS?.map((item, index) => (
-                    <Grid item lg={6}>
-                        <FieldWrapper>
-                            <FieldName>{index + 1}. {item.questionString} ?</FieldName>
-
-                            {item.questionType === 'TEXT' &&
-                             <TextField
-                                 name={"question_" + item.id}
-                                 id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id] || ""}
-                                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                                 onChange={(e) =>
-                                     handleChange(e?.target?.value || "", "question_" + item.id)
-                                 }
-                                 size="small"
-                                 fullWidth
-                                 sx={{
-                                     "& .MuiInputBase-root": {
-                                         borderRadius: "8px",
-                                         backgroundColor: `${Colors.white}`,
-                                     },
-                                 }}
-                             />
-                            }
-
-                            {item.questionType === 'BOOLEAN' &&
-                             <Checkbox
-                                 name={"question_" + item.id}
-                                 id={"question_" + item.id}
-                                 value={formData?.['question_' + item.id]}
-                                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                                 onChange={(e) =>
-                                     handleChange(e?.target?.checked || "", "question_" + item.id)
-                                 }
-                                 checked={formData?.['question_' + item.id] === true}
-                             />
-                            }
-
-                        </FieldWrapper>
-                    </Grid>
-                    ))}
-                </Grid>
-            </Box> */}
     </>
   );
 };

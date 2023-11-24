@@ -2,50 +2,29 @@ import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
-  CircularProgress,
   Grid,
-  Select,
-  MenuItem,
   Box,
-  FormControl,
-  Autocomplete,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import {
   getFormTemplateByType,
-  handleAuditForm,
   saveFormDataWithValues,
-  updateAuditForm,
 } from "../../redux/actions/auditForm/action";
-import CommonQuestionList from "./../../pages/AuditForm/CommonQuestionList";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DataGrid } from "@mui/x-data-grid";
-import {
-  handleFarmLand,
-  updateFarmLand,
-} from "../../redux/actions/farmLand/action";
 import Checkbox from "@mui/material/Checkbox";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 
-const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
+const DynamicFormPageFarmLand = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
   let uriPath = "";
   let formHeader = "";
@@ -53,16 +32,31 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [formTemplate, setFormTemplate] = useState({});
-  const [toggleState, setToggleState] = useState(1);
 
   const { addSnackBar } = useSnackBars();
 
-  const toggleTab = (index) => {
-    setToggleState(index);
-  };
+  useEffect(() => {
+  
+    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+      var ansListData = {assessmentId: state?.data?.assessmentId};
+      for(const ans of state?.data?.answerList) {
+        const questionId = ans?.question?.id;
+        ansListData['question_' + questionId] = ans?.answer;
+      }
+
+      setFormData(ansListData);
+    }
+
+    setFormTemplate()
+  }, []);
 
   const goBack = () => {
-    navigate("/farm-land");
+    navigate("/farm-land-form", {
+      state: {
+        action: DEF_ACTIONS.EDIT,
+        target: state?.stateData,
+      },
+    });
   };
 
   const handleChange = (value, target) => {
@@ -105,7 +99,7 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
           : "Successfully Updated",
     });
     setSaving(false);
-    afterSave();
+    goBack();
   };
 
   const onError = (message) => {
@@ -137,12 +131,11 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
           });
         }
       }
-      console.log("answerList ", answerList);
 
       const saveData = {
         assessmentId: formData.assessmentId,
         farmLand: {
-          id:  state.formId, // TODO
+          id:  state.formId,
         },
         answerList: answerList,
       };
@@ -193,10 +186,9 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
     });
   }, []);
 
-  const goAssessmentForm = () => {};
-
   return (
     <>
+      <CustFormHeader saving={saving} state={state} formName={formHeader} />
       <ButtonWrapper>
         <ActionWrapper>
           <Button
@@ -251,7 +243,7 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
         >
           <Grid item lg={5}>
             <FieldWrapper>
-              <FieldName>Assessment ID</FieldName>
+              <FieldName>Assessment Name</FieldName>
               <TextField
                 name="assessmentId"
                 id="assessmentId"
@@ -276,7 +268,7 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
             <Grid item lg={6}>
               <FieldWrapper>
                 <FieldName>
-                  {index + 1}. {item.questionString} ?
+                  {index + 1}. {item.questionString} ? 
                 </FieldName>
 
                 {item.questionType === "TEXT" && (
@@ -314,7 +306,7 @@ const DynamicFormPageFarmLand = ({ auditFormType = "", afterSave, formId }) => {
                         "question_" + item.id
                       )
                     }
-                    checked={formData?.["question_" + item.id] === true}
+                    checked={formData?.["question_" + item.id] === true || formData?.["question_" + item.id] === "true"}
                   />
                 )}
               </FieldWrapper>

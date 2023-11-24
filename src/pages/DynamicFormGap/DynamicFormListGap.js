@@ -14,9 +14,6 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
 import {
-  getQuestionsByFormId,
-  handleAuditFormQuestions,
-  updateAuditFormQuestions,
   deleteAuditFormQuestion,
 } from "../../redux/actions/auditForm/auditFormQuestions/actions";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
@@ -24,27 +21,17 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import { useLocation, useNavigate } from "react-router-dom";
-import DynamicFormDialogGap from "./DynamicFormDialogGap";
 import {
   getFormTemplateByType,
-  getFormTemplatesByFormLandId,
   getFormTemplatesByGapReqId,
-  saveFormDataWithValues,
   saveGapDataWithValues,
-  updateFormDataWithValues,
   updateGapDataWithValues,
 } from "../../redux/actions/auditForm/action";
 import DynamicFormGap from "./DynamicFormGap";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
 const DynamicFormListGap = ({
-  selectedRows = [],
-  onRowSelect = (_c) => {},
-  selectAll = (_list = []) => {},
-  unSelectAll = () => {},
-  onFormSaveSuccess = false,
   formId,
-  formMode = null,
   auditFormType = "",
 }) => {
   const { state } = useLocation();
@@ -80,9 +67,11 @@ const DynamicFormListGap = ({
   populateAttributes();
 
   useEffect(() => {
-    getFormTemplatesByGapReqId(formId, uriPath).then(({ data = [] }) => {
-      setDataListTemplates(data);
-    });
+    if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
+      getFormTemplatesByGapReqId(formId, uriPath).then(({ data = [] }) => {
+        setDataListTemplates(data);
+      });
+    }
   }, []);
 
   const handleCropAreaAdd = (prop, mode) => (event) => {

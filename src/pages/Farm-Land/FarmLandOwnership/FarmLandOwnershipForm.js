@@ -135,14 +135,12 @@ export default function FarmLandOwnershipForm({
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
-    console.log("FORM DATA ----------->", formData);
   }, []);
 
   useEffect(() => {
     get_FarmerList().then(({ dataList = [] }) => {
       setFarmerList(dataList);
     });
-    console.log("FORM DATA ----------->", formData);
   }, []);
 
   return (
@@ -394,7 +392,7 @@ export default function FarmLandOwnershipForm({
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
-                    slotProps={{ textField: { size: "small" } }}
+                    slotProps={{ textField: { size: "small", error: false } }}
                     in="DD-MM-YYYY"
                     disabled={action === DEF_ACTIONS.VIEW}
                   />
@@ -417,7 +415,7 @@ export default function FarmLandOwnershipForm({
                       },
                     }}
                     value={data?.dateUntil}
-                    slotProps={{ textField: { size: "small" } }}
+                    slotProps={{ textField: { size: "small", error: false } }}
                     in="DD-MM-YYYY"
                     name="dob"
                     id="dob"

@@ -251,7 +251,7 @@ const AgriSeasonForm = () => {
                 name="startDate"
                 id="startDate"
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 value={formData?.startDate || ""}
                 onChange={(newValue) =>
                   handleChange(newValue || "", "startDate")
@@ -276,7 +276,7 @@ const AgriSeasonForm = () => {
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 value={formData?.endDate || ""}
                 onChange={(newValue) => handleChange(newValue || "", "endDate")}
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",

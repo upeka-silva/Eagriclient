@@ -628,7 +628,7 @@ const UsersForm = () => {
                       name="dob"
                       id="dob"
                       disabled={state?.action === DEF_ACTIONS.VIEW}
-                      slotProps={{ textField: { size: "small" } }}
+                      slotProps={{ textField: { size: "small", error: false } }}
                       value={formData?.dateOfBirth || ""}
                       onChange={(newValue) =>
                         handleChange(newValue || "", "dateOfBirth")

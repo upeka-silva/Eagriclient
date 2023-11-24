@@ -1038,7 +1038,7 @@ export const Routes = [
         isSideBar: true,
         element: <SelfAssessment />,
         icon: SouthAmericaIcon,
-        component: DEF_COMPONENTS.SELF_ASSESSMENT_FORM,
+        component: DEF_COMPONENTS.SELF_ASSESSMENT_TEMPLATE,
       },
       {
         path: "/self-assessment-form",
@@ -1053,7 +1053,7 @@ export const Routes = [
         isSideBar: true,
         element: <BasicData />,
         icon: SouthAmericaIcon,
-        component: DEF_COMPONENTS.BASIC_ASSESSMENT_FORM,
+        component: DEF_COMPONENTS.BASIC_ASSESSMENT_TEMPLATE,
       },
       {
         path: "/basic-assessment-form",
@@ -1068,7 +1068,7 @@ export const Routes = [
         isSideBar: true,
         element: <InternalAudit />,
         icon: SouthAmericaIcon,
-        component: DEF_COMPONENTS.INTERNAL_AUDIT_FORM,
+        component: DEF_COMPONENTS.INTERNAL_AUDIT_TEMPLATE,
       },
       {
         path: "/internal-audit-form",
@@ -1083,7 +1083,7 @@ export const Routes = [
         isSideBar: true,
         element: <ExternalAudit />,
         icon: SouthAmericaIcon,
-        component: DEF_COMPONENTS.EXTERNAL_AUDIT_FORM,
+        component: DEF_COMPONENTS.EXTERNAL_AUDIT_TEMPLATE,
       },
       {
         path: "/external-audit-form",

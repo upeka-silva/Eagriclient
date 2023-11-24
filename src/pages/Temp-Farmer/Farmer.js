@@ -308,7 +308,7 @@ const Farmer = () => {
                 <DatePicker
                   name="dob"
                   id="dob"
-                  slotProps={{ textField: { size: "small" } }}
+                  slotProps={{ textField: { size: "small", error: false } }}
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",

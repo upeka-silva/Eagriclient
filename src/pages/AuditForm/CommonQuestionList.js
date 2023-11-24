@@ -120,7 +120,7 @@ const CommonQuestionList = ({
       <CustFormHeader
         saving={saving}
         state={state}
-        formName="Audit Form Questions"
+        formName="Form Questions"
       />
       {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
         <Button
