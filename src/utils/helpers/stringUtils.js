@@ -40,7 +40,8 @@ export const stringAvatar = (name,imageSize) => {
         sx: {
             bgcolor: stringToColor(name),
             width: imageSize === "ProfileImgBig" ? 98 : 30,
-            height: imageSize === "ProfileImgBig" ? 98 : 30
+            height: imageSize === "ProfileImgBig" ? 98 : 30,
+            fontSize: imageSize === "ProfileImgBig" ? 30 : 15
         },
         children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
     };
