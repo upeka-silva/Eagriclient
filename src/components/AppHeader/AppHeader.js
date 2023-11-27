@@ -197,7 +197,7 @@ const AppHeader = () => {
                 {             
                   userProfilePic ?   
                   <Avatar 
-                    alt="Profile Img"
+                    alt="Profile Image"
                     src={userProfilePic} 
                     sx={{ width: "32px", height: "32px" }}
                   />
@@ -234,7 +234,7 @@ const AppHeader = () => {
            { 
             userProfilePic ?
            <Avatar
-              alt="Profile Img"
+              alt="Profile Image"
               src={userProfilePic}
               sx={{ width: "98px", height: "98px" }}
             /> : 
