@@ -43,7 +43,7 @@ const AppHeader = () => {
     button3: "outlined",
   });
 
-  const { user, resetAuthContext } = useAuthContext();
+  const { user, resetAuthContext, userProfilePic } = useAuthContext();
 
   const openProfileOptions = (event) => {
     setProfileOptionsOpen(true);
@@ -193,16 +193,20 @@ const AppHeader = () => {
           <IconButton onClick={openProfileOptions}>
             <ProfileButton aria-describedby={id}>
               <Row>
+                <Stack direction="row" spacing={2}>
                 {             
-                  user?.presignedUrl ?   
-                  <ProfileImage src={user?.presignedUrl} />
+                  userProfilePic ?   
+                  <Avatar 
+                    alt="Profile Image"
+                    src={userProfilePic} 
+                    sx={{ width: "32px", height: "32px" }}
+                  />
                   : 
-                  (
-                    <Stack direction="row" spacing={2}>
-                      <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>
-                    </Stack>
+                  (                   
+                  <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>                   
                   )
                 }
+                </Stack>
                 <UserName>{user?.userName || ""}</UserName>
               </Row>
               <ArrowDropDownIcon style={{ color: `${Colors.white}` }} />
@@ -228,15 +232,15 @@ const AppHeader = () => {
         >
           <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
            { 
-            user?.presignedUrl ?
+            userProfilePic ?
            <Avatar
-              alt="Profile Img"
-              src={user?.presignedUrl}
+              alt="Profile Image"
+              src={userProfilePic}
               sx={{ width: "98px", height: "98px" }}
             /> : 
             <Avatar {...stringAvatar(user?.userName, "ProfileImgBig")}/>  
             }
-            <Typography variant="h6">Dinidu Hewage</Typography>
+            <Typography variant="h6">{user?.userName}</Typography>
             <Typography
               variant="subtitle1"
               sx={{ marginTop: "0px !important" }}

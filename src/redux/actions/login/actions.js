@@ -19,7 +19,9 @@ export const initiateLogin = async (
 				StorageConstants.compress_token,
 				response.payload.jwtToken
 			);
-			const role = updateAuthContext(jwtToken);
+
+			const presignedUrl = response.payload.userProfilePic
+			const role = updateAuthContext(jwtToken, presignedUrl);
 
 			onSuccess(role);
 
