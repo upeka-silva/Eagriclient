@@ -24,10 +24,10 @@ export const AuthContextProvider = (props) => {
     getData();
   }, []);
 
-  const updateAuthContext = (token = "") => {
+  const updateAuthContext = (token = "", presignedUrl = null) => {
     const tokenBody = atob(token?.split(".")[1] || "");
     const data = tokenBody ? JSON.parse(tokenBody) : {};
-    extractData(data);
+    extractData(data, presignedUrl);
     return role;
   };
 
@@ -38,7 +38,7 @@ export const AuthContextProvider = (props) => {
     extractData(data);
   };
 
-  const extractData = (data = {}) => {
+  const extractData = (data = {}, presignedUrl = null) => {
     const { roles = [],permissions = [], firstName = "", lastName = "" } = data || {};
     setUserLoggedIn(Object.keys(data || {}).length > 0);
     setPermissionList(permissions.map((perm) => perm?.authority || ""));
@@ -48,7 +48,7 @@ export const AuthContextProvider = (props) => {
 
     });
     setRole(roles[0]);
-
+    setUserProfilePic(presignedUrl)
   };
   console.log(role)
   const getUserLoggedState = () => !!userLoggedIn;
@@ -79,6 +79,8 @@ export const AuthContextProvider = (props) => {
     setPermissionList([]);
   };
 
+  const [userProfilePic, setUserProfilePic] = useState(null)
+
   const values = {
     user,
     permissionList,
@@ -87,6 +89,7 @@ export const AuthContextProvider = (props) => {
     getUserPermissionStateByAuthority,
     updateAuthContext,
     resetAuthContext,
+    userProfilePic
   };
 
   return <AuthContext.Provider value={values} {...props} />;
