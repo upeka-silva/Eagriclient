@@ -7,7 +7,7 @@ import { FieldName } from '../../components/FormLayout/FieldName';
 import { DEF_ACTIONS } from '../../utils/constants/permission';
 
 const RoleSelection = ({ roles, selectedRoles, onRolesChange, action }) => {
-  const numberOfColumns = 5; // Number of columns you want to divide the roles into
+  const numberOfColumns = 4; // Number of columns you want to divide the roles into
   const columnSize = Math.ceil(roles.length / numberOfColumns);
   const handleRoleChange = (roleId) => {
     onRolesChange(roleId);

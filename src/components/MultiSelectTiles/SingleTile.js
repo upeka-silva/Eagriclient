@@ -39,7 +39,7 @@ const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled,
     <div>
       <Card
         style={{ backgroundColor: getStyle(), borderColor: "#A7E99C", alignItems: "center" }}
-        //sx={{ display: "flex" }}
+        sx={{ display: "flex" }}
         onClick={handleTileClick}
         
       >

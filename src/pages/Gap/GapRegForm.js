@@ -17,12 +17,7 @@ import {
   ListItemText,
   Chip,
 } from "@mui/material";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, { Dayjs } from "dayjs";
 import Switch from "@mui/material/Switch";
-import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
@@ -36,57 +31,39 @@ import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { PathName } from "../../components/FormLayout/PathName";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../components/FormLayout/AddButton";
-import { ResetButton } from "../../components/FormLayout/ResetButton";
 import Checkbox from "@mui/material/Checkbox";
 import {
   changeStatus,
   deleteCropDetails,
   getCropDetailsList,
-  handleCropDetails,
+  getGapCertificate,
+  getUsersByRoleCode,
   handleGap,
-  updateCropDetails,
+  saveGapExternalAuditores,
   updateGap,
 } from "../../redux/actions/gap/action";
-import CropDetails from "./CropDetails";
 import { gapReqDto } from "./gap-type";
-import {
-  Add,
-  ArrowCircleLeftRounded,
-  Delete,
-  Edit,
-  Vrpano,
-} from "@mui/icons-material";
-import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import { get } from "../../services/api";
-import FarmerList from "../Farmer/FarmerList";
 import { get_FarmerList } from "../../redux/actions/farmer/action";
 import CropDetailsList from "./CropDetails/CropDetailsList";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { StorageConstants } from "../../services/storage/constant";
-import {
-  getUserPermissionByComponent,
-  getUserPermissionStateByModule,
-} from "../../utils/helpers/permission";
-import { useAuthContext } from "../../context/AuthContext";
+import { getUserPermissionByComponent } from "../../utils/helpers/permission";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
 import HorizontalStepper from "../../components/HorizontalStepper/HorizontalStepper";
+import MultiItemSelect from "../../components/MultiItemSelector/MultiItemSelectorComponent";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -114,13 +91,15 @@ const GapRegForm = () => {
   const [cropAreaPermission, setCropAreaPermission] = useState();
   const [intAuditPermission, setIntAuditPermission] = useState();
   const [extAuditPermission, setExtAuditPermission] = useState();
-  const [testPermission, setTestPermission] = useState();
-  const [certificatePermission, setCertificatePermission] = useState();
+    const [certificatePermission, setCertificatePermission] = useState();
+
+const [testPermission, setTestPermission] = useState();
+
+  const [openApproveDialog, setOpenApproveDialog] = useState(false);
 
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || gapReqDto);
   const [saving, setSaving] = useState(false);
@@ -162,7 +141,38 @@ const GapRegForm = () => {
 
   const [basicAssessments, setBasicAssessments] = useState([]);
 
+  const [gapStatusToSave, setGapStatusToSave] = useState("");
+
+  const [isAuditorsAssignDialogOpen, setIsAuditorsAssignDialogOpen] =
+    useState(false);
+
+  const [auditores, setAuditores] = useState([]);
+
   const { addSnackBar } = useSnackBars();
+
+  const auditorsAssignDialogHandler = () => {
+    setIsAuditorsAssignDialogOpen(false);
+  };
+
+  const auditorsAssignDialogValuesHandler = (selectedValues) => {
+    for (const value of selectedValues) {
+      const payload = {
+        user: { id: value.id },
+        gapRequest: { id: formData?.id },
+      };
+      saveGapExternalAuditores(formData?.id, payload);
+    }
+
+    setIsAuditorsAssignDialogOpen(false);
+  };
+
+  const generateCertificate = () => {
+    getGapCertificate(formData?.id).then((certificateData) => {
+      // const pdfWindow = window.open();
+      // pdfWindow.location.href = certificateData.presignedUrl;
+      window.open(certificateData.presignedUrl, '_blank');
+    });
+  };
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -175,6 +185,11 @@ const GapRegForm = () => {
 
   useEffect(() => {
     setLoading(true);
+
+    getUsersByRoleCode("GAP_EXTERNAL_AUDITOR").then((data = []) => {
+      setAuditores(data);
+    });
+
     get_GnDivisionList().then(({ dataList = [] }) => {
       setGn(dataList);
     });
@@ -216,6 +231,33 @@ const GapRegForm = () => {
       fetchGapReq("gap-request", formData?.id);
     }
   }, []);
+
+  const changeGapReqStatus = async () => {
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      try {
+        if (formData?.id) {
+          setStatusLoading(true);
+          const resValue = await changeStatus(
+            formData?.id,
+            gapStatusToSave,
+            onSuccess,
+            onError
+          );
+
+          setStateResponse(resValue.payload);
+          console.log(resValue);
+          setGapReqStatus({
+            lblText: resValue.payload,
+            lblColor: "success",
+          });
+          setOpenConfSubmit(false);
+          setStatusLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -518,6 +560,9 @@ const GapRegForm = () => {
                 ) : (
                   <>
                     <ButtonGroup>
+<PermissionWrapper
+                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
+                      >
                       <Button
                         variant="contained"
                         disabled={!enableSave()}
@@ -525,8 +570,11 @@ const GapRegForm = () => {
                         size="small"
                         color="success"
                       >
-                        {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                        {state?.action === DEF_ACTIONS.ADD
+                            ? "SAVE"
+                            : "UPDATE"}
                       </Button>
+</PermissionWrapper>
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -537,6 +585,7 @@ const GapRegForm = () => {
                         RESET
                       </Button>
                     </ButtonGroup>
+{gapReqStatus.lblText === "Draft" ? (
                     <Button
                       onClick={() => setOpenConfSubmit(true)}
                       color="success"
@@ -546,6 +595,53 @@ const GapRegForm = () => {
                     >
                       SUBMIT
                     </Button>
+) : null}
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`}
+                    >
+                      <Button
+                        onClick={() => {
+                          setGapStatusToSave("APPROVED_BY_DD");
+                          setOpenApproveDialog(true);
+                        }}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        APPROVE
+                      </Button>
+                    </PermissionWrapper>
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
+                    >
+                      <Button
+                        onClick={() => {
+                          setIsAuditorsAssignDialogOpen(true);
+                        }}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        ASSIGN AUDITORES
+                      </Button>
+                    </PermissionWrapper>
+                    {/* <PermissionWrapper
+                      permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
+                    > */}
+                    <Button
+                      onClick={() => {
+                        generateCertificate();
+                      }}
+                      color="success"
+                      variant="outlined"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                    >
+                      Generate Certificate
+                    </Button>
+                    {/* </PermissionWrapper> */}
                   </>
                 )}
               </ActionWrapper>
@@ -665,7 +761,7 @@ const GapRegForm = () => {
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
                 onChange={(event, value) => {
                   handleChange(value, "farmLandDTO");
-                  getAllAssessmentsByFLId(value?.id)
+                  getAllAssessmentsByFLId(value?.id);
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -1862,7 +1958,7 @@ const GapRegForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={5} md={5} lg={5}>
+            {/* <Grid item sm={5} md={5} lg={5}>
               <FieldWrapper>
                 <FieldName
                   style={{
@@ -1892,7 +1988,7 @@ const GapRegForm = () => {
                   }}
                 />
               </FieldWrapper>
-            </Grid>
+            </Grid> */}
           </Grid>
           <Grid
             item
@@ -2511,6 +2607,42 @@ const GapRegForm = () => {
           {renderSelectedItems()}
         </>
       </DialogBox>
+
+      <DialogBox
+        open={openApproveDialog}
+        title="Approve Gap Request"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={changeGapReqStatus}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setOpenApproveDialog(false)}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>Please confirm to approve this GAP request.</>
+      </DialogBox>
+
+      <MultiItemSelect
+        options={auditores}
+        open={isAuditorsAssignDialogOpen}
+        mode={state?.action}
+        itemHandler={auditorsAssignDialogValuesHandler}
+        handleClose={auditorsAssignDialogHandler}
+        existingAuditores={formData?.externalAuditors}
+      />
     </div>
   );
 };
