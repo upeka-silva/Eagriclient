@@ -72,7 +72,7 @@ const DynamicFormListFarmLand = ({
   populateAttributes();
 
   useEffect(() => {
-    getFormTemplatesByFormLandId(1, uriPath).then(({ data = [] }) => {
+    getFormTemplatesByFormLandId(formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
   }, []);
