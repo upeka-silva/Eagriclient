@@ -335,7 +335,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
                 name="activeFrom"
                 id="activeFrom"
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 value={formData?.activeFrom || ""}
                 onChange={(newValue) =>
                   handleChange(newValue || "", "activeFrom")

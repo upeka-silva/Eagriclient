@@ -25,6 +25,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import HomeIcon from '@mui/icons-material/Home';
 import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
+import { stringAvatar } from "../../utils/helpers/stringUtils";
 
 const ProfileImg = require("../../assets/images/profileImg.png");
 const ProfileImgBig = require("../../assets/images/profileImgBig.png");
@@ -42,7 +43,7 @@ const AppHeader = () => {
     button3: "outlined",
   });
 
-  const { user, resetAuthContext } = useAuthContext();
+  const { user, resetAuthContext, userProfilePic } = useAuthContext();
 
   const openProfileOptions = (event) => {
     setProfileOptionsOpen(true);
@@ -192,7 +193,20 @@ const AppHeader = () => {
           <IconButton onClick={openProfileOptions}>
             <ProfileButton aria-describedby={id}>
               <Row>
-                <ProfileImage src={ProfileImg} />
+                <Stack direction="row" spacing={2}>
+                {             
+                  userProfilePic ?   
+                  <Avatar 
+                    alt="Profile Image"
+                    src={userProfilePic} 
+                    sx={{ width: "32px", height: "32px" }}
+                  />
+                  : 
+                  (                   
+                  <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>                   
+                  )
+                }
+                </Stack>
                 <UserName>{user?.userName || ""}</UserName>
               </Row>
               <ArrowDropDownIcon style={{ color: `${Colors.white}` }} />
@@ -217,12 +231,16 @@ const AppHeader = () => {
           }}
         >
           <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
-            <Avatar
-              alt="Profile Img"
-              src={ProfileImgBig}
+           { 
+            userProfilePic ?
+           <Avatar
+              alt="Profile Image"
+              src={userProfilePic}
               sx={{ width: "98px", height: "98px" }}
-            />
-            <Typography variant="h6">Dinidu Hewage</Typography>
+            /> : 
+            <Avatar {...stringAvatar(user?.userName, "ProfileImgBig")}/>  
+            }
+            <Typography variant="h6">{user?.userName}</Typography>
             <Typography
               variant="subtitle1"
               sx={{ marginTop: "0px !important" }}

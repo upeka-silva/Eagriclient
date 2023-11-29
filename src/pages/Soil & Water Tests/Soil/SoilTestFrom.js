@@ -264,7 +264,7 @@ const SoilTestFrom = () => {
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
                 label=""
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 name="dateSampled"
                 id="dateSampled"
                 value={formData?.dateSampled || ""}
@@ -284,7 +284,7 @@ const SoilTestFrom = () => {
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
                 label=""
-                slotProps={{ textField: { size: "small" } }}
+                slotProps={{ textField: { size: "small", error: false } }}
                 name="dateAnalyzed"
                 id="dateAnalyzed"
                 value={formData?.dateAnalyzed || ""}

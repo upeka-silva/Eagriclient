@@ -150,7 +150,7 @@ const Farmer = () => {
   const changeOTP = (value) => {
     setOTP(value);
   };
-  
+
   return (
     <div
       style={{
@@ -160,7 +160,7 @@ const Farmer = () => {
         fontFamily: `${Fonts.fontStyle1}`,
         overflowY: "scroll",
         height: "100vh",
-        marginRight:"-260px"
+        marginRight: "-260px",
       }}
     >
       <div
@@ -308,7 +308,7 @@ const Farmer = () => {
                 <DatePicker
                   name="dob"
                   id="dob"
-                  slotProps={{ textField: { size: "small" } }}
+                  slotProps={{ textField: { size: "small", error: false } }}
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",

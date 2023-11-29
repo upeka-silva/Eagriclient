@@ -497,7 +497,7 @@ const FarmerForm = () => {
                 <FieldName>Date of Birth</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    slotProps={{ textField: { size: "small" } }}
+                    slotProps={{ textField: { size: "small", error: false } }}
                     name="dob"
                     id="dob"
                     value={formData?.dob || ""}
