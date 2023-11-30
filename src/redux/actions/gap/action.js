@@ -1,4 +1,4 @@
-import { put, post, get, api_delete, patch } from "../../../services/api";
+import { put, post, get, api_delete, patch, getBlob } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleGap = async (
@@ -151,7 +151,7 @@ export const getUsersByRoleCode = async (code) => {
 
 export const getGapCertificate = async (gapId) => {
   try {
-    const response = await get(`gap-certificate/${gapId}`, true);
+    const response = await getBlob(`gap-certificate/${gapId}`, true);
     return response;
   } catch (error) {
     console.log(error);

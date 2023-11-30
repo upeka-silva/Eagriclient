@@ -91,15 +91,15 @@ const GapRegForm = () => {
   const [cropAreaPermission, setCropAreaPermission] = useState();
   const [intAuditPermission, setIntAuditPermission] = useState();
   const [extAuditPermission, setExtAuditPermission] = useState();
-    const [certificatePermission, setCertificatePermission] = useState();
+  const [certificatePermission, setCertificatePermission] = useState();
 
-const [testPermission, setTestPermission] = useState();
+  const [testPermission, setTestPermission] = useState();
 
   const [openApproveDialog, setOpenApproveDialog] = useState(false);
 
   useUserAccessValidation();
   const { state } = useLocation();
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || gapReqDto);
   const [saving, setSaving] = useState(false);
@@ -148,6 +148,8 @@ const [testPermission, setTestPermission] = useState();
 
   const [auditores, setAuditores] = useState([]);
 
+  const [isCertificateGenerating, setIsCertificateGenerating] = useState(false);
+
   const { addSnackBar } = useSnackBars();
 
   const auditorsAssignDialogHandler = () => {
@@ -167,10 +169,17 @@ const [testPermission, setTestPermission] = useState();
   };
 
   const generateCertificate = () => {
-    getGapCertificate(formData?.id).then((certificateData) => {
-      // const pdfWindow = window.open();
-      // pdfWindow.location.href = certificateData.presignedUrl;
-      window.open(certificateData.presignedUrl, '_blank');
+    setIsCertificateGenerating(true);
+    getGapCertificate(formData?.id).then((response) => {
+      setIsCertificateGenerating(false);
+      if (response) {
+        const url = window.URL.createObjectURL(
+          new Blob([response], { type: "application/pdf" })
+        );
+
+        const pdfWindow = window.open();
+        pdfWindow.location.href = url;
+      }
     });
   };
 
@@ -560,21 +569,21 @@ const [testPermission, setTestPermission] = useState();
                 ) : (
                   <>
                     <ButtonGroup>
-<PermissionWrapper
+                      <PermissionWrapper
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
-                      <Button
-                        variant="contained"
-                        disabled={!enableSave()}
-                        onClick={handleFormSubmit}
-                        size="small"
-                        color="success"
-                      >
-                        {state?.action === DEF_ACTIONS.ADD
+                        <Button
+                          variant="contained"
+                          disabled={!enableSave()}
+                          onClick={handleFormSubmit}
+                          size="small"
+                          color="success"
+                        >
+                          {state?.action === DEF_ACTIONS.ADD
                             ? "SAVE"
                             : "UPDATE"}
-                      </Button>
-</PermissionWrapper>
+                        </Button>
+                      </PermissionWrapper>
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -585,17 +594,17 @@ const [testPermission, setTestPermission] = useState();
                         RESET
                       </Button>
                     </ButtonGroup>
-{gapReqStatus.lblText === "Draft" ? (
-                    <Button
-                      onClick={() => setOpenConfSubmit(true)}
-                      color="success"
-                      variant="outlined"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      SUBMIT
-                    </Button>
-) : null}
+                    {gapReqStatus.lblText === "Draft" ? (
+                      <Button
+                        onClick={() => setOpenConfSubmit(true)}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        SUBMIT
+                      </Button>
+                    ) : null}
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`}
                     >
@@ -627,21 +636,21 @@ const [testPermission, setTestPermission] = useState();
                         ASSIGN AUDITORES
                       </Button>
                     </PermissionWrapper>
-                    {/* <PermissionWrapper
-                      permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
-                    > */}
-                    <Button
-                      onClick={() => {
-                        generateCertificate();
-                      }}
-                      color="success"
-                      variant="outlined"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
-                      Generate Certificate
-                    </Button>
-                    {/* </PermissionWrapper> */}
+                      <Button
+                        onClick={() => {
+                          generateCertificate();
+                        }}
+                        color="success"
+                        variant="outlined"
+                        size="small"
+                        sx={{ marginLeft: "10px" }}
+                      >
+                        {isCertificateGenerating ? <>Generate Certificate &nbsp;&nbsp;  <CircularProgress size="1rem" color="success" /></> : "Generate Certificate"}
+                      </Button>
+                    </PermissionWrapper>
                   </>
                 )}
               </ActionWrapper>
@@ -1437,10 +1446,7 @@ const [testPermission, setTestPermission] = useState();
                     }}
                     size="small"
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        size="small"
-                      />
+                      <TextField {...params} size="small" />
                     )}
                   />
                 </FormControl>
@@ -2532,7 +2538,7 @@ const [testPermission, setTestPermission] = useState();
         />
       </TabContent>
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
-        <GapRequestCertificate />
+        <GapRequestCertificate url={formData.certificatePresignedUrl} />
       </TabContent>
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
