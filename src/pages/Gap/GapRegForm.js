@@ -792,10 +792,10 @@ const GapRegForm = () => {
                   formData?.farmerDTO == null
                 }
                 options={basicAssessments}
-                // value={formData ? formData.farmLandDTO : ""}
+                value={formData ? formData?.basicAssessmentDTO : ""}
                 getOptionLabel={(i) => `${i.assessmentId}`}
                 onChange={(event, value) => {
-                  // handleChange(value, "farmLandDTO");
+                  handleChange(value, "basicAssessmentDTO");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
