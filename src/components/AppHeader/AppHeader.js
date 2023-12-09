@@ -22,13 +22,9 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
-import HomeIcon from '@mui/icons-material/Home';
 import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
 import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
 import { stringAvatar } from "../../utils/helpers/stringUtils";
-
-const ProfileImg = require("../../assets/images/profileImg.png");
-const ProfileImgBig = require("../../assets/images/profileImgBig.png");
 
 const AppHeader = () => {
   const theme = useTheme();
@@ -75,9 +71,9 @@ const AppHeader = () => {
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
 
   const location = useLocation();
-// const handleClick= () =>{
-//   navigate("landing-page");
-// };
+  // const handleClick= () =>{
+  //   navigate("landing-page");
+  // };
   const getCurrentScreenName = () => {
     let screenName = "";
     const r =
@@ -140,16 +136,7 @@ const AppHeader = () => {
     <Wrapper className="wrapper">
       <ItemWrapper>
         <AppTitle>
-          <Typography variant="h8">{getCurrentScreenName()}</Typography>
-            <IconButton>
-                <HomeIcon onClick={handleClick}/>
-            </IconButton>
-            {/* <Typography
-            variant="subtitle2"
-            // sx={{ color: `${theme.coreColors.primary}` }}
-          >
-            {getPathName()}
-          </Typography> */}
+          <Typography variant="h8">{getCurrentScreenName()}</Typography>         
         </AppTitle>
         <IconWrapper>
           <BreakLine>
@@ -163,7 +150,7 @@ const AppHeader = () => {
             />
           </BreakLine>
           <IconButton
-            style={{ marginLeft: "30px" }}
+            style={{ marginLeft: "20px" }}
             onClick={colorMode.toggleColorMode}
           >
             {theme.palette.mode === "dark" ? (
@@ -172,7 +159,7 @@ const AppHeader = () => {
               <LightModeOutlined />
             )}
           </IconButton>
-          <IconButton style={{ marginLeft: "20px" }}>
+          <IconButton style={{ marginLeft: "10px" }}>
             <NotificationsNoneIcon />
           </IconButton>
           <IconButton>
@@ -194,22 +181,21 @@ const AppHeader = () => {
             <ProfileButton aria-describedby={id}>
               <Row>
                 <Stack direction="row" spacing={2}>
-                {             
-                  userProfilePic ?   
-                  <Avatar 
-                    alt="Profile Image"
-                    src={userProfilePic} 
-                    sx={{ width: "32px", height: "32px" }}
-                  />
-                  : 
-                  (                   
-                  <Avatar {...stringAvatar(user?.userName, "ProfileImgSmall")}/>                   
-                  )
-                }
+                  {userProfilePic ? (
+                    <Avatar
+                      alt="Profile Image"
+                      src={userProfilePic}
+                      sx={{ width: "32px", height: "32px" }}
+                    />
+                  ) : (
+                    <Avatar
+                      {...stringAvatar(user?.userName, "ProfileImgSmall")}
+                    />
+                  )}
                 </Stack>
                 <UserName>{user?.userName || ""}</UserName>
               </Row>
-              <ArrowDropDownIcon style={{ color: `${Colors.white}` }} />
+              <ArrowDropDownIcon style={{ color: `${Colors.baseColor}` }} />
             </ProfileButton>
           </IconButton>
         </IconWrapper>
@@ -231,15 +217,15 @@ const AppHeader = () => {
           }}
         >
           <Stack justifyContent="center" alignItems="center" spacing={2} p={4}>
-           { 
-            userProfilePic ?
-           <Avatar
-              alt="Profile Image"
-              src={userProfilePic}
-              sx={{ width: "98px", height: "98px" }}
-            /> : 
-            <Avatar {...stringAvatar(user?.userName, "ProfileImgBig")}/>  
-            }
+            {userProfilePic ? (
+              <Avatar
+                alt="Profile Image"
+                src={userProfilePic}
+                sx={{ width: "84px", height: "84px" }}
+              />
+            ) : (
+              <Avatar {...stringAvatar(user?.userName, "ProfileImgBig")} />
+            )}
             <Typography variant="h6">{user?.userName}</Typography>
             <Typography
               variant="subtitle1"
@@ -251,21 +237,21 @@ const AppHeader = () => {
               <Button
                 color="success"
                 variant={variants.button1}
-                onClick={() => handleClick("button1")}
+                onClick={() => handleClick("EN")}
               >
                 EN
               </Button>
               <Button
                 color="success"
                 variant={variants.button2}
-                onClick={() => handleClick("button2")}
+                onClick={() => handleClick("SI")}
               >
                 SI
               </Button>
               <Button
                 color="success"
                 variant={variants.button3}
-                onClick={() => handleClick("button3")}
+                onClick={() => handleClick("TA")}
               >
                 TA
               </Button>
@@ -289,10 +275,10 @@ export default AppHeader;
 
 const Wrapper = styled(Card)`
   display: block;
-  min-height: 56px;
-  padding: 5px 30px;
+  min-height: 46px;
+  padding: 5px 20px;
   background: ${Colors.white};
-  margin-top:10px;
+  margin-top: 5px;
   position: sticky;
 `;
 
@@ -318,16 +304,14 @@ const AppTitle = styled.p`
 const ProfileButton = styled.div`
   width: auto;
   height: 40px;
-  background-color: ${Colors.tableHeaderColor};
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding-left: 5px;
-  margin-right: 8px;
+  padding-right: 5px;
+  margin-right: 5px;
 `;
-
-const ProfileImage = styled.img``;
 
 const BreakLine = styled.div`
   display: flex;
@@ -344,5 +328,5 @@ const Row = styled.div`
 
 const UserName = styled.span`
   font-size: 16px;
-  color: ${Colors.white};
+  color: ${Colors.baseColor};
 `;

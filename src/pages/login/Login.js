@@ -186,7 +186,7 @@ const Login = () => {
                           "& .MuiInputBase-root": {
                             height: 45,
                             background: `${Colors.white}`,
-                            borderRadius:'15px'
+                            borderRadius:'10px'
                           },
                         }}
                         InputProps={{
@@ -212,7 +212,7 @@ const Login = () => {
                           "& .MuiInputBase-root": {
                             height: 45,
                             background: `${Colors.white}`,
-                            borderRadius:'15px'
+                            borderRadius:'10px'
                           },
                         }}
                         InputProps={{
@@ -245,7 +245,7 @@ const Login = () => {
                           href="#"
                           style={{
                             color: `${Colors.buttonColor}`,
-                            fontSize: "14px",
+                            fontSize: "12px",
                             fontWeight: 400,
                           }}
                         >
@@ -343,21 +343,20 @@ const LoginWrapper = styled.div`
   flex-direction: column;
   background-color: ${Colors.white};
   font-family: ${Fonts.fontStyle1};
-  margin-right: -260px;
+  margin-right: -160px;
 `;
 
 const ButtonContainer = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 22px;
+  border-radius: 15px;
   width: 372px;
   height: 45px;
   font-weight: 500;
   font-size: 22px;
   color: ${Colors.white};
-  /* background-color: ${Colors.buttonColor}; */
-  background-color: #40a845;
+  background-color: ${Colors.baseColor};
   font-family: ${Fonts.fontStyle1};
   border: none;
   cursor: pointer;
@@ -410,7 +409,7 @@ const ForgotPassword = styled.p`
 const AppName = styled.p`
   display: flex;
   justify-content: center;
-  font-size: 40px;
+  font-size: 50px;
   letter-spacing: 0.175em;
   font-family: ${Fonts.fontStyle1};
   color: ${Colors.AppName};
@@ -426,15 +425,6 @@ const BGImg = styled.img`
   position: absolute;
   opacity: 0.3;
   z-index: -1;
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0px 10px;
-  align-items: center;
-  background-color: ${Colors.white};
 `;
 
 const Image = styled.img`

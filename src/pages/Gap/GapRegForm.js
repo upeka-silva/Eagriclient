@@ -648,7 +648,14 @@ const GapRegForm = () => {
                         size="small"
                         sx={{ marginLeft: "10px" }}
                       >
-                        {isCertificateGenerating ? <>Generate Certificate &nbsp;&nbsp;  <CircularProgress size="1rem" color="success" /></> : "Generate Certificate"}
+                        {isCertificateGenerating ? (
+                          <>
+                            Generate Certificate &nbsp;&nbsp;{" "}
+                            <CircularProgress size="1rem" color="success" />
+                          </>
+                        ) : (
+                          "Generate Certificate"
+                        )}
                       </Button>
                     </PermissionWrapper>
                   </>

@@ -10,15 +10,15 @@ function StatBox({ title, subtitle, icon, progress, increase }) {
     <Box
       m="0"
       sx={{
-        backgroundColor: colors.green[500],
-        paddingX: "30px",
-        paddingY: "40px",
+        backgroundColor: colors.green[200],
+        paddingX: "20px",
+        paddingY: "20px",
         borderRadius: "5px",
       }}
     >
       <Box display="flex" justifyContent="space-between">
         <Box>
-          <Typography variant="h4" fontWeight="bold" sx={{ color: colors.ivory }}>
+          <Typography variant="h4" fontWeight="bold" sx={{ color: colors.black }}>
             {title}
           </Typography>
         </Box>

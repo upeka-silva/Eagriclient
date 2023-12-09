@@ -11,41 +11,41 @@ import { SnackBarProvider } from "../../context/SnackBarContext";
 import SnackBars from "../../components/SnackBar/SnackBars";
 import { useIsUserLoggedIn } from "../../hooks/authentication";
 import { AuthContextProvider } from "../../context/AuthContext";
-import {ServiceProvider}  from "../../context/ServiceContext";
+import { ServiceProvider } from "../../context/ServiceContext";
 const appTheme = createTheme(theme);
 
 const App = () => {
   const userAuthenticated = useIsUserLoggedIn();
 
   return (
-      <ServiceProvider>
-    <AuthContextProvider>
-      <ThemeProvider theme={appTheme}>
-        <SnackBarProvider>
-          <Wrapper>
-            <BrowserRouter>
-              <PermissionWrapper component={<SideBar />} withoutPermissions />
-              
-              <PageWrapper
-                sx={
-                  userAuthenticated
-                    ? "padding: 0px 10px 0px 10px; margin-top:-3px;"
-                    : "padding: 0px 10px 0px 10px"
-                }
-              >
-                <PermissionWrapper
-                  component={<AppHeader />}
-                  withoutPermissions
-                />
-                <Routes>{Router}</Routes>
-              </PageWrapper>
-            </BrowserRouter>
-          </Wrapper>
-          <SnackBars />
-        </SnackBarProvider>
-      </ThemeProvider>
-    </AuthContextProvider>
-      </ServiceProvider>
+    <ServiceProvider>
+      <AuthContextProvider>
+        <ThemeProvider theme={appTheme}>
+          <SnackBarProvider>
+            <Wrapper>
+              <BrowserRouter>
+                <PermissionWrapper component={<SideBar />} withoutPermissions />
+
+                <PageWrapper
+                  sx={
+                    userAuthenticated
+                      ? "padding: 0px 2px 0px 2px; margin-top:-3px;"
+                      : "padding: 0px 5px 0px 5px"
+                  }
+                >
+                  <PermissionWrapper
+                    component={<AppHeader />}
+                    withoutPermissions
+                  />
+                  <Routes>{Router}</Routes>
+                </PageWrapper>
+              </BrowserRouter>
+            </Wrapper>
+            <SnackBars />
+          </SnackBarProvider>
+        </ThemeProvider>
+      </AuthContextProvider>
+    </ServiceProvider>
   );
 };
 
@@ -67,8 +67,6 @@ const Wrapper = styled.div`
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 270px);
-  ${(props) => (props.sx ? props.sx : "")}
-  /* padding-right: 12px; */
-  
+  width: calc(100vw - 170px);
+  ${(props) => (props.sx ? props.sx : "")}/* padding-right: 12px; */
 `;
