@@ -60,7 +60,7 @@ export const SideBarItemToolTip = styled(({ className, ...props }) => (
 
 export const CollapseContainer = styled(Collapse)`
   background: ${Colors.white};
-  padding-bottom: 10px;
+  padding-bottom: 3px;
   border-bottom: 1px solid #96e072;
   z-index: 25000;
 

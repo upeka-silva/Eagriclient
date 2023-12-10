@@ -25,18 +25,18 @@ const App = () => {
             <Wrapper>
               <BrowserRouter>
                 <PermissionWrapper component={<SideBar />} withoutPermissions />
-                <PageWrapper
-                  sx={
-                    userAuthenticated
-                      ? "padding: 0px 2px 0px 2px; margin-top:-3px;"
-                      : "padding: 0px 5px 0px 5px"
-                  }
-                >
+                <PageWrapper>
                   <PermissionWrapper
                     component={<AppHeader />}
                     withoutPermissions
                   />
-                  <Routes>{Router}</Routes>
+                  {userAuthenticated ? (
+                    <InnerPageWrapper>
+                      <Routes>{Router}</Routes>
+                    </InnerPageWrapper>
+                  ) : (
+                    <Routes>{Router}</Routes>
+                  )}
                 </PageWrapper>
               </BrowserRouter>
             </Wrapper>
@@ -57,11 +57,9 @@ const Wrapper = styled.div`
   background-color: #fbfdf8;
 `;
 
-// Light Gray: #D3D3D3
-// Gainsboro: #DCDCDC
-// Light Silver: #E8E8E8
-// Light Grayish Blue: #F0F0F0
-// Platinum: #E5E4E2
+const InnerPageWrapper = styled.div`
+  padding: 0px 8px;
+`;
 
 const PageWrapper = styled.div`
   display: flex;

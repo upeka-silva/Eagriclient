@@ -15,19 +15,12 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronDownIcon from "@mui/icons-material/ChevronRight";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Routes } from "../../routes/routes";
-import {
-  Await,
-  NavLink,
-  ScrollRestoration,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   CollapseContainer,
   DrawerToggleButton,
   SideBarItemButton,
   SideBarItemToolTip,
-  ScrollContainer,
 } from "./Components";
 import { Fonts } from "../../utils/constants/Fonts";
 import { getUserPermissionByComponent } from "../../utils/helpers/permission";
@@ -212,13 +205,12 @@ const SideBar = () => {
               >
                 <SideBarItemButton
                   key={key}
-                  // selected={
-                  //   selectedRoute === r?.name
-                  //    ||
-                  //   r?.children?.findIndex(
-                  //     (c) => c?.name === selectedSubRoute?.name
-                  //   ) > -1
-                  // }
+                  selected={
+                    selectedRoute === r?.name ||
+                    r?.children?.findIndex(
+                      (c) => c?.name === selectedSubRoute?.name
+                    ) > -1
+                  }
                   onClick={toggleCollapseState}
                   haschildren={selectedRoute === r?.name || undefined}
                 >
@@ -349,11 +341,27 @@ const SideBar = () => {
             </DrawerToggleButton>
           </SideBarItemToolTip>
         </Toolbar>
-        {/* <Divider /> */}
+        <Divider />
         <List
           component="nav"
           sx={{
-            overflowY: "scroll",
+            overflowY: "auto",
+            margin: 0,
+            padding: 1,
+            listStyle: "none",            
+            height: "100%",
+            "&::-webkit-scrollbar": {
+              width: "0.4em",
+              border: "ActiveBorder",
+            },
+            "&::-webkit-scrollbar-track": {
+              boxShadow: "inset 0 0 6px #3E9D4B",
+              webkitBoxShadow: "inset 0 0 6px #3E9D4B",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "#3E9D4B",
+              outline: "1px solid slategrey",
+            },
           }}
         >
           {loading === true && renderSideBarRoutes()}
@@ -424,11 +432,11 @@ const Drawer = styled(MuiDrawer, {
   },
   "& .MuiToolbar-root": {
     ...(!open && {
-      padding: "0px 0px 0px 4px !important",
+      padding: "0px 0px 0px 2px !important",
     }),
   },
   "& .MuiButtonBase-root": {
-    padding: "6px 8px",
+    padding: "4px 6px",
   },
   "& .MuiListItemIcon-root": {
     minWidth: "40px",

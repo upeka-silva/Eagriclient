@@ -78,6 +78,10 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import GppGoodIcon from '@mui/icons-material/GppGood';
+import SettingsIcon from '@mui/icons-material/Settings';
+import BiotechIcon from '@mui/icons-material/Biotech';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 
 import Organization from "../pages/Organization/Organization";
 import {
@@ -839,8 +843,7 @@ export const Routes = [
     path: "/tests",
     name: "Soil and Water Tests",
     isSideBar: true,
-    icon: ContentPasteSearchIcon,
-
+    icon: BiotechIcon,
     children: [
       {
         path: "/soil-test",
@@ -897,8 +900,7 @@ export const Routes = [
     path: "/farm-land",
     name: "Farm Land",
     isSideBar: true,
-    icon: GiIsland,
-    isService: "SC",
+    icon: InsertPhotoIcon,
     element: <FarmLand />,
     component: DEF_COMPONENTS.FARM_LAND,
   },
@@ -1015,14 +1017,13 @@ export const Routes = [
     path: "/gap",
     name: "GAP",
     isSideBar: true,
-    icon: ContentPasteSearchIcon,
+    icon: GppGoodIcon,
     children: [
       {
         path: "/gap-registration",
         name: "GAP Registration",
         element: <GapRegs />,
         isSideBar: true,
-        isService: "GAP",
         icon: AppRegistrationIcon,
         component: DEF_COMPONENTS.GAP_REQUEST,
       },
@@ -1196,7 +1197,7 @@ export const Routes = [
     path: "/app-settings",
     name: "Application Settings",
     isSideBar: true,
-    icon: ContentPasteSearchIcon,
+    icon: SettingsIcon,
     children: [
       {
         path: "/roles",

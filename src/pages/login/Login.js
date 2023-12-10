@@ -56,13 +56,13 @@ const Login = () => {
     navigate(location.state?.toPath || "/main-dashboard");
   };
 
-	const onError = (message) => {
-		addSnackBar({
-			type: SnackBarTypes.error,
-			message: message || 'Login Failed',
-		});
-		setLoading(false);
-	};
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setLoading(false);
+  };
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
@@ -104,9 +104,9 @@ const Login = () => {
     navigate("/temp-farmer");
   };
 
-	const goOrganization = () => {
-		navigate('/organization');
-	};
+  const goOrganization = () => {
+    navigate("/organization");
+  };
 
   return (
     <LoginWrapper>
@@ -146,9 +146,7 @@ const Login = () => {
                     justifyContent: "center",
                   }}
                 >
-                  <CircularProgress
-                    sx={{ color: theme.coreColors.white }}
-                  />
+                  <CircularProgress sx={{ color: theme.coreColors.white }} />
                   <Typography component="h1" variant="h5" sx={{ mt: "16px" }}>
                     Initializing
                   </Typography>
@@ -186,7 +184,7 @@ const Login = () => {
                           "& .MuiInputBase-root": {
                             height: 45,
                             background: `${Colors.white}`,
-                            borderRadius:'10px'
+                            borderRadius: "10px",
                           },
                         }}
                         InputProps={{
@@ -212,7 +210,7 @@ const Login = () => {
                           "& .MuiInputBase-root": {
                             height: 45,
                             background: `${Colors.white}`,
-                            borderRadius:'10px'
+                            borderRadius: "10px",
                           },
                         }}
                         InputProps={{
@@ -265,6 +263,7 @@ const Login = () => {
                           <CircularProgress
                             size={20}
                             sx={{ mt: "8px", mb: "8px" }}
+                            style={{ color: `${Colors.white}` }}
                           />
                         ) : (
                           "Sign In"
@@ -317,11 +316,9 @@ const OtherLinkWrapper = styled.div`
   padding-top: 35px;
   padding-right: 43px;
   padding-bottom: 35px;
-  /* width: 821px; */
 
   box-sizing: border-box;
   background: rgba(82, 92, 92, 0.3);
-  /* mix-blend-mode: multiply; */
   border: 2px solid #000000;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 31px;
@@ -333,8 +330,8 @@ const OtherLinkWrapper = styled.div`
 `;
 
 const CustomCard = styled.div`
-	margin: 0px;
-	padding: 18px 24px;
+  margin: 0px;
+  padding: 18px 24px;
 `;
 
 const LoginWrapper = styled.div`
@@ -367,24 +364,17 @@ const RegisterButtons = styled(ButtonContainer)`
   font-size: 20px;
   font-weight: 500;
   color: #ffffff;
-  /* width: 351px;
-	height: 91.07px; */
   gap: 20px;
   display: flex;
   align-items: center;
   padding-top: 20px;
   padding-bottom: 20px;
   margin-right: 10px;
-  width:300px;
-  
+  width: 300px;
+
   &:hover {
     background-color: #168c5a;
   }
-`;
-
-const ButtonWrapper = styled(ButtonContainer)`
-  display: flex;
-  flex-direction: row;
 `;
 
 const Title = styled.p`

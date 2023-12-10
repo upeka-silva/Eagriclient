@@ -276,9 +276,8 @@ export default AppHeader;
 const Wrapper = styled(Card)`
   display: block;
   min-height: 46px;
-  padding: 5px 20px;
+  padding: 3px 10px;
   background: ${Colors.white};
-  margin-top: 5px;
   position: sticky;
 `;
 
@@ -329,4 +328,5 @@ const Row = styled.div`
 const UserName = styled.span`
   font-size: 16px;
   color: ${Colors.baseColor};
+  font-family: ${Fonts.fontStyle1};
 `;
