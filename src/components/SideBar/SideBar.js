@@ -15,12 +15,19 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronDownIcon from "@mui/icons-material/ChevronRight";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import { Routes } from "../../routes/routes";
-import { Await, NavLink, useLocation, useNavigate } from "react-router-dom";
+import {
+  Await,
+  NavLink,
+  ScrollRestoration,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import {
   CollapseContainer,
   DrawerToggleButton,
   SideBarItemButton,
   SideBarItemToolTip,
+  ScrollContainer,
 } from "./Components";
 import { Fonts } from "../../utils/constants/Fonts";
 import { getUserPermissionByComponent } from "../../utils/helpers/permission";
@@ -37,7 +44,7 @@ const SideBar = () => {
   const toggleDrawer = () => {
     setOpen((current) => !current);
   };
-  const[loading,setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [filteredRoutes, setFilteredRoutes] = useState([]);
 
   const location = useLocation();
@@ -46,67 +53,66 @@ const SideBar = () => {
     return paths.includes(location.pathname);
   };
 
- useEffect( ()=>{
-  const getFilteredRoutes = async () => {
-    const filteredRoutes = await Promise.all(
-      Routes.map(async (r) => {
-        
-        if (r?.isSideBar === true && r?.component) {
-        
-          const p = await getUserPermissionByComponent(r.component);
-         
-          if (!p.isEnabled) {
-          
-            return null; // returning null for routes to be filtered out
-          }
-         
-        }
-        if(r?.children && r?.isSideBar === true){
-          const filteredChildren = await Promise.all( r?.children.map( async (c)=>{
-            if (c?.isSideBar === true && c?.component) {
-              const p = await getUserPermissionByComponent(c.component);
-              if (!p.isEnabled) {
-                 return null; // returning null for routes to be filtered out
-              }
-             
-            }
-            if(c?.isSideBar === true && c?.children){
-               const filteredChildren = await Promise.all(c?.children.map(async (cc)=>{
-                  if(cc?.isSideBar === true && cc?.component){
-                    const p = await getUserPermissionByComponent(cc?.component);
-                    if(!p.isEnabled){
-                      return null
-                    }
-                  }
-                  return cc
-               }))
-               if(!filteredChildren.some((c)=>c?.isSideBar)){
-                return null
-              }
-               c.children = filteredChildren
-            }
-            return c
-            
-          }))
+  useEffect(() => {
+    const getFilteredRoutes = async () => {
+      const filteredRoutes = await Promise.all(
+        Routes.map(async (r) => {
+          if (r?.isSideBar === true && r?.component) {
+            const p = await getUserPermissionByComponent(r.component);
 
-          console.log(filteredChildren.some((c)=>c?.isSideBar))
-          if(!filteredChildren.some((c)=>c?.isSideBar)){
-            return null
+            if (!p.isEnabled) {
+              return null; // returning null for routes to be filtered out
+            }
           }
-          r.children = filteredChildren
-          
-        }
-        
-         return r; // keep the route in the array
-      })
-    );
-   
-    setFilteredRoutes(filteredRoutes);
-    console.log(filteredRoutes)
-  };
-  getFilteredRoutes()
-  setLoading(true)
- },[])
+          if (r?.children && r?.isSideBar === true) {
+            const filteredChildren = await Promise.all(
+              r?.children.map(async (c) => {
+                if (c?.isSideBar === true && c?.component) {
+                  const p = await getUserPermissionByComponent(c.component);
+                  if (!p.isEnabled) {
+                    return null; // returning null for routes to be filtered out
+                  }
+                }
+                if (c?.isSideBar === true && c?.children) {
+                  const filteredChildren = await Promise.all(
+                    c?.children.map(async (cc) => {
+                      if (cc?.isSideBar === true && cc?.component) {
+                        const p = await getUserPermissionByComponent(
+                          cc?.component
+                        );
+                        if (!p.isEnabled) {
+                          return null;
+                        }
+                      }
+                      return cc;
+                    })
+                  );
+                  if (!filteredChildren.some((c) => c?.isSideBar)) {
+                    return null;
+                  }
+                  c.children = filteredChildren;
+                }
+                return c;
+              })
+            );
+
+            console.log(filteredChildren.some((c) => c?.isSideBar));
+            if (!filteredChildren.some((c) => c?.isSideBar)) {
+              return null;
+            }
+            r.children = filteredChildren;
+          }
+
+          return r; // keep the route in the array
+        })
+      );
+
+      setFilteredRoutes(filteredRoutes);
+      console.log(filteredRoutes);
+    };
+    getFilteredRoutes();
+    setLoading(true);
+  }, []);
 
   const renderSideBarRouteChildren = (parent) => {
     const { children = [] } = parent;
@@ -134,7 +140,9 @@ const SideBar = () => {
                       onClick={() => {
                         setSelectedSubRoute(r);
                         setOpenSecondary(true);
-                        if(r?.parentPath) { navigate(r?.parentPath)};
+                        if (r?.parentPath) {
+                          navigate(r?.parentPath);
+                        }
                       }}
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
@@ -185,77 +193,80 @@ const SideBar = () => {
   const renderSideBarRoutes = () => {
     //TODO: Add this condition later: r.isService === service
 
-    return filteredRoutes.filter((r) => r?.isSideBar === true).map((r, key) => {
-     
-      if (r.children) {
-        const toggleCollapseState = () => {
-          setSelectedRoute((current) => (current === r?.name ? null : r?.name));
-        };
+    return filteredRoutes
+      .filter((r) => r?.isSideBar === true)
+      .map((r, key) => {
+        if (r.children) {
+          const toggleCollapseState = () => {
+            setSelectedRoute((current) =>
+              current === r?.name ? null : r?.name
+            );
+          };
 
+          return (
+            <React.Fragment key={key}>
+              <SideBarItemToolTip
+                title={!open ? r.name : ""}
+                placement="right"
+                arrow
+              >
+                <SideBarItemButton
+                  key={key}
+                  // selected={
+                  //   selectedRoute === r?.name
+                  //    ||
+                  //   r?.children?.findIndex(
+                  //     (c) => c?.name === selectedSubRoute?.name
+                  //   ) > -1
+                  // }
+                  onClick={toggleCollapseState}
+                  haschildren={selectedRoute === r?.name || undefined}
+                >
+                  {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
+                  <ListItemText
+                    primary={r.name}
+                    sx={{ textDecoration: "none !important" }}
+                  />
+                  <ListItemIcon sx={{ minWidth: "unset !important" }}>
+                    <ChevronDownIcon sx={{ transform: "rotate(90deg)" }} />
+                  </ListItemIcon>
+                </SideBarItemButton>
+              </SideBarItemToolTip>
+              {loading === true && renderSideBarRouteChildren(r)}
+            </React.Fragment>
+          );
+        }
         return (
-          <React.Fragment key={key}>
-            <SideBarItemToolTip
-              title={!open ? r.name : ""}
-              placement="right"
-              arrow
+          <SideBarItemToolTip
+            title={!open ? r.name : ""}
+            placement="right"
+            arrow
+            key={key}
+          >
+            <NavLink
+              to={r.path}
+              style={{ textDecoration: "none !important" }}
+              key={key}
             >
               <SideBarItemButton
-                key={key}
-                // selected={
-                //   selectedRoute === r?.name
-                //    ||
-                //   r?.children?.findIndex(
-                //     (c) => c?.name === selectedSubRoute?.name
-                //   ) > -1
-                // }
-                onClick={toggleCollapseState}
-                haschildren={selectedRoute === r?.name || undefined}
+                key={r.path + "-item-button"}
+                selected={isCurrentScreen([r.path])}
+                onClick={() => {
+                  setSelectedRoute(null);
+                  setSelectedSubRoute(null);
+                  setOpenSecondary(false);
+                }}
               >
                 {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                 <ListItemText
                   primary={r.name}
                   sx={{ textDecoration: "none !important" }}
                 />
-                <ListItemIcon sx={{ minWidth: "unset !important" }}>
-                  <ChevronDownIcon sx={{ transform: "rotate(90deg)" }} />
-                </ListItemIcon>
               </SideBarItemButton>
-            </SideBarItemToolTip>
-            {loading === true && renderSideBarRouteChildren(r)}
-          </React.Fragment>
+            </NavLink>
+          </SideBarItemToolTip>
         );
-      }
-      return (
-        <SideBarItemToolTip
-          title={!open ? r.name : ""}
-          placement="right"
-          arrow
-          key={key}
-        >
-          <NavLink
-            to={r.path}
-            style={{ textDecoration: "none !important" }}
-            key={key}
-          >
-            <SideBarItemButton
-              key={r.path + "-item-button"}
-              selected={isCurrentScreen([r.path])}
-              onClick={() => {
-                setSelectedRoute(null);
-                setSelectedSubRoute(null);
-                setOpenSecondary(false);
-              }}
-            >
-              {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
-              <ListItemText
-                primary={r.name}
-                sx={{ textDecoration: "none !important" }}
-              />
-            </SideBarItemButton>
-          </NavLink>
-        </SideBarItemToolTip>
-      );
-    });
+      });
   };
 
   const renderSubRoutes = () => {

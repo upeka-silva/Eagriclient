@@ -25,7 +25,6 @@ const App = () => {
             <Wrapper>
               <BrowserRouter>
                 <PermissionWrapper component={<SideBar />} withoutPermissions />
-
                 <PageWrapper
                   sx={
                     userAuthenticated
@@ -67,6 +66,6 @@ const Wrapper = styled.div`
 const PageWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: calc(100vw - 170px);
-  ${(props) => (props.sx ? props.sx : "")}/* padding-right: 12px; */
+  width: calc(100vw - 160px);
+  ${(props) => (props.sx ? props.sx : "")}
 `;

@@ -149,7 +149,7 @@ const AppHeader = () => {
               }}
             />
           </BreakLine>
-          <IconButton
+          {/* <IconButton
             style={{ marginLeft: "20px" }}
             onClick={colorMode.toggleColorMode}
           >
@@ -158,7 +158,7 @@ const AppHeader = () => {
             ) : (
               <LightModeOutlined />
             )}
-          </IconButton>
+          </IconButton> */}
           <IconButton style={{ marginLeft: "10px" }}>
             <NotificationsNoneIcon />
           </IconButton>
