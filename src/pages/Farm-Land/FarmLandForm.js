@@ -17,14 +17,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
-  getFarmLandById,
   handleFarmLand,
   updateFarmLand,
 } from "../../redux/actions/farmLand/action";
@@ -933,14 +931,14 @@ const FarmLandForm = () => {
               {DEF_ACTIONS.ADD}
             </Button>
 
-            {selectedOwnership.length == 1 && (
+            {selectedOwnership.length === 1 && (
               <Button onClick={onEditFlOData}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
             )}
 
-            {selectedOwnership.length == 1 && (
+            {selectedOwnership.length === 1 && (
               <Button onClick={onViewFlOData}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}

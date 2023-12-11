@@ -122,7 +122,7 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       width: 400,
       headerClassName: "super-app-theme--header",
       renderCell: (params) =>
-        params.row.ownerType == "FARMER"
+        params.row.ownerType === "FARMER"
           ? params.row.farmerDTO.address
           : params.row.address,
     },
@@ -144,7 +144,6 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       field: "currentOwner",
       headerName: "Current Owner",
       width: 180,
-
       flex: 1,
       headerClassName: "super-app-theme--header",
     },
