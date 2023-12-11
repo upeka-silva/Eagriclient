@@ -28,6 +28,7 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { PhotoCamera } from "@mui/icons-material";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropForm = () => {
   useUserAccessValidation();
@@ -231,9 +232,7 @@ const CropForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader saving={saving} state={state} formName="Crop" />
-
+        <PageHeader saving={saving} goBack={goBack} state={state} formName="Crop" />
         <FormButtonGroup
           {...{
             state,

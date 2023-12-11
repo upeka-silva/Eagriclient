@@ -18,6 +18,7 @@ import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup
 import { get_ASC, get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { useEffect } from "react";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ARPAForm = () => {
   const navigate = useNavigate();
@@ -139,8 +140,7 @@ const ARPAForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="ARPA Division" />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="ARPA Division" />
       <FormButtonGroup
         {...{
           state,

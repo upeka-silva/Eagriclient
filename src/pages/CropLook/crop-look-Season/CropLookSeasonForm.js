@@ -32,6 +32,7 @@ import {
   handleCropLookSeason,
 } from "../../../redux/actions/cropLook/season/action";
 import BiWeekDataTable from "./BiWeekDataTable";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropLookSeasonForm = () => {
   useUserAccessValidation();
@@ -210,12 +211,7 @@ const CropLookSeasonForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Crop Look Season"
-      />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Look Season" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

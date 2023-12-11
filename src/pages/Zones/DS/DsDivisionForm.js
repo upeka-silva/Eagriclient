@@ -20,6 +20,7 @@ import { get_DistrictList } from "../../../redux/actions/district/action";
 import { useEffect } from "react";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
@@ -111,8 +112,7 @@ const DsDivisionForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="DS Division" />
+      <PageHeader goBack={goBack} saving={saving} state={state} formName="DS Division" />
       <ButtonWrapper
         style={{
           width: "95%",

@@ -19,6 +19,7 @@ import {
 } from "../../redux/actions/crop/cropDamage/action";
 import { Paper } from "@material-ui/core";
 import DamageTypes from "./damage-types";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const CropDamageForm = () => {
   useUserAccessValidation();
@@ -113,9 +114,7 @@ const CropDamageForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader saving={saving} state={state} formName="Crop Damage" />
-
+        <PageHeader saving={saving} state={state} formName="Crop Damage" goBack={goBack} />
         <FormButtonGroup
           {...{
             state,

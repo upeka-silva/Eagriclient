@@ -42,6 +42,7 @@ import {
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ProvincialAdaForm = () => {
   useUserAccessValidation();
@@ -136,11 +137,11 @@ const ProvincialAdaForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader 
         saving={saving}
         state={state}
-        formName="Provincial ADA Segment"
+        formName="Provincial ADA Segment" 
+        goBack={goBack}  
       />
       <FormButtonGroup
         state={state}

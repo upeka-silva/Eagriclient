@@ -12,6 +12,7 @@ import { handleRoles } from "../../../redux/actions/app_settings/roles/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const RoleForm = () => {
   const navigate = useNavigate();
@@ -90,8 +91,7 @@ const RoleForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="Role" />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Role" />
       <ButtonWrapper
         isCeneter
         style={{

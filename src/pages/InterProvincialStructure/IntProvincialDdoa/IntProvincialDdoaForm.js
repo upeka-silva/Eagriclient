@@ -40,6 +40,7 @@ import { handleInterProvincialDdoa } from "../../../redux/actions/interProvincia
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const IntProvincialDdoaForm = () => {
   useUserAccessValidation();
@@ -137,12 +138,7 @@ const IntProvincialDdoaForm = () => {
   return (
     <FormWrapper>
       
-       <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Inter Provincial Deputy Director"
-      />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Inter Provincial Deputy Director" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

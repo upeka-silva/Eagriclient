@@ -35,6 +35,7 @@ import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const SoilSubTypeForm = () => {
   useUserAccessValidation();
@@ -146,11 +147,11 @@ const SoilSubTypeForm = () => {
   return (
     <FormWrapper>
       
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader
         saving={saving}
         state={state}
         formName="Soil Sub Type"
+        goBack={goBack}
       />
        <FormButtonGroup
         state={state}

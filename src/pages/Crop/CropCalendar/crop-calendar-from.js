@@ -36,6 +36,7 @@ import {
   createCropCalendar,
   updateCropCalendar,
 } from "../../../redux/actions/crop/cropCalendar/action";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropCalendarForm = () => {
   useUserAccessValidation();
@@ -150,12 +151,7 @@ const CropCalendarForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Configuration"
-        />
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Configuration" />
         <Grid container spacing={2}>
           <Grid item sm={12} md={12} lg={12} sx={{ alignItems: "center" }}>
             <Grid container>

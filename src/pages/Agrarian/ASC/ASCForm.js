@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ASCForm = () => {
   const navigate = useNavigate();
@@ -114,8 +115,7 @@ const ASCForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="ASC Division" />
+      <PageHeader saving={saving} state={state} formName="ASC Division" goBack={goBack}/>
       <FormButtonGroup
         {...{
           state,

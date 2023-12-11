@@ -12,6 +12,15 @@ function BackToList({ goBack }) {
         onClick={goBack}
         color="success"
         size="small"
+        sx={{
+          height: '25px',
+          width: '26px',
+          fontSize: '13px',
+          textTransform: 'capitalize',
+          '& .MuiButton-startIcon': {
+            marginRight: '4px'
+          },
+        }}
       >
         Back
       </Button>

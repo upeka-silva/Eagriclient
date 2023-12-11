@@ -39,6 +39,7 @@ import { Add, Remove, Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import { createCropConfig } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropConfigurationForm = () => {
   useUserAccessValidation();
@@ -173,12 +174,7 @@ const CropConfigurationForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Configuration"
-        />
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Configuration" />
         <Grid container>
           <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
             <Grid container>

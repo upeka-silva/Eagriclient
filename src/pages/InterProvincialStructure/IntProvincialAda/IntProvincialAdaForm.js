@@ -25,6 +25,7 @@ import { get_InterProvincialDdoaList } from "../../../redux/actions/interProvinc
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const IntProvincialAdaForm = () => {
   useUserAccessValidation();
@@ -121,12 +122,7 @@ const IntProvincialAdaForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Inter Provincial ADA"
-      />
+      <PageHeader goBack={goBack} saving={saving} state={state} formName="Inter Provincial ADA" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

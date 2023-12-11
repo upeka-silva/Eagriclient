@@ -33,6 +33,7 @@ import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const WaterTestForm = () => {
   useUserAccessValidation();
@@ -159,11 +160,11 @@ const WaterTestForm = () => {
         overflowY: "scroll",
       }}
     >
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader
         saving={saving}
         state={state}
         formName="Water Test"
+        goBack={goBack}
       />
      <FormButtonGroup
         state={state}

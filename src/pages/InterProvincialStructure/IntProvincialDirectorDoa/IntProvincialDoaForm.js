@@ -35,6 +35,7 @@ import {
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const IntProvincialDoaForm = () => {
   useUserAccessValidation();
@@ -120,12 +121,7 @@ const IntProvincialDoaForm = () => {
   return (
     <FormWrapper>
       
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Inter Provincial Director DOA"
-      />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Inter Provincial Director DOA" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
