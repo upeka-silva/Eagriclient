@@ -887,11 +887,15 @@ export const DataTable = ({
         )}
       </TableHeaderContainer>
       <Table sx={{ borderCollapse: "unset !important" }} size="small">
-        <TableHead>
+        <TableHead sx={{ padding: "0px 0px 0px 0px !important" }}>
           <TableRow sx={{ background: `${colors.table_header}}` }}>
             {selectable && (
               <TableCell
-                sx={{ border: "1px solid #CCC !important", width: "50px" }}
+                sx={{
+                  border: "1px solid #CCC !important",
+                  width: "30px",
+                  padding: "2px 0px 2px 20px !important",
+                }}
               >
                 <ActionToolTip
                   title={
@@ -934,6 +938,8 @@ export const DataTable = ({
                         ? {}
                         : { textAlign: "right !important" }),
                       color: "white",
+                      alignContent: "center",
+                      padding: "2px 0px 2px 20px !important",
                     }}
                   >
                     {c?.type !== "actions" ? (
@@ -970,7 +976,7 @@ export const DataTable = ({
               // firstChild={key === 0}
             >
               {selectable && (
-                <TableCell>
+                <TableCell sx={{ padding: "2px 0px 2px 20px !important" }}>
                   {(selectedRows || []).findIndex((sr) => sr?.id === r.id) >
                   -1 ? (
                     <SquareIcon
@@ -990,7 +996,7 @@ export const DataTable = ({
                 if (!c?.hidden) {
                   if (c.type === "actions") {
                     return (
-                      <TableCell key={`${key}-${key2}`} contextMenu="none">
+                      <TableCell key={`${key}-${key2}`} contextMenu="none" sx={{ padding: "2px 0px 2px 20px !important" }}>
                         {/* <ActionWrapper> */}
                         <ActionToolTip title="actions" placement="top" arrow>
                           <IconButton
@@ -1035,7 +1041,7 @@ export const DataTable = ({
                   }
                   if (c?.type === "datetime") {
                     return (
-                      <TableCell key={`${key}-${key2}`}>
+                      <TableCell key={`${key}-${key2}`} sx={{ padding: "2px 0px 2px 20px !important" }}>
                         {new Date(r[c.field] || undefined).toLocaleString(
                           "en-UK",
                           {
@@ -1062,7 +1068,7 @@ export const DataTable = ({
                   }
                   if (c?.type === "time") {
                     return (
-                      <TableCell key={`${key}-${key2}`}>
+                      <TableCell key={`${key}-${key2}`} sx={{ padding: "2px 0px 2px 20px !important" }}>
                         {new Date(r[c.field] || undefined).toLocaleTimeString(
                           "en-UK",
                           { hour12: true, hour: "2-digit", minute: "2-digit" }
@@ -1180,7 +1186,7 @@ const AdvanceSearchFormWrapper = styled.div`
   flex-wrap: wrap;
   border: 1px solid #ccc;
   padding: 5px;
-  border-radius: 10px;
+  border-radius: 8px;
 `;
 
 const AdvancedSearchItemWrapper = styled.div`
@@ -1233,7 +1239,7 @@ const SelectableRow = styled(TableRow)`
   background: ${(props) => (props.selected ? "white !important" : "inehrit")};
   border-width: ${(props) =>
     props.selected ? "2px 1.5px" : "0px 0px 1px 0px"};
-  border-radius: ${(props) => (props.selected ? "10px !important" : "unset")};
+  border-radius: ${(props) => (props.selected ? "5px !important" : "unset")};
   border: ${(props) => (props.selected ? "unset !important" : "inherit")};
   border-collapse: collapse !important;
   transition: 0.3s ease;
@@ -1284,9 +1290,9 @@ const SelectableRow = styled(TableRow)`
         ? `1px solid ${theme.coreColors.primary} !important`
         : "1px solid transparent"};
     border-top-left-radius: ${(props) =>
-      props.selected ? "10px !important" : "unset"};
+      props.selected ? "8px !important" : "unset"};
     border-bottom-left-radius: ${(props) =>
-      props.selected ? "10px !important" : "unset"};
+      props.selected ? "8px !important" : "unset"};
   }
 
   & td:last-child {
@@ -1295,8 +1301,8 @@ const SelectableRow = styled(TableRow)`
         ? `1px solid ${theme.coreColors.primary} !important`
         : "1px solid transparent"};
     border-bottom-right-radius: ${(props) =>
-      props.selected ? "10px !important" : "unset"};
+      props.selected ? "8px !important" : "unset"};
     border-top-right-radius: ${(props) =>
-      props.selected ? "10px !important" : "unset"};
+      props.selected ? "8px !important" : "unset"};
   }
 `;

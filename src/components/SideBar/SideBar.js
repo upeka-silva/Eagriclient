@@ -348,7 +348,8 @@ const SideBar = () => {
             overflowY: "auto",
             margin: 0,
             padding: 1,
-            listStyle: "none",            
+            fontSize: 12,
+            listStyle: "none",
             height: "100%",
             "&::-webkit-scrollbar": {
               width: "0.4em",

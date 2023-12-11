@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import CropCategoryList from "./CropCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -24,7 +23,6 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   Add,
@@ -32,12 +30,8 @@ import {
   CheckRounded,
   Delete,
   Edit,
-  Margin,
-  SaveAltOutlined,
   Vrpano,
 } from "@mui/icons-material";
-import theme from "../../../utils/theme/theme.json";
-import { Fonts } from "../../../utils/constants/Fonts";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 
 const CropCategory = () => {

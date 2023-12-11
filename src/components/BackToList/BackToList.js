@@ -3,15 +3,17 @@ import { Button } from "@mui/material";
 import React from "react";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
 
-function BackToList({goBack}) {
+function BackToList({ goBack }) {
   return (
     <ActionWrapper isLeft>
       <Button
+        variant="outlined"
         startIcon={<ArrowCircleLeftRounded />}
         onClick={goBack}
         color="success"
+        size="small"
       >
-        Back to List
+        Back
       </Button>
     </ActionWrapper>
   );

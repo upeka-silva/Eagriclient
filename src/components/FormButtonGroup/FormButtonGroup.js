@@ -6,6 +6,7 @@ import { ButtonWrapper } from "../FormLayout/ButtonWrapper";
 import {FieldWrapper} from "../FormLayout/FieldWrapper";
 import {FieldName} from "../FormLayout/FieldName";
 import {tokens} from "../../utils/theme/app-theme";
+import BackToList from "../BackToList/BackToList";
 
 const FormButtonGroup = ({
   state,
@@ -13,7 +14,8 @@ const FormButtonGroup = ({
   saving,
   enableSave,
   handleFormSubmit,
-  resetForm, isVerifiedFunctionality, verifyForm, verifiedStatus
+  resetForm, isVerifiedFunctionality, verifyForm, verifiedStatus,
+  
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -23,9 +25,10 @@ const FormButtonGroup = ({
       style={{
         justifyContent: "flex-start",
         margin: "0",
-        paddingLeft: "18px",
+        paddingLeft: "10px",
       }}
     >
+      <BackToList goBack={""}/>
       {state?.action !== DEF_ACTIONS.VIEW && (
         <ActionWrapper>
           {saving ? (
