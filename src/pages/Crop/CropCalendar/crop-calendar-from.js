@@ -151,8 +151,8 @@ const CropCalendarForm = () => {
   return (
     <div>
       <FormWrapper>
-        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Configuration" />
-        <Grid container spacing={2}>
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Calender" />
+        <Grid container>
           <Grid item sm={12} md={12} lg={12} sx={{ alignItems: "center" }}>
             <Grid container>
               <Grid item>
@@ -178,6 +178,7 @@ const CropCalendarForm = () => {
                 //id={index}
                 value={formData.name || ""}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
+                fullWidth
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -198,6 +199,7 @@ const CropCalendarForm = () => {
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")
                 }
+                fullWidth
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -218,6 +220,7 @@ const CropCalendarForm = () => {
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "legacyCalendarUrl")
                 }
+                fullWidth
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -227,7 +230,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2} sm={2} sx={2}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Crop</FieldName>
               <Autocomplete
@@ -251,7 +254,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={8} sm={8} sx={8}>
+          <Grid item sm={8} md={8} lg={8}>
             <FieldWrapper>
               <FieldName>Variety List</FieldName>
               <Autocomplete
@@ -276,7 +279,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2} sm={2} sx={2}>
+          <Grid item sm={3} md={3} lg={3} >
             <FieldWrapper>
               <FieldName>Agriculture Zone</FieldName>
               <Autocomplete
