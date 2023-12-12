@@ -40,6 +40,7 @@ import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const InstitutionForm = () => {
   useUserAccessValidation();
@@ -150,8 +151,7 @@ const InstitutionForm = () => {
         fontFamily: `${Fonts.fontStyle1}`,
       }}
     >
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="Institution" />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Institution" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

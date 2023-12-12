@@ -18,6 +18,7 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropSubCategoryForm = () => {
   useUserAccessValidation();
@@ -122,12 +123,7 @@ const CropSubCategoryForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Sub Category"
-        />
+        <PageHeader saving={saving} goBack={goBack} formName="Crop Sub Category" state={state} />
         <FormButtonGroup
           {...{
             state,

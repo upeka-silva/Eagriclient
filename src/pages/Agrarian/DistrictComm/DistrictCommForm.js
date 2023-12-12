@@ -16,6 +16,7 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const DistrictCommForm = () => {
   useUserAccessValidation();
@@ -110,12 +111,7 @@ const DistrictCommForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="District Commissioner"
-      />
+      <PageHeader saving={saving} state={state} formName="District Commissioner" goBack={goBack} />
       <FormButtonGroup
         {...{
           state,

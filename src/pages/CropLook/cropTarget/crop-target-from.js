@@ -41,6 +41,7 @@ import {
   getAllAiAndMahaweliUnits,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const CropTargetForm = () => {
   useUserAccessValidation();
@@ -196,8 +197,7 @@ const CropTargetForm = () => {
   return (
     <div>
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader saving={saving} state={state} formName="Crop Target" />
+        <PageHeader saving={saving} state={state} formName="Crop Target" goBack={goBack} />
         <FormButtonGroup
           {...{
             state,

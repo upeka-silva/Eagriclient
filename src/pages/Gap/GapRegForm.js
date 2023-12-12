@@ -64,6 +64,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
 import HorizontalStepper from "../../components/HorizontalStepper/HorizontalStepper";
 import MultiItemSelect from "../../components/MultiItemSelector/MultiItemSelectorComponent";
+import PageHeader from "../../components/PageHeader/PageHeader";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -521,9 +522,7 @@ const GapRegForm = () => {
         overflowY: "scroll",
       }}
     >
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="GAP Request" />
-
+      <PageHeader saving={saving} state={state} formName="GAP Request" goBack={goBack} />
       <Grid container sx={{ marginTop: "10px", marginBottom: "10px" }}>
         <Grid
           item

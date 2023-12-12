@@ -31,6 +31,7 @@ import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincial
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ProvincialAiRegionForm = () => {
   useUserAccessValidation();
@@ -160,11 +161,11 @@ const ProvincialAiRegionForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader 
         saving={saving}
         state={state}
         formName="Provincial Ai Region"
+        goBack={goBack}
       />
      <FormButtonGroup
         state={state}

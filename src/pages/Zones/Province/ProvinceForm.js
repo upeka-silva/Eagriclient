@@ -19,6 +19,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ProvinceForm = () => {
   useUserAccessValidation();
@@ -103,8 +104,7 @@ const ProvinceForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="Province" />
+      <PageHeader goBack={goBack} saving={saving} state={state} formName="Province" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

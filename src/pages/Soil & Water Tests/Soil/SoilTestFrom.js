@@ -35,6 +35,7 @@ import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const SoilTestFrom = () => {
   useUserAccessValidation();
@@ -132,8 +133,7 @@ const SoilTestFrom = () => {
         overflowY: "scroll",
       }}
     >
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="Soil Test" />
+      <PageHeader saving={saving} state={state} formName="Soil Test" goBack={goBack} />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

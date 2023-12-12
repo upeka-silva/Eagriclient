@@ -60,6 +60,7 @@ import {
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -458,10 +459,7 @@ const FarmLandForm = () => {
         overflowY: "scroll",
       }}
     >
-      <Box>
-        <BackToList goBack={goBack} />
-        <CustFormHeader saving={saving} state={state} formName="Farm Land" />
-      </Box>
+      <PageHeader saving={saving} state={state} goBack={goBack} formName='Farm Land' />
 
       <TabContent
         style={{

@@ -29,6 +29,7 @@ import {
 } from "../../redux/actions/cropLook/cropRegistration/actions";
 import { REGION_PARENT_TYPE } from "../../utils/constants/region-parent-type";
 import { Fonts } from "../../utils/constants/Fonts";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const CropRegistrationForm = () => {
   useUserAccessValidation();
@@ -225,12 +226,7 @@ const CropRegistrationForm = () => {
       }}
     >
       <FormWrapper>
-        <BackToList goBack={goBack} />
-        <CustFormHeader
-          saving={saving}
-          state={state}
-          formName="Crop Registration"
-        />
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Registration" />
         <FormButtonGroup
           {...{
             state,

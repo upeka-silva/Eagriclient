@@ -15,6 +15,7 @@ import {
 import { Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const ProtectedHouseTypeForm = () => {
   useUserAccessValidation();
@@ -102,11 +103,11 @@ const ProtectedHouseTypeForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader 
         saving={saving}
         state={state}
         formName="Protected House Type"
+        goBack={goBack}
       />
       <FormButtonGroup
         state={state}

@@ -27,6 +27,7 @@ import { ResetButton } from "../../../components/FormLayout/ResetButton";
 import { get_ASC } from "../../../redux/actions/asc/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const AIForm = () => {
   useUserAccessValidation();
@@ -115,8 +116,7 @@ const AIForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="AI Region" />
+      <PageHeader saving={saving} state={state} formName="AI Region" goBack={goBack} />
       <ButtonWrapper
         isCeneter
         style={{

@@ -16,6 +16,7 @@ import {
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const UserTypeForm = () => {
   useUserAccessValidation();
@@ -100,8 +101,7 @@ const UserTypeForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="User Type" />
+      <PageHeader goBack={goBack} saving={saving} state={state} formName="User Type" />
       <FormButtonGroup
         {...{
           state,

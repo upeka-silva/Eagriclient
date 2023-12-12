@@ -74,6 +74,7 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -446,8 +447,8 @@ const GnDivisionForm = () => {
 
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader
+        goBack={goBack}
         saving={saving}
         state={state}
         formName="Grama Nildari Division"

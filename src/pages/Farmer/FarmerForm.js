@@ -31,6 +31,7 @@ import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { PhotoCamera } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 export const farmerDto = {
   firstName: "",
@@ -294,8 +295,7 @@ const FarmerForm = () => {
 
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="Farmer" />
+      <PageHeader saving={saving} state={state} formName="Farmer" goBack={goBack} />
       <ButtonWrapper
         isCeneter
         style={{

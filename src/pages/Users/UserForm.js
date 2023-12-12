@@ -47,6 +47,7 @@ import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { PhotoCamera } from "@mui/icons-material";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const UsersForm = () => {
   useUserAccessValidation();
@@ -484,8 +485,7 @@ const UsersForm = () => {
   return (
     <>
       <FormWrapper style={{ overflowY: "scroll" }}>
-        <BackToList goBack={goBack} />
-        <CustFormHeader saving={saving} state={state} formName="New User" />
+        <PageHeader goBack={goBack} saving={saving} state={state} formName="New User" />
         <FormButtonGroup
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}

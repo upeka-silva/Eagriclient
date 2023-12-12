@@ -30,6 +30,7 @@ import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const DistrictForm = () => {
   useUserAccessValidation();
@@ -127,11 +128,11 @@ const DistrictForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader
         saving={saving}
         state={state}
         formName="District"
+        goBack={goBack}
       />
      <FormButtonGroup
         state={state}

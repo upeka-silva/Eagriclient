@@ -28,7 +28,7 @@ const FormButtonGroup = ({
         paddingLeft: "10px",
       }}
     >
-      <BackToList goBack={""}/>
+      {/* <BackToList goBack={""}/> */}
       {state?.action !== DEF_ACTIONS.VIEW && (
         <ActionWrapper>
           {saving ? (

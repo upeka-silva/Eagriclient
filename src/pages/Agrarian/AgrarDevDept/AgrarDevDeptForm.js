@@ -15,6 +15,7 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const AgrarDevDeptForm = () => {
   useUserAccessValidation();
@@ -99,12 +100,7 @@ const AgrarDevDeptForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Department of Agrarian development"
-      />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="Department of Agrarian development" />
       <FormButtonGroup
         {...{
           state,

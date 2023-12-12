@@ -38,6 +38,7 @@ import { Add, Edit } from "@mui/icons-material";
 import BackToList from "../../components/BackToList/BackToList";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../components/PageHeader/PageHeader";
 
 const AgriSeasonForm = () => {
   useUserAccessValidation();
@@ -156,12 +157,7 @@ const AgriSeasonForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
-        saving={saving}
-        state={state}
-        formName="Agriculture Season"
-      />
+      <PageHeader saving={saving} state={state} formName="Agriculture Season" goBack={goBack}/>
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

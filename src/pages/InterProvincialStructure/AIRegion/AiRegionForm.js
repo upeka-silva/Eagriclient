@@ -48,6 +48,7 @@ import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/inter
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const InterProvincialAiRegionForm = () => {
   useUserAccessValidation();
@@ -204,8 +205,7 @@ const InterProvincialAiRegionForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader saving={saving} state={state} formName="AI Region" />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName="AI Region" />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}

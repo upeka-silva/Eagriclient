@@ -19,6 +19,7 @@ import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/acti
 import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const ProvincialDdoaForm = () => {
   useUserAccessValidation();
@@ -111,10 +112,10 @@ const ProvincialDdoaForm = () => {
 
   return (
     <FormWrapper>
-      <BackToList goBack={goBack} />
-      <CustFormHeader
+      <PageHeader
         saving={saving}
         state={state}
+        goBack={goBack}
         formName="Provincial Deputy Director"
       />
       <FormButtonGroup
