@@ -1,41 +1,28 @@
-import React, { useState, useEffect } from "react";
 import {
-  Button,
-  TextField,
-  CircularProgress,
   Autocomplete,
   Grid,
+  TextField
 } from "@mui/material";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleSoilSubType,
   updateSoilSubType,
 } from "../../../redux/actions/soil/soilSubType/action";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  DEF_ACTIONS
+} from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
 
 const SoilSubTypeForm = () => {
   useUserAccessValidation();

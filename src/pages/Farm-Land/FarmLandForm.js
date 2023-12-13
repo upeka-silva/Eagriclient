@@ -1,66 +1,58 @@
-import React, { useState, useEffect } from "react";
 import {
-  TextField,
-  Button,
-  Grid,
   Autocomplete,
-  FormControl,
-  Select,
-  MenuItem,
   Box,
-  Stack,
-  CircularProgress,
+  Button,
   ButtonGroup,
+  CircularProgress,
   Divider,
+  FormControl,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
 } from "@mui/material";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import styled from "styled-components";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleFarmLand,
   updateFarmLand,
 } from "../../redux/actions/farmLand/action";
-import styled from "styled-components";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import FarmLandLocation from "./FarmLandLocation";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
-import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
-import { isEmpty } from "../../utils/helpers/stringUtils";
-import GridFormField from "../../components/GridFormField/GridFormField";
-import { FORM_CONTROL_TYPE } from "../../components/GridFormField/FieldType";
-import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
-import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import OwnershipList from "./FarmLandOwnership/OwnershipList";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../components/PageLayout/DialogBox";
 import {
   deleteFarmLandOwnership,
-  get_FarmLandOwnershipList,
-  get_FarmLandOwnershipListByLandId,
+  get_FarmLandOwnershipListByLandId
 } from "../../redux/actions/farmerLandOwnership/action";
-import DialogBox from "../../components/PageLayout/DialogBox";
+import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { isEmpty } from "../../utils/helpers/stringUtils";
+import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmLand";
+import FarmLandLocation from "./FarmLandLocation";
+import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
+import OwnershipList from "./FarmLandOwnership/OwnershipList";
 
 const FarmLandForm = () => {
   useUserAccessValidation();

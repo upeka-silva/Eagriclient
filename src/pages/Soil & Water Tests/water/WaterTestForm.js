@@ -1,39 +1,25 @@
+import { Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { TextField, Button, CircularProgress, Grid } from "@mui/material";
-import styled from "styled-components";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { Fonts } from "../../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { Colors } from "../../../utils/constants/Colors";
-import { Fonts } from "../../../utils/constants/Fonts";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 import {
   handleWaterTest,
   updateWaterTest,
 } from "../../../redux/actions/soil & water tests/water/action";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { Add, Edit } from "@mui/icons-material";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const WaterTestForm = () => {
   useUserAccessValidation();

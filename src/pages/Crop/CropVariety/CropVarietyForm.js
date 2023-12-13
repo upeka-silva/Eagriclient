@@ -1,25 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { TextField, Autocomplete, Grid, Box, IconButton } from "@mui/material";
+import { PhotoCamera } from "@mui/icons-material";
+import { Autocomplete, Box, Grid, IconButton, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import { useNavigate, useLocation } from "react-router-dom";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import PageHeader from "../../../components/PageHeader/PageHeader";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import {
   handleCropVariety,
   handleCropVarietyImage,
   updateCropVariety,
 } from "../../../redux/actions/crop/cropVariety/action";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { get_CropList } from "../../../redux/actions/crop/crop/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import { PhotoCamera } from "@mui/icons-material";
-import PageHeader from "../../../components/PageHeader/PageHeader";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();

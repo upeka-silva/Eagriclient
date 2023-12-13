@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Vrpano
+} from "@mui/icons-material";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
   Button,
@@ -11,57 +17,43 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField,
-  useStepContext,
+  TextField
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
+import { get_AiRegionListByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
+import { get_arpaListByAscId } from "../../../redux/actions/arpa/action";
+import { get_ASCListByComId } from "../../../redux/actions/asc/action";
+import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
+import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
+import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
+import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
+import { get_MahaweliUnitListByBlockId } from "../../../redux/actions/mahaweliUnit/action";
+import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
+import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import GnDivisionList from "./GnDivisionList";
-import { ActionButton } from "../../../components/ActionButtons/ActionButton";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Search,
-  Vrpano,
-} from "@mui/icons-material";
-import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
-import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
-import ListHeader from "../../../components/ListHeader/ListHeader";
-import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
-import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
-import { isA } from "@jest/expect-utils";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
-import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
-import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
-import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
-import { get_MahaweliUnitListByBlockId } from "../../../redux/actions/mahaweliUnit/action";
-import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import { get_ASCListByComId } from "../../../redux/actions/asc/action";
-import { get_arpaListByAscId } from "../../../redux/actions/arpa/action";
-import { get_AiRegionListByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
+import GnDivisionList from "./GnDivisionList";
 
 const GnDivision = () => {
   useUserAccessValidation();

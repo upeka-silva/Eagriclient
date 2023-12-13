@@ -1,46 +1,30 @@
-import React, { useState, useEffect } from "react";
 import {
-  TextField,
-  Button,
-  CircularProgress,
-  Grid,
-  Box,
   Autocomplete,
-  FormControl,
-  Select,
+  Grid,
   MenuItem,
+  Select,
+  TextField
 } from "@mui/material";
-import { useUserAccessValidation } from "../../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import { get_GnDivisionList } from "../../../redux/actions/gnDivision/action";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
   handleInstitution,
   updateInstitution,
 } from "../../../redux/actions/institution/institution/action";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { get_InstitutionCatList } from "../../../redux/actions/institution/institutionCategory/action";
 import { Colors } from "../../../utils/constants/Colors";
 import { Fonts } from "../../../utils/constants/Fonts";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { get_InstitutionCatList } from "../../../redux/actions/institution/institutionCategory/action";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import PageHeader from "../../../components/PageHeader/PageHeader";
+import {
+  DEF_ACTIONS
+} from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 const InstitutionForm = () => {
   useUserAccessValidation();

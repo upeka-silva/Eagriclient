@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   ButtonGroup,
@@ -7,34 +8,25 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  TextField,
-  Typography,
+  ListItemText
 } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import ProvinceList from "./ProvinceList";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import { deleteProvince } from "../../../redux/actions/province/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { useNavigate } from "react-router";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteProvince } from "../../../redux/actions/province/action";
-import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { SearchWrapper } from "../../../components/PageLayout/SearchWrapper";
-import { Colors } from "../../../utils/constants/Colors";
-import { SearchButton } from "../../../components/PageLayout/SearchButton";
-import { ClearButton } from "../../../components/PageLayout/ClearButton";
-import SearchIcon from "@mui/icons-material/Search";
-import SearchImg from "../../../assets/images/Search.png";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader";
+import ProvinceList from "./ProvinceList";
 
 const Province = () => {
   useUserAccessValidation();

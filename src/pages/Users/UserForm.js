@@ -1,53 +1,51 @@
-import React, { useState, useEffect } from "react";
+import { PhotoCamera } from "@mui/icons-material";
 import {
-  TextField,
+  Autocomplete,
+  Box,
   Button,
   CircularProgress,
-  MenuItem,
   FormControl,
   Grid,
-  Autocomplete,
+  IconButton,
+  MenuItem,
+  Select,
   Stack,
-  Box,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
-  IconButton,
-  Select,
 } from "@mui/material";
-import styled from "styled-components";
-import { Colors } from "../../utils/constants/Colors";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import styled from "styled-components";
+import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../context/SnackBarContext";
 import data from "../../dropdown/drodwnlist";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleUserProfile,
   handleUsers,
   updateUsers,
 } from "../../redux/actions/users/action";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import RoleSelection from "./RoleSelection";
 import { get } from "../../services/api/index";
-import AdministrativeDivisionSelectFilter from "../../components/FilterTypeFilter/AdministrativeDivisionSelectFilter";
-import DialogBox from "../../components/PageLayout/DialogBox";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
-import { PhotoCamera } from "@mui/icons-material";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { Colors } from "../../utils/constants/Colors";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import RoleSelection from "./RoleSelection";
 
 const UsersForm = () => {
   useUserAccessValidation();

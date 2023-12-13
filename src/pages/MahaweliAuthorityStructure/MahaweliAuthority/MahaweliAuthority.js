@@ -1,11 +1,3 @@
-import React, { useState } from "react";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useNavigate } from "react-router-dom";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
@@ -17,22 +9,24 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { ActionButton } from "../../../components/ActionButtons/ActionButton";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import MahaweliAuthorityList from "./MahaweliAuthorityList";
-import { deleteMahaweliAuthority } from "../../../redux/actions/mahaweliAuthority/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import { deleteMahaweliAuthority } from "../../../redux/actions/mahaweliAuthority/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import MahaweliAuthorityList from "./MahaweliAuthorityList";
 
 const MahaweliAuthority = () => {
   useUserAccessValidation();

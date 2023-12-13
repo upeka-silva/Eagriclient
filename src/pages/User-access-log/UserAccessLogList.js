@@ -1,5 +1,4 @@
 import React from "react";
-import { CardWrapper } from "../../components/PageLayout/Card";
 import { DataTable } from "../../components/PageLayout/Table";
 import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 

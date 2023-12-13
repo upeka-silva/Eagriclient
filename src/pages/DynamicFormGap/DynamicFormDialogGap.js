@@ -1,24 +1,19 @@
-import React, {useState, useEffect} from 'react'
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import {Box, Button, Grid, MenuItem, Select, TextField} from "@mui/material";
-import {Colors} from "../../utils/constants/Colors";
-import {FieldWrapper} from "../../components/FormLayout/FieldWrapper";
-import {FieldName} from "../../components/FormLayout/FieldName";
-import {Fonts} from "../../utils/constants/Fonts";
-import {DEF_ACTIONS} from "../../utils/constants/permission";
+import { Add, Edit } from "@mui/icons-material";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import {useUserAccessValidation} from "../../hooks/authentication";
-import {useLocation} from "react-router";
-import {ActionWrapper} from "../../components/PageLayout/ActionWrapper";
-import {Add, Edit} from "@mui/icons-material";
-import {ButtonWrapper} from "../../components/FormLayout/ButtonWrapper";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from "react-router";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
+import { fileUploadForm } from "../../redux/actions/auditForm/action";
+import { Colors } from "../../utils/constants/Colors";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import FileUploadDynamic from "./FileUploadDynamic";
-import {fileUploadForm, saveGapDataWithValues} from "../../redux/actions/auditForm/action";
-import {SnackBarTypes} from "../../utils/constants/snackBarTypes";
-import {useSnackBars} from "../../context/SnackBarContext";
 
 export default function DynamicFormDialogGap({
                                               open,

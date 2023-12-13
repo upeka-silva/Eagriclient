@@ -1,21 +1,19 @@
+import { Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleProtectedHouseType,
   updateProtectedHousType,
 } from "../../redux/actions/protectedHouseType/action";
-import { Grid, TextField } from "@mui/material";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const ProtectedHouseTypeForm = () => {
   useUserAccessValidation();

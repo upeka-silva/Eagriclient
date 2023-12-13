@@ -1,54 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useNavigate } from "react-router-dom";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
-  Autocomplete,
   Button,
   ButtonGroup,
   CircularProgress,
   Divider,
-  Grid,
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
-  TextField,
+  ListItemText
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { ActionButton } from "../../../components/ActionButtons/ActionButton";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import {
-  deleteProvincialDoa,
-  get_ProvincialDoaList,
-} from "../../../redux/actions/ProvincialDoa/action";
 import {
   Add,
   Delete,
   Edit,
-  RestartAlt,
-  Search,
-  Vrpano,
+  Vrpano
 } from "@mui/icons-material";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import MahaweliSystemList from "./MahaweliSystemList";
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
 import { deleteMahaweliSystem } from "../../../redux/actions/mahaweliSystem/action";
-import ListHeader from "../../../components/ListHeader/ListHeader";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import MahaweliSystemList from "./MahaweliSystemList";
 
 const MahaweliSystem = () => {
   useUserAccessValidation();

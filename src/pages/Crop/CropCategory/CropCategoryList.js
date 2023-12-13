@@ -1,5 +1,4 @@
 import { DataTable } from "../../../components/PageLayout/Table";
-import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const CropCategoryList = ({
   selectedRows = [],

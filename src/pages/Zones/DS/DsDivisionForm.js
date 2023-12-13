@@ -1,26 +1,24 @@
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { TextField, Button, Autocomplete, Grid } from "@mui/material";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleDsDivision,
   updateDsDivision,
 } from "../../../redux/actions/dsDivision/action";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
+import { useEffect } from "react";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
-import { useEffect } from "react";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
