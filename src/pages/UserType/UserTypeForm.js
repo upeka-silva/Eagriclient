@@ -1,22 +1,20 @@
+import { Grid, MenuItem, Select, TextField } from "@mui/material";
 import React, { useState } from "react";
-import { TextField, Grid, MenuItem, Select } from "@mui/material";
 
 import { useLocation, useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../hooks/authentication";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleUserType,
   updateUserType,
 } from "../../redux/actions/userType/action";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const UserTypeForm = () => {
   useUserAccessValidation();

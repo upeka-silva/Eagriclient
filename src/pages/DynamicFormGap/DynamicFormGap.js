@@ -1,38 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { Add } from "@mui/icons-material";
 import {
-  TextField,
   Button,
   Grid,
-  Select,
   MenuItem,
-  Box,
-  FormControl,
-  Autocomplete,
+  Select
 } from "@mui/material";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { Colors } from "../../utils/constants/Colors";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { Add, Edit } from "@mui/icons-material";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   fileUploadForm,
   getFormTemplateByType,
-  getFormTemplatesByGapReqId,
-  handleAuditForm,
-  saveFormDataWithValues,
   saveGapDataWithValues,
-  updateAuditForm,
-  updateGapDataWithValues,
+  updateGapDataWithValues
 } from "../../redux/actions/auditForm/action";
-import Checkbox from "@mui/material/Checkbox";
-import FileUploadDynamic from "./FileUploadDynamic";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import { Colors } from "../../utils/constants/Colors";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const DynamicFormGap = ({ auditFormType = "", afterSave, formId }) => {
   useUserAccessValidation();

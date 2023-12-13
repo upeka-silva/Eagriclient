@@ -1,49 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 import {
   Autocomplete,
-  Button,
-  CircularProgress,
   Grid,
-  TextField,
-  getPaginationItemUtilityClass,
+  TextField
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import {
-  handleProvincialDdoa,
-  updateProvincialDdoa,
-} from "../../../redux/actions/provincialDdoa/action";
-import {
-  handleInterProvincialDdoa,
-  updateInterProvincialDdoa,
-} from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import PageHeader from "../../../components/PageHeader/PageHeader";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
 import {
   handleMahaweliSystem,
   updateMahaweliSystem,
 } from "../../../redux/actions/mahaweliSystem/action";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import BackToList from "../../../components/BackToList/BackToList";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const MahaweliSystemForm = () => {
   useUserAccessValidation();

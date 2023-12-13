@@ -1,46 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { Add } from "@mui/icons-material";
 import {
-  TextField,
   Button,
-  CircularProgress,
-  Grid,
-  Select,
-  MenuItem,
-  Box,
-  FormControl,
-  Autocomplete,
+  Grid
 } from "@mui/material";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
+import {
+  getFormTemplateByType
+} from "../../redux/actions/auditForm/action";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import {
-  getFormTemplateByType,
-  handleAuditForm,
-  saveFormDataWithValues,
-  updateAuditForm,
-} from "../../redux/actions/auditForm/action";
-import CommonQuestionList from "./../../pages/AuditForm/CommonQuestionList";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { DataGrid } from "@mui/x-data-grid";
-import {
-  handleFarmLand,
-  updateFarmLand,
-} from "../../redux/actions/farmLand/action";
-import Checkbox from "@mui/material/Checkbox";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
 const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId, stateData }) => {
   useUserAccessValidation();

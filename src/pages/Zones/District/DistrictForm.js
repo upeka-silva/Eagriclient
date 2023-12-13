@@ -1,35 +1,24 @@
-import React, { useEffect, useState } from "react";
 import {
-  TextField,
-  Button,
-  CircularProgress,
   Autocomplete,
   Grid,
+  TextField
 } from "@mui/material";
-import { useUserAccessValidation } from "../../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleDistrict,
   updateDistrict,
 } from "../../../redux/actions/district/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const DistrictForm = () => {

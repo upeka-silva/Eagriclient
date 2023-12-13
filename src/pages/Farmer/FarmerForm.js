@@ -1,37 +1,35 @@
-import React, { useState, useEffect } from "react";
+import { PhotoCamera } from "@mui/icons-material";
 import {
-  Button,
-  TextField,
   Autocomplete,
+  Box,
+  Button,
   Grid,
+  IconButton,
   MenuItem,
   Select,
-  IconButton,
-  Box,
+  TextField,
 } from "@mui/material";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleFarmer,
   handleFarmerProfile,
   updateFarmer,
 } from "../../redux/actions/farmer/action";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
-import { PhotoCamera } from "@mui/icons-material";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 export const farmerDto = {
   firstName: "",
@@ -551,9 +549,9 @@ const FarmerForm = () => {
               size="small"
               fullWidth
             >
-              <MenuItem value={"MALE"}>Male</MenuItem>
-              <MenuItem value={"FEMALE"}>Female</MenuItem>
-              <MenuItem value={"OTHER"}>Other</MenuItem>
+              <MenuItem value={"M"}>Male</MenuItem>
+              <MenuItem value={"F"}>Female</MenuItem>
+              <MenuItem value={"O"}>Other</MenuItem>
             </Select>
           </FieldWrapper>
         </Grid>

@@ -1,33 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import {
-  Button,
-  TextField,
   Autocomplete,
-  Select,
-  MenuItem,
+  Button,
   Grid,
+  MenuItem,
+  Select,
+  TextField,
 } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
+import { handleAI } from "../../../redux/actions/aiRegion/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { handleAI } from "../../../redux/actions/aiRegion/action";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-import { get_ASC } from "../../../redux/actions/asc/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { get_ASC } from "../../../redux/actions/asc/action";
 
 const AIForm = () => {
   useUserAccessValidation();

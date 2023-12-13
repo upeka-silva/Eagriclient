@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
-import { Box, Checkbox } from "@mui/material";
-import { Colors } from "../../../utils/constants/Colors";
-import { get_FarmLandOwnershipList } from "../../../redux/actions/farmerLandOwnership/action";
+import { Box } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import theme from "../../../utils/theme/theme.json";
+import { DataGrid } from "@mui/x-data-grid";
+import React from "react";
+import { Colors } from "../../../utils/constants/Colors";
 
 function customCheckbox(theme) {
   return {

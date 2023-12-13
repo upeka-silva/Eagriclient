@@ -1,13 +1,12 @@
-import React from "react";
+import { Button, TextField } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Button, TextField } from "@mui/material";
-import { Colors } from "../../../utils/constants/Colors";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import React from "react";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { Colors } from "../../../utils/constants/Colors";
 import { Fonts } from "../../../utils/constants/Fonts";
 
 export default function CropDetailsDialog({

@@ -1,42 +1,24 @@
-import React, { useState } from "react";
 import {
-  Button,
-  TextField,
-  CircularProgress,
   Grid,
-  ButtonGroup,
-  Box,
+  TextField
 } from "@mui/material";
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleSoilType,
   updateSoilType,
 } from "../../../redux/actions/soil/soilType/action";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {
+  DEF_ACTIONS
+} from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import BackToList from "../../../components/BackToList/BackToList";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 
 const SoilTypeForm = () => {

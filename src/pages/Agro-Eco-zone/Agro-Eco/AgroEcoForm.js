@@ -1,42 +1,25 @@
-import React, { useState } from "react";
 import {
-  Button,
-  TextField,
-  CircularProgress,
-  Autocomplete,
-  FormControl,
-  Select,
-  MenuItem,
   Grid,
+  MenuItem,
+  Select,
+  TextField
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useUserAccessValidation } from "../../../hooks/authentication";
-import { useNavigate, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleAgroEco,
   updateAgroEco,
 } from "../../../redux/actions/agroEco/action";
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { PathName } from "../../../components/FormLayout/PathName";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
+import {
+  DEF_ACTIONS
+} from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
-import { useEffect } from "react";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 

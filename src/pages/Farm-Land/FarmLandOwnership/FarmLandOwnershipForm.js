@@ -9,26 +9,25 @@ import {
   Slide,
   TextField,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
-import { Colors } from "../../../utils/constants/Colors";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { get_GnDivisionList } from "../../../redux/actions/gnDivision/action";
+import React, { useEffect, useState } from "react";
+import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { get_FarmerList } from "../../../redux/actions/farmer/action";
 import {
   handleFarmLandOwnership,
   updateFarmLandOwnership,
 } from "../../../redux/actions/farmerLandOwnership/action";
+import { get_GnDivisionList } from "../../../redux/actions/gnDivision/action";
+import { Colors } from "../../../utils/constants/Colors";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { get_FarmerList } from "../../../redux/actions/farmer/action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

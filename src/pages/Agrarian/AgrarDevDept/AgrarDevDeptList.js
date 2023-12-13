@@ -1,5 +1,4 @@
 import React from "react";
-import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 const AgrarDevDeptList = ({

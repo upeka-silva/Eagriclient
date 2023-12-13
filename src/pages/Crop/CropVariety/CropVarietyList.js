@@ -1,21 +1,14 @@
-import React from "react";
-import { DataTable } from "../../../components/PageLayout/Table";
-import { CardWrapper } from "../../../components/PageLayout/Card";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import {
-  Add,
-  Delete,
-  RestartAlt,
-  Edit,
-  Search,
-  Vrpano,
+  RestartAlt
 } from "@mui/icons-material";
-import { useState, useEffect } from "react";
-import { Button, TextField, Autocomplete, Grid, Avatar } from "@mui/material";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { Autocomplete, Button, Grid, TextField } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { DataTable } from "../../../components/PageLayout/Table";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
 
 const CropVarietyList = ({

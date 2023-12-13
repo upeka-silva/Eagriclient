@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { Box, Button, Grid, TextField } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Button, Grid, MenuItem, Select, TextField } from "@mui/material";
-import { Colors } from "../../../utils/constants/Colors";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import React, { useEffect, useState } from "react";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { Colors } from "../../../utils/constants/Colors";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import Checkbox from "@mui/material/Checkbox";
 
 export default function AddCropActivityDialog({
   open,

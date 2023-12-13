@@ -1,80 +1,62 @@
-import React, { useState, useEffect } from "react";
 import {
-  TextField,
-  Button,
-  CircularProgress,
-  Grid,
-  FormControl,
-  Select,
-  MenuItem,
   Autocomplete,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+  TextField
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useUserAccessValidation } from "../../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   handleGnDivision,
   updateGnDivision,
 } from "../../../redux/actions/gnDivision/action";
-import { Colors } from "../../../utils/constants/Colors";
-import { Fonts } from "../../../utils/constants/Fonts";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
-import { AddButton } from "../../../components/FormLayout/AddButton";
-import { ResetButton } from "../../../components/FormLayout/ResetButton";
-import { PathName } from "../../../components/FormLayout/PathName";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
-import {
-  ActionWrapper,
-  makeCapitalize,
-} from "../../../components/PageLayout/ActionWrapper";
 // import { get_mahaweliBlockList } from "../../../redux/actions/mahaweliSystem/mahaweliBlock/action";
+import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
 import {
   get_DistrictList,
   get_DistrictListByProvinceId,
 } from "../../../redux/actions/district/action";
-import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
 
+import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
+import PageHeader from "../../../components/PageHeader/PageHeader";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 import {
   get_arpaList,
   get_arpaListByAscId,
 } from "../../../redux/actions/arpa/action";
+import { get_ASCListByComId } from "../../../redux/actions/asc/action";
+import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import {
-  get_DsDivisionList,
-  get_DsDivisionListByDistrictId,
+  get_DsDivisionListByDistrictId
 } from "../../../redux/actions/dsDivision/action";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
+import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import {
   get_MahaweliUnitList,
   get_MahaweliUnitListByBlockId,
 } from "../../../redux/actions/mahaweliUnit/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
-import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
-import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
-import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
-import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
-import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import {
   get_InterProvincialAIListByAdaId,
   get_ProvincialAIListByAdaId,
 } from "../../../redux/actions/provincialAI/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import { get_ASCListByComId } from "../../../redux/actions/asc/action";
-import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import PageHeader from "../../../components/PageHeader/PageHeader";
+import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
+import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();

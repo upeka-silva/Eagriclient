@@ -1,35 +1,29 @@
-import React, { useState, useEffect } from "react";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import {
-  Box,
   Button,
   FormControl,
   Grid,
   MenuItem,
   Select,
   Slide,
-  TextField,
+  TextField
 } from "@mui/material";
-import { Colors } from "../../utils/constants/Colors";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { Fonts } from "../../utils/constants/Fonts";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import Checkbox from "@mui/material/Checkbox";
-import CropSelectDropDown from "./CropSelectDropDown";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
+import Dialog from "@mui/material/Dialog";
+import React, { useEffect, useState } from "react";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import { FormHeader } from "../../components/FormLayout/FormHeader";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import {
   handleCropDetails,
   updateCropDetails,
 } from "../../redux/actions/gap/action";
+import { Colors } from "../../utils/constants/Colors";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import CropSelectDropDown from "./CropSelectDropDown";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
