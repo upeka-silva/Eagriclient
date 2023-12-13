@@ -1,14 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  ButtonGroup,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -24,18 +16,15 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   Add,
   Delete,
-  Edit,
   Vrpano,
   CheckRounded,
   CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteDamageCategory } from "../../../redux/actions/crop/cropDamage/action";
-import CalendarActivity from "./calendar-activity";
 import CropCalendarList from "./crop-calendar-list";
 
 const CropCalendar = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -134,7 +123,7 @@ const CropCalendar = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CALENDAR}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -143,7 +132,7 @@ const CropCalendar = () => {
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CALENDAR}`}
             >
               <Button
                 variant="outlined"
@@ -158,7 +147,7 @@ const CropCalendar = () => {
           )}
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CALENDAR}`}
             >
               <Button
                 variant="outlined"
@@ -173,7 +162,7 @@ const CropCalendar = () => {
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CALENDAR}`}
             >
               <Button
                 variant="outlined"
@@ -189,7 +178,7 @@ const CropCalendar = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CALENDAR}`}
       >
         {loading === false && (
           <CropCalendarList

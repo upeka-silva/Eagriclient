@@ -1,33 +1,17 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid, CircularProgress } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { useEffect } from "react";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import {
-  createDamage,
-  updateDamage,
-} from "../../../redux/actions/crop/cropDamage/action";
 import { Paper } from "@material-ui/core";
-import DamageTypes from "./calendar-activity";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import { getCropVarietiesByCropId } from "../../../redux/actions/crop/cropVariety/action";
 import { get_agroEcoList } from "../../../redux/actions/agroEco/action";
@@ -45,8 +29,6 @@ const CropCalendarForm = () => {
 
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
-  const [isLoading, setIsLoading] = useState(null);
-
   const [formData, setFormData] = useState(state?.target || {});
 
   const [crops, setCrops] = useState([]);
@@ -68,7 +50,7 @@ const CropCalendarForm = () => {
     ) {
       setFormData(state?.target);
     }
-  }, []);
+  }, [state?.action, state?.target]);
 
   const getAllVarieties = (crop) => {
     getCropVarietiesByCropId(crop.id).then(({ dataList = [] }) => {
@@ -129,19 +111,30 @@ const CropCalendarForm = () => {
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
-      setIsLoading(true);
       setSaving(true);
       try {
         if (DEF_ACTIONS.ADD === state.action) {
           console.log("Form data ------------>");
           console.log(formData);
-          const data = await createCropCalendar(formData, onSuccess, onError);
-          setFormData(data);
+          const response = await createCropCalendar(
+            {
+              ...formData,
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
         } else {
-          const data = await updateCropCalendar(formData, onSuccess, onError);
-          setFormData(data);
+          const response = await updateCropCalendar(
+            {
+              ...formData,
+            },
+            onSuccess,
+            onError
+          );
+          setFormData(response.payload);
         }
-        setIsLoading(false);
+        setSaving(false);
       } catch (error) {
         console.log(error);
       }
@@ -151,7 +144,12 @@ const CropCalendarForm = () => {
   return (
     <div>
       <FormWrapper>
-        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Calender" />
+        <PageHeader
+          saving={saving}
+          state={state}
+          goBack={goBack}
+          formName="Crop Calender"
+        />
         <Grid container>
           <Grid item sm={12} md={12} lg={12} sx={{ alignItems: "center" }}>
             <Grid container>
@@ -176,7 +174,7 @@ const CropCalendarForm = () => {
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
-                value={formData.name || ""}
+                value={formData?.name || ""}
                 onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 fullWidth
                 sx={{
@@ -195,7 +193,7 @@ const CropCalendarForm = () => {
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
-                value={formData.description || ""}
+                value={formData?.description || ""}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")
                 }
@@ -216,7 +214,7 @@ const CropCalendarForm = () => {
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 //id={index}
-                value={formData.legacyCalendarUrl || ""}
+                value={formData?.legacyCalendarUrl || ""}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "legacyCalendarUrl")
                 }
@@ -279,7 +277,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3} >
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Agriculture Zone</FieldName>
               <Autocomplete
@@ -297,7 +295,7 @@ const CropCalendarForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                renderInput={(params) => <TextField {...params} size="small" />} 
+                renderInput={(params) => <TextField {...params} size="small" />}
                 fullWidth
                 size="small"
               />
@@ -314,11 +312,11 @@ const CropCalendarForm = () => {
                 }}
               >
                 <Grid item sm={12} md={12} lg={12}>
-                  {!isLoading ? (
+                  {!saving ? (
                     <CalendarActivity
                       formMode={state.action}
-                      formId={formData.id}
-                      dataList={formData.activities}
+                      formId={formData?.id}
+                      dataList={formData?.activities}
                     />
                   ) : (
                     <CircularProgress />

@@ -11,7 +11,6 @@ function customCheckbox(theme) {
       height: 22,
       backgroundColor: "transparent",
       border: `1px solid red`,
-      border: "none",
       color: "green",
     },
     "& .MuiCheckbox-root.Mui-checked:not(.MuiCheckbox-indeterminate) svg": {

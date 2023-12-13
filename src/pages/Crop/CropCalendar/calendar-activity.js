@@ -56,11 +56,11 @@ const CalendarActivity = ({
   const [isDataFetch, setIsDataFetch] = useState(true);
   const { addSnackBar } = useSnackBars();
 
-  const [calendarActivities, setcalendarActivities] = useState([]);
+  const [calendarActivities, setcalendarActivities] = useState(dataList);
 
-  useEffect(() => {
-    setcalendarActivities(dataList);
-  }, [dataList]);
+  // useEffect(() => {
+  //   setcalendarActivities(dataList);
+  // }, [dataList]);
 
   const handleDamageTypeAdd = (prop, mode) => (event) => {
     setFormData({});
