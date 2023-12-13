@@ -299,7 +299,7 @@ const CropLookSeasonForm = () => {
           <FieldWrapper>
             <FieldName>Start Date</FieldName>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              
+            <DatePicker
                 name="startDate"
                 id="startDate"
                 disabled={state?.action === DEF_ACTIONS.VIEW}

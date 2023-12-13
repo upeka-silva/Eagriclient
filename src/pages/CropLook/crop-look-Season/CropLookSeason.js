@@ -235,7 +235,7 @@ const CropLookSeason = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectAgriSeason.length === 1 && (
+          {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "ENABLED" && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
@@ -245,7 +245,7 @@ const CropLookSeason = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectAgriSeason.length === 1 && (
+          {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "CLOSED" && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
             >
