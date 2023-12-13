@@ -20,6 +20,7 @@ import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import { Add } from "@mui/icons-material";
 import AddCropActivityDialog from "./add-crop-activity-dialog";
 import { createCropActivity, deleteCropActivity, getAllCropActivity, updateCropActivity } from "../../../redux/actions/crop/cropActivity/action";
+import { isEmpty } from "../../../utils/helpers/stringUtils";
 
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
@@ -61,6 +62,20 @@ const CropActivity = () => {
   };
 
   const handleDamageAdd = async (event, data, functionMode) => {
+    if (isEmpty(data.name)) {
+      addSnackBar({
+        type: SnackBarTypes.error,
+        message: "Name must have a value",
+      });
+      return;
+    }
+    if (isEmpty(data.description)) {
+      addSnackBar({
+        type: SnackBarTypes.error,
+        message: "Description must have a value",
+      });
+      return;
+    }
     if (functionMode === DEF_ACTIONS.ADD) {
       setIsDataFetch(false);
       await createCropActivity(data, onSuccess, onError);
