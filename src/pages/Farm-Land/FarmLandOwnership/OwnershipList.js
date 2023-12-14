@@ -3,6 +3,7 @@ import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Colors } from "../../../utils/constants/Colors";
+import Switch from "@mui/material/Switch";
 
 function customCheckbox(theme) {
   return {
@@ -10,7 +11,6 @@ function customCheckbox(theme) {
       width: 22,
       height: 22,
       backgroundColor: "transparent",
-      border: `1px solid red`,
       color: "green",
     },
     "& .MuiCheckbox-root.Mui-checked:not(.MuiCheckbox-indeterminate) svg": {
@@ -114,6 +114,17 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       headerClassName: "super-app-theme--header",
     },
     {
+      field: "name",
+      headerName: "Name",
+      width: 180,
+      flex: 1,
+      headerClassName: "super-app-theme--header",
+      renderCell: (params) =>
+      params.row.farmerDTO !== null
+        ? params.row.farmerDTO.firstName +' '+params.row.farmerDTO.lastName
+        : params.row.address,
+    },
+    {
       field: "address",
       headerName: "Address",
       width: 400,
@@ -143,6 +154,8 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       width: 180,
       flex: 1,
       headerClassName: "super-app-theme--header",
+      renderCell:({ row }) =>
+      <Switch disabled  checked ={row.currentOwner}/> 
     },
   ];
 
