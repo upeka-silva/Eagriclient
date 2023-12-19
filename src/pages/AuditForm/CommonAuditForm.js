@@ -1,35 +1,33 @@
-import React, { useState } from "react";
 import {
-  TextField,
   Button,
-  CircularProgress,
   Grid,
-  Select,
   MenuItem,
   Paper,
+  Select,
+  TextField
 } from "@mui/material";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FormHeader } from "../../components/FormLayout/FormHeader";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
+import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import { Add, ArrowCircleLeftRounded, Edit } from "@mui/icons-material";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   handleAuditForm,
   updateAuditForm,
 } from "../../redux/actions/auditForm/action";
+import { Colors } from "../../utils/constants/Colors";
+import { Fonts } from "../../utils/constants/Fonts";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import CommonQuestionList from "./CommonQuestionList";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 
 const CommonAuditForm = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -176,18 +174,8 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
     >
       <div>
         <ActionWrapper isLeft>
-          <Button
-            startIcon={<ArrowCircleLeftRounded />}
-            onClick={goBack}
-            color="success"
-          >
-            Go back to list
-          </Button>
+          <PageHeader saving={saving} state={state} goBack={goBack} formName={formHeader}/>
         </ActionWrapper>
-        <FormHeader>
-          {saving && <CircularProgress size={20} sx={{ mr: "8px" }} />}
-          {state?.action} {formHeader}
-        </FormHeader>
       </div>
       <ButtonWrapper
         style={{
