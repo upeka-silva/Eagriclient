@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Divider,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  ToggleButton,
-} from "@mui/material";
+import {Button} from "@mui/material";
 
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -38,6 +27,7 @@ import {
   getAllCalendarActivities,
   updateCalendarActivity,
 } from "../../../redux/actions/crop/cropCalendar/action";
+import CalendarActivityList from "./CalendarActivityList";
 
 const CalendarActivity = ({
   dataList = [],
@@ -147,60 +137,10 @@ const CalendarActivity = ({
         </Button>
       )}
 
-      <TableContainer>
-        <Table
-          sx={{ minWidth: 650 }}
-          size="small"
-          aria-label="Audit Question Table"
-          variant="variant"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Cost</TableCell>
-              <TableCell>Duration</TableCell>
-              <TableCell>Duration Type</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {calendarActivities &&
-              isDataFetch &&
-              calendarActivities.map((row, index) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row?.cropActivity?.name}</TableCell>
-                  <TableCell>{row?.cropActivity?.description}</TableCell>
-                  <TableCell>{row?.cost}</TableCell>
-                  <TableCell>{row?.duration}</TableCell>
-                  <TableCell>{row?.durationType}</TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                    >
-                      EDIT
-                    </Button>
-                    <Button
-                      onClick={handleCalendarActivityDelete(row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                    >
-                      DELETE
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <CalendarActivityList data={calendarActivities} 
+      currentFormMode ={formMode}
+      onEdit={handleDamageTypeAdd} 
+      onDelete={handleCalendarActivityDelete}/>
 
       <AddCalendarActivityDialog
         open={openCropActivityAddDialog}
