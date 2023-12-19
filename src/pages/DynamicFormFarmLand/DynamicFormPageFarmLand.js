@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
 import {
-  TextField,
+  Box,
   Button,
   Grid,
-  Box,
+  TextField,
 } from "@mui/material";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import Checkbox from "@mui/material/Checkbox";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { Colors } from "../../utils/constants/Colors";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import { useSnackBars } from "../../context/SnackBarContext";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   getFormTemplateByType,
   saveFormDataWithValues,
 } from "../../redux/actions/auditForm/action";
-import Checkbox from "@mui/material/Checkbox";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
+import { Colors } from "../../utils/constants/Colors";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 const DynamicFormPageFarmLand = () => {
   useUserAccessValidation();
@@ -188,18 +188,9 @@ const DynamicFormPageFarmLand = () => {
 
   return (
     <>
-      <CustFormHeader saving={saving} state={state} formName={formHeader} />
+      <PageHeader saving={saving} state={state} goBack={goBack} formName={formHeader}  />
       <ButtonWrapper>
         <ActionWrapper>
-          <Button
-            variant="contained"
-            disabled={false}
-            onClick={goBack}
-            size="small"
-            color="success"
-          >
-            Go Back
-          </Button>
           {saving ? (
             <Button variant="contained" size="small">
               {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
