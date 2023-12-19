@@ -126,6 +126,7 @@ const DamageTypes = ({
       {/* )} */}
 
       <DamageTypeList data={damageTypes} 
+      currentFormMode ={formMode}
       onEdit={handleDamageTypeAdd} 
       onDelete={handleDamageTypeDelete}/>
 

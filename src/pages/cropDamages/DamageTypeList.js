@@ -86,7 +86,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
 
 }));
 
-export default function DamageTyprList({ data,onEdit,onDelete }) {
+export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete }) {
 
   const columns = [
     {
@@ -109,45 +109,40 @@ export default function DamageTyprList({ data,onEdit,onDelete }) {
         field: "edit",
         headerName: "Action",
         headerClassName: "super-app-theme--heade",
-        flex: 0.2,
+        flex: 0.4,
         sortable: false,
-        renderCell: ({ row }) =>
-        
-          <Button  sx={{
-            fontSize:11,
-            //boxShadow: 1,
-            border: 1,
-            background: '#2e7d32',
-            color:'white',
-            borderRadius:1.5,
-            maxHeight: '30px', minWidth: '30px', minHeight: '30px'
-          }} onClick={onEdit(row,DEF_ACTIONS.EDIT)}>
-            Edit
-          </Button>,
-          
+        renderCell: ({ row }) => {
+
+          return(
+            <><Button sx={{
+              fontSize: 11,
+ 
+              border: 1,
+              background: '#2e7d32',
+              marginRight:1,
+              color: 'white',
+              borderRadius: 1.5,
+              maxHeight: '30px', minWidth: '30px', minHeight: '30px'
+            }}  
+            disabled = {currentFormMode === DEF_ACTIONS.VIEW}  onClick={onEdit(row, DEF_ACTIONS.EDIT)}>
+              Edit
+            </Button><Button
+              sx={{
+                fontSize: 11,
+                //boxShadow: 1,
+                border: 1,
+                background: '#2e7d32',
+                color: 'white',
+                borderRadius: 1.5,
+                maxHeight: '30px', minWidth: '30px', minHeight: '30px'
+              }}
+              disabled = {currentFormMode === DEF_ACTIONS.VIEW} onClick={onDelete(row)}>
+                Delete
+              </Button></>
+
+          ); }        
       },
-      {
-        field: "delete",
-        headerName: "",
-        headerClassName: "super-app-theme--heade",
-        flex:  0.3,
-        sortable: false,
-        renderCell: ({ row }) =>
-          <Button 
-          sx={{
-            fontSize:11,
-            //boxShadow: 1,
-            border: 1,
-            background: '#2e7d32',
-            color:'white',
-            borderRadius:1.5,
-            maxHeight: '30px', minWidth: '30px', minHeight: '30px'
-          }}
-          
-          onClick={onDelete(row)}>
-            Delete
-          </Button>,
-      },
+      
   ];
 
   const getRowHeight = () => 40;
