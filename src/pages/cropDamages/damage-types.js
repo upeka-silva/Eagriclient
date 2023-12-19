@@ -2,14 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Button,
   Divider,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  ToggleButton,
 } from "@mui/material";
 
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
@@ -28,6 +20,7 @@ import {
   getAllDamageTypes,
 } from "../../redux/actions/crop/cropDamage/action";
 import { Add } from "@mui/icons-material";
+import DamageTypeList from "./DamageTypeList";
 
 const DamageTypes = ({
   dataList = [],
@@ -132,54 +125,10 @@ const DamageTypes = ({
       </Button>
       {/* )} */}
 
-      <TableContainer>
-        <Table
-          sx={{ minWidth: 650 }}
-          size="small"
-          aria-label="Audit Question Table"
-          variant="variant"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {damageTypes &&
-              isDataFetch &&
-              damageTypes.map((row, index) => (
-                <TableRow key={row.id}>
-                  <TableCell>{row.name}</TableCell>
-                  <TableCell>{row.description}</TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={handleDamageTypeAdd(row, DEF_ACTIONS.EDIT)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                    >
-                      EDIT
-                    </Button>
-                    <Button
-                      onClick={handleDamageTypeDelete(row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                    >
-                      DELETE
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DamageTypeList data={damageTypes} 
+      currentFormMode ={formMode}
+      onEdit={handleDamageTypeAdd} 
+      onDelete={handleDamageTypeDelete}/>
 
       <AddDamageTypeDialog
         open={openDamageTypeAddDialog}
