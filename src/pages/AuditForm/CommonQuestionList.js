@@ -1,15 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
-  Divider,
-  Switch,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  ToggleButton,
+  Divider
 } from "@mui/material";
 
 import AddQuestionDialog from "./AddQuestionDialog";
@@ -27,6 +19,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import { useLocation } from "react-router-dom";
+import CommonQuestionListGrid from "./CommonQuestionListGrid";
 
 const CommonQuestionList = ({
   selectedRows = [],
@@ -134,74 +127,10 @@ const CommonQuestionList = ({
         </Button>
       )}
 
-      <TableContainer>
-        <Table
-          sx={{ minWidth: 650 }}
-          size="small"
-          aria-label="Audit Question Table"
-          variant="variant"
-        >
-          <TableHead>
-            <TableRow>
-              <TableCell>Question</TableCell>
-              <TableCell>Question Type</TableCell>
-              <TableCell>Complience Group</TableCell>
-              <TableCell>Item Group</TableCell>
-              <TableCell>Proof Doc Req.</TableCell>
-              <TableCell>Order</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataListQuestions.map((row, index) => (
-              <TableRow key={row.name}>
-                <TableCell>{row.questionString}</TableCell>
-                <TableCell>{row.questionTypeLabel}</TableCell>
-                <TableCell>{row.complianceGroupLabel}</TableCell>
-                <TableCell>{row.itemGroupDescription}</TableCell>
-                <TableCell>
-                  <Switch
-                    color="success"
-                    checked={row.proofRequired}
-                  />
-                </TableCell>
-                <TableCell>{row.order}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    VIEW
-                  </Button>
-                  <Button
-                    onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    EDIT
-                  </Button>
-                  <Button
-                    onClick={handleCropAreaDelete(row)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    DELETE
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <CommonQuestionListGrid data={dataListQuestions} 
+      currentFormMode ={formMode}
+      onEdit={handleCropAreaAdd} 
+      onDelete={handleCropAreaDelete}/>
 
       <AddQuestionDialog
         open={openCropAreaAddDlg}
