@@ -92,7 +92,6 @@ export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete })
     {
       field: "name",
       headerName: "Name",
-     /// width: 460,
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.name,
@@ -100,7 +99,6 @@ export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete })
     {
       field: "description",
       headerName: "Description",
-    ///  width: 932,
       flex: 2,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.description,
@@ -116,7 +114,6 @@ export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete })
           return(
             <><Button sx={{
               fontSize: 11,
- 
               border: 1,
               background: '#2e7d32',
               marginRight:1,
@@ -129,7 +126,6 @@ export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete })
             </Button><Button
               sx={{
                 fontSize: 11,
-                //boxShadow: 1,
                 border: 1,
                 background: '#2e7d32',
                 color: 'white',
