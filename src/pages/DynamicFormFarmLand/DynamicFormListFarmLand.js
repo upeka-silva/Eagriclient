@@ -228,7 +228,7 @@ const DynamicFormListFarmLand = ({
         />
       )}
 
-<AssessmentList data={dataListTemplates} 
+    <AssessmentList data={dataListTemplates} 
       currentFormMode ={formMode}
       onEdit={viewAssessmentForm} 
       onDelete={handleCropAreaDelete}

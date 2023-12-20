@@ -89,10 +89,9 @@ export default function AssessmentList({
   currentFormMode,
   onEdit,
   onDelete,
-  currentState
+  currentState,
 }) {
-
-const dateAdapter = new AdapterDayjs();
+  const dateAdapter = new AdapterDayjs();
 
   const columns = [
     {
@@ -114,7 +113,10 @@ const dateAdapter = new AdapterDayjs();
       headerName: "Created Date",
       flex: 0.7,
       headerClassName: "super-app-theme--heade",
-      renderCell: (params) => params?.row.createdAt ? dateAdapter.date(currentState?.target?.dob).format('YYYY-MM-DD') : null,
+      renderCell: (params) =>
+        params?.row.createdAt
+          ? dateAdapter.date(currentState?.target?.dob).format("YYYY-MM-DD")
+          : null,
     },
     {
       field: "action",
@@ -138,7 +140,7 @@ const dateAdapter = new AdapterDayjs();
                 minHeight: "30px",
               }}
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={()=>onEdit(DEF_ACTIONS.VIEW,row)}
+              onClick={() => onEdit(DEF_ACTIONS.VIEW, row)}
             >
               View
             </Button>
@@ -155,7 +157,7 @@ const dateAdapter = new AdapterDayjs();
                 minHeight: "30px",
               }}
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={()=>onEdit(DEF_ACTIONS.EDIT,row)}
+              onClick={() => onEdit(DEF_ACTIONS.EDIT, row)}
             >
               Edit
             </Button>
