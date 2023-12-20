@@ -341,9 +341,9 @@ const CropLookSeasonForm = () => {
         <Grid item sm={12} md={12} lg={12}>
           {!isLoading ? (
             <BiWeekDataTable
-              biWeekDataList={biWeekDataList}
-              statusChangeHandler={statusChangeHandler}
-              mode={state?.action}
+              data={biWeekDataList}
+              statusChange={statusChangeHandler}
+              currentFormMode={state?.action}
             />
           ) : (
             <CircularProgress />

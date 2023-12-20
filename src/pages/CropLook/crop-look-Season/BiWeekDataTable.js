@@ -1,14 +1,187 @@
-import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import { Button, Typography } from "@mui/material";
+import { Box, Button ,Switch,  Typography} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import { DataGrid } from "@mui/x-data-grid";
+import React from "react";
+import { Colors } from "../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 
-export default function BiWeekDataTable({ biWeekDataList = [], statusChangeHandler, mode }) {
+const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+  border: 0,
+  width: "100%",
+  color:
+    theme.palette.mode === "light"
+      ? "rgba(0,0,0,.85)"
+      : "rgba(255,255,255,0.85)",
+  fontFamily: [
+    "-apple-system",
+    "BlinkMacSystemFont",
+    '"Segoe UI"',
+    "Roboto",
+    '"Helvetica Neue"',
+    "Arial",
+    "sans-serif",
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    '"Segoe UI Symbol"',
+  ].join(","),
+  WebkitFontSmoothing: "auto",
+  letterSpacing: "normal",
+  "& .MuiDataGrid-columnsContainer": {
+    backgroundColor: theme.palette.mode === "light" ? "#fafafa" : "#1d1d1d",
+  },
+  "& .MuiDataGrid-iconSeparator": {
+    display: "none",
+  },
+  "& .MuiDataGrid-row.Mui-selected": {
+    backgroundColor: "white",
+    borderRadius: "10px",
+    border: "1px solid " + theme.coreColors.primary,
+
+    "&:hover": {
+      backgroundColor: theme.coreColors.primary,
+    },
+  },
+  "& .MuiDataGrid-row": {
+    "&:hover": {
+      backgroundColor: theme.coreColors.primary,
+      marginTop: "-8px",
+      marginBottom: "8px",
+      zIndex: 20,
+      boxShadow: Colors.shadow,
+      cursor: "pointer",
+    },
+    transition: "all 0.3s ease",
+    border: `1px solid #CCC`,
+    borderBottom: `none`,
+  },
+  " .MuiDataGrid-cell": {
+    borderRight: `1px solid #CCC`,
+  },
+  "& .MuiDataGrid-columnHeader": {
+    backgroundColor: Colors.tableHeaderColor,
+    color: "white",
+    fontSize: "15px",
+  },
+  "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
+    // borderTop: `1px solid #CCC`,
+    fontSize: "15px",
+  },
+  "& .MuiDataGrid-cell": {
+    color:
+      theme.palette.mode === "light"
+        ? "rgba(0,0,0,.85)"
+        : "rgba(255,255,255,0.65)",
+  },
+  "& .MuiDataGrid-cell:focus": {
+    outline: "none", // Remove focus outline on cells
+  },
+  "& .MuiPaginationItem-root": {
+    borderRadius: 0,
+  },
+  "& .css-axafay-MuiDataGrid-virtualScroller": {
+    overflow: "hidden",
+  },
+}));
+
+export default function BiWeekDataTable({
+  data,
+  currentFormMode,
+  statusChange,
+}) {
+  const columns = [
+    {
+      field: "week",
+      headerName: "Week",
+      flex: 1.5,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.weekDescription,
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.status,
+    },
+    {
+      field: "startDate",
+      headerName: "Start Date",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.startDate,
+    },
+    {
+      field: "endDate",
+      headerName: "End Date",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.endDate,
+    },
+    {
+      field: "reportingStartDate",
+      headerName: "Reporting Start Date",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.reportingStartDate,
+    },
+    {
+        field: "reportingEndDate",
+        headerName: "Reporting End Date",
+        flex: 1,
+        headerClassName: "super-app-theme--heade",
+        renderCell: (params) => params?.row?.reportingEndDate,
+    },
+    {
+      field: "action",
+      headerName: "",
+      headerClassName: "super-app-theme--heade",
+      flex:1,
+      sortable: false,
+      renderCell: ({ row }) => {
+        return (
+          <>
+           <Button
+              sx={{
+                fontSize: 11,
+                border: 1,
+                background: "#white",
+                borderColor:"#2e7d32",
+                marginRight: 1,
+                color: "#2e7d32",
+                borderRadius: 1.5,
+                maxHeight: "30px",
+                minWidth: "30px",
+                minHeight: "30px",
+              }}
+              disabled={currentFormMode === DEF_ACTIONS.VIEW}
+              onClick={()=> statusChange(row.id, "ENABLED")}
+            >
+              Enable
+            </Button>
+            <Button
+              sx={{
+                fontSize: 11,
+                border: 1,
+                background: "#2e7d32",
+                marginRight: 1,
+                color: "white",
+                borderRadius: 1.5,
+                maxHeight: "30px",
+                minWidth: "30px",
+                minHeight: "30px",
+              }}
+              disabled={currentFormMode === DEF_ACTIONS.VIEW}
+              onClick={()=>statusChange(row.id, "CLOSE")}
+            >
+              Close
+            </Button>
+          </>
+        );
+      },
+    },
+  ];
+
+  const getRowHeight = () => 40;
 
   return (
     <>
@@ -17,56 +190,26 @@ export default function BiWeekDataTable({ biWeekDataList = [], statusChangeHandl
         Bi-Week Data
       </Typography>
       
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Week</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Start Date</TableCell>
-              <TableCell align="right">End Date</TableCell>
-              <TableCell align="right">Reporting Start Date</TableCell>
-              <TableCell align="right">Reporting End Date</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {biWeekDataList.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.weekDescription}
-                </TableCell>
-                <TableCell align="right">{row.status}</TableCell>
-                <TableCell align="right">{row.startDate}</TableCell>
-                <TableCell align="right">{row.endDate}</TableCell>
-                <TableCell align="right">{row.reportingStartDate}</TableCell>
-                <TableCell align="right">{row.reportingEndDate}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={() => statusChangeHandler(row.id, "ENABLED")}
-                    color="success"
-                    variant="outlined"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={mode === DEF_ACTIONS.VIEW}
-                  >
-                    Enable
-                  </Button>
-                  <Button
-                    onClick={() => statusChangeHandler(row.id, "CLOSE")}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={mode === DEF_ACTIONS.VIEW}
-                  >
-                    Close
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <div style={{ height: 500, width: "90%" }}>
+      <Box
+        sx={{
+          height: 400,
+          width: "99%",
+        }}
+      >
+        <StyledDataGrid
+          rows={data}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          disableSelectionOnClick
+          getRowHeight={getRowHeight}
+        />
+      </Box>
+    </div>
     </>
   );
 }
