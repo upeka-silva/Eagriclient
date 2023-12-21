@@ -38,7 +38,7 @@ const DynamicFormPageFarmLand = () => {
   useEffect(() => {
   
     if(state?.action === DEF_ACTIONS.EDIT || state?.action === DEF_ACTIONS.VIEW) {
-      var ansListData = {assessmentId: state?.data?.assessmentId};
+      var ansListData = {assessmentId: state?.data?.assessmentId,id :  state?.data?.id };
       for(const ans of state?.data?.answerList) {
         const questionId = ans?.question?.id;
         ansListData['question_' + questionId] = ans?.answer;
@@ -134,6 +134,7 @@ const DynamicFormPageFarmLand = () => {
 
       const saveData = {
         assessmentId: formData.assessmentId,
+        id:formData.id,
         farmLand: {
           id:  state.formId,
         },
@@ -143,7 +144,13 @@ const DynamicFormPageFarmLand = () => {
       setSaving(true);
       try {
         if (formData?.id) {
-          console.log("N/A");
+          await saveFormDataWithValues(
+            state.formId,
+            uriPath,
+            saveData,
+            onSuccess,
+            onError
+          );
         } else {
           await saveFormDataWithValues(
             state.formId,
