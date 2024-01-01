@@ -28,6 +28,7 @@ import {
 } from "../../redux/actions/auditForm/action";
 import DynamicFormFarmLand from "./DynamicFormFarmLand";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import AssessmentList from "./AssessmentList";
 
 const DynamicFormListFarmLand = ({
   formId ,
@@ -227,59 +228,12 @@ const DynamicFormListFarmLand = ({
         />
       )}
 
-      <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Assessment Name</TableCell>
-              <TableCell>Created Date</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {dataListTemplates.length > 0 &&
-              dataListTemplates.map((row, index) => (
-                <TableRow key={row.name}>
-                  <TableCell>{row.id}</TableCell>
-                  <TableCell>{row.assessmentId}</TableCell>
-                  <TableCell>{row.createdAt ? dateAdapter.date(state?.target?.dob).format('YYYY-MM-DD') : null}</TableCell>
-                  <TableCell>
-                    <Button
-                      onClick={() => viewAssessmentForm(DEF_ACTIONS.VIEW, row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      VIEW
-                    </Button>
-                    <Button
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                      onClick={() => viewAssessmentForm(DEF_ACTIONS.EDIT, row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      EDIT
-                    </Button>
-                    <Button
-                      disabled={formMode === DEF_ACTIONS.VIEW}
-                      onClick={handleCropAreaDelete(row)}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      DELETE
-                    </Button>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    <AssessmentList data={dataListTemplates} 
+      currentFormMode ={formMode}
+      onEdit={viewAssessmentForm} 
+      onDelete={handleCropAreaDelete}
+      currentState ={state}
+      />
 
       <DialogBox
         open={open}

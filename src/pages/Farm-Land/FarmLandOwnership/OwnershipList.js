@@ -155,7 +155,7 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell:({ row }) =>
-      <Switch disabled  checked ={row.currentOwner}/> 
+      <Switch disabled  color="success" checked ={row.currentOwner}/> 
     },
   ];
 
