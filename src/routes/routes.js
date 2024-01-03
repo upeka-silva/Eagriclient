@@ -21,6 +21,8 @@ import GnDivision from "../pages/Zones/GN/GnDivision";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
+import ScsRegion from "../pages/Scs-Region/ScsService/ScsService"
+import ScsRegionForm from "../pages/Scs-Region/ScsService/ScsServiceForm"
 
 import CropCategory from "../pages/Crop/CropCategory/CropCategory";
 import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm";
@@ -173,6 +175,8 @@ import DDBiWeeklyReportingForm from "../pages/CropLook/ddBiWeekReporting/dd-biwe
 import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
+import ScsRegionBranch from "../pages/Scs-Region/ScsRegion/ScsRegion"
+import ScsRegionBranchForm from "../pages/Scs-Region/ScsRegion/ScsRegionForm"
 
 export const Routes = [
   {
@@ -643,6 +647,43 @@ export const Routes = [
             name: "GN Division Form",
             isSideBar: false,
             element: <GnDivisionForm />,
+          },
+        ],
+      },
+
+      {
+        path: "/scs-structure",
+        name: "SCS Region",
+        isSideBar: true,
+        parentPath: "/zone/scs-structure/scs-service",
+        children: [
+          {
+            path: "/scs-service",
+            name: "SCS Service",
+            isSideBar: true,
+            element: <ScsRegion />,
+            icon: AccountTreeIcon,
+            component: DEF_COMPONENTS.GN_DIVISION,
+          },
+          {
+            path: "/scs-service-form",
+            name: "SCS Service",
+            isSideBar: false,
+            element: <ScsRegionForm />,
+          },
+          {
+            path: "/scs-region",
+            name: "SCS Region",
+            isSideBar: true,
+            element: <ScsRegionBranch />,
+            icon: MyLocationIcon,
+            component: DEF_COMPONENTS.GN_DIVISION,
+          },
+          {
+            path: "/scs-region-form",
+            name: "SCS Region Form",
+            isSideBar: false,
+            element: <ScsRegionBranchForm />,
           },
         ],
       },
