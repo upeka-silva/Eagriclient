@@ -406,6 +406,28 @@ const data = {
             "child": null
         }
     },
+    "scsService": {
+        "key": "scsService",
+        "displayName": "SCS Head Office",
+        "type": "SCS",
+        "child": {
+            "key": "SCS",
+            "displayName": "SCS Head Office",
+            "url": "geo-data/scs-services",
+            "child": null
+        }
+    },
+    "scsBranch": {
+        "key": "scsBranch",
+        "displayName": "SCS Region",
+        "type": "SCSBranch",
+        "child": {
+            "key": "SCSBranch",
+            "displayName": "SCS Region",
+            "url": "geo-data/scs-regions",
+            "child": null
+        }
+    },
 }
 
 
