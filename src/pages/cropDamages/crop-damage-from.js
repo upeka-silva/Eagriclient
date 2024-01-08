@@ -1,7 +1,6 @@
-import { CircularProgress, Grid, TextField } from "@mui/material";
+import { CircularProgress, Grid, TextField, Paper } from "@mui/material";
 import React, { useState } from "react";
 
-import { Paper } from "@material-ui/core";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";

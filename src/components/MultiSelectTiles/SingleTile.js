@@ -3,21 +3,11 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { makeStyles } from "@material-ui/core";
 import { Avatar, Box, Chip, Select } from "@mui/material";
 import { pureFinalPropsSelectorFactory } from "react-redux/es/connect/selectorFactory";
 import { Done, Face, SelectAllRounded } from "@mui/icons-material";
 
 const CropImg = require("../../assets/images/crop1.jpeg");
-
-const useStyles = makeStyles({
-  selectedCard: {
-    backgroundColor: "red",
-  },
-  normalCard: {
-    backgroundColor: "blue",
-  },
-});
 
 const SingleTile = ({ id, name, imageUrl, onOptionClick, isSelected, isDisabled, cropId }) => {
 
