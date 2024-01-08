@@ -149,7 +149,7 @@ const CropActivity = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {cropActivities && isDataFetch && cropActivities.map((row, index) => (
+            {Array.isArray(cropActivities) && isDataFetch && cropActivities.map((row, index) => (
               <TableRow key={row.id}>
                 <TableCell>{row.name}</TableCell>
                 <TableCell>{row.description}</TableCell>
