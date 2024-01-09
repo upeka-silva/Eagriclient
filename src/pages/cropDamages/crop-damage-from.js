@@ -28,6 +28,7 @@ const CropDamageForm = () => {
   const [isLoading, setIsLoading] = useState(null);
 
   const [formData, setFormData] = useState(state?.target || {});
+  
 
   useEffect(() => {
     if (
@@ -132,13 +133,13 @@ const CropDamageForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Damage Name</FieldName>
+              <FieldName>Code</FieldName>
               <TextField
                 variant="outlined"
                 id="name"
                 name="name"
                 value={formData.name || ""}
-                onChange={(e) => handleChange(e?.target?.value || "", "name")}
+                onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "name")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
