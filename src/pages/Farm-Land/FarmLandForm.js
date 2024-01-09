@@ -33,6 +33,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
@@ -63,6 +64,7 @@ const FarmLandForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [gnDivisionList, setGnDivisionList] = useState([]);
+  const [scsRegionList, setScsRegionList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
   const [otherField, setOtherField] = useState("none");
@@ -163,6 +165,13 @@ const FarmLandForm = () => {
     //   setFormData(payload);
     // });
   }, []);
+
+  useEffect(() => {
+    get_ScsRegionList().then(({ dataList = [] }) => {
+      setScsRegionList(dataList);
+    });
+  }, []);
+
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -302,6 +311,14 @@ const FarmLandForm = () => {
         addSnackBar({
           type: SnackBarTypes.error,
           message: "GN Division must have a value",
+        });
+        return;
+      }
+
+      if (isEmpty(formData.scsRegionDTO)) {
+        addSnackBar({
+          type: SnackBarTypes.error,
+          message: "SCS Region must have a value",
         });
         return;
       }
@@ -768,6 +785,42 @@ const FarmLandForm = () => {
                     }
                     onChange={(event, value) => {
                       handleChange(value, "gnDivisionDTO");
+                    }}
+                    fullWidth
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                    size="small"
+                    renderInput={(params) => (
+                      <>
+                        <TextField
+                          {...params}
+                          size="small"
+                        />
+                      </>
+                    )}
+                  />
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>SCS Region</FieldName>
+                  <Autocomplete
+                    name="scsRegionDTO"
+                    id="scsRegionDTO"
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={scsRegionList}
+                    value={formData?.scsRegionDTO || ""}
+                    getOptionLabel={(i) =>
+                      i.scsRegionId ? `${i.scsRegionId} - ${i.name}` : ""
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "scsRegionDTO");
                     }}
                     fullWidth
                     sx={{

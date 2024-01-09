@@ -28,6 +28,7 @@ import {
   updateFarmer,
 } from "../../redux/actions/farmer/action";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
@@ -55,6 +56,7 @@ export const farmerDto = {
   nic: "",
   landLine: "",
   gnDivision: null,
+  scsRegion: null
 };
 
 const FarmerForm = () => {
@@ -84,6 +86,13 @@ const FarmerForm = () => {
     name: "",
     code: "",
   });
+
+  const [scsRegion, setScsRegion] = useState([]);
+  const [selectedScsRegion, setSelectedScsRegion] = useState({
+    name: "",
+    scsRegionId: "",
+  });
+
   const [form, setForm] = useState();
 
   const { addSnackBar } = useSnackBars();
@@ -288,6 +297,12 @@ const FarmerForm = () => {
     get_GnDivisionList().then(({ dataList = [] }) => {
       console.log(dataList);
       setGnDivisions(dataList);
+    });
+  }, []);
+
+  useEffect(() => {
+    get_ScsRegionList().then(({ dataList = [] }) => {
+      setScsRegion(dataList);
     });
   }, []);
 
@@ -667,6 +682,30 @@ const FarmerForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 handleChange(value, "gnDivision");
+               
+              }}
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+              fullWidth
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={3}>
+          <FieldWrapper>
+            <FieldName>SCS Region</FieldName>
+            <Autocomplete
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={scsRegion}
+              value={formData?.scsRegion}
+              getOptionLabel={(i) => `${i.scsRegionId} - ${i.name}`}
+              onChange={(event, value) => {
+                console.log(value);
+                handleChange(value, "scsRegion");
                
               }}
               disableClearable
