@@ -196,7 +196,7 @@ export default function AddCalendarActivityDialog({
                 <TextField
                   type="number"
                   name="startOfWeek"
-                  id="order"
+                  id="startOfWeek"
                   value={formDataD?.startOfWeek || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
