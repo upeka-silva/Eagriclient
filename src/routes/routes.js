@@ -177,6 +177,8 @@ import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
 import ScsService from "../pages/Scs-Region/ScsService/ScsService";
 import ScsServiceForm from "../pages/Scs-Region/ScsService/ScsServiceForm";
+import TargetRegistration from "../pages/IndicativeTargets/Registration/target-registration";
+import TargetRegistrationForm from "../pages/IndicativeTargets/Registration/target-registration-from";
 
 export const Routes = [
   {
@@ -663,7 +665,7 @@ export const Routes = [
             isSideBar: true,
             element: <ScsService />,
             icon: AccountTreeIcon,
-            component: DEF_COMPONENTS.GN_DIVISION,
+            component: DEF_COMPONENTS.PROVINCE,
           },
           {
             path: "/scs-service-form",
@@ -677,7 +679,7 @@ export const Routes = [
             isSideBar: true,
             element: <ScsRegion />,
             icon: MyLocationIcon,
-            component: DEF_COMPONENTS.GN_DIVISION,
+            component: DEF_COMPONENTS.PROVINCE,
           },
           {
             path: "/scs-region-form",
@@ -1135,6 +1137,29 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
     ],
+  },
+  {
+    path: "/crop-target",
+    name: "Indicative Targets",
+    isSideBar: true,
+    icon: ContentPasteSearchIcon,
+    children: [
+      {
+        path: "/crop-registration",
+        name: "Indicative Targets Configuration",
+        isSideBar: true,
+        element: <TargetRegistration />,
+        icon: Settings,
+        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+      },
+      {
+        path: "/crop-registration-form",
+        name: "Indicative Targets Configuration Form",
+        isSideBar: false,
+        element: <TargetRegistrationForm />,
+        icon: SouthAmericaIcon,
+      }
+    ]
   },
   {
     path: "/crop-look",
