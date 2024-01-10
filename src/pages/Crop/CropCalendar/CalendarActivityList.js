@@ -126,6 +126,13 @@ export default function CalendarctivityList({
       renderCell: (params) => params?.row?.durationType,
     },
     {
+      field: "startOfWeek",
+      headerName: "Start Of Week",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.startOfWeek,
+    },
+    {
       field: "action",
       headerName: "Action",
       headerClassName: "super-app-theme--heade",

@@ -184,6 +184,35 @@ export default function AddCalendarActivityDialog({
                 />
               </FieldWrapper>
             </Grid>
+            <Grid item sm={6} md={6} lg={6}>
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  Start of Week
+                </FieldName>
+                <TextField
+                  type="number"
+                  name="order"
+                  id="order"
+                  value={formDataD?.startOfWeek || ""}
+                  disabled={mode === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "startOfWeek")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Box>
       </DialogContent>
