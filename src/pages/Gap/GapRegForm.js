@@ -1,42 +1,43 @@
-import React, { useState, useEffect } from "react";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
-  TextField,
-  Button,
-  CircularProgress,
-  Grid,
   Autocomplete,
-  FormControl,
-  Select,
-  MenuItem,
-  Stack,
+  Button,
   ButtonGroup,
+  Chip,
+  CircularProgress,
   Divider,
+  FormControl,
+  Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Chip,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
 } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
-import { useUserAccessValidation } from "../../hooks/authentication";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import styled from "styled-components";
+import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
+import { FieldName } from "../../components/FormLayout/FieldName";
+import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+import HorizontalStepper from "../../components/HorizontalStepper/HorizontalStepper";
+import MultiItemSelect from "../../components/MultiItemSelector/MultiItemSelectorComponent";
+import PageHeader from "../../components/PageHeader/PageHeader";
+import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { useUserAccessValidation } from "../../hooks/authentication";
 import {
   getAllAssessmentsByFarmLandId,
   getFarmLandByFarmerId,
 } from "../../redux/actions/farmLand/action";
-import styled from "styled-components";
-import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
-import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../components/FormLayout/FieldName";
-import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
-import { get_SoilType } from "../../redux/actions/soil/soilType/action";
-import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
-import Checkbox from "@mui/material/Checkbox";
 import {
   changeStatus,
   deleteCropDetails,
@@ -47,24 +48,21 @@ import {
   saveGapExternalAuditores,
   updateGap,
 } from "../../redux/actions/gap/action";
-import { gapReqDto } from "./gap-type";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
-import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
+import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_FarmersListByScsRegionId, get_ScsRegionList } from "../../redux/actions/scsRegion/action";
+import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { get } from "../../services/api";
-import { get_FarmerList } from "../../redux/actions/farmer/action";
-import CropDetailsList from "./CropDetails/CropDetailsList";
-import AddCropDetailsDialog from "./AddCropDetailsDialog";
-import DialogBox from "../../components/PageLayout/DialogBox";
+import { Colors } from "../../utils/constants/Colors";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
+import { Fonts } from "../../utils/constants/Fonts";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { getUserPermissionByComponent } from "../../utils/helpers/permission";
-import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
+import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
+import AddCropDetailsDialog from "./AddCropDetailsDialog";
+import CropDetailsList from "./CropDetails/CropDetailsList";
 import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
-import HorizontalStepper from "../../components/HorizontalStepper/HorizontalStepper";
-import MultiItemSelect from "../../components/MultiItemSelector/MultiItemSelectorComponent";
-import PageHeader from "../../components/PageHeader/PageHeader";
+import { gapReqDto } from "./gap-type";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -106,6 +104,7 @@ const GapRegForm = () => {
   const [saving, setSaving] = useState(false);
   const [gn, setGn] = useState([]);
   const [farmerList, setFarmerList] = useState([]);
+  const [scsRegionList, setScsRegionList] = useState([]);
   const [farmerLandList, setFarmerLandList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
@@ -204,8 +203,8 @@ const GapRegForm = () => {
       setGn(dataList);
     });
 
-    get_FarmerList().then(({ dataList = [] }) => {
-      setFarmerList(dataList);
+    get_ScsRegionList().then(({ dataList = [] }) => {
+      setScsRegionList(dataList);
     });
 
     get_SoilType()
@@ -393,6 +392,12 @@ const GapRegForm = () => {
       setFarmerLandList(dataList);
     });
   };
+
+  const getFarmersByScsRegionId = (id) => {
+    get_FarmersListByScsRegionId(id).then(({ dataList = [] }) => {
+      setFarmerList(dataList);
+    });
+  }
 
   // Implementation Of Crop Details Tab
 
@@ -732,12 +737,43 @@ const GapRegForm = () => {
           </Grid>
           <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
-              <FieldName>Farmer</FieldName>
+              <FieldName>SCS Region</FieldName>
               {loading ? (
                 <CircularProgress />
               ) : (
                 <Autocomplete
                   disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={scsRegionList}
+                  value={formData ? formData.scsRegionDTO : ""}
+                  getOptionLabel={(i) =>
+                    `${i.scsRegionId} - ${i.name}`
+                  }
+                  onChange={(event, value) => {
+                    handleChange(value, "scsRegionDTO");
+                    getFarmersByScsRegionId(value?.id);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              )}
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={12} md={6} lg={4}>
+            <FieldWrapper>
+              <FieldName>Farmer</FieldName>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW  || formData?.scsRegionDTO == null}
                   options={farmerList}
                   value={formData ? formData.farmerDTO : ""}
                   getOptionLabel={(i) =>
@@ -761,9 +797,8 @@ const GapRegForm = () => {
               )}
             </FieldWrapper>
           </Grid>
-        </Grid>
         <Grid container spacing={0}>
-          <Grid item sm={12} md={6} lg={5}>
+          <Grid item sm={12} md={6} lg={4}>
             <FieldWrapper>
               <FieldName>Farm Land</FieldName>
               <Autocomplete
@@ -795,7 +830,7 @@ const GapRegForm = () => {
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
-                  formData?.farmerDTO == null
+                  formData?.farmLandDTO == null
                 }
                 options={basicAssessments}
                 value={formData ? formData?.basicAssessmentDTO : ""}
@@ -814,6 +849,7 @@ const GapRegForm = () => {
               />
             </FieldWrapper>
           </Grid>
+        </Grid>
         </Grid>
         <Grid container sx={{ marginBottom: "20px" }} spacing={1}></Grid>
       </TabContent>

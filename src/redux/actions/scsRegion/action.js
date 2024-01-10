@@ -132,3 +132,22 @@ export const get_ScsRegionList = async () => {
     };
   }
 };
+
+export const get_FarmersListByScsRegionId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(`geo-data/scs-regions/get-farmers-own-region/${id}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

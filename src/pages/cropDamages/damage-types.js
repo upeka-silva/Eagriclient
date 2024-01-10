@@ -125,10 +125,10 @@ const DamageTypes = ({
       </Button>
       {/* )} */}
 
-      <DamageTypeList data={damageTypes} 
+      {damageTypes ? <DamageTypeList data={damageTypes} 
       currentFormMode ={formMode}
       onEdit={handleDamageTypeAdd} 
-      onDelete={handleDamageTypeDelete}/>
+      onDelete={handleDamageTypeDelete}/> : null}
 
       <AddDamageTypeDialog
         open={openDamageTypeAddDialog}
