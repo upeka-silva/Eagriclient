@@ -112,8 +112,8 @@ export default function AddCalendarActivityDialog({
                 </FieldName>
                 <TextField
                   type="number"
-                  name="order"
-                  id="order"
+                  name="cost"
+                  id="cost"
                   value={formDataD?.cost || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -141,8 +141,8 @@ export default function AddCalendarActivityDialog({
                 </FieldName>
                 <TextField
                   type="number"
-                  name="order"
-                  id="order"
+                  name="duration"
+                  id="duration"
                   value={formDataD?.duration || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
