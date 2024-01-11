@@ -32,7 +32,7 @@ import {
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import { Fonts } from "../../../utils/constants/Fonts";
 import PageHeader from "../../../components/PageHeader/PageHeader";
-import { getAllDDLevelRegions, updateCropRegistrationItems } from "../../../redux/actions/indicativeTargets/actions";
+import { getAllDDLevelRegions, saveCropRegistrationItems, updateCropRegistrationItems } from "../../../redux/actions/indicativeTargets/actions";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import MultiSelectTils from "../../../components/MultiSelectTiles/multi-select-tiles";
 import TargetRegistrationTils from "./target-registration-tiles";
@@ -68,61 +68,43 @@ const TargetRegistrationForm = () => {
     });
 
     get_CropList().then(({ dataList = [] }) => {
-      setCropList(dataList);
+      const items = state.target?.items;
       console.log(dataList);
-      console.log(dataList);
-    });
+      console.log(items);
 
-    get_CategoryList().then(({ dataList = [] }) => {
-      setCropCategoryList(dataList);
+      if(items && dataList) {
+        console.log('item is available');
+        for (var crop of dataList) {
+          var isAvailable = items.find(
+            (ele) => ele?.crop?.id === crop.id
+          );
+          if(isAvailable) {
+            console.log('crop is available in items');
+            crop.selected = true;
+          }
+        }
+      }
       console.log(dataList);
+      setCropList([...dataList]);
     });
 
     if (
       state?.action === DEF_ACTIONS.EDIT ||
       state?.action === DEF_ACTIONS.VIEW
     ) {
-      setRegistrationId(state?.target?.id);
-      setSelectedSeason(state?.target?.season);
+      var ddDivision = {
+                          id: state.target.regionId,
+                          name: state.target.regionName,
+                          parentType: state.target.regionType
 
-      var ddDivision = {};
-      if (state?.target?.parentType === REGION_PARENT_TYPE.PROVINCIAL) {
-        const provincialDD = state?.target?.provincialDD;
-        ddDivision = {
-          id: provincialDD.id,
-          name: provincialDD.provincialDdId,
-          parentType: REGION_PARENT_TYPE.PROVINCIAL,
-        };
-      } else if (
-        state?.target?.parentType === REGION_PARENT_TYPE.INTER_PROVINCIAL
-      ) {
-        const interProvincialDD = state?.target?.interProvincialDD;
-        ddDivision = {
-          id: interProvincialDD.id,
-          name: interProvincialDD.ddId,
-          parentType: REGION_PARENT_TYPE.INTER_PROVINCIAL,
-        };
-      } else {
-        const mahaweliBlock = state?.target?.mahaweliBlock;
-        ddDivision = {
-          id: mahaweliBlock.id,
-          name: mahaweliBlock.code,
-          parentType: REGION_PARENT_TYPE.MAHAWELI,
-        };
-      }
+                        };
+
       setSelectedDDDivision(ddDivision);
     }
   }, []);
 
-  useEffect(() => {
-    console.log("in second use effect registration id: " + registrationId);
-    if (registrationId) {
-      setIsLoading(false);
-    }
-  }, [registrationId]);
-
   const goBack = () => {
-    navigate("/crop-look/crop-registration");
+    navigate("/crop-target/crop-registration");
   };
 
   const handleDDChange = (value) => {
@@ -137,11 +119,9 @@ const TargetRegistrationForm = () => {
     }
   };
 
-  const enableSave = () => {
+  const  enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
-        return true;
-      }
+      return true;
     }
     if (
       state?.action === DEF_ACTIONS.ADD &&
@@ -191,11 +171,23 @@ const TargetRegistrationForm = () => {
       items: items,
     };
 
-    try {
-      await updateCropRegistrationItems(payload, onSuccess, onError);
-    } catch (error) {
-      console.log(error);
+    if(state.action === DEF_ACTIONS.EDIT) {
+      payload.id = state.target.id;
+
+      try {
+        await updateCropRegistrationItems(payload, onSuccess, onError);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await saveCropRegistrationItems(payload, onSuccess, onError);
+      } catch (error) {
+        console.log(error);
+      }
     }
+
+
   };
 
   const handleSelectedCrops = (cropId, selected) => {
@@ -246,7 +238,7 @@ const TargetRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => `${i.name}`}
+                getOptionLabel={(i) => `${i.name}(${i.parentType})`}
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}

@@ -132,7 +132,7 @@ export const getCropRegistrationById = async (id) => {
   }
 };
 
-export const updateCropRegistrationItems = async (
+export const saveCropRegistrationItems = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -140,6 +140,46 @@ export const updateCropRegistrationItems = async (
   try {
     const response = await post(
       `crop-target/crop-registration`,
+      payload,
+      true
+    );
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+      return {
+        dataList: response?.payload || {} ,
+      }
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateCropRegistrationItems = async (
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(
+      `crop-target/crop-registration/${payload.id}`,
       payload,
       true
     );

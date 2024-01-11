@@ -33,8 +33,6 @@ const TargetRegistrationTils = ({
                     isDisabled={isItemDisabled}
                   />
                 </Grid>
-
-                <hr />
               </>
             ))
           : null}
