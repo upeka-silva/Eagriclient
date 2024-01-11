@@ -112,8 +112,8 @@ export default function AddCalendarActivityDialog({
                 </FieldName>
                 <TextField
                   type="number"
-                  name="order"
-                  id="order"
+                  name="cost"
+                  id="cost"
                   value={formDataD?.cost || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -141,8 +141,8 @@ export default function AddCalendarActivityDialog({
                 </FieldName>
                 <TextField
                   type="number"
-                  name="order"
-                  id="order"
+                  name="duration"
+                  id="duration"
                   value={formDataD?.duration || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
@@ -181,6 +181,35 @@ export default function AddCalendarActivityDialog({
                     <TextField {...params} size="small" />
                   )}
                   fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={6} md={6} lg={6}>
+              <FieldWrapper>
+                <FieldName
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  Start of Week
+                </FieldName>
+                <TextField
+                  type="number"
+                  name="startOfWeek"
+                  id="startOfWeek"
+                  value={formDataD?.startOfWeek || ""}
+                  disabled={mode === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "startOfWeek")
+                  }
+                  size="small"
+                  fullWidth
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
                 />
               </FieldWrapper>
             </Grid>
