@@ -71,7 +71,7 @@ const CropCalendarForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setFormData(prevState => ({ ...prevState, ...state?.target }));
     } else {
       setFormData({});
     }
@@ -122,7 +122,7 @@ const CropCalendarForm = () => {
             onSuccess,
             onError
           );
-          setFormData(response.payload);
+          setFormData(prevState => ({ ...prevState, ...response.payload }));
         } else {
           const response = await updateCropCalendar(
             {
@@ -131,7 +131,7 @@ const CropCalendarForm = () => {
             onSuccess,
             onError
           );
-          setFormData(response.payload);
+          setFormData(prevState => ({ ...prevState, ...response.payload }));
         }
         setSaving(false);
       } catch (error) {
