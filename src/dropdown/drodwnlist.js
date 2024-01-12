@@ -420,9 +420,9 @@ const data = {
     "scsBranch": {
         "key": "scsBranch",
         "displayName": "SCS Region",
-        "type": "SCSBranch",
+        "type": "SCSBRANCH",
         "child": {
-            "key": "SCSBranch",
+            "key": "SCSBRANCH",
             "displayName": "SCS Region",
             "url": "geo-data/scs-regions",
             "child": null
