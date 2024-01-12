@@ -1,7 +1,7 @@
 # This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
 
-name: sgClient prod CI/CD
+name: AgriClient prod CI/CD
 
 on: [workflow_dispatch]
 
@@ -10,69 +10,60 @@ env:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: yarn install
-    - run: yarn build
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: vijithakn/sgclient
+        image: oneszeros/eagriservice
         tags: ${GITHUB_RUN_ID}, latest
         registry: docker.io
         dockerfile: Dockerfile
         buildArgs: |
-          base_url=http://3.6.216.178
-        username: vijithakn
-        password: 0nly4@vijitha
+          base_url=43.205.75.154
+        username: oneszeros
+        password: AstroBoy@2023
     - name: Deploy to EC2
       uses: appleboy/ssh-action@v0.1.6
       with:
-        host: 3.6.216.178
+        host: 43.205.75.154
         username: ec2-user
         key: |
           -----BEGIN RSA PRIVATE KEY-----
-          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
+          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
           -----END RSA PRIVATE KEY-----
         script: |
           docker login
-          docker pull vijithakn/sgclient:latest
-          docker stop sgclient
-          docker rm sgclient
-          docker run -d --name sgclient -p 80:80 vijithakn/sgclient:latest
+          docker pull oneszeros/eagriservice:latest
+          docker stop agriclient
+          docker rm agriclient
+          docker run -d --name agriclient -p 80:80 oneszeros/eagriservice:latest
