@@ -57,7 +57,7 @@ const CalendarActivity = ({
     setFormData(prop);
     setDialogMode(mode);
     setOpenCropActivityAddDialog(true);
-  };
+  };  
 
   const handleCalendarActivityDelete = (prop) => (event) => {
     setDeleteItem(prop);
@@ -121,10 +121,21 @@ const CalendarActivity = ({
     <div>
       <CustFormHeader
         saving={saving}
-        state={state}
+        state={state} 
         formName="Crop Activities"
       />
-      {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+      {(onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
+        <Button
+          disabled={!onFormSaveSuccess}
+          onClick={() => addDamageType()}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginBottom: "15px", marginTop: "20px" }}
+        >
+          <Add />
+        </Button>
+      ) || (onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
         <Button
           disabled={!formId}
           onClick={() => addDamageType()}
@@ -136,6 +147,19 @@ const CalendarActivity = ({
           <Add />
         </Button>
       )}
+
+      {/* {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+        <Button
+          disabled={!onFormSaveSuccess}
+          onClick={() => addDamageType()}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginBottom: "15px", marginTop: "20px" }}
+        >
+          <Add />
+        </Button>
+      )} */}
 
       <CalendarActivityList data={calendarActivities} 
       currentFormMode ={formMode}

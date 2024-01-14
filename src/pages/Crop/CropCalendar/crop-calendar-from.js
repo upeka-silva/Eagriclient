@@ -26,6 +26,8 @@ const CropCalendarForm = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  const [saveSuccessful, setSaveSuccessful] = useState(false);
+
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(state?.target || {});
@@ -98,6 +100,8 @@ const CropCalendarForm = () => {
           : "Successfully Updated",
     });
     setSaving(false);
+
+    setSaveSuccessful(true);
   };
 
   const onError = (message) => {
@@ -310,12 +314,14 @@ const CropCalendarForm = () => {
                   borderRadius: "5px",
                 }}
               >
+                
                 <Grid item sm={12} md={12} lg={12}>
                   {!saving ? (
                     <CalendarActivity
                       formMode={state.action}
                       formId={formData?.id}
                       dataList={formData?.activities}
+                      onFormSaveSuccess={saveSuccessful}
                     />
                   ) : (
                     <CircularProgress />
@@ -329,5 +335,4 @@ const CropCalendarForm = () => {
     </div>
   );
 };
-
 export default CropCalendarForm;
