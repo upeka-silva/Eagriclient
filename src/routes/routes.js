@@ -1146,7 +1146,7 @@ export const Routes = [
     children: [
       {
         path: "/crop-registration",
-        name: "Indicative Targets Configuration",
+        name: "Crop Setting",
         isSideBar: true,
         element: <TargetRegistration />,
         icon: Settings,
@@ -1154,7 +1154,7 @@ export const Routes = [
       },
       {
         path: "/crop-registration-form",
-        name: "Indicative Targets Configuration Form",
+        name: "Crop Setting Form",
         isSideBar: false,
         element: <TargetRegistrationForm />,
         icon: SouthAmericaIcon,
