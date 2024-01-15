@@ -3,8 +3,6 @@ import {
   TextField,
   Autocomplete,
   Grid,
-  Button,
-  ButtonGroup,
 } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,49 +11,28 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import {
-  TabButton,
-  TabContent,
-  TabWrapper,
-} from "../../Farm-Land/FarmLandForm";
-import CropRegistrationTab from "./target-registration-tab";
-import {
-  createCropRegistration,
-  getDDDivisionsByLogedInUser,
-  getSeasons,
-} from "../../../redux/actions/cropLook/cropRegistration/actions";
-import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import { Fonts } from "../../../utils/constants/Fonts";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { getAllDDLevelRegions, saveCropRegistrationItems, updateCropRegistrationItems } from "../../../redux/actions/indicativeTargets/actions";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";
-import MultiSelectTils from "../../../components/MultiSelectTiles/multi-select-tiles";
 import TargetRegistrationTils from "./target-registration-tiles";
 
 const TargetRegistrationForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [options, setOptions] = useState([]);
-  const [seasons, setSeasons] = useState([]);
-  const [cropCategoryList, setCropCategoryList] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState({});
   const [selectedDDDivision, setSelectedDDDivision] = useState({});
   const [registrationId, setRegistrationId] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const [toggleState, setToggleState] = useState(1);
-  const [tabEnabled, setTabInabled] = useState(false);
 
   const [cropList, setCropList] = useState([]);
 
