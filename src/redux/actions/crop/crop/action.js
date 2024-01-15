@@ -40,7 +40,7 @@ export const get_CropList = async (
 ) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/crops",
+      "geo-data/crops/all",
       true
     );
     if (httpCode === "200 OK") {
