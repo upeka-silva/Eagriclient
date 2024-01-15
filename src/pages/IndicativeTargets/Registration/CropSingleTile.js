@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 import React from "react";
 
+const sampleCropImg = require("../../../assets/images/cropPlaceholder.png");
+
 const CropSingleTile = ({
   id,
   name,
@@ -42,8 +44,8 @@ const CropSingleTile = ({
     >
       <CardActionArea>
         <CardMedia
-          style={{ paddingTop: "50%" }}
-          image={imageUrl}
+          style={{ paddingTop: "55%", margin: "5px" }}
+          image={imageUrl ? imageUrl : sampleCropImg}
           title="Crop Image"
         />
         <CardContent>
