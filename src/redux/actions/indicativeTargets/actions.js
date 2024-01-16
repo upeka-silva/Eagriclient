@@ -212,13 +212,13 @@ export const updateCropRegistrationItems = async (
   }
 };
 
-export const deleteDistrict = async (
+export const deleteIndicativeTargetRegistration = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/districts/${id || ""}`, true);
+    const response = await api_delete(`crop-target/crop-registration/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -242,25 +242,5 @@ export const deleteDistrict = async (
     } else {
       onError(error);
     }
-  }
-};
-
-
-export const get_DistrictListByProvinceId = async (id) => {
-  try {
-    const { httpCode, payloadDto } = await get("geo-data/districts/province/" + id, true);
-    if (httpCode === "200 OK") {
-      return {
-        dataList: payloadDto,
-      };
-    }
-    return {
-      dataList: [],
-    };
-  } catch (error) {
-    console.log(error);
-    return {
-      dataList: [],
-    };
   }
 };
