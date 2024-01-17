@@ -179,6 +179,8 @@ import ScsService from "../pages/Scs-Region/ScsService/ScsService";
 import ScsServiceForm from "../pages/Scs-Region/ScsService/ScsServiceForm";
 import TargetRegistration from "../pages/IndicativeTargets/Registration/target-registration";
 import TargetRegistrationForm from "../pages/IndicativeTargets/Registration/target-registration-from";
+import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
+import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
 
 export const Routes = [
   {
@@ -1158,7 +1160,23 @@ export const Routes = [
         isSideBar: false,
         element: <TargetRegistrationForm />,
         icon: SouthAmericaIcon,
-      }
+      },
+      {
+        path: "/dd-summary",
+        name: "DD Summary",
+        isSideBar: true,
+        element: <DDLevelSummary />,
+        icon: Settings,
+        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+      },
+      {
+        path: "/ai-summary",
+        name: "AI Summary",
+        isSideBar: true,
+        element: <AILevelSummary />,
+        icon: Settings,
+        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+      },
     ]
   },
   {
