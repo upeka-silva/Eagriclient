@@ -20,7 +20,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { getAllAiAndMahaweliUnits } from "../../../redux/actions/cropLook/cropTarget/actions";
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
+import { get_AiRegionList, get_AiRegionListWithoutPagination } from "../../../redux/actions/aiRegion/action";
 import { Colors } from "../../../utils/constants/Colors";
 
 const AILevelSummary = () => {
@@ -39,7 +39,7 @@ const AILevelSummary = () => {
       setSeasons(dataList);
     });
 
-    get_AiRegionList().then(({ dataList = [] }) => {
+    get_AiRegionListWithoutPagination().then(({ dataList = [] }) => {
       setAiRegions(dataList);
       console.log(dataList);
     });

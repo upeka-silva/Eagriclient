@@ -35,6 +35,8 @@ export const handleAI = async (
   }
 };
 
+
+
 export const get_AiRegionList = async (
   ) => {
     try {
@@ -54,6 +56,26 @@ export const get_AiRegionList = async (
       }
     }
   };
+
+  export const get_AiRegionListWithoutPagination = async (
+    ) => {
+      try {
+        const {httpCode, payloadDto} = await get("geo-data/ai-region?size=1000", true);
+        if (httpCode === '200 OK') {
+          return {
+            dataList: payloadDto
+          }
+        }
+        return {
+          dataList: []
+        }
+      } catch (error) {
+        console.log(error)
+        return {
+          dataList: []
+        }
+      }
+    };
 
 
 export const updateAI = async (
