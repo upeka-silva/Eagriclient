@@ -20,6 +20,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { getAllAiAndMahaweliUnits } from "../../../redux/actions/cropLook/cropTarget/actions";
+import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 
 const AILevelSummary = () => {
   const [data, setData] = useState([]);
@@ -37,7 +38,7 @@ const AILevelSummary = () => {
       setSeasons(dataList);
     });
 
-    getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
+    get_AiRegionList().then(({ dataList = [] }) => {
       setAiRegions(dataList);
       console.log(dataList);
     });
@@ -71,11 +72,11 @@ const AILevelSummary = () => {
         <Grid container>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Crop Category</FieldName>
+              <FieldName>Ai Region</FieldName>
               <Autocomplete
                 options={aiRegions}
                 //value={category}
-                getOptionLabel={(i) => `${i.code} - ${i.name} `}
+                getOptionLabel={(i) => `${i.regionId} - ${i.description} `}
                 onChange={(event, value) => {
                   setAiId(value.id);
                   onSelectAiRegion(value.id);
