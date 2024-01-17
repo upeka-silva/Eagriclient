@@ -21,6 +21,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { getAllAiAndMahaweliUnits } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { get_AiRegionList, get_AiRegionListWithoutPagination } from "../../../redux/actions/aiRegion/action";
+import { Colors } from "../../../utils/constants/Colors";
 
 const AILevelSummary = () => {
   const [data, setData] = useState([]);
@@ -134,7 +135,11 @@ const AILevelSummary = () => {
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
+          <TableHead
+            sx={{
+              backgroundColor: Colors.tableHeaderColor,
+            }}
+          >
             <TableRow>
               <TableCell>Crop Id</TableCell>
               <TableCell>Crop Description</TableCell>

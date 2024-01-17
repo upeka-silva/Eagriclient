@@ -98,6 +98,7 @@ import {
   Preview,
   Rowing,
   Settings,
+  Plagiarism,
   TrendingDown,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
@@ -1166,7 +1167,7 @@ export const Routes = [
         name: "DD Summary",
         isSideBar: true,
         element: <DDLevelSummary />,
-        icon: Settings,
+        icon: Plagiarism,
         component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
       {
@@ -1174,7 +1175,7 @@ export const Routes = [
         name: "AI Summary",
         isSideBar: true,
         element: <AILevelSummary />,
-        icon: Settings,
+        icon: Plagiarism,
         component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
     ]

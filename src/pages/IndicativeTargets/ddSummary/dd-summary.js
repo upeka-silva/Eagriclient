@@ -16,6 +16,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
+import { Colors } from "../../../utils/constants/Colors";
 
 const DDLevelSummary = () => {
   const [data, setData] = useState([]);
@@ -35,11 +36,11 @@ const DDLevelSummary = () => {
   }, []);
 
   const onSelectSeason = (seasonId) => {
-    console.log('season Id');
+    console.log("season Id");
     console.log(seasonId);
     getSummaryByDDIdAndSeason(1, seasonId).then(({ data = [] }) => {
-        setData(data);
-      });
+      setData(data);
+    });
   };
 
   return (
@@ -86,7 +87,7 @@ const DDLevelSummary = () => {
                 //value={subCategory}
                 getOptionLabel={(i) => `${i.code} - ${i.description}`}
                 onChange={(event, value) => {
-                    onSelectSeason(value.id);
+                  onSelectSeason(value.id);
                 }}
                 fullWidth
                 sx={{
@@ -112,7 +113,11 @@ const DDLevelSummary = () => {
 
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
-          <TableHead>
+          <TableHead
+            sx={{
+              backgroundColor: Colors.tableHeaderColor,
+            }}
+          >
             <TableRow>
               <TableCell>Crop Id</TableCell>
               <TableCell>Crop Description</TableCell>
