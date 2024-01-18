@@ -29,6 +29,7 @@ import {
 import DynamicFormFarmLand from "./DynamicFormFarmLand";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AssessmentList from "./AssessmentList";
+import { deleteFarmLandAssesmentQuestion } from "../../redux/actions/farmLand/action";
 
 const DynamicFormListFarmLand = ({
   formId ,
@@ -162,7 +163,8 @@ const DynamicFormListFarmLand = ({
   };
 
   const onConfirm = async () => {
-    await deleteAuditFormQuestion(formId, deleteItem?.id, onSuccess, onError);
+    await deleteFarmLandAssesmentQuestion(formId, uriPath, deleteItem?.id, onSuccess, onError);
+    console.log("id is:" + formId);
     close();
   };
 
