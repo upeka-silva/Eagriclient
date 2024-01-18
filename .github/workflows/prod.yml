@@ -20,7 +20,7 @@ jobs:
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
-        image: oneszeros/eagriservice
+        image: oneszeros/eagriclientprod
         tags: ${GITHUB_RUN_ID}, latest
         registry: docker.io
         dockerfile: Dockerfile
@@ -63,7 +63,7 @@ jobs:
           -----END RSA PRIVATE KEY-----
         script: |
           docker login
-          docker pull oneszeros/eagriservice:latest
+          docker pull oneszeros/eagriclientprod:latest
           docker stop agriclient
           docker rm agriclient
-          docker run -d --name agriclient -p 80:80 oneszeros/eagriservice:latest
+          docker run -d --name agriclient -p 80:80 oneszeros/eagriclientprod:latest
