@@ -176,3 +176,39 @@ export const handleUserProfile = async (
   }
 };
 
+
+export const changeUserStatus = async (
+  id, 
+  status,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`user-manage/${id}/status/${status}`, null, true);
+ 
+    if (response.httpCode === "200 OK") {
+      return response.payload;
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({error}) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+ };
+ 
+ 
