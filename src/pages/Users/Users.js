@@ -42,7 +42,6 @@ const Users = () => {
   const [openPasswordReset, setOpenPasswordReset] = useState(false);
   const [selectUsers, setSelectUsers] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const dispatch = useDispatch();
   
 
   const toggleUsersSelect = (component) => {
@@ -145,7 +144,6 @@ const Users = () => {
 
 
   const handleChangeUserStatus = () => {
-    console.log('handleToggleUserStatus', selectUsers);
     if (selectUsers.length === 1) {
       var user = selectUsers[0];
       const newStatus = !user.enabled;
@@ -165,7 +163,7 @@ const Users = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectUsers.map((p, key, e) => {
+        {selectUsers.map((p, key) => {
           return (
             
             <ListItem>
