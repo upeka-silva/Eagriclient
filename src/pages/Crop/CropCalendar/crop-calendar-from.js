@@ -36,6 +36,8 @@ const CropCalendarForm = () => {
   const [varieties, setVarieties] = useState([]);
   const [zoneList, setZoneList] = useState([]);
 
+  const formId = state?.target?.id;
+
   useEffect(() => {
     get_CropList().then(({ dataList = [] }) => {
       setCrops(dataList);
@@ -45,12 +47,18 @@ const CropCalendarForm = () => {
       setZoneList(dataList);
     });
 
+    getCropVarietiesByCropId().then(({ dataList = [] }) => {
+      setVarieties(dataList);
+    })
+
     if (
       state?.action === DEF_ACTIONS.EDIT ||
-      state?.action === DEF_ACTIONS.VIEW
+      state?.action === DEF_ACTIONS.VIEW ||
+      state?.action === DEF_ACTIONS.ADD
     ) {
       setFormData(state?.target);
     }
+    console.log("target", state);
   }, [state?.action, state?.target]);
 
   const getAllVarieties = (crop) => {
@@ -122,20 +130,23 @@ const CropCalendarForm = () => {
           const response = await createCropCalendar(
             {
               ...formData,
+              id: formId,
             },
             onSuccess,
             onError
           );
-          setFormData(prevState => ({ ...prevState, ...response.payload }));
+          console.log("form id ", formId, response);
+          setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
         } else {
           const response = await updateCropCalendar(
             {
               ...formData,
+              id: undefined
             },
             onSuccess,
             onError
           );
-          setFormData(prevState => ({ ...prevState, ...response.payload }));
+          setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
         }
         setSaving(false);
       } catch (error) {
@@ -189,7 +200,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+          <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
               <FieldName>Description</FieldName>
               <TextField
@@ -231,7 +242,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Crop</FieldName>
               <Autocomplete
@@ -304,7 +315,7 @@ const CropCalendarForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={12} md={12} lg={12}>
+          <Grid item sm={20} md={20} lg={20}>
             <Paper style={{ height: "500px" }}>
               <Grid
                 container
@@ -314,12 +325,11 @@ const CropCalendarForm = () => {
                   borderRadius: "5px",
                 }}
               >
-                
-                <Grid item sm={12} md={12} lg={12}>
+                <Grid item sm={20} md={20} lg={20}>
                   {!saving ? (
                     <CalendarActivity
                       formMode={state.action}
-                      formId={formData?.id}
+                      formId={formData?.id} 
                       dataList={formData?.activities}
                       onFormSaveSuccess={saveSuccessful}
                     />
@@ -335,4 +345,5 @@ const CropCalendarForm = () => {
     </div>
   );
 };
+
 export default CropCalendarForm;
