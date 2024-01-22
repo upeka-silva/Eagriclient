@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {Button, CircularProgress} from "@mui/material";
 
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  getQuestionsByFormId,
-  updateAuditFormQuestions,
-  deleteAuditFormQuestion,
-} from "../../../redux/actions/auditForm/auditFormQuestions/actions";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import { useLocation } from "react-router-dom";
-import {
-  createDamageType,
-  deleteDamageType,
-  getAllDamageTypes,
-} from "../../../redux/actions/crop/cropDamage/action";
+
 import { Add } from "@mui/icons-material";
 import AddCalendarActivityDialog from "./AddCalendarActivityDialog";
 import {
@@ -48,10 +39,6 @@ const CalendarActivity = ({
 
   const [calendarActivities, setCalendarActivities] = useState(dataList);
 
-  // useEffect(() => {
-  //   setCalendarActivities(dataList);
-  // }, [dataList]);
-
   const handleDamageTypeAdd = (prop, mode) => (event) => {
     setFormData({});
     setFormData(prop);
@@ -77,7 +64,6 @@ const CalendarActivity = ({
     getAllCalendarActivities(formId).then((data) => {
       setCalendarActivities(...dataList, data);
       setIsDataFetch(true);
-      // console.log("calendar activities: ",setCalendarActivities(data));
       console.log("data i entered: ",data);
     });
   };
@@ -95,7 +81,6 @@ const CalendarActivity = ({
       const response = await createCalendarActivity(formId, data, onSuccess, onError);
       console.log("form ID: ",formId,data);
       console.log("form response: ",response);
-      // setCalendarActivities(...calendarActivities, response);
       console.log("datalist", dataList);
     } else if (functionMode === DEF_ACTIONS.EDIT) {
       setIsDataFetch(false);
@@ -158,7 +143,6 @@ const CalendarActivity = ({
       <AddCalendarActivityDialog
         open={openCropActivityAddDialog}
         setConfirmDialog={setOpenCropActivityAddDialog}
-        // setConfirmDialog={setOpenDlg}
         confirmAction={handleCalendarActivityAdd}
         handleClose={closeCalendarActivityDialog}
         formId={formData?.id}

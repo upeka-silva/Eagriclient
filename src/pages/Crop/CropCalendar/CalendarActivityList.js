@@ -63,7 +63,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     fontSize: "15px",
   },
   "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
-    // borderTop: `1px solid #CCC`,
     fontSize: "15px",
   },
   "& .MuiDataGrid-cell": {
