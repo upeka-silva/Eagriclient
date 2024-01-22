@@ -63,7 +63,6 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     fontSize: "15px",
   },
   "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
-    // borderTop: `1px solid #CCC`,
     fontSize: "15px",
   },
   "& .MuiDataGrid-cell": {
@@ -83,15 +82,16 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
 }));
 
-export default function CalendarctivityList({
+export default function CalendarActivityList({
   data,
   currentFormMode,
   onEdit,
   onDelete,
 }) {
+
   const columns = [
     {
-      field: "name",
+      field: "name",  
       headerName: "Name",
       flex: 1,
       headerClassName: "super-app-theme--heade",
@@ -182,8 +182,9 @@ export default function CalendarctivityList({
 
   const getRowHeight = () => 40;
 
+
   return (
-    <div style={{ height: 500, width: "90%" }}>
+    <div style={{ height: 500, width: "100%" }}>
       <Box
         sx={{
           height: 400,
