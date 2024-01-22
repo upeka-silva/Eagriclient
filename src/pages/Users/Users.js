@@ -16,15 +16,21 @@ import {
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { changePassword, deleteUsers } from "../../redux/actions/users/action";
+import { changePassword, deleteUsers, changeUserStatus } from "../../redux/actions/users/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import UsersList from "./UserList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Event, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import PasswordChangeDialog from "./passwordChangeDialog";
+import { useDispatch } from 'react-redux';
+import Checkbox from '@mui/material/Checkbox';
+import { useSelector } from 'react-redux';
+
+
+
 
 const Users = () => {
   useUserAccessValidation();
@@ -36,6 +42,7 @@ const Users = () => {
   const [openPasswordReset, setOpenPasswordReset] = useState(false);
   const [selectUsers, setSelectUsers] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  
 
   const toggleUsersSelect = (component) => {
     setSelectUsers((current = []) => {
@@ -134,11 +141,31 @@ const Users = () => {
     setOpen(false);
   };
 
+
+
+  const handleChangeUserStatus = () => {
+    if (selectUsers.length === 1) {
+      var user = selectUsers[0];
+      const newStatus = !user.enabled;
+   
+      changeUserStatus(user.id, newStatus).then((status) => {
+
+        const changdStatus =  (status === 'disabled') ? false : true;
+
+        user.enabled = changdStatus;
+  
+        setSelectUsers([user]);
+      });
+
+    }
+   };
+   
   const renderSelectedItems = () => {
     return (
       <List>
         {selectUsers.map((p, key) => {
           return (
+            
             <ListItem>
               <ListItemIcon>
                 {loading ? (
@@ -147,6 +174,10 @@ const Users = () => {
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
+              <Checkbox
+              checked={selectUsers.includes(p)}
+              onChange={(e) => toggleUsersSelect(p)}
+              />
               <ListItemText>
                 {p.email} - {p.firstName} {p.lastName}
               </ListItemText>
@@ -245,6 +276,17 @@ const Users = () => {
               </Button>
             </PermissionWrapper>
           )}
+
+          {selectUsers.length === 1 && (
+            <PermissionWrapper permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`} >
+             <Button onClick={handleChangeUserStatus} >
+          {selectUsers[0].enabled ? 'Set Disable' : 'Set Enable'}
+            </Button>
+            </PermissionWrapper>
+          )}
+
+
+
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
