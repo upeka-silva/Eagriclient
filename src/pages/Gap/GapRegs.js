@@ -13,10 +13,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { deleteGapRequest } from "../../redux/actions/gap/action";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { deleteUsers } from "../../redux/actions/users/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import GapRegList from "./GapRegList";
@@ -142,8 +142,8 @@ const GapRegs = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const users of selectGapReq) {
-        await deleteUsers(users?.id, onSuccess, onError);
+      for (const gapRequest of selectGapReq) {
+        await deleteGapRequest(gapRequest?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
