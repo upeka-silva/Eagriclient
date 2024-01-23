@@ -66,7 +66,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
-    setLoading(true);
+    setLoading(true);  
     initiateLogin(formData, updateAuthContext, onSuccess, onError);
   };
 
@@ -95,7 +95,7 @@ const Login = () => {
       return true;
     }
   };
-
+   
   const handleClick = () => {
     setShowPassword((prev) => !prev);
   };
@@ -175,7 +175,7 @@ const Login = () => {
                         margin="normal"
                         fullWidth
                         id="userName"
-                        placeholder="Enter your email address"
+                        placeholder="Enter your Username"
                         name="userName"
                         type="text"
                         onChange={handleChange}
@@ -238,7 +238,7 @@ const Login = () => {
                         }}
                       />
 
-                      <LinkWrapper>
+                      {/* <LinkWrapper>
                         <Link
                           href="#"
                           style={{
@@ -249,15 +249,12 @@ const Login = () => {
                         >
                           <ForgotPassword>Forgot password?</ForgotPassword>
                         </Link>
-                      </LinkWrapper>
+                      </LinkWrapper> */}
+                      <Box sx= {{mt : 3}}>
                       <ButtonContainer
                         type="submit"
                         fullWidth
-                        disabled={
-                          validateInputByInput("userName", null) ||
-                          validateInputByInput("password", null) ||
-                          loading
-                        }
+
                       >
                         {loading ? (
                           <CircularProgress
@@ -269,6 +266,7 @@ const Login = () => {
                           "Sign In"
                         )}
                       </ButtonContainer>
+                      </Box>
                     </Box>
                   </Box>
                 </>
