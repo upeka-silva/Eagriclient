@@ -305,7 +305,6 @@ export const changeStatus = async (
 ) => {
   try {
     const payload = { status: newStatus };
-
     const response = await put(
       `gap-request/` + gapReqId + `/status/` + newStatus,
       JSON.stringify(payload),
