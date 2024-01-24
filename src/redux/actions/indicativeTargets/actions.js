@@ -40,7 +40,10 @@ export const createCropRegistration = async (
 
 export const getAllDDLevelRegions = async () => {
   try {
-    const { httpCode, payloadDto } = await get("crop-target/ddLevelRegions", true);
+    const { httpCode, payloadDto } = await get(
+      "crop-target/ddLevelRegions",
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -58,23 +61,26 @@ export const getAllDDLevelRegions = async () => {
 };
 
 export const getSeasons = async () => {
-    try {
-      const { httpCode, payloadDto } = await get("crop-look/seasons/enabled", true);
-      if (httpCode === "200 OK") {
-        return {
-          dataList: payloadDto,
-        };
-      }
+  try {
+    const { httpCode, payloadDto } = await get(
+      "crop-look/seasons/enabled",
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: [],
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        dataList: [],
+        dataList: payloadDto,
       };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateDistrict = async (
   payload = {},
@@ -115,7 +121,10 @@ export const updateDistrict = async (
 
 export const getCropRegistrationById = async (id) => {
   try {
-    const { httpCode, payload } = await get(`crop-look/crop-registration/${id}`, true);
+    const { httpCode, payload } = await get(
+      `crop-look/crop-registration/${id}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         data: payload,
@@ -138,16 +147,12 @@ export const saveCropRegistrationItems = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(
-      `crop-target/crop-registration`,
-      payload,
-      true
-    );
+    const response = await post(`crop-target/crop-registration`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
       return {
-        dataList: response?.payload || {} ,
-      }
+        dataList: response?.payload || {},
+      };
     } else {
       const exception = {
         error: {
@@ -186,8 +191,8 @@ export const updateCropRegistrationItems = async (
     if (response.httpCode === "200 OK") {
       onSuccess();
       return {
-        dataList: response?.payload || {} ,
-      }
+        dataList: response?.payload || {},
+      };
     } else {
       const exception = {
         error: {
@@ -212,13 +217,16 @@ export const updateCropRegistrationItems = async (
   }
 };
 
-export const deleteDistrict = async (
+export const deleteIndicativeTargetRegistration = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/districts/${id || ""}`, true);
+    const response = await api_delete(
+      `crop-target/crop-registration/${id || ""}`,
+      true
+    );
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -245,22 +253,46 @@ export const deleteDistrict = async (
   }
 };
 
-
-export const get_DistrictListByProvinceId = async (id) => {
+export const getSummaryByDDIdAndSeason = async (ddId, seasonId) => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/districts/province/" + id, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-target/summary/dd/${ddId}/season/${seasonId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
-        dataList: payloadDto,
+        data: payloadDto,
       };
     }
     return {
-      dataList: [],
+      data: {},
     };
   } catch (error) {
     console.log(error);
     return {
-      dataList: [],
+      data: {},
+    };
+  }
+};
+
+export const getSummaryByAiIdAndSeason = async (aiId, seasonId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-target/summary/ai/${aiId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        data: payloadDto,
+      };
+    }
+    return {
+      data: {},
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: {},
     };
   }
 };

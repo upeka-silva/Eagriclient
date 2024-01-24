@@ -1,15 +1,6 @@
-import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
+import React from "react";
+import { Grid } from "@mui/material";
 import CropSingleTile from "./CropSingleTile";
-
-const CropImg = require("../../../assets/images/crop1.jpeg");
 
 const TargetRegistrationTils = ({
   cropList,
@@ -20,14 +11,14 @@ const TargetRegistrationTils = ({
     <Grid container spacing={1}>
       <>
         {cropList
-          ? cropList.map((crop) => (
+          ? cropList?.map((crop) => (
               <>
-                <Grid item xs={2} key={crop.id} sm={2} md={2} lg={2}>
+                <Grid item xs={2} key={crop.id} sm={12} md={4} lg={2}>
                   <CropSingleTile
                     key={crop.id}
                     id={crop.id}
                     name={crop.cropId}
-                    imageUrl={crop?.originalFileName}
+                    imageUrl={crop?.prsignedUrl}
                     onOptionClick={handleSelectedValues}
                     isSelected={crop?.selected || false}
                     isDisabled={isItemDisabled}

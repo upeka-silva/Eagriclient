@@ -197,7 +197,7 @@ export default function BiWeekDataTable({
           width: "99%",
         }}
       >
-        <StyledDataGrid
+        {data ? <StyledDataGrid
           rows={data}
           columns={columns}
           initialState={{
@@ -207,7 +207,7 @@ export default function BiWeekDataTable({
           }}
           disableSelectionOnClick
           getRowHeight={getRowHeight}
-        />
+        /> : null }
       </Box>
     </div>
     </>

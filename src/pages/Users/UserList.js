@@ -9,7 +9,7 @@ const UsersList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "username", headerName: "Username" },
+    { field: "username", headerName: "User Name" },
     { field: ["firstName", "lastName"], joinString: " ", headerName: "Name" },
     { field: "genderClient", headerName: "Gender" },
     {
@@ -19,6 +19,7 @@ const UsersList = ({
     { field: "address", headerName: "Address" },
     { field: "phone", headerName: "Phone No" },
     { field: "userLanguageClient", headerName: "Language" },
+    { field: "enabled", headerName: "Active", type: "boolean" },
   ];
   return (
     <TableWrapper>

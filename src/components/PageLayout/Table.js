@@ -996,7 +996,11 @@ export const DataTable = ({
                 if (!c?.hidden) {
                   if (c.type === "actions") {
                     return (
-                      <TableCell key={`${key}-${key2}`} contextMenu="none" sx={{ padding: "2px 0px 2px 20px !important" }}>
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        contextMenu="none"
+                        sx={{ padding: "2px 0px 2px 20px !important" }}
+                      >
                         {/* <ActionWrapper> */}
                         <ActionToolTip title="actions" placement="top" arrow>
                           <IconButton
@@ -1039,9 +1043,22 @@ export const DataTable = ({
                       </TableCell>
                     );
                   }
+                  if (c?.type === "boolean") {
+                    return (
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        sx={{ padding: "2px 0px 2px 20px !important" }}
+                      >
+                        {r[c.field] ? "Yes" : "No"}
+                      </TableCell>
+                    );
+                  }
                   if (c?.type === "datetime") {
                     return (
-                      <TableCell key={`${key}-${key2}`} sx={{ padding: "2px 0px 2px 20px !important" }}>
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        sx={{ padding: "2px 0px 2px 20px !important" }}
+                      >
                         {new Date(r[c.field] || undefined).toLocaleString(
                           "en-UK",
                           {
@@ -1068,7 +1085,10 @@ export const DataTable = ({
                   }
                   if (c?.type === "time") {
                     return (
-                      <TableCell key={`${key}-${key2}`} sx={{ padding: "2px 0px 2px 20px !important" }}>
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        sx={{ padding: "2px 0px 2px 20px !important" }}
+                      >
                         {new Date(r[c.field] || undefined).toLocaleTimeString(
                           "en-UK",
                           { hour12: true, hour: "2-digit", minute: "2-digit" }
