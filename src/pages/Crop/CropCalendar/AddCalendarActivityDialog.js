@@ -80,13 +80,11 @@ export default function AddCalendarActivityDialog({
               <FieldWrapper>
                 <FieldName>Activity</FieldName>
                 <Autocomplete
-                  //disabled={selectedDsDevision?.id == null}
                   options={cropActions}
                   value={formData?.cropActivity}
                   getOptionLabel={(i) => `${i.name} - ${i.description}`}
                   onChange={(event, value) => {
                     handleChange(value, "cropActivity");
-                    //setSelectedGnDevision(value);
                   }}
                   disableClearable
                   sx={{
@@ -163,13 +161,11 @@ export default function AddCalendarActivityDialog({
               <FieldWrapper>
                 <FieldName>Duration Type</FieldName>
                 <Autocomplete
-                  //disabled={selectedDsDevision?.id == null}
                   options={durations}
                   value={formData?.durationType}
                   getOptionLabel={(i) => `${i}`}
                   onChange={(event, value) => {
                     handleChange(value, "durationType");
-                    //setSelectedGnDevision(value);
                   }}
                   disableClearable
                   sx={{

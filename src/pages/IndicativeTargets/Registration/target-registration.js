@@ -34,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import TargetRegistrationList from "./target-registration-list";
+import { deleteIndicativeTargetRegistration } from "../../../redux/actions/indicativeTargets/actions";
 
 const TargetRegistration = () => {
 
@@ -142,7 +143,7 @@ const TargetRegistration = () => {
     try {
       setLoading(true);
       for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
+        await deleteIndicativeTargetRegistration(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
