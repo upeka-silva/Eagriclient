@@ -231,7 +231,7 @@ const GapRegs = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Agriculture Season"
+        title="Delete Gap Request"
         actions={
           <ActionWrapper>
             <Button
@@ -256,7 +256,6 @@ const GapRegs = () => {
         <>
           <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
         </>
       </DialogBox>
     </div>
