@@ -3,7 +3,10 @@ import { Button, ButtonGroup } from "@mui/material";
 import PermissionWrapper from '../../components/PermissionWrapper/PermissionWrapper';
 import { DEF_ACTIONS, DEF_COMPONENTS } from '../../utils/constants/permission';
 
-const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog }) => {
+const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, existingAuditores }) => {
+
+
+  console.log(gapReqStatus.lblState)
 
   const roleStateMap = {
     DD_OFFICER: ['SUBMITTED', 'APPROVED_BY_DD', 'REJECTED_BY_DD'],
@@ -26,18 +29,22 @@ const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog }) 
               DEF_COMPONENTS.GAP_BY_MAIN_SCS}`}
       >
         <ButtonGroup>
-          <Button
-            onClick={() => {
-              setOpenApproveDialog({ open: true, option: 'approve' });
-            }}
-            color="success"
-            variant="outlined"
-            size="small"
-            sx={{ marginLeft: '10px' }}
-          >
-            APPROVE
-          </Button>
-
+          {
+            role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && existingAuditores.length != 0 ? null : (
+              <Button
+                onClick={() => {
+                  setOpenApproveDialog({ open: true, option: 'approve' });
+                }}
+                color="success"
+                variant="outlined"
+                size="small"
+                sx={{ marginLeft: '10px' }}
+              >
+                APPROVE
+              </Button>
+            )
+          }
+            
           <Button
             onClick={() => {
               setOpenApproveDialog({ open: true, option: 'reject' });

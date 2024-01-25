@@ -616,7 +616,9 @@ const GapRegForm = () => {
                     {(role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
                      (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
                      (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "EXTERNAL_AUDITOR_REJECT")
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "EXTERNAL_AUDITOR_REJECT") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
+
                      ? (
                       <Button
                         onClick={() => setOpenConfSubmit(true)}
@@ -633,7 +635,8 @@ const GapRegForm = () => {
                      role={role}
                      gapReqStatus={gapReqStatus}
                      setOpenApproveDialog={setOpenApproveDialog}
-                   />
+                     existingAuditores={formData?.externalAuditors}
+                     />
                
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
@@ -2692,9 +2695,7 @@ const GapRegForm = () => {
                     gapReqStatus.lblState === "EXTERNAL_AUDITOR_APPROVE"    
                   ){
                     changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
-                  } else {
-                    changeGapReqStatus("GENERATE_CERTIFICATE");
-                  } 
+                  }
                 } 
                 else if (openApproveDialog.option === 'reject'){
                   if (role === 'DD_OFFICER') {
