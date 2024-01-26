@@ -1,5 +1,7 @@
 import { Grid, TextField } from "@mui/material";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
 import { useLocation, useNavigate } from "react-router-dom";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -15,6 +17,7 @@ import {
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
+
 const CropCategoryForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -23,6 +26,8 @@ const CropCategoryForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
+
+  const { register, handleSubmit, formState: { errors } } = useForm();
 
   const goBack = () => {
     navigate("/crop/category");
@@ -78,20 +83,20 @@ const CropCategoryForm = () => {
     setSaving(false);
   };
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = handleSubmit(async (data) => {
     if (enableSave()) {
-      setSaving(true);
-      try {
-        if (formData?.id) {
-          await updateCropCategory(formData, onSuccess, onError);
-        } else {
-          await handleCropCategory(formData, onSuccess, onError);
-        }
-      } catch (error) {
-        console.log(error);
-      }
+       setSaving(true);
+       try {
+         if (data.id) {
+           await updateCropCategory(data, onSuccess, onError);
+         } else {
+           await handleCropCategory(data, onSuccess, onError);
+         }
+       } catch (error) {
+         console.log(error);
+       }
     }
-  };
+   });
 
   return (
     <>
@@ -132,9 +137,18 @@ const CropCategoryForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                inputProps={{style: {textTransform: 'uppercase'}}}
+                inputProps={{style: {textTransform: 'uppercase'},
+                ...register("categoryId", {
+                  pattern: {
+                    value: /^[A-Za-z0-9]*$/,
+                    message: 'Invalid Category Code'
+                  },
+                  required: "Category Code is required",
+                })
+              }}
                 size="small"
               />
+               {errors.categoryId && <p style={{ color: "red", fontSize: "10px" }}>{errors.categoryId.message}</p>}
             </FieldWrapper>
           </Grid>
           <Grid item sm={6} md={6} lg={6}>
@@ -154,8 +168,13 @@ const CropCategoryForm = () => {
                     borderRadius: "8px",
                   },
                 }}
+                inputProps={{...register("description", {
+                  required: "Description is required",
+                })
+              }}
                 size="small"
               />
+              {errors.description && <p style={{ color: "red", fontSize: "10px" }}>{errors.description.message}</p>}
             </FieldWrapper>
           </Grid>
         </Grid>
