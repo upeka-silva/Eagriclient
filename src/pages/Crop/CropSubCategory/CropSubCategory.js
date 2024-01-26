@@ -233,7 +233,7 @@ const CropSubCategory = () => {
 
       <DialogBox
         open={open}
-        title="Do You Want to Delete?"
+        title="Are you sure you want to delete?"
         actions={
           <ActionWrapper>
             <ButtonGroup
