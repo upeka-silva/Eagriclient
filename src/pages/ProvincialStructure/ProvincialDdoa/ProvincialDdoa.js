@@ -193,7 +193,7 @@ const ProvincialDdoa = () => {
 
   return (
     <div>
-      <ListHeader title="Provincial Deputy Director Level" />
+      <ListHeader title="Provincial DDOA" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

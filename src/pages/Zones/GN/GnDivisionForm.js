@@ -426,7 +426,9 @@ const GnDivisionForm = () => {
       setArps(dataList);
     });
   };
+  
 
+  
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
       <PageHeader
@@ -454,7 +456,7 @@ const GnDivisionForm = () => {
       >
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Division ID</FieldName>
+            <FieldName>GN Division Code</FieldName>
             <TextField
               name="code"
               id="code"
@@ -477,7 +479,7 @@ const GnDivisionForm = () => {
         </Grid>
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Division Name</FieldName>
+            <FieldName>GN Division Name</FieldName>
             <TextField
               name="name"
               id="name"
@@ -507,7 +509,7 @@ const GnDivisionForm = () => {
       >
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Select Province</FieldName>
+            <FieldName>Province</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={provinces}
@@ -536,7 +538,7 @@ const GnDivisionForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Select District</FieldName>
+            <FieldName>District</FieldName>
             <Autocomplete
               disabled={selectedProvince?.id == null}
               options={districs}
@@ -564,7 +566,7 @@ const GnDivisionForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Select Ds Devision</FieldName>
+            <FieldName>Ds Division</FieldName>
             <Autocomplete
               disabled={selectedDistrict?.id == null}
               options={dsDivisions}
@@ -603,7 +605,7 @@ const GnDivisionForm = () => {
         {state.isAdmin || state.isAgrarian || state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Type Of DOA Structure</FieldName>
+              <FieldName>Agriculture Structure Type</FieldName>
               <Select
                 name="doaType"
                 id="doaType"
@@ -638,7 +640,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Provincial DOA</FieldName>
+              <FieldName>Provincial DOA</FieldName>
               <Autocomplete
                 disabled={doaType !== "PROVINCIAL" && !state.isProvincial}
                 options={doas}
@@ -677,7 +679,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Provincial DDOA</FieldName>
+              <FieldName>Provincial DDOA</FieldName>
               <Autocomplete
                 disabled={selectedDoa?.id == null}
                 options={ddoas}
@@ -715,7 +717,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Provincial ADA</FieldName>
+              <FieldName>Provincial ADA</FieldName>
               <Autocomplete
                 disabled={selectedDdoa?.id == null}
                 options={adas}
@@ -752,7 +754,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select AI Region</FieldName>
+              <FieldName>AI Region</FieldName>
               <Autocomplete
                 disabled={selectedAda?.id == null}
                 options={aiRegions}
@@ -786,7 +788,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Director DOA</FieldName>
+              <FieldName>Director DOA</FieldName>
               <Autocomplete
                 disabled={
                   doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial
@@ -823,7 +825,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Inter Provincial DDOA</FieldName>
+              <FieldName>Inter Provincial DDOA</FieldName>
               <Autocomplete
                 disabled={selectedInterProDoa?.id == null}
                 options={interProDdoas}
@@ -857,7 +859,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select Inter Provincial ADA</FieldName>
+              <FieldName>Inter Provincial ADA</FieldName>
               <Autocomplete
                 disabled={selectedInterProDdoa?.id == null}
                 options={interProAdas}
@@ -894,7 +896,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Select AI Region</FieldName>
+              <FieldName>AI Region</FieldName>
               <Autocomplete
                 disabled={selectedInterProAda?.id == null}
                 options={aiRegions}
@@ -930,7 +932,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={4}>
             <FieldWrapper>
-              <FieldName>Select Mahaweli System</FieldName>
+              <FieldName>Mahaweli System</FieldName>
               <Autocomplete
                 disabled={doaType !== "MAHAWELI" && !state.isMahaweli}
                 options={mahaweliSystems}
@@ -962,7 +964,7 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={4}>
             <FieldWrapper>
-              <FieldName>Select Mahaweli Block</FieldName>
+              <FieldName>Mahaweli Block</FieldName>
               <Autocomplete
                 disabled={selectedSystem?.id == null}
                 options={mahaweliBlocks}
@@ -1033,7 +1035,7 @@ const GnDivisionForm = () => {
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>Select District Commissioner</FieldName>
+              <FieldName>District Commissioner</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={dcomms}
@@ -1062,7 +1064,7 @@ const GnDivisionForm = () => {
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
             <FormControl fullWidth>
-              <FieldName>Select ASC Division </FieldName>
+              <FieldName>ASC Division </FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW || selectedDcomm.id == null
@@ -1275,7 +1277,7 @@ const GnDivisionForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Select measurement type</FieldName>
+            <FieldName>measurement type</FieldName>
 
             <Select
               value={formData?.userSelectedUnit || ""}
