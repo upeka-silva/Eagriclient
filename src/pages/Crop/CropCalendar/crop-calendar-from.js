@@ -59,6 +59,12 @@ const CropCalendarForm = () => {
       setFormData(state?.target);
     }
     console.log("target", state);
+
+    if (formData?.crop) {
+      getCropVarietiesByCropId(formData.crop.id).then(({ dataList = [] }) => {
+        setVarieties(dataList);
+      });
+   }
   }, [state?.action, state?.target]);
 
   const getAllVarieties = (crop) => {

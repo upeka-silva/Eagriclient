@@ -21,8 +21,8 @@ import {
   CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
-import { deleteDamageCategory } from "../../../redux/actions/crop/cropDamage/action";
 import CropCalendarList from "./crop-calendar-list";
+import { deleteCropCalendar } from "../../../redux/actions/crop/cropCalendar/action";
 
 const CropCalendar = () => {
   useUserAccessValidation();
@@ -101,7 +101,11 @@ const CropCalendar = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await deleteDamageCategory(selectSubCategory[0].id, onSuccess, onError);
+      for (const subCat of selectSubCategory) {
+        await deleteCropCalendar(subCat.id, onSuccess, onError);
+      }
+      // await deleteCropCalendar(selectSubCategory[0].id, onSuccess, onError);
+      // await deleteCropCalendar(selectSubCategory[0].id, onSuccess, onError);
       setLoading(false);
       close();
       resetSelectedSubCategory();
