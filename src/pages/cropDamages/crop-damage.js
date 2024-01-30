@@ -210,9 +210,6 @@ const CropDamage = () => {
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-        </>
       </DialogBox>
     </div>
   );
