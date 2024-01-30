@@ -91,32 +91,34 @@ const CropSubCategoryForm = () => {
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
-      setSaving(true);
-      try {
-        if (formData?.id) {
-          await updateCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
-            onSuccess,
-            onError
-          );
-        } else {
-          await handleCropSubCategory(
-            {
-              ...formData,
-              cropCategoryDTO: { id: formData.cropCategoryDTO.id },
-            },
-            onSuccess,
-            onError
-          );
+        setSaving(true);
+        try {
+            if (formData?.id) {
+                await updateCropSubCategory(
+                    {
+                        ...formData,
+                        cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+                    },
+                    onSuccess,
+                    onError
+                );
+            } else {
+                await handleCropSubCategory(
+                    {
+                        ...formData,
+                        cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+                    },
+                    onSuccess,
+                    onError
+                );
+            }
+        } catch (error) {
+            console.error(error);
+            onError(error.message || "An error occurred while saving the form.");
         }
-      } catch (error) {
-        console.log(error);
-      }
     }
-  };
+};
+
 
   return (
     <div>
