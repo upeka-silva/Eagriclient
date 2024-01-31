@@ -32,7 +32,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_GnDivisionList, get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
@@ -155,9 +155,7 @@ const FarmLandForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log('state -----------> > ');
-    console.log(state);
-    get_GnDivisionList().then(({ dataList = [] }) => {
+    get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
     console.log("FORM DATA ----------->", formData);
