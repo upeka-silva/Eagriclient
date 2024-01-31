@@ -219,7 +219,7 @@ const DynamicFormPageFarmLand = () => {
                 Save
               </Button>
               <Button
-                //onClick={resetForm}
+                onClick={resetForm}
                 color="success"
                 variant="contained"
                 size="small"
