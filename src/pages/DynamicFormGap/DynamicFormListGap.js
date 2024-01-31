@@ -33,6 +33,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 const DynamicFormListGap = ({
   formId,
   auditFormType = "",
+  gapReqStatus
 }) => {
   const { state } = useLocation();
   const [saving, setSaving] = useState(false);
@@ -238,6 +239,8 @@ const DynamicFormListGap = ({
           auditFormType={auditFormType}
           afterSave={onSuccess}
           formId={formId}
+          gapReqStatus = { gapReqStatus }
+
         />
       )}
 
