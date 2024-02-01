@@ -112,18 +112,29 @@ const DamageTypes = ({
   return (
     <div>
       <CustFormHeader saving={saving} state={state} formName="Damage Types" />
-      {/* {(onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && ( */}
-      <Button
-        disabled={!formId}
-        onClick={() => addDamageType()}
-        color="success"
-        variant="contained"
-        size="small"
-        sx={{ marginBottom: "15px", marginTop: "20px" }}
-      >
-        <Add />
-      </Button>
-      {/* )} */}
+      {((onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
+        <Button
+          disabled={!formId}
+          onClick={() => addDamageType()}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginBottom: "15px", marginTop: "20px" }}
+        >
+          <Add />
+        </Button>
+      )) || ((onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+        <Button
+          disabled={!formId}
+          onClick={() => addDamageType()}
+          color="success"
+          variant="contained"
+          size="small"
+          sx={{ marginBottom: "15px", marginTop: "20px" }}  
+        >
+          <Add />
+        </Button>
+      ))}
 
       {damageTypes ? <DamageTypeList data={damageTypes} 
       currentFormMode ={formMode}
