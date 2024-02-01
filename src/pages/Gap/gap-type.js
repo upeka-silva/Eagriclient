@@ -1,6 +1,6 @@
 export const gapReqDto = () => {
   return {
-    id:"",
+    id:null,
     code: 0,
     farmer: {},
     isRenewal:false,

@@ -117,6 +117,7 @@ export default function AddCropDetailsDialog({
     } catch (error) {
       console.log(error);
     }
+    handleClose()
   };
 
   const resetData = () => {
