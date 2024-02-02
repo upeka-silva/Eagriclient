@@ -813,7 +813,7 @@ const GnDivision = () => {
         <Grid container>
           <Grid item>
             <FieldWrapper>
-              <FieldName>Select {filters.filter_01}</FieldName>
+              <FieldName> {filters.filter_01}</FieldName>
               <Autocomplete
                 options={
                   provinces ||
@@ -914,7 +914,7 @@ const GnDivision = () => {
           </Grid>
           <Grid item>
             <FieldWrapper>
-              <FieldName>Select {filters.filter_02}</FieldName>
+              <FieldName> {filters.filter_02}</FieldName>
               <Autocomplete
                 disabled={
                   selectedProvince?.id == null &&
@@ -998,7 +998,7 @@ const GnDivision = () => {
           </Grid>
           <Grid item>
             <FieldWrapper>
-              <FieldName>Select {filters.filter_03}</FieldName>
+              <FieldName>{filters.filter_03}</FieldName>
               <Autocomplete
                 disabled={
                   selectedDistrict?.id == null &&

@@ -98,7 +98,7 @@ const ProvincialDoaForm = () => {
 
   return (
     <FormWrapper>
-      <PageHeader saving={saving} state={state} formName="Director DOA" goBack={goBack} />
+      <PageHeader saving={saving} state={state} formName="Provincial DOA" goBack={goBack} />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
@@ -117,7 +117,7 @@ const ProvincialDoaForm = () => {
       >
         <Grid item lg={4} sm={6} xs={12}>
           <FieldWrapper>
-            <FieldName>Provincial Level ID</FieldName>
+            <FieldName>Provincial DOA Code</FieldName>
             <TextField
               name="proDirectorId"
               id="proDirectorId"
@@ -142,7 +142,7 @@ const ProvincialDoaForm = () => {
         </Grid>
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Description</FieldName>
+            <FieldName>Name</FieldName>
             <TextField
               name="description"
               id="description"

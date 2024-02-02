@@ -667,7 +667,8 @@ const GapRegForm = () => {
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
                       {
-                      role == "MAIN_SCS_rEGIONAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE" ? 
+
+                      role == "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ? 
                       (<Button
                         onClick={() => {
                           changeGapReqStatus("GENERATE_CERTIFICATE");
@@ -2708,6 +2709,12 @@ const GapRegForm = () => {
                     gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"    
                   ){
                     changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
+                  }
+                  else if (
+                    role === 'MAIN_SCS_REGIONAL_OFFICER' &&
+                    gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                  ){
+                    changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE") 
                   }
                 } 
                 else if (openApproveDialog.option === 'reject'){

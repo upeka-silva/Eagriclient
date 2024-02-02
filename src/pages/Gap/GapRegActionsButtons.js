@@ -12,7 +12,7 @@ const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, ex
     DD_OFFICER: ['SUBMITTED'],
     SCS_REGINAL_OFFICER: ['APPROVED_BY_DD', 'EXTERNAL_AUDITOR_SUBMITTED'],
     GAP_EXTERNAL_AUDITOR: ['ASSIGN_AUDITORS', 'APPROVED_BY_DD'],
-    MAIN_SCS_OFFICER: ['SCS_REGIONAL_OFFICER_APPROVE']
+    MAIN_SCS_REGIONAL_OFFICER: ['SCS_REGIONAL_OFFICER_APPROVE']
   };
 
   const isButtonVisible = () => {

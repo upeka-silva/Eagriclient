@@ -20,10 +20,12 @@ const CropVarietyList = ({
   const columns = [
     { field: ["varietyId"], headerName: "Variety ID" },
     { field: "varietyName", headerName: "Variety Name" },
+    { field: "releasedYear", headerName: "Released Year"},
     { field: "grainSize", headerName: "Grain Size" },
     { field: "pericarpColor", headerName: "Pericarp Color" },
     { field: "maturityTime", headerName: "Maturity Time" },
     { field: "averageYield", headerName: "Avg. Yeild" },
+    { field: "spacing", headerName: "Spacing"},
   ];
   
 

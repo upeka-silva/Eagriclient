@@ -199,7 +199,7 @@ const CropActivity = () => {
               variant="contained"
               color="info"
               onClick={onConfirm}
-              sx={{ ml: "8px" }}
+              sx={{ mr: "12px" }}
             >
               Confirm
             </Button>
@@ -207,9 +207,9 @@ const CropActivity = () => {
               variant="contained"
               color="error"
               onClick={close}
-              sx={{ ml: "8px" }}
+              sx={{ mr: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }

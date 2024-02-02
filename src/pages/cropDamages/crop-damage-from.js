@@ -138,7 +138,7 @@ const CropDamageForm = () => {
                 variant="outlined"
                 id="name"
                 name="name"
-                value={formData.name || ""}
+                value={formData && formData.name ? formData.name : ""}
                 onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "name")}
                 sx={{
                   "& .MuiInputBase-root": {
@@ -157,7 +157,7 @@ const CropDamageForm = () => {
                 variant="outlined"
                 id="description"
                 name="description"
-                value={formData.description || ""}
+                value={formData && formData.description ? formData.description : ""}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")
                 }
@@ -178,8 +178,8 @@ const CropDamageForm = () => {
               {!isLoading ? (
                 <DamageTypes
                   formMode={state.action}
-                  formId={formData.id}
-                  dataList={formData.damageTypes}
+                  formId={formData && formData.id ? formData.id : ""}
+                  dataList={formData?.damageTypes}
                 />
               ) : (
                 <CircularProgress />
