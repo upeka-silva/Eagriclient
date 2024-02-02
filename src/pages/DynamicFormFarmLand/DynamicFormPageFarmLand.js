@@ -51,10 +51,19 @@ const DynamicFormPageFarmLand = () => {
   }, []);
 
   const goBack = () => {
+    let tabIndex = 1;
+
+    if (state.auditFormType === "SELF_ASSESSMENT") {
+      tabIndex = 4;
+    } else if (state.auditFormType === "BASIC_ASSESSMENT") {
+      tabIndex = 5;
+    }
+
     navigate("/farm-land-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: state?.stateData,
+        tabIndex: tabIndex,
       },
     });
   };
@@ -219,7 +228,7 @@ const DynamicFormPageFarmLand = () => {
                 Save
               </Button>
               <Button
-                //onClick={resetForm}
+                onClick={resetForm}
                 color="success"
                 variant="contained"
                 size="small"

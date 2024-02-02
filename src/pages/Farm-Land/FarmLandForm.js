@@ -140,6 +140,12 @@ const FarmLandForm = () => {
     setToggleState(index);
   };
 
+  useEffect(() => {
+    if (location.state && location.state.tabIndex) {
+      setToggleState(location.state.tabIndex);
+    }
+  }, [location.state]);
+
   const goBack = () => {
     navigate("/farm-land");
   };
