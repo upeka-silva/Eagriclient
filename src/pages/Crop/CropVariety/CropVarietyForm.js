@@ -1,5 +1,12 @@
 import { PhotoCamera } from "@mui/icons-material";
-import { Autocomplete, Box, Grid, IconButton, TextField } from "@mui/material";
+import { 
+  Autocomplete, 
+  Box, 
+  CircularProgress, 
+  Grid, 
+  IconButton, 
+  TextField,
+ } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +23,7 @@ import {
   handleCropVarietyImage,
   updateCropVariety,
 } from "../../../redux/actions/crop/cropVariety/action";
+import { get_itemNames } from "../../../redux/actions/HARTIItems/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
@@ -29,12 +37,15 @@ const CropVarietyForm = () => {
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [options, setOptions] = useState([]);
+  const [itemNames, setItemNames] = useState([]);
 
   const [selectedFile, setSelectedFile] = useState();
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.presignedUrl || null
   );
   const [form, setForm] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const goBack = () => {
     navigate("/crop/crop-variety");
@@ -43,7 +54,16 @@ const CropVarietyForm = () => {
   useEffect(() => {
     get_CropList().then(({ dataList = [] }) => {
       setOptions(dataList);
+      console.log("data",dataList);
     });
+
+    setIsLoading(false);
+
+    get_itemNames().then(({ dataList = [] }) => {
+      setItemNames(dataList);
+      setIsLoading(true);
+      console.log("item names",dataList);
+   });
   }, []);
 
   const handleChange = (value, target) => {
@@ -63,7 +83,7 @@ const CropVarietyForm = () => {
       setForm(null);
       setSelectedImage(null);
     }
-  };
+  }; 
 
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -326,7 +346,7 @@ const CropVarietyForm = () => {
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: "8px",
-                      },
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField {...params} size="small" />
@@ -426,6 +446,34 @@ const CropVarietyForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
+              <Grid item sm={2} md={2} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Commodity</FieldName>
+                  { isLoading ?
+                      <Autocomplete
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={itemNames}
+                      value={formData ? formData?.hartiItemsDTO : ""}
+                      getOptionLabel={(i) => `${i.itemName}`}
+                      onChange={(event, value) => {
+                        handleChange(value, "hartiItemsDTO");
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                        },
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                      fullWidth
+                    /> :
+                        <CircularProgress/>
+                  }
+                
+                </FieldWrapper>
+              </Grid>
+
               <Grid item sm={2} md={2} lg={3}>
                 <FieldWrapper>
                   <FieldName>Duration To Harvest</FieldName>
