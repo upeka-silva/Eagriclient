@@ -11,7 +11,6 @@ import {
 } from "@mui/material";
 import {
   getSummaryByAiIdAndSeason,
-  getSummaryByDDIdAndSeason,
 } from "../../../redux/actions/indicativeTargets/actions";
 import { useEffect, useState } from "react";
 import ListHeader from "../../../components/ListHeader/ListHeader";
@@ -19,8 +18,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
-import { getAllAiAndMahaweliUnits } from "../../../redux/actions/cropLook/cropTarget/actions";
-import { get_AiRegionList, get_AiRegionListWithoutPagination } from "../../../redux/actions/aiRegion/action";
+import { get_AiRegionListWithoutPagination } from "../../../redux/actions/aiRegion/action";
 import { Colors } from "../../../utils/constants/Colors";
 
 const AILevelSummary = () => {
@@ -144,6 +142,8 @@ const AILevelSummary = () => {
               <TableCell>Crop Id</TableCell>
               <TableCell>Crop Description</TableCell>
               <TableCell>Target</TableCell>
+              <TableCell>Target Minor</TableCell>
+              <TableCell>Target Rainfed</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -153,6 +153,8 @@ const AILevelSummary = () => {
                   <TableCell>{row.cropId}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell>{row.targetSum}</TableCell>
+                  <TableCell>{row.targetMinorSum}</TableCell>
+                  <TableCell>{row.targetRainFedSum}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
