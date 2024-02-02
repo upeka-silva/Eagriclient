@@ -84,6 +84,7 @@ export const AuthContextProvider = (props) => {
   const values = {
     user,
     permissionList,
+    role,
     getUserLoggedState,
     getUserPermissionStateByModule,
     getUserPermissionStateByAuthority,

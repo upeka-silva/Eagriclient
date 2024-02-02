@@ -1,5 +1,12 @@
 import { PhotoCamera } from "@mui/icons-material";
-import { Autocomplete, Box, Grid, IconButton, TextField } from "@mui/material";
+import { 
+  Autocomplete, 
+  Box, 
+  CircularProgress, 
+  Grid, 
+  IconButton, 
+  TextField,
+ } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +23,7 @@ import {
   handleCropVarietyImage,
   updateCropVariety,
 } from "../../../redux/actions/crop/cropVariety/action";
+import { get_itemNames } from "../../../redux/actions/HARTIItems/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
@@ -29,12 +37,15 @@ const CropVarietyForm = () => {
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [options, setOptions] = useState([]);
+  const [itemNames, setItemNames] = useState([]);
 
   const [selectedFile, setSelectedFile] = useState();
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.presignedUrl || null
   );
   const [form, setForm] = useState();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const goBack = () => {
     navigate("/crop/crop-variety");
@@ -43,7 +54,16 @@ const CropVarietyForm = () => {
   useEffect(() => {
     get_CropList().then(({ dataList = [] }) => {
       setOptions(dataList);
+      console.log("data",dataList);
     });
+
+    setIsLoading(false);
+
+    get_itemNames().then(({ dataList = [] }) => {
+      setItemNames(dataList);
+      setIsLoading(true);
+      console.log("item names",dataList);
+   });
   }, []);
 
   const handleChange = (value, target) => {
@@ -63,7 +83,7 @@ const CropVarietyForm = () => {
       setForm(null);
       setSelectedImage(null);
     }
-  };
+  }; 
 
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -326,7 +346,7 @@ const CropVarietyForm = () => {
                     sx={{
                       "& .MuiOutlinedInput-root": {
                         borderRadius: "8px",
-                      },
+                      }
                     }}
                     renderInput={(params) => (
                       <TextField {...params} size="small" />
@@ -426,7 +446,89 @@ const CropVarietyForm = () => {
                   />
                 </FieldWrapper>
               </Grid>
-              <Grid item sm={3} md={3} lg={7}>
+              <Grid item sm={2} md={2} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Commodity</FieldName>
+                  { isLoading ?
+                      <Autocomplete
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      options={itemNames}
+                      value={formData ? formData?.hartiItemsDTO : ""}
+                      getOptionLabel={(i) => `${i.itemName}`}
+                      onChange={(event, value) => {
+                        handleChange(value, "hartiItemsDTO");
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                        },
+                      }}
+                      renderInput={(params) => (
+                        <TextField {...params} size="small" />
+                      )}
+                      fullWidth
+                    /> :
+                        <CircularProgress/>
+                  }
+                
+                </FieldWrapper>
+              </Grid>
+
+              <Grid item sm={2} md={2} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Duration To Harvest</FieldName>
+                  <TextField
+                    name="bearingPeriodInDays"
+                    id="bearingPeriodInDays"
+                    type="number"
+                    value={formData?.bearingPeriodInDays || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "bearingPeriodInDays")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">Days</InputAdornment>
+                      ),
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={2} md={2} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Duration Between Two Picks</FieldName>
+                  <TextField
+                    name="durationBetweenTwoPicks"
+                    id="durationBetweenTwoPicks"
+                    type="number"
+                    value={formData?.durationBetweenTwoPicks || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "durationBetweenTwoPicks")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">Days</InputAdornment>
+                      ),
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={8}>
                 <FieldWrapper>
                   <FieldName>Scientific Name</FieldName>
                   <TextField
@@ -437,6 +539,111 @@ const CropVarietyForm = () => {
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "scientificName")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Seed Requirement</FieldName>
+                  <TextField
+                    name="seedRequirement"
+                    id="seedRequirement"
+                    value={formData?.seedRequirement || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "seedRequirement")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Released Year</FieldName>
+                  <TextField
+                    name="releasedYear"
+                    id="releasedYear"
+                    value={formData?.releasedYear || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "releasedYear")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Spacing</FieldName>
+                  <TextField
+                    name="spacing"
+                    id="spacing"
+                    value={formData?.spacing || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "spacing")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={5}>
+                <FieldWrapper>
+                  <FieldName>Plant Growth</FieldName>
+                  <TextField
+                    name="plantGrowth"
+                    id="plantGrowth"
+                    value={formData?.plantGrowth || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "plantGrowth")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={12}>
+                <FieldWrapper>
+                  <FieldName>Edible Part Shape</FieldName>
+                  <TextField
+                    name="ediblePartShape"
+                    id="ediblePartShape"
+                    value={formData?.ediblePartShape || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "ediblePartShape")
                     }
                     sx={{
                       "& .MuiInputBase-root": {

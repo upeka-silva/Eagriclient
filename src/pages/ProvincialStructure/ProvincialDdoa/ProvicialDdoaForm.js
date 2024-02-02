@@ -112,7 +112,7 @@ const ProvincialDdoaForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName="Provincial Deputy Director"
+        formName="Add Provincial DDOA"
       />
       <FormButtonGroup
         state={state}
@@ -132,7 +132,7 @@ const ProvincialDdoaForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Provincial Deputy Director Id</FieldName>
+            <FieldName>Provincial DDOA Code</FieldName>
             <TextField
               name="provincialDdId"
               id="provincialDdId"
@@ -178,7 +178,7 @@ const ProvincialDdoaForm = () => {
         </Grid>
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Provincial Director Level</FieldName>
+            <FieldName>Provincial DOA</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={proDirectorLevels}

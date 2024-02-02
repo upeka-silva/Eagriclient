@@ -24,7 +24,7 @@ import { Colors } from "../../utils/constants/Colors";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
-const DynamicFormGap = ({ auditFormType = "", afterSave, formId }) => {
+const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus}) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -58,6 +58,7 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId }) => {
         auditFormType: auditFormType,
         action: DEF_ACTIONS.ADD,
         formId: formId,
+        gapReqStatus: gapReqStatus
       },
     });
   };

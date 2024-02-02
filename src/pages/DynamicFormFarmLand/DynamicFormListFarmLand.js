@@ -239,7 +239,7 @@ const DynamicFormListFarmLand = ({
 
       <DialogBox
         open={open}
-        title={`Delete Question`}
+        title={`Delete Assessment`}
         actions={
           <ActionWrapper>
             <Button
@@ -256,7 +256,7 @@ const DynamicFormListFarmLand = ({
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }

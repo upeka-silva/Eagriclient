@@ -142,12 +142,25 @@ const CropLookSeason = () => {
     );
   };
 
-  const onSuccess = () => {
+  const onSuccess = (operationType) => {
+    let message = "";
+    let formattedType = operationType.trim().toUpperCase();
+    switch(formattedType){
+       case "ENABLED":
+         message = "Successfully enabled";
+         break;
+       case "CLOSED":
+         message = "Successfully closed";
+         break;
+    }
     addSnackBar({
-      type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+       type: SnackBarTypes.success,
+       message: message,
     });
-  };
+   };
+   
+   
+   
 
   const onError = (message) => {
     addSnackBar({
@@ -173,18 +186,19 @@ const CropLookSeason = () => {
 
   const onConfirmStatusChange = async () => {
     try {
-      setLoading(true);
-      for (const agriSeason of selectAgriSeason) {
-        await changeStatusCropLookSeason(agriSeason?.id, seasonStatus, onSuccess, onError);
-      }
-      setLoading(false);
-      closeStatusChangeModal();
-      resetSelectedAgriSeason();
+       setLoading(true);
+       for (const agriSeason of selectAgriSeason) {
+         await changeStatusCropLookSeason(agriSeason?.id, seasonStatus, () => onSuccess(seasonStatus), onError);
+       }
+       setLoading(false);
+       closeStatusChangeModal();
+       resetSelectedAgriSeason();
     } catch (error) {
-      console.log(error);
-      setLoading(false);
+       console.log(error);
+       setLoading(false);
     }
-  };
+   };
+   
 
   return (
     <div>
@@ -317,7 +331,7 @@ const CropLookSeason = () => {
             <Button
               variant="contained"
               color="error"
-              onClick={close}
+              onClick={closeStatusChangeModal}
               sx={{ ml: "8px" }}
             >
               Close

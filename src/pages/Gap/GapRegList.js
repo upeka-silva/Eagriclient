@@ -25,6 +25,10 @@ const GapRegList = ({
       field: ["businessNature", "businessNatureOtherValue"],
       headerName: "Business Nature",
     },
+    {
+      field: ["statusClient"],
+      headerName: "Current State",
+    },
   ];
   return (
     <TableWrapper>
