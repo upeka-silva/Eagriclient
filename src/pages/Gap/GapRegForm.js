@@ -491,6 +491,8 @@ const GapRegForm = () => {
     setOpenDeleteCropDetail(false);
   };
 
+  console.log(role)
+
   const renderSelectedItems = () => {
     return (
       <List>
@@ -665,6 +667,7 @@ const GapRegForm = () => {
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
                       {
+
                       role == "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ? 
                       (<Button
                         onClick={() => {

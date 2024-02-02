@@ -30,7 +30,9 @@ const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, ex
       >
         <ButtonGroup>
           {
-            role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && existingAuditores.length != 0 ? null : (
+            role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && existingAuditores.length != 0 ||
+            role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD"
+            ? null : (
               <Button
                 onClick={() => {
                   setOpenApproveDialog({ open: true, option: 'approve' });
@@ -40,12 +42,14 @@ const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, ex
                 size="small"
                 sx={{ marginLeft: '10px' }}
               >
-                APPROVE
+                { role === 'GAP_EXTERNAL_AUDITOR' &&  gapReqStatus.lblState === "ASSIGN_AUDITORS" ? "SUBMIT" : "APPROVE" }
               </Button>
             )
           }
             
-          <Button
+          {
+            role === 'GAP_EXTERNAL_AUDITOR' &&  gapReqStatus.lblState === "ASSIGN_AUDITORS" ? null : (
+            <Button
             onClick={() => {
               setOpenApproveDialog({ open: true, option: 'reject' });
             }}
@@ -55,7 +59,9 @@ const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, ex
             sx={{ marginLeft: '10px' }}
           >
             REJECT
-          </Button>
+          </Button> 
+          )
+          }
         </ButtonGroup>
       </PermissionWrapper>
     </div>
