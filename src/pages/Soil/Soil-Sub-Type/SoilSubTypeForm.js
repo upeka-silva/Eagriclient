@@ -113,9 +113,7 @@ const SoilSubTypeForm = () => {
         if (formData?.id) {
           await updateSoilSubType(formData, onSuccess, onError);
         } else {
-          console.log('111111111111')
           await handleSoilSubType(formData, onSuccess, onError);
-          console.log('222222222222')
         }
       } catch (error) {
         console.log(error);
