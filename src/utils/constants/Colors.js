@@ -11,6 +11,7 @@ export const Colors = {
   borderColor: "#D2D2D2",
   tableHeaderColor: "#40a845",
   baseColor: "#3E9D4B",
+  requiredColor: "#F3DEDE",
 
   shadow: "0px 4px 4px rgba(0, 0, 0, 0.25) !important",
 };
