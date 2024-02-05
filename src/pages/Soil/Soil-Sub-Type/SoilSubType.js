@@ -211,7 +211,7 @@ const SoilSubType = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -219,7 +219,7 @@ const SoilSubType = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
