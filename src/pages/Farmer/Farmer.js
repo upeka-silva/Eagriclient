@@ -16,18 +16,13 @@ import {
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import { deleteFarmer, handleFarmer } from "../../redux/actions/farmer/action";
+import { deleteFarmer } from "../../redux/actions/farmer/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-import { ActionButton } from "../../components/ActionButtons/ActionButton";
 import FarmerList from "./FarmerList";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 
@@ -75,7 +70,6 @@ const Farmer = () => {
     navigate("/farmer-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-
         target: selectedFarmer[0] || {},
       },
     });
@@ -114,7 +108,7 @@ const Farmer = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.farmerId} - {p.firstName}{" "}{p.lastName}
+                {p.farmerId} - {p.firstName} {p.lastName}
               </ListItemText>
             </ListItem>
           );
