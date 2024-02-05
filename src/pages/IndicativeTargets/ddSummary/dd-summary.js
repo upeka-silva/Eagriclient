@@ -21,11 +21,7 @@ import { Colors } from "../../../utils/constants/Colors";
 const DDLevelSummary = () => {
   const [data, setData] = useState([]);
 
-  const [ddRegions, setDDRegions] = useState([]);
-
   const [seasons, setSeasons] = useState([]);
-
-  const [aiId, setAiId] = useState(0);
 
   //const [seasonId, setSeasonId] = useState(0);
 
@@ -122,6 +118,8 @@ const DDLevelSummary = () => {
               <TableCell>Crop Id</TableCell>
               <TableCell>Crop Description</TableCell>
               <TableCell>Target</TableCell>
+              <TableCell>Target Minor</TableCell>
+              <TableCell>Target Rainfed</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -131,6 +129,8 @@ const DDLevelSummary = () => {
                   <TableCell>{row.cropId}</TableCell>
                   <TableCell>{row.description}</TableCell>
                   <TableCell>{row.targetSum}</TableCell>
+                  <TableCell>{row.targetMinorSum}</TableCell>
+                  <TableCell>{row.targetRainFedSum}</TableCell>
                 </TableRow>
               ))}
           </TableBody>
