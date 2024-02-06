@@ -11,7 +11,7 @@ const FarmerList = ({
   const columns = [
     { field: "farmerId", headerName: "ID" },
     { field: ["firstName", "lastName"], headerName: "Name" },
-    { field: "nationality", headerName: "Ethnicity" },
+    { field: "nationalityClient", headerName: "Ethnicity" },
     { field: "nic", headerName: "Nic" },
     { field: "address", headerName: "Address" },
     {
