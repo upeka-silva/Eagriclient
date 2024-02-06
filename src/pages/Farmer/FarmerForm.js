@@ -28,7 +28,7 @@ import {
   handleFarmerProfile,
   updateFarmer,
 } from "../../redux/actions/farmer/action";
-import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_GnDivisionList, get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
@@ -297,7 +297,7 @@ const FarmerForm = () => {
   };
 
   useEffect(() => {
-    get_GnDivisionList().then(({ dataList = [] }) => {
+    get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       console.log(dataList);
       setGnDivisions(dataList);
     });
