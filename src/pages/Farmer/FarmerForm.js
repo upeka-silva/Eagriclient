@@ -83,6 +83,7 @@ const FarmerForm = () => {
     state?.target?.prsignedUrl || null
   );
   const [gnDivisions, setGnDivisions] = useState([]);
+  const [inputGnDivision, setInputGnDivision] = useState("");
 
   const [scsRegion, setScsRegion] = useState([]);
 
@@ -714,8 +715,16 @@ const FarmerForm = () => {
           <FieldWrapper>
             <FieldName>GN Division</FieldName>
             <Autocomplete
+              key={formData?.gnDivision}
               id="gnDivision"
               name="gnDivision"
+              isOptionEqualToValue={(option, value) =>
+                option?.code === value?.code
+              }
+              inputValue={inputGnDivision}
+              onInputChange={(event, newInputValue) => {
+                setInputGnDivision(newInputValue);
+              }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisions}
               value={formData?.gnDivision}
