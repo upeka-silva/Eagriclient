@@ -133,7 +133,7 @@ const MultiItemSelect = ({
             disabled={mode === DEF_ACTIONS.VIEW}
             onClick={(event) => {
               itemHandler(selectedItems)
-              if (gapReqStatus.lblState === 'APPROVED_BY_DD' && existingAuditores.length === 0) {
+              if (gapReqStatus.lblState === 'APPROVED_BY_DD') { //&& existingAuditores.length === 0
                 changeGapReqStatus("ASSIGN_AUDITORS");
               }
             }}

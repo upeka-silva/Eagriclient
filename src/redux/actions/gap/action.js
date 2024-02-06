@@ -165,6 +165,27 @@ export const get_GapRequestList = async () => {
   }
 };
 
+export const get_GapRequestActionList = async (
+  gapReqId
+) => {
+  try {
+    const { httpCode, payloadDto } = await get(`gap-request-actions/getByGapId/${gapReqId}?page=0&size=1000`, true);
+    if (httpCode === "200 OK") {
+      return {
+        actionList: payloadDto,
+      };
+    }
+    return {
+      actionList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      actionList: [],
+    };
+  }
+};
+
 export const getUsersByRoleCode = async (code) => {
   try {
     const { httpCode, payloadDto } = await get(`user/code/${code}`, true);
@@ -333,14 +354,18 @@ export const deleteCropDetails = async (
 export const changeStatus = async (
   gapReqId,
   newStatus,
+  rejectReason,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const payload = { status: newStatus };
+    const payload = { status: newStatus, reason: null };
+    if(rejectReason){
+      payload.reason = rejectReason;
+    }
     const response = await put(
       `gap-request/` + gapReqId + `/status/` + newStatus,
-      JSON.stringify(payload),
+      payload,
       true
     );
 

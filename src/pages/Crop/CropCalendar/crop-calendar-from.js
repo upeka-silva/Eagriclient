@@ -131,7 +131,6 @@ const CropCalendarForm = () => {
       setSaving(true);
       try {
         if (DEF_ACTIONS.ADD === state.action) {
-          console.log("Form data ------------>");
           console.log(formData);
           const response = await createCropCalendar(
             {
@@ -141,8 +140,9 @@ const CropCalendarForm = () => {
             onSuccess,
             onError
           );
-          console.log("form id ", formId, response);
-          setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+          if(response && response.payload){
+            setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+          }
         } else {
           const response = await updateCropCalendar(
             {
@@ -152,7 +152,9 @@ const CropCalendarForm = () => {
             onSuccess,
             onError
           );
-          setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+          if(response && response.payload){
+            setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+          }
         }
         setSaving(false);
       } catch (error) {

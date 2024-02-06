@@ -5,9 +5,6 @@ import { DEF_ACTIONS, DEF_COMPONENTS } from '../../utils/constants/permission';
 
 const GapRequestActionsButtons = ({ role, gapReqStatus, setOpenApproveDialog, existingAuditores }) => {
 
-
-  console.log(gapReqStatus.lblState)
-
   const roleStateMap = {
     DD_OFFICER: ['SUBMITTED'],
     SCS_REGINAL_OFFICER: ['APPROVED_BY_DD', 'EXTERNAL_AUDITOR_SUBMITTED'],
