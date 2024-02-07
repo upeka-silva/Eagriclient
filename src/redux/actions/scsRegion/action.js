@@ -114,7 +114,7 @@ export const deleteScsRegion = async (
 export const get_ScsRegionList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/scs-regions",
+      "geo-data/scs-regions?page=0&size=100&sort=desc",
       true
     );
     if (httpCode === "200 OK") {

@@ -298,7 +298,6 @@ const FarmerForm = () => {
 
   useEffect(() => {
     get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
-      console.log(dataList);
       setGnDivisions(dataList);
     });
   }, []);
