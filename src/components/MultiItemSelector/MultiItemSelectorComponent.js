@@ -65,7 +65,7 @@ const MultiItemSelect = ({
             fontFamily: Fonts.fontStyle1,
           }}
         >
-          {mode} External Auditores
+          {mode} External Auditors
         </DialogTitle>
         <DialogContent>
           <Box>

@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
@@ -122,19 +123,24 @@ const CropActivity = () => {
   return (
     <div>
       <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
+      <PermissionWrapper
+        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
+      >
       <Button
-        disabled={false}
         onClick={() => addCropAction()}
         color="success"
         variant="contained"
         size="small"
-        sx={{ marginBottom: "15px", marginTop: "20px" }}
+        sx={{ marginTop: "20px" }}
       >
         <Add />
+        {DEF_ACTIONS.ADD}
       </Button>
+      </PermissionWrapper>
+      
       {/* )} */}
 
-      <TableContainer>
+      <TableContainer sx={{ marginTop: "15px"}}>
         <Table
           sx={{ minWidth: 650 }}
           size="small"
