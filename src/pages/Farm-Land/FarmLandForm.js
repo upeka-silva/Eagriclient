@@ -501,7 +501,7 @@ const FarmLandForm = () => {
                   name="code"
                   id="code"
                   value={formData?.code || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
                   onChange={(e) => handleChange(e?.target?.value || "", "code")}
                   size="small"
                   fullWidth

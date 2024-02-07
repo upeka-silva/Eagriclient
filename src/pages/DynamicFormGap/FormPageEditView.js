@@ -271,7 +271,7 @@ export default function FormPageEditView(
                   color="success"
                   sx={{ marginLeft: "10px" }}
                 >
-                  {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />}
+                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                 </Button>
                 <Button
                   onClick={resetForm}
@@ -304,7 +304,7 @@ export default function FormPageEditView(
                 name="auditId"
                 id="auditId"
                 value={formDataQ?.auditId || ""}
-                disabled={state.action === DEF_ACTIONS.VIEW}
+                disabled={state.action === DEF_ACTIONS.VIEW || state.action === DEF_ACTIONS.EDIT}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "auditId")
                 }

@@ -388,6 +388,7 @@ const CropForm = () => {
                       id="profile-picture-input"
                       style={{ display: "none" }}
                       onChange={handleImageChange}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
                     />
 
                     <Box

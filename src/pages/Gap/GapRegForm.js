@@ -145,6 +145,11 @@ const GapRegForm = () => {
   const [stateResponse, setStateResponse] = useState("");
   const [openConfSubmit, setOpenConfSubmit] = useState(false);
 
+  const [inputScsRegionCategory, setInputScsRegionCategory] = useState("");
+  const [inputFarmerCategory, setInputFarmerCategory] = useState("");
+  const [inputFarmLandCategory, setInputFarmLandCategory] = useState("");
+  const [inputBasicAssesmentCategory, setInputBasicAssesmentCategory] = useState("");
+
   const [rejectReason, setRejectReason] = useState("");
   const [gapReqActionList, setGapReqActionList] = useState([]);
 
@@ -285,6 +290,10 @@ const GapRegForm = () => {
   };
 
   const handleChange = (value, target) => {
+    if (target === "hasOtherCertificates" && !value) {
+      setFormData(prevState => ({ ...prevState, otherCertificateDoc: '' }));
+    } 
+
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -394,12 +403,16 @@ const GapRegForm = () => {
       try {
         if (formData?.id) {
           const response = await updateGap(formData, onSuccess, onError);
-          setFormData(response?.payload);
-          await addGapRequestAction(response.payload.id, 'UPDATED')
+          if(response && response?.payload){
+            setFormData(response?.payload);
+            await addGapRequestAction(response.payload.id, 'UPDATED')
+          }
         } else {
           const response = await handleGap(formData, onSuccess, onError);
-          setFormData(response?.payload);
-          await addGapRequestAction(response.payload.id, 'DRAFT')
+          if(response && response?.payload){
+            setFormData(response?.payload);
+            await addGapRequestAction(response.payload.id, 'DRAFT')
+          }
         }
       } catch (error) {
         console.log(error);
@@ -572,7 +585,7 @@ console.log(`formData`, formData)
             borderRadius: "5px",
           }}
         >
-          <HorizontalStepper />
+          <HorizontalStepper gapReqStatus={gapReqStatus}/>
         </Grid>
       </Grid>
 
@@ -681,7 +694,7 @@ console.log(`formData`, formData)
                         size="small"
                         sx={{ marginLeft: "10px" }}
                       >
-                        ASSIGN AUDITORES
+                        ASSIGN AUDITORS
                       </Button>
                         )
                       }
@@ -808,12 +821,19 @@ console.log(`formData`, formData)
                 <CircularProgress />
               ) : (
                 <Autocomplete
+                  key={formData?.scsRegionDTO}
+                  id="scsRegionDTO"
+                  isOptionEqualToValue={(option, value) => option.scsRegionId === value.scsRegionId}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={scsRegionList}
                   value={formData ? formData.scsRegionDTO : ""}
                   getOptionLabel={(i) =>
                     `${i.scsRegionId} - ${i.name}`
                   }
+                  inputValue={inputScsRegionCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputScsRegionCategory(newInputValue)
+                  }}
                   onChange={(event, value) => {
                     handleChange(value, "scsRegionDTO");
                     getFarmersByScsRegionId(value?.id);
@@ -839,12 +859,18 @@ console.log(`formData`, formData)
                 <CircularProgress />
               ) : (
                 <Autocomplete
+                  key={formData?.farmerDTO}
+                  id="farmerDTO"
                   disabled={state?.action === DEF_ACTIONS.VIEW  || formData?.scsRegionDTO == null}
                   options={farmerList}
                   value={formData ? formData.farmerDTO : ""}
                   getOptionLabel={(i) =>
                     `${i.farmerId} - ${i.firstName} ${i.lastName}`
                   }
+                  inputValue={inputFarmerCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputFarmerCategory(newInputValue)
+                  }}
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
                     getLandsByFarmerId(value?.id);
@@ -868,6 +894,8 @@ console.log(`formData`, formData)
             <FieldWrapper>
               <FieldName>Farm Land</FieldName>
               <Autocomplete
+                key={formData?.farmLandDTO}
+                id="farmLandDTO"
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   formData?.farmerDTO == null
@@ -875,6 +903,10 @@ console.log(`formData`, formData)
                 options={farmerLandList}
                 value={formData ? formData.farmLandDTO : ""}
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                inputValue={inputFarmLandCategory}
+                onInputChange={(event, newInputValue) => {
+                  setInputFarmLandCategory(newInputValue)
+                }}
                 onChange={(event, value) => {
                   handleChange(value, "farmLandDTO");
                   getAllAssessmentsByFLId(value?.id);
@@ -894,6 +926,8 @@ console.log(`formData`, formData)
             <FieldWrapper>
               <FieldName>Basic Assesment</FieldName>
               <Autocomplete
+                key={formData?.basicAssessmentDTO}
+                id="basicAssessmentDTO"
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   formData?.farmLandDTO == null
@@ -901,6 +935,10 @@ console.log(`formData`, formData)
                 options={basicAssessments}
                 value={formData ? formData?.basicAssessmentDTO : ""}
                 getOptionLabel={(i) => `${i.assessmentId}`}
+                inputValue={inputBasicAssesmentCategory}
+                onInputChange={(event, newInputValue) => {
+                  setInputBasicAssesmentCategory(newInputValue)
+                }}
                 onChange={(event, value) => {
                   handleChange(value, "basicAssessmentDTO");
                 }}
@@ -2176,16 +2214,16 @@ console.log(`formData`, formData)
                 </FieldName>
                 <Switch
                   {...label}
-                  name="SLGapConvPracExists"
-                  id="SLGapConvPracExists"
-                  value={formData?.SLGapConvPracExists || ""}
+                  name="slgapConvPracExists"
+                  id="slgapConvPracExists"
+                  value={formData?.slgapConvPracExists || ""}
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "SLGapConvPracExists"
+                      "slgapConvPracExists"
                     )
                   }
-                  checked={formData?.SLGapConvPracExists}
+                  checked={formData?.slgapConvPracExists}
                 />
               </FieldWrapper>
             </Grid>
@@ -2265,18 +2303,18 @@ console.log(`formData`, formData)
                 </FieldName>
                 <Switch
                   {...label}
-                  name="CorrectiveMeasuresTakenForSurroundingLands"
-                  id="CorrectiveMeasuresTakenForSurroundingLands"
+                  name="correctiveMeasuresTakenForSurroundingLands"
+                  id="correctiveMeasuresTakenForSurroundingLands"
                   value={
-                    formData?.CorrectiveMeasuresTakenForSurroundingLands || ""
+                    formData?.correctiveMeasuresTakenForSurroundingLands || ""
                   }
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "CorrectiveMeasuresTakenForSurroundingLands"
+                      "correctiveMeasuresTakenForSurroundingLands"
                     )
                   }
-                  checked={formData?.CorrectiveMeasuresTakenForSurroundingLands}
+                  checked={formData?.correctiveMeasuresTakenForSurroundingLands}
                 />
               </FieldWrapper>
             </Grid>
@@ -2344,16 +2382,16 @@ console.log(`formData`, formData)
                 </FieldName>
                 <Switch
                   {...label}
-                  name="WaterQualitySimilarToDrinkingWater"
-                  id="WaterQualitySimilarToDrinkingWater"
-                  value={formData?.WaterQualitySimilarToDrinkingWater || ""}
+                  name="waterQualitySimilarToDrinkingWater"
+                  id="waterQualitySimilarToDrinkingWater"
+                  value={formData?.waterQualitySimilarToDrinkingWater || ""}
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "WaterQualitySimilarToDrinkingWater"
+                      "waterQualitySimilarToDrinkingWater"
                     )
                   }
-                  checked={formData?.WaterQualitySimilarToDrinkingWater}
+                  checked={formData?.waterQualitySimilarToDrinkingWater}
                 />
               </FieldWrapper>
             </Grid>
