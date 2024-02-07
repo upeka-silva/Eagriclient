@@ -370,7 +370,7 @@ export const changeStatus = async (
     );
 
     if (response.httpCode === "200 OK") {
-      onSuccess();
+      onSuccess(gapReqId);
     } else {
       const exception = {
         error: {

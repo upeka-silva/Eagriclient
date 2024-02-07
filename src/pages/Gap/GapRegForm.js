@@ -556,8 +556,6 @@ const GapRegForm = () => {
     return ['APPROVED_BY_DD', 'SCS_REGIONAL_OFFICER_APPROVE', 'MAIN_SCS_REGIONAL_OFFICER_APPROVE', 'GENERATE_CERTIFICATE', 'SEND_CERTIFICATE', 'EXTERNAL_AUDITOR_SUBMITTED', 'SUBMITTED', 'ASSIGN_AUDITORS', 'DRAFT'].includes(state);
 }
 
-console.log(`formData`, formData)
-
   return (
     <div
       style={{
@@ -704,7 +702,8 @@ console.log(`formData`, formData)
                     >
                       {
 
-                      role == "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ? 
+                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
+                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
                       (<Button
                         onClick={() => {
                           changeGapReqStatus("GENERATE_CERTIFICATE");
@@ -2839,15 +2838,9 @@ console.log(`formData`, formData)
                         gapReqStatus.lblState === 'ASSIGN_AUDITORS'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }
-                      else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
-                        gapReqStatus.lblState === 'APPROVED_BY_DD'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }                    
+                      }                   
                       else {
-                        changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_REJECT")
+                        changeGapReqStatus("REJECTED_BY_MAIN_SCS")
                       }
                     }
                     setOpenApproveDialog({ open: false, option: '' });

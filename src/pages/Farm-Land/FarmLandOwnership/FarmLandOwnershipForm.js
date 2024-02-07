@@ -349,7 +349,9 @@ export default function FarmLandOwnershipForm({
                   <Autocomplete
                     name="gnDivisionDTO"
                     id="gnDivisionDTO"
-                    disabled={action === DEF_ACTIONS.VIEW}
+                    disabled={
+                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                    }
                     options={gnDivisionList}
                     value={data ? data.gnDivisionDTO : ""}
                     getOptionLabel={(i) => `${i.code} - ${i.name}`}
