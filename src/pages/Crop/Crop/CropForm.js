@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  ButtonGroup,
   TextField,
   Autocomplete,
   Select,
@@ -8,7 +9,10 @@ import {
   Button,
   Box,
   IconButton,
+  Stack,
 } from "@mui/material";
+import styled from "styled-components";
+import { Colors } from "../../../utils/constants/Colors";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -23,17 +27,15 @@ import {
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_SubCategoryList } from "../../../redux/actions/crop/cropSubCategory/action";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { PhotoCamera } from "@mui/icons-material";
 import PageHeader from "../../../components/PageHeader/PageHeader";
-
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 const CropForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
@@ -44,11 +46,37 @@ const CropForm = () => {
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
   );
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [form, setForm] = useState();
+  const [toggleState, setToggleState] = useState(1);
+  const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
+
+  // console.log("id", formData.id);
+
+  // cropId = formData.id;
 
   const goBack = () => {
     navigate("/crop/crop");
   };
+
+  const onCreate = (value) => {
+    if(value === 1){
+      navigate("/crop/crop-pest-form", { state: { cropId: formData.id } });
+    } else {
+      navigate("/crop/crop-disease-form", { state: { formId: formData.id } });
+    }
+    
+  };
+
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
+
+  useEffect(() => {
+    if (location.state && location.state.tabIndex) {
+      setToggleState(location.state.tabIndex);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     get_SubCategoryList().then(({ dataList = [] }) => {
@@ -188,6 +216,7 @@ const CropForm = () => {
           console.log(response);
         }
         setSaving(false);
+        setTabEnabled(true);
       } catch (error) {
         console.log(error);
       }
@@ -442,6 +471,55 @@ const CropForm = () => {
               
             </Grid>
           </Grid>
+          <Grid>
+            
+          <TabWrapper>
+            
+            <TabButton
+              variant="contained"
+              className={toggleState === 1 ? "active-tabs" : ""}
+              onClick={() => toggleTab(1)}
+              disabled={!tabEnabled}
+            >
+              Pest
+            </TabButton>
+            <TabButton
+              variant="contained"
+              className={toggleState === 2 ? "active-tabs" : ""}
+              onClick={() => toggleTab(2)}
+              disabled={!tabEnabled}
+            >
+              Disease
+            </TabButton>
+            
+          </TabWrapper>
+          <TabContent className={toggleState === 1 ? "active-content" : ""}>
+            <Box>
+              <Grid container>
+                <Grid item sm={8} md={8} lg={8}>
+                  <Button onClick={() =>onCreate(1)}>
+                    <Add />
+                    {DEF_ACTIONS.ADD}
+                  </Button>
+                  {/* <CropPestList /> */}
+                </Grid>
+              </Grid>
+            </Box>
+          </TabContent>
+          <TabContent className={toggleState === 2 ? "active-content" : ""}>
+            <Box>
+              <Grid container>
+                <Grid item sm={8} md={8} lg={8}>
+                  <Button onClick={() => onCreate(2)}>
+                    <Add />
+                    {DEF_ACTIONS.ADD}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          </TabContent>
+
+          </Grid>
         </Grid>
       </FormWrapper>
     </div>
@@ -449,3 +527,57 @@ const CropForm = () => {
 };
 
 export default CropForm;
+
+export const TabWrapper = styled(Stack)`
+  && {
+    flex-direction: row;
+    margin: 20px 0px;
+  }
+`;
+
+export const TabButton = styled(Button)`
+  && {
+    padding: 15px;
+    width: 200px;
+    position: relative;
+    border: none;
+    border-radius: 0px;
+    background-color: ${Colors.tableHeaderColor};
+    color: white;
+    line-height: 0px;
+    box-shadow: none;
+    cursor: pointer;
+    &:hover {
+      background-color: ${Colors.iconColor};
+      box-shadow: none;
+    }
+    &:not(:last-child) {
+      border-right: 2px solid white;
+    }
+    &.active-tabs {
+      background: white;
+      color: black;
+    }
+
+    &.active-tabs::before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 5px;
+      background: ${Colors.tableHeaderColor};
+    }
+  }
+`;
+
+export const TabContent = styled(Stack)`
+  && {
+    display: none;
+  }
+  &.active-content {
+    display: flex;
+  }
+`;

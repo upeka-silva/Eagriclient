@@ -32,6 +32,8 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
+import CropPestForm from "../pages/Crop/Crop/CropPestForm";
+import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -845,6 +847,18 @@ export const Routes = [
         isSideBar: false,
         element: <CropDamageForm />,
       },
+      {
+        path: "/crop-pest-form",
+        name: "Crop Pest Form",	
+        isSideBar: false,
+        element: <CropPestForm />,
+      },
+      {
+        path: "/crop-disease-form",
+        name: "Crop Disease Form",
+        isSideBar: false,
+        element: <CropDiseaseForm />,
+      }
     ],
   },
   {
