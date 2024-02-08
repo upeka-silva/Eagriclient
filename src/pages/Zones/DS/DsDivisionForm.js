@@ -19,6 +19,7 @@ import { useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_DistrictList } from "../../../redux/actions/district/action";
+import { get_MahaweliBlockList } from "../../../redux/actions/mahaweliBlock/action";
 
 const DsDivisionForm = () => {
   useUserAccessValidation();
@@ -29,7 +30,9 @@ const DsDivisionForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [options, setOptions] = useState([]);
+  const [districtOptions, setDistrictOptions] = useState([]);
+  const [mahaweliBlockOptions, setMahaweliBlockOptions] = useState([]);
+
 
   const { addSnackBar } = useSnackBars();
 
@@ -39,7 +42,13 @@ const DsDivisionForm = () => {
 
   useEffect(() => {
     get_DistrictList().then(({ dataList = [] }) => {
-      setOptions(dataList);
+      setDistrictOptions(dataList);
+    });
+  }, []);
+  
+  useEffect(() => {
+    get_MahaweliBlockList().then(({ dataList = [] }) => {
+      setMahaweliBlockOptions(dataList);
     });
   }, []);
 
@@ -106,7 +115,7 @@ const DsDivisionForm = () => {
         console.log(error);
       }
     }
-  };
+      };
 
   return (
     <FormWrapper>
@@ -211,7 +220,7 @@ const DsDivisionForm = () => {
             <FieldName>District Name</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={options}
+              options={districtOptions}
               value={formData ? formData.districtDTO : ""}
               getOptionLabel={(i) => `${i.code} - ${i.name}`}
               onChange={(event, value) => {
@@ -228,10 +237,35 @@ const DsDivisionForm = () => {
               fullWidth
             />
           </FieldWrapper>
+          
         </Grid>
-      </Grid>
+        <Grid item sm={4} md={4} lg={4}>
+          <FieldWrapper>
+            <FieldName>Mahaweli Block</FieldName>
+            <Autocomplete
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              options={mahaweliBlockOptions}
+              value={formData ? formData.mahaweliBlockDTO: ""}
+              getOptionLabel={(i) => `${i.code} - ${i.description}`}
+              onChange={(event, value) => {
+                handleChange(value, "mahaweliBlockDTO");
+              }}
+              sx={{
+               
+                "& .MuiOutlinedInput-root": {
+                 
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => <TextField {...params} size="small" />}
+              fullWidth
+            />
+          </FieldWrapper>
+          
+        </Grid>
+   </Grid>
     </FormWrapper>
-  );
+      );
 };
 
 export default DsDivisionForm;

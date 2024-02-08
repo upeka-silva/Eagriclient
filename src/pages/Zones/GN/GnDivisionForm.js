@@ -4,7 +4,7 @@ import {
   Grid,
   MenuItem,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
@@ -38,9 +38,7 @@ import {
 } from "../../../redux/actions/arpa/action";
 import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import {
-  get_DsDivisionListByDistrictId
-} from "../../../redux/actions/dsDivision/action";
+import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
@@ -57,6 +55,8 @@ import {
 } from "../../../redux/actions/provincialAI/action";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { getCalendarPickerSkeletonUtilityClass } from "@mui/lab";
+import { ViewCarouselTwoTone } from "@mui/icons-material";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -87,27 +87,31 @@ const GnDivisionForm = () => {
     name: "",
     code: "",
   });
+  
   const [selectedDsDevision, setSelectedDsDevision] = useState({
     name: "",
     code: "",
   });
 
+
+
+
   const [doas, setDoas] = useState([]);
   const [ddoas, setDdoas] = useState([]);
   const [adas, setAdas] = useState([]);
-  const [selectedDdoa, setSelectedDdoa] = useState({
-    provincialDdId: "",
-    description: "",
-  });
+ const [selectedDdoa, setSelectedDdoa] = useState({
+  provincialDdId: "",
+  description: "",
+  }); 
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
     description: "",
   });
-  const [selectedAda, setSelectedAda] = useState({
+    const [selectedAda, setSelectedAda] = useState({
     provinceSegmentId: "",
     description: "",
   });
-
+  
   const [interProDoas, setInterProDoas] = useState([]);
   const [interProDdoas, setInterProDdoas] = useState([]);
   const [interProAdas, setInterProAdas] = useState([]);
@@ -190,7 +194,101 @@ const GnDivisionForm = () => {
       setDoaType("MAHAWELI");
       // handleChange("MAHAWELI", "gnDivisionType");
     }
+  
+
+
+    console.log("1111111111111111", formData);
   }, []);
+
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+        setSelectedAda({
+            provinceSegmentId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.provinceSegmentId || "",
+            description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.description || ""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedDdoa({
+        provincialDdId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.provincialDdId || "",
+        description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.description || ""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedDoa({
+        proDirectorId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.proDirectorId || "",
+        description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.description || ""
+        });
+    }
+  }, []);
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedInterProAda({
+        segmentId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.segmentId || "",
+        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.description || ""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedInterProDdoa({
+        ddId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.ddId || "",
+        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.description || ""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedInterProDoa({
+        doaId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO?.doaId || "",
+        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO?.description || ""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedAscDivision({
+        ascId: formData?.arpaDTO?.ascDto?.ascId ||"",
+        name: formData?.arpaDTO?.ascDto?.name ||""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedDcomm({
+        districtCommId: formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO?.districtCommId ||"",
+        name: formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO?.name ||""
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedDistrict({
+        code: formData?.dsDivisionDTO?.districtDTO?.code ||"",
+        name: formData?.dsDivisionDTO?.districtDTO?.name||"",
+        });
+    }
+  }, []);
+  
+  useEffect(() => {
+    if (state.action !== DEF_ACTIONS.ADD) {
+      setSelectedProvince({
+        code: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.code ||"",
+        name: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.name||"",
+        });
+    }
+  }, []);
+  
 
   useEffect(() => {
     get_MahaweliUnitList().then(({ dataList = [] }) => {
@@ -220,8 +318,8 @@ const GnDivisionForm = () => {
     get_arpaList().then(({ dataList = [] }) => {
       setArpaList(dataList);
     });
-  }, []);
-
+      }, []);
+  
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -373,6 +471,13 @@ const GnDivisionForm = () => {
     });
   };
 
+  const resetDsDivision= () => {
+    setFormData({
+      ...formData,
+      dsDivisionDTO:{code:"",name:""}
+    });
+  };
+
   const getAiRegions = (value) => {
     console.log(doaType + " " + value);
     if (doaType === "PROVINCIAL") {
@@ -426,9 +531,12 @@ const GnDivisionForm = () => {
       setArps(dataList);
     });
   };
-  
 
-  
+
+
+
+
+
   return (
     <FormWrapper style={{ overflowY: "scroll" }}>
       <PageHeader
@@ -437,7 +545,7 @@ const GnDivisionForm = () => {
         state={state}
         formName="Grama Nildari Division"
       />
-     <FormButtonGroup
+      <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
         saving={saving}
@@ -516,12 +624,13 @@ const GnDivisionForm = () => {
               value={selectedProvince}
               getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
               onChange={(event, value) => {
-                console.log(value);
-                setSelectedProvince(value);
-                setSelectedDistrict({ name: "", code: "" });
-                setSelectedDsDevision({ name: "", code: "" });
-                getDistricts(value.id);
-              }}
+               console.log(value);
+               setSelectedProvince(value);
+               setSelectedDistrict({ name: "", code: "" });
+               setSelectedDsDevision({ name: "", code: "" });
+               resetDsDivision();
+               getDistricts(value.id);
+             }}
               fullWidth
               disableClearable
               sx={{
@@ -548,6 +657,7 @@ const GnDivisionForm = () => {
                 console.log(value);
                 setSelectedDistrict(value);
                 setSelectedDsDevision({ name: "", code: "" });
+               
                 getDsDivisions(value.id);
               }}
               fullWidth
@@ -574,7 +684,7 @@ const GnDivisionForm = () => {
               getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
               onChange={(event, value) => {
                 console.log(value);
-                handleChange(value || "", "dsDivisionDTO");
+               handleChange(value || "", "dsDivisionDTO");
               }}
               fullWidth
               disableClearable
@@ -609,10 +719,10 @@ const GnDivisionForm = () => {
               <Select
                 name="doaType"
                 id="doaType"
-                value={doaType}
+                value={formData?.gnDivisionType || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => {
-                  setDoaType(e.target.value);
+                  setDoaType(e.target.value || "userSelectedType");
                   resetProAndIntProFields();
                 }}
                 fullWidth
@@ -650,6 +760,10 @@ const GnDivisionForm = () => {
                 }
                 onChange={(event, value) => {
                   console.log(value);
+                  if(value){
+                    console.log("provinceSegmentId:", value.proDirectorId);
+                    console.log("description:", value.description);
+                  }
                   setSelectedDoa(value);
                   setSelectedDdoa({ provincialDdId: "", description: "" });
                   setSelectedAda({ provinceSegmentId: "", description: "" });
@@ -679,21 +793,28 @@ const GnDivisionForm = () => {
         state.isEcoz ? (
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Provincial DDOA</FieldName>
-              <Autocomplete
-                disabled={selectedDoa?.id == null}
-                options={ddoas}
-                value={selectedDdoa}
-                getOptionLabel={(i) =>
-                  `${i?.provincialDdId} - ${i?.description}`
+             <FieldName>Provincial DDOA</FieldName>
+             <Autocomplete
+              disabled={selectedDoa?.id == null}
+              options={ddoas}
+              value={selectedDdoa}
+              getOptionLabel={(i) =>
+               `${i?.provincialDdId} - ${i?.description}`
+              }
+              onChange={(event, value) => {
+                console.log("Selected Value:", value);
+                if (value) {
+                 console.log("provincialDdId:", value.provincialDdId);
+                 console.log("description:", value.description);
                 }
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedDdoa(value);
-                  setSelectedAda({ provinceSegmentId: "", description: "" });
-                  resetAiRegion();
-                  getADAS(value.id);
+                 setSelectedDdoa(value)
+                 setSelectedAda({ provinceSegmentId: "", description: "" });
+                 resetAiRegion();
+                 getADAS(value?.id);
+                 
+                 
                 }}
+
                 fullWidth
                 disableClearable
                 sx={{
@@ -726,7 +847,13 @@ const GnDivisionForm = () => {
                   `${i?.provinceSegmentId} - ${i?.description}`
                 }
                 onChange={(event, value) => {
-                  console.log(value);
+                  console.log("Selected Value:",value);
+                  if(value){
+                    console.log("provinceSegmentId:", value.provinceSegmentId);
+                    console.log("description:", value.description);
+                  }
+
+              
                   setSelectedAda(value);
                   getAiRegions(value);
                   resetAiRegion();
@@ -832,7 +959,11 @@ const GnDivisionForm = () => {
                 value={selectedInterProDdoa}
                 getOptionLabel={(i) => `${i?.ddId} - ${i?.description}`}
                 onChange={(event, value) => {
-                  console.log(value);
+                  console.log("Selected Value:",value);
+                  if(value){
+                    console.log("ddID:", value.ddId);
+                    console.log("description:", value.description);
+                  }
                   setSelectedInterProDdoa(value);
                   setSelectedInterProAda({ segmentId: "", description: "" });
                   resetAiRegion();
@@ -865,12 +996,15 @@ const GnDivisionForm = () => {
                 options={interProAdas}
                 value={selectedInterProAda}
                 getOptionLabel={(i) =>
-                  selectedInterProDdoa?.id == null
-                    ? ""
-                    : `${i?.segmentId} - ${i?.description}`
+                  `${i?.segmentId} - ${i?.description}`
                 }
                 onChange={(event, value) => {
-                  console.log(value);
+                 
+                  console.log("Selected Value:",value);
+                  if(value){
+                    console.log("segmentID:", value.segmentId);
+                    console.log("description:", value.description);
+                  }
                   setSelectedInterProAda(value);
                   resetAiRegion();
                   getAiRegions(value);
@@ -902,9 +1036,7 @@ const GnDivisionForm = () => {
                 options={aiRegions}
                 value={formData.aiRegionsDTO || selectedAiRegion}
                 getOptionLabel={(i) =>
-                  selectedInterProAda?.id == null
-                    ? ""
-                    : `${i?.regionId} - ${i?.description}`
+                 `${i?.regionId} - ${i?.description}`
                 }
                 onChange={(event, value) => {
                   console.log(value);
@@ -1225,6 +1357,12 @@ const GnDivisionForm = () => {
               onChange={(e) => {
                 const value = parseFloat(e.target.value) || 0;
                 handleChange(value, "malePopulation");
+
+                // Calculate and update female population
+                const totalPopulation =
+                  parseFloat(formData?.totalPopulation) || 0;
+                const femalePopulation = totalPopulation - value;
+                handleChange(femalePopulation, "femalePopulation");
               }}
               InputProps={{
                 inputProps: { min: 0 },
@@ -1335,6 +1473,12 @@ const GnDivisionForm = () => {
               onChange={(e) => {
                 const value = parseFloat(e.target.value) || 0;
                 handleChange(value, "agriculturalLandArea");
+                const landArea = parseFloat(formData?.landArea) || 0;
+                const nonAgriculturalLandArea = landArea - value;
+                handleChange(
+                  nonAgriculturalLandArea,
+                  "nonAgriculturalLandArea"
+                );
               }}
               sx={{
                 "& .MuiInputBase-root": {

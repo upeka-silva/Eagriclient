@@ -1,6 +1,7 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 
+
 const DsDivisionList = ({
   dataEndPoint,
   selectedRows = [],
@@ -16,21 +17,29 @@ const DsDivisionList = ({
       joinString: " - ",
       headerName: "District",
     },
+    {
+      field:["mahaweliBlockDTO.code","mahaweliBlockDTO.description"],
+      joinString: " - ",
+      headerName: "Mahaweli Block",
+    }
+
+  
+  
   ];
 
   return (
-   
-      <DataTable
-        loadingTable
-        dataEndPoint={dataEndPoint}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-   
+
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
+
   );
 };
 

@@ -64,7 +64,7 @@ const DsDivision = () => {
     name: "",
     code: "",
   });
-
+ 
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
       let newList = [...current];
