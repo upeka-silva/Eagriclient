@@ -41,7 +41,9 @@ const CropPestForm = (props) => {
 
   useEffect(()=>{
     setCropId(location.state.cropId);
-  }, [location.state]);
+  }
+  // , [location.state]
+  );
 
   // const cropId = props.cropId;
   console.log("crop id in pest form", cropId);
@@ -111,8 +113,8 @@ const CropPestForm = (props) => {
     // console.log("formId", cropId);
     
     const saveData = {
-      cropId: cropId,
       formData: formData,
+      crop: { id: cropId },
     };
 
     if (enableSave()) {
@@ -126,8 +128,8 @@ const CropPestForm = (props) => {
             onSuccess,
             onError
           );
-          setFormData(response.payload);
-          console.log(response);
+          // setFormData(response.payload);
+          // console.log(response);
           // await updateFormDataWithValues(
           //   saveData,
           //   {
@@ -143,8 +145,8 @@ const CropPestForm = (props) => {
           await updateFormDataWithValues(
             saveData,
             {
-              cropId: cropId,
               ...formData,
+              crop: { id: cropId },
               
             },
             onSuccess,
