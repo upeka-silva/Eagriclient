@@ -24,7 +24,7 @@ import {
   handleFarmLandOwnership,
   updateFarmLandOwnership,
 } from "../../../redux/actions/farmerLandOwnership/action";
-import { get_GnDivisionList } from "../../../redux/actions/gnDivision/action";
+import { get_GnDivisionListWithoutPage } from "../../../redux/actions/gnDivision/action";
 import { Colors } from "../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
@@ -131,7 +131,7 @@ export default function FarmLandOwnershipForm({
   };
 
   useEffect(() => {
-    get_GnDivisionList().then(({ dataList = [] }) => {
+    get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
   }, []);
@@ -253,7 +253,7 @@ export default function FarmLandOwnershipForm({
                     options={farmerList}
                     value={data ? data.farmerDTO : ""}
                     getOptionLabel={(i) =>
-                      `${i.farmerId} - ${i.firstName} ${" "}${i.lastName}`
+                      i ? `${i.farmerId} - ${i.firstName} ${i.lastName}` : " "
                     }
                     onChange={(event, value) => {
                       onChange(value, "farmerDTO");
@@ -354,7 +354,7 @@ export default function FarmLandOwnershipForm({
                     }
                     options={gnDivisionList}
                     value={data ? data.gnDivisionDTO : ""}
-                    getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                    getOptionLabel={(i) => i ? `${i.code} - ${i.name}` : " "}
                     onChange={(event, value) => {
                       onChange(value, "gnDivisionDTO");
                     }}

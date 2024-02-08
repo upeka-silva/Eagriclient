@@ -73,6 +73,8 @@ export default function FormPageEditView(
         idAnsKey = "answer_" + answer?.question?.id;
         newOne[idKey] = answer?.question?.questionString;
         newOne[idAnsKey] = answer?.answer;
+
+        newOne["answerId_" + answer?.question?.id] = answer?.id;
       }
     }
 
@@ -150,6 +152,8 @@ export default function FormPageEditView(
         const questionId = parts[1];
         const answer = data[qKey];
 
+        const answerId = data["answerId_" + questionId];
+
         const proofDocs = [];
 
         if (fileUploadResponse && fileUploadResponse[questionId]) {
@@ -166,6 +170,7 @@ export default function FormPageEditView(
 
         if (proofDocs.length > 0) {
           auditAnswers.push({
+            id: answerId,
             question: {
               id: questionId,
             },
@@ -174,6 +179,7 @@ export default function FormPageEditView(
           });
         } else {
           auditAnswers.push({
+            id: answerId,
             question: {
               id: questionId,
             },
@@ -363,8 +369,8 @@ export default function FormPageEditView(
                         "answer_" + item.question.id
                       )
                     }
-                    checked={formDataQ["answer_" + item.question.id] === true}
-                  />
+                    checked={formDataQ["answer_" + item.question.id] === true || formDataQ["answer_" + item.question.id] === "true"}
+                    />
                 )}
                 {item.question.proofRequired === true && (
                   <FileUploadDynamic
