@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getFormTemplateByType, saveGapDataWithValues, updateGapDataWithValues } from "../../redux/actions/auditForm/action";
+import { getFormTemplateByType, getFormTemplatesByGapReqId, saveGapDataWithValues, updateGapDataWithValues } from "../../redux/actions/auditForm/action";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { Box, Button, Checkbox, Grid, TextField } from "@mui/material";
@@ -12,6 +12,7 @@ import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { addGapRequestAction, changeStatus } from "../../redux/actions/gap/action";
 
 export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   useUserAccessValidation();
@@ -108,6 +109,9 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
 
         setSaving(true);
         try {
+          //Get Audits for check Availablility
+          const audit_result = await getFormTemplatesByGapReqId(state.formId,uriPath);    
+
           await saveGapDataWithValues(
             state.formId,
             uriPath,
@@ -117,6 +121,17 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
             onSuccessSave,
             onError
           );
+
+          //if audit_result lenght equals to zero, then call addGapRequestAction
+          if (Object.keys(audit_result.data).length === 0){
+              if (uriPath === "external-audit"){
+                const changeState = await addGapRequestAction(state.formId, "EXTERNAL_AUDIT_COMPLETED")
+              }
+              else if (uriPath === "internal-audit"){
+                const changeState = await addGapRequestAction(state.formId, "INTERNAL_AUDIT_COMPLETED")
+              }
+          }
+           
           // if (formData?.id) {
           //   console.log("ERRRRRRRRRRR");
           // } else {

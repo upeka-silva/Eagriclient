@@ -7,6 +7,7 @@ import {
   IconButton,
   MenuItem,
   Select,
+  Stack,
   TextField,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -27,10 +28,13 @@ import {
   handleFarmerProfile,
   updateFarmer,
 } from "../../redux/actions/farmer/action";
-import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
+import { get_GnDivisionList, get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { Fonts } from "../../utils/constants/Fonts";
+import { Colors } from "../../utils/constants/Colors";
+import { getColorCode } from "../../utils/helpers/formMgtUtil";
 
 export const farmerDto = {
   firstName: "",
@@ -56,15 +60,13 @@ export const farmerDto = {
   nic: "",
   landLine: "",
   gnDivision: null,
-  scsRegion: null
+  scsRegion: null,
 };
 
 const FarmerForm = () => {
   useUserAccessValidation();
 
   const { state } = useLocation();
-
-  const location = useLocation();
 
   const navigate = useNavigate();
 
@@ -76,26 +78,29 @@ const FarmerForm = () => {
   });
 
   const [saving, setSaving] = useState(false);
-  const [open, setOpen] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
   );
   const [gnDivisions, setGnDivisions] = useState([]);
-  const [selectedGnDivision, setSelectedGnDevision] = useState({
-    name: "",
-    code: "",
-  });
+  const [inputGnDivision, setInputGnDivision] = useState("");
 
   const [scsRegion, setScsRegion] = useState([]);
-  const [selectedScsRegion, setSelectedScsRegion] = useState({
-    name: "",
-    scsRegionId: "",
-  });
 
   const [form, setForm] = useState();
 
   const { addSnackBar } = useSnackBars();
+
+  const requiredFieldIdList = [
+    "farmerId",
+    "firstName",
+    "lastName",
+    "nationality",
+    "gnDivision",
+    "mobile",
+    "address1",
+    "gender",
+  ];
 
   const goBack = () => {
     navigate("/farmer");
@@ -107,17 +112,18 @@ const FarmerForm = () => {
       newData[target] = value;
       return newData;
     });
+
+    getColorCode(target, value, requiredFieldIdList);
   };
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
       setForm(null);
-      
     } else {
       setFormData({});
       setForm(null);
-      setSelectedImage(null)
+      setSelectedImage(null);
     }
   };
 
@@ -129,7 +135,8 @@ const FarmerForm = () => {
     }
     if (
       state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 1
+      Object.keys(formData || {}).length > 1 &&
+      formData?.farmerId !== ""
     ) {
       return true;
     }
@@ -170,7 +177,6 @@ const FarmerForm = () => {
             onError
           );
           setFormData(response.payload);
-          console.log(response);
           const res = await handleFarmerProfilePicture(response.payload?.id);
           console.log(res);
           if ((res.httpCode = "200 OK")) {
@@ -259,12 +265,9 @@ const FarmerForm = () => {
     const form = new FormData();
     form.append("file", file);
     setForm(form);
-
-   
   };
 
   const handleFarmerProfilePicture = async (id) => {
-    console.log("handleFarmerProfile");
     try {
       const response = await handleFarmerProfile(
         id,
@@ -273,7 +276,6 @@ const FarmerForm = () => {
         onError
       );
 
-      return response;
       if ((response.httpCode = "200 OK")) {
         const profilePicture = response.payload.storedFileName;
         const originalFileName = response.payload.originalFileName;
@@ -288,14 +290,14 @@ const FarmerForm = () => {
           presignedExpDate: presignedExpDate,
         });
       }
+      return response;
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    get_GnDivisionList().then(({ dataList = [] }) => {
-      console.log(dataList);
+    get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       setGnDivisions(dataList);
     });
   }, []);
@@ -307,51 +309,67 @@ const FarmerForm = () => {
   }, []);
 
   return (
-    <FormWrapper style={{ overflowY: "scroll" }}>
-      <PageHeader saving={saving} state={state} formName="Farmer" goBack={goBack} />
-      <ButtonWrapper
-        isCeneter
-        style={{
-          width: "95%",
-          justifyContent: "flex-start",
-          margin: "0",
-          paddingLeft: "18px",
-        }}
-      >
-        {state?.action !== DEF_ACTIONS.VIEW && (
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained" color="success" size="small">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
-              </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={handleFormSubmit}
-                  size="small"
-                  color="success"
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "100vh",
+        overflowY: "scroll",
+      }}
+    >
+      <PageHeader
+        saving={saving}
+        state={state}
+        formName="Farmer"
+        goBack={goBack}
+      />
+      <Stack direction="row" spacing={1}>
+        <ButtonWrapper
+          isCeneter
+          style={{
+            width: "95%",
+            justifyContent: "flex-start",
+            margin: "0",
+            paddingLeft: "18px",
+          }}
+        >
+          {state?.action !== DEF_ACTIONS.VIEW && (
+            <ActionWrapper>
+              {saving ? (
+                <Button variant="contained" color="success" size="small">
+                  {state?.action === DEF_ACTIONS.ADD
+                    ? "ADDING..."
+                    : "UPDATING..."}
                 </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
-        )}
-      </ButtonWrapper>
-      <Grid container>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
+            </ActionWrapper>
+          )}
+        </ButtonWrapper>
+      </Stack>
+      <Grid container spacing={0}>
         <Grid item sm={3} md={3} lg={2}>
           <FieldWrapper>
             <FieldName>Select Profile Picture</FieldName>
@@ -420,11 +438,13 @@ const FarmerForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={9}>
           <Grid container spacing={1}>
-            <Grid item sm={2} md={2} lg={2}>
+            <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Farmer ID</FieldName>
                 <TextField
+                  variant="outlined"
                   name="farmerId"
+                  autoComplete="off"
                   id="farmerId"
                   value={formData?.farmerId || ""}
                   fullWidth
@@ -436,9 +456,13 @@ const FarmerForm = () => {
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
+                      backgroundColor: requiredFieldIdList.includes("farmerId")
+                        ? Colors.requiredColor
+                        : Colors.white,
                     },
                   }}
                   size="small"
+                  inputProps={{ style: { textTransform: "uppercase" } }}
                 />
               </FieldWrapper>
             </Grid>
@@ -477,6 +501,9 @@ const FarmerForm = () => {
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
+                      backgroundColor: requiredFieldIdList.includes("firstName")
+                        ? Colors.requiredColor
+                        : Colors.white,
                     },
                   }}
                   size="small"
@@ -499,6 +526,9 @@ const FarmerForm = () => {
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
+                      backgroundColor: requiredFieldIdList.includes("lastName")
+                        ? Colors.requiredColor
+                        : Colors.white,
                     },
                   }}
                   size="small"
@@ -529,64 +559,75 @@ const FarmerForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Ethnicity</FieldName>
-            <Select
-              value={formData?.nationality || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "nationality")
-              }
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"SINHALESE"}>Sinhala</MenuItem>
-              <MenuItem value={"SRILANKANTAMIL"}>Srilankan Tamil</MenuItem>
-              <MenuItem value={"SRILANKANMOORS"}>Srilankan Moors</MenuItem>
-              <MenuItem value={"INDIANTAMIL"}>Indian Tamil</MenuItem>
-              <MenuItem value={"OTHERS"}>Others</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Gender</FieldName>
-            <Select
-              value={formData?.gender || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "gender")}
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"M"}>Male</MenuItem>
-              <MenuItem value={"F"}>Female</MenuItem>
-              <MenuItem value={"O"}>Other</MenuItem>
-            </Select>
-          </FieldWrapper>
-        </Grid>
+              <FieldWrapper>
+                <FieldName>Ethnicity</FieldName>
+                <Select
+                  id="nationality"
+                  name="nationality"
+                  value={formData?.nationality || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "nationality")
+                  }
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: requiredFieldIdList.includes("nationality")
+                      ? Colors.requiredColor
+                      : Colors.white,
+                  }}
+                  size="small"
+                  fullWidth
+                >
+                  <MenuItem value={"SINHALESE"}>Sinhala</MenuItem>
+                  <MenuItem value={"SRILANKANTAMIL"}>Srilankan Tamil</MenuItem>
+                  <MenuItem value={"SRILANKANMOORS"}>Srilankan Moors</MenuItem>
+                  <MenuItem value={"INDIANTAMIL"}>Indian Tamil</MenuItem>
+                  <MenuItem value={"OTHERS"}>Others</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={2} md={2} lg={2}>
+              <FieldWrapper>
+                <FieldName>Gender</FieldName>
+                <Select
+                  id="gender"
+                  name="gender"
+                  value={formData?.gender || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "gender")
+                  }
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: requiredFieldIdList.includes("gender")
+                      ? Colors.requiredColor
+                      : Colors.white,
+                  }}
+                  size="small"
+                  fullWidth
+                >
+                  <MenuItem value={"M"}>Male</MenuItem>
+                  <MenuItem value={"F"}>Female</MenuItem>
+                  <MenuItem value={"O"}>Other</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
       <Grid
-          container
-          spacing={1}
-          sx={{  width: "97%", marginLeft: "15px",marginTop:"5px" }}
-        >
-          <Grid item lg={12} sm={12} xs={12}>
-            <hr></hr>
-          </Grid>
+        container
+        spacing={1}
+        sx={{ width: "97%", marginLeft: "15px", marginTop: "5px" }}
+      >
+        <Grid item lg={12} sm={12} xs={12}>
+          <hr></hr>
         </Grid>
-      
+      </Grid>
+
       <Grid
         container
         sx={{
-         
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -607,6 +648,9 @@ const FarmerForm = () => {
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
+                  backgroundColor: requiredFieldIdList.includes("mobile")
+                    ? Colors.requiredColor
+                    : Colors.white,
                 },
               }}
               size="small"
@@ -653,19 +697,14 @@ const FarmerForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      <Grid
-          container
-          spacing={1}
-          sx={{  width: "97%", marginLeft: "15px" }}
-        >
-          <Grid item lg={12} sm={12} xs={12}>
-            <hr></hr>
-          </Grid>
+      <Grid container spacing={1} sx={{ width: "97%", marginLeft: "15px" }}>
+        <Grid item lg={12} sm={12} xs={12}>
+          <hr></hr>
         </Grid>
+      </Grid>
       <Grid
         container
         sx={{
-          
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
@@ -675,6 +714,16 @@ const FarmerForm = () => {
           <FieldWrapper>
             <FieldName>GN Division</FieldName>
             <Autocomplete
+              key={formData?.gnDivision}
+              id="gnDivision"
+              name="gnDivision"
+              isOptionEqualToValue={(option, value) =>
+                option?.code === value?.code
+              }
+              inputValue={inputGnDivision}
+              onInputChange={(event, newInputValue) => {
+                setInputGnDivision(newInputValue);
+              }}
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={gnDivisions}
               value={formData?.gnDivision}
@@ -682,15 +731,24 @@ const FarmerForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 handleChange(value, "gnDivision");
-               
               }}
               disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      backgroundColor: requiredFieldIdList.includes(
+                        "gnDivision"
+                      )
+                        ? Colors.requiredColor
+                        : Colors.white,
+                    },
+                  }}
+                />
+              )}
               fullWidth
             />
           </FieldWrapper>
@@ -706,7 +764,6 @@ const FarmerForm = () => {
               onChange={(event, value) => {
                 console.log(value);
                 handleChange(value, "scsRegion");
-               
               }}
               disableClearable
               sx={{
@@ -733,6 +790,9 @@ const FarmerForm = () => {
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
+                  backgroundColor: requiredFieldIdList.includes("address1")
+                    ? Colors.requiredColor
+                    : Colors.white,
                 },
               }}
               size="small"
@@ -800,7 +860,7 @@ const FarmerForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-    </FormWrapper>
+    </div>
   );
 };
 

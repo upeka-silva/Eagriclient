@@ -29,7 +29,9 @@ const MultiItemSelect = ({
   mode = DEF_ACTIONS.VIEW,
   itemHandler,
   handleClose,
-  existingAuditores = []
+  existingAuditores = [],
+  changeGapReqStatus,
+  gapReqStatus,
 }) => {
   const [selectedItems, setSelectedItems] = useState([]);
 
@@ -63,7 +65,7 @@ const MultiItemSelect = ({
             fontFamily: Fonts.fontStyle1,
           }}
         >
-          {mode} External Auditores
+          {mode} External Auditors
         </DialogTitle>
         <DialogContent>
           <Box>
@@ -129,7 +131,12 @@ const MultiItemSelect = ({
           </Button>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
-            onClick={(event) => itemHandler(selectedItems)}
+            onClick={(event) => {
+              itemHandler(selectedItems)
+              if (gapReqStatus.lblState === 'APPROVED_BY_DD') { //&& existingAuditores.length === 0
+                changeGapReqStatus("ASSIGN_AUDITORS");
+              }
+            }}
             color="success"
             variant="contained"
             size="small"

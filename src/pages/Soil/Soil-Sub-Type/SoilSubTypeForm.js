@@ -1,8 +1,4 @@
-import {
-  Autocomplete,
-  Grid,
-  TextField
-} from "@mui/material";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -11,9 +7,7 @@ import {
   handleSoilSubType,
   updateSoilSubType,
 } from "../../../redux/actions/soil/soilSubType/action";
-import {
-  DEF_ACTIONS
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -35,6 +29,8 @@ const SoilSubTypeForm = () => {
   const [saving, setSaving] = useState(false);
   const [open, setOpen] = useState(false);
   const [options, setOptions] = useState([]);
+
+  const [inputCropCategory, setInputCropCategory] = useState("");
 
   const { addSnackBar } = useSnackBars();
 
@@ -105,7 +101,7 @@ const SoilSubTypeForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || "Save failed",
     });
     setSaving(false);
   };
@@ -133,14 +129,13 @@ const SoilSubTypeForm = () => {
 
   return (
     <FormWrapper>
-      
       <PageHeader
         saving={saving}
         state={state}
         formName="Soil Sub Type"
         goBack={goBack}
       />
-       <FormButtonGroup
+      <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
         saving={saving}
@@ -176,7 +171,7 @@ const SoilSubTypeForm = () => {
                   borderRadius: "8px",
                 },
               }}
-              inputProps={{style: {textTransform: "uppercase"}}}
+              inputProps={{ style: { textTransform: "uppercase" } }}
               size="small"
             />
           </FieldWrapper>
@@ -206,10 +201,19 @@ const SoilSubTypeForm = () => {
           <FieldWrapper>
             <FieldName>Soil Type</FieldName>
             <Autocomplete
+              key={formData?.soilTypeDTO}
+              id="soilTypeDTO"
+              isOptionEqualToValue={(option, value) =>
+                option.soilTypeCode === value.soilTypeCode
+              }
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={options}
               value={formData ? formData.soilTypeDTO : ""}
               getOptionLabel={(i) => `${i.soilTypeCode} - ${i.description}`}
+              inputValue={inputCropCategory}
+              onInputChange={(event, newInputValue) => {
+                setInputCropCategory(newInputValue);
+              }}
               onChange={(event, value) => {
                 handleChange(value, "soilTypeDTO");
               }}

@@ -53,6 +53,25 @@ export const get_GnDivisionList = async () => {
   }
 };
 
+export const get_GnDivisionListWithoutPage = async () => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/gn-divisions/user-get?page=0&size=14000&sort=desc", true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const deleteGnDivision = async (
   id,
   onSuccess = () => {},

@@ -37,6 +37,39 @@ export const handleGap = async (
   }
 };
 
+export const deleteGapRequest = async (
+  id,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await api_delete(`gap-request/${id}`, true);
+    console.log(response)
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+              response?.message || "Something went wrong! Please try agin.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({error}) {
+    if (typeof error === "object") {
+      const {data} = error;
+      const {apiError} = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  }
+}
 
 export const saveGapExternalAuditores = async (
   gapId,
@@ -128,6 +161,27 @@ export const get_GapRequestList = async () => {
     console.log(error);
     return {
       dataList: [],
+    };
+  }
+};
+
+export const get_GapRequestActionList = async (
+  gapReqId
+) => {
+  try {
+    const { httpCode, payloadDto } = await get(`gap-request-actions/getByGapId/${gapReqId}?page=0&size=1000`, true);
+    if (httpCode === "200 OK") {
+      return {
+        actionList: payloadDto,
+      };
+    }
+    return {
+      actionList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      actionList: [],
     };
   }
 };
@@ -300,14 +354,58 @@ export const deleteCropDetails = async (
 export const changeStatus = async (
   gapReqId,
   newStatus,
+  rejectReason,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const payload = { status: newStatus, reason: null };
+    if(rejectReason){
+      payload.reason = rejectReason;
+    }
+    const response = await put(
+      `gap-request/` + gapReqId + `/status/` + newStatus,
+      payload,
+      true
+    );
+
+    if (response.httpCode === "200 OK") {
+      onSuccess(gapReqId);
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    return response
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const addGapRequestAction = async (
+  gapReqId,
+  newStatus,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
     const payload = { status: newStatus };
 
-    const response = await put(
-      `gap-request/` + gapReqId + `/status/` + newStatus,
+    const response = await post(
+      `gap-request-actions/${gapReqId}/status/${newStatus}`,
       JSON.stringify(payload),
       true
     );
@@ -336,4 +434,4 @@ export const changeStatus = async (
       onError(error);
     }
   }
-};
+}

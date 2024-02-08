@@ -280,7 +280,7 @@ const Users = () => {
           {selectUsers.length === 1 && (
             <PermissionWrapper permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`} >
              <Button onClick={handleChangeUserStatus} >
-          {selectUsers[0].enabled ? 'Set Disable' : 'Set Enable'}
+          {selectUsers[0].enabled ? 'De-activate' : 'Activate'}
             </Button>
             </PermissionWrapper>
           )}

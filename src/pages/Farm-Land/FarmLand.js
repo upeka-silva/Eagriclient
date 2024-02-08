@@ -225,7 +225,7 @@ const FarmLand = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
               
             </Button>
           </ActionWrapper>

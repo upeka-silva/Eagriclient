@@ -39,15 +39,18 @@ import {
   getFarmLandByFarmerId,
 } from "../../redux/actions/farmLand/action";
 import {
+  addGapRequestAction,
   changeStatus,
   deleteCropDetails,
   getCropDetailsList,
   getGapCertificate,
   getUsersByRoleCode,
+  get_GapRequestActionList,
   handleGap,
   saveGapExternalAuditores,
   updateGap,
 } from "../../redux/actions/gap/action";
+import { gapReqDto } from "./gap-type";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
 import { get_FarmersListByScsRegionId, get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
@@ -62,7 +65,9 @@ import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import CropDetailsList from "./CropDetails/CropDetailsList";
 import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate";
-import { gapReqDto } from "./gap-type";
+import { useAuthContext } from "../../context/AuthContext";
+import GapRequestActionsButtons from "./GapRegActionsButtons";
+import GapRegActionList from "../Gap/GapRegActionList";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -94,7 +99,7 @@ const GapRegForm = () => {
 
   const [testPermission, setTestPermission] = useState();
 
-  const [openApproveDialog, setOpenApproveDialog] = useState(false);
+  const [openApproveDialog, setOpenApproveDialog] = useState({open :false, option : ''});
 
   useUserAccessValidation();
   const { state } = useLocation();
@@ -131,6 +136,7 @@ const GapRegForm = () => {
   const [statusLoading, setStatusLoading] = useState(false);
 
   const initStatus = {
+    lblState: 'DRAFT',
     lblText: "Draft",
     lblColor: "primary",
   };
@@ -139,9 +145,15 @@ const GapRegForm = () => {
   const [stateResponse, setStateResponse] = useState("");
   const [openConfSubmit, setOpenConfSubmit] = useState(false);
 
-  const [basicAssessments, setBasicAssessments] = useState([]);
+  const [inputScsRegionCategory, setInputScsRegionCategory] = useState("");
+  const [inputFarmerCategory, setInputFarmerCategory] = useState("");
+  const [inputFarmLandCategory, setInputFarmLandCategory] = useState("");
+  const [inputBasicAssesmentCategory, setInputBasicAssesmentCategory] = useState("");
 
-  const [gapStatusToSave, setGapStatusToSave] = useState("");
+  const [rejectReason, setRejectReason] = useState("");
+  const [gapReqActionList, setGapReqActionList] = useState([]);
+
+  const [basicAssessments, setBasicAssessments] = useState([]);
 
   const [isAuditorsAssignDialogOpen, setIsAuditorsAssignDialogOpen] =
     useState(false);
@@ -151,6 +163,8 @@ const GapRegForm = () => {
   const [isCertificateGenerating, setIsCertificateGenerating] = useState(false);
 
   const { addSnackBar } = useSnackBars();
+
+  const { role } = useAuthContext();
 
   const auditorsAssignDialogHandler = () => {
     setIsAuditorsAssignDialogOpen(false);
@@ -227,9 +241,13 @@ const GapRegForm = () => {
           const { payload } = await get(`${path}/${id}`, true);
           setFormData(payload);
 
+          const { actionList } = await get_GapRequestActionList(id);
+          setGapReqActionList(actionList);
+
           const statusColor =
             payload.status === "SUBMITTED" ? "success" : "primary";
           setGapReqStatus({
+            lblState: payload.status,
             lblText: payload.statusClient,
             lblColor: statusColor,
           });
@@ -238,17 +256,19 @@ const GapRegForm = () => {
         }
       };
       fetchGapReq("gap-request", formData?.id);
+      get_GapRequestActionList(formData?.id);
     }
   }, []);
-
-  const changeGapReqStatus = async () => {
+ 
+  const changeGapReqStatus = async (statusToSave) => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       try {
         if (formData?.id) {
           setStatusLoading(true);
           const resValue = await changeStatus(
             formData?.id,
-            gapStatusToSave,
+            statusToSave,
+            rejectReason,
             onSuccess,
             onError
           );
@@ -256,7 +276,8 @@ const GapRegForm = () => {
           setStateResponse(resValue.payload);
           console.log(resValue);
           setGapReqStatus({
-            lblText: resValue.payload,
+            lblState: resValue.payload.name,
+            lblText: resValue.payload.label,
             lblColor: "success",
           });
           setOpenConfSubmit(false);
@@ -269,6 +290,10 @@ const GapRegForm = () => {
   };
 
   const handleChange = (value, target) => {
+    if (target === "hasOtherCertificates" && !value) {
+      setFormData(prevState => ({ ...prevState, otherCertificateDoc: '' }));
+    } 
+
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -308,6 +333,7 @@ const GapRegForm = () => {
           const resValue = await changeStatus(
             formData?.id,
             "SUBMITTED",
+            rejectReason,
             onSuccess,
             onError
           );
@@ -315,7 +341,8 @@ const GapRegForm = () => {
           setStateResponse(resValue.payload);
           console.log(resValue);
           setGapReqStatus({
-            lblText: resValue.payload,
+            lblState: resValue.payload.name,
+            lblText: resValue.payload.label,
             lblColor: "success",
           });
           setOpenConfSubmit(false);
@@ -376,10 +403,16 @@ const GapRegForm = () => {
       try {
         if (formData?.id) {
           const response = await updateGap(formData, onSuccess, onError);
-          setFormData(response?.payload);
+          if(response && response?.payload){
+            setFormData(response?.payload);
+            await addGapRequestAction(response.payload.id, 'UPDATED')
+          }
         } else {
           const response = await handleGap(formData, onSuccess, onError);
-          setFormData(response?.payload);
+          if(response && response?.payload){
+            setFormData(response?.payload);
+            await addGapRequestAction(response.payload.id, 'DRAFT')
+          }
         }
       } catch (error) {
         console.log(error);
@@ -516,6 +549,13 @@ const GapRegForm = () => {
       });
   };
 
+  const isRejectState = (state) => {
+    return ['SCS_REGIONAL_OFFICER_REJECT', 'REJECTED_BY_DD', 'REJECTED_BY_MAIN_SCS'].includes(state);
+  } 
+  const isApproveState = (state) => {
+    return ['APPROVED_BY_DD', 'SCS_REGIONAL_OFFICER_APPROVE', 'MAIN_SCS_REGIONAL_OFFICER_APPROVE', 'GENERATE_CERTIFICATE', 'SEND_CERTIFICATE', 'EXTERNAL_AUDITOR_SUBMITTED', 'SUBMITTED', 'ASSIGN_AUDITORS', 'DRAFT'].includes(state);
+}
+
   return (
     <div
       style={{
@@ -543,7 +583,7 @@ const GapRegForm = () => {
             borderRadius: "5px",
           }}
         >
-          <HorizontalStepper />
+          <HorizontalStepper gapReqStatus={gapReqStatus}/>
         </Grid>
       </Grid>
 
@@ -576,7 +616,13 @@ const GapRegForm = () => {
                       <PermissionWrapper
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
-                        <Button
+                        {  
+                        role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED" ||
+                        role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" ||
+                        role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE" ||
+                        role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE"
+                        ? null :
+                        (<Button
                           variant="contained"
                           disabled={!enableSave()}
                           onClick={handleFormSubmit}
@@ -586,8 +632,13 @@ const GapRegForm = () => {
                           {state?.action === DEF_ACTIONS.ADD
                             ? "SAVE"
                             : "UPDATE"}
-                        </Button>
+                        </Button>)}
                       </PermissionWrapper>
+                    {
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -597,8 +648,14 @@ const GapRegForm = () => {
                       >
                         RESET
                       </Button>
+                      ): null 
+                    }
                     </ButtonGroup>
-                    {gapReqStatus.lblText === "Draft" ? (
+                    {(role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
+                     ? (
                       <Button
                         onClick={() => setOpenConfSubmit(true)}
                         color="success"
@@ -609,26 +666,24 @@ const GapRegForm = () => {
                         SUBMIT
                       </Button>
                     ) : null}
-                    <PermissionWrapper
-                      permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`}
-                    >
-                      <Button
-                        onClick={() => {
-                          setGapStatusToSave("APPROVED_BY_DD");
-                          setOpenApproveDialog(true);
-                        }}
-                        color="success"
-                        variant="outlined"
-                        size="small"
-                        sx={{ marginLeft: "10px" }}
-                      >
-                        APPROVE
-                      </Button>
-                    </PermissionWrapper>
+
+                    <GapRequestActionsButtons
+                     role={role}
+                     gapReqStatus={gapReqStatus}
+                     setOpenApproveDialog={setOpenApproveDialog}
+                     existingAuditores={formData?.externalAuditors}
+                     />
+               
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
-                      <Button
+                      {
+                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT" ||
+                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED" ||
+                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                        // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
+                         ? null : (
+                        <Button
                         onClick={() => {
                           setIsAuditorsAssignDialogOpen(true);
                         }}
@@ -637,14 +692,21 @@ const GapRegForm = () => {
                         size="small"
                         sx={{ marginLeft: "10px" }}
                       >
-                        ASSIGN AUDITORES
+                        ASSIGN AUDITORS
                       </Button>
+                        )
+                      }
                     </PermissionWrapper>
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
-                      <Button
+                      {
+
+                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
+                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
+                      (<Button
                         onClick={() => {
+                          changeGapReqStatus("GENERATE_CERTIFICATE");
                           generateCertificate();
                         }}
                         color="success"
@@ -660,19 +722,35 @@ const GapRegForm = () => {
                         ) : (
                           "Generate Certificate"
                         )}
-                      </Button>
+                      </Button>) : null
+                      }
                     </PermissionWrapper>
                   </>
                 )}
               </ActionWrapper>
             )}
           </ButtonWrapper>
+
+           {/* Display Gap Registation Number  */}
+          {
+            formData?.gapRegistrationNumber ? (
+              <Chip
+              label={`Gap Registration Number : ${formData?.gapRegistrationNumber}`}
+              variant="filled"
+              style={{ marginTop: "5px", color: "#ffffff", backgroundColor: "#2aaf70" }} //#2caf70 #4caf50 
+            />
+            ) : null
+          }
+
           {!statusLoading ? (
             <Chip
               label={gapReqStatus.lblText}
-              color={gapReqStatus.lblColor}
               variant="filled"
-              style={{ marginTop: "5px" }}
+              style={{
+                marginTop: "5px",
+                backgroundColor: isRejectState(gapReqStatus.lblState) ? 'red' : (isApproveState(gapReqStatus.lblState) ? 'green' : 'default'),
+                color: 'white'
+            }}
             />
           ) : (
             <CircularProgress />
@@ -742,12 +820,19 @@ const GapRegForm = () => {
                 <CircularProgress />
               ) : (
                 <Autocomplete
+                  key={formData?.scsRegionDTO}
+                  id="scsRegionDTO"
+                  isOptionEqualToValue={(option, value) => option.scsRegionId === value.scsRegionId}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={scsRegionList}
                   value={formData ? formData.scsRegionDTO : ""}
                   getOptionLabel={(i) =>
                     `${i.scsRegionId} - ${i.name}`
                   }
+                  inputValue={inputScsRegionCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputScsRegionCategory(newInputValue)
+                  }}
                   onChange={(event, value) => {
                     handleChange(value, "scsRegionDTO");
                     getFarmersByScsRegionId(value?.id);
@@ -773,12 +858,18 @@ const GapRegForm = () => {
                 <CircularProgress />
               ) : (
                 <Autocomplete
+                  key={formData?.farmerDTO}
+                  id="farmerDTO"
                   disabled={state?.action === DEF_ACTIONS.VIEW  || formData?.scsRegionDTO == null}
                   options={farmerList}
                   value={formData ? formData.farmerDTO : ""}
                   getOptionLabel={(i) =>
                     `${i.farmerId} - ${i.firstName} ${i.lastName}`
                   }
+                  inputValue={inputFarmerCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputFarmerCategory(newInputValue)
+                  }}
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
                     getLandsByFarmerId(value?.id);
@@ -802,6 +893,8 @@ const GapRegForm = () => {
             <FieldWrapper>
               <FieldName>Farm Land</FieldName>
               <Autocomplete
+                key={formData?.farmLandDTO}
+                id="farmLandDTO"
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   formData?.farmerDTO == null
@@ -809,6 +902,10 @@ const GapRegForm = () => {
                 options={farmerLandList}
                 value={formData ? formData.farmLandDTO : ""}
                 getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                inputValue={inputFarmLandCategory}
+                onInputChange={(event, newInputValue) => {
+                  setInputFarmLandCategory(newInputValue)
+                }}
                 onChange={(event, value) => {
                   handleChange(value, "farmLandDTO");
                   getAllAssessmentsByFLId(value?.id);
@@ -828,6 +925,8 @@ const GapRegForm = () => {
             <FieldWrapper>
               <FieldName>Basic Assesment</FieldName>
               <Autocomplete
+                key={formData?.basicAssessmentDTO}
+                id="basicAssessmentDTO"
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   formData?.farmLandDTO == null
@@ -835,6 +934,10 @@ const GapRegForm = () => {
                 options={basicAssessments}
                 value={formData ? formData?.basicAssessmentDTO : ""}
                 getOptionLabel={(i) => `${i.assessmentId}`}
+                inputValue={inputBasicAssesmentCategory}
+                onInputChange={(event, newInputValue) => {
+                  setInputBasicAssesmentCategory(newInputValue)
+                }}
                 onChange={(event, value) => {
                   handleChange(value, "basicAssessmentDTO");
                 }}
@@ -887,9 +990,17 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id == null || !certificatePermission?.isEnabled}
+          disabled={formData?.id == "" || !certificatePermission?.isEnabled}
         >
           Certificate
+        </TabButton>
+
+        <TabButton
+          className={toggleState === 7 ? "active-tabs" : ""}
+          onClick={() => toggleTab(7)}
+          disabled={formData?.id == null}
+        >
+          Actions
         </TabButton>
         {/* <TabButton
           className={toggleState === 8 ? "active-tabs" : ""}
@@ -2102,16 +2213,16 @@ const GapRegForm = () => {
                 </FieldName>
                 <Switch
                   {...label}
-                  name="SLGapConvPracExists"
-                  id="SLGapConvPracExists"
-                  value={formData?.SLGapConvPracExists || ""}
+                  name="slgapConvPracExists"
+                  id="slgapConvPracExists"
+                  value={formData?.slgapConvPracExists || ""}
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "SLGapConvPracExists"
+                      "slgapConvPracExists"
                     )
                   }
-                  checked={formData?.SLGapConvPracExists}
+                  checked={formData?.slgapConvPracExists}
                 />
               </FieldWrapper>
             </Grid>
@@ -2191,18 +2302,18 @@ const GapRegForm = () => {
                 </FieldName>
                 <Switch
                   {...label}
-                  name="CorrectiveMeasuresTakenForSurroundingLands"
-                  id="CorrectiveMeasuresTakenForSurroundingLands"
+                  name="correctiveMeasuresTakenForSurroundingLands"
+                  id="correctiveMeasuresTakenForSurroundingLands"
                   value={
-                    formData?.CorrectiveMeasuresTakenForSurroundingLands || ""
+                    formData?.correctiveMeasuresTakenForSurroundingLands || ""
                   }
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "CorrectiveMeasuresTakenForSurroundingLands"
+                      "correctiveMeasuresTakenForSurroundingLands"
                     )
                   }
-                  checked={formData?.CorrectiveMeasuresTakenForSurroundingLands}
+                  checked={formData?.correctiveMeasuresTakenForSurroundingLands}
                 />
               </FieldWrapper>
             </Grid>
@@ -2270,16 +2381,16 @@ const GapRegForm = () => {
                 </FieldName>
                 <Switch
                   {...label}
-                  name="WaterQualitySimilarToDrinkingWater"
-                  id="WaterQualitySimilarToDrinkingWater"
-                  value={formData?.WaterQualitySimilarToDrinkingWater || ""}
+                  name="waterQualitySimilarToDrinkingWater"
+                  id="waterQualitySimilarToDrinkingWater"
+                  value={formData?.waterQualitySimilarToDrinkingWater || ""}
                   onChange={(e) =>
                     handleChange(
                       e?.target?.checked || "",
-                      "WaterQualitySimilarToDrinkingWater"
+                      "waterQualitySimilarToDrinkingWater"
                     )
                   }
-                  checked={formData?.WaterQualitySimilarToDrinkingWater}
+                  checked={formData?.waterQualitySimilarToDrinkingWater}
                 />
               </FieldWrapper>
             </Grid>
@@ -2576,12 +2687,19 @@ const GapRegForm = () => {
           onFormSaveSuccess={null}
           formId={formData?.id}
           formMode={null}
+          gapReqStatus = {gapReqStatus.lblState}
           auditFormType={"EXTERNAL_AUDIT"}
         />
       </TabContent>
+
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
         <GapRequestCertificate url={formData.certificatePresignedUrl} />
       </TabContent>
+
+      <TabContent className={toggleState === 7 ? "active-content" : ""}>
+          <GapRegActionList gapReqActionList={gapReqActionList}/>
+      </TabContent>
+
       <AddCropDetailsDialog
         open={openCropAreaAddDlg}
         setConfirmDialog={setOpenCropAreaAddDlg}
@@ -2654,30 +2772,105 @@ const GapRegForm = () => {
       </DialogBox>
 
       <DialogBox
-        open={openApproveDialog}
-        title="Approve Gap Request"
+        open={openApproveDialog.open}
+        title={openApproveDialog.option === 'approve' ? `Approve Gap Request` : 'Reject Gap Request'}
         actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={changeGapReqStatus}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => setOpenApproveDialog(false)}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
+          <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: "10px" }}>
+            {openApproveDialog.option === 'reject' && (
+                <TextField
+                  style={{ marginBottom: "8px", width: "95%", margin: "auto"}}
+                  value={rejectReason}
+                  onChange={(e) => setRejectReason(e.target.value)}
+                  label="Enter reject reason"
+                  variant="outlined"
+                />
+            )}
+            <ActionWrapper>
+              <div>
+                <Button
+                  variant="contained"
+                  color="info"
+                  onClick={() => {
+                    if (openApproveDialog.option === 'approve') {
+                      if (role === 'DD_OFFICER') {
+                        changeGapReqStatus("APPROVED_BY_DD");
+                      } else if (
+                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
+                      ) {
+                        changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
+                      } else if (
+                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        gapReqStatus.lblState === 'APPROVED_BY_DD'
+                      ) {
+                        changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
+                      } else if (
+                        role === 'SCS_REGINAL_OFFICER' &&
+                        gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
+                      ) {
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
+                      }
+                      else if (
+                        role === 'MAIN_SCS_REGIONAL_OFFICER' &&
+                        gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                      ) {
+                        changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE")
+                      }
+                    }
+                    else if (openApproveDialog.option === 'reject') {
+                      if (role === 'DD_OFFICER') {
+                        changeGapReqStatus("REJECTED_BY_DD");
+                      }
+                      else if (
+                        role === 'SCS_REGINAL_OFFICER' &&
+                        gapReqStatus.lblState === "APPROVED_BY_DD"
+                      ) {
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
+                      }
+                      else if (
+                        role === 'SCS_REGINAL_OFFICER' &&
+                        gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
+                      ) {
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
+                      }
+                      else if (
+                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
+                      ) {
+                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
+                      }                   
+                      else {
+                        changeGapReqStatus("REJECTED_BY_MAIN_SCS")
+                      }
+                    }
+                    setOpenApproveDialog({ open: false, option: '' });
+                  }
+                  }
+                  sx={{ ml: "8px" }}
+                >
+                  Confirm
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setOpenApproveDialog({ open: false, option: '' })}
+                  sx={{ ml: "8px" }}
+                >
+                  Close
+                </Button>
+              </div>
+            </ActionWrapper>
+          </div>
         }
       >
-        <>Please confirm to approve this GAP request.</>
+<>
+  {openApproveDialog.option === 'approve' ? 
+    (role === "GAP_EXTERNAL_AUDITOR" && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
+      `Please confirm to submit this GAP request.` :
+      `Please confirm to approve this GAP request.`) :
+    `Please confirm to reject this GAP request.`
+  }
+</>
       </DialogBox>
 
       <MultiItemSelect
@@ -2687,6 +2880,9 @@ const GapRegForm = () => {
         itemHandler={auditorsAssignDialogValuesHandler}
         handleClose={auditorsAssignDialogHandler}
         existingAuditores={formData?.externalAuditors}
+        changeGapReqStatus = {changeGapReqStatus}
+        gapReqStatus={gapReqStatus}
+
       />
     </div>
   );
