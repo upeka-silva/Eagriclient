@@ -67,7 +67,7 @@ const FormButtonGroup = ({
                     {verifiedStatus === false ?
                         <span>VERIFY</span>
                         :
-                        <span>NOT VERIFY</span>
+                        <span>VERIFY</span>
                     }
                 </Button>
               }

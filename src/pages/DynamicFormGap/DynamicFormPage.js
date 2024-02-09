@@ -248,7 +248,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
             size="small"
             color="success"
           >
-            Go Back
+            Back
           </Button>
           {saving ? (
             <Button variant="contained" size="small">

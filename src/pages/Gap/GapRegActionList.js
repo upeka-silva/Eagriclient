@@ -113,9 +113,16 @@ export default function GapRegActionList({ onRowSelect = (_c) => {}, gapReqActio
     {
       field: "userDTO",
       headerName: "Officer Name",
-      width: 200,
+      width: 220,
       headerClassName: "super-app-theme--header",
-      renderCell: (params) => params.row.userDTO.username
+      renderCell: (params) => {
+        const username = params.row.userDTO.username;
+        const firstName = params.row.userDTO.firstName;
+        const lastName = params.row.userDTO.lastName;
+        return (
+          `${firstName} ${lastName} (${username})`
+        )
+      }
     },
     {
       field: "actionClient",
