@@ -9,7 +9,7 @@ export const handleFarmLand = async (
   try {
     const response = await post("farm-land", payload, true);
     if (response.httpCode === "201 CREATED") {
-      onSuccess();
+      onSuccess(response);
     } else {
       const exception = {
         error: {

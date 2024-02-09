@@ -64,11 +64,7 @@ const FormButtonGroup = ({
                     size="small"
                     sx={{ marginLeft: "10px" }}
                 >
-                    {verifiedStatus === false ?
-                        <span>VERIFY</span>
-                        :
-                        <span>VERIFY</span>
-                    }
+                    <span>VERIFY</span>
                 </Button>
               }
             </>

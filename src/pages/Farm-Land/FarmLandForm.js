@@ -250,7 +250,7 @@ const FarmLandForm = () => {
     setFarmLandId(response?.payload?.id);
     setFormData((prevState) => ({
       ...prevState,
-      id: farmLandId,
+      id: response.payload.id,
     }));
     setSaving(false);
     navigate("/farm-land-form", {
@@ -1029,6 +1029,7 @@ const FarmLandForm = () => {
       </TabContent>
       <FarmLandOwnershipForm
         open={openFlO}
+        setOpenFlO={setOpenFlO}
         action={fLOAction}
         onClose={closeFlO}
         farmLandData={formData}

@@ -210,7 +210,7 @@ const DynamicFormListGap = ({
   };
 
   const onConfirm = async () => {
-    await deleteAuditFormQuestion(formId, deleteItem?.id, onSuccess, onError);
+    await deleteAuditFormQuestion(formId, deleteItem?.id, uriPath, onSuccess, onError);
     close();
   };
 

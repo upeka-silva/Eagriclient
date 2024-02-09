@@ -706,8 +706,8 @@ const GapRegForm = () => {
                       role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
                       (<Button
                         onClick={() => {
-                          changeGapReqStatus("GENERATE_CERTIFICATE");
                           generateCertificate();
+                          changeGapReqStatus("GENERATE_CERTIFICATE");
                         }}
                         color="success"
                         variant="outlined"
