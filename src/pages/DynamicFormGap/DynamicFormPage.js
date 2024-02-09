@@ -253,7 +253,6 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
           {saving ? (
             <Button variant="contained" size="small">
               {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-              ADDING...
             </Button>
           ) : (
             <>

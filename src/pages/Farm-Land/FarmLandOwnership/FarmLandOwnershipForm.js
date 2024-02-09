@@ -44,8 +44,8 @@ export default function FarmLandOwnershipForm({
   onChange,
   resetData,
   refresh,
+  setOpenFlO
 }) {
-  console.log(data);
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
   const [gnDivisionList, setGnDivisionList] = useState([]);
@@ -71,7 +71,6 @@ export default function FarmLandOwnershipForm({
       setFormData({});
     }
   };
-
   const handleFormSubmit = async () => {
     setSaving(true);
     let dateFrom = new Date(data.dateFrom);
@@ -106,6 +105,7 @@ export default function FarmLandOwnershipForm({
         refresh();
       }
       setSaving(false);
+      setOpenFlO(false);
     } catch (error) {
       console.log(error);
     }
@@ -239,144 +239,167 @@ export default function FarmLandOwnershipForm({
               </FieldWrapper>
             </Grid>
 
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FormControl fullWidth>
-                  <FieldName>Select Farmer</FieldName>
-                  <Autocomplete
-                    name="farmerDTO"
-                    id="farmerDTO"
-                    disabled={
-                      action === DEF_ACTIONS.VIEW || data?.ownerType == "OTHER"
-                    }
-                    disableClearable
-                    options={farmerList}
-                    value={data ? data.farmerDTO : ""}
-                    getOptionLabel={(i) =>
-                      i ? `${i.farmerId} - ${i.firstName} ${i.lastName}` : " "
-                    }
-                    onChange={(event, value) => {
-                      onChange(value, "farmerDTO");
-                    }}
-                    fullWidth
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                    size="small"
-                    renderInput={(params) => (
-                      <>
-                        <TextField {...params} size="small" />
-                      </>
-                    )}
-                  />
-                </FormControl>
-              </FieldWrapper>
-            </Grid>
-
-            <Grid item sm={6} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>Address Line 01</FieldName>
-                <TextField
-                  name="address1"
-                  id="address1"
-                  value={data?.address1 || ""}
-                  disabled={
-                    action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
-                  }
-                  onChange={(e) => onChange(e?.target?.value || "", "address1")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={6} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>Address Line 02</FieldName>
-                <TextField
-                  name="address2"
-                  id="address2"
-                  value={data?.address2 || ""}
-                  disabled={
-                    action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
-                  }
-                  onChange={(e) => onChange(e?.target?.value || "", "address2")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FieldName>City</FieldName>
-                <TextField
-                  name="city"
-                  id="city"
-                  value={data?.city || ""}
-                  disabled={
-                    action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
-                  }
-                  onChange={(e) => onChange(e?.target?.value || "", "city")}
-                  size="small"
-                  fullWidth
-                  sx={{
-                    "& .MuiInputBase-root": {
-                      borderRadius: "8px",
-                      backgroundColor: `${Colors.white}`,
-                    },
-                  }}
-                />
-              </FieldWrapper>
-            </Grid>
-            <Grid item sm={4} md={4} lg={4}>
-              <FieldWrapper>
-                <FormControl fullWidth>
-                  <FieldName>GN Division</FieldName>
-                  <Autocomplete
-                    name="gnDivisionDTO"
-                    id="gnDivisionDTO"
+            {
+               data?.ownerType == "OTHER" ? null : (
+                <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FormControl fullWidth>
+                    <FieldName>Select Farmer</FieldName>
+                    <Autocomplete
+                      name="farmerDTO"
+                      id="farmerDTO"
+                      disabled={
+                        action === DEF_ACTIONS.VIEW || data?.ownerType == "OTHER"
+                      }
+                      disableClearable
+                      options={farmerList}
+                      value={data ? data.farmerDTO : ""}
+                      getOptionLabel={(i) =>
+                        `${i.farmerId} - ${i.firstName} ${" "}${i.lastName}`
+                      }
+                      onChange={(event, value) => {
+                        onChange(value, "farmerDTO");
+                      }}
+                      fullWidth
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <>
+                          <TextField {...params} size="small" />
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                </FieldWrapper>
+                </Grid>
+               )
+            }
+           
+            {
+              data?.ownerType == "FARMER" ? null : (
+                <Grid item sm={6} md={4} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Address Line 01</FieldName>
+                  <TextField
+                    name="address1"
+                    id="address1"
+                    value={data?.address1 || ""}
                     disabled={
                       action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
                     }
-                    options={gnDivisionList}
-                    value={data ? data.gnDivisionDTO : ""}
-                    getOptionLabel={(i) => i ? `${i.code} - ${i.name}` : " "}
-                    onChange={(event, value) => {
-                      onChange(value, "gnDivisionDTO");
-                    }}
-                    disableClearable
+                    onChange={(e) => onChange(e?.target?.value || "", "address1")}
+                    size="small"
                     fullWidth
                     sx={{
-                      "& .MuiOutlinedInput-root": {
+                      "& .MuiInputBase-root": {
                         borderRadius: "8px",
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
-                    size="small"
-                    renderInput={(params) => (
-                      <>
-                        <TextField {...params} size="small" />
-                      </>
-                    )}
                   />
-                </FormControl>
-              </FieldWrapper>
-            </Grid>
+                </FieldWrapper>
+              </Grid>
+              )
+            }
+           
+           {
+              data?.ownerType == "FARMER" ? null : (
+                <Grid item sm={6} md={4} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Address Line 02</FieldName>
+                  <TextField
+                    name="address2"
+                    id="address2"
+                    value={data?.address2 || ""}
+                    disabled={
+                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                    }
+                    onChange={(e) => onChange(e?.target?.value || "", "address2")}
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+                </Grid>
+              )
+           }
 
+           {
+              data?.ownerType == "FARMER" ? null : (
+                <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FieldName>City</FieldName>
+                  <TextField
+                    name="city"
+                    id="city"
+                    value={data?.city || ""}
+                    disabled={
+                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                    }
+                    onChange={(e) => onChange(e?.target?.value || "", "city")}
+                    size="small"
+                    fullWidth
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                        backgroundColor: `${Colors.white}`,
+                      },
+                    }}
+                  />
+                </FieldWrapper>
+                </Grid>
+              )
+           }
+            
+           {
+              data?.ownerType == "FARMER" ? null : (
+                <Grid item sm={4} md={4} lg={4}>
+                <FieldWrapper>
+                  <FormControl fullWidth>
+                    <FieldName>GN Division</FieldName>
+                    <Autocomplete
+                      name="gnDivisionDTO"
+                      id="gnDivisionDTO"
+                      disabled={
+                        action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                      }
+                      options={gnDivisionList}
+                      value={data ? data.gnDivisionDTO : ""}
+                      getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                      onChange={(event, value) => {
+                        onChange(value, "gnDivisionDTO");
+                      }}
+                      disableClearable
+                      fullWidth
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      size="small"
+                      renderInput={(params) => (
+                        <>
+                          <TextField {...params} size="small" />
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                </FieldWrapper>
+                </Grid>
+              )
+           }
+           
             <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Date From</FieldName>
