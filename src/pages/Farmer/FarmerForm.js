@@ -865,7 +865,7 @@ const FarmerForm = () => {
         <Grid item sm={4} md={4} lg={4} spacing={0}>
               <FieldWrapper>
                 <FieldName style={{}}>
-                  Are You Seed Farmer?
+                 Seed Farmer?
                 </FieldName>
                 <Switch
                   {...label}
