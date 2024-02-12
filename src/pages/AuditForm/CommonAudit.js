@@ -177,8 +177,6 @@ const CommonAudit = ({ auditFormType = "" }) => {
     }
   };
 
-  console.log(`form header : ${formHeader}`)
-
   return (
     <div>
       <ListHeader title={formHeader} />
