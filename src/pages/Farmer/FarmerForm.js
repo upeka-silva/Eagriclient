@@ -864,11 +864,10 @@ const FarmerForm = () => {
         </Grid>
         <Grid item sm={4} md={4} lg={4} spacing={0}>
               <FieldWrapper>
-                <FieldName style={{}}>
-                 Seed Farmer?
+                <FieldName >
+                 Seed Farmer
                 </FieldName>
                 <Switch
-                  {...label}
                   name="isSeedFarmer"
                   id="isSeedFarmer"
                   value={formData?.isSeedFarmer || ""}
@@ -876,6 +875,7 @@ const FarmerForm = () => {
                     handleChange(e?.target?.checked || "", "isSeedFarmer")
                   }
                   checked={formData?.isSeedFarmer}
+                  aria-label="Switch demo" 
                 />
               </FieldWrapper>
             </Grid>
