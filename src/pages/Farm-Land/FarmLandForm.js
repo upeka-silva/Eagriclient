@@ -644,7 +644,7 @@ const FarmLandForm = () => {
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName>Aria Unit</FieldName>
+                  <FieldName>Area Unit</FieldName>
                   <Select
                     name="landAreaUnit"
                     id="landAreaUnit"
