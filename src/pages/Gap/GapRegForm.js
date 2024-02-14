@@ -2710,7 +2710,7 @@ const GapRegForm = () => {
       />
       <DialogBox
         open={openDeleteCropDetail}
-        title="Delete Crop Detail   "
+        title="Delete Crop Detail"
         actions={
           <ActionWrapper>
             <Button

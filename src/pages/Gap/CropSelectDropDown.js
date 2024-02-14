@@ -28,10 +28,7 @@ const CropSelectDropDown = (props) => {
   } = props;
 
   const [cropCategories, setCropCategories] = useState([]);
-  // const [selectedCropCategory, setSelectedCropCategory] = useState("");
-
   const [cropSubCategories, setCropSubCategories] = useState([]);
-  // const [selectedCropSubCategory, setSelectedCropSubCategory] = useState("");
 
   const [crops, setCrops] = useState([]);
   const [selectedCrop, setSelectedCrop] = useState(null);

@@ -225,8 +225,6 @@ const DynamicFormPageFarmLand = () => {
                     color="success"
                     style={{ marginLeft: "10px" }}
                   >
-                    {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
-                    {/* <Add/> */}
                     Save
                   </Button>
                   <Button

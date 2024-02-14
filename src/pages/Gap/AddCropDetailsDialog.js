@@ -117,10 +117,10 @@ export default function AddCropDetailsDialog({
         refresh();
       } else {
         if (selectedCropCategory == ""){
-          onError("Crop Category Should be Required");
+          onError("Crop Category must have a value");
         }
         else if (selectedCropSubCategory == ""){
-          onError("Crop Sub Category Should be Required");
+          onError("Crop Sub Category must have a value");
         }
         else {
           await handleCropDetails(formDataQ, onSuccess, onError);
