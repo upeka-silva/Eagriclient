@@ -40,9 +40,13 @@ export default function AddCropDetailsDialog({
   const { addSnackBar } = useSnackBars();
   const [formDataQ, setFormDataQ] = useState({});
   const [saving, setSaving] = useState(false);
+  const [selectedCropCategory, setSelectedCropCategory] = useState("");
+  const [selectedCropSubCategory, setSelectedCropSubCategory] = useState("");
 
   useEffect(() => {
     setFormDataQ(formData);
+    setSelectedCropCategory("")
+    setSelectedCropSubCategory("")
     console.log(formData)
   }, [formData]);
 
@@ -93,6 +97,7 @@ export default function AddCropDetailsDialog({
           : "Successfully Updated",
     });
     setSaving(false);
+    handleClose()
   };
 
   const onError = (message) => {
@@ -111,13 +116,20 @@ export default function AddCropDetailsDialog({
         await updateCropDetails(formDataQ, onSuccess, onError);
         refresh();
       } else {
-        await handleCropDetails(formDataQ, onSuccess, onError);
-        refresh();
+        if (selectedCropCategory == ""){
+          onError("Crop Category Should be Required");
+        }
+        else if (selectedCropSubCategory == ""){
+          onError("Crop Sub Category Should be Required");
+        }
+        else {
+          await handleCropDetails(formDataQ, onSuccess, onError);
+          refresh();
+        }
       }
     } catch (error) {
       console.log(error);
     }
-    handleClose()
   };
 
   const resetData = () => {
@@ -201,6 +213,10 @@ export default function AddCropDetailsDialog({
             }}
           >
             <CropSelectDropDown
+              setSelectedCropCategory = {setSelectedCropCategory}
+              selectedCropCategory = {selectedCropCategory}
+              setSelectedCropSubCategory = {setSelectedCropSubCategory}
+              selectedCropSubCategory = {selectedCropSubCategory}
               selectedCropCallback={onSelectedCrop}
               selectedVarietyCallback={onSelectedCropVariety}
               mode={action}

@@ -35,9 +35,19 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   };
 
   const handleChange = (value, target) => {
-    setFormData((current = {}) => {
+    setFormData((current) => {
       let newData = { ...current };
-      newData[target] = value;
+      if (typeof value === "boolean") {
+        newData[target] = value; 
+      } else {
+        newData[target] = value || "";
+      }
+      formTemplate.questionDTOS.forEach((item) => {
+        const questionId = item.id;
+        if (!(newData[`question_${questionId}`] || false)) {
+          newData[`question_${questionId}`] = false;
+        }
+      });
       return newData;
     });
   };
@@ -350,11 +360,11 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
                     id={"question_" + item.id}
                     value={formData?.["question_" + item.id]}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
+                    checked={formData?.["question_" + item.id] === true || false}
                     onChange={(e) =>
                       handleChange(e?.target?.checked, "question_" + item.id)
                     }
-                    checked={formData?.["question_" + item.id] === true}
-                  />
+                    />
                 )}
                 {item.proofRequired === true && (
                   <FileUploadDynamic

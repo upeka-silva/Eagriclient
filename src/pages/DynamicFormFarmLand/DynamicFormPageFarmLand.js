@@ -214,28 +214,32 @@ const DynamicFormPageFarmLand = () => {
             </Button>
           ) : (
             <>
-              <Button
-                variant="outlined"
-                disabled={false}
-                onClick={handleFormSubmit}
-              
-                size="small"
-                color="success"
-                style={{ marginLeft: "10px" }}
-              >
-                {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
-                {/* <Add/> */}
-                Save
-              </Button>
-              <Button
-                onClick={resetForm}
-                color="success"
-                variant="contained"
-                size="small"
-                sx={{ marginLeft: "10px" }}
-              >
-                RESET
-              </Button>
+              {state?.action === DEF_ACTIONS.ADD ||
+                state?.action === DEF_ACTIONS.EDIT ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={false}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
+                    {/* <Add/> */}
+                    Save
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              ) : null}
             </>
           )}
         </ActionWrapper>
