@@ -32,7 +32,7 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
-import CropPestForm from "../pages/Crop/Crop/CropPestForm";
+import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
@@ -102,6 +102,8 @@ import {
   Settings,
   Plagiarism,
   TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -184,6 +186,8 @@ import TargetRegistration from "../pages/IndicativeTargets/Registration/target-r
 import TargetRegistrationForm from "../pages/IndicativeTargets/Registration/target-registration-from";
 import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
+import CropPest from "../pages/Crop/CropPest/CropPest";
+import CropDisease from "../pages/Crop/CropDisease/CropDisease";
 
 export const Routes = [
   {
@@ -848,14 +852,36 @@ export const Routes = [
         element: <CropDamageForm />,
       },
       {
+        path: "/crop-disease-form",
+        name: "Crop Disease Form",
+        isSideBar: false,
+        element: <CropDiseaseForm />,
+      },
+      {
+        path: "/crop-pest",
+        name: "Crop Pest",
+        isSideBar: true,
+        element: <CropPest />,
+        icon: BugReportRounded,
+        component: DEF_COMPONENTS.CROP_PEST,
+      },
+      {
         path: "/crop-pest-form",
         name: "Crop Pest Form",	
         isSideBar: false,
         element: <CropPestForm />,
       },
       {
+        path: "/crop-disease",
+        name: "Crop Disease",
+        isSideBar: true,
+        element: <CropDisease />,
+        icon: CoronavirusRounded,
+        component: DEF_COMPONENTS.CROP_DISEASE,
+      },
+      {
         path: "/crop-disease-form",
-        name: "Crop Disease Form",
+        name: "Crop Disease Form",	
         isSideBar: false,
         element: <CropDiseaseForm />,
       }

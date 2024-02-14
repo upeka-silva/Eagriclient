@@ -1,12 +1,12 @@
 import { put, post, api_delete, get } from "../../../../services/api";
 
-export const saveCropPest = async (
+export const saveCropDisease = async (
     payload = {},
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
   try {
-    const response = await post('crop/crop-pests' , payload, true);
+    const response = await post('crop/crop-diseases' , payload, true);
     console.log('response code ----> >' + response.httpCode);
     if (response.httpCode === "200 OK") {
       console.log(1);
@@ -39,14 +39,14 @@ export const saveCropPest = async (
   }
 };
 
-export const updateCropPest = async (
+export const updateCropDisease = async (
     id = '',
     payload = {},
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
   try {
-    const response = await put('crop/crop-pests/' + id, payload, true);
+    const response = await put('crop/crop-diseases/' + id, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess(response);
     } else {
@@ -74,13 +74,13 @@ export const updateCropPest = async (
   }
 };
 
-export const deleteCropPest = async (
+export const deleteCropDisease = async (
   id,
   onSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
-    const response = await api_delete(`crop/crop-pests/` + id, true);
+    const response = await api_delete(`crop/crop-diseases/` + id, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -108,13 +108,13 @@ export const deleteCropPest = async (
   } 
 };
 
-export const get_CropPestList = async (
+export const get_CropDiseaseList = async (
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "crop/crop-pests",
+      "crop/crop-diseases",
       true
     );
     if (httpCode === "200 OK") {

@@ -61,9 +61,9 @@ const CropForm = () => {
 
   const onCreate = (value) => {
     if(value === 1){
-      navigate("/crop/crop-pest-form", { state: {action: DEF_ACTIONS.ADD, cropId: formData.id } });
+      navigate("", { state: {action: DEF_ACTIONS.ADD, cropId: formData.id } });
     } else {
-      navigate("/crop/crop-disease-form", { state: {action: DEF_ACTIONS.ADD, formId: formData.id } });
+      navigate("", { state: {action: DEF_ACTIONS.ADD, formId: formData.id } });
     }
     
   };

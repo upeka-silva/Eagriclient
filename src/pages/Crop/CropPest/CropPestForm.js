@@ -1,8 +1,10 @@
+//my crop pest form
+
 import React, { useState, useEffect } from "react";
 import {
   TextField,
   Grid,
-  Button
+  Button,
 } from "@mui/material";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { Colors } from "../../../utils/constants/Colors";
@@ -16,14 +18,14 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
-import { saveCropDisease, updateCropDisease } from "../../../redux/actions/crop/CropDisease/action";
+import { saveCropPest, updateCropPest } from "../../../redux/actions/crop/CropPest/action";
 
-const CropDiseaseForm = () => {
-  
+const CropPestForm = () => {
+
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
@@ -32,9 +34,8 @@ const CropDiseaseForm = () => {
   const [form, setForm] = useState();
   const [toggleState, setToggleState] = useState(1);
 
-
   const goBack = () => {
-    navigate("/crop/crop-disease");
+    navigate("/crop/crop-pest");
   };
 
   const handleChange = (value, target) => {
@@ -93,28 +94,36 @@ const CropDiseaseForm = () => {
   };
 
   const handleFormSubmit = async () => {
+    
+    const saveData = {
+      formData: formData,
+    };
 
     if (enableSave()) {
       setSaving(true);
-
+  
       try {
         if (form && state?.action === DEF_ACTIONS.ADD) {
-          const response = await saveCropDisease(formData, onSuccess, onError);
+          const response = await saveCropPest(
+            formData,
+            onSuccess,
+            onError
+          );
           setFormData(response.payload);
           console.log(response);
         }
         if (form && state?.action === DEF_ACTIONS.EDIT) {
-          const response = await updateCropDisease(
-              {
-                ...formData,
-                id: response.payload?.id,
-              },
-              onSuccess,
-              onError
-            );
-          
-        }else {
-          const response = await saveCropDisease(
+          const response = await updateCropPest(
+            {
+              ...formData,
+              id: response.payload?.id,
+            },
+            onSuccess,
+            onError
+          );
+        }
+        else {
+          const response = await saveCropPest(
             {
               ...formData,
             },
@@ -130,10 +139,11 @@ const CropDiseaseForm = () => {
       }
     }
   };
+  
     
   return (
     <>
-    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Disease Form"  />
+    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Pest Form"  />
     <ButtonWrapper>
         <ActionWrapper>
           {saving ? (
@@ -179,14 +189,14 @@ const CropDiseaseForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Disease Name</FieldName>
+              <FieldName>Pest Name</FieldName>
               <TextField
-                name="diseaseName"
-                id="diseaseName"
-                value={formData?.diseaseName || ""}
+                name="pestName"
+                id="pestName"
+                value={formData?.pestName || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
-                  handleChange(e?.target?.value || "", "diseaseName")
+                  handleChange(e?.target?.value || "", "pestName")
                 }
                 size="small"
                 fullWidth
@@ -201,14 +211,14 @@ const CropDiseaseForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={5}>
           <FieldWrapper>
-              <FieldName>Disease Type</FieldName>
+              <FieldName>Scientific Name</FieldName>
               <TextField
-                name="type"
-                id="type"
-                value={formData?.type || ""}
+                name="scientificName"
+                id="scientificName"
+                value={formData?.scientificName || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
-                  handleChange(e?.target?.value || "", "type")
+                  handleChange(e?.target?.value || "", "scientificName")
                 }
                 size="small"
                 fullWidth
@@ -223,14 +233,14 @@ const CropDiseaseForm = () => {
             </Grid>
           <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
-              <FieldName>Causal Agent</FieldName>
+              <FieldName>Damage Symptom</FieldName>
               <TextField
-                name="causalAgent"
-                id="causalAgent"
-                value={formData?.causalAgent || ""}
+                name="damageSymptom"
+                id="damageSymptom"
+                value={formData?.damageSymptom || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
-                  handleChange(e?.target?.value || "", "causalAgent")
+                  handleChange(e?.target?.value || "", "damageSymptom")
                 }
                 size="small"
                 fullWidth
@@ -244,72 +254,6 @@ const CropDiseaseForm = () => {
             </FieldWrapper>
             </Grid>
           <Grid item sm={3} md={3} lg={5}>
-          <FieldWrapper>
-              <FieldName>Vector</FieldName>
-              <TextField
-                name="vector"
-                id="vector"
-                value={formData?.vector || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "vector")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={4}>
-          <FieldWrapper>
-              <FieldName>Affected Part</FieldName>
-              <TextField
-                name="affectedPart"
-                id="affectedPart"
-                value={formData?.affectedPart || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "affectedPart")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>Symptoms</FieldName>
-              <TextField
-                name="symptom"
-                id="symptom"
-                value={formData?.symptom || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "symptom")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
               <FieldName>Management</FieldName>
               <TextField
@@ -331,6 +275,94 @@ const CropDiseaseForm = () => {
               />
             </FieldWrapper>
             </Grid>
+          <Grid item sm={3} md={3} lg={4}>
+          <FieldWrapper>
+              <FieldName>In Store</FieldName>
+              <TextField
+                name="inStore"
+                id="inStore"
+                value={formData?.inStore || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "inStore")
+                }
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+            </Grid>
+          <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+              <FieldName>Chemical Control</FieldName>
+              <TextField
+                name="chemicalControl"
+                id="chemicalControl"
+                value={formData?.chemicalControl || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "chemicalControl")
+                }
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+            </Grid>
+          <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+              <FieldName>In Store Chemical Control</FieldName>
+              <TextField
+                name="inStoreChemicalControl"
+                id="inStoreChemicalControl"
+                value={formData?.inStoreChemicalControl || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "inStoreChemicalControl")
+                }
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+            </Grid>
+          <Grid item sm={3} md={3} lg={8}>
+          <FieldWrapper>
+              <FieldName>Other</FieldName>
+              <TextField
+                name="other"
+                id="other"
+                value={formData?.other || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "other")
+                }
+                size="small"
+                fullWidth
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  },
+                }}
+              />
+            </FieldWrapper>
+            </Grid>
         </Grid>
       {/* </Box> */}
     </>
@@ -339,4 +371,4 @@ const CropDiseaseForm = () => {
 
 }
 
-export default CropDiseaseForm;
+export default CropPestForm;
