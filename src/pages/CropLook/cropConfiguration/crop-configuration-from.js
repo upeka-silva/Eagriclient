@@ -41,6 +41,7 @@ import { createCropConfig } from "../../../redux/actions/cropLook/cropConfigurat
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 
+
 const CropConfigurationForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -64,6 +65,20 @@ const CropConfigurationForm = () => {
   ]);
 
   useEffect(() => {
+    get_CategoryList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+
+    if (
+      state?.action === DEF_ACTIONS.EDIT ||
+      state?.action === DEF_ACTIONS.VIEW
+    ) {
+      setFields(state?.target?.fields);
+    }
+  }, []);
+
+ 
+ useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
@@ -149,13 +164,17 @@ const CropConfigurationForm = () => {
     }
   };
 
-  const cropInputFieldsHandler = (index, value) => {
+  const cropInputFieldsHandler = (index, value, dataList) => {
     const updatedFields = [...fields];
-
     updatedFields[index] = value;
-    
+  
+    // Assuming you want to do something with dataList here
+    // For example, logging it:
+    console.log(dataList);
+  
     setFields(updatedFields);
   };
+  
 
   const addNewRow = () => {
     const newField = " ";
@@ -220,6 +239,7 @@ const CropConfigurationForm = () => {
             <FieldWrapper>
               <FieldName>Crop Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
+                
                 {fields
                   ? fields.map((field, index) => (
                       <>

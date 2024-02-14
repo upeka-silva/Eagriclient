@@ -11,6 +11,7 @@ import {
   TextField,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import Switch from "@mui/material/Switch";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React, { useEffect, useState } from "react";
@@ -35,6 +36,8 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Fonts } from "../../utils/constants/Fonts";
 import { Colors } from "../../utils/constants/Colors";
 import { getColorCode } from "../../utils/helpers/formMgtUtil";
+const label = { inputProps: { "aria-label": "Switch demo" } };
+
 
 export const farmerDto = {
   firstName: "",
@@ -859,6 +862,29 @@ const FarmerForm = () => {
             />
           </FieldWrapper>
         </Grid>
+        <Grid item sm={4} md={4} lg={4} spacing={0}>
+              <FieldWrapper>
+                <FieldName >
+                 Seed Farmer
+                </FieldName>
+                <Switch
+                  name="isSeedFarmer"
+                  id="isSeedFarmer"
+                  value={formData?.isSeedFarmer || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "isSeedFarmer")
+                  }
+                  checked={formData?.isSeedFarmer}
+                  aria-label="Switch demo" 
+                />
+              </FieldWrapper>
+            </Grid>
+
+        
+           
+            
+        
+        
       </Grid>
     </div>
   );
