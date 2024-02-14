@@ -152,7 +152,7 @@ export default function FarmLandOwnershipForm({
       >
         <FormWrapper>
           <FormHeader style={{ marginLeft: "15px" }}>
-            {action == DEF_ACTIONS.ADD ? "Add" : ""} Farm Land Ownership
+            {action === DEF_ACTIONS.ADD ? "Add" : ""} Farm Land Ownership
           </FormHeader>
 
           <ButtonWrapper
@@ -240,7 +240,7 @@ export default function FarmLandOwnershipForm({
             </Grid>
 
             {
-               data?.ownerType == "OTHER" ? null : (
+               data?.ownerType === "OTHER" ? null : (
                 <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FormControl fullWidth>
@@ -249,7 +249,7 @@ export default function FarmLandOwnershipForm({
                       name="farmerDTO"
                       id="farmerDTO"
                       disabled={
-                        action === DEF_ACTIONS.VIEW || data?.ownerType == "OTHER"
+                        action === DEF_ACTIONS.VIEW || data?.ownerType === "OTHER"
                       }
                       disableClearable
                       options={farmerList}
@@ -281,7 +281,7 @@ export default function FarmLandOwnershipForm({
             }
            
             {
-              data?.ownerType == "FARMER" ? null : (
+              data?.ownerType === "FARMER" ? null : (
                 <Grid item sm={6} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>Address Line 01</FieldName>
@@ -290,7 +290,7 @@ export default function FarmLandOwnershipForm({
                     id="address1"
                     value={data?.address1 || ""}
                     disabled={
-                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                      action === DEF_ACTIONS.VIEW || data?.ownerType === "FARMER"
                     }
                     onChange={(e) => onChange(e?.target?.value || "", "address1")}
                     size="small"
@@ -308,7 +308,7 @@ export default function FarmLandOwnershipForm({
             }
            
            {
-              data?.ownerType == "FARMER" ? null : (
+              data?.ownerType === "FARMER" ? null : (
                 <Grid item sm={6} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>Address Line 02</FieldName>
@@ -317,7 +317,7 @@ export default function FarmLandOwnershipForm({
                     id="address2"
                     value={data?.address2 || ""}
                     disabled={
-                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                      action === DEF_ACTIONS.VIEW || data?.ownerType === "FARMER"
                     }
                     onChange={(e) => onChange(e?.target?.value || "", "address2")}
                     size="small"
@@ -335,7 +335,7 @@ export default function FarmLandOwnershipForm({
            }
 
            {
-              data?.ownerType == "FARMER" ? null : (
+              data?.ownerType === "FARMER" ? null : (
                 <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FieldName>City</FieldName>
@@ -344,7 +344,7 @@ export default function FarmLandOwnershipForm({
                     id="city"
                     value={data?.city || ""}
                     disabled={
-                      action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                      action === DEF_ACTIONS.VIEW || data?.ownerType === "FARMER"
                     }
                     onChange={(e) => onChange(e?.target?.value || "", "city")}
                     size="small"
@@ -362,7 +362,7 @@ export default function FarmLandOwnershipForm({
            }
             
            {
-              data?.ownerType == "FARMER" ? null : (
+              data?.ownerType === "FARMER" ? null : (
                 <Grid item sm={4} md={4} lg={4}>
                 <FieldWrapper>
                   <FormControl fullWidth>
@@ -371,7 +371,7 @@ export default function FarmLandOwnershipForm({
                       name="gnDivisionDTO"
                       id="gnDivisionDTO"
                       disabled={
-                        action === DEF_ACTIONS.VIEW || data?.ownerType == "FARMER"
+                        action === DEF_ACTIONS.VIEW || data?.ownerType === "FARMER"
                       }
                       options={gnDivisionList}
                       value={data ? data.gnDivisionDTO : ""}

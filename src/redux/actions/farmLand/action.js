@@ -113,7 +113,7 @@ export const updateFarmLand = async (
   try {
     const response = await put(`farm-land/${payload?.id || ""}`, payload, true);
     if (response.httpCode === "200 OK") {
-      onSuccess();
+      onSuccess(response);
     } else {
       const exception = {
         error: {
