@@ -11,7 +11,10 @@ const SoilSubTypeList = ({
   const columns = [
     { field: "soilSubTypeCode", headerName: "Code" },
     { field: "description", headerName: "Description" },
-    { field: "soilTypeDTO.soilTypeCode", headerName: "Soil Type Code" },
+    {
+      field: ["soilTypeDTO.soilTypeCode", "soilTypeDTO.description"],
+      headerName: "Soil Type Code",
+    },
   ];
 
   return (
