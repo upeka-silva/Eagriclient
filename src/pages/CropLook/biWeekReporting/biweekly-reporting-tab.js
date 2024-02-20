@@ -12,6 +12,8 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
 import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import { getDbFieldName } from "../../../utils/appUtils";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -68,13 +70,18 @@ const BiWeeklyReportingTab = ({
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
 
-    const existingTotal =
-      updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
-        "totalExtent"
-      ];
+    // Calculate total target
+    let total = 0;
+    if(configFields.length > 0) {
+      let target = updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
+      configFields.forEach(field => {
+        total += parseFloat(target[getDbFieldName(field)] ? target[getDbFieldName(field)] : 0);
+      });
+    }
+
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
       "totalExtent"
-    ] = parseFloat(existingTotal ? existingTotal : 0) + parseFloat(value);
+    ] = total;
 
     setCropTargets(updatedVarietyTargets);
   };

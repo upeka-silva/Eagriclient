@@ -212,7 +212,7 @@ const CropLookSeason = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -221,7 +221,7 @@ const CropLookSeason = () => {
           </PermissionWrapper>
           {selectAgriSeason.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -231,7 +231,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -241,7 +241,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -251,7 +251,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "ENABLED" && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={() => onChangeStatus("ENABLED")}>
                 <Delete />
@@ -261,7 +261,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "CLOSED" && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={() => onChangeStatus("CLOSED")}>
                 <Delete />
@@ -273,7 +273,7 @@ const CropLookSeason = () => {
       </ActionWrapper>
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
       >
         {loading === false && (
           <CropLookSeasonList

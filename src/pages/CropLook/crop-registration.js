@@ -165,7 +165,7 @@ const CropRegistration = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_REGISTRATION}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -174,7 +174,7 @@ const CropRegistration = () => {
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_REGISTRATION}`}
             >
               <Button
                 variant="outlined"
@@ -189,7 +189,7 @@ const CropRegistration = () => {
           )}
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_REGISTRATION}`}
             >
               <Button
                 variant="outlined"
@@ -204,7 +204,7 @@ const CropRegistration = () => {
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_REGISTRATION}`}
             >
               <Button
                 variant="outlined"
@@ -220,7 +220,7 @@ const CropRegistration = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_REGISTRATION}`}
       >
         {loading === false && (
           <CropRegistrationList
