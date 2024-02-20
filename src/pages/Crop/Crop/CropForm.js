@@ -304,7 +304,7 @@ const CropForm = () => {
                   <Autocomplete
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={subOptions}
-                    value={formData ? formData.cropSubCategoryDTO : ""}
+                    value={formData ?.cropSubCategoryDTO || null}
                     getOptionLabel={(i) =>
                       `${i.subCategoryId} - ${i.description}`
                     }
