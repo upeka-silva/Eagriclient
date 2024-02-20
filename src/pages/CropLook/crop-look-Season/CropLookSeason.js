@@ -173,7 +173,7 @@ const CropLookSeason = () => {
     try {
       setLoading(true);
       for (const agriSeason of selectAgriSeason) {
-        await deleteCropLookSeason(agriSeason?.id, onSuccess, onError);
+        await deleteCropLookSeason(agriSeason?.id, onSuccess);
       }
       setLoading(false);
       close();
@@ -339,11 +339,7 @@ const CropLookSeason = () => {
           </ActionWrapper>
         }
       >
-        <>
-          Do you want change status to {seasonStatus}
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
+       
       </DialogBox>
     </div>
   );

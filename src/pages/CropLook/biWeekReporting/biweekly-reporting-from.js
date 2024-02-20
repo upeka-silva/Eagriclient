@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { TextField, Autocomplete, Grid, Button } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
@@ -59,6 +61,8 @@ const BiWeeklyReportingForm = () => {
   const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toggleState, setToggleState] = useState(1);
+  const [openConfApprove, setOpenConfApprove] = useState(false);
+ 
 
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
@@ -91,6 +95,7 @@ const BiWeeklyReportingForm = () => {
       setCropCategoryTarget(state?.target?.biWeekCropCategoryReport);
     }
   }, []);
+
 
   useEffect(() => {
     if (biWeekReportId) {
@@ -255,7 +260,7 @@ const BiWeeklyReportingForm = () => {
                   <Button
                     variant="outlined"
                     color="success"
-                    onClick={approveBiWeekReport}
+                    onClick={() => setOpenConfApprove(true)}
                     sx={{ ml: "8px" }}
                     size="small"
                   >
@@ -381,6 +386,36 @@ const BiWeeklyReportingForm = () => {
                 </TabContent>
               ))}
           </Grid>
+          <DialogBox
+        open={openConfApprove}
+        title="Approve Bi Weekly Report"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={approveBiWeekReport}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setOpenConfApprove(false)}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+            </ActionWrapper>
+        }
+      >
+        <>
+        Do you want to approve?
+        
+       </>
+      </DialogBox>
+          
         </Grid>
       </FormWrapper>
     </div>

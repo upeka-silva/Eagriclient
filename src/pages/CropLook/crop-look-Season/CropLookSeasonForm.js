@@ -92,22 +92,24 @@ const CropLookSeasonForm = () => {
     } else {
       setFormData({});
     }
+    setSelectedAgriSeason(null); 
   };
+  
+  
 
   const enableSave = () => {
-    if (state?.action === DEF_ACTIONS.EDIT) {
+  if (state?.action === DEF_ACTIONS.EDIT) {
       if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
         return true;
       }
     }
-    if (
-      state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
-    ) {
+    if (state?.action === DEF_ACTIONS.ADD && formData?.code && formData.code.trim() !== '') {
       return true;
     }
-    return false;
+     return false;
   };
+  
+  
 
   const onSuccess = () => {
     addSnackBar({
