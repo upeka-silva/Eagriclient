@@ -1237,7 +1237,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropTarget />,
         icon: Moving,
-        component: DEF_COMPONENTS.CROP_TARGET,
+        component: DEF_COMPONENTS.TARGET_SEASONAL_REGION,
       },
       {
         path: "/crop-target-form",
