@@ -245,7 +245,7 @@ const CropRegistration = () => {
             >
               <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
                 <CheckRounded />
-                ok
+                Ok
               </Button>
               <Button color="error" onClick={close} sx={{ ml: "8px" }}>
                 <CancelOutlined />
@@ -255,10 +255,6 @@ const CropRegistration = () => {
           </ActionWrapper>
         }
       >
-        {/* <>
-          <Divider sx={{ mt: "8px" }} />
-          {renderSelectedItems()}
-        </> */}
       </DialogBox>
     </div>
   );
