@@ -136,6 +136,8 @@ const CropRegistrationForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setSelectedSeason({});
+      setSelectedDDDivision({});
     }
   };
 
@@ -248,7 +250,7 @@ const CropRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => `${i.name}`}
+                getOptionLabel={(i) => i.name!==undefined ?`${i.name}`:""}
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}
@@ -272,7 +274,7 @@ const CropRegistrationForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => `${i.code}`}
+                getOptionLabel={(i) => i.code !==undefined ? `${i.code}`:""}
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
