@@ -200,7 +200,7 @@ const CropVariety = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Crop Variety)"
+        title="Delete Crop Variety"
         actions={
           <ActionWrapper>
             <Button
@@ -209,7 +209,7 @@ const CropVariety = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -217,16 +217,11 @@ const CropVariety = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
       </DialogBox>
     </div>
   );
