@@ -397,7 +397,7 @@ const BiWeeklyReportingForm = () => {
               onClick={approveBiWeekReport}
               sx={{ ml: "8px" }}
             >
-              Confirm
+             OK
             </Button>
             <Button
               variant="contained"
@@ -405,7 +405,7 @@ const BiWeeklyReportingForm = () => {
               onClick={() => setOpenConfApprove(false)}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
             </ActionWrapper>
         }
