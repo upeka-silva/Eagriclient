@@ -2,6 +2,7 @@ import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const CropDiseaseList = ({
+  url,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -18,7 +19,7 @@ const CropDiseaseList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"crop/crop-diseases"}
+        dataEndPoint={url}
         columns={columns}
         selectable
         selectedRows={selectedRows}

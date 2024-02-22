@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Button,
@@ -26,7 +26,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropPestList from "./CropPestList";
-import { deleteCropPest } from "../../../redux/actions/crop/CropPest/action";
+import { deleteCropPest, get_CropPestList } from "../../../redux/actions/crop/CropPest/action";
 
 const CropPest = () => {
   useUserAccessValidation();
@@ -38,6 +38,7 @@ const CropPest = () => {
 
   const [selectCropPest, setSelectCropPest] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const url = `crop/crop-pests`;
 
   const toggleCropPestSelect = (component) => {
     setSelectCropPest((current = []) => {
@@ -201,6 +202,7 @@ const CropPest = () => {
       >
         {loading === false && (
           <CropPestList
+            url={url}
             selectedRows={selectCropPest}
             onRowSelect={toggleCropPestSelect}
             selectAll={selectAllCropPest}

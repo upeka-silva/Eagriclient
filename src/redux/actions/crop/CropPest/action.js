@@ -1,4 +1,5 @@
 import { put, post, api_delete, get } from "../../../../services/api";
+import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const saveCropPest = async (
     payload = {},
@@ -118,9 +119,7 @@ export const get_CropPestList = async (
       true
     );
     if (httpCode === "200 OK") {
-      return {
-        dataList: payloadDto,
-      };
+      return payloadDto;
     }
     return {
       dataList: [],
@@ -131,4 +130,95 @@ export const get_CropPestList = async (
       dataList: [],
     };
   }
+};
+
+export const assignCropPest = async (
+  cropId,
+  formDataD =[],
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`geo-data/crops/${cropId || ''}/pests`, formDataD['cropPest'], true);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+      return response.payload;
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const getPestsByCropId = async (
+  cropId = null,
+) => {
+try {
+  const {httpCode, payloadDto} = await get("crop/crop-pests/" + cropId + '/pests', true);
+  if (httpCode === '200 OK') {
+    return {
+      data: payloadDto
+    }
+  }
+  return {
+    data: {}
+  }
+} catch (error) {
+  console.log(error)
+  return {
+    data: {}
+  }
+}
+};
+
+export const deletePestFromCrop = async (
+  cropId,
+  id,
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+  try {
+    const response = await api_delete(`crop/crop-pests/` + cropId + `/crop-pests/` + id, true);
+    console.log(response)
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message:
+                response?.message || "Something went wrong! Please try again.",
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || "Something went wrong! Please try again.");
+    } else {
+      onError(error);
+    }
+  } 
 };

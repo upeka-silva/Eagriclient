@@ -38,6 +38,7 @@ const CropDisease = () => {
 
   const [selectCropDisease, setSelectCropDisease] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const url = `crop/crop-diseases`;
 
   const toggleCropDiseaseSelect = (component) => {
     setSelectCropDisease((current = []) => {
@@ -201,6 +202,7 @@ const CropDisease = () => {
       >
         {loading === false && (
           <CropDiseaseList
+            url={url}
             selectedRows={selectCropDisease}
             onRowSelect={toggleCropDiseaseSelect}
             selectAll={selectAllCropDisease}

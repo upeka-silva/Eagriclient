@@ -1,8 +1,11 @@
+import { useEffect } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const CropPestList = ({
+  url,
   selectedRows = [],
+  cropId = null,
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
@@ -18,7 +21,7 @@ const CropPestList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"crop/crop-pests"}
+        dataEndPoint={url}
         columns={columns}
         selectable
         selectedRows={selectedRows}

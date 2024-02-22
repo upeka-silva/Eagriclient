@@ -11,6 +11,7 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import styled from "styled-components";
 import { Colors } from "../../../utils/constants/Colors";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -31,7 +32,19 @@ import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup
 import { PhotoCamera } from "@mui/icons-material";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-const CropForm = () => {
+import CropPestList from "../CropPest/CropPestList";
+import CropDiseaseList from "../CropDisease/CropDiseaseList";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import AddCropPestDialog from "../CropPest/AddCropPestDialog";
+import AddCropDiseaseDialog from "../CropDisease/AddCropDiseaseDialog";
+import { assignCropPest, deletePestFromCrop } from "../../../redux/actions/crop/CropPest/action";
+import { assignCropDisease, deleteDiseaseFromCrop } from "../../../redux/actions/crop/CropDisease/action";
+const CropForm = ({
+  dataList = [],
+  onFormSaveSuccess = false,
+  formId = null,
+  formMode = null,
+}) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -50,26 +63,153 @@ const CropForm = () => {
   const [form, setForm] = useState();
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
+  const [selectCropPest, setSelectCropPest] = useState([]);
+  const [selectCropDisease, setSelectCropDisease] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [openCropPestAddDialog, setOpenCropPestAddDialog] = useState(false);
+  const [dialogMode, setDialogMode] = useState(null);
+  const [openCropDiseaseAddDialog, setOpenCropDiseaseAddDialog] = useState(false);
+  const [isDataFetch, setIsDataFetch] = useState(true);
+  const [deleteItem, setDeleteItem] = useState(null);
+  const [cropId, setCropId] = useState(null);
+  const [pestUrl, setPestUrl] = useState(null);
+  const [diseaseUrl, setDiseaseUrl] = useState(null);
 
-  // console.log("id", formData.id);
-
-  // cropId = formData.id;
+  useEffect(() => {
+    const cropId = formData.id;
+    setPestUrl(`crop/crop-pests/${cropId}/pests`);
+    setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
+  })
 
   const goBack = () => {
     navigate("/crop/crop");
   };
 
-  const onCreate = (value) => {
-    if(value === 1){
-      navigate("", { state: {action: DEF_ACTIONS.ADD, cropId: formData.id } });
-    } else {
-      navigate("", { state: {action: DEF_ACTIONS.ADD, formId: formData.id } });
-    }
-    
+  const handleCropPestDelete = (prop) => (event) => {
+    setDeleteItem(prop);
+    setOpen(true);
   };
 
   const toggleTab = (index) => {
     setToggleState(index);
+  };
+
+  const onAddPest = () => {
+    setCropId(formData.id);
+    setFormData({});
+    setDialogMode(DEF_ACTIONS.ADD);
+    setOpenCropPestAddDialog(true);
+    setIsDataFetch(false);
+    setPestUrl(`crop/crop-pests/${cropId}/pests`);
+  };
+
+  const onAddDisease = () => {
+    setCropId(formData.id);
+    setFormData({});
+    setDialogMode(DEF_ACTIONS.ADD);
+    setOpenCropDiseaseAddDialog(true);
+    setIsDataFetch(false);
+    setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
+  };
+
+  const toggleCropPestSelect = (component) => {
+    setSelectCropPest((current = []) => {
+      let newList = [...current];
+      let index = newList.findIndex((c) => c?.id === component?.id);
+      if (index > -1) {
+        newList.splice(index, 1);
+      } else {
+        newList.push(component);
+      }
+      return newList;
+    });
+  };
+
+  const handleCropPestAdd = async (event, formDataD, functionMode, onSuccess, onError) => {
+    try {
+      await assignCropPest(cropId, formDataD, onSuccess, onError);
+      setOpenCropPestAddDialog(false);
+  } catch (error) {
+    console.log(error);
+  }
+  };
+
+  const handleCropDiseaseAdd = async (event, formDataD, functionMode) => {
+    try {
+      await assignCropDisease(cropId, formDataD);
+      setOpenCropDiseaseAddDialog(false);
+  } catch (error) {
+    console.log(error);
+  }
+  console.log("form data is: ", formDataD['cropPest']);
+  };
+  
+  const toggleCropDiseaseSelect = (component) => {
+    setSelectCropDisease((current = []) => {
+      let newList = [...current];
+      let index = newList.findIndex((c) => c?.id === component?.id);
+      if (index > -1) {
+        newList.splice(index, 1);
+      } else {
+        newList.push(component);
+      }
+      return newList;
+    });
+  };
+
+  const selectAllCropPest = (all = []) => {
+    setSelectCropPest(all);
+  };
+
+  const selectAllCropDisease = (all = []) => {
+    setSelectCropDisease(all);
+  };
+
+  const close = () => {
+    setOpen(false);
+  };
+
+  const onDelete = () => {
+    setCropId(formData.id);
+    setOpen(true);
+  };
+  
+  const onConfirm = async () => {
+    if (toggleState === 1){
+      try {
+        setLoading(true);
+        for (const cropPest of selectCropPest) {
+          await deletePestFromCrop(cropId, cropPest?.id,  onSuccess, onError);
+        }
+        setLoading(false);
+        close();
+        resetSelectedCropPest();
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }} else {
+        try {
+          setLoading(true);
+          for (const cropDisease of selectCropDisease) {
+            await deleteDiseaseFromCrop(cropId, cropDisease?.id,  onSuccess, onError);
+          }
+          setLoading(false);
+          close();
+          resetSelectedCropDisease();
+        } catch (error) {
+          console.log(error);
+          setLoading(false);
+        }
+      }
+  };
+
+  const resetSelectedCropPest = () => {
+    setSelectCropPest([]);
+  };
+
+  const resetSelectedCropDisease = () => {
+    setSelectCropDisease([]);
   };
 
   useEffect(() => {
@@ -101,6 +241,16 @@ const CropForm = () => {
       setForm(null);
       setSelectedImage(null)
     }
+  };
+
+  const closeCropPestAddDialog = () => {
+    setFormData({});
+    setOpenCropPestAddDialog(false);
+  };
+  
+  const closeCropDiseaseAddDialog = () => {
+    setFormData({});
+    setOpenCropDiseaseAddDialog(false);
   };
 
   const enableSave = () => {
@@ -471,54 +621,149 @@ const CropForm = () => {
               
             </Grid>
           </Grid>
-          <Grid>
-            
-          <TabWrapper>
-            
-            <TabButton
-              variant="contained"
-              className={toggleState === 1 ? "active-tabs" : ""}
-              onClick={() => toggleTab(1)}
-              disabled={!tabEnabled}
-            >
-              Pest
-            </TabButton>
-            <TabButton
-              variant="contained"
-              className={toggleState === 2 ? "active-tabs" : ""}
-              onClick={() => toggleTab(2)}
-              disabled={!tabEnabled}
-            >
-              Disease
-            </TabButton>
-            
-          </TabWrapper>
-          <TabContent className={toggleState === 1 ? "active-content" : ""}>
-            <Box>
-              <Grid container>
-                <Grid item sm={8} md={8} lg={8}>
-                  <Button onClick={() =>onCreate(1)}>
-                    <Add />
-                    {DEF_ACTIONS.ADD}
-                  </Button>
-                  {/* <CropPestList /> */}
+          <Grid width={"100%"}>            
+            <TabWrapper>
+                            
+              <TabButton
+                variant="contained"
+                className={toggleState === 1 ? "active-tabs" : ""}
+                onClick={() => toggleTab(1)}
+                disabled={!tabEnabled}
+              >
+                Pest
+              </TabButton>
+              <TabButton
+                variant="contained"
+                className={toggleState === 2 ? "active-tabs" : ""}
+                onClick={() => toggleTab(2)}
+                disabled={!tabEnabled}
+              >
+                Disease
+              </TabButton>
+                            
+            </TabWrapper>
+            <TabContent className={toggleState === 1 ? "active-content" : ""}>
+              <Box>
+                <Grid container>
+                  <Grid item sm={8} md={8} lg={12}>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-          </TabContent>
-          <TabContent className={toggleState === 2 ? "active-content" : ""}>
-            <Box>
-              <Grid container>
-                <Grid item sm={8} md={8} lg={8}>
-                  <Button onClick={() => onCreate(2)}>
-                    <Add />
-                    {DEF_ACTIONS.ADD}
-                  </Button>
+              </Box>
+            </TabContent>
+            <TabContent className={toggleState === 2 ? "active-content" : ""}>
+              <Box>
+                <Grid container>
+                  <Grid item sm={8} md={8} lg={12}>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Box>
-          </TabContent>
+              </Box>
+            </TabContent>
 
+            <TabContent className={toggleState === 1 ? "active-content" : ""}>
+              <ActionWrapper isLeft>
+                <ButtonGroup
+                  variant="outlined"
+                  disableElevation
+                  size="small"
+                  aria-label="action button group"
+                  color="success"
+                  >
+                  <Button onClick={onAddPest}>
+                    <Add />
+                    {DEF_ACTIONS.ADD}
+                  </Button>
+                  <AddCropPestDialog
+                    open={openCropPestAddDialog}
+                    setConfirmDialog={setOpenCropPestAddDialog}
+                    confirmAction={handleCropPestAdd}
+                    handleClose={closeCropPestAddDialog}
+                    formId={formData?.id}
+                    formData={formData}
+                    mode={dialogMode}
+                    cropId={cropId}
+                  />
+                  {selectCropPest.length > 0 && (
+                    <Button onClick={onDelete}>
+                      <Delete />
+                      {DEF_ACTIONS.DELETE}
+                    </Button>
+                  )}
+                </ButtonGroup>
+              </ActionWrapper>
+              <CropPestList
+                url={pestUrl}
+                onRowSelect={toggleCropPestSelect}
+                selectedRows={selectCropPest}
+                selectAll={selectAllCropPest}
+                unSelectAll={resetSelectedCropPest}
+                onDelete={handleCropPestDelete}
+                cropId={cropId}
+              />
+            </TabContent>
+            <TabContent className={toggleState === 2 ? "active-content" : ""}>
+              <ActionWrapper isLeft>
+                <ButtonGroup
+                  variant="outlined"
+                  disableElevation
+                  size="small"
+                  aria-label="action button group"
+                  color="success"
+                  >
+                  <Button onClick={onAddDisease}>
+                    <Add />
+                    {DEF_ACTIONS.ADD}
+                  </Button>                  
+                  <AddCropDiseaseDialog
+                    open={openCropDiseaseAddDialog}
+                    setConfirmDialog={setOpenCropDiseaseAddDialog}
+                    confirmAction={handleCropDiseaseAdd}
+                    handleClose={closeCropDiseaseAddDialog}
+                    formId={formData?.id}
+                    formData={formData}
+                    mode={dialogMode}
+                    cropId={cropId}
+                  />
+                  {selectCropDisease.length > 0 && (
+                    <Button onClick={onDelete}>
+                      <Delete />
+                      {DEF_ACTIONS.DELETE}
+                    </Button>
+                  )}
+                </ButtonGroup>
+              </ActionWrapper>
+              <CropDiseaseList
+                url={diseaseUrl}
+                onRowSelect={toggleCropDiseaseSelect}
+                selectedRows={selectCropDisease}
+                selectAll={selectAllCropDisease}
+                unSelectAll={resetSelectedCropDisease}
+              />
+            </TabContent>
+            <DialogBox
+              open={open}
+              title="Delete Crop Disease"
+              actions={
+                <ActionWrapper>
+                  <Button
+                    variant="contained"
+                    color="info"
+                    onClick={onConfirm}
+                    sx={{ ml: "8px" }}
+                  >
+                    Confirm
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={close}
+                    sx={{ ml: "8px" }}
+                  >
+                    Close
+                  </Button>
+                </ActionWrapper>
+              }
+              >
+            </DialogBox>
           </Grid>
         </Grid>
       </FormWrapper>
