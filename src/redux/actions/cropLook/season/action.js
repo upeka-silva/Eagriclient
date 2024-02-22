@@ -65,7 +65,7 @@ export const deleteCropLookSeason = async (
     const response = await api_delete(`crop-look/seasons/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
-      onSuccess();
+      onDeleteSuccess();
     } else {
       const exception = {
         error: {
