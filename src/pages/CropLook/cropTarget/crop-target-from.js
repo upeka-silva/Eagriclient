@@ -127,6 +127,8 @@ const CropTargetForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setSelectedSeason({});
+      setSelectedAiRegion({});
     }
   };
 
@@ -221,7 +223,8 @@ const CropTargetForm = () => {
                 }
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) => `${i.code || i.regionId} - ${i.description}`}
+                getOptionLabel={(i) =>(i.code !== undefined || i.regionId !== undefined) && i.description !== undefined ?
+                   `${i.code || i.regionId} - ${i.description}` :""}
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
@@ -245,7 +248,7 @@ const CropTargetForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => `${i.code}`}
+                getOptionLabel={(i) =>i.code !== undefined ? `${i.code}`: ""}
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
