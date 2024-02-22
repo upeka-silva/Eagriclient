@@ -215,7 +215,7 @@ export const getRandomAuditId = async (
   onError = (_message) => { }
 ) => {
 try {
-  const { httpCode, payload } = await get(`gap-request/${gapId}/${uri}/random-id/${gapId}`, true);
+  const { httpCode, payload } = await get(`gap-request/${gapId}/${uri}/next-audit-id/${gapId}`, true);
   if (httpCode === '200 OK') {
     return payload;
   }
