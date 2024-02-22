@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getFormTemplateByType, getFormTemplatesByGapReqId, saveGapDataWithValues, updateGapDataWithValues } from "../../redux/actions/auditForm/action";
+import { getFormTemplateByType, getFormTemplatesByGapReqId, getRandomAuditId, saveGapDataWithValues, updateGapDataWithValues } from "../../redux/actions/auditForm/action";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { Box, Button, Checkbox, Grid, TextField } from "@mui/material";
@@ -24,6 +24,8 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   const [formTemplate, setFormTemplate] = useState({});
   const [newSavedId, setNewSavedId] = useState(null);
   const [fileUploadResponse, setFileUploadResponse] = useState({});
+  const [auditId, setAuditId] = useState('');
+  const [isRandom, setIsRandom] = useState(true);
 
   const { addSnackBar } = useSnackBars();
 
@@ -35,6 +37,9 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   };
 
   const handleChange = (value, target) => {
+    if (target === "auditId"){
+      setIsRandom(false)
+    }
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -75,6 +80,10 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     });
   }, []);
 
+  useEffect(() => {
+    randomIdGenerator();
+  },[state?.auditFormType])
+
   const populateAttributes = () => {
     if (state?.auditFormType === "SELF_ASSESSMENT") {
       uriPath = "self-assessments";
@@ -91,6 +100,12 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     }
   };
 
+  const randomIdGenerator = async () => {
+    populateAttributes();
+    const generatedId = await getRandomAuditId(state.formId,uriPath); 
+    setAuditId(generatedId)   
+  }
+
   const afterFileUploadSave = async (qid, fileData) => {};
 
   const handleFormSubmit = async () => {
@@ -102,11 +117,11 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
         console.log( uriPath);
         const saveData = {
           templateId: formTemplate.id,
+          auditId: formData?.auditId || auditId,
           gapRequestDto: {
             id: state.formId, // TODO
           },
         };
-
         setSaving(true);
         try {
           //Get Audits for check Availablility
@@ -196,7 +211,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     const updateData = {
       id: id,
       templateId: formTemplate.id,
-      auditId: formData.auditId,
+      auditId: formData?.auditId || auditId,
       gapRequestDto: {
         id: state.formId,
       },
@@ -296,7 +311,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
               <TextField
                 name="auditId"
                 id="auditId"
-                value={formData?.auditId || ""}
+                value={isRandom ? auditId : formData?.auditId}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "auditId")

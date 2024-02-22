@@ -617,10 +617,10 @@ const GapRegForm = () => {
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
                         {  
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE"
+                        (role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED") ||
+                        (role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD") ||
+                        (role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
+                        (role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                         ? null :
                         (<Button
                           variant="contained"
@@ -678,9 +678,9 @@ const GapRegForm = () => {
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
                       {
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
+                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
                         // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
                          ? null : (
                         <Button
@@ -702,8 +702,8 @@ const GapRegForm = () => {
                     >
                       {
 
-                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
-                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
+                      (role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE") || 
+                      (role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE") ? 
                       (<Button
                         onClick={() => {
                           generateCertificate();
@@ -990,7 +990,7 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id == "" || !certificatePermission?.isEnabled}
+          disabled={formData?.id === "" || !certificatePermission?.isEnabled}
         >
           Certificate
         </TabButton>
