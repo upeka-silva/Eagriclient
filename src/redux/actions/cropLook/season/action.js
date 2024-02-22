@@ -58,7 +58,7 @@ export const getAgriSeasons = async () => {
 
 export const deleteCropLookSeason = async (
   id,
-  onSuccess = () => { },
+  onDeleteSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {

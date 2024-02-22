@@ -27,6 +27,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CropLookSeasonList from "./CropLookSeasonList";
 import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -142,9 +143,17 @@ const CropLookSeason = () => {
     );
   };
 
+  const onDeleteSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
   const onSuccess = (operationType) => {
     let message = "";
     let formattedType = operationType.trim().toUpperCase();
+    console.log("")
     switch(formattedType){
        case "ENABLED":
          message = "Successfully enabled";
@@ -153,19 +162,17 @@ const CropLookSeason = () => {
          message = "Successfully closed";
          break;
     }
+    console.log("2")
     addSnackBar({
        type: SnackBarTypes.success,
        message: message,
     });
    };
    
-   
-   
-
-  const onError = (message) => {
+   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
@@ -173,7 +180,7 @@ const CropLookSeason = () => {
     try {
       setLoading(true);
       for (const agriSeason of selectAgriSeason) {
-        await deleteCropLookSeason(agriSeason?.id, onSuccess);
+        await deleteCropLookSeason(agriSeason?.id, onDeleteSuccess, onError);
       }
       setLoading(false);
       close();
