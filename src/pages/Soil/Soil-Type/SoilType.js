@@ -212,7 +212,7 @@ const SoilType = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Type"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -221,7 +221,7 @@ const SoilType = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+             OK
             </Button>
             <Button
               variant="contained"
@@ -229,14 +229,14 @@ const SoilType = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+             Cancel
             </Button>
           </ActionWrapper>
         }
       >
         <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
+          
+          <Divider sx={{ mt: "6px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

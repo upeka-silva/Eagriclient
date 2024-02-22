@@ -78,7 +78,12 @@ const DynamicFormPageFarmLand = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      var ansListData = {assessmentId: state?.data?.assessmentId,id :  state?.data?.id };
+      for(const ans of state?.data?.answerList) {
+        const questionId = ans?.question?.id;
+        ansListData['question_' + questionId] = ans?.answer;
+      }
+      setFormData(ansListData || {});
     } else {
       setFormData({});
     }
@@ -225,7 +230,7 @@ const DynamicFormPageFarmLand = () => {
                     color="success"
                     style={{ marginLeft: "10px" }}
                   >
-                    Save
+                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
                   <Button
                     onClick={resetForm}

@@ -164,7 +164,7 @@ const BiWeeklyReporting = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -173,7 +173,7 @@ const BiWeeklyReporting = () => {
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -188,7 +188,7 @@ const BiWeeklyReporting = () => {
           )}
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -203,7 +203,7 @@ const BiWeeklyReporting = () => {
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -219,7 +219,7 @@ const BiWeeklyReporting = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
       >
         {loading === false && (
           <BiWeeklyReportingList

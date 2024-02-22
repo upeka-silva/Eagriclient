@@ -151,7 +151,7 @@ const CropConfiguration = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -160,7 +160,7 @@ const CropConfiguration = () => {
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION}`}
             >
               <Button
                 variant="outlined"
@@ -175,7 +175,7 @@ const CropConfiguration = () => {
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION}`}
             >
               <Button
                 variant="outlined"
@@ -191,7 +191,7 @@ const CropConfiguration = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION}`}
       >
         {loading === false && (
           <CropConfigurationList

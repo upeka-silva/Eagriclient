@@ -152,7 +152,7 @@ export default function AddCropDetailsDialog({
       >
         <FormWrapper>
           <FormHeader style={{ marginLeft: "15px" }}>
-            {action == DEF_ACTIONS.ADD ? "Add" : ""} Crop Details
+            {action === DEF_ACTIONS.ADD ? "Add" : ""} Crop Details
           </FormHeader>
           <ButtonWrapper
             isCeneter

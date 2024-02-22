@@ -16,15 +16,7 @@ const DsDivisionList = ({
       field: ["districtDTO.code", "districtDTO.name"],
       joinString: " - ",
       headerName: "District",
-    },
-    {
-      field:["mahaweliBlockDTO.code","mahaweliBlockDTO.description"],
-      joinString: " - ",
-      headerName: "Mahaweli Block",
     }
-
-  
-  
   ];
 
   return (

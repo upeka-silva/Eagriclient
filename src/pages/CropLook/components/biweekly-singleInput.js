@@ -9,13 +9,15 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { CancelOutlined, CheckRounded } from "@mui/icons-material";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DamageAddModal from "./damage-add";
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import { getDbFieldName } from "../../../utils/appUtils";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const BiWeeklySingleInput = ({
   varietyTarget,
@@ -26,7 +28,6 @@ const BiWeeklySingleInput = ({
   configFields,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [totalExtent, setTotalExtent] = useState(0);
 
   useEffect(() => {
     console.log("inside BiWeeklySingleInput comp ------------>");
@@ -41,25 +42,7 @@ const BiWeeklySingleInput = ({
     setIsModalOpen(false);
   };
 
-  const getDbFieldName = (field) => {
-    if (field === CROP_LOOK_FIELD.EXTENT_MAJOR) {
-      return "targetedExtentMajor";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_MINOR) {
-      return "targetedExtentMinor";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_RAINFED) {
-      return "targetedExtentRainfed";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_IRRIGATE) {
-      return "targetedExtentIrrigate";
-    } else if (field === CROP_LOOK_FIELD.EXTENT) {
-      return "targetedExtent";
-    } else {
-      return "na";
-    }
-  };
-
   const extentHandler = (cropIndex, varietyIndex, field, value) => {
-    const newExtent = parseInt(totalExtent) + parseInt(value);
-    setTotalExtent(newExtent);
     targetedExtentHandler(cropIndex, varietyIndex, field, value);
   };
 
@@ -126,6 +109,9 @@ const BiWeeklySingleInput = ({
           <Grid container>
             {varietyTarget?.id ? (
               <Grid item xs={12}>
+              <PermissionWrapper
+                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_VARIETY_REPORT}`}
+              >
                 <Button
                   disabled={mode === DEF_ACTIONS.VIEW}
                   variant="outlined"
@@ -136,6 +122,7 @@ const BiWeeklySingleInput = ({
                 >
                   Add Damage
                 </Button>
+                </PermissionWrapper>
               </Grid>
             ) : null}
           </Grid>
