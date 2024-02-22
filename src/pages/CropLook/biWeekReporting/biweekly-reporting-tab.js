@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
@@ -14,6 +14,7 @@ import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekRep
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import { getDbFieldName } from "../../../utils/appUtils";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -172,6 +173,9 @@ const BiWeeklyReportingTab = ({
               {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
             </Button>
           ) : (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
+            >
             <Button
               disabled={mode === DEF_ACTIONS.VIEW}
               variant="outlined"
@@ -182,6 +186,7 @@ const BiWeeklyReportingTab = ({
             >
               Update
             </Button>
+            </PermissionWrapper>
           )}
         </div>
       </Grid>
