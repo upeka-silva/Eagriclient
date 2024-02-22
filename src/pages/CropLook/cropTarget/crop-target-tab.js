@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
@@ -11,6 +11,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import { getDbFieldName } from "../../../utils/appUtils";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const CropTargetTab = ({
   mode,
@@ -154,6 +155,9 @@ const CropTargetTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
+      <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SEASONAL_CROP_TARGET}`}
+        >
         <div style={{ textAlign: "left" }}>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
@@ -184,6 +188,7 @@ const CropTargetTab = ({
             </Button>
           )}
         </div>
+      </PermissionWrapper>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
         {dataLoaded &&
