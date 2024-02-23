@@ -200,7 +200,7 @@ const CropVariety = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Crop Variety"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
