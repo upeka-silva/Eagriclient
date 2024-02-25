@@ -1,21 +1,13 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
 import {
   Avatar,
   Button,
-  ButtonGroup,
   Chip,
-  Divider,
   Grid,
 } from "@mui/material";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { CancelOutlined, CheckRounded } from "@mui/icons-material";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DamageAddModal from "./damage-add";
-import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
@@ -66,7 +58,7 @@ const BiWeeklySingleInput = ({
                   disabled={mode === DEF_ACTIONS.VIEW}
                   variant="outlined"
                   id="input1"
-                  label={field + " (In Ha)"}
+                  label={field + " (Ha)"}
                   value={varietyTarget[getDbFieldName(field)]}
                   onChange={(e) =>
                     extentHandler(
@@ -93,7 +85,7 @@ const BiWeeklySingleInput = ({
                 disabled={true}
                 variant="outlined"
                 id="input5"
-                label="Total Extent (In Ha)"
+                label="Total Extent (Ha)"
                 value={varietyTarget["totalExtent"] || 0}
                 sx={{
                   "& .MuiInputBase-root": {
@@ -118,7 +110,7 @@ const BiWeeklySingleInput = ({
                   color="success"
                   size="small"
                   onClick={handleAddDamage}
-                  //sx={{ marginTop: "10px" }}
+                  sx={{ marginTop: "10px" }}
                 >
                   Add Damage
                 </Button>

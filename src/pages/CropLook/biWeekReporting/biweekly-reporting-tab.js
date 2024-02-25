@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
-import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
-  getTargetSeasonalRegion,
-  updateCropTarget,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
 import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
@@ -26,8 +22,6 @@ const BiWeeklyReportingTab = ({
 }) => {
   const { addSnackBar } = useSnackBars();
   const [cropTargets, setCropTargets] = useState([]);
-  const [cropVarietyList, setCropVarietyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);

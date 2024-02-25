@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   TextField,
-  Autocomplete,
   Grid,
   Button,
   CircularProgress,
@@ -14,9 +13,7 @@ import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
 import BackToList from "../../../components/BackToList/BackToList";
