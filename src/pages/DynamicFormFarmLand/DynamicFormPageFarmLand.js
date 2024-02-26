@@ -78,7 +78,12 @@ const DynamicFormPageFarmLand = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      var ansListData = {assessmentId: state?.data?.assessmentId,id :  state?.data?.id };
+      for(const ans of state?.data?.answerList) {
+        const questionId = ans?.question?.id;
+        ansListData['question_' + questionId] = ans?.answer;
+      }
+      setFormData(ansListData || {});
     } else {
       setFormData({});
     }
@@ -214,28 +219,30 @@ const DynamicFormPageFarmLand = () => {
             </Button>
           ) : (
             <>
-              <Button
-                variant="outlined"
-                disabled={false}
-                onClick={handleFormSubmit}
-              
-                size="small"
-                color="success"
-                style={{ marginLeft: "10px" }}
-              >
-                {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
-                {/* <Add/> */}
-                Save
-              </Button>
-              <Button
-                onClick={resetForm}
-                color="success"
-                variant="contained"
-                size="small"
-                sx={{ marginLeft: "10px" }}
-              >
-                RESET
-              </Button>
+              {state?.action === DEF_ACTIONS.ADD ||
+                state?.action === DEF_ACTIONS.EDIT ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={false}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                    style={{ marginLeft: "10px" }}
+                  >
+                    {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                  </Button>
+                  <Button
+                    onClick={resetForm}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              ) : null}
             </>
           )}
         </ActionWrapper>

@@ -21,13 +21,14 @@ const CropSelectDropDown = (props) => {
     mode,
     crop,
     cropVariety,
+    selectedCropCategory,
+    setSelectedCropCategory,
+    selectedCropSubCategory,
+    setSelectedCropSubCategory
   } = props;
 
   const [cropCategories, setCropCategories] = useState([]);
-  const [selectedCropCategory, setSelectedCropCategory] = useState("");
-
   const [cropSubCategories, setCropSubCategories] = useState([]);
-  const [selectedCropSubCategory, setSelectedCropSubCategory] = useState("");
 
   const [crops, setCrops] = useState([]);
   const [selectedCrop, setSelectedCrop] = useState(null);
@@ -133,11 +134,12 @@ const CropSelectDropDown = (props) => {
               <Select
                 name="questionType"
                 id="questionType"
-                value={selectedCropCategory}
+                value={selectedCropCategory || ""}
                 disabled={mode === DEF_ACTIONS.VIEW}
                 onChange={(e) => setSelectedCropCategory(e?.target?.value)}
                 size="small"
                 fullWidth
+                clearable
                 sx={{
                   borderRadius: "8px",
                   "& .MuiInputBase-root": {

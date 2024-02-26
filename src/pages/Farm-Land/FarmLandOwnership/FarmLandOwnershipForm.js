@@ -253,9 +253,9 @@ export default function FarmLandOwnershipForm({
                       }
                       disableClearable
                       options={farmerList}
-                      value={data ? data.farmerDTO : ""}
+                      value={data?.ownerType ? data.farmerDTO : ""}
                       getOptionLabel={(i) =>
-                        `${i.farmerId} - ${i.firstName} ${" "}${i.lastName}`
+                        i ?  `${i.farmerId} - ${i.firstName} ${" "}${i.lastName}` : " "
                       }
                       onChange={(event, value) => {
                         onChange(value, "farmerDTO");
@@ -374,8 +374,8 @@ export default function FarmLandOwnershipForm({
                         action === DEF_ACTIONS.VIEW || data?.ownerType === "FARMER"
                       }
                       options={gnDivisionList}
-                      value={data ? data.gnDivisionDTO : ""}
-                      getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                      value={data?.ownerType ? data.gnDivisionDTO : ""}
+                      getOptionLabel={(i) => i ? `${i.code} - ${i.name}` : ""}
                       onChange={(event, value) => {
                         onChange(value, "gnDivisionDTO");
                       }}
@@ -405,7 +405,7 @@ export default function FarmLandOwnershipForm({
                 <FieldName>Date From</FieldName>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    value={data?.dateFrom}
+                    value={data?.dateFrom || null}
                     onChange={(value) => {
                       onChange(value || "", "dateFrom");
                     }}
@@ -438,7 +438,7 @@ export default function FarmLandOwnershipForm({
                         backgroundColor: `${Colors.white}`,
                       },
                     }}
-                    value={data?.dateUntil}
+                    value={data?.dateUntil  || null}
                     slotProps={{ textField: { size: "small", error: false } }}
                     in="DD-MM-YYYY"
                     name="dob"

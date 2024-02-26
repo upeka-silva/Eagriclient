@@ -9,9 +9,10 @@ import {
   getCropRegistrationById,
   updateCropRegistrationItems,
 } from "../../redux/actions/cropLook/cropRegistration/actions";
-import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 
 const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   const { addSnackBar } = useSnackBars();
@@ -102,6 +103,9 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
   return (
     <Grid container>
       <Grid item sm={11} md={11} lg={11}>
+        <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_REGISTRATION_ITEM}`}
+        >
         <div style={{ textAlign: "right", paddingBottom: "10px" }}>
           {saving ? (
             <Button variant="contained" size="small">
@@ -120,6 +124,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
             </Button>
           )}
         </div>
+        </PermissionWrapper>
       </Grid>
       <Grid item sm={12} md={12} lg={12}>
         <MultiSelectTils
