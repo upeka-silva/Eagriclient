@@ -61,6 +61,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
         if (variety.selected) {
           items.push({
             cropCategory: { id: cropCategoryId },
+            crop: { id: crop.id},
             cropVariety: { id: variety?.id },
           });
         }
