@@ -162,7 +162,7 @@ const CropLookSeason = () => {
          message = "Successfully closed";
          break;
     }
-    console.log("2")
+
     addSnackBar({
        type: SnackBarTypes.success,
        message: message,
