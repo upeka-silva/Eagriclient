@@ -1148,7 +1148,7 @@ export const Routes = [
     icon: ContentPasteSearchIcon,
     children: [
       {
-        path: "/crop-registration",
+        path: "/crop-target-registration",
         name: "Crop Setting",
         isSideBar: true,
         element: <TargetRegistration />,
@@ -1156,8 +1156,8 @@ export const Routes = [
         component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
       {
-        path: "/crop-registration-form",
-        name: "Crop Setting Form",
+        path: "/crop-target-registration-form",
+        name: "Crop Target Registration Form",
         isSideBar: false,
         element: <TargetRegistrationForm />,
         icon: SouthAmericaIcon,
