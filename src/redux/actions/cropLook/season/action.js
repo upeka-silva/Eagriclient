@@ -58,14 +58,14 @@ export const getAgriSeasons = async () => {
 
 export const deleteCropLookSeason = async (
   id,
-  onSuccess = () => { },
+  onDeleteSuccess = () => { },
   onError = (_message) => { }
 ) => {
   try {
     const response = await api_delete(`crop-look/seasons/${id || ''}`, true);
     console.log(response)
     if (response?.httpCode === "200 OK") {
-      onSuccess();
+      onDeleteSuccess();
     } else {
       const exception = {
         error: {
