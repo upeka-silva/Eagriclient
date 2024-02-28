@@ -33,6 +33,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -175,7 +176,16 @@ const ASC = () => {
   }, []);
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="ASC Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
