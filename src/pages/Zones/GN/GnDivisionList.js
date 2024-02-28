@@ -83,6 +83,7 @@ const GnDivisionList = ({
   }, [isAdmin, isProvincial, isIntProvincial, isMahaweli, isAgrarian, isEcoz]);
 
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={dataEndPoint}
@@ -93,6 +94,7 @@ const GnDivisionList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+    </TableWrapper>
   );
 };
 

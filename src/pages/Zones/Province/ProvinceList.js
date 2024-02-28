@@ -15,7 +15,7 @@ const ProvinceList = ({
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/provinces"}
@@ -28,6 +28,7 @@ const ProvinceList = ({
         unSelectAll={unSelectAll}
         advancedSearchData={advancedSearchData}
       />
+      </TableWrapper>
    
   );
 };

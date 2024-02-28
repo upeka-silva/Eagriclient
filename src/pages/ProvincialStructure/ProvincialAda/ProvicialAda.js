@@ -42,6 +42,7 @@ import { deleteProvincialAda } from "../../../redux/actions/provincialAda/action
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialAdaList from "./ProvicialAdaList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 
 const ProvincialAda = () => {
@@ -217,7 +218,16 @@ const ProvincialAda = () => {
   }
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Provincial ADA Segments" />
       <ActionWrapper isLeft>
         <ButtonGroup

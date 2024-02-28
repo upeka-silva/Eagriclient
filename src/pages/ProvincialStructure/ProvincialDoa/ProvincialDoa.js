@@ -27,6 +27,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialDoaList from "./ProvincialDoaList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ProvincialDoa = () => {
   useUserAccessValidation();
@@ -151,7 +152,16 @@ const ProvincialDoa = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Provincial DOA"/>
       <ActionWrapper isLeft>
       <ButtonGroup
