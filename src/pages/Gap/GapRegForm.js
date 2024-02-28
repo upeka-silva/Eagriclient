@@ -60,7 +60,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { getUserPermissionByComponent } from "../../utils/helpers/permission";
+import { getUserPermissionByComponent, getUserPermissionStateByAuthority } from "../../utils/helpers/permission";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import CropDetailsList from "./CropDetails/CropDetailsList";
@@ -617,10 +617,10 @@ const GapRegForm = () => {
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
                         {  
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE"
+                        (gapReqStatus.lblState === "SUBMITTED") ||
+                        (gapReqStatus.lblState === "APPROVED_BY_DD") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
+                        (gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                         ? null :
                         (<Button
                           variant="contained"
@@ -634,11 +634,15 @@ const GapRegForm = () => {
                             : "UPDATE"}
                         </Button>)}
                       </PermissionWrapper>
+
+                      <PermissionWrapper
+                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
+                      >
                     {
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
+                     (gapReqStatus.lblState === "DRAFT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                     (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -650,11 +654,15 @@ const GapRegForm = () => {
                       </Button>
                       ): null 
                     }
+                    </PermissionWrapper>
                     </ButtonGroup>
-                    {(role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
+                    <PermissionWrapper
+                        permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_AI}`}
+                    >
+                     {(gapReqStatus.lblState === "DRAFT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                      (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
                      ? (
                       <Button
                         onClick={() => setOpenConfSubmit(true)}
@@ -666,6 +674,7 @@ const GapRegForm = () => {
                         SUBMIT
                       </Button>
                     ) : null}
+                    </PermissionWrapper>
 
                     <GapRequestActionsButtons
                      role={role}
@@ -678,9 +687,9 @@ const GapRegForm = () => {
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
                       {
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                        (gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
                         // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
                          ? null : (
                         <Button
@@ -697,13 +706,13 @@ const GapRegForm = () => {
                         )
                       }
                     </PermissionWrapper>
+                    
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
                       {
-
-                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
-                      role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
+                      gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
+                      gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
                       (<Button
                         onClick={() => {
                           generateCertificate();
@@ -990,7 +999,7 @@ const GapRegForm = () => {
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id == "" || !certificatePermission?.isEnabled}
+          disabled={formData?.id === "" || !certificatePermission?.isEnabled}
         >
           Certificate
         </TabButton>
@@ -2710,7 +2719,7 @@ const GapRegForm = () => {
       />
       <DialogBox
         open={openDeleteCropDetail}
-        title="Delete Farm Land Ownership"
+        title="Delete Crop Detail"
         actions={
           <ActionWrapper>
             <Button
@@ -2792,53 +2801,51 @@ const GapRegForm = () => {
                   color="info"
                   onClick={() => {
                     if (openApproveDialog.option === 'approve') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) && 
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("APPROVED_BY_DD");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'ASSIGN_AUDITORS'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'APPROVED_BY_DD'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
                       }
                       else if (
-                        role === 'MAIN_SCS_REGIONAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_MAIN_SCS}`) &&
                         gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
                       ) {
                         changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                       }
                     }
                     else if (openApproveDialog.option === 'reject') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) &&
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("REJECTED_BY_DD");
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "APPROVED_BY_DD"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
-                      }
-                      else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
-                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }                   
+                      }                  
                       else {
                         changeGapReqStatus("REJECTED_BY_MAIN_SCS")
                       }
@@ -2865,7 +2872,7 @@ const GapRegForm = () => {
       >
 <>
   {openApproveDialog.option === 'approve' ? 
-    (role === "GAP_EXTERNAL_AUDITOR" && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
+    (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
       `Please confirm to submit this GAP request.` :
       `Please confirm to approve this GAP request.`) :
     `Please confirm to reject this GAP request.`

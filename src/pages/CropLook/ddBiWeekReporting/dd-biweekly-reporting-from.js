@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   TextField,
-  Autocomplete,
   Grid,
   Button,
   CircularProgress,
@@ -14,16 +13,10 @@ import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FieldName } from "../../../components/FormLayout/FieldName";
 import {
   TabButton,
   TabContent,
@@ -33,12 +26,8 @@ import {
   createCropTarget,
   getAllAiAndMahaweliUnits,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
-import BiWeeklyReportingTab from "./dd-biweekly-reporting-tab";
 import {
-  changeStatusOfBiWeekReport,
-  createBiWeeklyReport,
   getAggregateBiWeekReport,
-  getCropLookSeasons,
 } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";

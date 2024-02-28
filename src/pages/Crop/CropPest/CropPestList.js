@@ -1,22 +1,27 @@
+import { useEffect } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const CropCategoryList = ({
+const CropPestList = ({
+  url,
   selectedRows = [],
+  cropId = null,
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "categoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "pestName", headerName: "Pest Name" },
+    { field: "scientificName", headerName: "scientific Name" },
+    { field: "damageSymptom", headerName: "Damage Symptom" },
+    { field: "management", headerName: "Management"},
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-categories"}
+        dataEndPoint={url}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +33,4 @@ const CropCategoryList = ({
   );
 };
 
-export default CropCategoryList;
+export default CropPestList;

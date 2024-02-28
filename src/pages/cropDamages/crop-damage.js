@@ -20,6 +20,7 @@ import {
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import { deleteDamageCategory } from "../../redux/actions/crop/cropDamage/action";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CropDamage = () => {
   useUserAccessValidation();
@@ -109,7 +110,16 @@ const CropDamage = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Damages" />
       <ActionWrapper isLeft>
         <ButtonGroup

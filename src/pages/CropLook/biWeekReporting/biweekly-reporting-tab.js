@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import CropInput from "../components/cropInput";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
-  getTargetSeasonalRegion,
-  updateCropTarget,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
 import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { getDbFieldName } from "../../../utils/appUtils";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -23,11 +22,10 @@ const BiWeeklyReportingTab = ({
 }) => {
   const { addSnackBar } = useSnackBars();
   const [cropTargets, setCropTargets] = useState([]);
-  const [cropVarietyList, setCropVarietyList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -68,15 +66,21 @@ const BiWeeklyReportingTab = ({
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
 
-    const existingTotal =
-      updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
-        "totalExtent"
-      ];
+    // Calculate total target
+    let total = 0;
+    if(configFields.length > 0) {
+      let target = updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
+      configFields.forEach(field => {
+        total += parseFloat(target[getDbFieldName(field)] ? target[getDbFieldName(field)] : 0);
+      });
+    }
+
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
       "totalExtent"
-    ] = parseFloat(existingTotal ? existingTotal : 0) + parseFloat(value);
+    ] = total;
 
     setCropTargets(updatedVarietyTargets);
+    setIsCleared(false);
   };
 
   const handleCropClear = () => {
@@ -95,6 +99,7 @@ const BiWeeklyReportingTab = ({
       }
     }
     setCropTargets(newCropTargets);
+    setIsCleared(true);
   };
 
   const handleCropUpdate = async () => {
@@ -165,8 +170,11 @@ const BiWeeklyReportingTab = ({
               {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
             </Button>
           ) : (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
+            >
             <Button
-              disabled={mode === DEF_ACTIONS.VIEW}
+              disabled={mode === DEF_ACTIONS.VIEW || isCleared}
               variant="outlined"
               color="success"
               size="small"
@@ -175,6 +183,7 @@ const BiWeeklyReportingTab = ({
             >
               Update
             </Button>
+            </PermissionWrapper>
           )}
         </div>
       </Grid>

@@ -323,7 +323,6 @@ const SideBar = () => {
               variant="h5"
               fontWeight="bold"
               fontFamily={Fonts.fontStyle1}
-              alignContent={"center"}
             >
               E-Agri Portal
             </Typography>
@@ -428,7 +427,7 @@ const Drawer = styled(MuiDrawer, {
     }),
   },
   "& .MuiToolbar-root .MuiButtonBase-root": {
-    height: "38px",
+    height: "34px",
     width: "38px",
   },
   "& .MuiToolbar-root": {
@@ -437,7 +436,7 @@ const Drawer = styled(MuiDrawer, {
     }),
   },
   "& .MuiButtonBase-root": {
-    padding: "4px 6px",
+    padding: "2px 6px",
   },
   "& .MuiListItemIcon-root": {
     minWidth: "40px",

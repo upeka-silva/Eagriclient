@@ -36,7 +36,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Fonts } from "../../utils/constants/Fonts";
 import { Colors } from "../../utils/constants/Colors";
 import { getColorCode } from "../../utils/helpers/formMgtUtil";
-const label = { inputProps: { "aria-label": "Switch demo" } };
+
 
 
 export const farmerDto = {
@@ -875,6 +875,24 @@ const FarmerForm = () => {
                     handleChange(e?.target?.checked || "", "isSeedFarmer")
                   }
                   checked={formData?.isSeedFarmer}
+                  aria-label="Switch demo" 
+                />
+              </FieldWrapper>
+            </Grid>
+            
+            <Grid item sm={4} md={4} lg={4} spacing={0}>
+              <FieldWrapper>
+                <FieldName >
+                 Export Farmer
+                </FieldName>
+                <Switch
+                  name="isExportFarmer"
+                  id="isExportFarmer"
+                  value={formData?.isExportFarmer || ""}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "isExportFarmer")
+                  }
+                  checked={formData?.isExportFarmer}
                   aria-label="Switch demo" 
                 />
               </FieldWrapper>

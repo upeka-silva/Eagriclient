@@ -1,22 +1,25 @@
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const CropCategoryList = ({
+const CropDiseaseList = ({
+  url,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "categoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "diseaseName", headerName: "Disease Name" },
+    { field: "type", headerName: "Type" },
+    { field: "causalAgent", headerName: "Causal Agent" },
+    { field: "vector", headerName: "Vector" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/crop-categories"}
+        dataEndPoint={url}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -28,4 +31,4 @@ const CropCategoryList = ({
   );
 };
 
-export default CropCategoryList;
+export default CropDiseaseList;
