@@ -48,6 +48,7 @@ const FormButtonGroup = ({
                 {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
               </Button>
               <Button
+                disabled={state?.action === DEF_ACTIONS.EDIT}
                 onClick={resetForm}
                 color="success"
                 variant="contained"

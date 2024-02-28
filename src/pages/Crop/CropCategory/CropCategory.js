@@ -33,6 +33,7 @@ import {
   Vrpano,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -152,7 +153,16 @@ const CropCategory = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Category" />
       <ActionWrapper isLeft>
         <ButtonGroup

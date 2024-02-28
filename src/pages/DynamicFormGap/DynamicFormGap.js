@@ -362,7 +362,7 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus}) 
             {state?.action !== DEF_ACTIONS.VIEW && (
               <ActionWrapper>
                 <PermissionWrapper
-                  permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
+                  permission={auditFormType === "INTERNAL_AUDIT" ?`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}` : `${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`}
                 >
                   <Button
                     variant="outlined"

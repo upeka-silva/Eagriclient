@@ -202,7 +202,7 @@ const SoilSubType = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -225,8 +225,8 @@ const SoilSubType = () => {
         }
       >
         <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
+         
+          <Divider sx={{ mt: "8px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

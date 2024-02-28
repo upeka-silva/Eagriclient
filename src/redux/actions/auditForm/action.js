@@ -208,6 +208,24 @@ export const saveFormDataWithValues = async (
   }
 };
 
+export const getRandomAuditId = async (
+  gapId = '',
+  uri = '',
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+try {
+  const { httpCode, payload } = await get(`gap-request/${gapId}/${uri}/next-audit-id/${gapId}`, true);
+  if (httpCode === '200 OK') {
+    return payload;
+  }
+  return ""
+} catch (error) {
+  console.log(error)
+  return ""
+}
+};
+
 export const saveGapDataWithValues = async (
     gapId = '',
     uri = '',

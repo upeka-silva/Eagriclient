@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import { Avatar, Chip, Grid } from "@mui/material";
+import { Avatar, Box, Chip, Grid } from "@mui/material";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import { getDbFieldName } from "../../../utils/appUtils";
 
 const SingleInput = ({
   varietyTarget,
@@ -19,82 +17,79 @@ const SingleInput = ({
     console.log(configFields);
   }, []);
 
-  const getDbFieldName = (field) => {
-    if (field === CROP_LOOK_FIELD.EXTENT_MAJOR) {
-      return "targetedExtentMajor";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_MINOR) {
-      return "targetedExtentMinor";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_RAINFED) {
-      return "targetedExtentRainfed";
-    } else if (field === CROP_LOOK_FIELD.EXTENT_IRRIGATE) {
-      return "targetedExtentIrrigate";
-    } else {
-      return "na";
-    }
-  };
-
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={1}>
+    <Grid container>
+      <Grid item xs={2}>
         <Chip
-          avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
-          label={varietyTarget.varietyName}
+          avatar={<Avatar alt="Crop Variety" src={varietyTarget.imageUrl} />}
+          label={varietyTarget.varietyName + " (Ha)"}
           variant="outlined"
-          sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
+          sx={{
+            mt: "12px",
+            bgcolor: "#A7E99C",
+            width: "400px",
+          }}
         />
       </Grid>
+      <Grid item xs={10} sx={{ pl: "5px" }}>
+        <Grid container spacing={1}>
+          {configFields.map((field) => (
+            <Grid item xs={2} sx={{ mt: "10px" }}>
+              <TextField
+                type="number"
+                disabled={mode === DEF_ACTIONS.VIEW}
+                variant="outlined"
+                id="input1"
+                label={field}
+                value={varietyTarget[getDbFieldName(field)]}
+                onChange={(e) =>
+                  targetedExtentHandler(
+                    cropIndex,
+                    varietyIndex,
+                    getDbFieldName(field),
+                    e.target.value
+                  )
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "5px",
+                  },
+                  input: { textAlign: "right" },
+                }}
+                fullWidth
+                size="small"
+              />
+            </Grid>
+          ))}
 
-      {configFields.map((field) => (
-        <Grid item xs={2}>
-          <TextField
-            type="number"
-            disabled={mode === DEF_ACTIONS.VIEW}
-            variant="outlined"
-            id="input1"
-            label={"Targated " + field + " (In Ha)"}
-            value={varietyTarget[getDbFieldName(field)]}
-            onChange={(e) =>
-              targetedExtentHandler(
-                cropIndex,
-                varietyIndex,
-                getDbFieldName(field),
-                e.target.value
-              )
-            }
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "8px",
-              },
-            }}
-            size="small"
-          />
+          <Grid item xs={1} sx={{ mt: "10px" }}>
+            <TextField
+              type="number"
+              disabled={true}
+              variant="outlined"
+              id="input5"
+              label="Total Extent"
+              value={varietyTarget["totalExtent"] || 0}
+              fullWidth
+              onChange={(e) =>
+                targetedExtentHandler(
+                  cropIndex,
+                  varietyIndex,
+                  "targetedExtent",
+                  e.target.value
+                )
+              }
+              //style={{ flex: 1 }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+                input: { textAlign: "right" },
+              }}
+              size="small"
+            />
+          </Grid>
         </Grid>
-      ))}
-
-      <Grid item xs={2}>
-        <TextField
-          type="number"
-          disabled={true}
-          variant="outlined"
-          id="input5"
-          label="Total Extent (In Ha)"
-          value={varietyTarget['totalExtent'] || 0}
-          onChange={(e) =>
-            targetedExtentHandler(
-              cropIndex,
-              varietyIndex,
-              "targetedExtent",
-              e.target.value
-            )
-          }
-          //style={{ flex: 1 }}
-          sx={{
-            "& .MuiInputBase-root": {
-              borderRadius: "8px",
-            },
-          }}
-          size="small"
-        />
       </Grid>
     </Grid>
   );

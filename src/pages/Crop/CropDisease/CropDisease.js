@@ -10,7 +10,6 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import CropVarietyList from "./CropVarietyList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -22,14 +21,14 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropVariety } from "../../../redux/actions/crop/cropVariety/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
-import { Fonts } from "../../../utils/constants/Fonts";
+import { deleteCropDisease } from "../../../redux/actions/crop/CropDisease/action";
+import CropDiseaseList from "./CropDiseaseList";
 
-const CropVariety = () => {
+const CropDisease = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -37,11 +36,12 @@ const CropVariety = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectCategory, setSelectCategory] = useState([]);
+  const [selectCropDisease, setSelectCropDisease] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const url = `crop/crop-diseases`;
 
-  const toggleCategorySelect = (component) => {
-    setSelectCategory((current = []) => {
+  const toggleCropDiseaseSelect = (component) => {
+    setSelectCropDisease((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -53,37 +53,35 @@ const CropVariety = () => {
     });
   };
 
-  const selectAllCategories = (all = []) => {
-    setSelectCategory(all);
+  const selectAllCropDisease = (all = []) => {
+    setSelectCropDisease(all);
   };
 
-  const resetSelectedCategory = () => {
-    setSelectCategory([]);
+  const resetSelectedCropDisease = () => {
+    setSelectCropDisease([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/crop-variety-form", {
-      state: { action: DEF_ACTIONS.ADD },
-    });
+    navigate("/crop/crop-disease-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/crop-variety-form", {
+    navigate("/crop/crop-disease-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCategory[0] || {},
+        target: selectCropDisease[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/crop-variety-form", {
+    navigate("/crop/crop-disease-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCategory[0] || {},
+        target: selectCropDisease[0] || {},
       },
     });
   };
@@ -99,7 +97,7 @@ const CropVariety = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCategory.map((p, key) => {
+        {selectCropDisease.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -110,7 +108,7 @@ const CropVariety = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.varietyId} - {p.varietyName}
+                {p.diseaseName} - {p.type}
               </ListItemText>
             </ListItem>
           );
@@ -136,12 +134,12 @@ const CropVariety = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
-        await deleteCropVariety(cropCat?.id, onSuccess, onError);
+      for (const cropDisease of selectCropDisease) {
+        await deleteCropDisease(cropDisease?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedCategory();
+      resetSelectedCropDisease();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -149,17 +147,8 @@ const CropVariety = () => {
   };
 
   return (
-    <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
-    >
-      <ListHeader title="Crop Variety" />
+    <div>
+      <ListHeader title="Crop Disease" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -169,48 +158,61 @@ const CropVariety = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_VARIETY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_DISEASE}`}
           >
-            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
-          {selectCategory.length === 1 && (
+          {selectCropDisease.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_VARIETY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_DISEASE}`}
             >
-              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectCategory.length === 1 && (
+          {selectCropDisease.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_VARIETY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_DISEASE}`}
             >
-              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
-          {selectCategory.length > 0 && (
+          {selectCropDisease.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_VARIETY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_DISEASE}`}
             >
-              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_VARIETY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_DISEASE}`}
       >
         {loading === false && (
-          <CropVarietyList
-            selectedRows={selectCategory}
-            onRowSelect={toggleCategorySelect}
-            selectAll={selectAllCategories}
-            unSelectAll={resetSelectedCategory}
+          <CropDiseaseList
+            url={url}
+            selectedRows={selectCropDisease}
+            onRowSelect={toggleCropDiseaseSelect}
+            selectAll={selectAllCropDisease}
+            unSelectAll={resetSelectedCropDisease}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Do you want to delete?"
+        title="Delete Crop Disease"
         actions={
           <ActionWrapper>
             <Button
@@ -219,7 +221,7 @@ const CropVariety = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Ok
+              Confirm
             </Button>
             <Button
               variant="contained"
@@ -227,14 +229,19 @@ const CropVariety = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Cancel
+              Close
             </Button>
           </ActionWrapper>
         }
       >
+        <>
+          <DeleteMsg />
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
       </DialogBox>
     </div>
   );
 };
 
-export default CropVariety;
+export default CropDisease;

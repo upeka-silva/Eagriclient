@@ -17,6 +17,7 @@ import {
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import DamageTypes from "./damage-types";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CropDamageForm = () => {
   useUserAccessValidation();
@@ -110,7 +111,16 @@ const CropDamageForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} formName="Crop Damage" goBack={goBack} />
         <FormButtonGroup

@@ -32,6 +32,8 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
+import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
+import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -100,6 +102,8 @@ import {
   Settings,
   Plagiarism,
   TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -182,6 +186,8 @@ import TargetRegistration from "../pages/IndicativeTargets/Registration/target-r
 import TargetRegistrationForm from "../pages/IndicativeTargets/Registration/target-registration-from";
 import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
+import CropPest from "../pages/Crop/CropPest/CropPest";
+import CropDisease from "../pages/Crop/CropDisease/CropDisease";
 
 export const Routes = [
   {
@@ -845,6 +851,40 @@ export const Routes = [
         isSideBar: false,
         element: <CropDamageForm />,
       },
+      {
+        path: "/crop-disease-form",
+        name: "Crop Disease Form",
+        isSideBar: false,
+        element: <CropDiseaseForm />,
+      },
+      {
+        path: "/crop-pest",
+        name: "Crop Pest",
+        isSideBar: true,
+        element: <CropPest />,
+        icon: BugReportRounded,
+        component: DEF_COMPONENTS.CROP_PEST,
+      },
+      {
+        path: "/crop-pest-form",
+        name: "Crop Pest Form",	
+        isSideBar: false,
+        element: <CropPestForm />,
+      },
+      {
+        path: "/crop-disease",
+        name: "Crop Disease",
+        isSideBar: true,
+        element: <CropDisease />,
+        icon: CoronavirusRounded,
+        component: DEF_COMPONENTS.CROP_DISEASE,
+      },
+      {
+        path: "/crop-disease-form",
+        name: "Crop Disease Form",	
+        isSideBar: false,
+        element: <CropDiseaseForm />,
+      }
     ],
   },
   {
@@ -1148,7 +1188,7 @@ export const Routes = [
     icon: ContentPasteSearchIcon,
     children: [
       {
-        path: "/crop-registration",
+        path: "/crop-target-registration",
         name: "Crop Setting",
         isSideBar: true,
         element: <TargetRegistration />,
@@ -1156,8 +1196,8 @@ export const Routes = [
         component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
       {
-        path: "/crop-registration-form",
-        name: "Crop Setting Form",
+        path: "/crop-target-registration-form",
+        name: "Crop Target Registration Form",
         isSideBar: false,
         element: <TargetRegistrationForm />,
         icon: SouthAmericaIcon,
@@ -1237,7 +1277,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropTarget />,
         icon: Moving,
-        component: DEF_COMPONENTS.CROP_TARGET,
+        component: DEF_COMPONENTS.TARGET_SEASONAL_REGION,
       },
       {
         path: "/crop-target-form",
