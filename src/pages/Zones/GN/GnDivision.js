@@ -54,6 +54,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import GnDivisionList from "./GnDivisionList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -757,7 +758,16 @@ const GnDivision = () => {
   }
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
