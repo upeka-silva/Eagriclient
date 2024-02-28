@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ScsRegionList = ({
   selectedRows = [],
@@ -14,7 +15,7 @@ const ScsRegionList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/scs-regions"}
@@ -25,7 +26,7 @@ const ScsRegionList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+     </TableWrapper> 
   );
 };
 
