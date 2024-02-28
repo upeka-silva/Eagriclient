@@ -19,7 +19,7 @@ const AgroEcoList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"aez"}
@@ -30,7 +30,7 @@ const AgroEcoList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 
