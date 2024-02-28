@@ -17,6 +17,7 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { get_SoilType } from "../../../redux/actions/soil/soilType/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const SoilSubTypeForm = () => {
   useUserAccessValidation();
@@ -128,6 +129,16 @@ const SoilSubTypeForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader
         saving={saving}
@@ -231,6 +242,7 @@ const SoilSubTypeForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 
