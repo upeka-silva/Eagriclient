@@ -128,12 +128,14 @@ const InstitutionForm = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-
-        fontFamily: `${Fonts.fontStyle1}`,
-      }}
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
     >
       <PageHeader saving={saving} state={state} goBack={goBack} formName="Institution" />
       <FormButtonGroup
