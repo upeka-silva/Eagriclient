@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const MahaweliAuthorityList = ({
   selectedRows = [],
@@ -13,6 +14,7 @@ const MahaweliAuthorityList = ({
   ];
 
   return (    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/mahaweli-authorities"}
@@ -23,7 +25,7 @@ const MahaweliAuthorityList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-   
+     </TableWrapper>
   );
 };
 

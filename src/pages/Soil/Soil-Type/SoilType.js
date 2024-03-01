@@ -30,6 +30,8 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -150,7 +152,16 @@ const SoilType = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Soil Type" />
       <ActionWrapper isLeft>
         <ButtonGroup

@@ -34,6 +34,7 @@ import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/ac
 import { deleteMahaweliUnit } from "../../../redux/actions/mahaweliUnit/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliUnitList from "./MahaweliUnitList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const MahaweliUnit = () => {
   useUserAccessValidation();
@@ -208,7 +209,16 @@ const MahaweliUnit = () => {
       })
   }
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Mahaweli Unit" />
       <ActionWrapper isLeft>
         <ButtonGroup

@@ -20,6 +20,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ScsRegionForm = () => {
   useUserAccessValidation();
@@ -104,7 +105,16 @@ const ScsRegionForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
       <PageHeader saving={saving} goBack={goBack} state={state} formName="Scs Region"/>
      <FormButtonGroup

@@ -26,6 +26,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ScsRegionList from "./ScsRegionList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ScsRegionBranch = () => {
   useUserAccessValidation();
@@ -148,7 +149,16 @@ const ScsRegionBranch = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Scs Region Branch" />
       <ActionWrapper isLeft>
         <ButtonGroup

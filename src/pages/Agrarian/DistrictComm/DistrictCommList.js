@@ -15,7 +15,7 @@ const DistrictCommList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/district-commissioner-level"}
@@ -26,7 +26,7 @@ const DistrictCommList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 

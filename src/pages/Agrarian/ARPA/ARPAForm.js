@@ -19,6 +19,8 @@ import { get_ASC, get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { useEffect } from "react";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const ARPAForm = () => {
   const navigate = useNavigate();
@@ -139,6 +141,16 @@ const ARPAForm = () => {
   
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} goBack={goBack} formName="ARPA Division" />
       <FormButtonGroup
@@ -255,6 +267,7 @@ const ARPAForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

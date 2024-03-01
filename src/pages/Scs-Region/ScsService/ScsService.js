@@ -26,6 +26,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ScsServiceList from "./ScsServiceList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ScsService = () => {
   useUserAccessValidation();
@@ -148,7 +149,16 @@ const ScsService = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Scs Service" />
       <ActionWrapper isLeft>
         <ButtonGroup
