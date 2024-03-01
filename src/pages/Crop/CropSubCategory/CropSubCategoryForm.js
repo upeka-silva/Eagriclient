@@ -40,6 +40,12 @@ const CropSubCategoryForm = () => {
   }, []);
 
   const handleChange = (value, target) => {
+    const pattern = /^[a-zA-Z0-9]*$/;
+    if (target === "subCategoryId") {
+      if (!pattern.test(value)) {
+        return;
+      }
+    }
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -97,7 +103,7 @@ const CropSubCategoryForm = () => {
                 await updateCropSubCategory(
                     {
                         ...formData,
-                        cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+                        cropCategoryDTO: { id: formData?.cropCategoryDTO?.id },
                     },
                     onSuccess,
                     onError
@@ -106,7 +112,7 @@ const CropSubCategoryForm = () => {
                 await handleCropSubCategory(
                     {
                         ...formData,
-                        cropCategoryDTO: { id: formData.cropCategoryDTO.id },
+                        cropCategoryDTO: { id: formData?.cropCategoryDTO?.id },
                     },
                     onSuccess,
                     onError
