@@ -68,6 +68,12 @@ const CropVarietyForm = () => {
   }, []);
 
   const handleChange = (value, target) => {
+    const pattern = /^[0-9]*$/;
+    if(target === "releasedYear"){
+      if(!pattern.test(value)){
+        return;
+      }
+    }
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
