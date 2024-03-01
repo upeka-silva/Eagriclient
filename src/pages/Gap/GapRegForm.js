@@ -202,6 +202,12 @@ const GapRegForm = () => {
     console.log(index);
   };
 
+  useEffect(() => {
+    if (state && state.tabIndex) {
+      setToggleState(state.tabIndex);
+    }
+  }, [state]);
+
   const goBack = () => {
     navigate("/gap/gap-registration");
   };
@@ -2634,19 +2640,23 @@ const GapRegForm = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_AREA}`}
             >
-              <Button onClick={onCreateCropDetails}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              { state?.action === DEF_ACTIONS.VIEW ? null : (
+                <Button onClick={onCreateCropDetails} >
+                 <Add />
+                 {DEF_ACTIONS.ADD}
+                </Button>)
+              }
             </PermissionWrapper>
             {selectedCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onEditCropDetails}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                { state?.action === DEF_ACTIONS.VIEW ? null : (
+                  <Button onClick={onEditCropDetails}>
+                   <Edit />
+                   {DEF_ACTIONS.EDIT}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
 
@@ -2665,10 +2675,13 @@ const GapRegForm = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onDeleteCropDetails}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                {
+                  state?.action === DEF_ACTIONS.VIEW ? null :(
+                  <Button onClick={onDeleteCropDetails} >
+                    <Delete />
+                    {DEF_ACTIONS.DELETE}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -2685,8 +2698,10 @@ const GapRegForm = () => {
           dataList={null}
           onFormSaveSuccess={null}
           formId={formData?.id}
+          gapData={formData}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
@@ -2696,8 +2711,10 @@ const GapRegForm = () => {
           onFormSaveSuccess={null}
           formId={formData?.id}
           formMode={null}
+          gapData={formData}
           gapReqStatus = {gapReqStatus.lblState}
           auditFormType={"EXTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
