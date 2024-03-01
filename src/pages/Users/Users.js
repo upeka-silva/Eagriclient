@@ -28,6 +28,8 @@ import PasswordChangeDialog from "./passwordChangeDialog";
 import { useDispatch } from 'react-redux';
 import Checkbox from '@mui/material/Checkbox';
 import { useSelector } from 'react-redux';
+import { Fonts } from "../../utils/constants/Fonts";
+
 
 
 
@@ -218,7 +220,16 @@ const Users = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Users" />
       <ActionWrapper isLeft>
         <ButtonGroup

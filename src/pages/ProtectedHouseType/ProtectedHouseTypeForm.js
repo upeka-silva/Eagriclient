@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/protectedHouseType/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const ProtectedHouseTypeForm = () => {
   useUserAccessValidation();
@@ -100,6 +101,16 @@ const ProtectedHouseTypeForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader 
         saving={saving}
@@ -168,6 +179,7 @@ const ProtectedHouseTypeForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

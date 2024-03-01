@@ -112,12 +112,14 @@ const SoilTestFrom = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: `${Fonts.fontStyle1}`,
-        overflowY: "scroll",
-      }}
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
     >
       <PageHeader saving={saving} state={state} formName="Soil Test" goBack={goBack} />
       <FormButtonGroup
