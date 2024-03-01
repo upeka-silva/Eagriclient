@@ -17,6 +17,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ProtectedHouseTypeList from "./ProtectedHouseTypeList";
 import DeleteDialog from "../../components/DeleteDialog/DeleteDialog";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const ProtectedHouseType = () => {
   useUserAccessValidation();
@@ -122,7 +123,16 @@ const ProtectedHouseType = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Protected House Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
