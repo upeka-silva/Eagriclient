@@ -26,7 +26,8 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import SoilTestList from "./SoilTestList";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader"
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const SoilTest = () => {
   useUserAccessValidation();
@@ -147,7 +148,16 @@ const SoilTest = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Soil Test" />
       <ActionWrapper isLeft>
         <ButtonGroup
