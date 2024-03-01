@@ -33,8 +33,27 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   let formHeader = "";
 
   const goBack = () => {
-    navigate(-1)
-  };
+    let tabIndex = 1;
+
+    if (state.auditFormType === "INTERNAL_AUDIT") {
+      tabIndex = 4;
+    } else if (state.auditFormType === "EXTERNAL_AUDIT") {
+      tabIndex = 5;
+    }
+
+    const nextState = state?.action === "ADD" ? 
+      {
+        action: DEF_ACTIONS.EDIT, 
+        target: state?.gapData,
+        tabIndex: tabIndex
+      } : 
+      { 
+        tabIndex: tabIndex 
+      };
+
+    navigate("/gap/gap-reg-form" + uriPath, { state: nextState });
+};
+
 
   const handleChange = (value, target) => {
     if (target === "auditId"){
@@ -61,6 +80,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
     } else {
+      setIsRandom(!isRandom)
       setFormData({});
     }
   };
@@ -281,7 +301,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
                 Save
               </Button>
               <Button
-                //onClick={resetForm}
+                onClick={resetForm}
                 color="success"
                 variant="contained"
                 size="small"

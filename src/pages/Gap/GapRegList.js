@@ -11,6 +11,10 @@ const GapRegList = ({
   const columns = [
     // { field: "id", headerName: "ID" },
     {
+      field: ["code"],
+      headerName: "GAP Request No"
+    },
+    {
       field: ["farmerDTO.firstName", "farmerDTO.lastName"],
       headerName: "Applicant Name",
     },
