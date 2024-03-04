@@ -66,4 +66,4 @@ jobs:
           docker pull oneszeros/eagriclientprod:latest
           docker stop agriclient
           docker rm agriclient
-          docker run -d --name agriclient -p 80:80 oneszeros/eagriclientprod:latest
+          docker run -d --name agriclient -p 443:443 oneszeros/eagriclientprod:latest
