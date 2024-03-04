@@ -871,6 +871,7 @@ const FarmerForm = () => {
                   name="isSeedFarmer"
                   id="isSeedFarmer"
                   value={formData?.isSeedFarmer || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "isSeedFarmer")
                   }
@@ -889,6 +890,7 @@ const FarmerForm = () => {
                   name="isExportFarmer"
                   id="isExportFarmer"
                   value={formData?.isExportFarmer || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "isExportFarmer")
                   }
