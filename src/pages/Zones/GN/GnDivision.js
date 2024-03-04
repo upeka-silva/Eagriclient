@@ -1150,7 +1150,7 @@ const GnDivision = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Delete GN Division"
         actions={
           <ActionWrapper>
             <Button
