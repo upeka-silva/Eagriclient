@@ -34,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropRegistrationList from "./crop-registration-list";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CropRegistration = () => {
 
@@ -154,7 +155,16 @@ const CropRegistration = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Registration Details" />
       <ActionWrapper isLeft>
         <ButtonGroup

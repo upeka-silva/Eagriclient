@@ -28,6 +28,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const Role = () => {
   useUserAccessValidation();
@@ -144,7 +145,16 @@ const Role = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Roles" />
       <ActionWrapper isLeft>
         <ButtonGroup

@@ -34,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropTargetList from "./crop-target-list";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropTarget = () => {
 
@@ -153,7 +154,16 @@ const CropTarget = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Target" />
       <ActionWrapper isLeft>
         <ButtonGroup

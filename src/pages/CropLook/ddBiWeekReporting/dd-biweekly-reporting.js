@@ -17,6 +17,8 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./dd-biweekly-reporting-list";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const DDBiWeeklyReporting = () => {
 
@@ -59,7 +61,16 @@ const DDBiWeeklyReporting = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Bi Weekly Reporting" />
       <ActionWrapper isLeft>
         <ButtonGroup
