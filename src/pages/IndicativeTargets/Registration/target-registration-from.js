@@ -183,7 +183,7 @@ const TargetRegistrationForm = () => {
         flexDirection: "column",
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
-        height: "100vh",
+        height: "90vh",
         overflowY: "scroll",
       }}
     >

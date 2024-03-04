@@ -1,6 +1,7 @@
 import React from "react";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const IntProvincialAdaList = ({
   dataEndPoint,
@@ -15,7 +16,7 @@ const IntProvincialAdaList = ({
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -26,7 +27,7 @@ const IntProvincialAdaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 

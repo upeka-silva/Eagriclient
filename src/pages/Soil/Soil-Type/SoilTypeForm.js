@@ -20,6 +20,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const SoilTypeForm = () => {
   useUserAccessValidation();
@@ -109,6 +110,16 @@ const SoilTypeForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       
       <PageHeader
@@ -182,6 +193,7 @@ const SoilTypeForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

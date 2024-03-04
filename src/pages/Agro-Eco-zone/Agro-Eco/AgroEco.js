@@ -28,6 +28,7 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader"
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const AgroEco = () => {
   useUserAccessValidation();
@@ -148,7 +149,16 @@ const AgroEco = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Agro Eco Zone" />
       <ActionWrapper isLeft>
         <ButtonGroup

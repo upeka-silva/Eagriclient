@@ -41,6 +41,7 @@ import { createCropConfig } from "../../../redux/actions/cropLook/cropConfigurat
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 
+
 const CropConfigurationForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -55,7 +56,7 @@ const CropConfigurationForm = () => {
   const [isSaving, setIsSaving] = useState(null);
   const [selectedCropCategory, setSelectedCropCategory] = useState(null);
 
-  const [fields, setFields] = useState([
+  const [defaultFields] = useState([
     CROP_LOOK_FIELD.EXTENT_MAJOR,
     CROP_LOOK_FIELD.EXTENT_MINOR,
     CROP_LOOK_FIELD.EXTENT_RAINFED,
@@ -63,7 +64,23 @@ const CropConfigurationForm = () => {
     CROP_LOOK_FIELD.EXTENT
   ]);
 
+  const [fields, setFields] = useState(defaultFields);
+
   useEffect(() => {
+    get_CategoryList().then(({ dataList = [] }) => {
+      setOptions(dataList);
+    });
+
+    if (
+      state?.action === DEF_ACTIONS.EDIT ||
+      state?.action === DEF_ACTIONS.VIEW
+    ) {
+      setFields(state?.target?.fields);
+    }
+  }, []);
+
+ 
+ useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
@@ -87,9 +104,9 @@ const CropConfigurationForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setFields(state?.target || {});
     } else {
-      setFormData({});
+      setFields(defaultFields);
     }
   };
 
@@ -149,13 +166,17 @@ const CropConfigurationForm = () => {
     }
   };
 
-  const cropInputFieldsHandler = (index, value) => {
+  const cropInputFieldsHandler = (index, value, dataList) => {
     const updatedFields = [...fields];
-
     updatedFields[index] = value;
-    
+  
+    // Assuming you want to do something with dataList here
+    // For example, logging it:
+    console.log(dataList);
+  
     setFields(updatedFields);
   };
+  
 
   const addNewRow = () => {
     const newField = " ";
@@ -220,6 +241,7 @@ const CropConfigurationForm = () => {
             <FieldWrapper>
               <FieldName>Crop Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
+                
                 {fields
                   ? fields.map((field, index) => (
                       <>

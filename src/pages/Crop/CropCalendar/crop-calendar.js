@@ -23,6 +23,7 @@ import {
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropCalendarList from "./crop-calendar-list";
 import { deleteCropCalendar } from "../../../redux/actions/crop/cropCalendar/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropCalendar = () => {
   useUserAccessValidation();
@@ -116,7 +117,16 @@ const CropCalendar = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Calendar" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -217,9 +227,6 @@ const CropCalendar = () => {
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-        </>
       </DialogBox>
     </div>
   );

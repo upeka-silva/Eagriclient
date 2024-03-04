@@ -30,6 +30,8 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -150,7 +152,16 @@ const SoilType = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Soil Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -212,7 +223,7 @@ const SoilType = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Type"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -221,7 +232,7 @@ const SoilType = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+             OK
             </Button>
             <Button
               variant="contained"
@@ -229,14 +240,14 @@ const SoilType = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+             Cancel
             </Button>
           </ActionWrapper>
         }
       >
         <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
+          
+          <Divider sx={{ mt: "6px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

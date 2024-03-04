@@ -24,7 +24,7 @@ import { Colors } from "../../utils/constants/Colors";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
-const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus}) => {
+const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, gapData}) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -58,7 +58,8 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus}) 
         auditFormType: auditFormType,
         action: DEF_ACTIONS.ADD,
         formId: formId,
-        gapReqStatus: gapReqStatus
+        gapReqStatus: gapReqStatus,
+        gapData: gapData
       },
     });
   };
@@ -362,7 +363,7 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus}) 
             {state?.action !== DEF_ACTIONS.VIEW && (
               <ActionWrapper>
                 <PermissionWrapper
-                  permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}`}
+                  permission={auditFormType === "INTERNAL_AUDIT" ?`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}` : `${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`}
                 >
                   <Button
                     variant="outlined"

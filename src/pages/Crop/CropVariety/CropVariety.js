@@ -27,6 +27,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -148,7 +149,16 @@ const CropVariety = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Variety" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -200,7 +210,7 @@ const CropVariety = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Crop Variety)"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -209,7 +219,7 @@ const CropVariety = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -217,16 +227,11 @@ const CropVariety = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
       </DialogBox>
     </div>
   );

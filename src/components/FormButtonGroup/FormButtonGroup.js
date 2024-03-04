@@ -48,6 +48,7 @@ const FormButtonGroup = ({
                 {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
               </Button>
               <Button
+                disabled={state?.action === DEF_ACTIONS.EDIT}
                 onClick={resetForm}
                 color="success"
                 variant="contained"
@@ -64,11 +65,7 @@ const FormButtonGroup = ({
                     size="small"
                     sx={{ marginLeft: "10px" }}
                 >
-                    {verifiedStatus === false ?
-                        <span>VERIFY</span>
-                        :
-                        <span>NOT VERIFY</span>
-                    }
+                    <span>VERIFY</span>
                 </Button>
               }
             </>

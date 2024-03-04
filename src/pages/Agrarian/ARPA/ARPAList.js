@@ -19,6 +19,7 @@ const ARPAList = ({
     },
   ];
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={dataEndPoint}
@@ -29,6 +30,7 @@ const ARPAList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+    </TableWrapper>
   );
 };
 

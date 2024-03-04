@@ -1,5 +1,7 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+
 
 const DsDivisionList = ({
   dataEndPoint,
@@ -15,22 +17,22 @@ const DsDivisionList = ({
       field: ["districtDTO.code", "districtDTO.name"],
       joinString: " - ",
       headerName: "District",
-    },
+    }
   ];
 
   return (
-   
-      <DataTable
-        loadingTable
-        dataEndPoint={dataEndPoint}
-        columns={columns}
-        selectable
-        selectedRows={selectedRows}
-        selectAll={selectAll}
-        onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
-      />
-   
+  <TableWrapper>
+    <DataTable
+      loadingTable
+      dataEndPoint={dataEndPoint}
+      columns={columns}
+      selectable
+      selectedRows={selectedRows}
+      selectAll={selectAll}
+      onRowSelect={onRowSelect}
+      unSelectAll={unSelectAll}
+    />
+  </TableWrapper>
   );
 };
 

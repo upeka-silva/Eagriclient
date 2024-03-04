@@ -21,7 +21,6 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -34,6 +33,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./biweekly-reporting-list";
+import { deleteBiWeeklyReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 
 const BiWeeklyReporting = () => {
 
@@ -141,7 +141,7 @@ const BiWeeklyReporting = () => {
     try {
       setLoading(true);
       for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
+        await deleteBiWeeklyReporting(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
@@ -164,7 +164,7 @@ const BiWeeklyReporting = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -173,7 +173,7 @@ const BiWeeklyReporting = () => {
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -188,7 +188,7 @@ const BiWeeklyReporting = () => {
           )}
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -203,7 +203,7 @@ const BiWeeklyReporting = () => {
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
               <Button
                 variant="outlined"
@@ -219,7 +219,7 @@ const BiWeeklyReporting = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
       >
         {loading === false && (
           <BiWeeklyReportingList

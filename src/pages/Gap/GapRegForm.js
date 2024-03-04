@@ -60,7 +60,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { getUserPermissionByComponent } from "../../utils/helpers/permission";
+import { getUserPermissionByComponent, getUserPermissionStateByAuthority } from "../../utils/helpers/permission";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import CropDetailsList from "./CropDetails/CropDetailsList";
@@ -201,6 +201,12 @@ const GapRegForm = () => {
     setToggleState(index);
     console.log(index);
   };
+
+  useEffect(() => {
+    if (state && state.tabIndex) {
+      setToggleState(state.tabIndex);
+    }
+  }, [state]);
 
   const goBack = () => {
     navigate("/gap/gap-registration");
@@ -556,8 +562,6 @@ const GapRegForm = () => {
     return ['APPROVED_BY_DD', 'SCS_REGIONAL_OFFICER_APPROVE', 'MAIN_SCS_REGIONAL_OFFICER_APPROVE', 'GENERATE_CERTIFICATE', 'SEND_CERTIFICATE', 'EXTERNAL_AUDITOR_SUBMITTED', 'SUBMITTED', 'ASSIGN_AUDITORS', 'DRAFT'].includes(state);
 }
 
-console.log(`formData`, formData)
-
   return (
     <div
       style={{
@@ -619,10 +623,10 @@ console.log(`formData`, formData)
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
                         {  
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE" ||
-                        role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE"
+                        (gapReqStatus.lblState === "SUBMITTED") ||
+                        (gapReqStatus.lblState === "APPROVED_BY_DD") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
+                        (gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                         ? null :
                         (<Button
                           variant="contained"
@@ -636,11 +640,15 @@ console.log(`formData`, formData)
                             : "UPDATE"}
                         </Button>)}
                       </PermissionWrapper>
+
+                      <PermissionWrapper
+                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
+                      >
                     {
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
+                     (gapReqStatus.lblState === "DRAFT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                     (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -652,11 +660,15 @@ console.log(`formData`, formData)
                       </Button>
                       ): null 
                     }
+                    </PermissionWrapper>
                     </ButtonGroup>
-                    {(role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
+                    <PermissionWrapper
+                        permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_AI}`}
+                    >
+                     {(gapReqStatus.lblState === "DRAFT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                      (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
                      ? (
                       <Button
                         onClick={() => setOpenConfSubmit(true)}
@@ -668,6 +680,7 @@ console.log(`formData`, formData)
                         SUBMIT
                       </Button>
                     ) : null}
+                    </PermissionWrapper>
 
                     <GapRequestActionsButtons
                      role={role}
@@ -680,9 +693,9 @@ console.log(`formData`, formData)
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
                       {
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED" ||
-                        role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                        (gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
                         // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
                          ? null : (
                         <Button
@@ -699,16 +712,17 @@ console.log(`formData`, formData)
                         )
                       }
                     </PermissionWrapper>
+                    
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
                       {
-
-                      role == "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ? 
+                      gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
+                      gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
                       (<Button
                         onClick={() => {
-                          changeGapReqStatus("GENERATE_CERTIFICATE");
                           generateCertificate();
+                          changeGapReqStatus("GENERATE_CERTIFICATE");
                         }}
                         color="success"
                         variant="outlined"
@@ -991,7 +1005,7 @@ console.log(`formData`, formData)
         <TabButton
           className={toggleState === 6 ? "active-tabs" : ""}
           onClick={() => toggleTab(6)}
-          disabled={formData?.id == "" || !certificatePermission?.isEnabled}
+          disabled={formData?.id === "" || !certificatePermission?.isEnabled}
         >
           Certificate
         </TabButton>
@@ -1045,7 +1059,7 @@ console.log(`formData`, formData)
                   id="appliedGapBefore"
                   value={formData?.appliedGapBefore || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "appliedGapBefore")
+                    handleChange(e?.target?.checked || false, "appliedGapBefore")
                   }
                   checked={formData?.appliedGapBefore}
                 />
@@ -1195,7 +1209,7 @@ console.log(`formData`, formData)
                   value={formData?.hasOtherCertificates || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasOtherCertificates"
                     )
                   }
@@ -1267,7 +1281,7 @@ console.log(`formData`, formData)
                   value={formData?.hasProperKnowledgeOnSLGap || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasProperKnowledgeOnSLGap"
                     )
                   }
@@ -1292,7 +1306,7 @@ console.log(`formData`, formData)
                   value={formData?.hasLeafletsPertainingToSLGap || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasLeafletsPertainingToSLGap"
                     )
                   }
@@ -1311,7 +1325,7 @@ console.log(`formData`, formData)
                   id="hasChecklist"
                   value={formData?.hasChecklist || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasChecklist")
+                    handleChange(e?.target?.checked || false, "hasChecklist")
                   }
                   checked={formData?.hasChecklist}
                 />
@@ -1334,7 +1348,7 @@ console.log(`formData`, formData)
                   value={formData?.hasQualityManagementPlan || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasQualityManagementPlan"
                     )
                   }
@@ -1373,7 +1387,7 @@ console.log(`formData`, formData)
                   id="seedsFromOwnFarm"
                   value={formData?.seedsFromOwnFarm || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "seedsFromOwnFarm")
+                    handleChange(e?.target?.checked || false, "seedsFromOwnFarm")
                   }
                   checked={formData?.seedsFromOwnFarm}
                 />
@@ -1410,7 +1424,7 @@ console.log(`formData`, formData)
                   value={formData?.seedsFromPrivateFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "seedsFromPrivateFarm"
                     )
                   }
@@ -1433,7 +1447,7 @@ console.log(`formData`, formData)
                   id="certifiedSeeds"
                   value={formData?.certifiedSeeds || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "certifiedSeeds")
+                    handleChange(e?.target?.checked || false, "certifiedSeeds")
                   }
                   checked={formData?.certifiedSeeds}
                 />
@@ -1454,7 +1468,7 @@ console.log(`formData`, formData)
                   id="seedsFromOther"
                   value={formData?.seedsFromOther || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "seedsFromOther")
+                    handleChange(e?.target?.checked || false, "seedsFromOther")
                   }
                   checked={formData?.seedsFromOther}
                 />
@@ -1617,7 +1631,7 @@ console.log(`formData`, formData)
                   id="hasSoilTestDone"
                   value={formData?.hasSoilTestDone || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasSoilTestDone")
+                    handleChange(e?.target?.checked || false, "hasSoilTestDone")
                   }
                   checked={formData?.hasSoilTestDone}
                 />
@@ -1649,7 +1663,7 @@ console.log(`formData`, formData)
                   value={formData?.fertilizerManageBasedOnSoilTest || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageBasedOnSoilTest"
                     )
                   }
@@ -1669,7 +1683,7 @@ console.log(`formData`, formData)
                   value={formData?.fertilizerManageRecommendationOfAD || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageRecommendationOfAD"
                     )
                   }
@@ -1692,7 +1706,7 @@ console.log(`formData`, formData)
                   }
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageRecommendationOfAnotherInstitute"
                     )
                   }
@@ -1718,7 +1732,7 @@ console.log(`formData`, formData)
                   value={formData?.fertilizerMangeOther || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerMangeOther"
                     )
                   }
@@ -1787,7 +1801,7 @@ console.log(`formData`, formData)
                   id="addedCompostToSoil"
                   value={formData?.addedCompostToSoil || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "addedCompostToSoil")
+                    handleChange(e?.target?.checked || false, "addedCompostToSoil")
                   }
                   checked={formData?.addedCompostToSoil}
                 />
@@ -1809,7 +1823,7 @@ console.log(`formData`, formData)
                   value={formData?.compostPreparedWithinFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "compostPreparedWithinFarm"
                     )
                   }
@@ -1827,7 +1841,7 @@ console.log(`formData`, formData)
                   value={formData?.compostPreparedOutsideFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "compostPreparedOutsideFarm"
                     )
                   }
@@ -1895,7 +1909,7 @@ console.log(`formData`, formData)
                   value={formData?.humanFecalMattersAdded || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "humanFecalMattersAdded"
                     )
                   }
@@ -1915,7 +1929,7 @@ console.log(`formData`, formData)
                   value={formData?.anyMeasuresToAdoptedSoilErosion || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "anyMeasuresToAdoptedSoilErosion"
                     )
                   }
@@ -1951,7 +1965,7 @@ console.log(`formData`, formData)
                   id="hasWaterTestReport"
                   value={formData?.hasWaterTestReport || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasWaterTestReport")
+                    handleChange(e?.target?.checked || false, "hasWaterTestReport")
                   }
                   checked={formData?.hasWaterTestReport}
                 />
@@ -2076,7 +2090,7 @@ console.log(`formData`, formData)
                   value={formData?.farmUsedForNonAgriculturalPurpose || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "farmUsedForNonAgriculturalPurpose"
                     )
                   }
@@ -2219,7 +2233,7 @@ console.log(`formData`, formData)
                   value={formData?.slgapConvPracExists || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "slgapConvPracExists"
                     )
                   }
@@ -2288,7 +2302,7 @@ console.log(`formData`, formData)
                   value={formData?.surroundingLandRiskExist || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "surroundingLandRiskExist"
                     )
                   }
@@ -2310,7 +2324,7 @@ console.log(`formData`, formData)
                   }
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "correctiveMeasuresTakenForSurroundingLands"
                     )
                   }
@@ -2347,7 +2361,7 @@ console.log(`formData`, formData)
                   value={formData?.preventContaminationExists || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "preventContaminationExists"
                     )
                   }
@@ -2367,7 +2381,7 @@ console.log(`formData`, formData)
                   value={formData?.harvestWashedAtFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "harvestWashedAtFarm"
                     )
                   }
@@ -2387,7 +2401,7 @@ console.log(`formData`, formData)
                   value={formData?.waterQualitySimilarToDrinkingWater || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "waterQualitySimilarToDrinkingWater"
                     )
                   }
@@ -2422,7 +2436,7 @@ console.log(`formData`, formData)
                   id="onFarmPackaging"
                   value={formData?.onFarmPackaging || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "onFarmPackaging")
+                    handleChange(e?.target?.checked || false, "onFarmPackaging")
                   }
                   checked={formData?.onFarmPackaging}
                 />
@@ -2440,7 +2454,7 @@ console.log(`formData`, formData)
                   value={formData?.maintainTraceability || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "maintainTraceability"
                     )
                   }
@@ -2460,7 +2474,7 @@ console.log(`formData`, formData)
                   id="useSLGapQR"
                   value={formData?.useSLGapQR || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "useSLGapQR")
+                    handleChange(e?.target?.checked || false, "useSLGapQR")
                   }
                   checked={formData?.useSLGapQR}
                 />
@@ -2499,7 +2513,7 @@ console.log(`formData`, formData)
                   value={formData?.storeSLGapAndNonGapTogether || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "storeSLGapAndNonGapTogether"
                     )
                   }
@@ -2520,7 +2534,7 @@ console.log(`formData`, formData)
                   value={formData?.protectedTempProcessingStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "protectedTempProcessingStore"
                     )
                   }
@@ -2540,7 +2554,7 @@ console.log(`formData`, formData)
                   value={formData?.fertilizerAndPesticidesInSameStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerAndPesticidesInSameStore"
                     )
                   }
@@ -2561,7 +2575,7 @@ console.log(`formData`, formData)
                   value={formData?.fertilizerAndPesticidesInSeparateStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerAndPesticidesInSeparateStore"
                     )
                   }
@@ -2580,7 +2594,7 @@ console.log(`formData`, formData)
                   id="workersTrained"
                   value={formData?.workersTrained || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "workersTrained")
+                    handleChange(e?.target?.checked || false, "workersTrained")
                   }
                   checked={formData?.workersTrained}
                 />
@@ -2599,7 +2613,7 @@ console.log(`formData`, formData)
                   value={formData?.firstAidSanitaryProvided || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "firstAidSanitaryProvided"
                     )
                   }
@@ -2626,19 +2640,23 @@ console.log(`formData`, formData)
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_AREA}`}
             >
-              <Button onClick={onCreateCropDetails}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              { state?.action === DEF_ACTIONS.VIEW ? null : (
+                <Button onClick={onCreateCropDetails} >
+                 <Add />
+                 {DEF_ACTIONS.ADD}
+                </Button>)
+              }
             </PermissionWrapper>
             {selectedCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onEditCropDetails}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                { state?.action === DEF_ACTIONS.VIEW ? null : (
+                  <Button onClick={onEditCropDetails}>
+                   <Edit />
+                   {DEF_ACTIONS.EDIT}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
 
@@ -2657,10 +2675,13 @@ console.log(`formData`, formData)
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onDeleteCropDetails}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                {
+                  state?.action === DEF_ACTIONS.VIEW ? null :(
+                  <Button onClick={onDeleteCropDetails} >
+                    <Delete />
+                    {DEF_ACTIONS.DELETE}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -2677,8 +2698,10 @@ console.log(`formData`, formData)
           dataList={null}
           onFormSaveSuccess={null}
           formId={formData?.id}
+          gapData={formData}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
@@ -2688,8 +2711,10 @@ console.log(`formData`, formData)
           onFormSaveSuccess={null}
           formId={formData?.id}
           formMode={null}
+          gapData={formData}
           gapReqStatus = {gapReqStatus.lblState}
           auditFormType={"EXTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
@@ -2711,7 +2736,7 @@ console.log(`formData`, formData)
       />
       <DialogBox
         open={openDeleteCropDetail}
-        title="Delete Farm Land Ownership"
+        title="Delete Crop Detail"
         actions={
           <ActionWrapper>
             <Button
@@ -2750,7 +2775,7 @@ console.log(`formData`, formData)
               onClick={setSubmitted}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -2758,7 +2783,7 @@ console.log(`formData`, formData)
               onClick={() => setOpenConfSubmit(false)}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
@@ -2793,61 +2818,53 @@ console.log(`formData`, formData)
                   color="info"
                   onClick={() => {
                     if (openApproveDialog.option === 'approve') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) && 
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("APPROVED_BY_DD");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'ASSIGN_AUDITORS'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'APPROVED_BY_DD'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
                       }
                       else if (
-                        role === 'MAIN_SCS_REGIONAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_MAIN_SCS}`) &&
                         gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
                       ) {
                         changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                       }
                     }
                     else if (openApproveDialog.option === 'reject') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) &&
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("REJECTED_BY_DD");
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "APPROVED_BY_DD"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
-                      }
-                      else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
-                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }
-                      else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
-                        gapReqStatus.lblState === 'APPROVED_BY_DD'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }                    
+                      }                  
                       else {
-                        changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_REJECT")
+                        changeGapReqStatus("REJECTED_BY_MAIN_SCS")
                       }
                     }
                     setOpenApproveDialog({ open: false, option: '' });
@@ -2872,7 +2889,7 @@ console.log(`formData`, formData)
       >
 <>
   {openApproveDialog.option === 'approve' ? 
-    (role === "GAP_EXTERNAL_AUDITOR" && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
+    (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
       `Please confirm to submit this GAP request.` :
       `Please confirm to approve this GAP request.`) :
     `Please confirm to reject this GAP request.`

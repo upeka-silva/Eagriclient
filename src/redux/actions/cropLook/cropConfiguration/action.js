@@ -111,7 +111,6 @@ export const updateCropConfig = async (
       };
       throw exception;
     }
-    console.log(response);
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

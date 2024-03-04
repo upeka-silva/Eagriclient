@@ -190,10 +190,10 @@ export default function BiWeekDataTable({
         Bi-Week Data
       </Typography>
       
-    <div style={{ height: 500, width: "90%" }}>
+    <div style={{ height: "100%", width: "90%" }}>
       <Box
         sx={{
-          height: 400,
+          height: "92%",
           width: "99%",
         }}
       >
@@ -202,7 +202,7 @@ export default function BiWeekDataTable({
           columns={columns}
           initialState={{
             pagination: {
-              paginationModel: { page: 0, pageSize: 5 },
+              paginationModel: { page: 0, pageSize: 12 },
             },
           }}
           disableSelectionOnClick

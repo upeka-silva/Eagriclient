@@ -21,7 +21,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import { DeleteCropTarget } from "../../../redux/actions/cropLook/cropTarget/actions";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -43,11 +43,11 @@ const CropTarget = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [selectCropTarget, setSelectCropTarget] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleSubCategorySelect = (component) => {
-    setSelectSubCategory((current = []) => {
+  const toggleCropTargetSelect = (component) => {
+    setSelectCropTarget((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -59,12 +59,12 @@ const CropTarget = () => {
     });
   };
 
-  const selectAllSubCategories = (all = []) => {
-    setSelectSubCategory(all);
+  const selectAllCropTargets = (all = []) => {
+    setSelectCropTarget(all);
   };
 
-  const resetSelectedSubCategory = () => {
-    setSelectSubCategory([]);
+  const resetSelectedCropTaget= () => {
+    setSelectCropTarget([]);
   };
 
   const onCreate = () => {
@@ -77,7 +77,7 @@ const CropTarget = () => {
     navigate("/crop-look/crop-target-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectSubCategory[0] || {},
+        target: selectCropTarget[0] || {},
       },
     });
   };
@@ -87,7 +87,7 @@ const CropTarget = () => {
     navigate("/crop-look/crop-target-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectSubCategory[0] || {},
+        target: selectCropTarget[0] || {},
       },
     });
   };
@@ -103,7 +103,7 @@ const CropTarget = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectSubCategory.map((p, key) => {
+        {selectCropTarget.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -140,12 +140,12 @@ const CropTarget = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
+      for (const CropTarget of selectCropTarget) {
+        await DeleteCropTarget(CropTarget?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSubCategory();
+      resetSelectedCropTaget();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -164,16 +164,16 @@ const CropTarget = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
           >
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectSubCategory.length === 1 && (
+          {selectCropTarget.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
               <Button
                 variant="outlined"
@@ -186,9 +186,9 @@ const CropTarget = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectSubCategory.length === 1 && (
+          {selectCropTarget.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
               <Button
                 variant="outlined"
@@ -201,9 +201,9 @@ const CropTarget = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectSubCategory.length > 0 && (
+          {selectCropTarget.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
               <Button
                 variant="outlined"
@@ -219,14 +219,14 @@ const CropTarget = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
       >
         {loading === false && (
           <CropTargetList
-            selectedRows={selectSubCategory}
-            onRowSelect={toggleSubCategorySelect}
-            selectAll={selectAllSubCategories}
-            unSelectAll={resetSelectedSubCategory}
+            selectedRows={selectCropTarget}
+            onRowSelect={toggleCropTargetSelect}
+            selectAll={selectCropTarget}
+            unSelectAll={resetSelectedCropTaget}
           />
         )}
       </PermissionWrapper>

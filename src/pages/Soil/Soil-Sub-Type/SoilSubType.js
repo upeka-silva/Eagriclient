@@ -29,6 +29,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -150,7 +151,16 @@ const SoilSubType = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Soil Sub Type" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -202,7 +212,7 @@ const SoilSubType = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -225,8 +235,8 @@ const SoilSubType = () => {
         }
       >
         <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
+         
+          <Divider sx={{ mt: "8px" }} />
           {renderSelectedItems()}
         </>
       </DialogBox>

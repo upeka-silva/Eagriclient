@@ -27,6 +27,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteCrop } from "../../../redux/actions/crop/crop/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -146,7 +147,16 @@ const Crop = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop" />
       <ActionWrapper isLeft>
         <ButtonGroup

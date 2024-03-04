@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
@@ -9,6 +9,9 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import { getDbFieldName } from "../../../utils/appUtils";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const CropTargetTab = ({
   mode,
@@ -26,14 +29,17 @@ const CropTargetTab = ({
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
-      console.log('data fields');
+      console.log("data fields");
       console.log(data);
       setConfigFields(data ? data.fields : []);
-      checkDataLoadStatus()
+      checkDataLoadStatus();
     });
 
-    if ((mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) && savedCropCategoryTarget?.cropTargets) {
-      console.log('crop targets existig');
+    if (
+      (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
+      savedCropCategoryTarget?.cropTargets
+    ) {
+      console.log("crop targets existig");
       console.log(savedCropCategoryTarget?.cropTargets);
       setCropTargets(savedCropCategoryTarget?.cropTargets);
     } else {
@@ -43,7 +49,7 @@ const CropTargetTab = ({
         cropCategoryId,
         aiRegion.parentType
       ).then(({ dataList = [] }) => {
-        console.log('crop targets');
+        console.log("crop targets");
         console.log(dataList);
         setCropTargets(dataList);
         checkDataLoadStatus();
@@ -53,38 +59,49 @@ const CropTargetTab = ({
 
   const checkDataLoadStatus = () => {
     //if (configFields.length > 0 && cropTargets.length > 0) {
-      setDataLoaded(true);
+    setDataLoaded(true);
     //}
   };
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
+    console.log("targeted field -->" + field);
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
-    const existingTotalExtent = updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex]["totalExtent"];
 
-    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex]["totalExtent"] = parseFloat(existingTotalExtent || 0) + parseFloat(value);
+    // Calculate total target
+    let total = 0;
+    if (configFields.length > 0) {
+      let target =
+        updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
+      configFields.forEach((field) => {
+        total += parseFloat(
+          target[getDbFieldName(field)]
+            ? target[getDbFieldName(field)]
+            : 0
+        );
+      });
+    }
+
+    updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][
+      "totalExtent"
+    ] = total;
 
     setCropTargets(updatedVarietyTargets);
   };
 
   const handleCropClear = () => {
-
     const newCropTargets = [...cropTargets];
 
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
-          if(variety.targetedExtentMajor)
-            variety.targetedExtentMajor = 0;
-          if(variety.targetedExtentMinor)
-            variety.targetedExtentMinor = 0;
-          if(variety.targetedExtentRainfed)
-            variety.targetedExtentRainfed = 0;
-          if(variety.targetedExtentIrrigate)
+          if (variety.targetedExtentMajor) variety.targetedExtentMajor = 0;
+          if (variety.targetedExtentMinor) variety.targetedExtentMinor = 0;
+          if (variety.targetedExtentRainfed) variety.targetedExtentRainfed = 0;
+          if (variety.targetedExtentIrrigate)
             variety.targetedExtentIrrigate = 0;
-          if(variety.targetedExtent)
-            variety.targetedExtent = 0;
+          if (variety.targetedExtent) variety.targetedExtent = 0;
         }
       }
     }
@@ -138,6 +155,9 @@ const CropTargetTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
+      <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SEASONAL_CROP_TARGET}`}
+        >
         <div style={{ textAlign: "left" }}>
           <Button
             disabled={mode === DEF_ACTIONS.VIEW}
@@ -168,6 +188,7 @@ const CropTargetTab = ({
             </Button>
           )}
         </div>
+      </PermissionWrapper>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
         {dataLoaded &&

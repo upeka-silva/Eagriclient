@@ -60,11 +60,13 @@ export const getQuestionsByFormId = async (
 export const deleteAuditFormQuestion = async (
     formId = null,
     id,
+    uriPath,
     onSuccess = () => { },
     onError = (_message) => { }
 ) => {
     try {
-        const response = await api_delete(`question-form-template/${formId || ''}/questions/${id || ''}`, true);
+        // const response = await api_delete(`question-form-template/${formId || ''}/questions/${id || ''}`, true);
+        const response = await api_delete(`gap-request/${formId}/${uriPath}/${id}`, true)
         console.log(response)
         if (response?.httpCode === "200 OK") {
             onSuccess();

@@ -32,7 +32,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { get_GnDivisionList, get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
+import { get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 
@@ -70,11 +70,11 @@ const FarmLandForm = () => {
   const [otherField, setOtherField] = useState("none");
   const [farmLandId, setFarmLandId] = useState(null);
   const isVerifiedFunctionality = true;
-  const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.status);
+  const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.landStatus);
   const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] =
     useState(false);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
-  console.log(state?.target?.id == undefined);
+  console.log(state?.target?.id === undefined);
   const [protectedHouseList, setProtectedHoseList] = useState([]);
   const [phLoading, setPhLoading] = useState(true);
 
@@ -215,8 +215,8 @@ const FarmLandForm = () => {
     setSaving(true);
     try {
       const verifyObj = {
-        id: farmLandId,
-        status: true,
+        id: formData.id,
+        landStatus: !verifiedStatus,
       };
       await updateFarmLand(verifyObj, onSuccess, onError);
     } catch (error) {
@@ -250,8 +250,9 @@ const FarmLandForm = () => {
     setFarmLandId(response?.payload?.id);
     setFormData((prevState) => ({
       ...prevState,
-      id: farmLandId,
+      id: response?.payload?.id,
     }));
+    setVerifiedStatus(response?.payload.landStatus)
     setSaving(false);
     navigate("/farm-land-form", {
       state: {
@@ -362,7 +363,7 @@ const FarmLandForm = () => {
     setOpenFlO(true);
   };
   const onEditFlOData = () => {
-    const data = flODataList.filter((item) => item?.id == selectedOwnership[0]);
+    const data = flODataList.filter((item) => item?.id === selectedOwnership[0]);
     console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
@@ -377,7 +378,7 @@ const FarmLandForm = () => {
   };
 
   const onViewFlOData = () => {
-    const data = flODataList.filter((item) => item?.id == selectedOwnership[0]);
+    const data = flODataList.filter((item) => item?.id === selectedOwnership[0]);
     console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
@@ -467,8 +468,11 @@ const FarmLandForm = () => {
   return (
     <Box
       sx={{
+        display: "flex",
+        flexDirection: "column",
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
+        height: "90vh",
         overflowY: "scroll",
       }}
     >
@@ -643,7 +647,7 @@ const FarmLandForm = () => {
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
-                  <FieldName>Aria Unit</FieldName>
+                  <FieldName>Area Unit</FieldName>
                   <Select
                     name="landAreaUnit"
                     id="landAreaUnit"
@@ -1029,6 +1033,7 @@ const FarmLandForm = () => {
       </TabContent>
       <FarmLandOwnershipForm
         open={openFlO}
+        setOpenFlO={setOpenFlO}
         action={fLOAction}
         onClose={closeFlO}
         farmLandData={formData}

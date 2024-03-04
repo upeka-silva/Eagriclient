@@ -23,10 +23,11 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano, CheckCircle, Lock } from "@mui/icons-material";
 import CropLookSeasonList from "./CropLookSeasonList";
 import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -142,9 +143,17 @@ const CropLookSeason = () => {
     );
   };
 
+  const onDeleteSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
   const onSuccess = (operationType) => {
     let message = "";
     let formattedType = operationType.trim().toUpperCase();
+    console.log("")
     switch(formattedType){
        case "ENABLED":
          message = "Successfully enabled";
@@ -153,19 +162,17 @@ const CropLookSeason = () => {
          message = "Successfully closed";
          break;
     }
+
     addSnackBar({
        type: SnackBarTypes.success,
        message: message,
     });
    };
    
-   
-   
-
-  const onError = (message) => {
+   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
@@ -173,7 +180,7 @@ const CropLookSeason = () => {
     try {
       setLoading(true);
       for (const agriSeason of selectAgriSeason) {
-        await deleteCropLookSeason(agriSeason?.id, onSuccess, onError);
+        await deleteCropLookSeason(agriSeason?.id, onDeleteSuccess, onError);
       }
       setLoading(false);
       close();
@@ -212,7 +219,7 @@ const CropLookSeason = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -221,7 +228,7 @@ const CropLookSeason = () => {
           </PermissionWrapper>
           {selectAgriSeason.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -231,7 +238,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -241,7 +248,7 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -251,20 +258,20 @@ const CropLookSeason = () => {
           )}
           {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "ENABLED" && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={() => onChangeStatus("ENABLED")}>
-                <Delete />
+                <CheckCircle />
                 Enable
               </Button>
             </PermissionWrapper>
           )}
           {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "CLOSED" && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
             >
               <Button onClick={() => onChangeStatus("CLOSED")}>
-                <Delete />
+                <Lock />
                 Close
               </Button>
             </PermissionWrapper>
@@ -273,7 +280,7 @@ const CropLookSeason = () => {
       </ActionWrapper>
 
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_SEASON}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
       >
         {loading === false && (
           <CropLookSeasonList
@@ -339,11 +346,7 @@ const CropLookSeason = () => {
           </ActionWrapper>
         }
       >
-        <>
-          Do you want change status to {seasonStatus}
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
+       
       </DialogBox>
     </div>
   );

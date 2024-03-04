@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../components/PageLayout/Table";
+import { TableWrapper } from "../../components/PageLayout/TableWrapper";
 
 const CommonAuditList = ({
   selectedRows = [],
@@ -27,6 +28,7 @@ const CommonAuditList = ({
   }
 
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={"question-form-template/all/" + pathParm}
@@ -37,6 +39,7 @@ const CommonAuditList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+    </TableWrapper>
   );
 };
 
