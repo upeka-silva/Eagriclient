@@ -26,6 +26,7 @@ import {
 import { get_itemNames } from "../../../redux/actions/HARTIItems/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
@@ -67,6 +68,12 @@ const CropVarietyForm = () => {
   }, []);
 
   const handleChange = (value, target) => {
+    const pattern = /^[0-9]*$/;
+    if(target === "releasedYear"){
+      if(!pattern.test(value)){
+        return;
+      }
+    }
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -242,8 +249,16 @@ const CropVarietyForm = () => {
   };
 
   return (
-    <div>
-      <FormWrapper>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >     
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Variety" />
         <FormButtonGroup
           state={state}
@@ -728,7 +743,6 @@ const CropVarietyForm = () => {
             </Grid>
           </Grid>
         </Grid>
-      </FormWrapper>
     </div>
   );
 };

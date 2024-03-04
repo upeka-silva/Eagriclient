@@ -14,8 +14,8 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
 import {
-  deleteAuditFormQuestion,
-} from "../../redux/actions/auditForm/auditFormQuestions/actions";
+  deleteAuditById
+} from "../../redux/actions/auditForm/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
@@ -33,7 +33,9 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 const DynamicFormListGap = ({
   formId,
   auditFormType = "",
-  gapReqStatus
+  gapReqStatus,
+  gapData,
+  action
 }) => {
   const { state } = useLocation();
   const [saving, setSaving] = useState(false);
@@ -75,7 +77,7 @@ const DynamicFormListGap = ({
     }
   }, []);
 
-  const handleCropAreaAdd = (prop, mode) => (event) => {
+  const handleCropAreaAdd = (prop, mode, p_action) => (event) => {
     setFormData({});
     setFormData(prop);
     setDialogMode(mode);
@@ -86,7 +88,9 @@ const DynamicFormListGap = ({
         action: mode,
         formData: prop,
         formId: { formId },
-        uriPath:uriPath
+        uriPath:uriPath,
+        gapData: gapData,
+        parentAction: p_action
       },
     });
   };
@@ -210,7 +214,13 @@ const DynamicFormListGap = ({
   };
 
   const onConfirm = async () => {
-    await deleteAuditFormQuestion(formId, deleteItem?.id, uriPath, onSuccess, onError);
+    await deleteAuditById(
+      formId,
+      uriPath,
+      deleteItem?.id, 
+      onSuccess, 
+      onError);
+    
     close();
   };
 
@@ -240,7 +250,7 @@ const DynamicFormListGap = ({
           afterSave={onSuccess}
           formId={formId}
           gapReqStatus = { gapReqStatus }
-
+          gapData = {gapData}
         />
       )}
 
@@ -268,7 +278,7 @@ const DynamicFormListGap = ({
                       }
                     >
                       <Button
-                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW)}
+                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.VIEW, state?.action)}
                         color="success"
                         variant="contained"
                         size="small"
@@ -285,12 +295,13 @@ const DynamicFormListGap = ({
                       }
                     >
                       <Button
-                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT)}
+                        onClick={handleCropAreaAdd(row, DEF_ACTIONS.EDIT, state?.action)}
                         color="success"
                         variant="contained"
                         size="small"
                         sx={{ marginLeft: "10px" }}
-                      >
+                        disabled={state?.action === DEF_ACTIONS.VIEW}
+                        >
                         EDIT
                       </Button>
                     </PermissionWrapper>
@@ -307,7 +318,8 @@ const DynamicFormListGap = ({
                         variant="contained"
                         size="small"
                         sx={{ marginLeft: "10px" }}
-                      >
+                        disabled={state?.action === DEF_ACTIONS.VIEW}
+                        >
                         DELETE
                       </Button>
                     </PermissionWrapper>

@@ -23,6 +23,7 @@ const ASCList = ({
   ];
 
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={dataEndPoint}
@@ -33,6 +34,7 @@ const ASCList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+    </TableWrapper>
   );
 };
 

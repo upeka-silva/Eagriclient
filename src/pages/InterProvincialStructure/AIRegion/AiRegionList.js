@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const InterProvincialAiRegionList = ({
   dataEndPoint,
@@ -14,7 +15,7 @@ const InterProvincialAiRegionList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -26,7 +27,7 @@ const InterProvincialAiRegionList = ({
         unSelectAll={unSelectAll}
         
       />
-    
+    </TableWrapper> 
   );
 };
 

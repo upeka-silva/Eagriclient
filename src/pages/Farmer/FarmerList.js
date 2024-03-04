@@ -22,6 +22,7 @@ const FarmerList = ({
   ];
 
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={"farmers"}
@@ -32,6 +33,7 @@ const FarmerList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+     </TableWrapper> 
   );
 };
 

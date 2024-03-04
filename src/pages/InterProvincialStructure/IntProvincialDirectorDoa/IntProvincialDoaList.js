@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const IntProvincialDoaList = ({
   dataEndPoint,
@@ -14,6 +15,7 @@ const IntProvincialDoaList = ({
   ];
 
   return (
+    <TableWrapper>
     <DataTable
       loadingTable
       dataEndPoint={dataEndPoint}
@@ -24,6 +26,7 @@ const IntProvincialDoaList = ({
       onRowSelect={onRowSelect}
       unSelectAll={unSelectAll}
     />
+    </TableWrapper> 
   );
 };
 

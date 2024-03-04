@@ -27,6 +27,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ProvinceList from "./ProvinceList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const Province = () => {
   useUserAccessValidation();
@@ -153,7 +154,16 @@ const Province = () => {
 
   
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
         <ButtonGroup

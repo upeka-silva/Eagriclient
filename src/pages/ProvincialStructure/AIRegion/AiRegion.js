@@ -44,6 +44,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -228,7 +229,16 @@ const ProvincialAiRegion = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
         <ButtonGroup

@@ -35,6 +35,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import { get_ASCListByComId } from "../../../redux/actions/asc/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ARPA = () => {
   useUserAccessValidation();
@@ -191,7 +192,16 @@ const ARPA = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="ARPA Division" />
       <ActionWrapper isLeft>
         <ButtonGroup

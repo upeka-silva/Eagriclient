@@ -60,7 +60,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { getUserPermissionByComponent } from "../../utils/helpers/permission";
+import { getUserPermissionByComponent, getUserPermissionStateByAuthority } from "../../utils/helpers/permission";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import CropDetailsList from "./CropDetails/CropDetailsList";
@@ -201,6 +201,12 @@ const GapRegForm = () => {
     setToggleState(index);
     console.log(index);
   };
+
+  useEffect(() => {
+    if (state && state.tabIndex) {
+      setToggleState(state.tabIndex);
+    }
+  }, [state]);
 
   const goBack = () => {
     navigate("/gap/gap-registration");
@@ -617,10 +623,10 @@ const GapRegForm = () => {
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
                         {  
-                        (role === "AI_OFFICER" && gapReqStatus.lblState === "SUBMITTED") ||
-                        (role === "AI_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD") ||
-                        (role === "AI_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
-                        (role === "AI_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
+                        (gapReqStatus.lblState === "SUBMITTED") ||
+                        (gapReqStatus.lblState === "APPROVED_BY_DD") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
+                        (gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                         ? null :
                         (<Button
                           variant="contained"
@@ -634,11 +640,15 @@ const GapRegForm = () => {
                             : "UPDATE"}
                         </Button>)}
                       </PermissionWrapper>
+
+                      <PermissionWrapper
+                        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
+                      >
                     {
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
+                     (gapReqStatus.lblState === "DRAFT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                     (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                     (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
                       <Button
                         onClick={resetForm}
                         color="success"
@@ -650,11 +660,15 @@ const GapRegForm = () => {
                       </Button>
                       ): null 
                     }
+                    </PermissionWrapper>
                     </ButtonGroup>
-                    {(role === 'AI_OFFICER' && gapReqStatus.lblState === "DRAFT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (role === 'AI_OFFICER' && gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
+                    <PermissionWrapper
+                        permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_AI}`}
+                    >
+                     {(gapReqStatus.lblState === "DRAFT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_DD") ||
+                      (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                      (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
                      ? (
                       <Button
                         onClick={() => setOpenConfSubmit(true)}
@@ -666,6 +680,7 @@ const GapRegForm = () => {
                         SUBMIT
                       </Button>
                     ) : null}
+                    </PermissionWrapper>
 
                     <GapRequestActionsButtons
                      role={role}
@@ -678,9 +693,9 @@ const GapRegForm = () => {
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
                       {
-                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
-                        (role === "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
+                        (gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
+                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
                         // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
                          ? null : (
                         <Button
@@ -697,13 +712,13 @@ const GapRegForm = () => {
                         )
                       }
                     </PermissionWrapper>
+                    
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
                       {
-
-                      (role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE") || 
-                      (role === "MAIN_SCS_REGIONAL_OFFICER" && gapReqStatus.lblState === "GENERATE_CERTIFICATE") ? 
+                      gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
+                      gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
                       (<Button
                         onClick={() => {
                           generateCertificate();
@@ -1044,7 +1059,7 @@ const GapRegForm = () => {
                   id="appliedGapBefore"
                   value={formData?.appliedGapBefore || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "appliedGapBefore")
+                    handleChange(e?.target?.checked || false, "appliedGapBefore")
                   }
                   checked={formData?.appliedGapBefore}
                 />
@@ -1194,7 +1209,7 @@ const GapRegForm = () => {
                   value={formData?.hasOtherCertificates || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasOtherCertificates"
                     )
                   }
@@ -1266,7 +1281,7 @@ const GapRegForm = () => {
                   value={formData?.hasProperKnowledgeOnSLGap || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasProperKnowledgeOnSLGap"
                     )
                   }
@@ -1291,7 +1306,7 @@ const GapRegForm = () => {
                   value={formData?.hasLeafletsPertainingToSLGap || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasLeafletsPertainingToSLGap"
                     )
                   }
@@ -1310,7 +1325,7 @@ const GapRegForm = () => {
                   id="hasChecklist"
                   value={formData?.hasChecklist || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasChecklist")
+                    handleChange(e?.target?.checked || false, "hasChecklist")
                   }
                   checked={formData?.hasChecklist}
                 />
@@ -1333,7 +1348,7 @@ const GapRegForm = () => {
                   value={formData?.hasQualityManagementPlan || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "hasQualityManagementPlan"
                     )
                   }
@@ -1372,7 +1387,7 @@ const GapRegForm = () => {
                   id="seedsFromOwnFarm"
                   value={formData?.seedsFromOwnFarm || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "seedsFromOwnFarm")
+                    handleChange(e?.target?.checked || false, "seedsFromOwnFarm")
                   }
                   checked={formData?.seedsFromOwnFarm}
                 />
@@ -1409,7 +1424,7 @@ const GapRegForm = () => {
                   value={formData?.seedsFromPrivateFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "seedsFromPrivateFarm"
                     )
                   }
@@ -1432,7 +1447,7 @@ const GapRegForm = () => {
                   id="certifiedSeeds"
                   value={formData?.certifiedSeeds || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "certifiedSeeds")
+                    handleChange(e?.target?.checked || false, "certifiedSeeds")
                   }
                   checked={formData?.certifiedSeeds}
                 />
@@ -1453,7 +1468,7 @@ const GapRegForm = () => {
                   id="seedsFromOther"
                   value={formData?.seedsFromOther || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "seedsFromOther")
+                    handleChange(e?.target?.checked || false, "seedsFromOther")
                   }
                   checked={formData?.seedsFromOther}
                 />
@@ -1616,7 +1631,7 @@ const GapRegForm = () => {
                   id="hasSoilTestDone"
                   value={formData?.hasSoilTestDone || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasSoilTestDone")
+                    handleChange(e?.target?.checked || false, "hasSoilTestDone")
                   }
                   checked={formData?.hasSoilTestDone}
                 />
@@ -1648,7 +1663,7 @@ const GapRegForm = () => {
                   value={formData?.fertilizerManageBasedOnSoilTest || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageBasedOnSoilTest"
                     )
                   }
@@ -1668,7 +1683,7 @@ const GapRegForm = () => {
                   value={formData?.fertilizerManageRecommendationOfAD || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageRecommendationOfAD"
                     )
                   }
@@ -1691,7 +1706,7 @@ const GapRegForm = () => {
                   }
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerManageRecommendationOfAnotherInstitute"
                     )
                   }
@@ -1717,7 +1732,7 @@ const GapRegForm = () => {
                   value={formData?.fertilizerMangeOther || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerMangeOther"
                     )
                   }
@@ -1786,7 +1801,7 @@ const GapRegForm = () => {
                   id="addedCompostToSoil"
                   value={formData?.addedCompostToSoil || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "addedCompostToSoil")
+                    handleChange(e?.target?.checked || false, "addedCompostToSoil")
                   }
                   checked={formData?.addedCompostToSoil}
                 />
@@ -1808,7 +1823,7 @@ const GapRegForm = () => {
                   value={formData?.compostPreparedWithinFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "compostPreparedWithinFarm"
                     )
                   }
@@ -1826,7 +1841,7 @@ const GapRegForm = () => {
                   value={formData?.compostPreparedOutsideFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "compostPreparedOutsideFarm"
                     )
                   }
@@ -1894,7 +1909,7 @@ const GapRegForm = () => {
                   value={formData?.humanFecalMattersAdded || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "humanFecalMattersAdded"
                     )
                   }
@@ -1914,7 +1929,7 @@ const GapRegForm = () => {
                   value={formData?.anyMeasuresToAdoptedSoilErosion || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "anyMeasuresToAdoptedSoilErosion"
                     )
                   }
@@ -1950,7 +1965,7 @@ const GapRegForm = () => {
                   id="hasWaterTestReport"
                   value={formData?.hasWaterTestReport || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "hasWaterTestReport")
+                    handleChange(e?.target?.checked || false, "hasWaterTestReport")
                   }
                   checked={formData?.hasWaterTestReport}
                 />
@@ -2075,7 +2090,7 @@ const GapRegForm = () => {
                   value={formData?.farmUsedForNonAgriculturalPurpose || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "farmUsedForNonAgriculturalPurpose"
                     )
                   }
@@ -2218,7 +2233,7 @@ const GapRegForm = () => {
                   value={formData?.slgapConvPracExists || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "slgapConvPracExists"
                     )
                   }
@@ -2287,7 +2302,7 @@ const GapRegForm = () => {
                   value={formData?.surroundingLandRiskExist || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "surroundingLandRiskExist"
                     )
                   }
@@ -2309,7 +2324,7 @@ const GapRegForm = () => {
                   }
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "correctiveMeasuresTakenForSurroundingLands"
                     )
                   }
@@ -2346,7 +2361,7 @@ const GapRegForm = () => {
                   value={formData?.preventContaminationExists || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "preventContaminationExists"
                     )
                   }
@@ -2366,7 +2381,7 @@ const GapRegForm = () => {
                   value={formData?.harvestWashedAtFarm || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "harvestWashedAtFarm"
                     )
                   }
@@ -2386,7 +2401,7 @@ const GapRegForm = () => {
                   value={formData?.waterQualitySimilarToDrinkingWater || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "waterQualitySimilarToDrinkingWater"
                     )
                   }
@@ -2421,7 +2436,7 @@ const GapRegForm = () => {
                   id="onFarmPackaging"
                   value={formData?.onFarmPackaging || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "onFarmPackaging")
+                    handleChange(e?.target?.checked || false, "onFarmPackaging")
                   }
                   checked={formData?.onFarmPackaging}
                 />
@@ -2439,7 +2454,7 @@ const GapRegForm = () => {
                   value={formData?.maintainTraceability || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "maintainTraceability"
                     )
                   }
@@ -2459,7 +2474,7 @@ const GapRegForm = () => {
                   id="useSLGapQR"
                   value={formData?.useSLGapQR || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "useSLGapQR")
+                    handleChange(e?.target?.checked || false, "useSLGapQR")
                   }
                   checked={formData?.useSLGapQR}
                 />
@@ -2498,7 +2513,7 @@ const GapRegForm = () => {
                   value={formData?.storeSLGapAndNonGapTogether || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "storeSLGapAndNonGapTogether"
                     )
                   }
@@ -2519,7 +2534,7 @@ const GapRegForm = () => {
                   value={formData?.protectedTempProcessingStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "protectedTempProcessingStore"
                     )
                   }
@@ -2539,7 +2554,7 @@ const GapRegForm = () => {
                   value={formData?.fertilizerAndPesticidesInSameStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerAndPesticidesInSameStore"
                     )
                   }
@@ -2560,7 +2575,7 @@ const GapRegForm = () => {
                   value={formData?.fertilizerAndPesticidesInSeparateStore || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "fertilizerAndPesticidesInSeparateStore"
                     )
                   }
@@ -2579,7 +2594,7 @@ const GapRegForm = () => {
                   id="workersTrained"
                   value={formData?.workersTrained || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "workersTrained")
+                    handleChange(e?.target?.checked || false, "workersTrained")
                   }
                   checked={formData?.workersTrained}
                 />
@@ -2598,7 +2613,7 @@ const GapRegForm = () => {
                   value={formData?.firstAidSanitaryProvided || ""}
                   onChange={(e) =>
                     handleChange(
-                      e?.target?.checked || "",
+                      e?.target?.checked || false,
                       "firstAidSanitaryProvided"
                     )
                   }
@@ -2625,19 +2640,23 @@ const GapRegForm = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_AREA}`}
             >
-              <Button onClick={onCreateCropDetails}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              { state?.action === DEF_ACTIONS.VIEW ? null : (
+                <Button onClick={onCreateCropDetails} >
+                 <Add />
+                 {DEF_ACTIONS.ADD}
+                </Button>)
+              }
             </PermissionWrapper>
             {selectedCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onEditCropDetails}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                { state?.action === DEF_ACTIONS.VIEW ? null : (
+                  <Button onClick={onEditCropDetails}>
+                   <Edit />
+                   {DEF_ACTIONS.EDIT}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
 
@@ -2656,10 +2675,13 @@ const GapRegForm = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                <Button onClick={onDeleteCropDetails}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                {
+                  state?.action === DEF_ACTIONS.VIEW ? null :(
+                  <Button onClick={onDeleteCropDetails} >
+                    <Delete />
+                    {DEF_ACTIONS.DELETE}
+                  </Button>)
+                }
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -2676,8 +2698,10 @@ const GapRegForm = () => {
           dataList={null}
           onFormSaveSuccess={null}
           formId={formData?.id}
+          gapData={formData}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
@@ -2687,8 +2711,10 @@ const GapRegForm = () => {
           onFormSaveSuccess={null}
           formId={formData?.id}
           formMode={null}
+          gapData={formData}
           gapReqStatus = {gapReqStatus.lblState}
           auditFormType={"EXTERNAL_AUDIT"}
+          action= {state?.action}
         />
       </TabContent>
 
@@ -2749,7 +2775,7 @@ const GapRegForm = () => {
               onClick={setSubmitted}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -2757,7 +2783,7 @@ const GapRegForm = () => {
               onClick={() => setOpenConfSubmit(false)}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
@@ -2792,53 +2818,51 @@ const GapRegForm = () => {
                   color="info"
                   onClick={() => {
                     if (openApproveDialog.option === 'approve') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) && 
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("APPROVED_BY_DD");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'ASSIGN_AUDITORS'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
                         gapReqStatus.lblState === 'APPROVED_BY_DD'
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
                       }
                       else if (
-                        role === 'MAIN_SCS_REGIONAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_MAIN_SCS}`) &&
                         gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
                       ) {
                         changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE")
                       }
                     }
                     else if (openApproveDialog.option === 'reject') {
-                      if (role === 'DD_OFFICER') {
+                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) &&
+                          gapReqStatus.lblState === "SUBMITTED"
+                      ) {
                         changeGapReqStatus("REJECTED_BY_DD");
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "APPROVED_BY_DD"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
                       }
                       else if (
-                        role === 'SCS_REGINAL_OFFICER' &&
+                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
                         changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
-                      }
-                      else if (
-                        role === 'GAP_EXTERNAL_AUDITOR' &&
-                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_REJECT")
-                      }                   
+                      }                  
                       else {
                         changeGapReqStatus("REJECTED_BY_MAIN_SCS")
                       }
@@ -2865,7 +2889,7 @@ const GapRegForm = () => {
       >
 <>
   {openApproveDialog.option === 'approve' ? 
-    (role === "GAP_EXTERNAL_AUDITOR" && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
+    (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
       `Please confirm to submit this GAP request.` :
       `Please confirm to approve this GAP request.`) :
     `Please confirm to reject this GAP request.`

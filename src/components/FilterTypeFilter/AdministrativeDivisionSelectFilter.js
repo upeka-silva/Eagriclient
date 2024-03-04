@@ -30,7 +30,7 @@ const AdministrativeDivisionSelectFilter = ({
     const fetchOptions = async (path) => {
       setLoading(false);
       try {
-        let response = await get(`${path}`, true);
+        let response = await get(`${path}?size=1000`, true);
         let nameValPair = getNameValuePair(response, selectedOption.key);
         setFetchedOptions(nameValPair);
         setLoading(true);

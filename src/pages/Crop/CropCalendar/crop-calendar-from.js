@@ -20,6 +20,7 @@ import {
   updateCropCalendar,
 } from "../../../redux/actions/crop/cropCalendar/action";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropCalendarForm = () => {
   useUserAccessValidation();
@@ -164,7 +165,16 @@ const CropCalendarForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader
           saving={saving}
@@ -280,7 +290,7 @@ const CropCalendarForm = () => {
               <Autocomplete
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 multiple={true}
-                options={varieties || formData.cropVarieties}
+                options={varieties || formData?.cropVarieties}
                 value={formData?.cropVarieties}
                 getOptionLabel={(i) => `${i.varietyId} - ${i.varietyName}`}
                 onChange={(event, value) => {

@@ -89,7 +89,11 @@ const CropTargetForm = () => {
       setCropTargetId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
       var region = state?.target?.aiRegion ? state?.target?.aiRegion : state?.target?.mahaweliUnit;
-      region.parentType = state?.target?.parentType;
+      
+      if (state?.target?.parentType !== null && state?.target?.parentType !== undefined) {
+        region.parentType = state.target.parentType;
+      }
+      
       setSelectedAiRegion(region);
       setCropCategoryTarget(state?.target?.cropCategoryTargets);
 

@@ -15,6 +15,7 @@ import {
 } from "../../redux/actions/userType/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const UserTypeForm = () => {
   useUserAccessValidation();
@@ -98,6 +99,16 @@ const UserTypeForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader goBack={goBack} saving={saving} state={state} formName="User Type" />
       <FormButtonGroup
@@ -182,6 +193,7 @@ const UserTypeForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

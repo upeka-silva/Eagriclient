@@ -25,6 +25,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../components/PageHeader/PageHeader";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const AgriSeasonForm = () => {
   useUserAccessValidation();
@@ -142,6 +143,16 @@ const AgriSeasonForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} formName="Agriculture Season" goBack={goBack}/>
       <FormButtonGroup
@@ -270,6 +281,7 @@ const AgriSeasonForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

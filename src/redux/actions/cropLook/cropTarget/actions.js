@@ -229,13 +229,13 @@ export const updateCropRegistrationItems = async (
   }
 };
 
-export const deleteDistrict = async (
+export const DeleteCropTarget = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/districts/${id || ""}`, true);
+    const response = await api_delete(`crop-look/target-seasonal-region/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();

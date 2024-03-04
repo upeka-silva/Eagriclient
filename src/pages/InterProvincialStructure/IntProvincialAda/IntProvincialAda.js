@@ -51,6 +51,7 @@ import { get_InterProvincialDoaList } from "../../../redux/actions/interProvinci
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { deleteInterProvincialAda } from "../../../redux/actions/interProvincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const IntProvincialAda = () => {
   useUserAccessValidation();
@@ -226,7 +227,16 @@ const IntProvincialAda = () => {
  }
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Inter Provincial ADA" />
       <ActionWrapper isLeft>
         <ButtonGroup
