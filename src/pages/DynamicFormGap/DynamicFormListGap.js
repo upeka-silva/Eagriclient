@@ -14,8 +14,8 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
 import {
-  deleteAuditFormQuestion,
-} from "../../redux/actions/auditForm/auditFormQuestions/actions";
+  deleteAuditById
+} from "../../redux/actions/auditForm/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
@@ -214,7 +214,13 @@ const DynamicFormListGap = ({
   };
 
   const onConfirm = async () => {
-    await deleteAuditFormQuestion(formId, deleteItem?.id, uriPath, onSuccess, onError);
+    await deleteAuditById(
+      formId,
+      uriPath,
+      deleteItem?.id, 
+      onSuccess, 
+      onError);
+    
     close();
   };
 
