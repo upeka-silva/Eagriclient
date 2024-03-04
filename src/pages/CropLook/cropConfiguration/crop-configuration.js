@@ -36,6 +36,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./crop-configuration-list";
 import CropConfigurationList from "./crop-configuration-list";
 import { deleteCropConfiguration } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropConfiguration = () => {
 
@@ -140,7 +141,16 @@ const CropConfiguration = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Configuration" />
       <ActionWrapper isLeft>
         <ButtonGroup

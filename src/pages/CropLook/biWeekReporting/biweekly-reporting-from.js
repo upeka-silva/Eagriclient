@@ -41,6 +41,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -235,7 +236,16 @@ const BiWeeklyReportingForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Bi Weekly Report" />
         <Grid container>

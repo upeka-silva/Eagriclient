@@ -34,6 +34,7 @@ import {
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./biweekly-reporting-list";
 import { deleteBiWeeklyReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReporting = () => {
 
@@ -153,7 +154,16 @@ const BiWeeklyReporting = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Bi Weekly Reporting" />
       <ActionWrapper isLeft>
         <ButtonGroup
