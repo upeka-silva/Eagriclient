@@ -700,8 +700,8 @@ const CropVarietyForm = () => {
                       <label
                         htmlFor="profile-picture-input"
                         style={{
-                          width: "250px",
-                          height: "140px",
+                          width: "182px",
+                          height: "182px",
                           border: "1px solid #7a879d",
                           borderRadius: "8px",
                           display: "flex",
@@ -720,8 +720,8 @@ const CropVarietyForm = () => {
                             position: "absolute",
                             zIndex: "1",
                             backgroundColor: "rgb(46,125,50,0.1)",
-                            width: "250px",
-                            height: "140px",
+                            width: "182px",
+                            height: "182px",
                             borderRadius: "8px",
                           }}
                         >
@@ -729,8 +729,8 @@ const CropVarietyForm = () => {
                             src={selectedImage}
                             alt="Profile"
                             style={{
-                              width: "250px",
-                              height: "140px",
+                              width: "182px",
+                              height: "182px",
                               borderRadius: "8px",
                             }}
                           />

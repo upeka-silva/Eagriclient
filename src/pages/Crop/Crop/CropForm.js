@@ -601,8 +601,8 @@ const CropForm = ({
                       <label
                         htmlFor="profile-picture-input"
                         style={{
-                          width: "180px",
-                          height: "180px",
+                          width: "182px",
+                          height: "182px",
                           border: "1px solid #7a879d",
                           borderRadius: "8px",
                           display: "flex",
