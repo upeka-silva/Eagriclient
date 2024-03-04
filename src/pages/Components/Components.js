@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router';
 import { useSnackBars } from '../../context/SnackBarContext';
 import { useUserAccessValidation } from '../../hooks/authentication';
 import ListHeader from '../../components/ListHeader/ListHeader';
+import { Fonts } from "../../utils/constants/Fonts";
 
 const Components = () => {
 
@@ -55,7 +56,16 @@ const Components = () => {
     }
 
     return (
-        <div>
+        <div
+        style={{
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: `${Fonts.fontStyle1}`,
+            marginTop: "10px",
+            height: "90vh",
+            overflowY: "scroll",
+          }}
+        >
             <ListHeader title="Components" />
             <ActionWrapper>
                 <PermissionWrapper

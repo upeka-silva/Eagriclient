@@ -6,6 +6,7 @@ import { Grid } from "@mui/material";
 import "@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css";
 import MapboxDraw from "@mapbox/mapbox-gl-draw";
 import Map from "react-map-gl";
+import { Fonts } from "../../utils/constants/Fonts";
 import ListHeader from "../../components/ListHeader/ListHeader";
 mapboxgl.accessToken =
   "pk.eyJ1IjoiYWdyaXRlc3QiLCJhIjoiY2xsZ2F6bDJtMDB6cTNnbWs5cDQwOHNnMCJ9.kbacxY47ddUCRZFD9C3WHA";
@@ -64,7 +65,16 @@ export default function MapView() {
   }, []);
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Map" />
       <Grid container>
         <Grid item sm={12} md={12} lg={12} sx={{ paddingTop: "20px" }}>

@@ -28,6 +28,8 @@ import CropLookSeasonList from "./CropLookSeasonList";
 import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -208,7 +210,16 @@ const CropLookSeason = () => {
    
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Look Season" />
       <ActionWrapper isLeft>
         <ButtonGroup

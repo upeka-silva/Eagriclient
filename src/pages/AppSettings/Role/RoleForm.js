@@ -13,6 +13,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const RoleForm = () => {
   const navigate = useNavigate();
@@ -90,6 +91,16 @@ const RoleForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} goBack={goBack} formName="Role" />
       <ButtonWrapper
@@ -190,6 +201,7 @@ const RoleForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

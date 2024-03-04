@@ -36,6 +36,7 @@ import { Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import DDBiWeeklyReportingTab from "./dd-biweekly-reporting-tab";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const DDBiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -146,7 +147,16 @@ const DDBiWeeklyReportingForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} formName="Bi Weekly Report" goBack={goBack}/>
         <Grid container>
