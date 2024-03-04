@@ -41,6 +41,7 @@ import { get_DistrictList, get_DistrictListByProvinceId } from "../../../redux/a
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -200,7 +201,16 @@ const DsDivision = () => {
   }
   
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
         <ButtonGroup

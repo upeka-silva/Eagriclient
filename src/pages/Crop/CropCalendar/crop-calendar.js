@@ -227,9 +227,6 @@ const CropCalendar = () => {
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-        </>
       </DialogBox>
     </div>
   );

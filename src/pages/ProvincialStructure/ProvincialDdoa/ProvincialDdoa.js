@@ -42,6 +42,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { deleteProvincialDdoa } from "../../../redux/actions/provincialDdoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ProvincialDdoa = () => {
   useUserAccessValidation();
@@ -192,7 +193,16 @@ const ProvincialDdoa = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Provincial DDOA" />
       <ActionWrapper isLeft>
         <ButtonGroup

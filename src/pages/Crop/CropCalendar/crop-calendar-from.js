@@ -290,7 +290,7 @@ const CropCalendarForm = () => {
               <Autocomplete
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 multiple={true}
-                options={varieties || formData.cropVarieties}
+                options={varieties || formData?.cropVarieties}
                 value={formData?.cropVarieties}
                 getOptionLabel={(i) => `${i.varietyId} - ${i.varietyName}`}
                 onChange={(event, value) => {

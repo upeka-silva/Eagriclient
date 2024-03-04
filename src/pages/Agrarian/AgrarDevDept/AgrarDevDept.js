@@ -26,6 +26,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteAgrarDevDept } from "../../../redux/actions/agrarDevDept/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const AgrarDevDept = () => {
   useUserAccessValidation();
@@ -150,7 +151,16 @@ const AgrarDevDept = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Department of Agrarian Development" />
       <ActionWrapper isLeft>
         <ButtonGroup

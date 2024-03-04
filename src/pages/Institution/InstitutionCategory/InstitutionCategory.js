@@ -26,7 +26,9 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteInstitutionCat } from "../../../redux/actions/institution/institutionCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader"
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const InstitutionCategory = () => {
   useUserAccessValidation();
@@ -147,7 +149,16 @@ const InstitutionCategory = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Institution Category" />
       <ActionWrapper isLeft>
         <ButtonGroup

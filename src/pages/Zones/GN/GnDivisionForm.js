@@ -57,6 +57,7 @@ import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincial
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import { getCalendarPickerSkeletonUtilityClass } from "@mui/lab";
 import { ViewCarouselTwoTone } from "@mui/icons-material";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const GnDivisionForm = () => {
   useUserAccessValidation();
@@ -538,6 +539,16 @@ const GnDivisionForm = () => {
 
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper style={{ overflowY: "scroll" }}>
       <PageHeader
         goBack={goBack}
@@ -676,7 +687,7 @@ const GnDivisionForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Ds Division</FieldName>
+            <FieldName>DS Division</FieldName>
             <Autocomplete
               disabled={selectedDistrict?.id == null}
               options={dsDivisions}
@@ -1540,6 +1551,7 @@ const GnDivisionForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

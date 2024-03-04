@@ -18,6 +18,7 @@ import BackToList from "../../../components/BackToList/BackToList";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const ASCForm = () => {
   const navigate = useNavigate();
@@ -114,6 +115,16 @@ const ASCForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} formName="ASC Division" goBack={goBack}/>
       <FormButtonGroup
@@ -201,6 +212,7 @@ const ASCForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

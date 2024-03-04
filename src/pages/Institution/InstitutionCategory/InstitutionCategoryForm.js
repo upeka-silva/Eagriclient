@@ -17,6 +17,7 @@ import {
 
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const InstitutionCategoryForm = () => {
   useUserAccessValidation();
@@ -106,6 +107,16 @@ const InstitutionCategoryForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} goBack={goBack} formName="Institution Category" />
       <FormButtonGroup
@@ -170,6 +181,7 @@ const InstitutionCategoryForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

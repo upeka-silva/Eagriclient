@@ -1,7 +1,7 @@
 export const gapReqDto = () => {
   return {
     id:null,
-    code: 0,
+    code: null,
     farmer: {},
     isRenewal:false,
     appliedGapBefore: false,

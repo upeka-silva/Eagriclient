@@ -1,6 +1,7 @@
 import React from "react";
 import { CardWrapper } from "../../../components/PageLayout/Card";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const IntProvincialDdoaList = ({
   dataEndPoint,
@@ -15,7 +16,7 @@ const IntProvincialDdoaList = ({
   ];
 
   return (
-   
+      <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -26,6 +27,7 @@ const IntProvincialDdoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
+      </TableWrapper> 
     
   );
 };

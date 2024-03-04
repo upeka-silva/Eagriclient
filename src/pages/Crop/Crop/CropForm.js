@@ -37,8 +37,14 @@ import CropDiseaseList from "../CropDisease/CropDiseaseList";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import AddCropPestDialog from "../CropPest/AddCropPestDialog";
 import AddCropDiseaseDialog from "../CropDisease/AddCropDiseaseDialog";
-import { assignCropPest, deletePestFromCrop } from "../../../redux/actions/crop/CropPest/action";
-import { assignCropDisease, deleteDiseaseFromCrop } from "../../../redux/actions/crop/CropDisease/action";
+import {
+  assignCropPest,
+  deletePestFromCrop,
+} from "../../../redux/actions/crop/CropPest/action";
+import {
+  assignCropDisease,
+  deleteDiseaseFromCrop,
+} from "../../../redux/actions/crop/CropDisease/action";
 const CropForm = ({
   dataList = [],
   onFormSaveSuccess = false,
@@ -69,7 +75,8 @@ const CropForm = ({
   const [loading, setLoading] = useState(false);
   const [openCropPestAddDialog, setOpenCropPestAddDialog] = useState(false);
   const [dialogMode, setDialogMode] = useState(null);
-  const [openCropDiseaseAddDialog, setOpenCropDiseaseAddDialog] = useState(false);
+  const [openCropDiseaseAddDialog, setOpenCropDiseaseAddDialog] =
+    useState(false);
   const [isDataFetch, setIsDataFetch] = useState(true);
   const [deleteItem, setDeleteItem] = useState(null);
   const [cropId, setCropId] = useState(null);
@@ -80,7 +87,7 @@ const CropForm = ({
     const cropId = formData.id;
     setPestUrl(`crop/crop-pests/${cropId}/pests`);
     setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
-  })
+  });
 
   const goBack = () => {
     navigate("/crop/crop");
@@ -126,25 +133,31 @@ const CropForm = ({
     });
   };
 
-  const handleCropPestAdd = async (event, formDataD, functionMode, onSuccess, onError) => {
+  const handleCropPestAdd = async (
+    event,
+    formDataD,
+    functionMode,
+    onSuccess,
+    onError
+  ) => {
     try {
       await assignCropPest(cropId, formDataD, onSuccess, onError);
       setOpenCropPestAddDialog(false);
-  } catch (error) {
-    console.log(error);
-  }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCropDiseaseAdd = async (event, formDataD, functionMode) => {
     try {
       await assignCropDisease(cropId, formDataD);
       setOpenCropDiseaseAddDialog(false);
-  } catch (error) {
-    console.log(error);
-  }
-  console.log("form data is: ", formDataD['cropPest']);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log("form data is: ", formDataD["cropPest"]);
   };
-  
+
   const toggleCropDiseaseSelect = (component) => {
     setSelectCropDisease((current = []) => {
       let newList = [...current];
@@ -174,13 +187,13 @@ const CropForm = ({
     setCropId(formData.id);
     setOpen(true);
   };
-  
+
   const onConfirm = async () => {
-    if (toggleState === 1){
+    if (toggleState === 1) {
       try {
         setLoading(true);
         for (const cropPest of selectCropPest) {
-          await deletePestFromCrop(cropId, cropPest?.id,  onSuccess, onError);
+          await deletePestFromCrop(cropId, cropPest?.id, onSuccess, onError);
         }
         setLoading(false);
         close();
@@ -188,20 +201,26 @@ const CropForm = ({
       } catch (error) {
         console.log(error);
         setLoading(false);
-      }} else {
-        try {
-          setLoading(true);
-          for (const cropDisease of selectCropDisease) {
-            await deleteDiseaseFromCrop(cropId, cropDisease?.id,  onSuccess, onError);
-          }
-          setLoading(false);
-          close();
-          resetSelectedCropDisease();
-        } catch (error) {
-          console.log(error);
-          setLoading(false);
-        }
       }
+    } else {
+      try {
+        setLoading(true);
+        for (const cropDisease of selectCropDisease) {
+          await deleteDiseaseFromCrop(
+            cropId,
+            cropDisease?.id,
+            onSuccess,
+            onError
+          );
+        }
+        setLoading(false);
+        close();
+        resetSelectedCropDisease();
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    }
   };
 
   const resetSelectedCropPest = () => {
@@ -239,7 +258,7 @@ const CropForm = ({
     } else {
       setFormData({});
       setForm(null);
-      setSelectedImage(null)
+      setSelectedImage(null);
     }
   };
 
@@ -247,7 +266,7 @@ const CropForm = ({
     setFormData({});
     setOpenCropPestAddDialog(false);
   };
-  
+
   const closeCropDiseaseAddDialog = () => {
     setFormData({});
     setOpenCropDiseaseAddDialog(false);
@@ -289,8 +308,6 @@ const CropForm = ({
     });
     setSaving(false);
   };
-
-
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
@@ -411,7 +428,12 @@ const CropForm = ({
   return (
     <div>
       <FormWrapper>
-        <PageHeader saving={saving} goBack={goBack} state={state} formName="Crop" />
+        <PageHeader
+          saving={saving}
+          goBack={goBack}
+          state={state}
+          formName="Crop"
+        />
         <FormButtonGroup
           {...{
             state,
@@ -483,7 +505,7 @@ const CropForm = ({
                   <Autocomplete
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={subOptions}
-                    value={formData ?.cropSubCategoryDTO || null}
+                    value={formData?.cropSubCategoryDTO || null}
                     getOptionLabel={(i) =>
                       `${i.subCategoryId} - ${i.description}`
                     }
@@ -579,8 +601,8 @@ const CropForm = ({
                       <label
                         htmlFor="profile-picture-input"
                         style={{
-                          width: "250px",
-                          height: "140px",
+                          width: "180px",
+                          height: "180px",
                           border: "1px solid #7a879d",
                           borderRadius: "8px",
                           display: "flex",
@@ -599,8 +621,8 @@ const CropForm = ({
                             position: "absolute",
                             zIndex: "1",
                             backgroundColor: "rgb(46,125,50,0.1)",
-                            width: "250px",
-                            height: "140px",
+                            width: "180px",
+                            height: "180px",
                             borderRadius: "8px",
                           }}
                         >
@@ -608,8 +630,8 @@ const CropForm = ({
                             src={selectedImage}
                             alt="Profile"
                             style={{
-                              width: "250px",
-                              height: "140px",
+                              width: "180px",
+                              height: "180px",
                               borderRadius: "8px",
                             }}
                           />
@@ -619,12 +641,10 @@ const CropForm = ({
                   </div>
                 </FieldWrapper>
               </Grid>
-              
             </Grid>
           </Grid>
-          <Grid width={"100%"}>            
+          <Grid width={"100%"}>
             <TabWrapper>
-                            
               <TabButton
                 variant="contained"
                 className={toggleState === 1 ? "active-tabs" : ""}
@@ -641,21 +661,18 @@ const CropForm = ({
               >
                 Disease
               </TabButton>
-                            
             </TabWrapper>
             <TabContent className={toggleState === 1 ? "active-content" : ""}>
               <Box>
                 <Grid container>
-                  <Grid item sm={8} md={8} lg={12}>
-                  </Grid>
+                  <Grid item sm={8} md={8} lg={12}></Grid>
                 </Grid>
               </Box>
             </TabContent>
             <TabContent className={toggleState === 2 ? "active-content" : ""}>
               <Box>
                 <Grid container>
-                  <Grid item sm={8} md={8} lg={12}>
-                  </Grid>
+                  <Grid item sm={8} md={8} lg={12}></Grid>
                 </Grid>
               </Box>
             </TabContent>
@@ -668,7 +685,7 @@ const CropForm = ({
                   size="small"
                   aria-label="action button group"
                   color="success"
-                  >
+                >
                   <Button onClick={onAddPest}>
                     <Add />
                     {DEF_ACTIONS.ADD}
@@ -709,11 +726,11 @@ const CropForm = ({
                   size="small"
                   aria-label="action button group"
                   color="success"
-                  >
+                >
                   <Button onClick={onAddDisease}>
                     <Add />
                     {DEF_ACTIONS.ADD}
-                  </Button>                  
+                  </Button>
                   <AddCropDiseaseDialog
                     open={openCropDiseaseAddDialog}
                     setConfirmDialog={setOpenCropDiseaseAddDialog}
@@ -763,8 +780,7 @@ const CropForm = ({
                   </Button>
                 </ActionWrapper>
               }
-              >
-            </DialogBox>
+            ></DialogBox>
           </Grid>
         </Grid>
       </FormWrapper>

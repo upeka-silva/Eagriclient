@@ -47,8 +47,28 @@ export default function FormPageEditView(
   const { addSnackBar } = useSnackBars();
  
   const goBack = ()=>{
-    //navigate("/gap-reg-form")
-    navigate(-1)
+    let tabIndex = 1;
+
+    if (state.auditFormType === "INTERNAL_AUDIT") {
+      tabIndex = 4;
+    } else if (state.auditFormType === "EXTERNAL_AUDIT") {
+      tabIndex = 5;
+    }
+
+    const nextState = state?.parentAction === DEF_ACTIONS.EDIT ? 
+      {
+        action: DEF_ACTIONS.EDIT, 
+        target: state?.gapData,
+        tabIndex: tabIndex
+      } : state?.parentAction === DEF_ACTIONS.VIEW ?
+      { 
+        action: DEF_ACTIONS.VIEW,
+        target: state?.gapData,
+        tabIndex: tabIndex 
+      } : {}
+
+    navigate("/gap/gap-reg-form", { state: nextState });
+
   }
 
   useEffect(() => {
@@ -61,6 +81,12 @@ export default function FormPageEditView(
     if (!state.formData) {
       return;
     }
+    assignStateData();
+
+  }, [formData]);
+
+
+  const assignStateData = () => {
     const formData = state.formData
     const newOne = {};
     newOne.auditId = formData.auditId;
@@ -79,7 +105,7 @@ export default function FormPageEditView(
     }
 
     setFormDataQ(newOne);
-  }, [formData]);
+  }
 
   const handleChange = (value, target) => {
     setFormDataQ((current = {}) => {
@@ -91,7 +117,7 @@ export default function FormPageEditView(
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormDataQ(state?.target || {});
+      assignStateData();
     } else {
       setFormDataQ({});
     }

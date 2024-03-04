@@ -46,6 +46,7 @@ import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/inter
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -229,7 +230,16 @@ const InterProvincialAiRegion = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
         <ButtonGroup

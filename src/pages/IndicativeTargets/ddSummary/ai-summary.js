@@ -20,6 +20,10 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { get_AiRegionListWithoutPagination } from "../../../redux/actions/aiRegion/action";
 import { Colors } from "../../../utils/constants/Colors";
+import { Fonts } from "../../../utils/constants/Fonts";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+
+
 
 const AILevelSummary = () => {
   const [data, setData] = useState([]);
@@ -64,6 +68,16 @@ const AILevelSummary = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <>
       <ListHeader title="Indicative Target Summary (AI Region Level)" />
 
@@ -131,6 +145,7 @@ const AILevelSummary = () => {
         </Grid>
       </ActionWrapper>
 
+      <TableWrapper>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
           <TableHead
@@ -160,7 +175,9 @@ const AILevelSummary = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </TableWrapper>
     </>
+    </div>
   );
 };
 

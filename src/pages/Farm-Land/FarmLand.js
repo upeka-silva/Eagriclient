@@ -24,6 +24,7 @@ import { defaultMessages } from "../../utils/constants/apiMessages";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import FarmLandList from "./FarmLandList";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const FarmLand = () => {
   useUserAccessValidation();
@@ -144,7 +145,16 @@ const FarmLand = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Farm Land" />
       <ActionWrapper isLeft>
         <ButtonGroup

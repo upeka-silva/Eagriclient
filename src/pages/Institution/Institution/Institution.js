@@ -27,7 +27,8 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteInstitution } from "../../../redux/actions/institution/institution/action";
 import InstitutionList from "./InstitutionList";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from '../../../components/ListHeader/ListHeader'
+import ListHeader from '../../../components/ListHeader/ListHeader';
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const Institution = () => {
   useUserAccessValidation();
@@ -148,7 +149,16 @@ const Institution = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Institution" />
       <ActionWrapper isLeft>
         <ButtonGroup
