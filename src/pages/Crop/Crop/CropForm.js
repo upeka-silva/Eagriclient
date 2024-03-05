@@ -621,17 +621,17 @@ const CropForm = ({
                             position: "absolute",
                             zIndex: "1",
                             backgroundColor: "rgb(46,125,50,0.1)",
-                            width: "180px",
-                            height: "180px",
+                            width: "182px",
+                            height: "182px",
                             borderRadius: "8px",
                           }}
                         >
                           <img
                             src={selectedImage}
-                            alt="Profile"
+                            alt="Crop"
                             style={{
-                              width: "180px",
-                              height: "180px",
+                              width: "182px",
+                              height: "182px",
                               borderRadius: "8px",
                             }}
                           />
