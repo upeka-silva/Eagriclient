@@ -128,9 +128,13 @@ const BiWeeklyReportingForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setSelectedWeek(state?.target ? state?.target?.week : null);
+      setSelectedSeason(state?.target ? state?.target?.season : null);
+      setSelectedAiRegion(state?.target ? state?.target?.aiRegion : null);
     } else {
-      setFormData({});
+      setSelectedWeek(null);
+      setSelectedSeason(null);
+      setSelectedAiRegion(null);
     }
   };
 

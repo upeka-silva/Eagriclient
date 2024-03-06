@@ -254,11 +254,6 @@ const CropTarget = () => {
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
       </DialogBox>
     </div>
   );
