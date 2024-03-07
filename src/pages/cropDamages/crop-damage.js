@@ -99,7 +99,9 @@ const CropDamage = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await deleteDamageCategory(selectSubCategory[0].id, onSuccess, onError);
+      for (const subCat of selectSubCategory) {
+        await deleteDamageCategory(subCat?.id, onSuccess, onError);
+      }
       setLoading(false);
       close();
       resetSelectedSubCategory();

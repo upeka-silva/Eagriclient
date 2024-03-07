@@ -19,8 +19,7 @@ const CropSubCategoryList = ({
     { field: "subCategoryId", headerName: "Code" },
     { field: "description", headerName: "Description" },
     {
-      field: ["subCategoryId", "description"],
-      join: "-",
+      field: ["subCategoryId"],
       headerName: "Crop Category ",
     },
   ];
