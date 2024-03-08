@@ -601,8 +601,8 @@ const CropForm = ({
                       <label
                         htmlFor="profile-picture-input"
                         style={{
-                          width: "180px",
-                          height: "180px",
+                          width: "182px",
+                          height: "182px",
                           border: "1px solid #7a879d",
                           borderRadius: "8px",
                           display: "flex",
@@ -621,17 +621,17 @@ const CropForm = ({
                             position: "absolute",
                             zIndex: "1",
                             backgroundColor: "rgb(46,125,50,0.1)",
-                            width: "180px",
-                            height: "180px",
+                            width: "182px",
+                            height: "182px",
                             borderRadius: "8px",
                           }}
                         >
                           <img
                             src={selectedImage}
-                            alt="Profile"
+                            alt="Crop"
                             style={{
-                              width: "180px",
-                              height: "180px",
+                              width: "182px",
+                              height: "182px",
                               borderRadius: "8px",
                             }}
                           />

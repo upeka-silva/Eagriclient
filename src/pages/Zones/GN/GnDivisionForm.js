@@ -687,7 +687,7 @@ const GnDivisionForm = () => {
         </Grid>
         <Grid item lg={4}>
           <FieldWrapper>
-            <FieldName>Ds Division</FieldName>
+            <FieldName>DS Division</FieldName>
             <Autocomplete
               disabled={selectedDistrict?.id == null}
               options={dsDivisions}

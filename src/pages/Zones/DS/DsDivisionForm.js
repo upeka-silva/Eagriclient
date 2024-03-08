@@ -217,7 +217,7 @@ const DsDivisionForm = () => {
         </Grid>
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>District Name</FieldName>
+            <FieldName>District</FieldName>
             <Autocomplete
               disabled={state?.action === DEF_ACTIONS.VIEW}
               options={districtOptions}

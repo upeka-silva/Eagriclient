@@ -222,7 +222,7 @@ const Farmer = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Delete Farmer"
         actions={
           <ActionWrapper>
             <Button
@@ -231,7 +231,7 @@ const Farmer = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -239,7 +239,7 @@ const Farmer = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }

@@ -12,6 +12,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { updateRolePermissions } from "../../../redux/actions/app_settings/roles/action";
 import BackToList from "../../../components/BackToList/BackToList";
 import { FormHeader } from "../../../components/FormLayout/FormHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 export default function PermissionsByRole() {
   const navigate = useNavigate();
@@ -67,7 +68,16 @@ export default function PermissionsByRole() {
   };
 
   return (
-    <div style={{ overflowY: "scroll" }}>
+    <div 
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <BackToList goBack={goBack} />
       <FormHeader>Permissions Settings</FormHeader>
       <ActionWrapper isLeft>

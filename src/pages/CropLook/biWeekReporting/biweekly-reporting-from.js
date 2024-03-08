@@ -41,6 +41,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -128,9 +129,13 @@ const BiWeeklyReportingForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setSelectedWeek(state?.target ? state?.target?.week : null);
+      setSelectedSeason(state?.target ? state?.target?.season : null);
+      setSelectedAiRegion(state?.target ? state?.target?.aiRegion : null);
     } else {
-      setFormData({});
+      setSelectedWeek(null);
+      setSelectedSeason(null);
+      setSelectedAiRegion(null);
     }
   };
 
@@ -235,7 +240,16 @@ const BiWeeklyReportingForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Bi Weekly Report" />
         <Grid container>

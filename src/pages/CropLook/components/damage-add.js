@@ -126,6 +126,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
             aria-label="action button group"
           >
             <Button
+              disabled={mode === DEF_ACTIONS.VIEW}
               color="info"
               onClick={onSubmitDamageExtent}
               sx={{ ml: "8px" }}
