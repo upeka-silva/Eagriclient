@@ -57,6 +57,7 @@ import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
 import UserTypeForm from "../pages/UserType/UserTypeForm";
 import CreatePost from "../pages/Extention/CreatePost";
+import CreatePostForm from "../pages/Extention/CreatePostForm";
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -86,6 +87,8 @@ import GppGoodIcon from '@mui/icons-material/GppGood';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BiotechIcon from '@mui/icons-material/Biotech';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import PostAddIcon from '@mui/icons-material/PostAdd';
+import ExtensionIcon from '@mui/icons-material/Extension';
 
 import Organization from "../pages/Organization/Organization";
 import {
@@ -185,7 +188,7 @@ import TargetRegistration from "../pages/IndicativeTargets/Registration/target-r
 import TargetRegistrationForm from "../pages/IndicativeTargets/Registration/target-registration-from";
 import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
-import CreatePostForm from "../pages/Extention/CreatePost";
+
 
 export const Routes = [
   {
@@ -1353,26 +1356,25 @@ export const Routes = [
     path: "/extension",
     name: "Extension",
     isSideBar: true,
-    icon: WaterIcon,
+    icon: ExtensionIcon,
     children: [
       {
         path: "/create-post",
         name: "Create Post",
         isSideBar: true,
         element: <CreatePost/>,
-        icon: WaterIcon,
-        component: DEF_COMPONENTS.ccc,
+        icon: PostAddIcon,
+        component: DEF_COMPONENTS.AGRICULTURE_POST,
       },
       {
-        path: "/Create-Post-form",
-        name: "Create Post Form",
+        path: "/create-post-form", 
         isSideBar: false,
         element: <CreatePostForm />,
       },
       
     ],
-  },
-  
+},
+
   {
     path: "/map",
     name: "Map",

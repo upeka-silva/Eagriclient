@@ -14,34 +14,18 @@ import {
 } from "@mui/material";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
-
-
 import { useUserAccessValidation } from "../../hooks/authentication";
-
-
-
 import { useNavigate } from "react-router";
 import CreatePostList from "./CreatePostList";
-
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-
 import { useSnackBars } from "../../context/SnackBarContext";
-//import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
-
-
-
-
-
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-// import DeleteMsg from "../../../utils/constants/DeleteMsg";
-
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-
 import DialogBox from "../../components/PageLayout/DialogBox";
 import ListHeader from "../../components/ListHeader/ListHeader";
-
 import { defaultMessages } from "../../utils/constants/apiMessages";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
+import { deleteAgriculturePost } from "../../redux/actions/extension/action";
 
 
 const CreatePost = () => {
@@ -79,12 +63,12 @@ const CreatePost = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/Create-Post-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/extension/create-Post-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/Create-Post-form", {
+    navigate("/extension/create-Post-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectedCreatePosts[0] || {},
@@ -94,7 +78,7 @@ const CreatePost = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/Create-Post-form", {
+    navigate("/extension/create-Post-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectedCreatePosts[0] || {},
@@ -124,7 +108,7 @@ const CreatePost = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.CreatePostCode} - {p.description}
+                {p.code}
               </ListItemText>
             </ListItem>
           );
@@ -148,23 +132,23 @@ const CreatePost = () => {
   };
 
   const onConfirm = async () => {
-    // try {
-    //   setLoading(true);
-    //   for (const CreatePost of selectedCreatePosts) {
-    //     await deleteCreatePost(CreatePost?.id, onSuccess, onError);
-    //   }
-    //   setLoading(false);
-    //   close();
-    //   resetSelectedCreatePosts();
-    // } catch (error) {
-    //   console.log(error);
-    //   setLoading(false);
-    // }
+    try {
+      setLoading(true);
+      for (const CreatePost of selectedCreatePosts) {
+        await deleteAgriculturePost(CreatePost?.id, onSuccess, onError);
+      }
+      setLoading(false);
+      close();
+      resetSelectedCreatePosts();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
     <div>
-      <ListHeader title="Soil Type" />
+      <ListHeader title="Agriculture Post" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -174,7 +158,7 @@ const CreatePost = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CREATE_POST}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
           >
             <Button onClick={onCreate}>
               <Add />
@@ -183,7 +167,7 @@ const CreatePost = () => {
           </PermissionWrapper>
           {selectedCreatePosts.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CREATE_POST}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -193,7 +177,7 @@ const CreatePost = () => {
           )}
           {selectedCreatePosts.length === 1 && (
             <PermissionWrapper
-              permissionsion={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CREATE_POST}`}
+              permissionsion={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -203,7 +187,7 @@ const CreatePost = () => {
           )}
           {selectedCreatePosts.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CREATE_POST}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
             >
               <Button onClick={onDelete}>
                 <Delete />

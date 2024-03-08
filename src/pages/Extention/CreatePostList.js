@@ -11,15 +11,18 @@ const CreatePostList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "CreatePostCode", headerName: "Code" },
-    { field: "description", headerName: "Description" },
+    { field: "code", headerName: "Post Code" },
+    { field: "contentEng", headerName: "English Description" },
+    { field: "contentSin", headerName: "Sinhala Description" },
+    { field: "contentTam", headerName: "Tamil Description" },
+    { field: "tags", headerName: "Tags" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"soil-types"}
+        dataEndPoint={"geo-data/agriculture-post"}
         columns={columns}
         selectable
         selectedRows={selectedRows}

@@ -4,24 +4,20 @@ import {
   } from "@mui/material";
   import React, { useState } from "react";
   import { useLocation, useNavigate } from "react-router";
-  import { useSnackBars } from "../../../context/SnackBarContext";
-  import { useUserAccessValidation } from "../../../hooks/authentication";
-  import {
-    handleSoilType,
-    updateSoilType,
-  } from "../../../redux/actions/soil/soilType/action";
-  import {
-    DEF_ACTIONS
-  } from "../../../utils/constants/permission";
-  import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+  import { useSnackBars } from "../../context/SnackBarContext";
+  import { useUserAccessValidation } from "../../hooks/authentication";
+  import { handleAgriculturePost } from "../../redux/actions/extension/action";
+  import { updateAgriculturePost } from "../../redux/actions/extension/action";
+  import { DEF_ACTIONS } from "../../utils/constants/permission";
+  import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
+  import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
+  import { FieldName } from "../../components/FormLayout/FieldName";
+  import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
+  import { FormWrapper } from "../../../src/components/FormLayout/FormWrapper";
+  import PageHeader from "../../components/PageHeader/PageHeader";
   
-  import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
-  import { FieldName } from "../../../components/FormLayout/FieldName";
-  import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-  import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-  import PageHeader from "../../../components/PageHeader/PageHeader";
   
-  const SoilTypeForm = () => {
+  const CreatePostForm = () => {
     useUserAccessValidation();
     const { state } = useLocation();
     const location = useLocation();
@@ -34,7 +30,7 @@ import {
     const { addSnackBar } = useSnackBars();
   
     const goBack = () => {
-      navigate("/extention/create-post");
+      navigate("/extension/create-Post");
     };
   
     const handleChange = (value, target) => {
@@ -92,9 +88,9 @@ import {
         setSaving(true);
         try {
           if (formData?.id) {
-            await updateCreatePost(formData, onSuccess, onError);
+            await updateAgriculturePost(formData, onSuccess, onError);
           } else {
-            await handleCreatePost(formData, onSuccess, onError);
+            await handleAgriculturePost(formData, onSuccess, onError);
           }
         } catch (error) {
           console.log(error);
@@ -114,7 +110,7 @@ import {
         <PageHeader
           saving={saving}
           state={state}
-          formName="Soil Type"
+          formName="Agriculture Posts"
           goBack={goBack}
         />
        <FormButtonGroup
@@ -136,18 +132,18 @@ import {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Soil Type Code</FieldName>
+              <FieldName>Post Code</FieldName>
               <TextField
-                name="soilTypeCode"
-                id="soilTypeCode"
-                value={formData?.soilTypeCode || ""}
+                name="Code"
+                id="Code"
+                value={formData?.code || ""}
                 fullWidth
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   state?.action === DEF_ACTIONS.EDIT
                 }
                 onChange={(e) =>
-                  handleChange(e?.target?.value || "", "soilTypeCode")
+                  handleChange(e?.target?.value || "", "code")
                 }
                 sx={{
                   "& .MuiInputBase-root": {
@@ -159,17 +155,86 @@ import {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={4} md={4} lg={4}>
+          <Grid item sm={4} md={4} lg={12}>
             <FieldWrapper>
-              <FieldName>Description</FieldName>
+              <FieldName>English Content</FieldName>
               <TextField
-                name="description"
-                id="description"
-                value={formData?.description || ""}
+                name="contentEng"
+                id="contentEng"
+                value={formData?.contentEng || ""}
+                fullWidth
+                multiline
+                rows={6}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "contentEng")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={6} md={6} lg={6}>
+            <FieldWrapper>
+              <FieldName>Sinhala Content</FieldName>
+              <TextField
+                name="contentSin"
+                id="contentSin"
+                value={formData?.contentSin || ""}
+                fullWidth
+                multiline
+                rows={6} 
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "contentSin")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={6} md={6} lg={6}>
+            <FieldWrapper>
+              <FieldName>Tamil Content</FieldName>
+              <TextField
+                name="contentTam"
+                id="contentTam"
+                value={formData?.contentTam || ""}
+                fullWidth
+                multiline
+                rows={6}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "contentTam")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={12} md={12} lg={12}>
+            <FieldWrapper>
+              <FieldName>Tags</FieldName>
+              <TextField
+                name="tags"
+                id="tags"
+                value={formData?.tags || ""}
                 fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) =>
-                  handleChange(e?.target?.value || "", "description")
+                  handleChange(e?.target?.value || "", "tags")
                 }
                 sx={{
                   "& .MuiInputBase-root": {
