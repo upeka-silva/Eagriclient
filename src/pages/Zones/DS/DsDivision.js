@@ -350,7 +350,7 @@ const DsDivision = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+            OK
             </Button>
             <Button
               variant="contained"
