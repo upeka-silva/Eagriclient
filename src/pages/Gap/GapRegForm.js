@@ -2,6 +2,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
+  Box,
   Button,
   ButtonGroup,
   Chip,
@@ -9,6 +10,7 @@ import {
   Divider,
   FormControl,
   Grid,
+  InputLabel,
   List,
   ListItem,
   ListItemIcon,
@@ -18,6 +20,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
+import {
+  makeStyles,
+  Modal,
+  Backdrop,
+  Fade
+} from "@material-ui/core";
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
 import React, { useEffect, useState } from "react";
@@ -49,6 +57,7 @@ import {
   handleGap,
   saveGapExternalAuditores,
   updateGap,
+  uploadOtherCertificate,
 } from "../../redux/actions/gap/action";
 import { gapReqDto } from "./gap-type";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
@@ -68,6 +77,10 @@ import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate
 import { useAuthContext } from "../../context/AuthContext";
 import GapRequestActionsButtons from "./GapRegActionsButtons";
 import GapRegActionList from "../Gap/GapRegActionList";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
+import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -161,6 +174,16 @@ const GapRegForm = () => {
   const [auditores, setAuditores] = useState([]);
 
   const [isCertificateGenerating, setIsCertificateGenerating] = useState(false);
+
+  const [file, setFile] = useState();
+  const [iconColor, setIconColor] = useState("gray");
+  const [otherCertificateImg, setOtherCertificateImg] = useState(null)
+
+  const [openOtherCertificateDialog, setOpenOtherCertificateDialog] = useState(false);
+
+  const handleCloseOtherCertificateDialog = () => {
+    setOpenOtherCertificateDialog(false);
+  };
 
   const { addSnackBar } = useSnackBars();
 
@@ -263,6 +286,14 @@ const GapRegForm = () => {
       };
       fetchGapReq("gap-request", formData?.id);
       get_GapRequestActionList(formData?.id);
+
+      if (formData?.appliedGapBefore){
+        setEnablePreGAPReqNo(true)
+      }
+
+      if (formData?.otherCertificateDocStoredFileName){
+        setEnableOtherCeritications(true)
+      }
     }
   }, []);
  
@@ -297,7 +328,13 @@ const GapRegForm = () => {
 
   const handleChange = (value, target) => {
     if (target === "hasOtherCertificates" && !value) {
-      setFormData(prevState => ({ ...prevState, otherCertificateDoc: '' }));
+      setFormData(prevState => ({ 
+        ...prevState, 
+        otherCertificateDocOriginalFileName: '',
+        otherCertificateDocPresignedUrl: '',
+        otherCertificateDocStoredFileName: '',
+        otherCertificateDocExpireDate: null
+      }));
     } 
 
     setFormData((current = {}) => {
@@ -308,6 +345,10 @@ const GapRegForm = () => {
 
     if (target === "appliedGapBefore") {
       setEnablePreGAPReqNo(value);
+    }
+
+    if (target === "appliedGapBefore" && !value) {
+      setFormData(prevState => ({ ...prevState, previousGapReqNo: '' }));
     }
 
     if (target === "businessNature") {
@@ -322,6 +363,17 @@ const GapRegForm = () => {
       setEnableOtherFertilizerMgt(value);
     }
   };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setIconColor("primary")
+      setOtherCertificateImg(URL.createObjectURL(file))
+    }
+    const form = new FormData();
+    form.append("file", file);
+    setFile(form); 
+  }
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
@@ -362,7 +414,9 @@ const GapRegForm = () => {
 
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+      console.log(`state target ${JSON.stringify(state.target)}`);
+      console.log(`formdata ${JSON.stringify(state.formData)}`)
+      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData) || file != null) {
         return true;
       }
     }
@@ -397,6 +451,8 @@ const GapRegForm = () => {
     setSaving(false);
   };
 
+  console.log(`file :${file}`)
+
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
@@ -410,15 +466,31 @@ const GapRegForm = () => {
         if (formData?.id) {
           const response = await updateGap(formData, onSuccess, onError);
           if(response && response?.payload){
+            const gapReqId = response.payload.id;
+            const otherCertificate = response.payload.otherCertificateDocPresignedUrl;
+            const hasOtherCertificate = response.payload.hasOtherCertificate;
+
             setFormData(response?.payload);
             await addGapRequestAction(response.payload.id, 'UPDATED')
+
+            if (gapReqId != null && otherCertificate != null && file != null) {
+              await uploadOtherCertificate(gapReqId, file, onSuccess, onError)
+            }
           }
         } else {
-          const response = await handleGap(formData, onSuccess, onError);
-          if(response && response?.payload){
-            setFormData(response?.payload);
-            await addGapRequestAction(response.payload.id, 'DRAFT')
-          }
+            const response = await handleGap(formData, onSuccess, onError);
+            if (response && response.payload) {
+              const gapReqId = response.payload.id;
+              const hasOtherCertificate = response.payload.hasOtherCertificate
+              const otherCertificatePresignedUrl = response.payload.otherCertificatePresignedUrl
+              
+              setFormData(response.payload);
+              await addGapRequestAction(response.payload.id, 'DRAFT');
+        
+              if (gapReqId != null && otherCertificatePresignedUrl == null && file != null) {
+                await uploadOtherCertificate(gapReqId, file, onSuccess, onError)
+              }
+            }
         }
       } catch (error) {
         console.log(error);
@@ -1062,6 +1134,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "appliedGapBefore")
                   }
                   checked={formData?.appliedGapBefore}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1214,38 +1287,75 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.hasOtherCertificates}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
             {enableOtherCeritications && (
-              <Grid item sm={4} md={4} lg={4}>
+              <Grid item sm={4} md={4} lg={6}>
                 <FieldWrapper>
                   <FieldName>
                     Type of certification (Please attach a photocopy)
                   </FieldName>
-                  <TextField
-                    name="otherCertificateDoc"
-                    id="otherCertificateDoc"
-                    value={formData?.otherCertificateDoc || ""}
-                    fullWidth
-                    inputProps={{ multiple: true }}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(
-                        e?.target?.value || "",
-                        "otherCertificateDoc"
-                      )
+                  <Stack spacing={{ xs: 2, sm: 2}} direction="row">
+                    {(formData?.otherCertificateDocStoredFileName || otherCertificateImg != null) && (
+                      <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <FilePresentIcon fontSize="large"  color="success" sx={{ marginRight: '5px'}}/>
+                        <Button
+                          size="small"
+                          color="success"
+                          variant="outlined"
+                          startIcon={<VisibilityIcon color="success"/>}
+                          onClick={() => setOpenOtherCertificateDialog(true)}>Preview
+                        </Button>
+                      </div>
+                    )}
+                    {
+                      state?.action === DEF_ACTIONS.VIEW ? null :
+                     ( <div style={{ display: 'flex', alignItems: 'center' }}>
+                      <UploadFileOutlinedIcon 
+                         fontSize="large" 
+                         sx={{ marginRight: '5px', 
+                               color: iconColor === "gray" ? "gray" : "#1976d2"
+                            }}/>
+                      <InputLabel
+                          style={{ 
+                            cursor: 'pointer', 
+                            color: iconColor === "gray" ? "gray" : "#1976d2",
+                            fontSize: '10px', 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            border: '1px solid', 
+                            borderColor: iconColor === "gray" ? "gray" : "#1976d2", 
+                            borderRadius: '4px', 
+                            padding: '4px 6px 4px 6px' 
+                          }}
+                            htmlFor="otherCertificateDoc"                       
+                      >
+                        <AttachmentOutlinedIcon sx={{ marginRight: 1}} fontSize="small" color={iconColor} /> CHOOSE A FILE
+                      </InputLabel>
+                      </div>)
                     }
-                    type="file"
-                    accept="image/*"
-                    sx={{
-                      "& .MuiInputBase-root": {
-                        borderRadius: "8px",
-                        backgroundColor: `${Colors.white}`,
-                      },
-                    }}
-                    size="small"
-                  ></TextField>
+                    <input
+                      name="otherCertificateDoc"
+                      id="otherCertificateDoc"
+                      fullWidth
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(event) =>
+                        handleFileChange(event)
+                      }
+                      type="file"
+                      accept="image/*"
+                      sx={{
+                        "& .MuiInputBase-root": {
+                          borderRadius: "8px",
+                          backgroundColor: `${Colors.white}`,
+                        },
+                      }}
+                      style={{ display: 'none' }}
+                    />
+      
+                  </Stack>
                 </FieldWrapper>
               </Grid>
             )}
@@ -1286,6 +1396,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.hasProperKnowledgeOnSLGap}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1311,6 +1422,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.hasLeafletsPertainingToSLGap}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1328,6 +1440,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "hasChecklist")
                   }
                   checked={formData?.hasChecklist}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1353,6 +1466,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.hasQualityManagementPlan}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1390,6 +1504,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "seedsFromOwnFarm")
                   }
                   checked={formData?.seedsFromOwnFarm}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1429,6 +1544,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.seedsFromPrivateFarm}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1450,6 +1566,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "certifiedSeeds")
                   }
                   checked={formData?.certifiedSeeds}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1471,6 +1588,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "seedsFromOther")
                   }
                   checked={formData?.seedsFromOther}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1596,14 +1714,18 @@ const GapRegForm = () => {
                     id="soilTypeDTO"
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={soilType}
-                    value={formData?.soilTypeDTO || ""}
-                    getOptionLabel={(i) =>
+                    value={
+                      soilType.find(option => `${option.soilTypeCode} - ${option.description}` === formData?.existingSoilType) || null
+                  }                    getOptionLabel={(i) =>
                       i.soilTypeCode
                         ? `${i.soilTypeCode} - ${i.description}`
                         : ""
                     }
                     onChange={(event, value) => {
-                      handleChange(value, "soilTypeDTO");
+                      const selectedDescription = value ? value.description : "";
+                      const selectedCode = value ? value.soilTypeCode : "";
+                      const concat = `${selectedCode} - ${selectedDescription}`
+                      handleChange(concat, "existingSoilType");
                     }}
                     fullWidth
                     sx={{
@@ -1634,6 +1756,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "hasSoilTestDone")
                   }
                   checked={formData?.hasSoilTestDone}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1668,6 +1791,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.fertilizerManageBasedOnSoilTest}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1688,6 +1812,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.fertilizerManageRecommendationOfAD}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1713,6 +1838,7 @@ const GapRegForm = () => {
                   checked={
                     formData?.fertilizerManageRecommendationOfAnotherInstitute
                   }
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1737,6 +1863,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.fertilizerMangeOther}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1804,6 +1931,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "addedCompostToSoil")
                   }
                   checked={formData?.addedCompostToSoil}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1828,6 +1956,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.compostPreparedWithinFarm}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1846,6 +1975,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.compostPreparedOutsideFarm}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1914,6 +2044,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.humanFecalMattersAdded}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1934,6 +2065,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.anyMeasuresToAdoptedSoilErosion}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -1968,6 +2100,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "hasWaterTestReport")
                   }
                   checked={formData?.hasWaterTestReport}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2095,6 +2228,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.farmUsedForNonAgriculturalPurpose}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2238,6 +2372,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.slgapConvPracExists}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2307,6 +2442,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.surroundingLandRiskExist}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2329,6 +2465,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.correctiveMeasuresTakenForSurroundingLands}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2366,6 +2503,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.preventContaminationExists}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2386,6 +2524,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.harvestWashedAtFarm}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2406,6 +2545,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.waterQualitySimilarToDrinkingWater}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2439,6 +2579,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "onFarmPackaging")
                   }
                   checked={formData?.onFarmPackaging}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2459,6 +2600,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.maintainTraceability}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2477,6 +2619,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "useSLGapQR")
                   }
                   checked={formData?.useSLGapQR}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2518,6 +2661,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.storeSLGapAndNonGapTogether}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2539,6 +2683,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.protectedTempProcessingStore}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2559,6 +2704,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.fertilizerAndPesticidesInSameStore}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2580,6 +2726,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.fertilizerAndPesticidesInSeparateStore}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2597,6 +2744,7 @@ const GapRegForm = () => {
                     handleChange(e?.target?.checked || false, "workersTrained")
                   }
                   checked={formData?.workersTrained}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2618,6 +2766,7 @@ const GapRegForm = () => {
                     )
                   }
                   checked={formData?.firstAidSanitaryProvided}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
                 />
               </FieldWrapper>
             </Grid>
@@ -2908,6 +3057,37 @@ const GapRegForm = () => {
         gapReqStatus={gapReqStatus}
 
       />
+
+      <Modal
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        open={openOtherCertificateDialog}
+        onClose={handleCloseOtherCertificateDialog}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500
+        }}
+      >
+        <Fade in={openOtherCertificateDialog} timeout={500}>
+          <img
+            src={otherCertificateImg != null ? otherCertificateImg : formData.otherCertificateDocPresignedUrl}
+            alt="Certificate"
+            style={{
+              maxHeight: "60vh",
+              maxWidth: "60vw",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)"
+            }}
+          />
+        </Fade>
+      </Modal>
+
     </div>
   );
 };
