@@ -2,7 +2,6 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
-  Box,
   Button,
   ButtonGroup,
   Chip,
@@ -19,13 +18,10 @@ import {
   Select,
   Stack,
   TextField,
-} from "@mui/material";
-import {
-  makeStyles,
   Modal,
   Backdrop,
-  Fade
-} from "@material-ui/core";
+  Fade,
+} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
 import React, { useEffect, useState } from "react";
