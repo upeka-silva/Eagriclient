@@ -792,7 +792,7 @@ const UsersForm = () => {
                 <Autocomplete
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={userTypes}
-                  value={formData ? formData.userTypeDTO : ""}
+                  value={formData?.userTypeDTO || null}
                   getOptionLabel={(i) => `${i.userTypeId} - ${i.description}`}
                   onChange={(event, value) => {
                     handleChange(value, "userTypeDTO");
