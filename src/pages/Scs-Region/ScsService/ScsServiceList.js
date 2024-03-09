@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const ScsServiceList = ({
   selectedRows = [],
@@ -14,7 +15,7 @@ const ScsServiceList = ({
   ];
 
   return (
-   
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/scs-services"}
@@ -25,7 +26,7 @@ const ScsServiceList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper> 
   );
 };
 

@@ -27,6 +27,9 @@ import { Add, Delete, Edit, Vrpano, CheckCircle, Lock } from "@mui/icons-materia
 import CropLookSeasonList from "./CropLookSeasonList";
 import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -142,9 +145,17 @@ const CropLookSeason = () => {
     );
   };
 
+  const onDeleteSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
   const onSuccess = (operationType) => {
     let message = "";
     let formattedType = operationType.trim().toUpperCase();
+    console.log("")
     switch(formattedType){
        case "ENABLED":
          message = "Successfully enabled";
@@ -153,19 +164,17 @@ const CropLookSeason = () => {
          message = "Successfully closed";
          break;
     }
+
     addSnackBar({
        type: SnackBarTypes.success,
        message: message,
     });
    };
    
-   
-   
-
-  const onError = (message) => {
+   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Something went wrong.",
+      message: message || defaultMessages.apiErrorUnknown,
     });
   };
 
@@ -173,7 +182,7 @@ const CropLookSeason = () => {
     try {
       setLoading(true);
       for (const agriSeason of selectAgriSeason) {
-        await deleteCropLookSeason(agriSeason?.id, onSuccess, onError);
+        await deleteCropLookSeason(agriSeason?.id, onDeleteSuccess, onError);
       }
       setLoading(false);
       close();
@@ -201,7 +210,16 @@ const CropLookSeason = () => {
    
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Look Season" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -339,11 +357,7 @@ const CropLookSeason = () => {
           </ActionWrapper>
         }
       >
-        <>
-          Do you want change status to {seasonStatus}
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
+       
       </DialogBox>
     </div>
   );

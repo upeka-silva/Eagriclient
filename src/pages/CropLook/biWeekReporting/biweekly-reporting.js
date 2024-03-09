@@ -21,7 +21,6 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -34,6 +33,8 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./biweekly-reporting-list";
+import { deleteBiWeeklyReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReporting = () => {
 
@@ -141,7 +142,7 @@ const BiWeeklyReporting = () => {
     try {
       setLoading(true);
       for (const cropSubCat of selectSubCategory) {
-        await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
+        await deleteBiWeeklyReporting(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
@@ -153,7 +154,16 @@ const BiWeeklyReporting = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Bi Weekly Reporting" />
       <ActionWrapper isLeft>
         <ButtonGroup

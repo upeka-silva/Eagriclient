@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const DistrictList = ({
   dataEndPoint,
@@ -19,7 +20,7 @@ const DistrictList = ({
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -30,7 +31,7 @@ const DistrictList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 

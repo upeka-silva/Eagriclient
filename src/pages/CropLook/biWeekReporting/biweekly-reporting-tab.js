@@ -25,6 +25,7 @@ const BiWeeklyReportingTab = ({
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -79,6 +80,7 @@ const BiWeeklyReportingTab = ({
     ] = total;
 
     setCropTargets(updatedVarietyTargets);
+    setIsCleared(false);
   };
 
   const handleCropClear = () => {
@@ -97,6 +99,7 @@ const BiWeeklyReportingTab = ({
       }
     }
     setCropTargets(newCropTargets);
+    setIsCleared(true);
   };
 
   const handleCropUpdate = async () => {
@@ -171,7 +174,7 @@ const BiWeeklyReportingTab = ({
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
             >
             <Button
-              disabled={mode === DEF_ACTIONS.VIEW}
+              disabled={mode === DEF_ACTIONS.VIEW || isCleared}
               variant="outlined"
               color="success"
               size="small"

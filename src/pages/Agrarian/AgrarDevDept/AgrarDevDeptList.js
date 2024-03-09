@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const AgrarDevDeptList = ({
   selectedRows = [],
@@ -13,7 +14,7 @@ const AgrarDevDeptList = ({
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/do_agrarian_development"}
@@ -24,7 +25,7 @@ const AgrarDevDeptList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 

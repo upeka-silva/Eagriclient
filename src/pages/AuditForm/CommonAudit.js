@@ -25,6 +25,7 @@ import CommonAuditList from "./CommonAuditList";
 import { deleteAuditForm } from "../../redux/actions/auditForm/action";
 import { components } from "react-select";
 import ListHeader from "../../components/ListHeader/ListHeader";
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CommonAudit = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -178,7 +179,16 @@ const CommonAudit = ({ auditFormType = "" }) => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title={formHeader} />
       <ActionWrapper isLeft>
         <ButtonGroup

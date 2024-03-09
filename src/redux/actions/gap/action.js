@@ -435,3 +435,42 @@ export const addGapRequestAction = async (
     }
   }
 }
+
+export const uploadOtherCertificate = async (
+  gapReqId, 
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await post(
+      `gap-request/${gapReqId}/other-certificate`,
+      payload,
+      true
+    );
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+      console.log("Success");
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+}

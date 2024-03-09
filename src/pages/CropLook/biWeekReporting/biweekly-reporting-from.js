@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { TextField, Autocomplete, Grid, Button } from "@mui/material";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import {
   DEF_ACTIONS,
@@ -39,6 +41,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -59,6 +62,8 @@ const BiWeeklyReportingForm = () => {
   const [cropCategoryTarget, setCropCategoryTarget] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toggleState, setToggleState] = useState(1);
+  const [openConfApprove, setOpenConfApprove] = useState(false);
+ 
 
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
@@ -92,6 +97,7 @@ const BiWeeklyReportingForm = () => {
     }
   }, []);
 
+
   useEffect(() => {
     if (biWeekReportId) {
       setIsLoading(false);
@@ -123,9 +129,13 @@ const BiWeeklyReportingForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setSelectedWeek(state?.target ? state?.target?.week : null);
+      setSelectedSeason(state?.target ? state?.target?.season : null);
+      setSelectedAiRegion(state?.target ? state?.target?.aiRegion : null);
     } else {
-      setFormData({});
+      setSelectedWeek(null);
+      setSelectedSeason(null);
+      setSelectedAiRegion(null);
     }
   };
 
@@ -230,7 +240,16 @@ const BiWeeklyReportingForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Bi Weekly Report" />
         <Grid container>
@@ -255,7 +274,7 @@ const BiWeeklyReportingForm = () => {
                   <Button
                     variant="outlined"
                     color="success"
-                    onClick={approveBiWeekReport}
+                    onClick={() => setOpenConfApprove(true)}
                     sx={{ ml: "8px" }}
                     size="small"
                   >
@@ -381,6 +400,36 @@ const BiWeeklyReportingForm = () => {
                 </TabContent>
               ))}
           </Grid>
+          <DialogBox
+        open={openConfApprove}
+        title="Approve Bi Weekly Report"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={approveBiWeekReport}
+              sx={{ ml: "8px" }}
+            >
+             OK
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setOpenConfApprove(false)}
+              sx={{ ml: "8px" }}
+            >
+              Cancel
+            </Button>
+            </ActionWrapper>
+        }
+      >
+        <>
+        Do you want to approve?
+        
+       </>
+      </DialogBox>
+          
         </Grid>
       </FormWrapper>
     </div>

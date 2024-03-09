@@ -4,7 +4,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -23,10 +22,10 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteCropVariety } from "../../../redux/actions/crop/cropVariety/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -148,7 +147,16 @@ const CropVariety = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Variety" />
       <ActionWrapper isLeft>
         <ButtonGroup

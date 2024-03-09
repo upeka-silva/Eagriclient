@@ -1,7 +1,7 @@
 export const gapReqDto = () => {
   return {
     id:null,
-    code: 0,
+    code: null,
     farmer: {},
     isRenewal:false,
     appliedGapBefore: false,
@@ -9,7 +9,10 @@ export const gapReqDto = () => {
     businessNature: "",
     businessNatureOtherValue: "",
     hasOtherCertificates: false,
-    otherCertificateDoc: "",
+    otherCertificateDocOriginalFileName: "",
+    otherCertificateDocPresignedUrl: "",
+    otherCertificateDocStoredFileName: "",
+    otherCertificateDocExpireDate: null,
     hasProperKnowledgeOnSLGap: false,
     hasLeafletsPertainingToSLGap: false,
     hasChecklist: false,

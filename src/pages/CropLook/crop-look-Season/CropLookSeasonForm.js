@@ -33,6 +33,7 @@ import {
 } from "../../../redux/actions/cropLook/season/action";
 import BiWeekDataTable from "./BiWeekDataTable";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropLookSeasonForm = () => {
   useUserAccessValidation();
@@ -92,22 +93,24 @@ const CropLookSeasonForm = () => {
     } else {
       setFormData({});
     }
+    setSelectedAgriSeason(null); 
   };
+  
+  
 
   const enableSave = () => {
-    if (state?.action === DEF_ACTIONS.EDIT) {
+  if (state?.action === DEF_ACTIONS.EDIT) {
       if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
         return true;
       }
     }
-    if (
-      state?.action === DEF_ACTIONS.ADD &&
-      Object.keys(formData || {}).length > 0
-    ) {
+    if (state?.action === DEF_ACTIONS.ADD && formData?.code && formData.code.trim() !== '') {
       return true;
     }
-    return false;
+     return false;
   };
+  
+  
 
   const onSuccess = () => {
     addSnackBar({
@@ -210,6 +213,16 @@ const CropLookSeasonForm = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <FormWrapper>
       <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Look Season" />
       <FormButtonGroup
@@ -351,6 +364,7 @@ const CropLookSeasonForm = () => {
         </Grid>
       </Grid>
     </FormWrapper>
+    </div>
   );
 };
 

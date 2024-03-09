@@ -40,6 +40,7 @@ import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-s
 import { createCropConfig } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 
 const CropConfigurationForm = () => {
@@ -56,13 +57,15 @@ const CropConfigurationForm = () => {
   const [isSaving, setIsSaving] = useState(null);
   const [selectedCropCategory, setSelectedCropCategory] = useState(null);
 
-  const [fields, setFields] = useState([
+  const [defaultFields] = useState([
     CROP_LOOK_FIELD.EXTENT_MAJOR,
     CROP_LOOK_FIELD.EXTENT_MINOR,
     CROP_LOOK_FIELD.EXTENT_RAINFED,
     CROP_LOOK_FIELD.EXTENT_IRRIGATE,
     CROP_LOOK_FIELD.EXTENT
   ]);
+
+  const [fields, setFields] = useState(defaultFields);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -102,9 +105,9 @@ const CropConfigurationForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(state?.target || {});
+      setFields(state?.target || {});
     } else {
-      setFormData({});
+      setFields(defaultFields);
     }
   };
 
@@ -191,7 +194,16 @@ const CropConfigurationForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Configuration" />
         <Grid container>

@@ -42,6 +42,7 @@ import {
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropTargetForm = () => {
   useUserAccessValidation();
@@ -89,7 +90,11 @@ const CropTargetForm = () => {
       setCropTargetId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
       var region = state?.target?.aiRegion ? state?.target?.aiRegion : state?.target?.mahaweliUnit;
-      region.parentType = state?.target?.parentType;
+      
+      if (state?.target?.parentType !== null && state?.target?.parentType !== undefined) {
+        region.parentType = state.target.parentType;
+      }
+      
       setSelectedAiRegion(region);
       setCropCategoryTarget(state?.target?.cropCategoryTargets);
 
@@ -197,7 +202,16 @@ const CropTargetForm = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <FormWrapper>
         <PageHeader saving={saving} state={state} formName="Crop Target" goBack={goBack} />
         <FormButtonGroup

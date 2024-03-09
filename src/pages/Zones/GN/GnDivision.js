@@ -54,6 +54,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import GnDivisionList from "./GnDivisionList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -174,12 +175,12 @@ const GnDivision = () => {
   });
 
   useEffect(() => {
-    if (location.pathname == "/zone/ga-structure/gn-division") {
+    if (location.pathname === "/zone/ga-structure/gn-division") {
       changeZone(true, false, false, false, false);
       changeFilters("Province", "District", "Ds Division", "");
       setDataEndPoint("geo-data/gn-divisions");
     }
-    if (location.pathname == "/zone/provincial-structure/gn-division") {
+    if (location.pathname === "/zone/provincial-structure/gn-division") {
       changeZone(false, true, false, false, false);
       changeFilters(
         "Provincial DOA",
@@ -189,17 +190,17 @@ const GnDivision = () => {
       );
       setDataEndPoint("geo-data/gn-divisions/get-by-type/provincial");
     }
-    if (location.pathname == "/zone/inter-provincial-structure/gn-division") {
+    if (location.pathname === "/zone/inter-provincial-structure/gn-division") {
       changeZone(false, false, true, false, false);
       changeFilters("Director DOA", "Int Pro DDOA", "Int Pro ADA", "AI Region");
       setDataEndPoint("geo-data/gn-divisions/get-by-type/inter_provincial");
     }
-    if (location.pathname == "/zone/mahaweli-structure/gn-division") {
+    if (location.pathname === "/zone/mahaweli-structure/gn-division") {
       changeZone(false, false, false, true, false);
       changeFilters("Mahaweli System", "Mahaweli Block", "Mahaweli Unit", "");
       setDataEndPoint("geo-data/gn-divisions/get-by-type/mahaweli");
     }
-    if (location.pathname == "/zone/agrarian/gn-division") {
+    if (location.pathname === "/zone/agrarian/gn-division") {
       changeZone(false, false, false, false, true);
       changeFilters(
         "District Commissioner",
@@ -209,7 +210,7 @@ const GnDivision = () => {
       );
       setDataEndPoint("geo-data/gn-divisions");
     }
-    if (location.pathname == "/zone/ez-structure/gn-division") {
+    if (location.pathname === "/zone/ez-structure/gn-division") {
       changeZone(true, false, false, false, false);
       changeFilters("Province", "District", "Ds Division", "");
       setDataEndPoint("geo-data/gn-divisions");
@@ -619,62 +620,62 @@ const GnDivision = () => {
   };
 
   useEffect(() => {
-    isAdmin == true &&
+    isAdmin === true &&
       get_ProvinceList().then(({ dataList = [] }) => {
         console.log(dataList);
         setProvinces(dataList);
       });
 
-    isAdmin == false && setProvinces(null);
-    isAdmin == false && setDistrics(null);
-    isAdmin == false && setDsDivisions(null);
+    isAdmin === false && setProvinces(null);
+    isAdmin === false && setDistrics(null);
+    isAdmin === false && setDsDivisions(null);
   }, [isAdmin]);
 
   useEffect(() => {
-    isProvincial == true &&
+    isProvincial === true &&
       get_ProvincialDoaList().then(({ dataList = [] }) => {
         console.log(dataList);
         setPDoas(dataList);
       });
 
-    isProvincial == false && setPDoas(null);
-    isProvincial == false && setPDdoas(null);
-    isProvincial == false && setPAdas(null);
+    isProvincial === false && setPDoas(null);
+    isProvincial === false && setPDdoas(null);
+    isProvincial === false && setPAdas(null);
   }, [isProvincial]);
 
   useEffect(() => {
-    isIntProvincial == true &&
+    isIntProvincial === true &&
       get_InterProvincialDoaList().then(({ dataList = [] }) => {
         console.log(dataList);
         setIpDoas(dataList);
       });
 
-    isIntProvincial == false && setIpDoas(null);
-    isIntProvincial == false && setIpDdoas(null);
-    isIntProvincial == false && setIpAdas(null);
+    isIntProvincial === false && setIpDoas(null);
+    isIntProvincial === false && setIpDdoas(null);
+    isIntProvincial === false && setIpAdas(null);
   }, [isIntProvincial]);
 
   useEffect(() => {
-    isMahaweli == true &&
+    isMahaweli === true &&
       get_MahaweliSystemList().then(({ dataList = [] }) => {
         console.log(dataList);
         setMahaweliSystems(dataList);
       });
 
-    isMahaweli == false && setMahaweliSystems(null);
-    isMahaweli == false && setMahaweliBlocks(null);
-    isMahaweli == false && setMahaweliUnits(null);
+    isMahaweli === false && setMahaweliSystems(null);
+    isMahaweli === false && setMahaweliBlocks(null);
+    isMahaweli === false && setMahaweliUnits(null);
   }, [isMahaweli]);
 
   useEffect(() => {
-    isAgrarian == true &&
+    isAgrarian === true &&
       get_DistrictCommList().then(({ dataList = [] }) => {
         setDcomms(dataList);
       });
 
-    isMahaweli == false && setDcomms(null);
-    isMahaweli == false && setAscDivisions(null);
-    isMahaweli == false && setArpas(null);
+    isMahaweli === false && setDcomms(null);
+    isMahaweli === false && setAscDivisions(null);
+    isMahaweli === false && setArpas(null);
   }, [isMahaweli]);
 
   const getDDOAS = (id) => {
@@ -757,7 +758,16 @@ const GnDivision = () => {
   }
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -1150,7 +1160,7 @@ const GnDivision = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Soil Subtype"
+        title="Delete GN Division"
         actions={
           <ActionWrapper>
             <Button

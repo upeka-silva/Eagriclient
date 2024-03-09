@@ -12,6 +12,8 @@ import { handleComponent } from '../../redux/actions/components/actions';
 import { useSnackBars } from '../../context/SnackBarContext';
 import { useUserAccessValidation } from '../../hooks/authentication';
 import { SnackBarTypes } from '../../utils/constants/snackBarTypes';
+import { Fonts } from "../../utils/constants/Fonts";
+
 
 const ComponentForm = () => {
 
@@ -80,7 +82,16 @@ const ComponentForm = () => {
     }
 
     return (
-        <div>
+        <div
+        style={{
+            display: "flex",
+            flexDirection: "column",
+            fontFamily: `${Fonts.fontStyle1}`,
+            marginTop: "10px",
+            height: "90vh",
+            overflowY: "scroll",
+          }}
+        >
             <ActionWrapper isLeft>
                 <Button startIcon={<ArrowBackIcon />} onClick={goBack}>Go back to list</Button>
             </ActionWrapper>

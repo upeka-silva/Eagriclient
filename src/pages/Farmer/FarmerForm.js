@@ -19,7 +19,6 @@ import { useLocation, useNavigate } from "react-router";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
-import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import PageHeader from "../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
@@ -29,15 +28,13 @@ import {
   handleFarmerProfile,
   updateFarmer,
 } from "../../redux/actions/farmer/action";
-import { get_GnDivisionList, get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
+import { get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { get_ScsRegionList } from "../../redux/actions/scsRegion/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Fonts } from "../../utils/constants/Fonts";
 import { Colors } from "../../utils/constants/Colors";
 import { getColorCode } from "../../utils/helpers/formMgtUtil";
-
-
 
 export const farmerDto = {
   firstName: "",
@@ -132,18 +129,19 @@ const FarmerForm = () => {
 
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
+      if (
+        JSON.stringify(state?.target || {}) !== JSON.stringify(formData) &&
+        formData?.farmerId !== ""
+      ) {
         return true;
       }
     }
-    if (
+
+    return (
       state?.action === DEF_ACTIONS.ADD &&
       Object.keys(formData || {}).length > 1 &&
       formData?.farmerId !== ""
-    ) {
-      return true;
-    }
-    return false;
+    );
   };
 
   const onSuccess = () => {
@@ -318,7 +316,7 @@ const FarmerForm = () => {
         flexDirection: "column",
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
-        height: "100vh",
+        height: "90vh",
         overflowY: "scroll",
       }}
     >
@@ -863,46 +861,38 @@ const FarmerForm = () => {
           </FieldWrapper>
         </Grid>
         <Grid item sm={4} md={4} lg={4} spacing={0}>
-              <FieldWrapper>
-                <FieldName >
-                 Seed Farmer
-                </FieldName>
-                <Switch
-                  name="isSeedFarmer"
-                  id="isSeedFarmer"
-                  value={formData?.isSeedFarmer || ""}
-                  onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "isSeedFarmer")
-                  }
-                  checked={formData?.isSeedFarmer}
-                  aria-label="Switch demo" 
-                />
-              </FieldWrapper>
-            </Grid>
-            
-            <Grid item sm={4} md={4} lg={4} spacing={0}>
-              <FieldWrapper>
-                <FieldName >
-                 Export Farmer
-                </FieldName>
-                <Switch
-                  name="isExportFarmer"
-                  id="isExportFarmer"
-                  value={formData?.isExportFarmer || ""}
-                  onChange={(e) =>
-                    handleChange(e?.target?.checked || "", "isExportFarmer")
-                  }
-                  checked={formData?.isExportFarmer}
-                  aria-label="Switch demo" 
-                />
-              </FieldWrapper>
-            </Grid>
+          <FieldWrapper>
+            <FieldName>Seed Farmer</FieldName>
+            <Switch
+              name="isSeedFarmer"
+              id="isSeedFarmer"
+              value={formData?.isSeedFarmer || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.checked || "", "isSeedFarmer")
+              }
+              checked={formData?.isSeedFarmer}
+              aria-label="Switch demo"
+            />
+          </FieldWrapper>
+        </Grid>
 
-        
-           
-            
-        
-        
+        <Grid item sm={4} md={4} lg={4} spacing={0}>
+          <FieldWrapper>
+            <FieldName>Export Farmer</FieldName>
+            <Switch
+              name="isExportFarmer"
+              id="isExportFarmer"
+              value={formData?.isExportFarmer || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.checked || "", "isExportFarmer")
+              }
+              checked={formData?.isExportFarmer}
+              aria-label="Switch demo"
+            />
+          </FieldWrapper>
+        </Grid>
       </Grid>
     </div>
   );

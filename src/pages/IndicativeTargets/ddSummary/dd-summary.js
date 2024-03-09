@@ -17,6 +17,9 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { Colors } from "../../../utils/constants/Colors";
+import { Fonts } from "../../../utils/constants/Fonts";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+
 
 const DDLevelSummary = () => {
   const [data, setData] = useState([]);
@@ -40,6 +43,16 @@ const DDLevelSummary = () => {
   };
 
   return (
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
     <>
       <ListHeader title="Indicative Target Summary (DD Level)" />
 
@@ -107,6 +120,7 @@ const DDLevelSummary = () => {
         </Grid>
       </ActionWrapper>
 
+      <TableWrapper>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="caption table">
           <TableHead
@@ -136,7 +150,9 @@ const DDLevelSummary = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </TableWrapper> 
     </>
+    </div>
   );
 };
 

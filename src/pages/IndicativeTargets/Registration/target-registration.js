@@ -35,6 +35,7 @@ import {
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import TargetRegistrationList from "./target-registration-list";
 import { deleteIndicativeTargetRegistration } from "../../../redux/actions/indicativeTargets/actions";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const TargetRegistration = () => {
 
@@ -155,7 +156,16 @@ const TargetRegistration = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Crop Registration Details" />
       <ActionWrapper isLeft>
         <ButtonGroup

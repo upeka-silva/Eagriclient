@@ -1,5 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const MahaweliSystemList = ({
   dataEndPoint,
@@ -14,7 +15,7 @@ const MahaweliSystemList = ({
   ];
 
   return (
-    
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -25,7 +26,7 @@ const MahaweliSystemList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    
+    </TableWrapper>
   );
 };
 

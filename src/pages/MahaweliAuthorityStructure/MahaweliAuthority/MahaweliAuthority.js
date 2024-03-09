@@ -27,6 +27,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import { deleteMahaweliAuthority } from "../../../redux/actions/mahaweliAuthority/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliAuthorityList from "./MahaweliAuthorityList";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const MahaweliAuthority = () => {
   useUserAccessValidation();
@@ -151,7 +152,16 @@ const MahaweliAuthority = () => {
   };
 
   return (
-    <div>
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
       <ListHeader title="Mahaweli Authority" />
       <ActionWrapper isLeft>
         <ButtonGroup
