@@ -60,7 +60,7 @@ const DynamicFormListGap = ({
       formHeader = "INTERNAL AUDIT LIST";
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uriPath = "external-audit";
-      formHeader = "EXTERNAL AUDIT LIST";
+      formHeader = "FINAL AUDIT LIST";
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uriPath = "basic-assessments";
       formHeader = "BASIC ASSESSMENT FORM";
