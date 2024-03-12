@@ -12,7 +12,7 @@ import { DEF_ACTIONS } from "../../utils/constants/permission";
 import Checkbox from "@mui/material/Checkbox";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { Add, Edit } from "@mui/icons-material";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
@@ -32,10 +32,10 @@ export default function FormPageEditView(
   confirmAction,
   formData,
   mode,
-  addView,
- // uriPath = "internal-audit"
+  addView
+  // uriPath = "internal-audit"
 ) {
-   useUserAccessValidation();
+  useUserAccessValidation();
   const { state } = useLocation();
   const [formDataQ, setFormDataQ] = useState({});
   const [saving, setSaving] = useState(false);
@@ -43,10 +43,10 @@ export default function FormPageEditView(
   const [dataListTemplates, setDataListTemplates] = useState([]);
   const [formTemplate, setFormTemplate] = useState({});
   const navigate = useNavigate();
-  console.log(state)
+  console.log(state);
   const { addSnackBar } = useSnackBars();
- 
-  const goBack = ()=>{
+
+  const goBack = () => {
     let tabIndex = 1;
 
     if (state.auditFormType === "INTERNAL_AUDIT") {
@@ -55,26 +55,30 @@ export default function FormPageEditView(
       tabIndex = 5;
     }
 
-    const nextState = state?.parentAction === DEF_ACTIONS.EDIT ? 
-      {
-        action: DEF_ACTIONS.EDIT, 
-        target: state?.gapData,
-        tabIndex: tabIndex
-      } : state?.parentAction === DEF_ACTIONS.VIEW ?
-      { 
-        action: DEF_ACTIONS.VIEW,
-        target: state?.gapData,
-        tabIndex: tabIndex 
-      } : {}
+    const nextState =
+      state?.parentAction === DEF_ACTIONS.EDIT
+        ? {
+            action: DEF_ACTIONS.EDIT,
+            target: state?.gapData,
+            tabIndex: tabIndex,
+          }
+        : state?.parentAction === DEF_ACTIONS.VIEW
+        ? {
+            action: DEF_ACTIONS.VIEW,
+            target: state?.gapData,
+            tabIndex: tabIndex,
+          }
+        : {};
 
     navigate("/gap/gap-reg-form", { state: nextState });
-
-  }
+  };
 
   useEffect(() => {
-    getFormTemplatesByGapReqId(state?.formId.formId, state?.uriPath).then(({ data = [] }) => {
-      setDataListTemplates(data);
-    });
+    getFormTemplatesByGapReqId(state?.formId.formId, state?.uriPath).then(
+      ({ data = [] }) => {
+        setDataListTemplates(data);
+      }
+    );
   }, []);
 
   useEffect(() => {
@@ -82,12 +86,10 @@ export default function FormPageEditView(
       return;
     }
     assignStateData();
-
   }, [formData]);
 
-
   const assignStateData = () => {
-    const formData = state.formData
+    const formData = state.formData;
     const newOne = {};
     newOne.auditId = formData.auditId;
     newOne.id = formData.id;
@@ -105,7 +107,7 @@ export default function FormPageEditView(
     }
 
     setFormDataQ(newOne);
-  }
+  };
 
   const handleChange = (value, target) => {
     setFormDataQ((current = {}) => {
@@ -142,14 +144,19 @@ export default function FormPageEditView(
     const formDataFile = new FormData();
     formDataFile.append("file", fileData);
     await fileUploadForm(
-      state.formId.formId,
-      state?.ADDuriPath,
-      formData.id,
+      state?.formId.formId,
+      state?.uriPath,
+      state.formData?.id,
       formDataFile,
       qid,
       onSuccessAfterUploadFile,
       onError
-    );
+    ).then((data) => {
+      addSnackBar({
+        type: SnackBarTypes.success,
+        message: "Successfully File Uploaded !!!",
+      });
+    });
   };
 
   const onError = (message) => {
@@ -169,7 +176,7 @@ export default function FormPageEditView(
   };
 
   const handle = async (event, data, functionMode, fileUploadResponse) => {
-    console.log("handle")
+    console.log("handle");
     const auditAnswers = [];
     const keysArray = Object.keys(data);
     for (const qKey of keysArray) {
@@ -226,34 +233,34 @@ export default function FormPageEditView(
 
     setSaving(true);
     try {
-        await updateGapDataWithValues(
-            state.formData.id,
-            state.formId.formId,
-            state.uriPath,
-            saveData,
-            onSuccess,
-            onError
-          );
-    //   if (functionMode === DEF_ACTIONS.ADD) {
-    //     await saveGapDataWithValues(
-    //       1,
-    //       uriPath,
-    //       saveData,
-    //       null,
-    //       null,
-    //       onSuccess,
-    //       onError
-    //     );
-    //   } else if (state.action === DEF_ACTIONS.EDIT) {
-    //     await updateGapDataWithValues(
-    //       state.formData.id,
-    //       1,
-    //       uriPath,
-    //       saveData,
-    //       onSuccess,
-    //       onError
-    //     );
-    //   }
+      await updateGapDataWithValues(
+        state.formData.id,
+        state.formId.formId,
+        state.uriPath,
+        saveData,
+        onSuccess,
+        onError
+      );
+      //   if (functionMode === DEF_ACTIONS.ADD) {
+      //     await saveGapDataWithValues(
+      //       1,
+      //       uriPath,
+      //       saveData,
+      //       null,
+      //       null,
+      //       onSuccess,
+      //       onError
+      //     );
+      //   } else if (state.action === DEF_ACTIONS.EDIT) {
+      //     await updateGapDataWithValues(
+      //       state.formData.id,
+      //       1,
+      //       uriPath,
+      //       saveData,
+      //       onSuccess,
+      //       onError
+      //     );
+      //   }
     } catch (error) {
       console.log(error);
     }
@@ -267,57 +274,57 @@ export default function FormPageEditView(
       message: "Successfully executed !!!",
     });
 
-    getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(({ data = [] }) => {
-      setDataListTemplates(data);
-    });
+    getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(
+      ({ data = [] }) => {
+        setDataListTemplates(data);
+      }
+    );
   };
   return (
     <>
       <ButtonWrapper>
         {/* {state?.action !== DEF_ACTIONS.VIEW && ( */}
-          <ActionWrapper>
-            {saving ? (
-              <Button variant="contained">
-                {state?.action === DEF_ACTIONS.ADD
-                  ? "ADDING..."
-                  : "UPDATING..."}
+        <ActionWrapper>
+          {saving ? (
+            <Button variant="contained">
+              {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+            </Button>
+          ) : (
+            <>
+              <Button
+                variant="outlined"
+                //disabled={!enableSave()}
+                onClick={goBack}
+                size="small"
+                color="success"
+              >
+                Back
               </Button>
-            ) : (
-              <>
-                <Button
-                  variant="outlined"
-                  //disabled={!enableSave()}
-                  onClick={goBack}
-                  size="small"
-                  color="success"
-                >
-                  Back
-                </Button>
-                <Button
-                  variant="outlined"
-                  disabled={!enableSave()}
-                  onClick={(event) =>
-                    handle(event, formDataQ, mode, fileUploadResponse)
-                  }
-                  size="small"
-                  color="success"
-                  sx={{ marginLeft: "10px" }}
-                >
-                  {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                </Button>
-                <Button
-                  onClick={resetForm}
-                  color="success"
-                  variant="contained"
-                  size="small"
-                  sx={{ marginLeft: "10px" }}
-                  disabled = {state?.action !== DEF_ACTIONS.EDIT}
-                >
-                  RESET
-                </Button>
-              </>
-            )}
-          </ActionWrapper>
+              <Button
+                variant="outlined"
+                disabled={!enableSave()}
+                onClick={(event) =>
+                  handle(event, formDataQ, mode, fileUploadResponse)
+                }
+                size="small"
+                color="success"
+                sx={{ marginLeft: "10px" }}
+              >
+                {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+              </Button>
+              <Button
+                onClick={resetForm}
+                color="success"
+                variant="contained"
+                size="small"
+                sx={{ marginLeft: "10px" }}
+                disabled={state?.action !== DEF_ACTIONS.EDIT}
+              >
+                RESET
+              </Button>
+            </>
+          )}
+        </ActionWrapper>
         {/* )} */}
       </ButtonWrapper>
       <Box sx={{ display: "flex" }}>
@@ -336,7 +343,10 @@ export default function FormPageEditView(
                 name="auditId"
                 id="auditId"
                 value={formDataQ?.auditId || ""}
-                disabled={state.action === DEF_ACTIONS.VIEW || state.action === DEF_ACTIONS.EDIT}
+                disabled={
+                  state.action === DEF_ACTIONS.VIEW ||
+                  state.action === DEF_ACTIONS.EDIT
+                }
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "auditId")
                 }
@@ -395,8 +405,11 @@ export default function FormPageEditView(
                         "answer_" + item.question.id
                       )
                     }
-                    checked={formDataQ["answer_" + item.question.id] === true || formDataQ["answer_" + item.question.id] === "true"}
-                    />
+                    checked={
+                      formDataQ["answer_" + item.question.id] === true ||
+                      formDataQ["answer_" + item.question.id] === "true"
+                    }
+                  />
                 )}
                 {item.question.proofRequired === true && (
                   <FileUploadDynamic

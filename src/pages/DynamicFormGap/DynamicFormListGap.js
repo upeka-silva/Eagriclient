@@ -79,7 +79,7 @@ const DynamicFormListGap = ({
 
   const handleCropAreaAdd = (prop, mode, p_action) => (event) => {
     setFormData({});
-    setFormData(prop);
+    setFormData(prop);   
     setDialogMode(mode);
     //setOpenCropAreaAddDlg(true);
     navigate("/audit-form-edit-view", {
