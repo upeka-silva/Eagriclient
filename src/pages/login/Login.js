@@ -339,6 +339,7 @@ const LoginWrapper = styled.div`
   background-color: ${Colors.white};
   font-family: ${Fonts.fontStyle1};
   margin-right: -160px;
+  height: 100vh;
 `;
 
 const ButtonContainer = styled.button`
