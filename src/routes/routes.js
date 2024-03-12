@@ -1173,7 +1173,7 @@ export const Routes = [
       },
       {
         path: "/external-audit",
-        name: "External Audit",
+        name: "Final Audit",
         isSideBar: true,
         element: <ExternalAudit />,
         icon: SouthAmericaIcon,
@@ -1181,7 +1181,7 @@ export const Routes = [
       },
       {
         path: "/external-audit-form",
-        name: "External Audit Form",
+        name: "Final Audit Form",
         isSideBar: false,
         element: <ExternalAuditForm />,
         icon: SouthAmericaIcon,

@@ -59,7 +59,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
       formHeader = "Internal Audit Form";
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       listPath = "external-audit";
-      formHeader = "External Audit Form";
+      formHeader = "Final Audit Form";
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       listPath = "basic-assessment";
       formHeader = "Basic Assessment Form";

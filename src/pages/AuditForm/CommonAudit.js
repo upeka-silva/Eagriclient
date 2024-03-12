@@ -54,7 +54,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
       component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uRIPath = "external-audit-form";
-      formHeader = "External Audit Form";
+      formHeader = "Final Audit Form";
       component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uRIPath = "basic-assessment-form";
