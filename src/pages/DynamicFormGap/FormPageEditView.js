@@ -154,7 +154,7 @@ export default function FormPageEditView(
     ).then((data) => {
       addSnackBar({
         type: SnackBarTypes.success,
-        message: "Successfully File Uploaded !!!",
+        message: "Successfully Uploaded !!!",
       });
     });
   };
