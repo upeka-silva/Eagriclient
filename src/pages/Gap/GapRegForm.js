@@ -1067,7 +1067,7 @@ const GapRegForm = () => {
           onClick={() => toggleTab(5)}
           disabled={formData?.id == null || !extAuditPermission?.isEnabled}
         >
-          External Audit
+          Final Audit
         </TabButton>
 
         <TabButton

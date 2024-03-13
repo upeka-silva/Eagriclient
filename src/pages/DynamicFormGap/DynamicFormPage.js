@@ -123,7 +123,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
       formHeader = "INTERNAL AUDIT FORM";
     } else if (state?.auditFormType === "EXTERNAL_AUDIT") {
       uriPath = "external-audit";
-      formHeader = "EXTERNAL AUDIT FORM";
+      formHeader = "FINAL AUDIT FORM";
     } else if (state?.auditFormType === "BASIC_ASSESSMENT") {
       uriPath = "basic-assessments";
       formHeader = "BASIC ASSESSMENT FORM";
