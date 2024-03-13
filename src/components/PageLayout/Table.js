@@ -750,11 +750,20 @@ export const DataTable = ({
   };
 
   const extractNestedData = (row = {}, keys = "") => {
+
+    if (!row || keys === "") {
+      return null;
+    }
+
     if (typeof row[keys] === "string") {
       return row[keys];
     }
+
     let target = {};
     for (let key of keys.split(".")) {
+      if (target === null || target === undefined) {
+        return null; 
+      }
       if (Object.keys(target).length === 0) {
         target = row[key];
       } else {
@@ -1076,7 +1085,7 @@ export const DataTable = ({
                   if (c?.type === "date") {
                     return (
                       <TableCell key={`${key}-${key2}`}>
-                        {new Date(r[c.field] || undefined).toLocaleDateString(
+                        {new Date(r[c?.field] || undefined).toLocaleDateString(
                           "en-UK",
                           { month: "2-digit", day: "2-digit", year: "numeric" }
                         )}
@@ -1089,7 +1098,7 @@ export const DataTable = ({
                         key={`${key}-${key2}`}
                         sx={{ padding: "2px 0px 2px 20px !important" }}
                       >
-                        {new Date(r[c.field] || undefined).toLocaleTimeString(
+                        {new Date(r[c?.field] || undefined).toLocaleTimeString(
                           "en-UK",
                           { hour12: true, hour: "2-digit", minute: "2-digit" }
                         )}
@@ -1107,7 +1116,7 @@ export const DataTable = ({
                   }
                   return (
                     <TableCell key={`${key}-${key2}`}>
-                      {extractNestedData(r, c.field) || ""}
+                      {extractNestedData(r, c?.field) || ""}
                     </TableCell>
                   );
                 }
