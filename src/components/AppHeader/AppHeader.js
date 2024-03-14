@@ -129,7 +129,7 @@ const AppHeader = () => {
   };
 
   const profile = () => {
-    navigate("/new-user-registration");
+    navigate("/userProfile");
   };
 
   return (
