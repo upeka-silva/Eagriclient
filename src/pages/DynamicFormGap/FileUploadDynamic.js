@@ -9,10 +9,12 @@ function FileUploadDynamic({
                                auditAPIPath = '',
                                afterSelectedFile
                            }) {
+    
     const [selectedFile, setSelectedFile] = useState(null);
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
+        
     };
 
     const handleUpload = async () => {

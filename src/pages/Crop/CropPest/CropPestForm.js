@@ -143,7 +143,7 @@ const CropPestForm = () => {
     
   return (
     <>
-    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Pest Form"  />
+    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Pest"  />
     <ButtonWrapper>
         <ActionWrapper>
           {saving ? (
@@ -244,6 +244,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -253,7 +255,7 @@ const CropPestForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={5}>
+          <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
               <FieldName>Management</FieldName>
               <TextField
@@ -266,6 +268,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -275,7 +279,7 @@ const CropPestForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={4}>
+          <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
               <FieldName>In Store</FieldName>
               <TextField
@@ -288,6 +292,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -310,6 +316,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -332,6 +340,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -341,7 +351,7 @@ const CropPestForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={8}>
+          <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
               <FieldName>Other</FieldName>
               <TextField
@@ -354,6 +364,8 @@ const CropPestForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",

@@ -133,7 +133,7 @@ const CropDiseaseForm = () => {
     
   return (
     <>
-    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Disease Form"  />
+    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Disease"  />
     <ButtonWrapper>
         <ActionWrapper>
           {saving ? (
@@ -234,6 +234,8 @@ const CropDiseaseForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={6}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -256,6 +258,8 @@ const CropDiseaseForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={6}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -265,7 +269,7 @@ const CropDiseaseForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={4}>
+          <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
               <FieldName>Affected Part</FieldName>
               <TextField
@@ -287,7 +291,7 @@ const CropDiseaseForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={6}>
+          <Grid item sm={3} md={3} lg={10}>
           <FieldWrapper>
               <FieldName>Symptoms</FieldName>
               <TextField
@@ -300,6 +304,8 @@ const CropDiseaseForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -309,7 +315,7 @@ const CropDiseaseForm = () => {
               />
             </FieldWrapper>
             </Grid>
-          <Grid item sm={3} md={3} lg={6}>
+          <Grid item sm={3} md={3} lg={10}>
           <FieldWrapper>
               <FieldName>Management</FieldName>
               <TextField
@@ -322,6 +328,8 @@ const CropDiseaseForm = () => {
                 }
                 size="small"
                 fullWidth
+                multiline
+                rows={10}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
