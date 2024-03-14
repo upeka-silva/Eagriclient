@@ -140,12 +140,10 @@ const ProtectedHouseTypeForm = () => {
             <TextField
               name="typeId"
               id="typeId"
+              value={formData?.typeId || ""}
               fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.EDIT ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
-              onChange={(e) => handleChange(e.target.value, "typeId")}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "typeId")}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
