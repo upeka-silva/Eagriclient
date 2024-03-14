@@ -30,7 +30,7 @@ const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
                   <Box sx={{ flexDirection: "column" }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={CropImg}
+                      src={option.cropImageUrl || CropImg}
                       sx={{ 
                         height: "100px", 
                         width: "100px" 
