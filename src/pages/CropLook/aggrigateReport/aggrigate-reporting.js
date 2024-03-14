@@ -58,12 +58,12 @@ const AggrigateReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigate Report" />
+      <ListHeader title="Aggrigated Report" />
       <Grid
         container
         sx={{
           margin: "15px",
-          width: "97%",
+          //width: "97%",
           borderRadius: "5px",
         }}
       >
