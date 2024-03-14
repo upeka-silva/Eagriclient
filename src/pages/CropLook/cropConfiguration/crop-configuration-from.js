@@ -205,7 +205,7 @@ const CropConfigurationForm = () => {
     }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Configuration" />
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Field Configuration" />
         <Grid container>
           <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
             <Grid container>
