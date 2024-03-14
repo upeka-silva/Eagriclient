@@ -315,11 +315,11 @@ const CropVarietyForm = () => {
                 <TextField
                   name="varietyName"
                   id="varietyName"
-                  value={formData?.varietyName || ""}
+                  value={formData?.varietyName || null}
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "varietyName")
+                    handleChange(e?.target?.value || null, "varietyName")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
@@ -338,11 +338,11 @@ const CropVarietyForm = () => {
                 <TextField
                   name="varietyDescription"
                   id="varietyDescription"
-                  value={formData?.varietyDescription || ""}
+                  value={formData?.varietyDescription || null}
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "varietyDescription")
+                    handleChange(e?.target?.value || null, "varietyDescription")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
