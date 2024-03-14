@@ -51,6 +51,8 @@ const CropRegistrationForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
 
+
+
   // start of crop registration code
 
   useEffect(() => {
@@ -258,7 +260,7 @@ const CropRegistrationForm = () => {
                 getOptionLabel={(i) =>
                   (i.name !== undefined ? `${i?.name} - ` : "") +
                   (i.description !== undefined ? `${i?.description}` : "")
-                  
+                
                 }
                 onChange={(event, value) => {
                   handleDDChange(value);

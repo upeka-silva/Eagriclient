@@ -10,7 +10,7 @@ const CropConfigurationList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {field: "cropCategory.categoryId", headerName: "Crop Category"}
+    {field: ["cropCategory.categoryId","cropCategory.description"], headerName: "Crop Category"}
   ];
 
   const [id, setId] = useState(null);
