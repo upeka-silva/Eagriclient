@@ -201,8 +201,8 @@ const CropSubCategoryForm = () => {
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}
-                value={formData ? formData.cropCategoryDTO : ""}
-                getOptionLabel={(i) => `${i.categoryId} - ${i.description}`}
+                value={formData?.cropCategoryDTO || ""}
+                getOptionLabel={(i) => i.categoryId ? `${i.categoryId} - ${i.description}` : ""}
                 onChange={(event, value) => {
                   handleChange(value, "cropCategoryDTO");
                 }}

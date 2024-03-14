@@ -67,6 +67,7 @@ const CropTargetForm = () => {
 
   // start of crop registration code
 
+
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -262,7 +263,11 @@ const CropTargetForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) =>i.code !== undefined ? `${i.code}`: ""}
+                getOptionLabel={
+                  (i) => 
+                  (i.code !== undefined ? `${i.code} - ` : "") +
+                  (i.description !== undefined ? `${i.description}` : "")
+                }
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
@@ -283,7 +288,7 @@ const CropTargetForm = () => {
                   className={toggleState === index + 1 ? "active-tabs" : ""}
                   onClick={() => toggleTab(index + 1)}
                 >
-                  {category?.categoryId}
+                  {category?.description}
                 </TabButton>
               ))}
             </TabWrapper>

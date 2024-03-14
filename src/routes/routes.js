@@ -1236,7 +1236,7 @@ export const Routes = [
     children: [
       {
         path: "/crop-configuration",
-        name: "Crop Configuration",
+        name: "Field Configuration",
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
@@ -1244,7 +1244,7 @@ export const Routes = [
       },
       {
         path: "/crop-configuration-form",
-        name: "Crop Configuration Form",
+        name: "Field Configuration Form",
         isSideBar: false,
         element: <CropConfigurationForm />,
         icon: SouthAmericaIcon,

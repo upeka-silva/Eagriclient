@@ -66,7 +66,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     if (event.preventDefault) event.preventDefault();
-    setLoading(true);  
+    setLoading(true);
     initiateLogin(formData, updateAuthContext, onSuccess, onError);
   };
 
@@ -95,7 +95,7 @@ const Login = () => {
       return true;
     }
   };
-   
+
   const handleClick = () => {
     setShowPassword((prev) => !prev);
   };
@@ -114,7 +114,11 @@ const Login = () => {
         <Grid item sm={8}>
           <LeftWrapper>
             <BGImg src={Vector} />
-            <AppName>AGRITECH PORTAL</AppName>
+            <AppName>CROPIX</AppName>
+            <AppTitle>
+              Crop Resources Optimizing operations through Precies Information
+              Exchange system
+            </AppTitle>
 
             <OtherLinkWrapper>
               <RegisterButtons onClick={goFarmer}>
@@ -250,22 +254,18 @@ const Login = () => {
                           <ForgotPassword>Forgot password?</ForgotPassword>
                         </Link>
                       </LinkWrapper> */}
-                      <Box sx= {{mt : 3}}>
-                      <ButtonContainer
-                        type="submit"
-                        fullWidth
-
-                      >
-                        {loading ? (
-                          <CircularProgress
-                            size={20}
-                            sx={{ mt: "8px", mb: "8px" }}
-                            style={{ color: `${Colors.white}` }}
-                          />
-                        ) : (
-                          "Sign In"
-                        )}
-                      </ButtonContainer>
+                      <Box sx={{ mt: 3 }}>
+                        <ButtonContainer type="submit" fullWidth>
+                          {loading ? (
+                            <CircularProgress
+                              size={20}
+                              sx={{ mt: "8px", mb: "8px" }}
+                              style={{ color: `${Colors.white}` }}
+                            />
+                          ) : (
+                            "Sign In"
+                          )}
+                        </ButtonContainer>
                       </Box>
                     </Box>
                   </Box>
@@ -398,12 +398,23 @@ const ForgotPassword = styled.p`
 const AppName = styled.p`
   display: flex;
   justify-content: center;
-  font-size: 50px;
+  font-size: 65px;
   letter-spacing: 0.175em;
   font-family: ${Fonts.fontStyle1};
   color: ${Colors.AppName};
   font-weight: 700;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+`;
+
+const AppTitle = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  letter-spacing: 0.175em;
+  font-family: ${Fonts.fontStyle1};
+  color: ${Colors.buttonColor};
+  font-weight: 500;
 `;
 
 const BGImg = styled.img`
