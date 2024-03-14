@@ -15,6 +15,7 @@ export const initiateLogin = async (
 		if (response.httpCode === '200 OK' && response.payload.jwtToken) {
 			const jwtToken = decompressJWT(response.payload.jwtToken);
 			await setLSItem(StorageConstants.token, jwtToken);
+			await setLSItem(StorageConstants.user_id, response.payload.id);
 			await setLSItem(
 				StorageConstants.compress_token,
 				response.payload.jwtToken
