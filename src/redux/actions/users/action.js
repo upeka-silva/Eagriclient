@@ -1,5 +1,8 @@
 import { put, post, get, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { getLSItem } from "../../../services/storage";
+import { StorageConstants } from "../../../services/storage/constant";
+
 
 export const handleUsers = async (
   payload = {},
@@ -210,5 +213,26 @@ export const changeUserStatus = async (
     }
   }
  };
+
+ export const getUserProfile = async () => {
+  debugger ;
+  try {
+    var userid  = await getLSItem(StorageConstants.user_id)?.value || ""
+    const { httpCode, payloadDto } = await get(`user/profile/${userid}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        data: payloadDto,
+      };
+    }
+    return {
+      data: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      data: [],
+    };
+  }
+};
  
  

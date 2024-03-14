@@ -194,10 +194,15 @@ import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
 import CropPest from "../pages/Crop/CropPest/CropPest";
 import CropDisease from "../pages/Crop/CropDisease/CropDisease";
+import ProfileView from "../pages/Users/ProfileView";
+import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 
-
 export const Routes = [
+  {
+    path: "/landing",
+    element: <Landing />,
+  },
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
@@ -209,7 +214,7 @@ export const Routes = [
   },
   {
     path: "/",
-    element: <Login />,
+    element: <Landing />,
   },
   {
     path: "/login",
@@ -240,6 +245,10 @@ export const Routes = [
   {
     path: "/temp-farmer",
     element: <TempFarmer />,
+  },
+  {
+    path: "/userProfile",
+    element: <ProfileView/>,
   },
 
   {

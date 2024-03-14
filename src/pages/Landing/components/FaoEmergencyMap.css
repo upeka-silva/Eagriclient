@@ -1,0 +1,19 @@
+.map-container {
+    height: 550px;
+}
+
+.map{
+    position: relative;
+    top: 10px;
+  }
+  .active-path{
+    fill: #C35989!important;
+  }
+  
+  .map-region{
+    fill: #B9CFDE;
+  }
+  
+  .location-search{
+    height: auto;
+  }
