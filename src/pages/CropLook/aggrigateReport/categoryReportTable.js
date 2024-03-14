@@ -22,7 +22,7 @@ const CategoryReportTabel = ({ category, season }) => {
     }
 
     fetchData(category.categoryId, season.id);
-  }, []);
+  }, [season]);
 
   return (
     <>
