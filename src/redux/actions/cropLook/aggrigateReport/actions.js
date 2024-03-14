@@ -178,9 +178,9 @@ export const updateDamageExtents = async (
   }
 };
 
-export const getAggrigateReportData = async (categoryId) => {
+export const getAggrigateReportData = async (categoryId, seasonId) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/dd-report/varietySummary/category/${categoryId}`, true);
+    const { httpCode, payloadDto } = await get(`crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}`, true);
     if (httpCode === "200 OK") {
       return payloadDto;
     }

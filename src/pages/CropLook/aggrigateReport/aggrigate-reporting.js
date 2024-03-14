@@ -14,6 +14,10 @@ import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import CategoryReportTabel from "./categoryReportTable";
+import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
+import { Autocomplete, Grid, TextField } from "@mui/material";
+import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../components/FormLayout/FieldName";
 
 const AggrigateReport = () => {
   useUserAccessValidation();
@@ -26,12 +30,20 @@ const AggrigateReport = () => {
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
+  const [seasons, setSeasons] = useState([]);
+  const [selectedSeason, setSelectedSeason] = useState(null);
 
   useEffect(() => {
-    get_CategoryList().then(({dataList = []}) => {
+    get_CategoryList().then(({ dataList = [] }) => {
       console.log("crop list");
       console.log(dataList);
       setCropCategoryList(dataList);
+    });
+
+    getSeasons().then(({ dataList = [] }) => {
+      console.log("seasons ---------->");
+      console.log(dataList);
+      setSeasons(dataList);
     });
   }, []);
 
@@ -47,19 +59,60 @@ const AggrigateReport = () => {
       }}
     >
       <ListHeader title="Aggrigate Report" />
-      <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+      <Grid
+        container
+        sx={{
+          margin: "15px",
+          width: "97%",
+          borderRadius: "5px",
+        }}
       >
-        <TableWrapper>
-          {cropCategoryList &&
-            cropCategoryList.map((category) => (
-              <div key={category.categoryId}>
-                <h5>{category.categoryName}</h5>
-                <CategoryReportTabel category={category} />
-              </div>
-            ))}
-        </TableWrapper>
-      </PermissionWrapper>
+        <Grid item md={12}>
+          <Grid container>
+            <Grid item md={4}>
+              <FieldWrapper>
+                <FieldName>Season</FieldName>
+                <Autocomplete
+                  options={seasons}
+                  //value={selectedSeason}
+                  getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    setSelectedSeason(value);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+          >
+            <TableWrapper>
+              {selectedSeason &&
+                cropCategoryList &&
+                cropCategoryList.map((category) => (
+                  <div key={category.categoryId}>
+                    <h5>{category.categoryName}</h5>
+                    <CategoryReportTabel
+                      category={category}
+                      season={selectedSeason}
+                    />
+                  </div>
+                ))}
+            </TableWrapper>
+          </PermissionWrapper>
+        </Grid>
+      </Grid>
     </div>
   );
 };

@@ -10,18 +10,18 @@ import {
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 
-const CategoryReportTabel = ({ category }) => {
+const CategoryReportTabel = ({ category, season }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    async function fetchData(categoryId) {
-      const dataList = await getAggrigateReportData(categoryId);
+    async function fetchData(categoryId, seasonId) {
+      const dataList = await getAggrigateReportData(categoryId, seasonId);
       console.log('aggrigate data list');
       console.log(dataList);
       setData(dataList);
     }
 
-    fetchData(category.categoryId);
+    fetchData(category.categoryId, season.id);
   }, []);
 
   return (
@@ -50,18 +50,18 @@ const CategoryReportTabel = ({ category }) => {
           {data && data.map((row, index) => (
             <TableRow key={index}>
               <TableCell>{row.varietyName}</TableCell>
-              <TableCell>{row.totalTargetedExtentMajor}</TableCell>
-              <TableCell>{row.totalTargetedExtentMinor}</TableCell>
-              <TableCell>{row.totalTargetedExtentRainfed}</TableCell>
-              <TableCell>{row.targetedExtentIrrigate}</TableCell>
-              <TableCell>{row.totalTargetedExtent}</TableCell>
-              <TableCell>{row.allTargetedExtent}</TableCell>
-              <TableCell>{row.totalExtentMajor}</TableCell>
-              <TableCell>{row.totalExtentMinor}</TableCell>
-              <TableCell>{row.totalExtentRainfed}</TableCell>
-              <TableCell>{row.totalExtentIrrigate}</TableCell>
-              <TableCell>{row.totalExtent}</TableCell>
-              <TableCell>{row.allExtent}</TableCell>
+              <TableCell>{row.totalTargetedExtentMajor || "--"}</TableCell>
+              <TableCell>{row.totalTargetedExtentMinor || "--"}</TableCell>
+              <TableCell>{row.totalTargetedExtentRainfed || "--"}</TableCell>
+              <TableCell>{row.targetedExtentIrrigate || "--"}</TableCell>
+              <TableCell>{row.totalTargetedExtent || "--"}</TableCell>
+              <TableCell>{row.allTargetedExtent || "--"}</TableCell>
+              <TableCell>{row.totalExtentMajor || "--"}</TableCell>
+              <TableCell>{row.totalExtentMinor || "--"}</TableCell>
+              <TableCell>{row.totalExtentRainfed || "--"}</TableCell>
+              <TableCell>{row.totalExtentIrrigate || "--"}</TableCell>
+              <TableCell>{row.totalExtent || "--"}</TableCell>
+              <TableCell>{row.allExtent || "--"}</TableCell>
             </TableRow>
           ))}
         </TableBody>
