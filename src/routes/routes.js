@@ -195,10 +195,14 @@ import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
 import CropPest from "../pages/Crop/CropPest/CropPest";
 import CropDisease from "../pages/Crop/CropDisease/CropDisease";
 import ProfileView from "../pages/Users/ProfileView";
-
-
+import Landing from "../pages/Landing/Landing";
+import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 
 export const Routes = [
+  {
+    path: "/landing",
+    element: <Landing />,
+  },
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
@@ -210,7 +214,7 @@ export const Routes = [
   },
   {
     path: "/",
-    element: <Login />,
+    element: <Landing />,
   },
   {
     path: "/login",
@@ -1241,7 +1245,7 @@ export const Routes = [
     children: [
       {
         path: "/crop-configuration",
-        name: "Crop Configuration",
+        name: "Field Configuration",
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
@@ -1249,7 +1253,7 @@ export const Routes = [
       },
       {
         path: "/crop-configuration-form",
-        name: "Crop Configuration Form",
+        name: "Field Configuration Form",
         isSideBar: false,
         element: <CropConfigurationForm />,
         icon: SouthAmericaIcon,
@@ -1329,6 +1333,14 @@ export const Routes = [
         element: <DDBiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
+      {
+        path: "/dd-report",
+        name: "Aggrigate Report",
+        isSideBar: true,
+        element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      }
     ],
   },
   {

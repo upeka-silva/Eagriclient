@@ -146,10 +146,29 @@ const CropDamageForm = () => {
               <FieldName>Code</FieldName>
               <TextField
                 variant="outlined"
+                id="code"
+                name="code"
+                value={formData && formData.code ? formData.code : ""}
+                onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "code")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Name</FieldName>
+              <TextField
+                variant="outlined"
                 id="name"
                 name="name"
                 value={formData && formData.name ? formData.name : ""}
-                onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "name")}
+                onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",

@@ -151,7 +151,7 @@ const CropConfiguration = () => {
       overflowY: "scroll",
     }}
     >
-      <ListHeader title="Crop Configuration" />
+      <ListHeader title="Field Configuration" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

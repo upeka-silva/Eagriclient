@@ -5,6 +5,7 @@ import {
   CircularProgress,
   Grid,
   IconButton,
+  Switch,
   TextField,
 } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -27,6 +28,8 @@ import { get_itemNames } from "../../../redux/actions/HARTIItems/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { Fonts } from "../../../utils/constants/Fonts";
+import {MenuItem} from "@mui/material";
+import {Select} from "@mui/material";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
@@ -312,11 +315,11 @@ const CropVarietyForm = () => {
                 <TextField
                   name="varietyName"
                   id="varietyName"
-                  value={formData?.varietyName || ""}
+                  value={formData?.varietyName || null}
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "varietyName")
+                    handleChange(e?.target?.value || null, "varietyName")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
@@ -335,11 +338,11 @@ const CropVarietyForm = () => {
                 <TextField
                   name="varietyDescription"
                   id="varietyDescription"
-                  value={formData?.varietyDescription || ""}
+                  value={formData?.varietyDescription || null}
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "varietyDescription")
+                    handleChange(e?.target?.value || null, "varietyDescription")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
@@ -375,6 +378,126 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+            <Grid item sm={3} md={3} lg={4}>
+              <FieldWrapper>
+                <FieldName>Croplook Variety ID</FieldName>
+                <TextField
+                  name="croplookVarietyId"
+                  id="croplookVarietyId"
+                  type="text"
+                  value={formData?.croplookVarietyId || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "croplookVarietyId")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  inputProps={{ style: { textTransform: "uppercase" } }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Age Type</FieldName>
+                  <Select
+                    name="ageType"
+                    id="ageType"
+                    value={formData?.ageType || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "ageType")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"TWO_MONTHS"}>2 Months</MenuItem>
+                    <MenuItem value={"TWO_AND_HALF_MONTHS"}>2 1/2 Months</MenuItem>
+                    <MenuItem value={"THREE_MONTHS"}>3 Months</MenuItem>
+                    <MenuItem value={"THREE_AND_HALF_MONTHS"}>3 1/2 Months</MenuItem>
+                    <MenuItem value={"FOUR_MONTHS"}>4 Months</MenuItem>
+                    <MenuItem value={"FOUR_AND_HALF_MONTHS"}>4 1/2 Months</MenuItem>
+                    <MenuItem value={"FIVE_TO_SIX_MONTHS"}>5-6 Months</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+            <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Variety Type</FieldName>
+                  <Select
+                    name="varietyType"
+                    id="varietyType"
+                    value={formData?.varietyType || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "varietyType")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"NIV"}>NIV</MenuItem>
+                    <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
+                    <MenuItem value={"OIV"}>OIV</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={4}>
+                  <FieldWrapper>
+                    <FieldName>Grain Type</FieldName>
+                    <Select
+                      name="grainType"
+                      id="grainType"
+                      value={formData?.grainType || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) =>
+                        handleChange(e?.target?.value || "", "grainType")
+                      }
+                      fullWidth
+                      sx={{
+                        borderRadius: "8px",
+                      }}
+                      size="small"
+                    >
+                      <MenuItem value={"LOONG_GRAIN"}>Long Grain</MenuItem>
+                      <MenuItem value={"KEERI_SAMBA"}>Keeri Samba</MenuItem>
+                      <MenuItem value={"SAMBA"}>Samba</MenuItem>
+                      <MenuItem value={"NADU"}>Nadu</MenuItem>
+                    </Select>
+                  </FieldWrapper>
+                </Grid>
+              <Grid item sm={3} md={3} lg={4}>
+                  <FieldWrapper>
+                    <FieldName>Pollination Type</FieldName>
+                    <Select
+                      name="pollinationType"
+                      id="pollinationType"
+                      value={formData?.pollinationType || ""}
+                      disabled={state?.action === DEF_ACTIONS.VIEW}
+                      onChange={(e) =>
+                        handleChange(e?.target?.value || "", "pollinationType")
+                      }
+                      fullWidth
+                      sx={{
+                        borderRadius: "8px",
+                      }}
+                      size="small"
+                    >
+                      <MenuItem value={"OPV"}>OPV</MenuItem>
+                      <MenuItem value={"HYBRID"}>Hybrid</MenuItem>
+                      <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
+                    </Select>
+                  </FieldWrapper>
+                </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FieldName>Pericarp Color</FieldName>
@@ -398,10 +521,74 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
+                <FieldName>Pod/Fruit Colour</FieldName>
+                <TextField
+                  name="podFruitColour"
+                  id="podFruitColour"
+                  value={formData?.podFruitColour || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "podFruitColour")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Grain Color</FieldName>
+                <TextField
+                  name="grainColor"
+                  id="grainColor"
+                  value={formData?.grainColor || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "grainColor")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Grain Quality</FieldName>
+                <TextField
+                  name="grainQuality"
+                  id="grainQuality"
+                  value={formData?.grainQuality || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "grainQuality")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
                 <FieldName>Grain Size</FieldName>
                 <TextField
                   name="grainSize"
                   id="grainSize"
+                  type="number"
                   value={formData?.grainSize || ""}
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -419,6 +606,60 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
+                <FieldName>Research Yield</FieldName>
+                <TextField
+                  name="researchYield"
+                  id="researchYield"
+                  type="number"
+                  value={formData?.researchYield || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "researchYield")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">MT/Ha</InputAdornment>
+                    ),
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Farmer Yield</FieldName>
+                <TextField
+                  name="farmerYield"
+                  id="farmerYield"
+                  type="number"
+                  value={formData?.farmerYield || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "farmerYield")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">MT/Ha</InputAdornment>
+                    ),
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
                 <FieldName>Average Yield</FieldName>
                 <TextField
                   name="averageYield"
@@ -429,6 +670,33 @@ const CropVarietyForm = () => {
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "averageYield")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">MT/Ha</InputAdornment>
+                    ),
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Number Of Pics</FieldName>
+                <TextField
+                  name="numberOfPics"
+                  id="numberOfPics"
+                  type="number"
+                  value={formData?.numberOfPics || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "numberOfPics")
                   }
                   sx={{
                     "& .MuiInputBase-root": {
@@ -635,6 +903,43 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+        <Grid item sm={4} md={4} lg={4} spacing={0}>
+          <FieldWrapper>
+            <FieldName>Imported</FieldName>
+            <Switch
+              name="isImported"
+              id="isImported"
+              value={formData?.isImported || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.checked || "", "isImported")
+              }
+              checked={formData?.isImported}
+              aria-label="Switch demo"
+            />
+          </FieldWrapper>
+        </Grid>
+            <Grid item sm={3} md={3} lg={8}>
+              <FieldWrapper>
+                <FieldName>Soil Problems</FieldName>
+                <TextField
+                  name="soilProblems"
+                  id="soilProblems"
+                  value={formData?.soilProblems || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "soilProblems")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={3} md={3} lg={5}>
               <FieldWrapper>
                 <FieldName>Plant Growth</FieldName>
@@ -656,6 +961,27 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+            <Grid item sm={3} md={3} lg={5}>
+              <FieldWrapper>
+                <FieldName>Resistant to Pest & Disease</FieldName>
+                <TextField
+                  name="pestDiseaseResistant"
+                  id="pestDiseaseResistant"
+                  value={formData?.pestDiseaseResistant || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "pestDiseaseResistant")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
                 <FieldName>Edible Part Shape</FieldName>
@@ -667,6 +993,27 @@ const CropVarietyForm = () => {
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "ediblePartShape")
+                  }
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  size="small"
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={12}>
+              <FieldWrapper>
+                <FieldName>Special Characteristics</FieldName>
+                <TextField
+                  name="specialCharacteristics"
+                  id="specialCharacteristics"
+                  value={formData?.specialCharacteristics || ""}
+                  fullWidth
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "specialCharacteristics")
                   }
                   sx={{
                     "& .MuiInputBase-root": {

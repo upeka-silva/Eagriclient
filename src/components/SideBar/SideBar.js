@@ -320,11 +320,11 @@ const SideBar = () => {
         >
           {open && (
             <Typography
-              variant="h5"
+              variant="h4"
               fontWeight="bold"
               fontFamily={Fonts.fontStyle1}
             >
-              E-Agri Portal
+              CROPIX
             </Typography>
           )}
           <SideBarItemToolTip

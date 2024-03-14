@@ -58,6 +58,7 @@ const CropForm = ({
   const location = useLocation();
 
   const [formData, setFormData] = useState(state?.target || {});
+  const [formDataD, setFormDataD] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
 
@@ -106,7 +107,7 @@ const CropForm = ({
 
   const onAddPest = () => {
     setCropId(formData.id);
-    setFormData({});
+    setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropPestAddDialog(true);
     setIsDataFetch(false);
@@ -115,7 +116,7 @@ const CropForm = ({
 
   const onAddDisease = () => {
     setCropId(formData.id);
-    setFormData({});
+    setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropDiseaseAddDialog(true);
     setIsDataFetch(false);
@@ -142,8 +143,10 @@ const CropForm = ({
     onSuccess,
     onError
   ) => {
+    setLoading(true);
     try {
       await assignCropPest(cropId, formDataD, onSuccess, onError);
+      setLoading(false);
       setOpenCropPestAddDialog(false);
     } catch (error) {
       console.log(error);
@@ -151,8 +154,10 @@ const CropForm = ({
   };
 
   const handleCropDiseaseAdd = async (event, formDataD, functionMode) => {
+    setLoading(true);
     try {
       await assignCropDisease(cropId, formDataD);
+      setLoading(false);
       setOpenCropDiseaseAddDialog(false);
     } catch (error) {
       console.log(error);
@@ -271,12 +276,12 @@ const CropForm = ({
   };
 
   const closeCropPestAddDialog = () => {
-    setFormData({});
+    setFormDataD({});
     setOpenCropPestAddDialog(false);
   };
 
   const closeCropDiseaseAddDialog = () => {
-    setFormData({});
+    setFormDataD({});
     setOpenCropDiseaseAddDialog(false);
   };
 
@@ -1174,7 +1179,8 @@ const CropForm = ({
                   aria-label="action button group"
                   color="success"
                 >
-                  <Button onClick={onAddPest}>
+                  <Button onClick={onAddPest}
+                  disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.ADD}>
                     <Add />
                     {DEF_ACTIONS.ADD}
                   </Button>
@@ -1183,8 +1189,8 @@ const CropForm = ({
                     setConfirmDialog={setOpenCropPestAddDialog}
                     confirmAction={handleCropPestAdd}
                     handleClose={closeCropPestAddDialog}
-                    formId={formData?.id}
-                    formData={formData}
+                    formId={formDataD?.id}
+                    formData={formDataD}
                     mode={dialogMode}
                     cropId={cropId}
                   />
@@ -1196,7 +1202,8 @@ const CropForm = ({
                   )}
                 </ButtonGroup>
               </ActionWrapper>
-              <CropPestList
+              {loading === false && (
+                <CropPestList
                 url={pestUrl}
                 onRowSelect={toggleCropPestSelect}
                 selectedRows={selectCropPest}
@@ -1205,6 +1212,8 @@ const CropForm = ({
                 onDelete={handleCropPestDelete}
                 cropId={cropId}
               />
+              )}
+              
             </TabContent>
             <TabContent className={toggleState === 2 ? "active-content" : ""}>
               <ActionWrapper isLeft>
@@ -1215,7 +1224,8 @@ const CropForm = ({
                   aria-label="action button group"
                   color="success"
                 >
-                  <Button onClick={onAddDisease}>
+                  <Button onClick={onAddDisease}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}>
                     <Add />
                     {DEF_ACTIONS.ADD}
                   </Button>
@@ -1224,8 +1234,8 @@ const CropForm = ({
                     setConfirmDialog={setOpenCropDiseaseAddDialog}
                     confirmAction={handleCropDiseaseAdd}
                     handleClose={closeCropDiseaseAddDialog}
-                    formId={formData?.id}
-                    formData={formData}
+                    formId={formDataD?.id}
+                    formData={formDataD}
                     mode={dialogMode}
                     cropId={cropId}
                   />
@@ -1237,13 +1247,16 @@ const CropForm = ({
                   )}
                 </ButtonGroup>
               </ActionWrapper>
-              <CropDiseaseList
+              {loading === false && (
+                <CropDiseaseList
                 url={diseaseUrl}
                 onRowSelect={toggleCropDiseaseSelect}
                 selectedRows={selectCropDisease}
                 selectAll={selectAllCropDisease}
                 unSelectAll={resetSelectedCropDisease}
               />
+              )}
+              
             </TabContent>
             <DialogBox
               open={open}
