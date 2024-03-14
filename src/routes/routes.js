@@ -194,6 +194,7 @@ import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
 import CropPest from "../pages/Crop/CropPest/CropPest";
 import CropDisease from "../pages/Crop/CropDisease/CropDisease";
+import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 
 
 export const Routes = [
@@ -1323,6 +1324,14 @@ export const Routes = [
         element: <DDBiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
+      {
+        path: "/dd-report",
+        name: "Aggrigate Report",
+        isSideBar: true,
+        element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      }
     ],
   },
   {
