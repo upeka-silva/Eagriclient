@@ -63,6 +63,8 @@ const BiWeeklyReportingForm = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [toggleState, setToggleState] = useState(1);
   const [openConfApprove, setOpenConfApprove] = useState(false);
+
+  
  
 
   useEffect(() => {
@@ -320,7 +322,7 @@ const BiWeeklyReportingForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => `${i.code}`}
+                getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
@@ -369,7 +371,7 @@ const BiWeeklyReportingForm = () => {
                   className={toggleState === index + 1 ? "active-tabs" : ""}
                   onClick={() => toggleTab(index + 1)}
                 >
-                  {category?.categoryId}
+                  {category?.description}
                 </TabButton>
               ))}
             </TabWrapper>
