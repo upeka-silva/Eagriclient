@@ -21,8 +21,8 @@ import GnDivision from "../pages/Zones/GN/GnDivision";
 import GnDivisionForm from "../pages/Zones/GN/GnDivisionForm";
 import AgroEco from "../pages/Agro-Eco-zone/Agro-Eco/AgroEco";
 import AgroEcoForm from "../pages/Agro-Eco-zone/Agro-Eco/AgroEcoForm";
-import ScsRegion from "../pages/Scs-Region/ScsRegion/ScsRegion"
-import ScsRegionForm from "../pages/Scs-Region/ScsRegion/ScsRegionForm"
+import ScsRegion from "../pages/Scs-Region/ScsRegion/ScsRegion";
+import ScsRegionForm from "../pages/Scs-Region/ScsRegion/ScsRegionForm";
 
 import CropCategory from "../pages/Crop/CropCategory/CropCategory";
 import CropCategoryForm from "../pages/Crop/CropCategory/CropCategoryForm";
@@ -58,6 +58,8 @@ import Farmer from "../pages/Farmer/Farmer";
 import FarmerForm from "../pages/Farmer/FarmerForm";
 import UserType from "../pages/UserType/UserType";
 import UserTypeForm from "../pages/UserType/UserTypeForm";
+import CreatePost from "../pages/Extention/CreatePost";
+import CreatePostForm from "../pages/Extention/CreatePostForm";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -82,10 +84,12 @@ import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
-import GppGoodIcon from '@mui/icons-material/GppGood';
-import SettingsIcon from '@mui/icons-material/Settings';
-import BiotechIcon from '@mui/icons-material/Biotech';
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import GppGoodIcon from "@mui/icons-material/GppGood";
+import SettingsIcon from "@mui/icons-material/Settings";
+import BiotechIcon from "@mui/icons-material/Biotech";
+import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import PostAddIcon from "@mui/icons-material/PostAdd";
+import ExtensionIcon from "@mui/icons-material/Extension";
 
 import Organization from "../pages/Organization/Organization";
 import {
@@ -102,8 +106,9 @@ import {
   Settings,
   Plagiarism,
   TrendingDown,
+  Create,
   BugReportRounded,
-  CoronavirusRounded
+  CoronavirusRounded,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -188,8 +193,15 @@ import DDLevelSummary from "../pages/IndicativeTargets/ddSummary/dd-summary";
 import AILevelSummary from "../pages/IndicativeTargets/ddSummary/ai-summary";
 import CropPest from "../pages/Crop/CropPest/CropPest";
 import CropDisease from "../pages/Crop/CropDisease/CropDisease";
+import ProfileView from "../pages/Users/ProfileView";
+import Landing from "../pages/Landing/Landing";
+import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 
 export const Routes = [
+  {
+    path: "/landing",
+    element: <Landing />,
+  },
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
@@ -201,7 +213,7 @@ export const Routes = [
   },
   {
     path: "/",
-    element: <Login />,
+    element: <Landing />,
   },
   {
     path: "/login",
@@ -232,6 +244,10 @@ export const Routes = [
   {
     path: "/temp-farmer",
     element: <TempFarmer />,
+  },
+  {
+    path: "/userProfile",
+    element: <ProfileView />,
   },
 
   {
@@ -393,7 +409,8 @@ export const Routes = [
         path: "/inter-provincial-structure",
         name: "Inter Provincial DOA ",
         isSideBar: true,
-        parentPath: "/zone/inter-provincial-structure/inter-provincial-director",
+        parentPath:
+          "/zone/inter-provincial-structure/inter-provincial-director",
         children: [
           {
             path: "/inter-provincial-director",
@@ -766,7 +783,7 @@ export const Routes = [
         icon: Category,
         component: DEF_COMPONENTS.CROP_SUB_CATEGORY,
       },
-      
+
       {
         path: "/sub-category-form",
         name: "Crop Category Form",
@@ -867,7 +884,7 @@ export const Routes = [
       },
       {
         path: "/crop-pest-form",
-        name: "Crop Pest Form",	
+        name: "Crop Pest Form",
         isSideBar: false,
         element: <CropPestForm />,
       },
@@ -881,10 +898,10 @@ export const Routes = [
       },
       {
         path: "/crop-disease-form",
-        name: "Crop Disease Form",	
+        name: "Crop Disease Form",
         isSideBar: false,
         element: <CropDiseaseForm />,
-      }
+      },
     ],
   },
   {
@@ -923,7 +940,7 @@ export const Routes = [
         element: <InstitutionForm />,
       },
     ],
-  },
+  },  
 
   {
     path: "/tests",
@@ -975,12 +992,6 @@ export const Routes = [
     element: <AgriSeasonForm />,
     isSideBar: false,
   },
-  {
-    path: "users-form",
-    name: "New User Form",
-    element: <UsersForm />,
-    isSideBar: false,
-  },
 
   {
     path: "/farm-land",
@@ -1004,13 +1015,13 @@ export const Routes = [
     isSideBar: false,
     component: DEF_COMPONENTS.BASIC_ASSESSMENT,
   },
-  {
-    path: "/user-access-log",
-    name: "User Access Log",
-    isSideBar: true,
-    icon: PeopleAlt,
-    component: DEF_COMPONENTS.USER_ACCESS_LOG
-  },
+  // {
+  //   path: "/user-access-log",
+  //   name: "User Access Log",
+  //   isSideBar: true,
+  //   icon: PeopleAlt,
+  //   component: DEF_COMPONENTS.USER_ACCESS_LOG,
+  // },
   {
     path: "/farm-land-form",
     name: "Farm Land",
@@ -1050,27 +1061,41 @@ export const Routes = [
   },
 
   {
-    path: "/user-type",
-    name: "User Type",
-    element: <UserType />,
-    isSideBar: true,
-    icon: ManageAccountsIcon,
-    component: DEF_COMPONENTS.USER_TYPE,
-  },
-  {
-    path: "/user-type-form",
-    name: "User Type",
-    element: <UserTypeForm />,
-    isSideBar: false,
-  },
-  {
-    path: "/users",
+    path: "/user",
     name: "Users",
-    element: <Users />,
     isSideBar: true,
-    isService: "SC",
-    icon: SupervisedUserCircleIcon,
-    component: DEF_COMPONENTS.USER,
+    icon: GppGoodIcon,
+    children: [
+      {
+        path: "/users",
+        name: "Users",
+        element: <Users />,
+        isSideBar: true,
+        isService: "SC",
+        icon: SupervisedUserCircleIcon,
+        component: DEF_COMPONENTS.USER,
+      },
+      {
+        path: "/users-form",
+        name: "New User Form",
+        element: <UsersForm />,
+        isSideBar: false,
+      },
+      {
+        path: "/user-type",
+        name: "User Type",
+        element: <UserType />,
+        isSideBar: true,
+        icon: ManageAccountsIcon,
+        component: DEF_COMPONENTS.USER_TYPE,
+      },
+      {
+        path: "/user-type-form",
+        name: "User Type",
+        element: <UserTypeForm />,
+        isSideBar: false,
+      },
+    ],
   },
   {
     path: "/private-company",
@@ -1078,7 +1103,7 @@ export const Routes = [
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
-    component: DEF_COMPONENTS.PRIVATE_COMPANY
+    component: DEF_COMPONENTS.PRIVATE_COMPANY,
   },
   {
     path: "/private-company-form",
@@ -1166,7 +1191,7 @@ export const Routes = [
       },
       {
         path: "/external-audit",
-        name: "External Audit",
+        name: "Final Audit",
         isSideBar: true,
         element: <ExternalAudit />,
         icon: SouthAmericaIcon,
@@ -1174,10 +1199,31 @@ export const Routes = [
       },
       {
         path: "/external-audit-form",
-        name: "External Audit Form",
+        name: "Final Audit Form",
         isSideBar: false,
         element: <ExternalAuditForm />,
         icon: SouthAmericaIcon,
+      },
+    ],
+  },
+  {
+    path: "/extension",
+    name: "Extension",
+    isSideBar: true,
+    icon: ExtensionIcon,
+    children: [
+      {
+        path: "/create-post",
+        name: "Create Post",
+        isSideBar: true,
+        element: <CreatePost />,
+        icon: PostAddIcon,
+        component: DEF_COMPONENTS.AGRICULTURE_POST,
+      },
+      {
+        path: "/create-post-form",
+        isSideBar: false,
+        element: <CreatePostForm />,
       },
     ],
   },
@@ -1218,7 +1264,7 @@ export const Routes = [
         icon: Plagiarism,
         component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
       },
-    ]
+    ],
   },
   {
     path: "/crop-look",
@@ -1228,7 +1274,7 @@ export const Routes = [
     children: [
       {
         path: "/crop-configuration",
-        name: "Crop Configuration",
+        name: "Field Configuration",
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
@@ -1236,7 +1282,7 @@ export const Routes = [
       },
       {
         path: "/crop-configuration-form",
-        name: "Crop Configuration Form",
+        name: "Field Configuration Form",
         isSideBar: false,
         element: <CropConfigurationForm />,
         icon: SouthAmericaIcon,
@@ -1316,6 +1362,14 @@ export const Routes = [
         element: <DDBiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
+      {
+        path: "/dd-report",
+        name: "Aggrigated Report",
+        isSideBar: true,
+        element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
     ],
   },
   {
@@ -1385,12 +1439,13 @@ export const Routes = [
       },
     ],
   },
-  {
-    path: "/map",
-    name: "Map",
-    element: <Map />,
-    isSideBar: true,
-    icon: AddLocationAltIcon,
-    component: DEF_COMPONENTS.MAP
-  },
+
+  // {
+  //   path: "/map",
+  //   name: "Map",
+  //   element: <Map />,
+  //   isSideBar: true,
+  //   icon: AddLocationAltIcon,
+  //   component: DEF_COMPONENTS.MAP
+  // },
 ];

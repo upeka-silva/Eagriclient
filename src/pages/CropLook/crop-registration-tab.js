@@ -36,7 +36,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
     getCropsByCropCategory(cropCategoryId).then(({ dataList = [] }) => {
       getCropRegistrationById(registrationId).then(({ data = {} }) => {
         data?.items?.map((item) => {
-          if (item?.cropCategory.id == cropCategoryId) {
+          if (item?.cropCategory.id === cropCategoryId) {
             dataList.map((crop) => {
               if (crop.varietyList) {
                 var selectedVarity = crop?.varietyList.find(
@@ -106,7 +106,7 @@ const CropRegistrationTab = ({ mode, registrationId, cropCategoryId }) => {
         <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_REGISTRATION_ITEM}`}
         >
-        <div style={{ textAlign: "right", paddingBottom: "10px" }}>
+        <div style={{ textAlign: "left", paddingBottom: "10px" }}>
           {saving ? (
             <Button variant="contained" size="small">
               {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}

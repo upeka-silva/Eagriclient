@@ -1,4 +1,4 @@
-import { Box, Button ,Switch,  Typography} from "@mui/material";
+import { Box, Button, Switch, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
@@ -8,22 +8,12 @@ import { DEF_ACTIONS } from "../../../utils/constants/permission";
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: 0,
   width: "100%",
+
   color:
     theme.palette.mode === "light"
       ? "rgba(0,0,0,.85)"
       : "rgba(255,255,255,0.85)",
-  fontFamily: [
-    "-apple-system",
-    "BlinkMacSystemFont",
-    '"Segoe UI"',
-    "Roboto",
-    '"Helvetica Neue"',
-    "Arial",
-    "sans-serif",
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    '"Segoe UI Symbol"',
-  ].join(","),
+
   WebkitFontSmoothing: "auto",
   letterSpacing: "normal",
   "& .MuiDataGrid-columnsContainer": {
@@ -64,7 +54,7 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   },
   "& .MuiDataGrid-columnsContainer, .MuiDataGrid-cell": {
     // borderTop: `1px solid #CCC`,
-    fontSize: "15px",
+    fontSize: "12px",
   },
   "& .MuiDataGrid-cell": {
     color:
@@ -125,27 +115,27 @@ export default function BiWeekDataTable({
       renderCell: (params) => params?.row?.reportingStartDate,
     },
     {
-        field: "reportingEndDate",
-        headerName: "Reporting End Date",
-        flex: 1,
-        headerClassName: "super-app-theme--heade",
-        renderCell: (params) => params?.row?.reportingEndDate,
+      field: "reportingEndDate",
+      headerName: "Reporting End Date",
+      flex: 1,
+      headerClassName: "super-app-theme--heade",
+      renderCell: (params) => params?.row?.reportingEndDate,
     },
     {
       field: "action",
       headerName: "",
       headerClassName: "super-app-theme--heade",
-      flex:1,
+      flex: 1,
       sortable: false,
       renderCell: ({ row }) => {
         return (
           <>
-           <Button
+            <Button
               sx={{
                 fontSize: 11,
                 border: 1,
                 background: "#white",
-                borderColor:"#2e7d32",
+                borderColor: "#2e7d32",
                 marginRight: 1,
                 color: "#2e7d32",
                 borderRadius: 1.5,
@@ -154,7 +144,7 @@ export default function BiWeekDataTable({
                 minHeight: "30px",
               }}
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={()=> statusChange(row.id, "ENABLED")}
+              onClick={() => statusChange(row.id, "ENABLED")}
             >
               Enable
             </Button>
@@ -171,7 +161,7 @@ export default function BiWeekDataTable({
                 minHeight: "30px",
               }}
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={()=>statusChange(row.id, "CLOSE")}
+              onClick={() => statusChange(row.id, "CLOSE")}
             >
               Close
             </Button>
@@ -185,31 +175,33 @@ export default function BiWeekDataTable({
 
   return (
     <>
-    <hr/>
+      <hr />
       <Typography variant="h6" gutterBottom pt={1}>
         Bi-Week Data
       </Typography>
-      
-    <div style={{ height: "100%", width: "90%" }}>
-      <Box
-        sx={{
-          height: "92%",
-          width: "99%",
-        }}
-      >
-        {data ? <StyledDataGrid
-          rows={data}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: { page: 0, pageSize: 12 },
-            },
+
+      <div style={{ height: "100%", width: "90%" }}>
+        <Box
+          sx={{
+            height: "92%",
+            width: "99%",
           }}
-          disableSelectionOnClick
-          getRowHeight={getRowHeight}
-        /> : null }
-      </Box>
-    </div>
+        >
+          {data ? (
+            <StyledDataGrid
+              rows={data}
+              columns={columns}
+              initialState={{
+                pagination: {
+                  paginationModel: { page: 0, pageSize: 12 },
+                },
+              }}
+              disableSelectionOnClick
+              getRowHeight={getRowHeight}
+            />
+          ) : null}
+        </Box>
+      </div>
     </>
   );
 }

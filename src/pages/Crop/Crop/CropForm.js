@@ -45,6 +45,7 @@ import {
   assignCropDisease,
   deleteDiseaseFromCrop,
 } from "../../../redux/actions/crop/CropDisease/action";
+import {get_SoilType} from "../../../redux/actions/soil/soilType/action";
 const CropForm = ({
   dataList = [],
   onFormSaveSuccess = false,
@@ -57,10 +58,12 @@ const CropForm = ({
   const location = useLocation();
 
   const [formData, setFormData] = useState(state?.target || {});
+  const [formDataD, setFormDataD] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
 
   const [subOptions, setSubOptions] = useState([]);
+  const [soilOptions, setSoilOptions] = useState([]);
   const [selectedFile, setSelectedFile] = useState();
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
@@ -104,7 +107,7 @@ const CropForm = ({
 
   const onAddPest = () => {
     setCropId(formData.id);
-    setFormData({});
+    setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropPestAddDialog(true);
     setIsDataFetch(false);
@@ -113,7 +116,7 @@ const CropForm = ({
 
   const onAddDisease = () => {
     setCropId(formData.id);
-    setFormData({});
+    setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropDiseaseAddDialog(true);
     setIsDataFetch(false);
@@ -140,8 +143,10 @@ const CropForm = ({
     onSuccess,
     onError
   ) => {
+    setLoading(true);
     try {
       await assignCropPest(cropId, formDataD, onSuccess, onError);
+      setLoading(false);
       setOpenCropPestAddDialog(false);
     } catch (error) {
       console.log(error);
@@ -149,8 +154,10 @@ const CropForm = ({
   };
 
   const handleCropDiseaseAdd = async (event, formDataD, functionMode) => {
+    setLoading(true);
     try {
       await assignCropDisease(cropId, formDataD);
+      setLoading(false);
       setOpenCropDiseaseAddDialog(false);
     } catch (error) {
       console.log(error);
@@ -243,6 +250,12 @@ const CropForm = ({
     });
   }, []);
 
+  useEffect(() => {
+    get_SoilType().then(({ dataList = [] }) => {
+      setSoilOptions(dataList);
+    })
+  }, []);
+
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -263,12 +276,12 @@ const CropForm = ({
   };
 
   const closeCropPestAddDialog = () => {
-    setFormData({});
+    setFormDataD({});
     setOpenCropPestAddDialog(false);
   };
 
   const closeCropDiseaseAddDialog = () => {
-    setFormData({});
+    setFormDataD({});
     setOpenCropDiseaseAddDialog(false);
   };
 
@@ -548,6 +561,87 @@ const CropForm = ({
                   </Select>
                 </FieldWrapper>
               </Grid>
+              <Grid item sm={2} md={2} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Family</FieldName>
+                  <Select
+                    name="family"
+                    id="family"
+                    value={formData?.family || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "family")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"POACEAE"}>Poaceae</MenuItem>
+                    <MenuItem value={"AMARYLLIDACEAE"}>Amaryllidaceae</MenuItem>
+                    <MenuItem value={"SOLANACEAE"}>Solanaceae</MenuItem>
+                    <MenuItem value={"FABACEAE"}>Fabaceae</MenuItem>
+                    <MenuItem value={"PEDALIACEAE"}>Pedaliaceae</MenuItem>
+                    <MenuItem value={"ZINGIBERACEAE"}>Zingiberaceae</MenuItem>
+                    <MenuItem value={"CUCURBITACEAE"}>Cucurbitaceae</MenuItem>
+                    <MenuItem value={"MORINGACEAE"}>Moringaceae</MenuItem>
+                    <MenuItem value={"MALVACEAE"}>Malvaceae</MenuItem>
+                    <MenuItem value={"CHENOPODIACEAE"}>Chenopodiaceae</MenuItem>
+                    <MenuItem value={"BRASSICACEAE"}>Brassicaceae</MenuItem>
+                    <MenuItem value={"ALLIACEAE"}>Alliaceae</MenuItem>
+                    <MenuItem value={"LAMIACEAE"}>Lamiaceae</MenuItem>
+                    <MenuItem value={"ARACEAE"}>Araceae</MenuItem>
+                    <MenuItem value={"EUPHORBIACEAE"}>Euphorbiaceae</MenuItem>
+                    <MenuItem value={"CONVOLVULACEAE"}>Convolvulaceae</MenuItem>
+                    <MenuItem value={"DIOSCOREACEAE"}>Dioscoreaceae</MenuItem>
+                    <MenuItem value={"AMARANTHACEAE"}>Amaranthaceae</MenuItem>
+                    <MenuItem value={"AIZOACEAE"}>Aizoaceae</MenuItem>
+                    <MenuItem value={"APIACEAE"}>Apiaceae</MenuItem>
+                    <MenuItem value={"ANNONACEAE"}>Annonaceae</MenuItem>
+                    <MenuItem value={"LAURACEAE"}>Lauraceae</MenuItem>
+                    <MenuItem value={"MUSACEAE"}>Musaceae</MenuItem>
+                    <MenuItem value={"CACTACEAE"}>Cactaceae</MenuItem>
+                    <MenuItem value={"VITACEAE"}>Vitaceae</MenuItem>
+                    <MenuItem value={"MYRTACEAE"}>Myrtaceae</MenuItem>
+                    <MenuItem value={"RUTACEAE"}>Rutaceae</MenuItem>
+                    <MenuItem value={"ANACARDIACEAE"}>Anacardiaceae</MenuItem>
+                    <MenuItem value={"CLUSIACEAE"}>Clusiaceae</MenuItem>
+                    <MenuItem value={"PHYLLANTHACEAE"}>Phyllanthaceae</MenuItem>
+                    <MenuItem value={"CARICACEAE"}>Caricaceae</MenuItem>
+                    <MenuItem value={"PASSIFLORACEAE"}>Passifloraceae</MenuItem>
+                    <MenuItem value={"ROSACEAE"}>Rosaceae</MenuItem>
+                    <MenuItem value={"BROMELIACEAE"}>Bromeliaceae</MenuItem>
+                    <MenuItem value={"LYTHRACEAE"}>Lythraceae</MenuItem>
+                    <MenuItem value={"SAPINDACEAE"}>Sapindaceae</MenuItem>
+                  </Select>
+                </FieldWrapper>
+              </Grid>
+              <Grid item sm={3} md={3} lg={6}>
+                <FieldWrapper>
+                  <FieldName>Soil Type</FieldName>
+                  <Autocomplete
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    options={soilOptions}
+                    value={formData?.soilTypeDTO || null}
+                    getOptionLabel={(i) =>
+                      `${i.soilTypeCode} - ${i.description}`
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "soilTypeDTO");
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Grid>
               <Grid item sm={3} md={3} lg={7}>
                 <FieldWrapper>
                   <FieldName>Scientific Name</FieldName>
@@ -559,6 +653,405 @@ const CropForm = ({
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     onChange={(e) =>
                       handleChange(e?.target?.value || "", "scientificName")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>          
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Optimum Temperature</FieldName>
+                  <TextField
+                    name="optimumTemperature"
+                    id="optimumTemperature"
+                    value={formData?.optimumTemperature || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "optimumTemperature")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>          
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Altitude</FieldName>
+                  <TextField
+                    name="altitude"
+                    id="altitude"
+                    value={formData?.altitude || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "altitude")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={5}>
+                <FieldWrapper>
+                  <FieldName>Suitable Cultivation Areas</FieldName>
+                  <TextField
+                    name="suitableCultivationAreas"
+                    id="suitableCultivationAreas"
+                    value={formData?.suitableCultivationAreas || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "suitableCultivationAreas")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={7}>
+                <FieldWrapper>
+                  <FieldName>Soil Characteristics</FieldName>
+                  <TextField
+                    name="soilCharacteristics"
+                    id="soilCharacteristics"
+                    value={formData?.soilCharacteristics || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "soilCharacteristics")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Soil PH Range</FieldName>
+                  <TextField
+                    name="soilPhRange"
+                    id="soilPhRange"
+                    value={formData?.soilPhRange || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "soilPhRange")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Nursery Establishment Period</FieldName>
+                  <TextField
+                    name="nurseryEstablishmentPeriod"
+                    id="nurseryEstablishmentPeriod"
+                    value={formData?.nurseryEstablishmentPeriod || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "nurseryEstablishmentPeriod")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={5}>
+                <FieldWrapper>
+                  <FieldName>Nursery Management</FieldName>
+                  <TextField
+                    name="nurseryManagement"
+                    id="nurseryManagement"
+                    value={formData?.nurseryManagement || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "nurseryManagement")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={7}>
+                <FieldWrapper>
+                  <FieldName>Land Preparation</FieldName>
+                  <TextField
+                    name="landPreparation"
+                    id="landPreparation"
+                    value={formData?.landPreparation || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "landPreparation")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Annual Rainfall</FieldName>
+                  <TextField
+                    name="annualRainfall"
+                    id="annualRainfall"
+                    value={formData?.annualRainfall || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "annualRainfall")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={12}>
+                <FieldWrapper>
+                  <FieldName>Seeding/ Transplanting/ Planting</FieldName>
+                  <TextField
+                    name="seedingTransplantingPlanting"
+                    id="seedingTransplantingPlanting"
+                    value={formData?.seedingTransplantingPlanting || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "seedingTransplantingPlanting")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Planting Time</FieldName>
+                  <TextField
+                    name="plantingTime"
+                    id="plantingTime"
+                    value={formData?.plantingTime || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "plantingTime")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Seed or Cutting Requirement</FieldName>
+                  <TextField
+                    name="seedOrCuttingRequirement"
+                    id="seedOrCuttingRequirement"
+                    value={formData?.seedOrCuttingRequirement || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "seedOrCuttingRequirement")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Spacing</FieldName>
+                  <TextField
+                    name="spacing"
+                    id="spacing"
+                    value={formData?.spacing || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "spacing")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Thinning Out</FieldName>
+                  <TextField
+                    name="thinningOut"
+                    id="thinningOut"
+                    value={formData?.thinningOut || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "thinningOut")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={4}>
+                <FieldWrapper>
+                  <FieldName>Training</FieldName>
+                  <TextField
+                    name="training"
+                    id="training"
+                    value={formData?.training || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "training")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={5}>
+                <FieldWrapper>
+                  <FieldName>Water Supply</FieldName>
+                  <TextField
+                    name="waterSupply"
+                    id="waterSupply"
+                    value={formData?.waterSupply || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "waterSupply")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Weed Control</FieldName>
+                  <TextField
+                    name="weedControl"
+                    id="weedControl"
+                    value={formData?.weedControl || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "weedControl")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Earthing Up</FieldName>
+                  <TextField
+                    name="earthingUp"
+                    id="earthingUp"
+                    value={formData?.earthingUp || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "earthingUp")
+                    }
+                    sx={{
+                      "& .MuiInputBase-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    size="small"
+                  />
+                </FieldWrapper>
+              </Grid>         
+              <Grid item sm={3} md={3} lg={5}>
+                <FieldWrapper>
+                  <FieldName>Harvesting</FieldName>
+                  <TextField
+                    name="harvesting"
+                    id="harvesting"
+                    value={formData?.harvesting || ""}
+                    fullWidth
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "harvesting")
                     }
                     sx={{
                       "& .MuiInputBase-root": {
@@ -686,7 +1179,8 @@ const CropForm = ({
                   aria-label="action button group"
                   color="success"
                 >
-                  <Button onClick={onAddPest}>
+                  <Button onClick={onAddPest}
+                  disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.ADD}>
                     <Add />
                     {DEF_ACTIONS.ADD}
                   </Button>
@@ -695,8 +1189,8 @@ const CropForm = ({
                     setConfirmDialog={setOpenCropPestAddDialog}
                     confirmAction={handleCropPestAdd}
                     handleClose={closeCropPestAddDialog}
-                    formId={formData?.id}
-                    formData={formData}
+                    formId={formDataD?.id}
+                    formData={formDataD}
                     mode={dialogMode}
                     cropId={cropId}
                   />
@@ -708,7 +1202,8 @@ const CropForm = ({
                   )}
                 </ButtonGroup>
               </ActionWrapper>
-              <CropPestList
+              {loading === false && (
+                <CropPestList
                 url={pestUrl}
                 onRowSelect={toggleCropPestSelect}
                 selectedRows={selectCropPest}
@@ -717,6 +1212,8 @@ const CropForm = ({
                 onDelete={handleCropPestDelete}
                 cropId={cropId}
               />
+              )}
+              
             </TabContent>
             <TabContent className={toggleState === 2 ? "active-content" : ""}>
               <ActionWrapper isLeft>
@@ -727,7 +1224,8 @@ const CropForm = ({
                   aria-label="action button group"
                   color="success"
                 >
-                  <Button onClick={onAddDisease}>
+                  <Button onClick={onAddDisease}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}>
                     <Add />
                     {DEF_ACTIONS.ADD}
                   </Button>
@@ -736,8 +1234,8 @@ const CropForm = ({
                     setConfirmDialog={setOpenCropDiseaseAddDialog}
                     confirmAction={handleCropDiseaseAdd}
                     handleClose={closeCropDiseaseAddDialog}
-                    formId={formData?.id}
-                    formData={formData}
+                    formId={formDataD?.id}
+                    formData={formDataD}
                     mode={dialogMode}
                     cropId={cropId}
                   />
@@ -749,13 +1247,16 @@ const CropForm = ({
                   )}
                 </ButtonGroup>
               </ActionWrapper>
-              <CropDiseaseList
+              {loading === false && (
+                <CropDiseaseList
                 url={diseaseUrl}
                 onRowSelect={toggleCropDiseaseSelect}
                 selectedRows={selectCropDisease}
                 selectAll={selectAllCropDisease}
                 unSelectAll={resetSelectedCropDisease}
               />
+              )}
+              
             </TabContent>
             <DialogBox
               open={open}

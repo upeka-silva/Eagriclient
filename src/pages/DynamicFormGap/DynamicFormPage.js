@@ -123,7 +123,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
       formHeader = "INTERNAL AUDIT FORM";
     } else if (state?.auditFormType === "EXTERNAL_AUDIT") {
       uriPath = "external-audit";
-      formHeader = "EXTERNAL AUDIT FORM";
+      formHeader = "FINAL AUDIT FORM";
     } else if (state?.auditFormType === "BASIC_ASSESSMENT") {
       uriPath = "basic-assessments";
       formHeader = "BASIC ASSESSMENT FORM";
@@ -154,9 +154,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
         };
         setSaving(true);
         try {
-          //Get Audits for check Availablility
-          const audit_result = await getFormTemplatesByGapReqId(state.formId,uriPath);    
-
+            
           await saveGapDataWithValues(
             state.formId,
             uriPath,
@@ -166,6 +164,9 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
             onSuccessSave,
             onError
           );
+
+           //Get Audits for check Availablility
+           const audit_result = await getFormTemplatesByGapReqId(state.formId,uriPath); 
 
           //if audit_result lenght equals to zero, then call addGapRequestAction
           if (Object.keys(audit_result.data).length === 0){

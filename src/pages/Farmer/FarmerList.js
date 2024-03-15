@@ -12,7 +12,7 @@ const FarmerList = ({
     { field: "farmerId", headerName: "ID" },
     { field: ["firstName", "lastName"], headerName: "Name" },
     { field: "nationalityClient", headerName: "Ethnicity" },
-    { field: "nic", headerName: "Nic" },
+    { field: "nic", headerName: "NIC" },
     { field: "address", headerName: "Address" },
     {
       field: ["gnDivision.code", "gnDivision.name"],

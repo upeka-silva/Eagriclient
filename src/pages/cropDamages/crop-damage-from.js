@@ -168,7 +168,7 @@ const CropDamageForm = () => {
                 id="name"
                 name="name"
                 value={formData && formData.name ? formData.name : ""}
-                onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "name")}
+                onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",

@@ -17,27 +17,27 @@ const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
       {options.map((option) => (
         <>
           <Grid container spacing={4}>
-            <Grid item xs={2} key={option.id}>
+            <Grid item  key={option.id}>
               <Card
                 style={{
                   backgroundColor: "#A7E99C",
                   borderColor: "#A7E99C",
                   alignItems: "center",
                 }}
-                sx={{ display: "flex" }}
+                sx={{ display: "flex",height:"140px"}}
               >
                 <CardContent style={{ alignContent: "center" }}>
-                  <Box sx={{ flexDirection: "column", pl: "25px" }}>
+                  <Box sx={{ flexDirection: "column" }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={CropImg}
+                      src={option.cropImageUrl || CropImg}
                       sx={{ 
                         height: "100px", 
                         width: "100px" 
                       }}
                     />
-                    <Typography pt={1} variant="body2">
-                      {option.cropId}
+                    <Typography sx={{textAlign:'center'}} pt={1} variant="body2">
+                      {option.description}
                     </Typography>
                   </Box>
                 </CardContent>
@@ -46,11 +46,12 @@ const MultiSelectTils = ({ options, handleSelectedValues, isItemDisabled }) => {
             <Grid item xs={8}>
               <Grid container spacing={1}>
                 {option.varietyList.map((variety) => (
+
                   <Grid item xs={2} key={variety.id}>
                     <SingleTile
                       key={variety.id}
                       id={variety.id}
-                      name={variety.varietyId}
+                      name={variety.varietyName}
                       imageUrl={variety?.presignedUrl}
                       onOptionClick={handleSelectedValues}
                       isSelected={variety?.selected || false}

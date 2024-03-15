@@ -51,6 +51,8 @@ const CropRegistrationForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
 
+
+
   // start of crop registration code
 
   useEffect(() => {
@@ -228,7 +230,12 @@ const CropRegistrationForm = () => {
       }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Registration" />
+        <PageHeader
+          saving={saving}
+          state={state}
+          goBack={goBack}
+          formName="Crop Registration"
+        />
         <FormButtonGroup
           {...{
             state,
@@ -250,7 +257,11 @@ const CropRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => i.name!==undefined ?`${i.name}`:""}
+                getOptionLabel={(i) =>
+                  (i.name !== undefined ? `${i?.name} - ` : "") +
+                  (i.description !== undefined ? `${i?.description}` : "")
+                
+                }
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}
@@ -274,7 +285,10 @@ const CropRegistrationForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => i.code !==undefined ? `${i.code}`:""}
+                getOptionLabel={(i) => 
+                  (i.code !== undefined ? `${i.code} - ` : "") +
+                  (i.description !== undefined ? `${i.description}` : "")
+                }
                 onChange={(event, value) => {
                   handlSeasonChange(value);
                 }}
@@ -295,7 +309,7 @@ const CropRegistrationForm = () => {
                   className={toggleState === index + 1 ? "active-tabs" : ""}
                   onClick={() => toggleTab(index + 1)}
                 >
-                  {category?.categoryId}
+                  {category?.description}
                 </TabButton>
               ))}
             </TabWrapper>

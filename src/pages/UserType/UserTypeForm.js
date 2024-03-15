@@ -30,7 +30,7 @@ const UserTypeForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/user-type");
+    navigate("/user/user-type");
   };
 
   const handleChange = (value, target) => {

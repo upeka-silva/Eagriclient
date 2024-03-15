@@ -26,6 +26,7 @@ const CropTargetTab = ({
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
+  const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -88,6 +89,7 @@ const CropTargetTab = ({
     ] = total;
 
     setCropTargets(updatedVarietyTargets);
+    setIsCleared(true);
   };
 
   const handleCropClear = () => {
@@ -106,6 +108,7 @@ const CropTargetTab = ({
       }
     }
     setCropTargets(newCropTargets);
+    setIsCleared(false);
   };
 
   const handleCropUpdate = async () => {
@@ -177,7 +180,7 @@ const CropTargetTab = ({
             </Button>
           ) : (
             <Button
-              disabled={mode === DEF_ACTIONS.VIEW}
+              disabled={mode === DEF_ACTIONS.VIEW || !isCleared}
               variant="outlined"
               color="success"
               size="small"

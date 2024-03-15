@@ -104,8 +104,18 @@ const BiWeeklySingleInput = ({
               <PermissionWrapper
                  permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_VARIETY_REPORT}`}
               >
-                {(varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (mode === DEF_ACTIONS.EDIT) ? (
-                  <Button
+                {(varietyTarget?.damageExtents && varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (mode === DEF_ACTIONS.EDIT) ? (
+                  (
+                  (mode === DEF_ACTIONS.VIEW) ? (
+                    <Button
+                  variant="outlined"
+                  color="success"
+                  size="small"
+                  onClick={handleAddDamage}
+                  sx={{ marginTop: "10px" }}
+                >
+                  View Damage
+                </Button>):<Button
                   variant="outlined"
                   color="success"
                   size="small"
@@ -114,6 +124,7 @@ const BiWeeklySingleInput = ({
                 >
                   Add Damage
                 </Button>
+                  )
                 ): <Button
                 disabled={true}
                 variant="outlined"

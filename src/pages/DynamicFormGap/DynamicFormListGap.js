@@ -60,7 +60,7 @@ const DynamicFormListGap = ({
       formHeader = "INTERNAL AUDIT LIST";
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uriPath = "external-audit";
-      formHeader = "EXTERNAL AUDIT LIST";
+      formHeader = "FINAL AUDIT LIST";
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uriPath = "basic-assessments";
       formHeader = "BASIC ASSESSMENT FORM";
@@ -79,7 +79,7 @@ const DynamicFormListGap = ({
 
   const handleCropAreaAdd = (prop, mode, p_action) => (event) => {
     setFormData({});
-    setFormData(prop);
+    setFormData(prop);   
     setDialogMode(mode);
     //setOpenCropAreaAddDlg(true);
     navigate("/audit-form-edit-view", {

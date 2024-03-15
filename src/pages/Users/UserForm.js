@@ -63,7 +63,7 @@ const UsersForm = () => {
   const [selectServices, setSelectServices] = useState([]);
   const [val, setVal] = useState(null);
   const goBack = () => {
-    navigate("/users");
+    navigate("/user/users");
   };
   const [parentLinks, setParentLinks] = useState([]);
   const [parentFilter, setParentFilter] = useState(null);
@@ -792,7 +792,7 @@ const UsersForm = () => {
                 <Autocomplete
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={userTypes}
-                  value={formData ? formData.userTypeDTO : ""}
+                  value={formData?.userTypeDTO || null}
                   getOptionLabel={(i) => `${i.userTypeId} - ${i.description}`}
                   onChange={(event, value) => {
                     handleChange(value, "userTypeDTO");
