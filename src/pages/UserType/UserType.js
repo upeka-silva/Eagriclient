@@ -61,14 +61,14 @@ const UserType = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/user-type-form", {
+    navigate("/user/user-type-form", {
       state: { action: DEF_ACTIONS.ADD },
     });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/user-type-form", {
+    navigate("/user/user-type-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectUserType[0] || {},
@@ -78,7 +78,7 @@ const UserType = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/user-type-form", {
+    navigate("/user/user-type-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectUserType[0] || {},

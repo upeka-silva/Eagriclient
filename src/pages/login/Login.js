@@ -115,6 +115,7 @@ const Login = () => {
           <LeftWrapper>
             <BGImg src={Vector} />
             <AppName>CROPIX</AppName>
+
             <AppTitle>
               Crop Resources Optimizing operations through Precies Information
               Exchange system
@@ -409,6 +410,9 @@ const AppName = styled.p`
 const AppTitle = styled.p`
   display: flex;
   justify-content: center;
+  padding-left: 100px;
+  padding-right: 100px;
+  width: "80%";
   align-items: center;
   font-size: 25px;
   letter-spacing: 0.175em;

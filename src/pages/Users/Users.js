@@ -69,7 +69,7 @@ const Users = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/users-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/user/users-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onChangePassword = () => {
@@ -101,7 +101,7 @@ const Users = () => {
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/users-form", {
+    navigate("/user/users-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: {
@@ -119,7 +119,7 @@ const Users = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/users-form", {
+    navigate("/user/users-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: {

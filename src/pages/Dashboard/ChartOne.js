@@ -8,18 +8,13 @@ export default function ChartOne() {
   const colors = tokens(theme.palette.mode);
 
   const data = [
-    { name: "Crop A", value: 700 },
-    { name: "Crop B", value: 300 },
-    { name: "Crop C", value: 300 },
-    { name: "Crop D", value: 200 },
+    { name: "Bg 375", value: 700 },
+    { name: "Kahawanu", value: 300 },
+    { name: "Ld 371", value: 300 },
+    { name: "Bw 367", value: 200 },
   ];
 
-  const COLORS = [
-    colors.green[400],
-    colors.green[500],
-    colors.green[700],
-    colors.green[900],
-  ];
+  const COLORS = ["#5cb85c", "#5bc0de", "#f0ad4e", "#d9534f"];
 
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({
