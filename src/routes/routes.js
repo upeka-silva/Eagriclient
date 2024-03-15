@@ -1364,7 +1364,7 @@ export const Routes = [
       },
       {
         path: "/dd-report",
-        name: "Aggrigate Report",
+        name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
         icon: Preview,
