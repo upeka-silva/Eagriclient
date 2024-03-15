@@ -72,12 +72,12 @@ const TargetRegistration = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop-target/crop-registration-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-target/crop-target-registration-form", { state: { action: DEF_ACTIONS.ADD } });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop-target/crop-registration-form", {
+    navigate("/crop-target/crop-target-registration-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
         target: selectSubCategory[0] || {},
