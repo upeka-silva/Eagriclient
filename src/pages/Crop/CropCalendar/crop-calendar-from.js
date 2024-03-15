@@ -54,8 +54,7 @@ const CropCalendarForm = () => {
 
     if (
       state?.action === DEF_ACTIONS.EDIT ||
-      state?.action === DEF_ACTIONS.VIEW ||
-      state?.action === DEF_ACTIONS.ADD
+      state?.action === DEF_ACTIONS.VIEW
     ) {
       setFormData(state?.target);
     }
@@ -141,8 +140,9 @@ const CropCalendarForm = () => {
             onSuccess,
             onError
           );
-          if(response && response.payload){
-            setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+
+          if(response){
+            setFormData(prevState => ({ ...prevState, id: response.id }));
           }
         } else {
           const response = await updateCropCalendar(
@@ -344,7 +344,7 @@ const CropCalendarForm = () => {
                 }}
               >
                 <Grid item sm={20} md={20} lg={20}>
-                  {!saving ? (
+                  {(!saving) ? (
                     <CalendarActivity
                       formMode={state.action}
                       formId={formData?.id} 
