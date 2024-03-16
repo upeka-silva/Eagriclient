@@ -196,6 +196,7 @@ import CropDisease from "../pages/Crop/CropDisease/CropDisease";
 import ProfileView from "../pages/Users/ProfileView";
 import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
+import SignUp from "../pages/SignUp/SignUp";
 
 export const Routes = [
   {
@@ -218,6 +219,11 @@ export const Routes = [
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+     path: "/signup",
+     element: <SignUp />,
+     
   },
   {
     path: "/basic-register",
