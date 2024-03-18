@@ -27,16 +27,22 @@ import {
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 import OTPDialog from "./OTPDialog/OTPDialog";
 import { ArrowCircleLeftRounded } from "@mui/icons-material";
-import { initiateSignUp } from "../../redux/actions/SignUp/action";
+import { initiateSignUp, initiateVerifyOTP } from "../../redux/actions/SignUp/action";
 
 const Farmer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState();
+  console.log({formData});
   const [open, setOpen] = useState(false);
   const { state } = useLocation();
   const [options, setOptions] = useState([]);
   const [saving, setSaving] = useState(false);
   const [otp, setOTP] = useState();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [enableOTP, setEnableOTP] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState();
+
+  console.log({phoneNumber})
 
   const { addSnackBar } = useSnackBars();
 
@@ -87,12 +93,16 @@ const Farmer = () => {
         }
 
         if (formData.password === formData.verifyPassword) {
+          setPhoneNumber(formData.mobile);
           const response = initiateSignUp(formData, onSuccess, onError);
+          console.log({response});
 
-          if (response.httpCode === "201 CREATED") {
+          
             setFormData(response?.payload);
             setOpen(true);
-          }
+            setEnableOTP(true);
+            
+          
           console.log(response);
         } else {
           onError("Verify Password doesn't match");
@@ -127,11 +137,11 @@ const Farmer = () => {
 
   const handleOTPSubmit = async () => {
     const data = {
-      farmerId: formData?.id,
+      mobile: phoneNumber,
       otp: otp,
     };
     try {
-      const response = await handleFarmerOTP(data, onSuccess, onError);
+      const response = await initiateVerifyOTP(data, onSuccess, onError);
       if (response.httpCode === "201 CREATED") {
         close();
       }
@@ -144,6 +154,14 @@ const Farmer = () => {
   const changeOTP = (value) => {
     setOTP(value);
   };
+
+  useEffect(() => {
+    if (open) {
+      setIsDialogOpen(true);
+    } else {
+      setIsDialogOpen(false);
+    }
+  }, [open]);
 
   return (
     <div
@@ -160,6 +178,7 @@ const Farmer = () => {
           display: "flex",
           paddingLeft: "10px",
           flexDirection: "column",
+          filter: isDialogOpen ? "blur(3px)" : "none", // Blur effect when dialog is open
         }}
       >
         <ActionWrapper isLeft>
@@ -210,8 +229,21 @@ const Farmer = () => {
             )}
           </ActionWrapper>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Button
+            variant="outlined"
+            disabled={!enableOTP}
+            onClick={() => {
+              setOpen(true);
+            }}
+            size="small"
+            color="success"
+          >
+            open otp dialog
+          </Button>
+        </ButtonWrapper>
         <Grid container>
-          <Grid item lg={2} sm={6} sx={12}>
+          <Grid item lg={2} sm={6} xs={12}>
             <FieldWrapper>
               <FieldName>Mobile Number</FieldName>
               <TextField
@@ -230,7 +262,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2} sm={4} sx={12}>
+          <Grid item lg={2} sm={4} xs={12}>
             <FieldWrapper>
               <FieldName>NIC Number</FieldName>
               <TextField
@@ -249,7 +281,7 @@ const Farmer = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2} sm={4} sx={12}>
+          <Grid item lg={2} sm={4} xs={12}>
             <FieldWrapper>
               <FieldName>First Name</FieldName>
               <TextField
@@ -271,7 +303,7 @@ const Farmer = () => {
             </FieldWrapper>
           </Grid>
 
-          <Grid item lg={2} sm={4} sx={12}>
+          <Grid item lg={2} sm={4} xs={12}>
             <FieldWrapper>
               <FieldName>Last Name</FieldName>
               <TextField
@@ -295,6 +327,7 @@ const Farmer = () => {
         </Grid>
         <Grid container sx={{ mt: "15px", mb: "15px", width: "99%" }}>
           <Grid
+            item
             container
             sm={6}
             md={6}
@@ -304,7 +337,7 @@ const Farmer = () => {
               borderRadius: "5px",
             }}
           >
-            <Grid item lg={4} sm={6} sx={12}>
+            <Grid item lg={4} sm={6} xs={12}>
               <FieldWrapper>
                 <FieldName>Password</FieldName>
                 <TextField
@@ -327,7 +360,7 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4} sm={6} sx={12}>
+            <Grid item lg={4} sm={6} xs={12}   >
               <FieldWrapper>
                 <FieldName>Verify Password</FieldName>
                 <TextField
@@ -355,7 +388,9 @@ const Farmer = () => {
           <GnDivisionSelector handleChange={handleChange} />
           <OTPDialog
             open={open}
-            handleClose={close}
+            handleClose={() => {
+              setOpen(false);
+            }}
             ConfirmAction={handleOTPSubmit}
             otp={otp}
             changeOTP={changeOTP}

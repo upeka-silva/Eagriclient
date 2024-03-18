@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Grid,
   TextField,
 } from "@mui/material";
 import React from "react";
@@ -12,6 +13,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { Colors } from "../../../utils/constants/Colors";
+import OTPInput from "react-otp-input";
 
 export default function OTPDialog({
   open,
@@ -53,7 +55,7 @@ export default function OTPDialog({
             >
               OTP
             </FieldName>
-            <TextField
+            {/* <TextField
               name="seasonId"
               id="seasonId"
               value={otp}
@@ -68,8 +70,33 @@ export default function OTPDialog({
               onChange={(e) => {
                 changeOTP(e.target.value);
               }}
+            /> */}
+
+            <OTPInput
+              value={otp}
+              onChange={changeOTP}
+              numInputs={6}
+              renderSeparator={<span> - </span>}
+              renderInput={(props) => (
+                <input
+                  {...props}
+                  style={{
+                    width: "40px",
+                    height: "50px",
+                    margin: "0 10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                    textAlign: "center",
+                    fontSize: "20px",
+                    color: "#333",
+                    background: "#f7f7f7",
+                    outline: "none",
+                  }}
+                />
+              )}
             />
-            <Button sx={{ marginTop:"20px" }} >Resend Otp Again</Button>
+
+            {/* <Button sx={{ marginTop: "20px" }}>Resend Otp Again</Button> */}
           </FieldWrapper>
         </Box>
       </DialogContent>

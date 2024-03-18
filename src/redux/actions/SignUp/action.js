@@ -10,6 +10,7 @@ export const initiateSignUp = async (
     const response = await post("temp-user/register", body, false);
     if (response.httpCode === "200 OK") {
       onSuccess();
+      throw response;
     } else {
       throw response;
     }
@@ -22,6 +23,7 @@ export const initiateSignUp = async (
       onError(error);
     }
   }
+  
 };
 
 export const initiateVerifyOTP = async (
@@ -33,6 +35,7 @@ export const initiateVerifyOTP = async (
     const response = await post("temp-user/verify", body, false);
     if (response.httpCode === "200 OK") {
       onSuccess();
+      throw response;
     } else {
       throw response;
     }
