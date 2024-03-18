@@ -146,6 +146,7 @@ const Farmer = () => {
       if (response.httpCode === "200 OK") {
         close();
         setEnableOTP(false);
+        navigate("/login")
       }
       console.log(response);
     } catch (error) {
