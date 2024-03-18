@@ -39,6 +39,13 @@ function Landing() {
             >
               Login
             </Button>
+            <Button
+              sx={{ fontSize: "15px", color: "#000" }}
+              href="/signup"
+              color="primary"
+            >
+              Sign Up
+            </Button>
           </Typography>
         </Grid>
         <Grid container display={"flex"} sx={{ flexDirection: "row" }}>

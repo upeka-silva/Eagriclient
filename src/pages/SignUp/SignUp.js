@@ -3,14 +3,11 @@ import styled from "styled-components";
 import {
   Box,
   TextField,
-  Link,
   CircularProgress,
   IconButton,
-  useTheme,
   Grid,
 } from "@mui/material/";
 import Typography from "@mui/material/Typography";
-import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { Colors } from "../../utils/constants/Colors";
@@ -29,8 +26,6 @@ import {
 import OTPInput from "react-otp-input";
 
 const SignUp = () => {
- 
-
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConPassword, setShowConPassword] = useState(false);

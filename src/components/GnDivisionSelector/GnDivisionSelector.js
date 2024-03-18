@@ -7,7 +7,7 @@ import { get_DistrictListByProvinceId } from "../../redux/actions/district/actio
 import { get_DsDivisionListByDistrictId } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionListByDsDivisionId } from "../../redux/actions/gnDivision/action";
 
-export default function GnDivisionSelector({  handleChange , formData }) {
+export default function GnDivisionSelector({ handleChange, formData }) {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [dsDivisions, setDsDivisions] = useState([]);
@@ -62,7 +62,6 @@ export default function GnDivisionSelector({  handleChange , formData }) {
         <FieldWrapper>
           <FieldName>Province</FieldName>
           <Autocomplete
-            
             options={provinces}
             value={selectedProvince}
             getOptionLabel={(i) => `${i.code} - ${i.name}`}
