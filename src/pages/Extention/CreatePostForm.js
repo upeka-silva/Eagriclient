@@ -40,16 +40,41 @@ import {
     };
 
     const [imageUploading, setImageUploading] = useState(false);
+    const [imageUploading2, setImageUploading2] = useState(false);
+    const [imageUploading3, setImageUploading3] = useState(false);
+
 
     const [imageData, setImageData] = useState([]);
-    const [selectedFile, setSelectedFile] = useState();
-    const [selectedImage, setSelectedImage] = useState(
-      state?.target?.presignedUrl || formData?.images?.length > 0 ?  formData?.images[0]?.presignedUrl : null
-    );
 
-   
+   // State update functions for the first field
+// State update functions for the first field
+const [selectedFile, setSelectedFile] = useState();
+const [selectedImage, setSelectedImage] = useState(
+  state?.target?.presignedUrl || (formData?.images && formData.images.length && formData.images[0]?.presignedUrl) || null
+);
+console.log("SelectedImage:", selectedImage);
+console.log("FormData before selectedImage:", formData);
 
-    const [newImage,setNewImage] = useState(
+// State update functions for the second field
+const [selectedFile2, setSelectedFile2] = useState();
+const [selectedImage2, setSelectedImage2] = useState(
+  state?.target?.presignedUrl || (formData?.images && formData.images.length && formData.images[1]?.presignedUrl) || null
+);
+console.log("SelectedImage2:", selectedImage2);
+console.log("FormData before selectedImage2:", formData);
+
+// State update functions for the third field
+const [selectedFile3, setSelectedFile3] = useState();
+const [selectedImage3, setSelectedImage3] = useState(
+  state?.target?.presignedUrl || (formData?.images && formData.images.length && formData.images[2]?.presignedUrl) || null
+);
+console.log("SelectedImage3:", selectedImage3);
+console.log("FormData before selectedImage3:", formData);
+
+
+
+
+const [newImage,setNewImage] = useState(
       formData?.images?.length > 0 ?  formData?.images[0]?.presignedUrl : null
     );
     
@@ -129,6 +154,8 @@ import {
         }
       }
     };
+
+    
   
     const handleImageChange = async (event) => {
       const file = event.target.files[0];
@@ -179,6 +206,65 @@ import {
         return response;
       } catch (error) {
       
+      }
+    };
+
+    const handleImageChange2 = async (event) => {
+      const file = event.target.files[0];
+      setSelectedFile2(file);
+    
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setSelectedImage2(reader.result);
+    
+          const form = new FormData();
+          form.append("file", file);
+    
+          setImageUploading2(true);
+          handleAgriculturePostImageUpload(form).then(data => {
+            setImageData([...imageData, {
+              postImageUrl: data.payload.storedFileName,
+              originalFileName: data.payload.originalFileName,
+              presignedUrl: data.payload.presignedUrl,
+              presignedExpDate: data.payload.expireDate,
+            }]);
+            setImageUploading2(false);
+          });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setSelectedImage2(null);
+      }
+    };
+    
+    // Handle image change for the third field
+    const handleImageChange3 = async (event) => {
+      const file = event.target.files[0];
+      setSelectedFile3(file);
+    
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          setSelectedImage3(reader.result);
+    
+          const form = new FormData();
+          form.append("file", file);
+    
+          setImageUploading3(true);
+          handleAgriculturePostImageUpload(form).then(data => {
+            setImageData([...imageData, {
+              postImageUrl: data.payload.storedFileName,
+              originalFileName: data.payload.originalFileName,
+              presignedUrl: data.payload.presignedUrl,
+              presignedExpDate: data.payload.expireDate,
+            }]);
+            setImageUploading3(false);
+          });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setSelectedImage3(null);
       }
     };
     
@@ -395,12 +481,160 @@ import {
               </Grid>
             </Grid>
           </Grid>
+
+          <Grid item lg={4}>
+            <Grid container>
+              <Grid item sm={3} md={3} lg={9}>
+                {!imageUploading ? <FieldWrapper>
+                  <FieldName>Select Image 02</FieldName>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
+                    }}
+                  >
+                    <input
+                      type="file"
+                      name=""
+                      accept="image/*"
+                      id="profile-picture-input2"
+                      style={{ display: "none" }}
+                      onChange={handleImageChange2}
+                    />
+
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                      sx={{ position: "relative" }}
+                    >
+                      <label
+                        htmlFor="profile-picture-input2"
+                        style={{
+                          width: "320px",
+                          height: "250px",
+                          border: "1px solid #7a879d",
+                          borderRadius: "8px",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: "rgb(46,125,50,0.1)",
+                        }}
+                      >
+                        <IconButton component="span" style={{ zIndex: "2" }}>
+                          <PhotoCamera />
+                        </IconButton>
+                      </label>
+                      {selectedImage2 && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            zIndex: "1",
+                            backgroundColor: "rgb(46,125,50,0.1)",
+                            width: "320px",
+                            height: "250px",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <img
+                            src={selectedImage2}
+                            alt="Profile"
+                            style={{
+                              width: "320px",
+                              height: "250px",
+                              borderRadius: "8px",
+                            }}
+                          />
+                        </div>
+                      )}
+                    </Box>
+                  </div>
+                </FieldWrapper> : <CircularProgress />}
+              </Grid>
+            </Grid>
+          </Grid>
+
+          <Grid item lg={4}>
+  <Grid container>
+    <Grid item sm={3} md={3} lg={9}>
+      {!imageUploading ? (
+        <FieldWrapper>
+          <FieldName>Select Image 03</FieldName>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+            }}
+          >
+            <input
+              type="file"
+              name=""
+              accept="image/*"
+              id="profile-picture-input3"
+              style={{ display: "none" }}
+              onChange={handleImageChange3}
+            />
+
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              sx={{ position: "relative" }}
+            >
+              <label
+                htmlFor="profile-picture-input3"
+                style={{
+                  width: "320px",
+                  height: "250px",
+                  border: "1px solid #7a879d",
+                  borderRadius: "8px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "rgb(46,125,50,0.1)",
+                }}
+              >
+                <IconButton component="span" style={{ zIndex: "2" }}>
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+              {selectedImage3 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    zIndex: "1",
+                    backgroundColor: "rgb(46,125,50,0.1)",
+                    width: "320px",
+                    height: "250px",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <img
+                    src={selectedImage3}
+                    alt="Profile"
+                    style={{
+                      width: "320px",
+                      height: "250px",
+                      borderRadius: "8px",
+                    }}
+                  />
+                </div>
+              )}
+            </Box>
+          </div>
+        </FieldWrapper>
+      ) : (
+        <CircularProgress />
+      )}
+    </Grid>
+  </Grid>
+</Grid>
+
   
         </Grid>
-     
-         
-   
-      </FormWrapper>
+    </FormWrapper>
     );
   };
   
