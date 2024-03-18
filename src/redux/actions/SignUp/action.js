@@ -9,11 +9,12 @@ export const initiateSignUp = async (
   try {
     const response = await post("temp-user/register", body, false);
     if (response.httpCode === "200 OK") {
-      onSuccess();
-      throw response;
+      onSuccess("registered successfully");
     } else {
       throw response;
     }
+    return response;
+   
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -23,7 +24,6 @@ export const initiateSignUp = async (
       onError(error);
     }
   }
-  
 };
 
 export const initiateVerifyOTP = async (
@@ -34,11 +34,11 @@ export const initiateVerifyOTP = async (
   try {
     const response = await post("temp-user/verify", body, false);
     if (response.httpCode === "200 OK") {
-      onSuccess();
-      throw response;
+      onSuccess("successfully verified");
     } else {
       throw response;
     }
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

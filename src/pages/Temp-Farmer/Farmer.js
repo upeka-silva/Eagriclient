@@ -27,12 +27,15 @@ import {
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 import OTPDialog from "./OTPDialog/OTPDialog";
 import { ArrowCircleLeftRounded } from "@mui/icons-material";
-import { initiateSignUp, initiateVerifyOTP } from "../../redux/actions/SignUp/action";
+import {
+  initiateSignUp,
+  initiateVerifyOTP,
+} from "../../redux/actions/SignUp/action";
 
 const Farmer = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState();
-  console.log({formData});
+  console.log({ formData });
   const [open, setOpen] = useState(false);
   const { state } = useLocation();
   const [options, setOptions] = useState([]);
@@ -42,7 +45,7 @@ const Farmer = () => {
   const [enableOTP, setEnableOTP] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
 
-  console.log({phoneNumber})
+  console.log({ phoneNumber });
 
   const { addSnackBar } = useSnackBars();
 
@@ -94,16 +97,14 @@ const Farmer = () => {
 
         if (formData.password === formData.verifyPassword) {
           setPhoneNumber(formData.mobile);
-          const response = initiateSignUp(formData, onSuccess, onError);
-          console.log({response});
-
-          
-            setFormData(response?.payload);
-            setOpen(true);
-            setEnableOTP(true);
-            
-          
-          console.log(response);
+          initiateSignUp(formData, onSuccess, onError).then((response) => {
+            console.log({ response });
+            if (response?.httpCode === "200 OK") {
+              //setFormData(response?.payload);
+              setOpen(true);
+              setEnableOTP(true);
+            }
+          });
         } else {
           onError("Verify Password doesn't match");
         }
@@ -113,10 +114,10 @@ const Farmer = () => {
     }
   };
 
-  const onSuccess = () => {
+  const onSuccess = (message) => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Successfully Added",
+      message: message && message,
     });
     setSaving(false);
   };
@@ -124,7 +125,7 @@ const Farmer = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || "OTP Successfully Verified",
     });
     setSaving(false);
   };
@@ -142,8 +143,9 @@ const Farmer = () => {
     };
     try {
       const response = await initiateVerifyOTP(data, onSuccess, onError);
-      if (response.httpCode === "201 CREATED") {
+      if (response.httpCode === "200 OK") {
         close();
+        setEnableOTP(false);
       }
       console.log(response);
     } catch (error) {
@@ -360,7 +362,7 @@ const Farmer = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item lg={4} sm={6} xs={12}   >
+            <Grid item lg={4} sm={6} xs={12}>
               <FieldWrapper>
                 <FieldName>Verify Password</FieldName>
                 <TextField
