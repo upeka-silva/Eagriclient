@@ -174,6 +174,7 @@ const GapRegForm = () => {
   const [file, setFile] = useState();
   const [iconColor, setIconColor] = useState("gray");
   const [otherCertificateImg, setOtherCertificateImg] = useState(null)
+  const [OtherCertificateFileType, setOtherCertificateFileType] = useState(null);
 
   const [openOtherCertificateDialog, setOpenOtherCertificateDialog] = useState(false);
 
@@ -365,12 +366,60 @@ const GapRegForm = () => {
     if (file) {
       setIconColor("primary")
       setOtherCertificateImg(URL.createObjectURL(file))
+  
+      const fileType = getFileType(file);
+      setOtherCertificateFileType(fileType);
+  
+      const form = new FormData();
+      form.append("file", file);
+      setFile(form);
     }
-    const form = new FormData();
-    form.append("file", file);
-    setFile(form); 
   }
 
+  const getFileType = (file) => {
+    // Get the file extension
+    const extension = getFileExtension(file.name);
+    // Check if it's an image, pdf, or word document
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+      return 'image';
+    } else if (extension === 'pdf') {
+      return 'pdf';
+    } else if (['doc', 'docx'].includes(extension)) {
+      return 'word';
+    }
+    return null; // Unknown file type
+  }
+  
+  useEffect(() => {
+    // Determine file type based on file extension
+    const fileExtension = getFileExtension(formData.otherCertificateDocStoredFileName || formData.otherCertificateDocOriginalFileName || '');
+    const fileType = getFileTypeFromExtension(fileExtension);
+    setOtherCertificateFileType(fileType);
+  }, [formData.otherCertificateDocStoredFileName, formData.otherCertificateDocOriginalFileName]);
+  
+  // Function to get file extension
+  const getFileExtension = (fileName) => {
+   return fileName.split('.').pop().toLowerCase();
+  }
+  
+  // Function to determine file type from extension
+  const getFileTypeFromExtension = (extension) => {
+    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+      return 'image';
+    } else if (extension === 'pdf' || extension === 'doc' || extension === 'docx') {
+      return extension; // Return the file extension directly for PDF and Word documents
+    }
+    return null; // Unknown file type
+  }
+  
+  const handlePreview = () => {
+    if (OtherCertificateFileType === 'image') {
+      setOpenOtherCertificateDialog(true); // Open modal for image preview
+    } else if (OtherCertificateFileType === 'pdf' || OtherCertificateFileType === 'word') {
+      window.open(otherCertificateImg != null ? otherCertificateImg : formData.otherCertificateDocPresignedUrl, '_blank'); // Open in a new browser tab
+    }
+  }
+  
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
@@ -447,8 +496,6 @@ const GapRegForm = () => {
     setSaving(false);
   };
 
-  console.log(`file :${file}`)
-
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
@@ -493,6 +540,8 @@ const GapRegForm = () => {
       }
     }
   };
+
+  console.log(`formdata: ${JSON.stringify(formData)}`)
 
   const getLandsByFarmerId = (id) => {
     getFarmLandByFarmerId(id).then(({ dataList = {} }) => {
@@ -862,8 +911,10 @@ const GapRegForm = () => {
                 id="isRenewal"
                 value={formData?.isRenewal || ""}
                 onChange={(e) =>
-                  handleChange(e?.target?.checked || "", "isRenewal")
+                  handleChange(e?.target?.checked || false, "isRenewal")
                 }
+                checked={formData?.isRenewal}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
               />
             </FieldWrapper>
           </Grid>
@@ -1294,7 +1345,7 @@ const GapRegForm = () => {
                     Type of certification (Please attach a photocopy)
                   </FieldName>
                   <Stack spacing={{ xs: 2, sm: 2}} direction="row">
-                    {(formData?.otherCertificateDocStoredFileName || otherCertificateImg != null) && (
+                    {(formData?.otherCertificateDocStoredFileName || otherCertificateImg ) && (
                       <div style={{ display: 'flex', alignItems: 'center' }}>
                         <FilePresentIcon fontSize="large"  color="success" sx={{ marginRight: '5px'}}/>
                         <Button
@@ -1302,7 +1353,7 @@ const GapRegForm = () => {
                           color="success"
                           variant="outlined"
                           startIcon={<VisibilityIcon color="success"/>}
-                          onClick={() => setOpenOtherCertificateDialog(true)}>Preview
+                          onClick={handlePreview} >Preview
                         </Button>
                       </div>
                     )}
