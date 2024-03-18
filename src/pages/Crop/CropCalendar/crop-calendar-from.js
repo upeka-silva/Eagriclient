@@ -144,11 +144,10 @@ const CropCalendarForm = () => {
           if(response){
             setFormData(prevState => ({ ...prevState, id: response.id }));
           }
-        } else {
+        } if (formData?.id && state.action === DEF_ACTIONS.EDIT) {
           const response = await updateCropCalendar(
             {
-              ...formData,
-              id: undefined
+              ...formData
             },
             onSuccess,
             onError
