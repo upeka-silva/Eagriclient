@@ -27,6 +27,7 @@ import {
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 import OTPDialog from "./OTPDialog/OTPDialog";
 import { ArrowCircleLeftRounded } from "@mui/icons-material";
+import { initiateSignUp } from "../../redux/actions/SignUp/action";
 
 const Farmer = () => {
   const navigate = useNavigate();
@@ -78,7 +79,6 @@ const Farmer = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
-      let dob = new Date(formData.dob);
 
       try {
         if (formData?.password.length < 6) {
@@ -87,14 +87,8 @@ const Farmer = () => {
         }
 
         if (formData.password === formData.verifyPassword) {
-          const response = await handleFarmer(
-            {
-              ...formData,
-              dob: dob.valueOf() || null,
-            },
-            onSuccess,
-            onError
-          );
+          const response = initiateSignUp(formData, onSuccess, onError);
+
           if (response.httpCode === "201 CREATED") {
             setFormData(response?.payload);
             setOpen(true);
