@@ -104,7 +104,7 @@ const BiWeeklySingleInput = ({
               <PermissionWrapper
                  permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_VARIETY_REPORT}`}
               >
-                {(varietyTarget?.damageExtents && varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (mode === DEF_ACTIONS.EDIT) ? (
+                {(varietyTarget?.damageExtents && varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (((mode === DEF_ACTIONS.EDIT) || (mode === DEF_ACTIONS.ADD && varietyTarget?.id))) ? (
                   (
                   (mode === DEF_ACTIONS.VIEW) ? (
                     <Button

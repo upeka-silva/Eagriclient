@@ -120,8 +120,8 @@ export default function OwnershipList({ onRowSelect = (_c) => {}, data }) {
       flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) =>
-      params.row.farmerDTO !== null
-        ? params.row.farmerDTO.firstName +' '+params.row.farmerDTO.lastName
+      params.row.farmerDTO 
+        ? params.row.farmerDTO.firstName + ' ' + params.row.farmerDTO.lastName
         : params.row.address,
     },
     {
