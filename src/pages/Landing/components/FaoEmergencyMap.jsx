@@ -3,7 +3,7 @@ import { Card, Grid, Tooltip, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import * as d3 from "d3";
 
-const FaoEmergencyMap = () => {
+const FaoEmergencyMap = (location) => {
     const districtDistribution = {
         Ampara: 100,
         Anuradhapura: 2000,
