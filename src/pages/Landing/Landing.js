@@ -28,30 +28,30 @@ function Landing() {
         >
           <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
             <img width={"35%"} src={Cropix} alt="cropix" />
-            <Typography ml={5} fontWeight={'bold'} color={'#666666'} >
-              Crop Resources, Optimizing Operations <br/> through Precise Information,
-              Exchange System
+            <Typography ml={5} fontWeight={"bold"} color={"#666666"}>
+              Crop Resources, Optimizing Operations <br /> through Precise
+              Information, Exchange System
             </Typography>
           </Grid>
 
           <Grid>
-        <Button
-            sx={{ 
-                fontSize: "12px", 
-                color: "#ffff", 
-                backgroundColor: "#158FD0", 
+            <Button
+              sx={{
+                fontSize: "12px",
+                color: "#ffff",
+                backgroundColor: "#158FD0",
                 borderRadius: "25px", // adjust this value as needed
-                ':hover': {
-                    backgroundColor: "#158FD0", // same as normal state
-                    color: "#ffff" // same as normal state
-                }
-            }}
-            href="/login"
-            color="primary"
-        >
-            Login
-        </Button>
-          {/* <Button
+                ":hover": {
+                  backgroundColor: "#158FD0", // same as normal state
+                  color: "#ffff", // same as normal state
+                },
+              }}
+              href="/login"
+              color="primary"
+            >
+              Login
+            </Button>
+            {/* <Button
             sx={{ 
               fontSize: "12px", 
               color: "#ffff", 
@@ -81,22 +81,6 @@ function Landing() {
           <Grid>
             <img width={"30%"} src={MainLogo} alt="Logo" />
           </Grid>
-          {/* <Typography fontSize={"25px"}>
-            <Button
-              sx={{ fontSize: "15px", color: "#000" }}
-              href="/login"
-              color="primary"
-            >
-              Login
-            </Button>
-            <Button
-              sx={{ fontSize: "15px", color: "#000" }}
-              href="/signup"
-              color="primary"
-            >
-              Sign Up
-            </Button>
-          </Typography> */}
         </Grid>
         <Grid container display={"flex"} sx={{ flexDirection: "row" }}>
           <Grid item>
