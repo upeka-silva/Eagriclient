@@ -167,7 +167,7 @@ const CreatePost = () => {
           </PermissionWrapper>
           {selectedCreatePosts.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_POST}`}
             >
               <Button onClick={onEdit}>
                 <Edit />

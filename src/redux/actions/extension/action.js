@@ -61,7 +61,7 @@ export const updateAgriculturePost = async (
   try {
     const response = await put(`geo-data/agriculture-post/${payload?.id || ''}`, payload, true);
     if (response.httpCode === "200 OK") {
-      // Invoke onSuccess callback with the response payload
+     
       onSuccess(response.payload);
     } else {
       const exception = {
@@ -89,42 +89,6 @@ export const updateAgriculturePost = async (
 };
 
 
-// export const handleAgriculturePostImage = async (
-//   id,
-//   file,
-//   onSuccess = () => {},
-//   onError = (_message) => {}
-// ) => {
-//   try {
-//     const formData = new FormData();
-//     formData.append('file', file);
-
-//     const response = await post(`/geo-data/agriculture-post/${id}/agriculture-image`, formData, true);
-//     if (response.httpCode === 200) {
-//       onSuccess();
-//     } else {
-//       const exception = {
-//         error: {
-//           data: {
-//             apiError: {
-//               message: response?.message || defaultMessages.apiErrorUnknown,
-//             },
-//           },
-//         },
-//       };
-//       throw exception;
-//     }
-//     return response;
-//   } catch (error) {
-//     if (typeof error === "object") {
-//       const { data } = error;
-//       const { apiError } = data;
-//       onError(apiError?.message || defaultMessages.apiErrorUnknown);
-//     } else {
-//       onError(error);
-//     }
-//   }
-// };
 
 
 export const deleteAgriculturePost = async (
@@ -168,15 +132,7 @@ export const handleAgriculturePostImage = async (
   onError = (_message) => {}
 ) => {
   try {
-        
-    
-
-    console.log("payload:");
-    for (let pair of payload.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
-
-     const response = await post(`geo-data/agriculture-post/post-image`, payload, true);
+    const response = await post(`geo-data/agriculture-post/post-image`, payload, true);
     console.log("responsePayload",response)
     if (response.httpCode === "200 OK") {
       onSuccess();
@@ -203,3 +159,44 @@ export const handleAgriculturePostImage = async (
     }
   }
 };
+
+export const UpdateAgriculturePostImage = async (
+  postId,
+  id,
+  file,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await put(`geo-data/agriculture-post/${postId}/post-image/${id}`, formData, true);
+
+    console.log("responsePayload", response);
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    return response;
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
