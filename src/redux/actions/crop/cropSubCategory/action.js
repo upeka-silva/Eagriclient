@@ -40,7 +40,7 @@ export const get_SubCategoryList = async (
   onError = (_message) => {},
 ) => {
   try {
-    const {httpCode, payloadDto} = await get("geo-data/crop-sub-categories", true);
+    const {httpCode, payloadDto} = await get("geo-data/crop-sub-categories/all", true);
     if (httpCode === '200 OK') {
       return {
         dataList: payloadDto
