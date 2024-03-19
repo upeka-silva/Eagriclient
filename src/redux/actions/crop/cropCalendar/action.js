@@ -111,13 +111,10 @@ export const getAllCalendarActivities = async (
 
 
 export const updateCropCalendar = async (
-  
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
-  console.log("id: ", payload.id);
-  console.log("payload: ", payload);
   try {
     const response = await put(`crop/crop-calendar/${payload.id || ""}`, payload, true);
     if (response.httpCode === "200 OK") {
