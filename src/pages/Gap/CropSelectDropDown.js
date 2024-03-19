@@ -150,7 +150,7 @@ const CropSelectDropDown = (props) => {
               >
                 {cropCategories.map((category) => (
                   <MenuItem key={category.id} value={category.id}>
-                    {category.categoryId}
+                    {category.categoryId} - {category.description}
                   </MenuItem>
                 ))}
               </Select>
@@ -184,7 +184,7 @@ const CropSelectDropDown = (props) => {
               >
                 {cropSubCategories.map((cropSub) => (
                   <MenuItem key={cropSub.id} value={cropSub.id}>
-                    {cropSub.subCategoryId}
+                    {cropSub.subCategoryId} - {cropSub.description}
                   </MenuItem>
                 ))}
               </Select>
@@ -209,7 +209,7 @@ const CropSelectDropDown = (props) => {
             disableClearable
             options={crops}
             value={selectedCrop || crop}
-            getOptionLabel={(i) => `${i.id} - ${i.description} ${" "}`}
+            getOptionLabel={(i) => `${i.cropId} - ${i.description} ${" "}`}
             onChange={(event, value) => {
               setSelectedCrop(value);
               selectedCropCallback(value?.id);
@@ -247,7 +247,7 @@ const CropSelectDropDown = (props) => {
             disableClearable
             options={cropVarieties}
             value={selectedCropVariety || cropVariety}
-            getOptionLabel={(i) => `${i.id} - ${i.varietyId} ${" "}`}
+            getOptionLabel={(i) => `${i.varietyId} - ${i.varietyDescription} ${" "}`}
             onChange={(event, value) => {
               setSelectedCropVariety(value);
               selectedVarietyCallback(value?.id);
