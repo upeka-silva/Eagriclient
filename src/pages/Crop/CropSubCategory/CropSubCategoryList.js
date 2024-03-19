@@ -19,7 +19,7 @@ const CropSubCategoryList = ({
     { field: "subCategoryId", headerName: "Code" },
     { field: "description", headerName: "Description" },
     {
-      field: ["subCategoryId", "description"],
+      field: ["cropCategoryDTO.categoryId", "cropCategoryDTO.description"],
       join: "-",
       headerName: "Crop Category ",
     },
@@ -50,7 +50,7 @@ const CropSubCategoryList = ({
       ...prevState,
       [target]: true,
     }));
-    setData(value)
+    setData(value);
   };
 
   const reset = () => {
