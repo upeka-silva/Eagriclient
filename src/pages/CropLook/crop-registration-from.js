@@ -84,6 +84,7 @@ const CropRegistrationForm = () => {
         ddDivision = {
           id: provincialDD.id,
           name: provincialDD.provincialDdId,
+          description: provincialDD.description,
           parentType: REGION_PARENT_TYPE.PROVINCIAL,
         };
       } else if (
@@ -93,6 +94,7 @@ const CropRegistrationForm = () => {
         ddDivision = {
           id: interProvincialDD.id,
           name: interProvincialDD.ddId,
+          description: interProvincialDD.description,
           parentType: REGION_PARENT_TYPE.INTER_PROVINCIAL,
         };
       } else {
@@ -100,6 +102,7 @@ const CropRegistrationForm = () => {
         ddDivision = {
           id: mahaweliBlock.id,
           name: mahaweliBlock.code,
+          description: mahaweliBlock.description,
           parentType: REGION_PARENT_TYPE.MAHAWELI,
         };
       }
