@@ -247,7 +247,7 @@ const CropSelectDropDown = (props) => {
             disableClearable
             options={cropVarieties}
             value={selectedCropVariety || cropVariety}
-            getOptionLabel={(i) => `${i.varietyId} - ${i.varietyDescription} ${" "}`}
+            getOptionLabel={(i) => `${i.varietyId} - ${i.varietyName} ${" "}`}
             onChange={(event, value) => {
               setSelectedCropVariety(value);
               selectedVarietyCallback(value?.id);
