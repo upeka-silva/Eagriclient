@@ -220,7 +220,7 @@ const Crop = () => {
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Delete Crop Category)"
+        title="Do you want to delete?"
         actions={
           <ActionWrapper>
             <Button
@@ -243,7 +243,6 @@ const Crop = () => {
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
