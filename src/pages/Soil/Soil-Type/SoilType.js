@@ -2,14 +2,6 @@ import React, { useState } from "react";
 import {
   Button,
   ButtonGroup,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Typography,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -24,14 +16,11 @@ import SoilTypeList from "./SoilTypeList";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -43,27 +32,22 @@ const SoilType = () => {
   const [open, setOpen] = useState(false);
 
   const [selectedSoilTypes, setSelectedSoilTypes] = useState([]);
+  const [dialogSelectedSoilTypes, setDialogSelectedSoilTypes] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const toggleSoilTypesSelect = (component) => {
-    setSelectedSoilTypes((current = []) => {
-      let newList = [...current];
-      let index = newList.findIndex((c) => c?.id === component?.id);
-      if (index > -1) {
-        newList.splice(index, 1);
-      } else {
-        newList.push(component);
-      }
-      return newList;
-    });
-  };
+  const toggleSoilTypeSelect = (soilType) => {
+    const selectedIndex = selectedSoilTypes.findIndex(
+      (selected) => selected.id === soilType.id
+    );
+    let newSelected = [...selectedSoilTypes];
 
-  const selectAllSoilTypes = (all = []) => {
-    setSelectedSoilTypes(all);
-  };
+    if (selectedIndex === -1) {
+      newSelected.push(soilType);
+    } else {
+      newSelected.splice(selectedIndex, 1);
+    }
 
-  const resetSelectedSoilTypes = () => {
-    setSelectedSoilTypes([]);
+    setSelectedSoilTypes(newSelected);
   };
 
   const onCreate = () => {
@@ -93,33 +77,15 @@ const SoilType = () => {
 
   const onDelete = () => {
     setOpen(true);
+
+    // Set dialog selected soil types to currently selected ones
+    setDialogSelectedSoilTypes(selectedSoilTypes);
   };
 
   const close = () => {
     setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedSoilTypes.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.soilTypeCode} - {p.description}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+    // Clear dialog selected soil types when closing the dialog
+    setDialogSelectedSoilTypes([]);
   };
 
   const onSuccess = () => {
@@ -139,12 +105,12 @@ const SoilType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilType of selectedSoilTypes) {
+      for (const soilType of dialogSelectedSoilTypes) {
         await deleteSoilType(soilType?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedSoilTypes();
+      setSelectedSoilTypes([]);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -153,14 +119,14 @@ const SoilType = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Soil Type" />
       <ActionWrapper isLeft>
@@ -215,42 +181,20 @@ const SoilType = () => {
         {loading === false && (
           <SoilTypeList
             selectedRows={selectedSoilTypes}
-            onRowSelect={toggleSoilTypesSelect}
-            selectAll={selectAllSoilTypes}
-            unSelectAll={resetSelectedSoilTypes}
+            onRowSelect={toggleSoilTypeSelect}
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-             OK
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-             Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          
-          <Divider sx={{ mt: "6px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        items={selectedSoilTypes}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedSoilTypes}
+        dialogSelectedTypes={dialogSelectedSoilTypes}
+      />
     </div>
   );
 };
