@@ -58,7 +58,7 @@ const ConfirmationDialog = ({
             onClick={onClose}
             sx={{ ml: "8px" }}
           >
-            cancel
+            Cancel
           </Button>
         </ActionWrapper>
       }
