@@ -10,22 +10,26 @@ const ProvincialAiRegionList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    {
+      field: "provincialAdaSegmentDTO.description",
+      headerName: "Provincial ADA",
+    },
+    { field: "description", headerName: "AI Region" },
     { field: "regionId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (
     <TableWrapper>
-    <DataTable
-      loadingTable
-      dataEndPoint={dataEndPoint}
-      columns={columns}
-      selectable
-      selectedRows={selectedRows}
-      selectAll={selectAll}
-      onRowSelect={onRowSelect}
-      unSelectAll={unSelectAll}
-    />
+      <DataTable
+        loadingTable
+        dataEndPoint={dataEndPoint}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
     </TableWrapper>
   );
 };

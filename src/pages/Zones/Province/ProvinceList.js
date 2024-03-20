@@ -10,8 +10,9 @@ const ProvinceList = ({
   advancedSearchData = {},
 }) => {
   const columns = [
+    { field: "name", headerName: "Province" },
     { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
+   
   ];
 
   return (

@@ -10,8 +10,12 @@ const InterProvincialAiRegionList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    {
+      field: "interProvincialAdaSegmentDTO.description",
+      headerName: "Provincial ADA",
+    },
+    { field: "description", headerName: "AI Region" },
     { field: "regionId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (
@@ -25,9 +29,8 @@ const InterProvincialAiRegionList = ({
         selectAll={selectAll}
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
-        
       />
-    </TableWrapper> 
+    </TableWrapper>
   );
 };
 

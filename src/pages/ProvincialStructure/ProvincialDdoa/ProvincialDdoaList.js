@@ -10,17 +10,19 @@ const ProvincialDdoaList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "provincialDdId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
     {
-      field: ["proDirectorLevelDTO.proDirectorId", "proDirectorLevelDTO.description"],
+      field: "proDirectorLevelDTO.description",
+
       joinString: " - ",
       headerName: "Provincial DOA",
     },
+    { field: "description", headerName: "Provincial DDOA" },
+
+    { field: "provincialDdId", headerName: "Code" },
   ];
 
   return (
-    <TableWrapper> 
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}

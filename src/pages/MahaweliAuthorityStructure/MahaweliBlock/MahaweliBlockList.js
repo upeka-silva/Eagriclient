@@ -10,15 +10,9 @@ const MahaweliBlockList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "mahaweliSystemDTO.description", headerName: "Mahaweli System" },
+    { field: "description", headerName: "Mahaweli Block" },
     { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
-    { field: "mahaweliSystem", headerName: "Mahaweli System" },
-    { field: "description", headerName: "Description" },
-    { field: "landArea", headerName: "Land Area" },
-    { field: "cultivatedArea", headerName: "Cultivated Area" },
-    { field: "irrigatedArea", headerName: "Irrigated Area" },
-    { field: "nonIrrigatedArea", headerName: "Non Irrigated Area" },
-    { field: "soilTexture", headerName: "Soil Texture" },
   ];
 
   return (
