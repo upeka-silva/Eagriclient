@@ -23,9 +23,7 @@ const ConfirmationDialog = ({
   dialogSelectedTypes,
   propertyId,
   propertyDescription,
-}) => {
-  
-   console.log({items})
+}) => {  
   const toggleDialogObjectSelect = (objItem) => {
     const selectedIndex = dialogSelectedTypes.findIndex(
       (selected) => selected.id === objItem.id
@@ -37,7 +35,6 @@ const ConfirmationDialog = ({
     } else {
       newSelected.splice(selectedIndex, 1);
     }
-
     setDialogSelectedTypes(newSelected);
   };
 
