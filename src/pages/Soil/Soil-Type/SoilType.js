@@ -194,6 +194,8 @@ const SoilType = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedSoilTypes}
         dialogSelectedTypes={dialogSelectedSoilTypes}
+        propertyId = "soilTypeCode"
+        propertyDescription = "description"
       />
     </div>
   );

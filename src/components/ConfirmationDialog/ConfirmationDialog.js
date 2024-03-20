@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import {
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Divider,
   List,
   ListItem,
@@ -25,9 +21,11 @@ const ConfirmationDialog = ({
   onConfirm,
   setDialogSelectedTypes,
   dialogSelectedTypes,
+  propertyId,
+  propertyDescription,
 }) => {
   
-
+   console.log({items})
   const toggleDialogSoilTypeSelect = (soilType) => {
     const selectedIndex = dialogSelectedTypes.findIndex(
       (selected) => selected.id === soilType.id
@@ -85,12 +83,13 @@ const ConfirmationDialog = ({
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.soilTypeCode} - {p.description}
+                <ListItemText>
+                    {p[propertyId]} - {p[propertyDescription]}
+                </ListItemText>
               </ListItemText>
             </ListItem>
           ))}
-        </List>
-     
+        </List>    
       </>
     </DialogBox>
   );
