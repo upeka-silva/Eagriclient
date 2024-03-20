@@ -60,6 +60,7 @@ import UserType from "../pages/UserType/UserType";
 import UserTypeForm from "../pages/UserType/UserTypeForm";
 import CreatePost from "../pages/Extention/CreatePost";
 import CreatePostForm from "../pages/Extention/CreatePostForm";
+import CommodityGroup from "../pages/Harty/CommodityGroup";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -90,6 +91,7 @@ import BiotechIcon from "@mui/icons-material/Biotech";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
+import GroupIcon from '@mui/icons-material/Group';
 
 import Organization from "../pages/Organization/Organization";
 import {
@@ -197,6 +199,7 @@ import ProfileView from "../pages/Users/ProfileView";
 import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 import SignUp from "../pages/SignUp/SignUp";
+
 
 export const Routes = [
   {
@@ -1445,6 +1448,26 @@ export const Routes = [
       },
     ],
   },
+
+  {
+    path: "/harty",
+    name: "Harty",
+    isSideBar: true,
+    icon: WaterIcon,
+    children: [
+      {
+        path: "/commodity-group",
+        name: "Commodity Group",
+        isSideBar: true,
+        element: <CommodityGroup />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.COMMODITY_GROUP,
+      },
+      
+       
+     ],
+  },
+
 
   // {
   //   path: "/map",
