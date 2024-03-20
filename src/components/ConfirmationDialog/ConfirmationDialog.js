@@ -50,7 +50,7 @@ const ConfirmationDialog = ({
             onClick={onConfirm}
             sx={{ ml: "8px" }}
           >
-            ok
+            Ok
           </Button>
           <Button
             variant="contained"
