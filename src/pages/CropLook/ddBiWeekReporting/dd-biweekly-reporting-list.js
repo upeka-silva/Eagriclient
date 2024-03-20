@@ -10,7 +10,7 @@ const DDBiWeeklyReportingList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "seasonName", headerName: "Season" },
+    { field: ["seasonName", "seasonDescription"], headerName: "Season" },
     { field: "weekName", headerName: "Week" },
   ];
 
