@@ -26,14 +26,14 @@ const ConfirmationDialog = ({
 }) => {
   
    console.log({items})
-  const toggleDialogSoilTypeSelect = (soilType) => {
+  const toggleDialogObjectSelect = (objItem) => {
     const selectedIndex = dialogSelectedTypes.findIndex(
-      (selected) => selected.id === soilType.id
+      (selected) => selected.id === objItem.id
     );
     let newSelected = [...dialogSelectedTypes];
 
     if (selectedIndex === -1) {
-      newSelected.push(soilType);
+      newSelected.push(objItem);
     } else {
       newSelected.splice(selectedIndex, 1);
     }
@@ -77,7 +77,7 @@ const ConfirmationDialog = ({
                 ) : (
                   <Checkbox
                     checked={dialogSelectedTypes.includes(p)}
-                    onChange={() => toggleDialogSoilTypeSelect(p)}
+                    onChange={() => toggleDialogObjectSelect(p)}
                     color="info"
                   />
                 )}
