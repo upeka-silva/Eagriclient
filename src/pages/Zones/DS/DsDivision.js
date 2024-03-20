@@ -42,6 +42,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -52,7 +53,9 @@ const DsDivision = () => {
   const [open, setOpen] = useState(false);
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/ds-divisions");
 
+
   const [selectedDsDivisions, setSelectedDsDivisions] = useState([]);
+  const [dialogSelectedSoilTypes, setDialogSelectedSoilTypes] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [provinces, setProvinces] = useState([]);
@@ -116,34 +119,14 @@ const DsDivision = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedSoilTypes(selectedDsDivisions);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedSoilTypes([]);
   };
 
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedDsDivisions.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
 
   const onSuccess = () => {
     addSnackBar({
@@ -349,36 +332,18 @@ const DsDivision = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete DS Division"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-            OK
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedDsDivisions}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedSoilTypes}
+        dialogSelectedTypes={dialogSelectedSoilTypes}
+        propertyId = "id"
+        propertyDescription = "name"
+      />
     </div>
   );
 };
