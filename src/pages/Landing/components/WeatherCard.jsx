@@ -55,9 +55,9 @@ const WeeklyWeather = ({ location }) => {
         setLoading(true);
         const response = await fetch(
           `https://api.openweathermap.org/data/3.0/onecall?lat=${
-            location?.Latitude ? location?.Latitude : "7.234549596"
+            location?.Latitude ? location?.Latitude : "7.2345496"
           }&lon=${
-            location?.Longitude ? location?.Longitude : "81.5516024"
+            location?.Longitude ? location?.Longitude : "80.5110764"
           }&exclude=alerts&appid=0694be38c9699754d51b795122855d1a&units=metric`
         );
         const data = await response.json();

@@ -20,7 +20,7 @@ import CustomCard from "./components/CustomCard";
 
 function Landing() {
 
-  const defaultLocation = { district: "Ampara", Longitude: 81.5516024, Latitude: 7.2345496 };
+  const defaultLocation = { district: "Anuradhapura", Longitude: 80.5110764, Latitude: 7.2345496 };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
 
   const locations = [
