@@ -8,12 +8,6 @@ import {
 import { useNavigate } from "react-router";
 import {
   Button,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   ButtonGroup,
   Autocomplete,
   TextField,
@@ -21,26 +15,13 @@ import {
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Search,
-  Vrpano,
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import {
-  get_DistrictList,
-  get_DistrictListByProvinceId,
-} from "../../../redux/actions/district/action";
+import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
