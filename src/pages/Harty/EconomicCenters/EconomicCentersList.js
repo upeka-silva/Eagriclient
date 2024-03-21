@@ -12,14 +12,14 @@ const EconomicCentersList  = ({
       { field: "locationCode", headerName: "Location Code" },
       { field: "location", headerName: "Location" },
       { field: "marketType", headerName: "Market Type" },
-      { field: "suberb", headerName: "suberb" },
+      { field: "suberb", headerName: "Suberb" },
     ];
   
     return (
       <TableWrapper>
         <DataTable
           loadingTable
-          dataEndPoint={"geo-data/economic-center"}
+          dataEndPoint={"harti/harti-economic-center"}
           columns={columns}
           selectable
           selectedRows={selectedRows}

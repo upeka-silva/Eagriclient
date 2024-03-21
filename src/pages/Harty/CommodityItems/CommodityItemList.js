@@ -10,16 +10,16 @@ const CommodityItemList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "itemNo", headerName: "Item No" },
-    { field: "description", headerName: "Description" },
-    { field: "group", headerName: "Group" },
+    { field: "itemNum", headerName: "Item No" },
+    { field: "itemName", headerName: "Description" },
+    { field: "groupName", headerName: "Group" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/commodity-item"}
+        dataEndPoint={"harti-items"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
