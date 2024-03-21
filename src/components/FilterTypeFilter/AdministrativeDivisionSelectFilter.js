@@ -43,9 +43,8 @@ const AdministrativeDivisionSelectFilter = ({
     if (selectedId) {
       url = url + "/" + selectedId;
     }
-
     fetchOptions(url);
-  }, [selectedOption]);
+  }, [selectedOption, selectedId]);
 
   const getNameValuePair = (response, type) => {
     let nameValue = "";
@@ -166,7 +165,6 @@ const AdministrativeDivisionSelectFilter = ({
           name: obj.name,
         };
       }
-
       nameValue.push(newobj);
     }
     return nameValue;
@@ -190,7 +188,6 @@ const AdministrativeDivisionSelectFilter = ({
               <Autocomplete
                 sx={{
                   minHeight: "28px", // Adjust the height as needed
-                
                   borderRadius: "8px",
                 }}
                 multiple
@@ -206,7 +203,6 @@ const AdministrativeDivisionSelectFilter = ({
               <Autocomplete
                 sx={{
                   minHeight: "28px", // Adjust the height as needed
-                 
                   borderRadius: "8px",
                 }}
                 id="dropdown"
