@@ -25,56 +25,55 @@ const GnDivisionList = ({
   useEffect(() => {
     if (isAdmin) {
       setcollumns([
-        { field: "code", headerName: "Code" },
-        { field: "name", headerName: "Description" },
         {
-          field: ["dsDivisionDTO.code", "dsDivisionDTO.name"],
-          joinString: " - ",
-          headerName: "Ds Division",
+          field: "dsDivisionDTO.name",
+          headerName: "DS Division"
         },
+        { field: "name", headerName: "Gn Division" },
+
+        { field: "code", headerName: "Code" },
       ]);
     }
     if (isProvincial) {
       setcollumns([
-        { field: "code", headerName: "Code" },
-        { field: "name", headerName: "Description" },
         {
-          field: ["aiRegionsDTO.regionId"],
+          field: ["aiRegionsDTO.description"],
           joinString: " - ",
           headerName: "Ai Region",
         },
+        { field: "name", headerName: "Gn Division" },
+        { field: "code", headerName: "Code" },
       ]);
     }
     if (isIntProvincial) {
       setcollumns([
-        { field: "code", headerName: "Code" },
-        { field: "name", headerName: "Description" },
         {
-          field: ["aiRegionsDTO.regionId", "aiRegionsDTO.description"],
+          field: [ "aiRegionsDTO.description"],
           joinString: " - ",
           headerName: "AI Region",
         },
+        { field: "name", headerName: "Gn Division" },
+        { field: "code", headerName: "Code" },
       ]);
     }
     if (isMahaweli) {
-     
       setcollumns([
-        { field: "code", headerName: "Code" },
-        { field: "name", headerName: "Description" },
         {
-          field: ["mahaweliUnitDTO.unitId", "mahaweliUnitDTO.description"],
-          joinString: " - ",
-          headerName: "Mahaweli Unit",
+
+          field: [ "mahaweliUnitDTO.description"],
+          headerName: "Mahaweli Unit"
+        
         },
+        { field: "name", headerName: "Gn Division" },
+        { field: "code", headerName: "Code" },
       ]);
     }
     if (isAgrarian) {
-     
       setcollumns([
         { field: "code", headerName: "Code" },
         { field: "name", headerName: "Description" },
         {
-          field: ["arpaDTO.arpaId","arpaDTO.name"],
+          field: ["arpaDTO.arpaId", "arpaDTO.name"],
           joinString: " - ",
           headerName: "ARPA",
         },
@@ -84,16 +83,16 @@ const GnDivisionList = ({
 
   return (
     <TableWrapper>
-    <DataTable
-      loadingTable
-      dataEndPoint={dataEndPoint}
-      columns={columns}
-      selectable
-      selectedRows={selectedRows}
-      selectAll={selectAll}
-      onRowSelect={onRowSelect}
-      unSelectAll={unSelectAll}
-    />
+      <DataTable
+        loadingTable
+        dataEndPoint={dataEndPoint}
+        columns={columns}
+        selectable
+        selectedRows={selectedRows}
+        selectAll={selectAll}
+        onRowSelect={onRowSelect}
+        unSelectAll={unSelectAll}
+      />
     </TableWrapper>
   );
 };

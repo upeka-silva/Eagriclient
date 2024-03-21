@@ -10,13 +10,14 @@ const ProvincialAdaList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "provinceSegmentId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
     {
-      field: ["proDeputyDirectorLevelDTO.provincialDdId", "proDeputyDirectorLevelDTO.description"],
-      joinString: " - ",
+      field: "proDeputyDirectorLevelDTO.description",
+
       headerName: "Provincial DD",
     },
+    { field: "description", headerName: "Provincial ADA" },
+
+    { field: "provinceSegmentId", headerName: "Code" },
   ];
 
   return (
@@ -31,7 +32,7 @@ const ProvincialAdaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-    </TableWrapper> 
+    </TableWrapper>
   );
 };
 

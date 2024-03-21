@@ -10,13 +10,13 @@ const DistrictList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "code", headerName: "Code" },
-    { field: "name", headerName: "Description" },
     {
-      field: ["provinceDTO.code", "provinceDTO.name"],
-      joinString: " - ",
-      headerName: "Province",
+      field:  "provinceDTO.name",
+      headerName: "Province"
     },
+    { field: "name", headerName: "District" },
+    
+    { field: "code", headerName: "Code" },
   ];
 
   return (
