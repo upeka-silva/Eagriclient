@@ -29,7 +29,7 @@ const DialogBox = ({
       aria-describedby="alert-dialog-description"
       PaperProps={{
         sx: {
-          width: "350px",
+          minwidth: "350px",
           borderRadius: "20px",
           padding: "16px",
         },
