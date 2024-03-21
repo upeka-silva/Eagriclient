@@ -207,7 +207,7 @@ const DDBiWeeklyReportingForm = () => {
                     className={toggleState === index + 1 ? "active-tabs" : ""}
                     onClick={() => toggleTab(index + 1)}
                   >
-                    {category?.categoryId} - {category?.description}
+                    {category?.description}
                   </TabButton>
                 ))}
             </TabWrapper>
