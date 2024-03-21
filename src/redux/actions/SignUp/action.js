@@ -14,9 +14,10 @@ export const initiateSignUp = async (
       throw response;
     }
     return response;
-   
   } catch ({ error }) {
-    if (typeof error === "object") {
+    if(error?.status === 409) {
+      onError(error.data);
+    } else if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
       onError(apiError?.message || defaultMessages.apiErrorUnknown);
