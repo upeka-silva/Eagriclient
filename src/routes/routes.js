@@ -1463,7 +1463,7 @@ export const Routes = [
         isSideBar: true,
         element: <CommodityGroup />,
         icon: GroupIcon ,
-        //component: DEF_COMPONENTS.COMMODITY_GROUP,
+        component: DEF_COMPONENTS.COMMODITY_GROUP,
       },
       {
         path: "/commodity-item",
@@ -1471,7 +1471,7 @@ export const Routes = [
         isSideBar: true,
         element: <CommodityItem />,
         icon: GroupIcon ,
-       // component: DEF_COMPONENTS.CommodityItem,
+        component: DEF_COMPONENTS.CommodityItem,
       },
       {
         path: "/economic-center",
@@ -1479,7 +1479,7 @@ export const Routes = [
         isSideBar: true,
         element: <EconomicCenter />,
         icon: GroupIcon ,
-        //component: DEF_COMPONENTS.ECONOMIC_CENTER,
+        component: DEF_COMPONENTS.ECONOMIC_CENTER,
       },      
      ],
   },
