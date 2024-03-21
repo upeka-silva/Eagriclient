@@ -20,6 +20,9 @@ import {
   getAllDamageCategory,
   getAllDamageTypes,
 } from "../../../redux/actions/crop/cropDamage/action";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useSnackBars } from "../../../context/SnackBarContext";
+import { useLocation } from "react-router";
 
 const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
   const [damageExtents, setDamageExtents] = useState([]);
@@ -27,6 +30,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
   const [damageTypeList, setDamageTypeList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDamageTypeLoading, setIsDamageTypeLoading] = useState(false);
+  const { addSnackBar } = useSnackBars();
 
   const defaultDamageExt = [
     {
@@ -72,8 +76,25 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
     fetchData(variety.id);
   }, []);
 
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+      damageExtents[0]?.id
+          ? "Successfully Updated"
+          : "Successfully Added",
+    });
+  };
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+  };
+
+
   const onSubmitDamageExtent = () => {
-    updateDamageExtents(variety.id, damageExtents);
+    updateDamageExtents(variety.id, damageExtents, onSuccess, onError);
     handleModalCancel();
   };
 

@@ -11,8 +11,13 @@ const IntProvincialAdaList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    {
+      field: "interProvinceDeputyDirectorLevelDTO.description",
+      headerName: "Inter Provincial DDOA",
+    },
+    { field: "description", headerName: "Inter Provincial ADA" },
+   
     { field: "segmentId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (

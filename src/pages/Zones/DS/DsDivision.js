@@ -8,12 +8,6 @@ import {
 import { useNavigate } from "react-router";
 import {
   Button,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   ButtonGroup,
   Autocomplete,
   TextField,
@@ -21,27 +15,18 @@ import {
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Search,
-  Vrpano,
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { get_DistrictList, get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
+import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -53,6 +38,7 @@ const DsDivision = () => {
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/ds-divisions");
 
   const [selectedDsDivisions, setSelectedDsDivisions] = useState([]);
+  const [dialogSelectedDsTypes, setDialogSelectedDsTypes] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [provinces, setProvinces] = useState([]);
@@ -65,7 +51,7 @@ const DsDivision = () => {
     name: "",
     code: "",
   });
- 
+
   const toggleDsDivisionSelect = (component) => {
     setSelectedDsDivisions((current = []) => {
       let newList = [...current];
@@ -116,33 +102,12 @@ const DsDivision = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedDsTypes(selectedDsDivisions);
   };
 
   const close = () => {
     setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedDsDivisions.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+    setDialogSelectedDsTypes([]);
   };
 
   const onSuccess = () => {
@@ -162,7 +127,7 @@ const DsDivision = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const dsDivision of selectedDsDivisions) {
+      for (const dsDivision of dialogSelectedDsTypes) {
         await deleteDsDivision(dsDivision?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -193,23 +158,23 @@ const DsDivision = () => {
     setDataEndPoint("geo-data/ds-divisions");
   };
 
-  const getDistricts = (id)=>{
-        get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
-          console.log(dataList);
-          setDistrics(dataList);
-        })
-  }
-  
+  const getDistricts = (id) => {
+    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setDistrics(dataList);
+    });
+  };
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
@@ -266,7 +231,6 @@ const DsDivision = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-               
                 options={provinces}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -274,13 +238,12 @@ const DsDivision = () => {
                   console.log(value);
                   setSelectedProvince(value);
                   setSelectedDistrict({ name: "", code: "" });
-                  getDistricts(value.id)
+                  getDistricts(value.id);
                 }}
                 fullWidth
                 inputProps={{ readOnly: true }}
                 disableClearable
                 sx={{
-                 
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },
@@ -308,7 +271,6 @@ const DsDivision = () => {
                 disableClearable
                 fullWidth
                 sx={{
-                 
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "4px",
                   },
@@ -349,36 +311,18 @@ const DsDivision = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete DS Division"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-            OK
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedDsDivisions}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedDsTypes}
+        dialogSelectedTypes={dialogSelectedDsTypes}
+        propertyId="id"
+        propertyDescription="name"
+      />
     </div>
   );
 };

@@ -9,8 +9,9 @@ const MahaweliAuthorityList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    
+    { field: "description", headerName: "Mahaweli Authority" },
     { field: "authorityId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (    

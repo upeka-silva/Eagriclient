@@ -25,15 +25,19 @@ const DialogBox = ({
       open={open}
       TransitionComponent={Transition}
       onClose={onClose}
-      aria-describedby="alert-dialog-slide-description"
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+      PaperProps={{
+        sx: {
+          minwidth: "350px",
+          borderRadius: "20px",
+          padding: "16px",
+        },
+      }}
     >
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        {children && (
-          <DialogContentText>
-            {children}
-          </DialogContentText>
-        )}
+        {children && <DialogContentText>{children}</DialogContentText>}
       </DialogContent>
       <DialogActions>{actions}</DialogActions>
     </Dialog>

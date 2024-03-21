@@ -85,6 +85,19 @@ const SingleInput = ({
                   borderRadius: "8px",
                 },
                 input: { textAlign: "right" },
+                color: "green",
+                "& .MuiInputBase-input.Mui-disabled": {
+                  WebkitTextFillColor: "#33b858",
+
+                  borderRadius: "8px",
+                },
+                "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#33b858",
+                  borderWidth: "2px",
+                },
+                "& .MuiFormLabel-root.Mui-disabled": {
+                  color: "#33b858", // replace '#yourColor' with your desired color
+                },
               }}
               size="small"
             />

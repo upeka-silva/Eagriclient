@@ -17,10 +17,11 @@ import CultivateImg from "../../assets/images/cultivate.png";
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
 import CustomCard from "./components/CustomCard";
+import { useUserAccessValidation } from "../../hooks/authentication";
 
 function Landing() {
-
-  const defaultLocation = { district: "Ampara", Longitude: 81.5516024, Latitude: 7.2345496 };
+  useUserAccessValidation();
+  const defaultLocation = { district: "Anuradhapura", Longitude: 80.5110764, Latitude: 7.2345496 };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
 
   const locations = [

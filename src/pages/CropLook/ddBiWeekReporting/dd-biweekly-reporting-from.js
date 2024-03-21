@@ -185,7 +185,7 @@ const DDBiWeeklyReportingForm = () => {
                 id="outlined-basic"
                 label="Season"
                 variant="outlined"
-                value={state.target.seasonName}
+                value={`${state.target.seasonName} - ${state.target.seasonDescription}`}
               />
             </FieldWrapper>
           </Grid>
@@ -207,7 +207,7 @@ const DDBiWeeklyReportingForm = () => {
                     className={toggleState === index + 1 ? "active-tabs" : ""}
                     onClick={() => toggleTab(index + 1)}
                   >
-                    {category?.categoryId}
+                    {category?.description}
                   </TabButton>
                 ))}
             </TabWrapper>

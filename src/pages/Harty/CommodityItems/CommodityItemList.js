@@ -1,28 +1,25 @@
 import React from "react";
+
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const InterProvincialAiRegionList = ({
-  dataEndPoint,
+const CommodityItemList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {
-      field: "interProvincialAdaSegmentDTO.description",
-      headerName: "Provincial ADA",
-    },
-    { field: "description", headerName: "AI Region" },
-    { field: "regionId", headerName: "Code" },
+    { field: "itemNum", headerName: "Item No" },
+    { field: "itemName", headerName: "Description" },
+    { field: "groupName", headerName: "Group" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={dataEndPoint}
+        dataEndPoint={"harti-items"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -34,4 +31,4 @@ const InterProvincialAiRegionList = ({
   );
 };
 
-export default InterProvincialAiRegionList;
+export default CommodityItemList

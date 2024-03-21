@@ -9,12 +9,12 @@ const ProvincialDoaList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "description", headerName: "Provincial DOA" },
     { field: "proDirectorId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (
-    <TableWrapper> 
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={"geo-data/provincial-director-levels"}
@@ -25,7 +25,7 @@ const ProvincialDoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-     </TableWrapper> 
+    </TableWrapper>
   );
 };
 

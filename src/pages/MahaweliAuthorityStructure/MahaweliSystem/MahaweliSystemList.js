@@ -10,8 +10,9 @@ const MahaweliSystemList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    
+    { field: "description", headerName: "Mahaweli System" },
     { field: "systemId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (

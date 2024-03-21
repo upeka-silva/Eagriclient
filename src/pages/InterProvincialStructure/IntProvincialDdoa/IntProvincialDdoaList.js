@@ -11,12 +11,13 @@ const IntProvincialDdoaList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "directorDoaDTO.description", headerName: "Director DOA" },
+    { field: "description", headerName: "Inter Provincial DDOA" },
     { field: "ddId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
 
   return (
-      <TableWrapper>
+    <TableWrapper>
       <DataTable
         loadingTable
         dataEndPoint={dataEndPoint}
@@ -27,8 +28,7 @@ const IntProvincialDdoaList = ({
         onRowSelect={onRowSelect}
         unSelectAll={unSelectAll}
       />
-      </TableWrapper> 
-    
+    </TableWrapper>
   );
 };
 
