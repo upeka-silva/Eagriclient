@@ -61,6 +61,8 @@ import UserTypeForm from "../pages/UserType/UserTypeForm";
 import CreatePost from "../pages/Extention/CreatePost";
 import CreatePostForm from "../pages/Extention/CreatePostForm";
 import CommodityGroup from "../pages/Harty/CommodityGroup";
+import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
+import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -1463,8 +1465,22 @@ export const Routes = [
         icon: GroupIcon ,
         component: DEF_COMPONENTS.COMMODITY_GROUP,
       },
-      
-       
+      {
+        path: "/commodity-item",
+        name: "Commodity",
+        isSideBar: true,
+        element: <CommodityItem />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.CommodityItem,
+      },
+      {
+        path: "/economic-center",
+        name: "Economic Center",
+        isSideBar: true,
+        element: <EconomicCenter />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.ECONOMIC_CENTER,
+      },      
      ],
   },
 
