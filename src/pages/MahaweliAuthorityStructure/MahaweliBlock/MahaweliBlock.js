@@ -123,6 +123,13 @@ const MahaweliBlock = () => {
     setOpen(false);
   };
 
+  const getFilteredData = (selectedSystem) => {
+    console.log("selectedSys",selectedSystem)
+    setDataEndPoint(
+      `geo-data/mahaweli-blocks/mahaweli-system/` + selectedSystem?.id
+    );
+  };
+
   const renderSelectedItems = () => {
     return (
       <List>
@@ -176,15 +183,11 @@ const MahaweliBlock = () => {
     }
   };
 
-  const getFilteredData = (value) => {
-    setDataEndPoint(
-      `geo-data/mahaweli-blocks/mahaweli-system/` + value?.id
-    );
-  };
+  
 
   useEffect(() => {
     get_MahaweliSystemList().then(({ dataList = [] }) => {
-      console.log(dataList);
+      
       setMahaweliSystems(dataList);
     });
     
@@ -302,7 +305,7 @@ const MahaweliBlock = () => {
                 value={selectedSystem}
                 getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
                 onChange={(event, value) => {
-                  console.log(value);
+                  
                   setSelectedSystem(value);
                   getFilteredData(value);
                 }}
