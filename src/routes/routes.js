@@ -204,10 +204,7 @@ import SignUp from "../pages/SignUp/SignUp";
 
 
 export const Routes = [
-  {
-    path: "/landing",
-    element: <Landing />,
-  },
+ 
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
