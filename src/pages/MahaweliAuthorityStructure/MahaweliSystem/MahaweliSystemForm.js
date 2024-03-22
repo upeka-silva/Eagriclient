@@ -176,18 +176,18 @@ const MahaweliSystemForm = () => {
           </FieldWrapper>
         </Grid>
         <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Mahaweli Authority Level</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={mahaweliAuthorityLevels}
-              value={selectedMahaweliAuthorityLevel}
-              getOptionLabel={(i) => `${i?.authorityId}-${i?.description}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setMahaweliAuthorityLevel(value);
-                handleChange(value, "mahaweliAuthority");
-              }}
+  <FieldWrapper>
+    <FieldName>Mahaweli Authority Level</FieldName>
+    <Autocomplete
+      disabled={state?.action === DEF_ACTIONS.VIEW}
+      options={mahaweliAuthorityLevels} // Ensure options contain the correct data
+      value={formData.mahaweliAuthorityDTO || null}
+      getOptionLabel={(option) => `${option?.authorityId}-${option?.description}`} // Verify option label formatting
+      onChange={(event, value) => {
+        console.log("Selected value:", value);
+        setMahaweliAuthorityLevel(value);
+        handleChange(value, "mahaweliAuthorityDTO");
+      }}
               fullWidth
               sx={{
                 "& .MuiOutlinedInput-root": {
