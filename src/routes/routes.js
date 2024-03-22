@@ -201,6 +201,7 @@ import ProfileView from "../pages/Users/ProfileView";
 import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 import SignUp from "../pages/SignUp/SignUp";
+import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 
 
 export const Routes = [
@@ -217,6 +218,10 @@ export const Routes = [
   {
     path: "/",
     element: <Landing />,
+  },
+  {
+    path: "/price-food-chart",
+    element: <FoodPriceChart />,
   },
   {
     path: "/login",
