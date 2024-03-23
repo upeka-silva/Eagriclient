@@ -1,25 +1,25 @@
 import React from "react";
+
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-const MahaweliBlockList = ({
-  dataEndPoint,
+const CommodityItemList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "mahaweliSystemDTO.description", headerName: "Mahaweli System" },
-    { field: "description", headerName: "Mahaweli Block" },
-    { field: "code", headerName: "Code" },
+    { field: "itemNum", headerName: "Item No" },
+    { field: "itemName", headerName: "Description" },
+    { field: "groupName", headerName: "Group" },
   ];
 
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={dataEndPoint}
+        dataEndPoint={"harti-items"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
@@ -31,4 +31,4 @@ const MahaweliBlockList = ({
   );
 };
 
-export default MahaweliBlockList;
+export default CommodityItemList
