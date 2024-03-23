@@ -29,13 +29,14 @@ const CropList = ({
       headerName: "Sub Category",
     },
     { field: "cropType", headerName: "Crop Type" },
+    { field: "family", headerName: "Family" },
+    { field: "havesting", headerName: "Havesting" },
   ];
-  const [options, setOptions] = useState([]);
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
- 
+
   const [data, setData] = useState(null);
-  
+
   const [category, setCategory] = useState({ categoryId: "", description: "" });
   const [subCategory, setSubCategory] = useState({
     subCategoryId: "",
@@ -44,13 +45,10 @@ const CropList = ({
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/crops");
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
-     
       console.log(dataList);
       setCats(dataList);
     });
   }, []);
-
-  
 
   const getSubCategories = (id) => {
     get_SubCategoryById(id).then(({ dataList = [] }) => {
@@ -64,7 +62,6 @@ const CropList = ({
     setSubCategory({ subCategoryId: "", description: "" });
     setDataEndPoint("geo-data/crops");
   };
- 
 
   return (
     <TableWrapper style={{ marginTop: "0px" }}>
