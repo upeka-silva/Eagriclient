@@ -43,7 +43,7 @@ const CropSingleTile = ({ crop, onOptionClick, isDisabled }) => {
         />
         <CardContent>
           <Typography variant="body1">
-            {crop?.name} - {crop?.description}
+            {crop?.cropId} - {crop?.description}
           </Typography>
         </CardContent>
       </CardActionArea>
