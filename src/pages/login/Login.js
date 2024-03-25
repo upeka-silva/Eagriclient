@@ -192,14 +192,232 @@ const Login = () => {
                 <Grid
                   item
                   container
-                  height={"100vw"}
+                  md={12}
                   sx={{
                     backgroundImage: `url(${LoginSecondBack})`,
                     backgroundSize: "cover",
+
                     height: "100%",
                     width: "100vw",
                   }}
-                ></Grid>
+                >
+                  <Grid item md={6} mt={30}></Grid>
+                  <Grid item md={2}></Grid>
+                  <Grid
+                    item
+                    md={4}
+                    style={{ display: "flex", justifyContent: "center" }}
+                  >
+                    <Card
+                      sx={{
+                        height: height,
+                        marginTop: "4vw",
+                        maxHeight: "600px",
+                        maxWidth: "400px",
+                        padding: "20px",
+                        bgcolor: "#CCDBDC",
+                        borderRadius: "20px",
+                        boxShadow: "none",
+                      }}
+                    >
+                      {initializing ? (
+                        <Box>
+                          <CircularProgress
+                            sx={{ color: theme.coreColors.white }}
+                          />
+                          <Typography
+                            component="h1"
+                            variant="h5"
+                            sx={{ mt: "16px" }}
+                          >
+                            Initializing
+                          </Typography>
+                        </Box>
+                      ) : (
+                        <>
+                          <Box
+                            sx={{
+                              marginTop: 5,
+                              display: "flex",
+                              flexDirection: "column",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Typography
+                              fontSize={"22px"}
+                              color={"#2B5366"}
+                              mb={3}
+                            >
+                              Sign In
+                            </Typography>
+                            <Box
+                              component="form"
+                              onSubmit={handleSubmit}
+                              onValidate
+                              sx={{
+                                mt: 2,
+                                display: "flex",
+                                flexDirection: "column",
+                              }}
+                            >
+                              <TextField
+                                margin="normal"
+                                fullWidth
+                                id="userName"
+                                placeholder="Enter your Username"
+                                name="userName"
+                                type="text"
+                                onChange={handleChange}
+                                value={formData.userName}
+                                sx={{
+                                  "& .MuiInputBase-root": {
+                                    height: 45,
+                                    background: `#CCDBDC`,
+                                    borderRadius: "10px",
+                                  },
+                                }}
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <MailOutlineIcon
+                                        style={{ color: `${Colors.iconColor}` }}
+                                      />
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+                              <TextField
+                                margin="normal"
+                                fullWidth
+                                id="password"
+                                placeholder="Password"
+                                name="password"
+                                type={showPassword ? "text" : "password"}
+                                onChange={handleChange}
+                                value={formData.password}
+                                sx={{
+                                  "& .MuiInputBase-root": {
+                                    height: 45,
+                                    background: `#CCDBDC`,
+                                    borderRadius: "10px",
+                                  },
+                                }}
+                                InputProps={{
+                                  startAdornment: (
+                                    <InputAdornment position="start">
+                                      <LockResetIcon
+                                        style={{ color: `${Colors.iconColor}` }}
+                                      />
+                                    </InputAdornment>
+                                  ),
+
+                                  endAdornment: (
+                                    <InputAdornment position="end">
+                                      <IconButton onClick={handleClick}>
+                                        {showPassword ? (
+                                          <VisibilityIcon />
+                                        ) : (
+                                          <VisibilityOffIcon
+                                            style={{
+                                              color: `${Colors.iconColor}`,
+                                            }}
+                                          />
+                                        )}
+                                      </IconButton>
+                                    </InputAdornment>
+                                  ),
+                                }}
+                              />
+
+                              {/* <LinkWrapper>
+                        <Link
+                          href="#"
+                          style={{
+                            color: `${Colors.buttonColor}`,
+                            fontSize: "12px",
+                            fontWeight: 400,
+                          }}
+                        >
+                          <ForgotPassword>Forgot password?</ForgotPassword>
+                        </Link>
+                      </LinkWrapper> */}
+                              <Box
+                                sx={{
+                                  marginTop: "2vw",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                <Button
+                                  type="submit"
+                                  variant="contained"
+                                  sx={{
+                                    backgroundColor: "#85A497",
+                                    boxShadow: "none",
+                                    width: "170px",
+                                    height: "35px",
+
+                                    borderRadius: "15px",
+                                    textAlign: "center",
+                                    textTransform: "none",
+                                    "&:hover": {
+                                      backgroundColor: "#85A497",
+                                      boxShadow: "none",
+                                    },
+                                  }}
+                                >
+                                  {loading ? (
+                                    <CircularProgress
+                                      size={20}
+                                      sx={{ mt: "8px", mb: "8px" }}
+                                      style={{ color: `${Colors.white}` }}
+                                    />
+                                  ) : (
+                                    "Sign In"
+                                  )}
+                                </Button>
+                              </Box>
+                              <Box
+                                sx={{ marginTop: "8vw" }}
+                                display={"flex"}
+                                justifyContent={"center"}
+                              >
+                                <Button
+                                  variant="outlined"
+                                  style={{
+                                    borderRadius: 20,
+                                    textTransform: "none",
+                                    width: "150px",
+                                    borderColor: "#717972",
+                                    color: "#717972",
+                                    marginRight: "20px",
+                                  }}
+                                  onClick={goFarmer}
+                                >
+                                  Register Farmer
+                                </Button>
+
+                                <Button
+                                  variant="outlined"
+                                  style={{
+                                    borderRadius: 20,
+                                    textTransform: "none",
+                                    width: "150px",
+                                    borderColor: "#717972",
+                                    color: "#717972",
+                                  }}
+                                  onClick={goOrganization}
+                                >
+                                  Register Organization
+                                </Button>
+                              </Box>
+                            </Box>
+                          </Box>
+                        </>
+                      )}
+                    </Card>
+                  </Grid>
+                </Grid>
               </Fade>
 
               {/* component 2 end */}
