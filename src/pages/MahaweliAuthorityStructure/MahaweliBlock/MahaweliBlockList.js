@@ -19,7 +19,7 @@ const MahaweliBlockList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/mahaweli-blocks"}
+        dataEndPoint={dataEndPoint}
         columns={columns}
         selectable
         selectedRows={selectedRows}

@@ -20,6 +20,14 @@ const CropVarietyList = ({
   const columns = [
     { field: ["varietyId"], headerName: "Variety ID" },
     { field: "varietyName", headerName: "Variety Name" },
+    {
+      field: [
+        "cropDTO.cropId",
+        "cropDTO.description",
+      ],
+      joinString: " - ",
+      headerName: "Crop",
+    },
     { field: "releasedYear", headerName: "Released Year"},
     { field: "grainSize", headerName: "Grain Size" },
     { field: "pericarpColor", headerName: "Pericarp Color" },
