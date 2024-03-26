@@ -150,7 +150,7 @@ const CropActivity = () => {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
+              <TableCell>Activity Description</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>

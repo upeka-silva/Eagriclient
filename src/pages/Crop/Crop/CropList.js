@@ -17,9 +17,6 @@ const CropList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "cropId", headerName: "Crop ID" },
-    { field: "description", headerName: "Description" },
-    { field: "scientificName", headerName: "Scientific Name" },
     {
       field: [
         "cropSubCategoryDTO.subCategoryId",
@@ -28,9 +25,14 @@ const CropList = ({
       joinString: " - ",
       headerName: "Sub Category",
     },
+
+    { field: "description", headerName: "Crop" },
+    { field: "scientificName", headerName: "Scientific Name" },
+
     { field: "cropType", headerName: "Crop Type" },
     { field: "family", headerName: "Family" },
     { field: "havesting", headerName: "Havesting" },
+    { field: "cropId", headerName: "Crop ID" },
   ];
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
