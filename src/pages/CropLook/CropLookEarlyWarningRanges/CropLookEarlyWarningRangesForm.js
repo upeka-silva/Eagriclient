@@ -18,11 +18,12 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { get_DistrictList } from "../../../redux/actions/district/action";
-import { get_MahaweliBlockList } from "../../../redux/actions/mahaweliBlock/action";
+import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
+import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
 
 const CropLookEarlyWarningRangesForm = () => {
-  //useUserAccessValidation();
+  useUserAccessValidation();
   const { state } = useLocation();
   //const location = useLocation();
   console.log(state);
@@ -30,8 +31,12 @@ const CropLookEarlyWarningRangesForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  // const [districtOptions, setDistrictOptions] = useState([]);
-  // const [mahaweliBlockOptions, setMahaweliBlockOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [subCategoryOptions, setSubCategoryOptions] = useState([]);
+  const [cropyOptions, setCropyOptions] = useState([]);
+  const [category, setCategory] = useState({ categoryId: "", description: "" });
+  const [subCategory, setSubCategory] = useState({subCategoryId: "",description: "",});
+
 
   const { addSnackBar } = useSnackBars();
 
@@ -40,21 +45,34 @@ const CropLookEarlyWarningRangesForm = () => {
   };
 
   useEffect(() => {
-    get_DistrictList().then(({ dataList = [] }) => {
-      //setDistrictOptions(dataList);
+    get_CategoryList().then(({ dataList = [] }) => {
+      setCategoryOptions(dataList);
     });
   }, []);
 
-  useEffect(() => {
-    get_MahaweliBlockList().then(({ dataList = [] }) => {
-      //setMahaweliBlockOptions(dataList);
+
+  const getSubCategories =(id) =>{
+    debugger ;
+    get_SubCategoryById(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setSubCategoryOptions(dataList);
     });
-  }, []);
+  }
+
+  const getCrops =(id) =>{
+    debugger ;
+    get_CropById(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setCropyOptions(dataList);
+    });
+  }
 
   const handleChange = (value, target) => {
+    debugger;
     setFormData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
+      console.log(formData);
       return newData;
     });
   };
@@ -174,12 +192,105 @@ const CropLookEarlyWarningRangesForm = () => {
           borderRadius: "5px",
         }}
       >
+
+        <Grid item sm={3} md={3} lg={2}>
+          <FieldWrapper>
+            <FieldName>Crop Category</FieldName>
+            <Autocomplete
+              options={categoryOptions}
+              //disabled={selectedDdoa?.id == null}
+              getOptionLabel={(i) => i.categoryId ? `${i.categoryId} - ${i.description}` : ""}
+              value={category || null}
+              onChange={(event, value) => {
+                getSubCategories(value?.id);
+                setCategory(value);
+                setSubCategory({subCategoryId: "",description: "",});
+                handleChange( "", "crop");
+              }}
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                />
+              )}
+              fullWidth
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={2}>
+          <FieldWrapper>
+            <FieldName>Crop Sub Category</FieldName>
+            <Autocomplete
+              options={subCategoryOptions}
+              disabled={category.categoryId === ""}
+              getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
+              value={subCategory || null}
+              onChange={(event, value) => {
+                getCrops(value?.id);
+                setSubCategory(value);
+                handleChange( "", "crop");
+              }}
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                />
+              )}
+              fullWidth
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={2}>
+          <FieldWrapper>
+            <FieldName>Crop</FieldName>
+            <Autocomplete
+              options={cropyOptions}
+              disabled={subCategory.subCategoryId  === ""}
+              getOptionLabel={(i) => `${i?.cropId} - ${i?.description}`}
+              value={formData.crop || null}
+              onChange={(event, value) => {
+                handleChange(value || "", "crop");
+              }}
+              disableClearable
+              sx={{
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  size="small"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                />
+              )}
+              fullWidth
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={12} md={12} lg={12}>
+        </Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Two Week Recommendation</FieldName>
             <TextField
               name="twoWeekRecommendation"
               id="twoWeekRecommendation"
+              type ="number"
               value={formData?.twoWeekRecommendation || ""}
               fullWidth
               disabled={
@@ -206,6 +317,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="greenUpper"
               id="greenUpper"
               value={formData?.greenUpper || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -227,6 +339,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="lightGreenLower"
               id="lightGreenLower"
               value={formData?.lightGreenLower || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -248,6 +361,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="lightGreenUpper"
               id="lightGreenUpper"
               value={formData?.lightGreenUpper || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -269,6 +383,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="yellowLower"
               id="yellowLower"
               value={formData?.yellowLower || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -290,6 +405,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="yellowUpper"
               id="yellowUpper"
               value={formData?.yellowUpper || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -311,6 +427,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="orangeLower"
               id="orangeLower"
               value={formData?.orangeLower || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -332,6 +449,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="orangeUpper"
               id="orangeUpper"
               value={formData?.orangeUpper || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -353,6 +471,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="redLower"
               id="redLower"
               value={formData?.redLower || ""}
+              type ="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "redLower")}

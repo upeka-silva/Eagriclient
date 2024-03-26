@@ -8,7 +8,7 @@ export const handleEarlyWarningRegistartion = async (
     onError = (_message) => {}
   ) => {
     try {
-      const response = await post("geo-data/ds-divisions", payload, true);
+      const response = await post("crop/early-warning-ranges", payload, true);
       if (response.httpCode === "200 OK") {
         onSuccess();
       } else {
@@ -43,7 +43,7 @@ export const handleEarlyWarningRegistartion = async (
   ) => {
     try {
       const response = await put(
-        `geo-data/ds-divisions/${payload?.id || ""}`,
+        `crop/early-warning-ranges/${payload?.id || ""}`,
         payload,
         true
       );
@@ -100,7 +100,7 @@ export const handleEarlyWarningRegistartion = async (
     ) => {
       try {
         const response = await api_delete(
-          `geo-data/ds-divisions/${id || ""}`,
+          `crop/early-warning-ranges/${id || ""}`,
           true
         );
         console.log(response);
