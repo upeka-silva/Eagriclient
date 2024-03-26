@@ -83,7 +83,7 @@ function ColorStatus({ status }) {
 }
 
 function LandingFoodCard({ image, foodName, status }) {
-  //const [value, setValue] = React.useState(4);
+  
 
   return (
     <div>
