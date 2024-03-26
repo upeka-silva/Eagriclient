@@ -8,10 +8,9 @@ const CropCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "description", headerName: "Crop Category" },
     { field: "categoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
   ];
-
   return (
     <TableWrapper>
       <DataTable
