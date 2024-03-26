@@ -16,11 +16,8 @@ const TargetRegistrationTils = ({
                 <Grid item xs={2} key={crop.id} sm={12} md={4} lg={2}>
                   <CropSingleTile
                     key={crop.id}
-                    id={crop.id}
-                    name={crop.cropId}
-                    imageUrl={crop?.prsignedUrl}
+                    crop={crop}
                     onOptionClick={handleSelectedValues}
-                    isSelected={crop?.selected || false}
                     isDisabled={isItemDisabled}
                   />
                 </Grid>

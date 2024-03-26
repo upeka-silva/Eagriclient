@@ -11,22 +11,15 @@ import React from "react";
 
 const sampleCropImg = require("../../../assets/images/cropPlaceholder.png");
 
-const CropSingleTile = ({
-  id,
-  name,
-  imageUrl,
-  onOptionClick,
-  isSelected,
-  isDisabled,
-}) => {
+const CropSingleTile = ({ crop, onOptionClick, isDisabled }) => {
   const handleTileClick = () => {
     if (!isDisabled) {
-      onOptionClick(id, !isSelected);
+      onOptionClick(crop?.id, !crop?.selected);
     }
   };
 
   const getSelection = () => {
-    if (isSelected) {
+    if (crop?.selected) {
       return <Chip label="Selected" color="success" variant="filled" />;
     } else {
       return <Chip label="Not Selected" color="success" variant="outlined" />;
@@ -45,11 +38,13 @@ const CropSingleTile = ({
       <CardActionArea>
         <CardMedia
           style={{ paddingTop: "55%", margin: "5px" }}
-          image={imageUrl ? imageUrl : sampleCropImg}
+          image={crop?.prsignedUrl ? crop?.prsignedUrl : sampleCropImg}
           title="Crop Image"
         />
         <CardContent>
-          <Typography variant="body1">{name}</Typography>
+          <Typography variant="body1">
+            {crop?.cropId} - {crop?.description}
+          </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>{getSelection()}</CardActions>
