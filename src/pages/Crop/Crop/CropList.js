@@ -22,6 +22,7 @@ const CropList = ({
       field: [
         "cropSubCategoryDTO.subCategoryId",
         "cropSubCategoryDTO.description",
+        
       ],
       joinString: " - ",
       headerName: "Sub Category",
