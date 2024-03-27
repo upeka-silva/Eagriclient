@@ -33,9 +33,6 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //images
-import Vector from "../../assets/images/Vector.png";
-import Farmer from "../../assets/images/farmer.png";
-import Factory from "../../assets/images/corporate.png";
 import LoginBackground from "../../assets/images/loginBack.png";
 import Cropix from "../../assets/images/cropixLogo.png";
 import LoginSecondBack from "../../assets/images/loginSecondBack.png";
@@ -47,7 +44,7 @@ const Login = () => {
   const theme = useTheme();
 
   const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -133,6 +130,11 @@ const Login = () => {
   const matches = useMediaQuery("(min-height:765px)");
   const height = matches ? "550px" : "480px";
 
+  const cardTopMatches = useMediaQuery("(min-height: 800px)");
+  const cardTopminMatches = useMediaQuery("(max-height: 670px)");
+  let cardTop = cardTopMatches ? "6vw" : "3.5vw";
+  cardTop = cardTopminMatches ? "1.5vw" : cardTop;
+
   return (
     <>
       <Fab style={{ position: "fixed", top: "22vw", left: "2vw" }}>
@@ -148,9 +150,10 @@ const Login = () => {
       </Fab>
 
       <>
+      <LoginWrapper>
         <Grid
           container
-          sx={{ height: "100vh", width: "100vw", overflow: "hidden" }} // Set the container to full height
+          sx={{ height: "100vh" }}
         >
           <Grid
             md={12}
@@ -161,7 +164,7 @@ const Login = () => {
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              marginRight: "-160px",
+              
               width: "20vw",
             }}
           >
@@ -211,7 +214,7 @@ const Login = () => {
                     <Card
                       sx={{
                         height: height,
-                        marginTop: "4vw",
+                        marginTop: cardTop,
                         maxHeight: "600px",
                         maxWidth: "400px",
                         padding: "20px",
@@ -448,7 +451,7 @@ const Login = () => {
                     <Card
                       sx={{
                         height: height,
-                        marginTop: "4vw",
+                        marginTop: cardTop,
                         maxHeight: "600px",
                         maxWidth: "400px",
                         padding: "20px",
@@ -660,6 +663,7 @@ const Login = () => {
             </>
           )}
         </Grid>
+        </LoginWrapper>
       </>
     </>
   );
@@ -711,15 +715,12 @@ export default Login;
 //   padding: 18px 24px;
 // `;
 
-// const LoginWrapper = styled.div`
-//   display: flex;
-//   flex: 1;
-//   flex-direction: column;
-//   background-color: ${Colors.white};
-//   font-family: ${Fonts.fontStyle1};
-//   margin-right: -160px;
-//   height: 100vh;
-// `;
+const LoginWrapper = styled.div`
+ 
+  margin-right: -160px;
+  height: 100vh;
+  overflow: hidden;
+`;
 
 // const ButtonContainer = styled.button`
 //   display: flex;
