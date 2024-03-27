@@ -155,7 +155,7 @@ const CropLookEarlyWarningRanges = () => {
             color="success"
           >
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.EARLY_WARNING_RANGES}`}
             >
               <Button onClick={onCreate}>
                 <Add />
@@ -164,7 +164,7 @@ const CropLookEarlyWarningRanges = () => {
             </PermissionWrapper>
             {selectedEarlyWarningRanges.length === 1 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.EARLY_WARNING_RANGES}`}
               >
                 <Button onClick={onEdit}>
                   <Edit />
@@ -174,7 +174,7 @@ const CropLookEarlyWarningRanges = () => {
             )}
             {selectedEarlyWarningRanges.length === 1 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.EARLY_WARNING_RANGES}`}
               >
                 <Button onClick={onView}>
                   <Vrpano />
@@ -184,7 +184,7 @@ const CropLookEarlyWarningRanges = () => {
             )}
             {selectedEarlyWarningRanges.length > 0 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DS_DIVISION}`}
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.EARLY_WARNING_RANGES}`}
               >
                 <Button onClick={onDelete}>
                   <Delete />
@@ -195,7 +195,7 @@ const CropLookEarlyWarningRanges = () => {
           </ButtonGroup>
         </ActionWrapper>      
         <PermissionWrapper
-          permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DS_DIVISION}`}
+          permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.EARLY_WARNING_RANGES}`}
         >
           {loading === false && (
             <CropLookEarlyWarningRangesList

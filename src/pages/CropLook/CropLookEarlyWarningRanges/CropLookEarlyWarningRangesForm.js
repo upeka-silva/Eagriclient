@@ -43,7 +43,7 @@ const CropLookEarlyWarningRangesForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/crop-look/early-warning-registration");
+    navigate("/crop-look/early-warning-ranges");
   };
 
   useEffect(() => {

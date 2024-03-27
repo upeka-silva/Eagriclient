@@ -1386,8 +1386,8 @@ export const Routes = [
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
-        path: "/early-warning-registration",
-        name: "Warning Ranges",
+        path: "/early-warning-ranges",
+        name: "Early Warning Limits",
         isSideBar: true,
         element: <CropLookEarlyWarningRanges />,
         icon: Settings,
