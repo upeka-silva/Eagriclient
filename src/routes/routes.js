@@ -1391,7 +1391,7 @@ export const Routes = [
         isSideBar: true,
         element: <CropLookEarlyWarningRanges />,
         icon: Settings,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
       },
     ],
   },
