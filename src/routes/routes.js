@@ -1387,7 +1387,7 @@ export const Routes = [
       },
       {
         path: "/early-warning-registration",
-        name: "Vegitable Early Warning",
+        name: "Warning Ranges",
         isSideBar: true,
         element: <CropLookEarlyWarningRanges />,
         icon: Settings,
