@@ -188,14 +188,14 @@ const BiWeeklyReportingForm = () => {
             mahaweliBlock: { id: selectedAiRegion.id },
             parentType: selectedAiRegion.parentType,
             season: { id: selectedSeason.id },
-            week: { id: selectedWeek.id },
+            week: { id: selectedWeek?.id },
           };
         } else {
           payload = {
             aiRegion: { id: selectedAiRegion.id },
             parentType: selectedAiRegion.parentType,
             season: { id: selectedSeason.id },
-            week: { id: selectedWeek.id },
+            week: { id: selectedWeek?.id },
           };
         }
         const dataList = await createBiWeeklyReport(
