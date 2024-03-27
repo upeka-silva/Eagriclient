@@ -25,7 +25,7 @@ import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
 const CropLookEarlyWarningRangesForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  //const location = useLocation();
+  const location = useLocation();
   console.log(state);
   const navigate = useNavigate();
 
@@ -35,8 +35,10 @@ const CropLookEarlyWarningRangesForm = () => {
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [cropyOptions, setCropyOptions] = useState([]);
   const [category, setCategory] = useState({ categoryId: "", description: "" });
-  const [subCategory, setSubCategory] = useState({subCategoryId: "",description: "",});
-
+  const [subCategory, setSubCategory] = useState({
+    subCategoryId: "",
+    description: "",
+  });
 
   const { addSnackBar } = useSnackBars();
 
@@ -50,22 +52,21 @@ const CropLookEarlyWarningRangesForm = () => {
     });
   }, []);
 
-
-  const getSubCategories =(id) =>{
-    debugger ;
+  const getSubCategories = (id) => {
+    debugger;
     get_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setSubCategoryOptions(dataList);
     });
-  }
+  };
 
-  const getCrops =(id) =>{
-    debugger ;
+  const getCrops = (id) => {
+    debugger;
     get_CropById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setCropyOptions(dataList);
     });
-  }
+  };
 
   const handleChange = (value, target) => {
     debugger;
@@ -82,6 +83,8 @@ const CropLookEarlyWarningRangesForm = () => {
       setFormData(state?.target || {});
     } else {
       setFormData({});
+      setSubCategory({ subCategoryId: "", description: "" });
+      setCategory({ categoryId: "", description: "" });
     }
   };
 
@@ -192,20 +195,27 @@ const CropLookEarlyWarningRangesForm = () => {
           borderRadius: "5px",
         }}
       >
-
-        <Grid item sm={3} md={3} lg={2}>
+        <Grid
+          item
+          sm={3}
+          md={3}
+          lg={2}
+          display={state?.action !== DEF_ACTIONS.ADD ? "none" : ""}
+        >
           <FieldWrapper>
             <FieldName>Crop Category</FieldName>
             <Autocomplete
               options={categoryOptions}
               //disabled={selectedDdoa?.id == null}
-              getOptionLabel={(i) => i.categoryId ? `${i.categoryId} - ${i.description}` : ""}
+              getOptionLabel={(i) =>
+                i.categoryId ? `${i.categoryId} - ${i.description}` : ""
+              }
               value={category || null}
               onChange={(event, value) => {
                 getSubCategories(value?.id);
                 setCategory(value);
-                setSubCategory({subCategoryId: "",description: "",});
-                handleChange( "", "crop");
+                setSubCategory({ subCategoryId: "", description: "" });
+                handleChange("", "crop");
               }}
               disableClearable
               sx={{
@@ -224,7 +234,13 @@ const CropLookEarlyWarningRangesForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={2}>
+        <Grid
+          item
+          sm={3}
+          md={3}
+          lg={2}
+          display={state?.action !== DEF_ACTIONS.ADD ? "none" : ""}
+        >
           <FieldWrapper>
             <FieldName>Crop Sub Category</FieldName>
             <Autocomplete
@@ -235,7 +251,7 @@ const CropLookEarlyWarningRangesForm = () => {
               onChange={(event, value) => {
                 getCrops(value?.id);
                 setSubCategory(value);
-                handleChange( "", "crop");
+                handleChange("", "crop");
               }}
               disableClearable
               sx={{
@@ -259,11 +275,11 @@ const CropLookEarlyWarningRangesForm = () => {
             <FieldName>Crop</FieldName>
             <Autocomplete
               options={cropyOptions}
-              disabled={subCategory.subCategoryId  === ""}
+              disabled={subCategory.subCategoryId === ""}
               getOptionLabel={(i) => `${i?.cropId} - ${i?.description}`}
-              value={formData.crop || null}
+              value={formData.cropDTO || null}
               onChange={(event, value) => {
-                handleChange(value || "", "crop");
+                handleChange(value || "", "cropDTO");
               }}
               disableClearable
               sx={{
@@ -282,21 +298,17 @@ const CropLookEarlyWarningRangesForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={12} md={12} lg={12}>
-        </Grid>
+        <Grid item sm={12} md={12} lg={12}></Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Two Week Recommendation</FieldName>
             <TextField
               name="twoWeekRecommendation"
               id="twoWeekRecommendation"
-              type ="number"
+              type="number"
               value={formData?.twoWeekRecommendation || ""}
               fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "twoWeekRecommendation")
               }
@@ -317,7 +329,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="greenUpper"
               id="greenUpper"
               value={formData?.greenUpper || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -339,7 +351,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="lightGreenLower"
               id="lightGreenLower"
               value={formData?.lightGreenLower || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -361,7 +373,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="lightGreenUpper"
               id="lightGreenUpper"
               value={formData?.lightGreenUpper || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -383,7 +395,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="yellowLower"
               id="yellowLower"
               value={formData?.yellowLower || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -405,7 +417,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="yellowUpper"
               id="yellowUpper"
               value={formData?.yellowUpper || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -427,7 +439,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="orangeLower"
               id="orangeLower"
               value={formData?.orangeLower || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -449,7 +461,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="orangeUpper"
               id="orangeUpper"
               value={formData?.orangeUpper || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) =>
@@ -471,7 +483,7 @@ const CropLookEarlyWarningRangesForm = () => {
               name="redLower"
               id="redLower"
               value={formData?.redLower || ""}
-              type ="number"
+              type="number"
               fullWidth
               disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "redLower")}

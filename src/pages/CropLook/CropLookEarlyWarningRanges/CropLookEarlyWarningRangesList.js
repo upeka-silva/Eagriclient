@@ -42,13 +42,13 @@ const CropLookEarlyWarningRangesList = ({
     const navigate = useNavigate();
     
     const columns = [
-      { field: "crop", headerName: "Crop" },  
+      { field: "cropDTO.description", headerName: "Crop" },  
       { field: "twoWeekRecommendation", headerName: "Two Week Recommendation" },
       { field: "greenUpper", headerName: "Green Upper" },
       { field: "lightGreenLower", headerName: "Light Green Lower" },
       { field: "lightGreenUpper", headerName: "Light Green Upper" },
       { field: "yellowLower", headerName: "Yellow Lower" },
-      { field: "yellowUpper", headerName: "yellow Upper" },
+      { field: "yellowUpper", headerName: "Yellow Upper" },
       { field: "orangeLower", headerName: "Orange Lower" },
       { field: "orangeUpper", headerName: "Orange Upper" },
       { field: "redLower", headerName: "Red Lower" },

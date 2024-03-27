@@ -38,22 +38,13 @@ const CropLookEarlyWarningRanges = () => {
   
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [dataEndPoint, setDataEndPoint] = useState("geo-data/ds-divisions");
+    const [dataEndPoint, setDataEndPoint] = useState("crop/early-warning-ranges");
   
     const [selectedEarlyWarningRanges, setSelectedEarlyWarningRanges] = useState([]);
-    const [dialogSelectedDsTypes, setDialogSelectedDsTypes] = useState([]);
+    const [dialogSelectedEarlyWarningRanges, setDialogSelectedEarlyWarningRanges] = useState([]);
     const [action, setAction] = useState(DEF_ACTIONS.ADD);
   
-    const [provinces, setProvinces] = useState([]);
-    const [districs, setDistrics] = useState([]);
-    const [selectedProvince, setSelectedProvince] = useState({
-      name: "",
-      code: "",
-    });
-    const [selectedDistrict, setSelectedDistrict] = useState({
-      name: "",
-      code: "",
-    });
+
   
     const toggleEarlyWarningRangeSelect = (component) => {
         setSelectedEarlyWarningRanges((current = []) => {
@@ -105,12 +96,12 @@ const CropLookEarlyWarningRanges = () => {
   
     const onDelete = () => {
       setOpen(true);
-      setDialogSelectedDsTypes(selectedEarlyWarningRanges);
+      setDialogSelectedEarlyWarningRanges(selectedEarlyWarningRanges);
     };
   
     const close = () => {
       setOpen(false);
-      setDialogSelectedDsTypes([]);
+      setDialogSelectedEarlyWarningRanges([]);
     };
   
     const onSuccess = () => {
@@ -130,7 +121,7 @@ const CropLookEarlyWarningRanges = () => {
     const onConfirm = async () => {
       try {
         setLoading(true);
-        for (const earlyWaringRange of dialogSelectedDsTypes) {
+        for (const earlyWaringRange of dialogSelectedEarlyWarningRanges) {
           await deleteEarlyWarningRange(earlyWaringRange?.id, onSuccess, onError);
         }
         setLoading(false);
@@ -142,31 +133,6 @@ const CropLookEarlyWarningRanges = () => {
       }
     };
   
-    useEffect(() => {
-      get_EarlyWarningRangeeList().then(({ dataList = [] }) => {
-        console.log(dataList);
-        setProvinces(dataList);
-      });
-    }, []);
-  
-    const getFilteredData = (selectedDistrict) => {
-      setDataEndPoint(
-        `geo-data/ds-divisions/by-district/` + selectedDistrict?.id
-      );
-    };
-  
-    const resetFilter = () => {
-      setSelectedProvince({ code: "", name: "" });
-      setSelectedDistrict({ code: "", name: "" });
-      setDataEndPoint("geo-data/ds-divisions");
-    };
-  
-    const getDistricts = (id) => {
-      get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
-        console.log(dataList);
-        setDistrics(dataList);
-      });
-    };
   
     return (
       <div
@@ -248,8 +214,8 @@ const CropLookEarlyWarningRanges = () => {
           loading={loading}
           onClose={close}
           onConfirm={onConfirm}
-          setDialogSelectedTypes={setDialogSelectedDsTypes}
-          dialogSelectedTypes={dialogSelectedDsTypes}
+          setDialogSelectedTypes={setDialogSelectedEarlyWarningRanges}
+          dialogSelectedTypes={dialogSelectedEarlyWarningRanges}
           propertyId="id"
           propertyDescription="name"
         />
