@@ -7,10 +7,10 @@ import {
 } from "@mui/material";
 import React from "react";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
-import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import MoodBadIcon from '@mui/icons-material/MoodBad';
 
 function CustomRating({ value }) {
   const stars = [];
@@ -29,13 +29,13 @@ function EmojiStatus({ status }) {
   if (status === "Best Selection") {
     return <SentimentVerySatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Better Selection") {
-    return <SentimentSatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
-  } else if (status === "Good Selection") {
     return <SentimentSatisfiedAltIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+  } else if (status === "Good Selection") {
+    return <SentimentSatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Bad Selection") {
-    return <SentimentDissatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
-  } else if (status === "Worst Selection") {
     return <SentimentVeryDissatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+  } else if (status === "Worst Selection") {
+    return <MoodBadIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
   }
 }
 
@@ -56,23 +56,23 @@ function StartStatus({ status }) {
 function ColorStatus({ status }) {
   if (status === "Best Selection") {
     return {
-      backgroundColor: "#04A772",
-      footerColor: "#C4EFCA",
+      backgroundColor: "#F0FFFA",
+      footerColor: "#04A772",
     };
   } else if (status === "Better Selection") {
-    return {
-      backgroundColor: "#FFFEF8",
-      footerColor: "#F9CA0B",
-    };
-  } else if (status === "Good Selection") {
     return {
       backgroundColor: "#F9FFF6",
       footerColor: "#6ABA3F",
     };
+  } else if (status === "Good Selection") {
+    return {
+      backgroundColor: "#FFFEF8",
+      footerColor: "#F9CA0B",
+    };
   } else if (status === "Bad Selection") {
     return {
-      backgroundColor: "orange",
-      footerColor: "orange",
+      backgroundColor: "#FFF5ED",
+      footerColor: "#FC7D0A",
     };
   } else if (status === "Worst Selection") {
     return {
@@ -82,7 +82,7 @@ function ColorStatus({ status }) {
   }
 }
 
-function LandingFoodCard({ image, foodName, status }) {
+function LandingFoodCard({ image, foodName, status,firstText, secondText }) {
   
 
   return (
@@ -118,10 +118,10 @@ function LandingFoodCard({ image, foodName, status }) {
               <StartStatus status={status} />
             </Grid>
             <Typography mt={1} fontSize={"13px"} color="text.secondary">
-              Cul.Ext -156.46 ha.
+              {firstText}
             </Typography>
             <Typography mt={1} fontSize={"13px"} color="text.secondary">
-              Available Cul.Ext - 156.46 ha.
+              {secondText}
             </Typography>
           </Grid>
 
