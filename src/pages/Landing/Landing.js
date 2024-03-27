@@ -7,18 +7,22 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+
+//images
 import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
 import Cropix from "../../assets/images/cropixLogo.png";
 import SearchIcon from "@mui/icons-material/Search";
 import Samba from "../../assets/images/sambasample.png";
 import LandingCarousal from "../../assets/images/landingcarasol.png";
 import CultivateImg from "../../assets/images/cultivate.png";
+import Brinjol from "../../assets/images/brinjal.jpg";
 
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
 import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
+import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
 
 function Landing() {
   useUserAccessValidation();
@@ -407,7 +411,13 @@ function Landing() {
               <FaoEmergencyMap />
             </Grid>
           </Grid>
+
+          <Grid item md={3} mb={5}>
+            <LandingFoodCard image={Brinjol} foodName={'Brinjal'} status={"Worst Selection"}/>
+          </Grid>
+
         </Grid>
+        
       </Grid>
     </div>
   );
