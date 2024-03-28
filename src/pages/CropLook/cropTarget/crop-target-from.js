@@ -67,7 +67,6 @@ const CropTargetForm = () => {
 
   // start of crop registration code
 
-
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -90,15 +89,19 @@ const CropTargetForm = () => {
     ) {
       setCropTargetId(state?.target?.id);
       setSelectedSeason(state?.target?.season);
-      var region = state?.target?.aiRegion ? state?.target?.aiRegion : state?.target?.mahaweliUnit;
-      
-      if (state?.target?.parentType !== null && state?.target?.parentType !== undefined) {
+      var region = state?.target?.aiRegion
+        ? state?.target?.aiRegion
+        : state?.target?.mahaweliBlock || {};
+
+      if (
+        state?.target?.parentType !== null &&
+        state?.target?.parentType !== undefined
+      ) {
         region.parentType = state.target.parentType;
       }
-      
+
       setSelectedAiRegion(region);
       setCropCategoryTarget(state?.target?.cropCategoryTargets);
-
     }
   }, []);
 
@@ -180,7 +183,7 @@ const CropTargetForm = () => {
       setSaving(true);
       try {
         var payload = {};
-        if(selectedAiRegion.parentType === REGION_PARENT_TYPE.MAHAWELI) {
+        if (selectedAiRegion.parentType === REGION_PARENT_TYPE.MAHAWELI) {
           payload = {
             mahaweliBlock: { id: selectedAiRegion.id },
             aiRegionType: selectedAiRegion.parentType,
@@ -204,17 +207,22 @@ const CropTargetForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} formName="Crop Target" goBack={goBack} />
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="Crop Target"
+          goBack={goBack}
+        />
         <FormButtonGroup
           {...{
             state,
@@ -225,12 +233,10 @@ const CropTargetForm = () => {
             resetForm,
           }}
         />
-        <Grid
-          container
-        >
+        <Grid container>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>AI Region</FieldName>
+              <FieldName>AI Region/Mahaweli Block</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
@@ -238,8 +244,12 @@ const CropTargetForm = () => {
                 }
                 options={options}
                 value={selectedAiRegion}
-                getOptionLabel={(i) =>(i.code !== undefined || i.regionId !== undefined) && i.description !== undefined ?
-                   `${i.code || i.regionId} - ${i.description}` :""}
+                getOptionLabel={(i) =>
+                  (i.code !== undefined || i.regionId !== undefined) &&
+                  i.description !== undefined
+                    ? `${i.code || i.regionId} - ${i.description}`
+                    : ""
+                }
                 onChange={(event, value) => {
                   handleAiRegionChange(value);
                 }}
@@ -263,8 +273,7 @@ const CropTargetForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={
-                  (i) => 
+                getOptionLabel={(i) =>
                   (i.code !== undefined ? `${i.code} - ` : "") +
                   (i.description !== undefined ? `${i.description}` : "")
                 }

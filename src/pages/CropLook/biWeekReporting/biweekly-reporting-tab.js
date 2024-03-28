@@ -89,12 +89,25 @@ const BiWeeklyReportingTab = ({
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
+          console.log('inside reporting clear-->');
+          console.log(crop.varietyTargets);
           if (variety.targetedExtentMajor) variety.targetedExtentMajor = 0;
           if (variety.targetedExtentMinor) variety.targetedExtentMinor = 0;
           if (variety.targetedExtentRainfed) variety.targetedExtentRainfed = 0;
           if (variety.targetedExtentIrrigate)
             variety.targetedExtentIrrigate = 0;
           if (variety.targetedExtent) variety.targetedExtent = 0;
+        }
+
+        for (const variety of crop.varietyTargets) {
+          Object.keys(variety).forEach(key => {
+            if(key === 'varietyId' || key === 'varietyName' || key === 'imageUrl' || key === 'id') {
+              return;
+            }
+            if (variety[key]) {
+              variety[key] = 0;
+            }
+          });
         }
       }
     }

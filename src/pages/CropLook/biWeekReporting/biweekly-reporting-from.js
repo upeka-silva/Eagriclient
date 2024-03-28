@@ -64,9 +64,6 @@ const BiWeeklyReportingForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [openConfApprove, setOpenConfApprove] = useState(false);
 
-  
- 
-
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -91,14 +88,13 @@ const BiWeeklyReportingForm = () => {
       setSelectedSeason(state?.target?.season);
       var region = state?.target?.aiRegion
         ? state?.target?.aiRegion
-        : state?.target?.mahaweliUnit;
+        : state?.target?.mahaweliBlock || {}; 
       region.parentType = state?.target?.parentType;
       setSelectedAiRegion(region);
       setSelectedWeek(state?.target?.week);
       setCropCategoryTarget(state?.target?.biWeekCropCategoryReport);
     }
   }, []);
-
 
   useEffect(() => {
     if (biWeekReportId) {
@@ -183,18 +179,18 @@ const BiWeeklyReportingForm = () => {
       setSaving(true);
       try {
         var payload = {};
-        if (selectedAiRegion.parentType === REGION_PARENT_TYPE.MAHAWELI) {
+        if (selectedAiRegion?.parentType === REGION_PARENT_TYPE.MAHAWELI) {
           payload = {
-            mahaweliBlock: { id: selectedAiRegion.id },
-            parentType: selectedAiRegion.parentType,
-            season: { id: selectedSeason.id },
+            mahaweliBlock: { id: selectedAiRegion?.id },
+            parentType: selectedAiRegion?.parentType,
+            season: { id: selectedSeason?.id },
             week: { id: selectedWeek?.id },
           };
         } else {
           payload = {
-            aiRegion: { id: selectedAiRegion.id },
-            parentType: selectedAiRegion.parentType,
-            season: { id: selectedSeason.id },
+            aiRegion: { id: selectedAiRegion?.id },
+            parentType: selectedAiRegion?.parentType,
+            season: { id: selectedSeason?.id },
             week: { id: selectedWeek?.id },
           };
         }
@@ -243,17 +239,22 @@ const BiWeeklyReportingForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} goBack={goBack} formName="Bi Weekly Report" />
+        <PageHeader
+          saving={saving}
+          state={state}
+          goBack={goBack}
+          formName="Bi Weekly Report"
+        />
         <Grid container>
           <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
             <Grid container>
@@ -288,7 +289,7 @@ const BiWeeklyReportingForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>AI Region</FieldName>
+              <FieldName>AI Region/Mahaweli Block</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
@@ -403,35 +404,31 @@ const BiWeeklyReportingForm = () => {
               ))}
           </Grid>
           <DialogBox
-        open={openConfApprove}
-        title="Approve Bi Weekly Report"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={approveBiWeekReport}
-              sx={{ ml: "8px" }}
-            >
-             OK
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={() => setOpenConfApprove(false)}
-              sx={{ ml: "8px" }}
-            >
-              Cancel
-            </Button>
-            </ActionWrapper>
-        }
-      >
-        <>
-        Do you want to approve?
-        
-       </>
-      </DialogBox>
-          
+            open={openConfApprove}
+            title="Approve Bi Weekly Report"
+            actions={
+              <ActionWrapper>
+                <Button
+                  variant="contained"
+                  color="info"
+                  onClick={approveBiWeekReport}
+                  sx={{ ml: "8px" }}
+                >
+                  OK
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setOpenConfApprove(false)}
+                  sx={{ ml: "8px" }}
+                >
+                  Cancel
+                </Button>
+              </ActionWrapper>
+            }
+          >
+            <>Do you want to approve?</>
+          </DialogBox>
         </Grid>
       </FormWrapper>
     </div>
