@@ -63,6 +63,9 @@ import CreatePostForm from "../pages/Extention/CreatePostForm";
 import CommodityGroup from "../pages/Harty/CommodityGroup";
 import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
+import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
+import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -261,6 +264,10 @@ export const Routes = [
   {
     path: "/userProfile",
     element: <ProfileView />,
+  },
+  {
+    path: "/early-warning-ranges-form",
+    element: <CropLookEarlyWarningRangesForm />,
   },
 
   {
@@ -1382,6 +1389,14 @@ export const Routes = [
         element: <AggrigateReport />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/early-warning-ranges",
+        name: "Early Warning Limits",
+        isSideBar: true,
+        element: <CropLookEarlyWarningRanges />,
+        icon: Settings,
+        component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
       },
     ],
   },
