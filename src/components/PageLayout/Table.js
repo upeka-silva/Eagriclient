@@ -92,12 +92,14 @@ export const DataTable = ({
   const [totalCount, setTotalCount] = useState(0);
   const [showPopover, setShowPopover] = useState(null);
 
+  
+
   useEffect(() => {
     if (dataEndPoint || filterEndPoint) {
       fetchTableData();
       console.log(advanceSearchData);
     }
-  }, [page, pageSize, dataEndPoint, filterEndPoint, advanceSearchData]);
+  }, [page, pageSize, dataEndPoint, filterEndPoint, advanceSearchData,order]);
 
   useEffect(() => {
     setAdvanceSearchData((current) => {
@@ -118,9 +120,10 @@ export const DataTable = ({
               filterEndPoint,
               page,
               pageSize,
-              advanceSearchData
+              advanceSearchData,
+              order
             )
-          : await get_DataList(dataEndPoint, page, pageSize);
+          : await get_DataList(dataEndPoint, page, pageSize,order);
 
       if (dataList) {
         setRows(dataList);

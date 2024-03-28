@@ -32,6 +32,8 @@ const AggrigateReport = () => {
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
+  console.log("cropCategoryList type:", typeof cropCategoryList);
+  console.log({selectedSeason})
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -100,13 +102,16 @@ const AggrigateReport = () => {
             <TableWrapper>
               {selectedSeason &&
                 cropCategoryList &&
-                cropCategoryList.map((category) => (
+                cropCategoryList?.map((category) => (
                   <div key={category.categoryId}>
                     <h5>{category.categoryName}</h5>
+                   
                     <CategoryReportTabel
                       category={category}
                       season={selectedSeason}
                     />
+
+
                   </div>
                 ))}
             </TableWrapper>

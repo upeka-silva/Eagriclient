@@ -43,6 +43,9 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     transition: "all 0.3s ease",
     border: `1px solid #CCC`,
     borderBottom: `none`,
+    "&.enabled-row": {
+      backgroundColor: "#000",
+    },
   },
   " .MuiDataGrid-cell": {
     borderRight: `1px solid #CCC`,
@@ -130,41 +133,52 @@ export default function BiWeekDataTable({
       renderCell: ({ row }) => {
         return (
           <>
-            <Button
-              sx={{
-                fontSize: 11,
-                border: 1,
-                background: "#white",
-                borderColor: "#2e7d32",
-                marginRight: 1,
-                color: "#2e7d32",
-                borderRadius: 1.5,
-                maxHeight: "30px",
-                minWidth: "30px",
-                minHeight: "30px",
-              }}
-              disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={() => statusChange(row.id, "ENABLED")}
-            >
-              Enable
-            </Button>
-            <Button
-              sx={{
-                fontSize: 11,
-                border: 1,
-                background: "#2e7d32",
-                marginRight: 1,
-                color: "white",
-                borderRadius: 1.5,
-                maxHeight: "30px",
-                minWidth: "30px",
-                minHeight: "30px",
-              }}
-              disabled={currentFormMode === DEF_ACTIONS.VIEW}
-              onClick={() => statusChange(row.id, "CLOSE")}
-            >
-              Close
-            </Button>
+            {row?.status === "ENABLED" ? (
+              <>
+                <Button
+                  sx={{
+                    fontSize: 11,
+                    border: 1,
+                    background: "#2e7d32",
+                    borderColor: "#2e7d32",
+                    marginRight: 1,
+                    color: "white",
+                    borderRadius: 1.5,
+                    maxHeight: "30px",
+                    minWidth: "63px",
+                    minHeight: "30px",
+                    '&:hover': {
+                      backgroundColor: "#2e7d32",
+                    },
+                  }}
+                  disabled={currentFormMode === DEF_ACTIONS.VIEW}
+                  onClick={() => statusChange(row.id, "CLOSE")}
+                >
+                  Close
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  sx={{
+                    fontSize: 11,
+                    border: 1,
+                    background: "#white",
+                    borderColor: "#2e7d32",
+                    marginRight: 1,
+                    color: "#2e7d32",
+                    borderRadius: 1.5,
+                    maxHeight: "30px",
+                    minWidth: "30px",
+                    minHeight: "30px",
+                  }}
+                  disabled={currentFormMode === DEF_ACTIONS.VIEW}
+                  onClick={() => statusChange(row.id, "ENABLED")}
+                >
+                  Enable
+                </Button>
+              </>
+            )}
           </>
         );
       },
@@ -183,7 +197,7 @@ export default function BiWeekDataTable({
       <div style={{ height: "100%", width: "90%" }}>
         <Box
           sx={{
-            height: "92%",
+            height: "93%",
             width: "99%",
           }}
         >
