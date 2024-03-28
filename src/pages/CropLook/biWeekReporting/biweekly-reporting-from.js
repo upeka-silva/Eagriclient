@@ -289,7 +289,7 @@ const BiWeeklyReportingForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>AI Region</FieldName>
+              <FieldName>AI Region/Mahaweli Block</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
