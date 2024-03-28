@@ -15,7 +15,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import Samba from "../../assets/images/sambasample.png";
 import LandingCarousal from "../../assets/images/landingcarasol.png";
 import CultivateImg from "../../assets/images/cultivate.png";
-import Brinjol from "../../assets/images/brinjal.jpg";
 
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
@@ -23,6 +22,7 @@ import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
 import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
+import LandingCarousel from "./components/LandingCarousel";
 
 function Landing() {
   useUserAccessValidation();
@@ -225,41 +225,7 @@ function Landing() {
 
   return (
     <div>
-      <Grid container  mt={1} sx={{ width: "100vw" }}>
-        {/* <Grid
-          md={12}
-          item
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <img width={"30%"} src={Cropix} alt="cropix" />
-            <Typography ml={5} fontWeight={"bold"} color={"#666666"}>
-              Crop Resources, Optimizing Operations <br /> through Precise
-              Information, Exchange System
-            </Typography>
-          </Grid>
-
-          <Grid>
-            <Button
-              sx={{
-                fontSize: "12px",
-                color: "#ffff",
-                backgroundColor: "#158FD0",
-                borderRadius: "25px", // adjust this value as needed
-                ":hover": {
-                  backgroundColor: "#158FD0", // same as normal state
-                  color: "#ffff", // same as normal state
-                },
-              }}
-              href="/login"
-              color="primary"
-            >
-              Login
-            </Button>
-           
-          </Grid>
-        </Grid> */}
-
+      <Grid container mt={1} sx={{ width: "100vw" }}>
         <Grid
           md={12}
           mt={1}
@@ -375,17 +341,23 @@ function Landing() {
           </Grid>
         </Grid>
 
-        <Grid container mt={5} px={5}>
+        <Grid container mt={5} px={2}>
           <WeeklyWeather location={selectedLocation} />
         </Grid>
         <Grid container mt={5} spacing={1} px={5}>
           <PriceLineChart data={data} />
         </Grid>
-        <Grid container mt={10} px={5}>
-          <Grid item md={7}>
-            <img src={LandingCarousal} alt="Samba" width={"100%"} />
+        <Grid container mt={5} px={5}>
+          <Grid item md={8}>
+            <Grid item md={12} mb={5} pl={5}>
+              <LandingCarousel status={"Best Selection"} />
+            </Grid>
+            <Grid item md={12} mb={5} pl={5}>
+              <LandingCarousel status={"Worst Selection"} />
+            </Grid>
             <Grid
-              mt={17}
+              mt={5}
+              mb={5}
               style={{ display: "flex", flexWrap: "wrap", height: "10%" }}
             >
               <CustomCard
@@ -406,18 +378,12 @@ function Landing() {
             </Grid>
           </Grid>
 
-          <Grid item md={3} >
+          <Grid item md={4}>
             <Grid sx={{ width: "70%", paddingLeft: "190px" }}>
               <FaoEmergencyMap />
             </Grid>
           </Grid>
-
-          <Grid item md={3} mb={5}>
-            <LandingFoodCard image={Brinjol} foodName={'Brinjal'} status={"Worst Selection"}/>
-          </Grid>
-
         </Grid>
-        
       </Grid>
     </div>
   );
