@@ -23,6 +23,7 @@ import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
 import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
 import LandingCarousel from "./components/LandingCarousel";
+import LandingHeader from "./components/LandingHeader";
 
 function Landing() {
   useUserAccessValidation();
@@ -226,37 +227,8 @@ function Landing() {
   return (
     <div>
       <Grid container mt={1} sx={{ width: "100vw" }}>
-        <Grid
-          md={12}
-          mt={1}
-          mb={1}
-          px={5}
-          item
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            marginRight: "-160px",
-            width: "20vw",
-          }}
-        >
-          <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <img width={"210px"} height={"65px"} src={Cropix} alt="cropix" />
-            <Typography
-              ml={5}
-              mt={2}
-              fontWeight={"bold"}
-              color={"#666666"}
-              sx={{ maxWidth: "300px" }} // Limit text width
-            >
-              Crop Resources, Optimizing Operations <br /> through Precise
-              Information, Exchange System
-            </Typography>
-          </Grid>
-
-          <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <img width={"290px"} height={"65px"} src={MainLogo} alt="Logo" />
-          </Grid>
-        </Grid>
+        
+        <LandingHeader/>
 
         <Grid md={12}>
           <hr />
