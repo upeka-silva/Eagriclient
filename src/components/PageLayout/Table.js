@@ -79,7 +79,7 @@ export const DataTable = ({
 
   const [rows, setRows] = useState(dataRows);
   const [loading, setLoading] = useState(loadingTable);
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
   const [orderByTarget, setOrderByTarget] = useState(null);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);

@@ -38,12 +38,10 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { Add, Remove, Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import { createCropConfig } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import {
-  CROP_LOOK_FIELD,
-  CROP_LOOK_TARGET_FIELDS,
-} from "../../../utils/constants/cropLookFields";
+import { CROP_LOOK_FIELD, CROP_LOOK_TARGET_FIELDS } from "../../../utils/constants/cropLookFields";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+
 
 const CropConfigurationForm = () => {
   useUserAccessValidation();
@@ -80,7 +78,7 @@ const CropConfigurationForm = () => {
     CROP_LOOK_FIELD.HG_NEWLY_PLANTED_EXTENT,
     CROP_LOOK_FIELD.COMM_NEWLY_PLANTED_EXTENT,
     CROP_LOOK_FIELD.HG_NEWLY_BORNE_EXTENT,
-    CROP_LOOK_FIELD.COMM_NEWLY_BORNE_EXTENT,
+    CROP_LOOK_FIELD.COMM_NEWLY_BORNE_EXTENT
   ]);
 
   const [targetDefaultFields] = useState([
@@ -116,6 +114,7 @@ const CropConfigurationForm = () => {
     }
   }, []);
 
+
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -137,13 +136,14 @@ const CropConfigurationForm = () => {
     setSelectedCropCategory(value);
   };
 
+
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFields(state?.target?.fields);
       setTargetFields(state?.target?.targetFields);
     } else {
       setFields(defaultFields);
-      setTargetFields(targetDefaultFields);
+      setTargetFields(targetDefaultFields)
     }
   };
 
@@ -153,7 +153,10 @@ const CropConfigurationForm = () => {
         return true;
       }
     }
-    if (state?.action === DEF_ACTIONS.ADD && selectedCropCategory) {
+    if (
+      state?.action === DEF_ACTIONS.ADD &&
+      selectedCropCategory
+    ) {
       return true;
     }
     return false;
@@ -189,7 +192,12 @@ const CropConfigurationForm = () => {
           targetFields: targetFields,
         };
 
-        const dataList = await createCropConfig(payload, onSuccess, onError);
+        const dataList = await createCropConfig(
+          payload,
+          onSuccess,
+          onError
+        );
+
       } catch (error) {
         console.log(error);
       }
@@ -217,6 +225,7 @@ const CropConfigurationForm = () => {
 
     setFields(updatedFields);
   };
+
 
   const addNewRow = () => {
     const newField = " ";
@@ -252,12 +261,7 @@ const CropConfigurationForm = () => {
       }}
     >
       <FormWrapper>
-        <PageHeader
-          saving={saving}
-          state={state}
-          goBack={goBack}
-          formName="Field Configuration"
-        />
+        <PageHeader saving={saving} state={state} goBack={goBack} formName="Field Configuration" />
         <Grid container>
           <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
             <Grid container>
@@ -303,41 +307,43 @@ const CropConfigurationForm = () => {
             <FieldWrapper>
               <FieldName>Crop Progress Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
+
                 {fields
                   ? fields.map((field, index) => (
-                      <>
-                        <Grid item sm={6} md={8} lg={8}>
-                          <TextField
-                            disabled={true}
-                            variant="outlined"
-                            id={index}
-                            value={field}
-                            onChange={(e) =>
-                              cropInputFieldsHandler(e.target.value)
-                            }
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                borderRadius: "8px",
-                                width: "300px",
-                              },
-                            }}
-                            size="small"
-                          />
-                        </Grid>
+                    <>
+                      <Grid item sm={6} md={8} lg={8}>
+                        <TextField
+                          disabled={true}
+                          variant="outlined"
+                          id={index}
+                          fullWidth
+                          value={field}
+                          onChange={(e) =>
+                            cropInputFieldsHandler(e.target.value)
+                          }
+                          sx={{
+                            "& .MuiInputBase-root": {
+                              borderRadius: "8px",
+                              
+                            },
+                          }}
+                          size="small"
+                        />
+                      </Grid>
 
-                        <Grid item sm={2} md={2} lg={2}>
-                          <Button
-                            disabled={state.action === DEF_ACTIONS.VIEW}
-                            variant="outlined"
-                            color="success"
-                            size="small"
-                            onClick={() => RemoveRow(index)}
-                          >
-                            <Remove />
-                          </Button>
-                        </Grid>
-                      </>
-                    ))
+                      <Grid item sm={2} md={2} lg={2}>
+                        <Button
+                          disabled={state.action === DEF_ACTIONS.VIEW}
+                          variant="outlined"
+                          color="success"
+                          size="small"
+                          onClick={() => RemoveRow(index)}
+                        >
+                          <Remove />
+                        </Button>
+                      </Grid>
+                    </>
+                  ))
                   : null}
               </Grid>
             </FieldWrapper>
@@ -346,41 +352,42 @@ const CropConfigurationForm = () => {
             <FieldWrapper>
               <FieldName>Crop Targets Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
+
                 {targetFields
                   ? targetFields.map((field, index) => (
-                      <>
-                        <Grid item sm={6} md={8} lg={8}>
-                          <TextField
-                            disabled={true}
-                            variant="outlined"
-                            id={index}
-                            value={field}
-                            onChange={(e) =>
-                              cropTargetInputFieldsHandler(e.target.value)
-                            }
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                borderRadius: "8px",
-                                width: "300px",
-                              },
-                            }}
-                            size="small"
-                          />
-                        </Grid>
+                    <>
+                      <Grid item sm={6} md={8} lg={8}>
+                        <TextField
+                          disabled={true}
+                          fullWidth
+                          variant="outlined"
+                          id={index}
+                          value={field}
+                          onChange={(e) =>
+                            cropTargetInputFieldsHandler(e.target.value)
+                          }
+                          sx={{
+                            "& .MuiInputBase-root": {
+                              borderRadius: "8px",
+                            },
+                          }}
+                          size="small"
+                        />
+                      </Grid>
 
-                        <Grid item sm={2} md={2} lg={2}>
-                          <Button
-                            disabled={state.action === DEF_ACTIONS.VIEW}
-                            variant="outlined"
-                            color="success"
-                            size="small"
-                            onClick={() => RemoveTargetRow(index)}
-                          >
-                            <Remove />
-                          </Button>
-                        </Grid>
-                      </>
-                    ))
+                      <Grid item sm={2} md={2} lg={2}>
+                        <Button
+                          disabled={state.action === DEF_ACTIONS.VIEW}
+                          variant="outlined"
+                          color="success"
+                          size="small"
+                          onClick={() => RemoveTargetRow(index)}
+                        >
+                          <Remove />
+                        </Button>
+                      </Grid>
+                    </>
+                  ))
                   : null}
               </Grid>
             </FieldWrapper>

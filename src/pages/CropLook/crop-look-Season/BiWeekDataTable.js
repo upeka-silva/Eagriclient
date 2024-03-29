@@ -142,12 +142,12 @@ export default function BiWeekDataTable({
                     background: "#2e7d32",
                     borderColor: "#2e7d32",
                     marginRight: 1,
-                    color: "white",
+                    color: "#ffff !important",
                     borderRadius: 1.5,
                     maxHeight: "30px",
                     minWidth: "63px",
                     minHeight: "30px",
-                    '&:hover': {
+                    "&:hover": {
                       backgroundColor: "#2e7d32",
                     },
                   }}
@@ -166,7 +166,6 @@ export default function BiWeekDataTable({
                     background: "#white",
                     borderColor: "#2e7d32",
                     marginRight: 1,
-                    color: "#2e7d32",
                     borderRadius: 1.5,
                     maxHeight: "30px",
                     minWidth: "30px",
