@@ -51,7 +51,6 @@ export const get_DataListById = async (path) => {
 		};
 	}
 };
-
 export const post_DataList = async (path, page = 0, size = 10, body = {},order) => {
 	try {
 		// const token =
