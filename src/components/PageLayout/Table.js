@@ -144,7 +144,6 @@ export const DataTable = ({
   const setOrderBy = (direction, target) => {
     setOrder(direction);
     setOrderByTarget(target);
-    console.log({target})
   };
 
   const getDataRows = () => {
