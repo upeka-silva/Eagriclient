@@ -7,8 +7,10 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
+
+//images
 import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
-import Cropix from "../../assets/images/Cropix.png";
+import Cropix from "../../assets/images/cropixLogo.png";
 import SearchIcon from "@mui/icons-material/Search";
 import Samba from "../../assets/images/sambasample.png";
 import LandingCarousal from "../../assets/images/landingcarasol.png";
@@ -19,6 +21,9 @@ import FaoEmergencyMap from "./components/FaoEmergencyMap";
 import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
+import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
+import LandingCarousel from "./components/LandingCarousel";
+import LandingHeader from "./components/LandingHeader";
 
 function Landing() {
   useUserAccessValidation();
@@ -221,87 +226,21 @@ function Landing() {
 
   return (
     <div>
-      <Grid container px={5} mt={3} sx={{ width: "100vw" }}>
-        <Grid
-          md={12}
-          item
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <img width={"35%"} src={Cropix} alt="cropix" />
-            <Typography ml={5} fontWeight={"bold"} color={"#666666"}>
-              Crop Resources, Optimizing Operations <br /> through Precise
-              Information, Exchange System
-            </Typography>
-          </Grid>
+      <Grid container mt={1} sx={{ width: "100vw" }}>
+        
+        <LandingHeader/>
 
-          <Grid>
-            <Button
-              sx={{
-                fontSize: "12px",
-                color: "#ffff",
-                backgroundColor: "#158FD0",
-                borderRadius: "25px", // adjust this value as needed
-                ":hover": {
-                  backgroundColor: "#158FD0", // same as normal state
-                  color: "#ffff", // same as normal state
-                },
-              }}
-              href="/login"
-              color="primary"
-            >
-              Login
-            </Button>
-            {/* <Button
-            sx={{ 
-              fontSize: "12px", 
-              color: "#ffff", 
-              backgroundColor: "#158FD0", 
-              borderRadius: "15px", // adjust this value as needed
-              marginLeft: "10px" // adjust this value as needed
-            }}
-            href="/signup"
-            color="primary"
-          >
-            Sign Up
-          </Button> */}
-          </Grid>
-        </Grid>
-        <Grid md={12} mt={1}>
+        <Grid md={12}>
           <hr />
         </Grid>
+
         <Grid
-          item
-          md={12}
-          mt={3}
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
+          container
+          display={"flex"}
+          sx={{ flexDirection: "row", justifyContent: "space-between" }}
+          px={5}
         >
-          <Grid>
-            <img width={"30%"} src={MainLogo} alt="Logo" />
-          </Grid>
-        </Grid>
-        <Grid container display={"flex"} sx={{ flexDirection: "row" }}>
-          <Grid item mt={5}>
-            {/* <InputBase
-              sx={{
-                color: "black", // set the color to black
-                width: "250px",
-                height: "40px",
-                bgcolor: "#ffffff", // set the background color to white
-                borderRadius: "20px",
-                padding: "10px 20px 10px 20px",
-                border: "2px solid #DBDBDB", // add a black border
-              }}
-              endAdornment={
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              }
-              placeholder="Search…"
-            /> */}
+          <Grid item mt={5} display={"flex"}>
             <Autocomplete
               options={locations}
               getOptionLabel={(option) => option.district}
@@ -324,47 +263,73 @@ function Landing() {
                 />
               )}
             />
+            <Grid ml={5}>
+              <Typography
+                sx={{
+                  fontSize: "15px",
+                  fontWeight: "500",
+                }}
+              >
+                {selectedLocation?.district
+                  ? selectedLocation?.district
+                  : "Ampara"}
+                ,Sri Lanka
+              </Typography>
+              <Typography
+                sx={{
+                  fontSize: "12px",
+                  fontWeight: "100",
+                }}
+              >
+                Lat:{" "}
+                {selectedLocation?.Latitude
+                  ? selectedLocation?.Latitude
+                  : "7.2345496"}
+                -Long:{" "}
+                {selectedLocation?.Longitude
+                  ? selectedLocation?.Longitude
+                  : "81.5516024"}
+              </Typography>
+            </Grid>
           </Grid>
-          <Grid item mt={5} ml={5}>
-            <Typography
-              sx={{
-                fontSize: "15px",
-                fontWeight: "500",
-              }}
-            >
-              {selectedLocation?.district
-                ? selectedLocation?.district
-                : "Ampara"}
-              ,Sri Lanka
-            </Typography>
-            <Typography
+
+          <Grid item mt={1}>
+            <Button
               sx={{
                 fontSize: "12px",
-                fontWeight: "100",
+                color: "#ffff",
+                backgroundColor: "#158FD0",
+                borderRadius: "25px", // adjust this value as needed
+                ":hover": {
+                  backgroundColor: "#158FD0", // same as normal state
+                  color: "#ffff", // same as normal state
+                },
               }}
+              href="/login"
+              color="primary"
             >
-              Lat:{" "}
-              {selectedLocation?.Latitude
-                ? selectedLocation?.Latitude
-                : "7.2345496"}
-              -Long:{" "}
-              {selectedLocation?.Longitude
-                ? selectedLocation?.Longitude
-                : "81.5516024"}
-            </Typography>
+              Login
+            </Button>
           </Grid>
         </Grid>
-        <Grid container mt={5}>
+
+        <Grid container mt={5} px={2}>
           <WeeklyWeather location={selectedLocation} />
         </Grid>
-        <Grid container mt={5} spacing={1}>
+        <Grid container mt={5} spacing={1} px={5}>
           <PriceLineChart data={data} />
         </Grid>
-        <Grid container mt={10}>
-          <Grid item md={7}>
-            <img src={LandingCarousal} alt="Samba" width={"100%"} />
+        <Grid container mt={5} px={5}>
+          <Grid item md={8}>
+            <Grid item md={12} mb={5} pl={5}>
+              <LandingCarousel status={"Best Selection"} />
+            </Grid>
+            <Grid item md={12} mb={5} pl={5}>
+              <LandingCarousel status={"Worst Selection"} />
+            </Grid>
             <Grid
-              mt={17}
+              mt={5}
+              mb={5}
               style={{ display: "flex", flexWrap: "wrap", height: "10%" }}
             >
               <CustomCard
@@ -385,7 +350,7 @@ function Landing() {
             </Grid>
           </Grid>
 
-          <Grid item md={3}>
+          <Grid item md={4}>
             <Grid sx={{ width: "70%", paddingLeft: "190px" }}>
               <FaoEmergencyMap />
             </Grid>

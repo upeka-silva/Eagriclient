@@ -1,6 +1,4 @@
-import {
-  RestartAlt
-} from "@mui/icons-material";
+import { RestartAlt } from "@mui/icons-material";
 import { Autocomplete, Button, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -18,24 +16,20 @@ const CropVarietyList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: ["varietyId"], headerName: "Variety ID" },
-    { field: "varietyName", headerName: "Variety Name" },
     {
-      field: [
-        "cropDTO.cropId",
-        "cropDTO.description",
-      ],
+      field: ["cropDTO.cropId", "cropDTO.description"],
       joinString: " - ",
       headerName: "Crop",
     },
-    { field: "releasedYear", headerName: "Released Year"},
-    { field: "grainSize", headerName: "Grain Size" },
-    { field: "pericarpColor", headerName: "Pericarp Color" },
-    { field: "maturityTime", headerName: "Maturity Time" },
+    { field: "varietyName", headerName: "Variety Name" },
+    // { field: "releasedYear", headerName: "Released Year" },
+    // { field: "grainSize", headerName: "Grain Size" },
+    // { field: "pericarpColor", headerName: "Pericarp Color" },
+    // { field: "maturityTime", headerName: "Maturity Time" },
     { field: "averageYield", headerName: "Avg. Yeild" },
-    { field: "spacing", headerName: "Spacing"},
+    // { field: "spacing", headerName: "Spacing" },
+    { field: ["varietyId"], headerName: "Variety ID" },
   ];
-  
 
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
@@ -70,7 +64,6 @@ const CropVarietyList = ({
     });
     setDataEndPoint("geo-data/crop-varieties");
   };
-  
 
   const getSubCategories = (id) => {
     get_SubCategoryById(id).then(({ dataList = [] }) => {

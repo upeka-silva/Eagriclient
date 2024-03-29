@@ -496,7 +496,7 @@ const handleImageUploadForEdit = async (file) => {
             <Grid item sm={3} md={3} lg={9}>
               {!imageUploading ? (
                 <FieldWrapper>
-                  <FieldName>Select Image 01</FieldName>
+                  <FieldName>Image 01</FieldName>
                   <div
                     style={{
                       display: "flex",
@@ -573,7 +573,7 @@ const handleImageUploadForEdit = async (file) => {
             <Grid item sm={3} md={3} lg={9}>
               {!imageUploading2 ? (
                 <FieldWrapper>
-                  <FieldName>Select Image 02</FieldName>
+                  <FieldName>Image 02</FieldName>
                   <div
                     style={{
                       display: "flex",
@@ -650,7 +650,7 @@ const handleImageUploadForEdit = async (file) => {
             <Grid item sm={3} md={3} lg={9}>
               {!imageUploading3 ? (
                 <FieldWrapper>
-                  <FieldName>Select Image 03</FieldName>
+                  <FieldName>Image 03</FieldName>
                   <div
                     style={{
                       display: "flex",

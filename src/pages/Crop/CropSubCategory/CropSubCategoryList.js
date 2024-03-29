@@ -16,13 +16,13 @@ const CropSubCategoryList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "subCategoryId", headerName: "Code" },
-    { field: "description", headerName: "Description" },
     {
       field: ["cropCategoryDTO.categoryId", "cropCategoryDTO.description"],
       join: "-",
       headerName: "Crop Category ",
     },
+    { field: "description", headerName: "Crop Sub Category" },
+    { field: "subCategoryId", headerName: "Code" },
   ];
 
   const [id, setId] = useState(null);
@@ -66,17 +66,15 @@ const CropSubCategoryList = ({
 
   return (
     <div>
-      <TableWrapper style={{ marginTop:"0px" }}>
+      <TableWrapper style={{ marginTop: "0px" }}>
         <ActionWrapper isLeft>
           <Grid container>
             <Grid item lg={3}>
               <FieldWrapper>
                 <FieldName>Crop Category</FieldName>
                 <Autocomplete
-                  
                   options={options}
                   value={data}
-                 
                   getOptionLabel={(i) => `${i.categoryId} - ${i.description} `}
                   onChange={(event, value) => {
                     handleChange(value, "cat");
@@ -89,11 +87,7 @@ const CropSubCategoryList = ({
                     marginRight: "5px",
                   }}
                   renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      size="small"
-                      
-                    />
+                    <TextField {...params} size="small" />
                   )}
                 />
               </FieldWrapper>

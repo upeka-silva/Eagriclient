@@ -44,6 +44,7 @@ export const get_CategoryList = async (
       "geo-data/crop-categories",
       true
     );
+    
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,

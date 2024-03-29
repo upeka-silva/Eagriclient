@@ -135,7 +135,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
   return (
     <DialogBox
       open={isModalOpen}
-      title={"Add Crop Damage For - " + variety?.varietyName}
+      title={mode === DEF_ACTIONS.EDIT ? "Add Crop Damage For - " + variety?.varietyName : "View Crop Damage For - " + variety?.varietyName}
       maxWidth
       fullWidth
       actions={

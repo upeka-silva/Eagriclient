@@ -38,7 +38,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { Add, Remove, Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import { createCropConfig } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
+import { CROP_LOOK_FIELD, CROP_LOOK_TARGET_FIELDS } from "../../../utils/constants/cropLookFields";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 
@@ -61,11 +61,44 @@ const CropConfigurationForm = () => {
     CROP_LOOK_FIELD.EXTENT_MAJOR,
     CROP_LOOK_FIELD.EXTENT_MINOR,
     CROP_LOOK_FIELD.EXTENT_RAINFED,
-    CROP_LOOK_FIELD.EXTENT_IRRIGATE,
-    CROP_LOOK_FIELD.EXTENT
+    CROP_LOOK_FIELD.EXTENT_HIGHLAND_IRRIGATE,
+    CROP_LOOK_FIELD.EXTENT_HIGHLAND_RAINFED,
+    CROP_LOOK_FIELD.EXTENT_LOWLAND,
+    CROP_LOOK_FIELD.EXTENT_HOME_GARDEN,
+    CROP_LOOK_FIELD.EXTENT_GREENHOUSE,
+    CROP_LOOK_FIELD.NORMAL_SEASON_EXTENT,
+    CROP_LOOK_FIELD.INTER_SEASON_EXTENT,
+    CROP_LOOK_FIELD.NON_BEARING_HG_REMOVED_EXTENT,
+    CROP_LOOK_FIELD.NON_BEARING_COMM_REMOVED_EXTENT,
+    CROP_LOOK_FIELD.COMM_REMOVED_EXTENT,
+    CROP_LOOK_FIELD.BEARING_HG_REMOVED_EXTENT,
+    CROP_LOOK_FIELD.BEARING_COMM_REMOVED_EXTENT,
+    CROP_LOOK_FIELD.HG_REPLANTED_EXTENT,
+    CROP_LOOK_FIELD.COMM_REPLANTED_EXTENT,
+    CROP_LOOK_FIELD.HG_NEWLY_PLANTED_EXTENT,
+    CROP_LOOK_FIELD.COMM_NEWLY_PLANTED_EXTENT,
+    CROP_LOOK_FIELD.HG_NEWLY_BORNE_EXTENT,
+    CROP_LOOK_FIELD.COMM_NEWLY_BORNE_EXTENT
+  ]);
+
+  const [targetDefaultFields] = useState([
+    CROP_LOOK_TARGET_FIELDS.TARGET_MAJOR,
+    CROP_LOOK_TARGET_FIELDS.TARGET_MINOR,
+    CROP_LOOK_TARGET_FIELDS.TARGET_RAINFED,
+    CROP_LOOK_TARGET_FIELDS.TARGET_HIGHLAND_IRRIGATED,
+    CROP_LOOK_TARGET_FIELDS.TARGET_HIGHLAND_RAINFED,
+    CROP_LOOK_TARGET_FIELDS.TARGET_LOWLAND,
+    CROP_LOOK_TARGET_FIELDS.TARGET_HOME_GARDEN,
+    CROP_LOOK_TARGET_FIELDS.TARGET_GREENHOUSE,
+    CROP_LOOK_TARGET_FIELDS.TARGET_EXISTING_EXTENT,
+    CROP_LOOK_TARGET_FIELDS.TARGET_REMOVED_EXTENT,
+    CROP_LOOK_TARGET_FIELDS.TARGET_NEW_EXTENT,
+    CROP_LOOK_TARGET_FIELDS.TARGET_TOTAL_EXTENT,
   ]);
 
   const [fields, setFields] = useState(defaultFields);
+
+  const [targetFields, setTargetFields] = useState(targetDefaultFields);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -77,11 +110,12 @@ const CropConfigurationForm = () => {
       state?.action === DEF_ACTIONS.VIEW
     ) {
       setFields(state?.target?.fields);
+      setTargetFields(state?.target?.targetFields);
     }
   }, []);
 
- 
- useEffect(() => {
+
+  useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
       setOptions(dataList);
     });
@@ -105,9 +139,11 @@ const CropConfigurationForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFields(state?.target || {});
+      setFields(state?.target?.fields);
+      setTargetFields(state?.target?.targetFields);
     } else {
       setFields(defaultFields);
+      setTargetFields(targetDefaultFields)
     }
   };
 
@@ -151,8 +187,9 @@ const CropConfigurationForm = () => {
       setSaving(true);
       try {
         var payload = {
-          cropCategory: {id: selectedCropCategory.id},
+          cropCategory: { id: selectedCropCategory.id },
           fields: fields,
+          targetFields: targetFields,
         };
 
         const dataList = await createCropConfig(
@@ -170,14 +207,25 @@ const CropConfigurationForm = () => {
   const cropInputFieldsHandler = (index, value, dataList) => {
     const updatedFields = [...fields];
     updatedFields[index] = value;
-  
+
     // Assuming you want to do something with dataList here
     // For example, logging it:
     console.log(dataList);
-  
+
     setFields(updatedFields);
   };
-  
+
+  const cropTargetInputFieldsHandler = (index, value, dataList) => {
+    const updatedFields = [...targetFields];
+    updatedFields[index] = value;
+
+    // Assuming you want to do something with dataList here
+    // For example, logging it:
+    console.log(dataList);
+
+    setFields(updatedFields);
+  };
+
 
   const addNewRow = () => {
     const newField = " ";
@@ -193,16 +241,24 @@ const CropConfigurationForm = () => {
     }
   };
 
+  const RemoveTargetRow = (index) => {
+    const updatedFields = [...targetFields];
+    if (index !== -1) {
+      updatedFields.splice(index, 1);
+      setTargetFields(updatedFields);
+    }
+  };
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
         <PageHeader saving={saving} state={state} goBack={goBack} formName="Field Configuration" />
@@ -247,45 +303,91 @@ const CropConfigurationForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={3} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>Crop Fields Names</FieldName>
+              <FieldName>Crop Progress Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
-                
+
                 {fields
                   ? fields.map((field, index) => (
-                      <>
-                        <Grid item sm={6} md={6} lg={6}>
-                          <TextField
-                            disabled={true}
-                            variant="outlined"
-                            id={index}
-                            value={field}
-                            onChange={(e) =>
-                              cropInputFieldsHandler(e.target.value)
-                            }
-                            sx={{
-                              "& .MuiInputBase-root": {
-                                borderRadius: "8px",
-                              },
-                            }}
-                            size="small"
-                          />
-                        </Grid>
+                    <>
+                      <Grid item sm={6} md={8} lg={8}>
+                        <TextField
+                          disabled={true}
+                          variant="outlined"
+                          id={index}
+                          fullWidth
+                          value={field}
+                          onChange={(e) =>
+                            cropInputFieldsHandler(e.target.value)
+                          }
+                          sx={{
+                            "& .MuiInputBase-root": {
+                              borderRadius: "8px",
+                              
+                            },
+                          }}
+                          size="small"
+                        />
+                      </Grid>
 
-                        <Grid item sm={2} md={2} lg={2}>
-                          {index !== 0 ? <Button
-                            disabled={state.action === DEF_ACTIONS.VIEW}
-                            variant="outlined"
-                            color="success"
-                            size="small"
-                            onClick={() => RemoveRow(index)}
-                          >
-                            <Remove />
-                          </Button> : null}
-                        </Grid>
-                      </>
-                    ))
+                      <Grid item sm={2} md={2} lg={2}>
+                        <Button
+                          disabled={state.action === DEF_ACTIONS.VIEW}
+                          variant="outlined"
+                          color="success"
+                          size="small"
+                          onClick={() => RemoveRow(index)}
+                        >
+                          <Remove />
+                        </Button>
+                      </Grid>
+                    </>
+                  ))
+                  : null}
+              </Grid>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={4} lg={4}>
+            <FieldWrapper>
+              <FieldName>Crop Targets Fields Names</FieldName>
+              <Grid container spacing={1} direction="row">
+
+                {targetFields
+                  ? targetFields.map((field, index) => (
+                    <>
+                      <Grid item sm={6} md={8} lg={8}>
+                        <TextField
+                          disabled={true}
+                          fullWidth
+                          variant="outlined"
+                          id={index}
+                          value={field}
+                          onChange={(e) =>
+                            cropTargetInputFieldsHandler(e.target.value)
+                          }
+                          sx={{
+                            "& .MuiInputBase-root": {
+                              borderRadius: "8px",
+                            },
+                          }}
+                          size="small"
+                        />
+                      </Grid>
+
+                      <Grid item sm={2} md={2} lg={2}>
+                        <Button
+                          disabled={state.action === DEF_ACTIONS.VIEW}
+                          variant="outlined"
+                          color="success"
+                          size="small"
+                          onClick={() => RemoveTargetRow(index)}
+                        >
+                          <Remove />
+                        </Button>
+                      </Grid>
+                    </>
+                  ))
                   : null}
               </Grid>
             </FieldWrapper>

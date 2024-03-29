@@ -30,9 +30,7 @@ const CropTargetTab = ({
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
-      console.log("data fields");
-      console.log(data);
-      setConfigFields(data ? data.fields : []);
+      setConfigFields(data ? data.targetFields : []);
       checkDataLoadStatus();
     });
 
@@ -40,8 +38,6 @@ const CropTargetTab = ({
       (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
       savedCropCategoryTarget?.cropTargets
     ) {
-      console.log("crop targets existig");
-      console.log(savedCropCategoryTarget?.cropTargets);
       setCropTargets(savedCropCategoryTarget?.cropTargets);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
@@ -50,8 +46,6 @@ const CropTargetTab = ({
         cropCategoryId,
         aiRegion.parentType
       ).then(({ dataList = [] }) => {
-        console.log("crop targets");
-        console.log(dataList);
         setCropTargets(dataList);
         checkDataLoadStatus();
       });
@@ -66,7 +60,6 @@ const CropTargetTab = ({
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     const updatedVarietyTargets = [...cropTargets];
-    console.log("targeted field -->" + field);
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
 
@@ -94,16 +87,17 @@ const CropTargetTab = ({
 
   const handleCropClear = () => {
     const newCropTargets = [...cropTargets];
-
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
-          if (variety.targetedExtentMajor) variety.targetedExtentMajor = 0;
-          if (variety.targetedExtentMinor) variety.targetedExtentMinor = 0;
-          if (variety.targetedExtentRainfed) variety.targetedExtentRainfed = 0;
-          if (variety.targetedExtentIrrigate)
-            variety.targetedExtentIrrigate = 0;
-          if (variety.targetedExtent) variety.targetedExtent = 0;
+          Object.keys(variety).forEach(key => {
+            if(key === 'varietyId' || key === 'varietyName' || key === 'imageUrl' || key === 'id') {
+              return;
+            }
+            if (variety[key]) {
+              variety[key] = 0;
+            }
+          });
         }
       }
     }

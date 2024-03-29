@@ -98,11 +98,11 @@ const CropRegistrationForm = () => {
           parentType: REGION_PARENT_TYPE.INTER_PROVINCIAL,
         };
       } else {
-        const mahaweliBlock = state?.target?.mahaweliBlock;
+        const mahaweliSystem = state?.target?.mahaweliSystem;
         ddDivision = {
-          id: mahaweliBlock.id,
-          name: mahaweliBlock.code,
-          description: mahaweliBlock.description,
+          id: mahaweliSystem.id,
+          name: mahaweliSystem.systemId,
+          description: mahaweliSystem.description,
           parentType: REGION_PARENT_TYPE.MAHAWELI,
         };
       }
@@ -204,7 +204,7 @@ const CropRegistrationForm = () => {
           };
         } else {
           payload1 = {
-            mahaweliBlock: { id: selectedDDDivision.id },
+            mahaweliSystem: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
             parentType: REGION_PARENT_TYPE.MAHAWELI,
           };
@@ -252,7 +252,7 @@ const CropRegistrationForm = () => {
         <Grid container>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Deputy Director Division/ Mahaweli Block</FieldName>
+              <FieldName>Deputy Director Division/ Mahaweli System</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
