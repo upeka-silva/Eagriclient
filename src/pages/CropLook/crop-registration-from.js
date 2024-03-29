@@ -204,7 +204,7 @@ const CropRegistrationForm = () => {
           };
         } else {
           payload1 = {
-            mahaweliBlock: { id: selectedDDDivision.id },
+            mahaweliSystem: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
             parentType: REGION_PARENT_TYPE.MAHAWELI,
           };
