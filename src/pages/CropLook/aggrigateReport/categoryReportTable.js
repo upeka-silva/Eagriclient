@@ -12,16 +12,22 @@ import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigat
 
 const CategoryReportTabel = ({ category, season }) => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  console.log({ category, season });
 
   useEffect(() => {
     async function fetchData(categoryId, seasonId) {
+      console.log({categoryId, seasonId});
+      setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
-      console.log('aggrigate data list');
+      console.log('aggrigate data list',dataList);
       console.log(dataList);
+      setLoading(false);
       setData(dataList);
     }
 
-    fetchData(category.categoryId, season.id);
+    fetchData(category?.categoryId, season?.id);
   }, [season]);
 
   return (
@@ -47,7 +53,7 @@ const CategoryReportTabel = ({ category, season }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.map((row, index) => (
+          {data.length > 0 && data?.map((row, index) => (
             <TableRow key={index}>
               <TableCell>{row.varietyName}</TableCell>
               <TableCell>{row.totalTargetedExtentMajor || "--"}</TableCell>

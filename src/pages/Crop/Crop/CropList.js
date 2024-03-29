@@ -4,7 +4,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
 import { RestartAlt } from "@mui/icons-material";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useEffect, useState } from "react";
@@ -19,11 +19,11 @@ const CropList = ({
 }) => {
   const columns = [
     {
-      field: [
-        "cropSubCategoryDTO.subCategoryId",
-        "cropSubCategoryDTO.description",
-        
-      ],
+      field: ["cropSubCategoryDTO.subCategoryId"],
+      headerName: "Sub Category ID",
+    },
+    {
+      field: ["cropSubCategoryDTO.description"],
       joinString: " - ",
       headerName: "Sub Category",
     },
@@ -31,9 +31,9 @@ const CropList = ({
     { field: "description", headerName: "Crop" },
     { field: "scientificName", headerName: "Scientific Name" },
 
-    { field: "cropType", headerName: "Crop Type" },
-    { field: "family", headerName: "Family" },
-    { field: "havesting", headerName: "Havesting" },
+    // { field: "cropType", headerName: "Crop Type" },
+    // { field: "family", headerName: "Family" },
+    // { field: "havesting", headerName: "Havesting" },
     { field: "cropId", headerName: "Crop ID" },
   ];
   const [cats, setCats] = useState([]);

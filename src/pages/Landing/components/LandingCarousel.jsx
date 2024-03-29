@@ -135,7 +135,7 @@ function LandingCarousel({status}) {
     <div>
       <StyledSlider StyledSlider {...settings} className="slider-container">
         {/* Render cards */}
-        {cardsData.map((card, index) => (
+        {cardsData?.map((card, index) => (
           <Grid key={index} item mb={5}>
             <LandingFoodCard
               image={card.image}

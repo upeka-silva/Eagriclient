@@ -22,12 +22,12 @@ const CropVarietyList = ({
       headerName: "Crop",
     },
     { field: "varietyName", headerName: "Variety Name" },
-    { field: "releasedYear", headerName: "Released Year" },
-    { field: "grainSize", headerName: "Grain Size" },
-    { field: "pericarpColor", headerName: "Pericarp Color" },
-    { field: "maturityTime", headerName: "Maturity Time" },
+    // { field: "releasedYear", headerName: "Released Year" },
+    // { field: "grainSize", headerName: "Grain Size" },
+    // { field: "pericarpColor", headerName: "Pericarp Color" },
+    // { field: "maturityTime", headerName: "Maturity Time" },
     { field: "averageYield", headerName: "Avg. Yeild" },
-    { field: "spacing", headerName: "Spacing" },
+    // { field: "spacing", headerName: "Spacing" },
     { field: ["varietyId"], headerName: "Variety ID" },
   ];
 

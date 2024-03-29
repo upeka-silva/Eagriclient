@@ -162,8 +162,8 @@ const AILevelSummary = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.length > 0 &&
-              data.map((row, index) => (
+            {data?.length > 0 &&
+              data?.map((row, index) => (
                 <TableRow key={row.cropId}>
                   <TableCell>{row.cropId}</TableCell>
                   <TableCell>{row.description}</TableCell>
