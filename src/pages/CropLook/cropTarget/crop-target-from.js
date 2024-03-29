@@ -3,8 +3,6 @@ import {
   TextField,
   Autocomplete,
   Grid,
-  Button,
-  ButtonGroup,
 } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -13,14 +11,8 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import {
-  handleCropSubCategory,
-  updateCropSubCategory,
-} from "../../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -31,11 +23,8 @@ import {
 } from "../../Farm-Land/FarmLandForm";
 import CropTargetTab from "./crop-target-tab";
 import {
-  createCropRegistration,
-  getDDDivisionsByLogedInUser,
   getSeasons,
 } from "../../../redux/actions/cropLook/cropRegistration/actions";
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
 import {
   createCropTarget,
   getAllAiAndMahaweliUnits,
@@ -47,7 +36,6 @@ import { Fonts } from "../../../utils/constants/Fonts";
 const CropTargetForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -63,10 +51,8 @@ const CropTargetForm = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [toggleState, setToggleState] = useState(1);
-  const [tabEnabled, setTabInabled] = useState(false);
 
   // start of crop registration code
-
 
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {

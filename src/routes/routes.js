@@ -1454,8 +1454,8 @@ export const Routes = [
   },
 
   {
-    path: "/harty",
-    name: "Harty",
+    path: "/harti",
+    name: "HARTI",
     isSideBar: true,
     icon: WaterIcon,
     children: [
