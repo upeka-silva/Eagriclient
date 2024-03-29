@@ -20,16 +20,18 @@ const CropList = ({
   const columns = [
     {
       field: ["cropSubCategoryDTO.subCategoryId"],
+      sortCol: ["cropSubCategory.id"],
       headerName: "Sub Category ID",
     },
     {
       field: ["cropSubCategoryDTO.description"],
+      sortCol: ["cropSubCategory.description"],
       joinString: " - ",
       headerName: "Sub Category",
     },
 
-    { field: "description", headerName: "Crop" },
-    { field: "scientificName", headerName: "Scientific Name" },
+    { field: "description", headerName: "Crop",  sortCol: ["description"],},
+    { field: "scientificName", headerName: "Scientific Name", sortCol: ["scientificName"], },
 
     // { field: "cropType", headerName: "Crop Type" },
     // { field: "family", headerName: "Family" },
