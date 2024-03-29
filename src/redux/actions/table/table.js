@@ -1,8 +1,8 @@
 import { get, getWithBody, post } from '../../../services/api/index';
-export const get_DataList = async (path, page = 0, size = 10,order="asc") => {
+export const get_DataList = async (path, page = 0, size = 10,order="asc", target="id") => {
 	try {
 		const { totalElements, httpCode, payloadDto } = await get(
-			`${path}?page=${page}&size=${size}&sort=${order}`,
+			`${path}?page=${page}&size=${size}&sort=${order}&sortCol=${target}`,
 			true
 		);
 		if (httpCode === '200 OK') {
@@ -52,7 +52,7 @@ export const get_DataListById = async (path) => {
 	}
 };
 
-export const post_DataList = async (path, page = 0, size = 10, body = {},order) => {
+export const post_DataList = async (path, page = 0, size = 10, body = {},order,target="id") => {
 	try {
 		// const token =
 		// 	(await getLSItem(StorageConstants.compress_token))?.value || '';
@@ -69,7 +69,7 @@ export const post_DataList = async (path, page = 0, size = 10, body = {},order) 
 		// 	}
 		// );
 		const { totalElements, httpCode, payloadDto } = await post(
-			`${path}?page=${page}&size=${size}&sort=${order}`,
+			`${path}?page=${page}&size=${size}&sort=${order}&sortCol=${target}`,
 			body,
 			true
 		);

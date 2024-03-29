@@ -92,6 +92,8 @@ export const DataTable = ({
   const [totalCount, setTotalCount] = useState(0);
   const [showPopover, setShowPopover] = useState(null);
 
+  console.log("orderByTarget",orderByTarget);
+
   
 
   useEffect(() => {
@@ -99,7 +101,7 @@ export const DataTable = ({
       fetchTableData();
       console.log(advanceSearchData);
     }
-  }, [page, pageSize, dataEndPoint, filterEndPoint, advanceSearchData,order]);
+  }, [page, pageSize, dataEndPoint, filterEndPoint, advanceSearchData,order,orderByTarget]);
 
   useEffect(() => {
     setAdvanceSearchData((current) => {
@@ -121,9 +123,10 @@ export const DataTable = ({
               page,
               pageSize,
               advanceSearchData,
-              order
+              order,
+              orderByTarget?.sortCol
             )
-          : await get_DataList(dataEndPoint, page, pageSize,order);
+          : await get_DataList(dataEndPoint, page, pageSize,order, orderByTarget?.sortCol);
 
       if (dataList) {
         setRows(dataList);
@@ -145,6 +148,7 @@ export const DataTable = ({
   const setOrderBy = (direction, target) => {
     setOrder(direction);
     setOrderByTarget(target);
+    console.log({target})
   };
 
   const getDataRows = () => {
@@ -959,7 +963,7 @@ export const DataTable = ({
                         active={orderByTarget === c.field}
                         direction={orderByTarget === c.field ? order : "asc"}
                         onClick={() =>
-                          setOrderBy(order === "asc" ? "desc" : "asc", c.field)
+                          setOrderBy(order === "asc" ? "desc" : "asc", c)
                         }
                       >
                         {c.headerName}
