@@ -92,10 +92,6 @@ export const DataTable = ({
   const [totalCount, setTotalCount] = useState(0);
   const [showPopover, setShowPopover] = useState(null);
 
-  console.log("orderByTarget",orderByTarget);
-
-  
-
   useEffect(() => {
     if (dataEndPoint || filterEndPoint) {
       fetchTableData();
