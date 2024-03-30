@@ -209,7 +209,7 @@ const BiWeeklyReportingForm = () => {
   const approveBiWeekReport = () => {
     changeStatusOfBiWeekReport(
       biWeekReportId,
-      BI_WEEK_REPORT_STATUS.APPROVED,
+      BI_WEEK_REPORT_STATUS.AI_COMPLETED,
       onSuccessStatusChange,
       onErrorStatusChange
     );
@@ -263,21 +263,6 @@ const BiWeeklyReportingForm = () => {
                     resetForm,
                   }}
                 />
-              </Grid>
-              <Grid item sx={{ pt: "8px" }}>
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-                >
-                  <Button
-                    variant="outlined"
-                    color="success"
-                    onClick={() => setOpenConfApprove(true)}
-                    sx={{ ml: "8px" }}
-                    size="small"
-                  >
-                    Approve
-                  </Button>
-                </PermissionWrapper>
               </Grid>
             </Grid>
           </Grid>
