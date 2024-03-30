@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -16,15 +12,8 @@ import { useEffect } from "react";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import {
-  TabButton,
-  TabContent,
-  TabWrapper,
-} from "../../Farm-Land/FarmLandForm";
 import CropTargetTab from "./crop-target-tab";
-import {
-  getSeasons,
-} from "../../../redux/actions/cropLook/cropRegistration/actions";
+import { getSeasons } from "../../../redux/actions/cropLook/cropRegistration/actions";
 import {
   createCropTarget,
   getAllAiAndMahaweliUnits,
@@ -32,6 +21,11 @@ import {
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
 
 const CropTargetForm = () => {
   useUserAccessValidation();

@@ -5,7 +5,8 @@ import styled from "@emotion/styled";
 export const TabWrapper = styled(Stack)`
   && {
     flex-direction: row;
-    margin: 20px 0px;
+    margin: 10px 0px;
+    border-bottom: 2px solid ${Colors.borderColor};
   }
 `;
 
@@ -16,20 +17,20 @@ export const TabButton = styled(Button)`
     position: relative;
     border: none;
     border-radius: 0px;
-    background-color: ${Colors.tableHeaderColor};
+    background-color: ${Colors.iconColor};
     color: white;
     line-height: 0px;
     box-shadow: none;
     cursor: pointer;
     &:hover {
-      background-color: ${Colors.iconColor};
+      background-color: ${Colors.tableHeaderColor};
       box-shadow: none;
     }
     &:not(:last-child) {
       border-right: 2px solid white;
     }
     &.active-tabs {
-      background: white;
+      background: ${Colors.tableHeaderColor};
       color: black;
     }
 
@@ -42,7 +43,7 @@ export const TabButton = styled(Button)`
       transform: translateX(-50%);
       width: 100%;
       height: 5px;
-      background: ${Colors.tableHeaderColor};
+      background: white;
     }
   }
 `;
