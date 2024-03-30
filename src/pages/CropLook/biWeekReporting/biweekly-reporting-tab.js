@@ -7,10 +7,13 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
-import { updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import { changeStatusOfBiWeekCropCategoryReport, updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 const BiWeeklyReportingTab = ({
   mode,
@@ -26,6 +29,7 @@ const BiWeeklyReportingTab = ({
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isCleared, setIsCleared] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -41,6 +45,8 @@ const BiWeeklyReportingTab = ({
       savedCropCategoryTarget?.biWeekCropReport
     ) {
       setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
+      console.log('crop category tab check ----->');
+      console.log(savedCropCategoryTarget);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
         aiRegion.id,
@@ -154,6 +160,19 @@ const BiWeeklyReportingTab = ({
     setSaving(false);
   };
 
+  const onSuccessForApproval = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message:
+        mode === DEF_ACTIONS.ADD
+          ? "Successfully Added"
+          : "Successfully Updated",
+    });
+    setSaving(false);
+    setOpenDialog(false)
+  };
+
+
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
@@ -162,7 +181,17 @@ const BiWeeklyReportingTab = ({
     setSaving(false);
   };
 
+  const approveCategoryReport = () => {
+    changeStatusOfBiWeekCropCategoryReport(
+      savedCropCategoryTarget?.id,
+      BI_WEEK_REPORT_STATUS.AI_COMPLETED,
+      onSuccessForApproval,
+      onError
+    );
+  };
+
   return (
+    <>
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
         <div style={{ textAlign: "left" }}>
@@ -198,6 +227,22 @@ const BiWeeklyReportingTab = ({
             </Button>
             </PermissionWrapper>
           )}
+
+              {savedCropCategoryTarget?.id && <Grid item sx={{ pt: "8px" }}>
+                <PermissionWrapper
+                  permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
+                >
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    onClick={() => setOpenDialog(true)}
+                    sx={{ ml: "8px" }}
+                    size="small"
+                  >
+                    Complete
+                  </Button>
+                </PermissionWrapper>
+              </Grid>}
         </div>
       </Grid>
       <Grid item sm={12} md={12} lg={12}>
@@ -213,6 +258,33 @@ const BiWeeklyReportingTab = ({
           ))}
       </Grid>
     </Grid>
+    <DialogBox
+            open={openDialog}
+            title="Approve Report"
+            actions={
+              <ActionWrapper>
+                <Button
+                  variant="contained"
+                  color="info"
+                  onClick={approveCategoryReport}
+                  sx={{ ml: "8px" }}
+                >
+                  OK
+                </Button>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={() => setOpenDialog(false)}
+                  sx={{ ml: "8px" }}
+                >
+                  Cancel
+                </Button>
+              </ActionWrapper>
+            }
+          >
+            <>Do you want to approve?</>
+          </DialogBox>
+    </>
   );
 };
 

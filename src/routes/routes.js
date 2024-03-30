@@ -205,6 +205,8 @@ import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
+import ReportApproval from "../pages/CropLook/ApprovalDashboard/ApprovalDashboard";
+import ApprovalDashboard from "../pages/CropLook/ApprovalDashboard/ApprovalDashboard";
 
 
 export const Routes = [
@@ -1387,6 +1389,14 @@ export const Routes = [
         name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/report-approval",
+        name: "Approval Panel",
+        isSideBar: true,
+        element: <ApprovalDashboard />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
