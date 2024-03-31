@@ -132,3 +132,25 @@ export const get_DistrictCommList = async () => {
     };
   }
 };
+
+export const get_DistrictCommLov = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/district-commissioner-level?page=0&size=50&sort=asc&sortCol=description",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

@@ -37,13 +37,13 @@ import {
   get_arpaListByAscId,
 } from "../../../redux/actions/arpa/action";
 import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
-import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
-import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
-import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
-import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
-import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
+import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
+import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
+import { get_MahaweliBlockLovBySystemId } from "../../../redux/actions/mahaweliBlock/action";
+import { get_MahaweliSystemLov } from "../../../redux/actions/mahaweliSystem/action";
 import {
   get_MahaweliUnitList,
   get_MahaweliUnitListByBlockId,
@@ -55,8 +55,6 @@ import {
 } from "../../../redux/actions/provincialAI/action";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
-import { getCalendarPickerSkeletonUtilityClass } from "@mui/lab";
-import { ViewCarouselTwoTone } from "@mui/icons-material";
 import { Fonts } from "../../../utils/constants/Fonts";
 
 const GnDivisionForm = () => {
@@ -423,7 +421,7 @@ const GnDivisionForm = () => {
     });
   };
   const getDsDivisions = (id) => {
-    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+    get_DsDivisionLovByDistrictId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDsDivisions(dataList);
     });
@@ -437,7 +435,7 @@ const GnDivisionForm = () => {
   }, []);
 
   useEffect(() => {
-    get_InterProvincialDoaList().then(({ dataList = [] }) => {
+    get_InterProvincialDoaLov().then(({ dataList = [] }) => {
       console.log(dataList);
       setInterProDoas(dataList);
     });
@@ -458,14 +456,14 @@ const GnDivisionForm = () => {
   };
 
   const getInterProDDOAS = (id) => {
-    get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialDdoaLovByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setInterProDdoas(dataList);
     });
   };
 
   const getInterProADAS = (id) => {
-    get_InterProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialAdaLovByDdoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setInterProAdas(dataList);
     });
@@ -516,14 +514,14 @@ const GnDivisionForm = () => {
     }
   };
   useEffect(() => {
-    get_MahaweliSystemList().then(({ dataList = [] }) => {
+    get_MahaweliSystemLov().then(({ dataList = [] }) => {
       console.log(dataList);
       setMahaweliSystems(dataList);
     });
   }, []);
 
   const getBlocks = (id) => {
-    get_MahaweliBlockListBySystemId(id).then(({ dataList = [] }) => {
+    get_MahaweliBlockLovBySystemId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setMahaweliBlocks(dataList);
     });
@@ -537,7 +535,7 @@ const GnDivisionForm = () => {
   };
 
   useEffect(() => {
-    get_DistrictCommList().then(({ dataList = [] }) => {
+    get_DistrictCommLov().then(({ dataList = [] }) => {
       setDcomms(dataList);
     });
   }, []);

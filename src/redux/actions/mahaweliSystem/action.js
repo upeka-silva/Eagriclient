@@ -7,11 +7,7 @@ export const handleMahaweliSystem = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(
-      "geo-data/mahaweli-systems",
-      payload,
-      true
-    );
+    const response = await post("geo-data/mahaweli-systems", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -38,7 +34,7 @@ export const handleMahaweliSystem = async (
   }
 };
 
-export const updateMahaweliSystem= async (
+export const updateMahaweliSystem = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -115,6 +111,28 @@ export const get_MahaweliSystemList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
       "geo-data/mahaweli-systems",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_MahaweliSystemLov = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/mahaweli-systems?page=0&size=1000`,
       true
     );
     if (httpCode === "200 OK") {

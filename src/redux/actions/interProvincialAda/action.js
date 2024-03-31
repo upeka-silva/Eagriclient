@@ -136,7 +136,29 @@ export const get_InterProvincialAdaList = async () => {
 export const get_InterProvincialAdaListByDdoaId = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/interprovincial-ada-segments/inter-province-dd/" + id,
+      `geo-data/interprovincial-ada-segments/inter-province-dd/${id}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_InterProvincialAdaLovByDdoaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/interprovincial-ada-segments/inter-province-dd/${id}?page=0&size=1000`,
       true
     );
     if (httpCode === "200 OK") {
