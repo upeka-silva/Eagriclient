@@ -13,15 +13,15 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import CategoryReportTabel from "./ApprovalDashboardTable";
+import CategoryReportTabel from "./ApprovalDashboardTableDD";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import ReportApprovalTable from "./ApprovalDashboardTable";
+import ReportApprovalTable from "./ApprovalDashboardTableDD";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
 
-const ApprovalDashboard = () => {
+const ApprovalDashboardDD = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -79,6 +79,7 @@ const ApprovalDashboard = () => {
                   getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                   onChange={(event, value) => {
                     setSelectedSeason(value);
+                    setSelectedWeek(null);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -135,4 +136,4 @@ const ApprovalDashboard = () => {
   );
 };
 
-export default ApprovalDashboard;
+export default ApprovalDashboardDD;

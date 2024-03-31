@@ -205,8 +205,8 @@ import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
-import ReportApproval from "../pages/CropLook/ApprovalDashboard/ApprovalDashboard";
-import ApprovalDashboard from "../pages/CropLook/ApprovalDashboard/ApprovalDashboard";
+import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
+import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
 
 
 export const Routes = [
@@ -1393,12 +1393,20 @@ export const Routes = [
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
-        path: "/report-approval",
-        name: "Approval Panel",
+        path: "/report-approval-ada",
+        name: "Approval Panel (ADA)",
         isSideBar: true,
         element: <ApprovalDashboard />,
         icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+      },
+      {
+        path: "/report-approval-dd",
+        name: "Approval Panel (DD)",
+        isSideBar: true,
+        element: <ApprovalDashboardDD />,
+        icon: Preview,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
       },
       {
         path: "/early-warning-ranges",
