@@ -36,7 +36,7 @@ import {
   get_arpaList,
   get_arpaListByAscId,
 } from "../../../redux/actions/arpa/action";
-import { get_ASCListByComId } from "../../../redux/actions/asc/action";
+import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
@@ -88,31 +88,28 @@ const GnDivisionForm = () => {
     name: "",
     code: "",
   });
-  
+
   const [selectedDsDevision, setSelectedDsDevision] = useState({
     name: "",
     code: "",
   });
 
-
-
-
   const [doas, setDoas] = useState([]);
   const [ddoas, setDdoas] = useState([]);
   const [adas, setAdas] = useState([]);
- const [selectedDdoa, setSelectedDdoa] = useState({
-  provincialDdId: "",
-  description: "",
-  }); 
+  const [selectedDdoa, setSelectedDdoa] = useState({
+    provincialDdId: "",
+    description: "",
+  });
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
     description: "",
   });
-    const [selectedAda, setSelectedAda] = useState({
+  const [selectedAda, setSelectedAda] = useState({
     provinceSegmentId: "",
     description: "",
   });
-  
+
   const [interProDoas, setInterProDoas] = useState([]);
   const [interProDdoas, setInterProDdoas] = useState([]);
   const [interProAdas, setInterProAdas] = useState([]);
@@ -195,101 +192,125 @@ const GnDivisionForm = () => {
       setDoaType("MAHAWELI");
       // handleChange("MAHAWELI", "gnDivisionType");
     }
-  
-
 
     console.log("1111111111111111", formData);
   }, []);
 
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
-        setSelectedAda({
-            provinceSegmentId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.provinceSegmentId || "",
-            description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.description || ""
-        });
+      setSelectedAda({
+        provinceSegmentId:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.provinceSegmentId ||
+          "",
+        description:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.description || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedDdoa({
-        provincialDdId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.provincialDdId || "",
-        description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.description || ""
-        });
+        provincialDdId:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO
+            ?.proDeputyDirectorLevelDTO?.provincialDdId || "",
+        description:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO
+            ?.proDeputyDirectorLevelDTO?.description || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedDoa({
-        proDirectorId: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.proDirectorId || "",
-        description: formData?.aiRegionsDTO?.provincialAdaSegmentDTO?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.description || ""
-        });
+        proDirectorId:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO
+            ?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.proDirectorId ||
+          "",
+        description:
+          formData?.aiRegionsDTO?.provincialAdaSegmentDTO
+            ?.proDeputyDirectorLevelDTO?.proDirectorLevelDTO?.description || "",
+      });
     }
   }, []);
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedInterProAda({
-        segmentId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.segmentId || "",
-        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.description || ""
-        });
+        segmentId:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.segmentId || "",
+        description:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.description ||
+          "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedInterProDdoa({
-        ddId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.ddId || "",
-        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.description || ""
-        });
+        ddId:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO
+            ?.interProvinceDeputyDirectorLevelDTO?.ddId || "",
+        description:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO
+            ?.interProvinceDeputyDirectorLevelDTO?.description || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedInterProDoa({
-        doaId: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO?.doaId || "",
-        description: formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO?.description || ""
-        });
+        doaId:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO
+            ?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO?.doaId || "",
+        description:
+          formData?.aiRegionsDTO?.interProvincialAdaSegmentDTO
+            ?.interProvinceDeputyDirectorLevelDTO?.directorDoaDTO
+            ?.description || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedAscDivision({
-        ascId: formData?.arpaDTO?.ascDto?.ascId ||"",
-        name: formData?.arpaDTO?.ascDto?.name ||""
-        });
+        ascId: formData?.arpaDTO?.ascDto?.ascId || "",
+        name: formData?.arpaDTO?.ascDto?.name || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedDcomm({
-        districtCommId: formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO?.districtCommId ||"",
-        name: formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO?.name ||""
-        });
+        districtCommId:
+          formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO
+            ?.districtCommId || "",
+        name:
+          formData?.arpaDTO?.ascDto?.districtCommissionerLevelDTO?.name || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedDistrict({
-        code: formData?.dsDivisionDTO?.districtDTO?.code ||"",
-        name: formData?.dsDivisionDTO?.districtDTO?.name||"",
-        });
+        code: formData?.dsDivisionDTO?.districtDTO?.code || "",
+        name: formData?.dsDivisionDTO?.districtDTO?.name || "",
+      });
     }
   }, []);
-  
+
   useEffect(() => {
     if (state.action !== DEF_ACTIONS.ADD) {
       setSelectedProvince({
-        code: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.code ||"",
-        name: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.name||"",
-        });
+        code: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.code || "",
+        name: formData?.dsDivisionDTO?.districtDTO?.provinceDTO?.name || "",
+      });
     }
   }, []);
-  
 
   useEffect(() => {
     get_MahaweliUnitList().then(({ dataList = [] }) => {
@@ -319,8 +340,8 @@ const GnDivisionForm = () => {
     get_arpaList().then(({ dataList = [] }) => {
       setArpaList(dataList);
     });
-      }, []);
-  
+  }, []);
+
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -472,10 +493,10 @@ const GnDivisionForm = () => {
     });
   };
 
-  const resetDsDivision= () => {
+  const resetDsDivision = () => {
     setFormData({
       ...formData,
-      dsDivisionDTO:{code:"",name:""}
+      dsDivisionDTO: { code: "", name: "" },
     });
   };
 
@@ -522,7 +543,7 @@ const GnDivisionForm = () => {
   }, []);
 
   const getAscDivisions = (id) => {
-    get_ASCListByComId(id).then(({ dataList = [] }) => {
+    get_ASCLovByComId(id, 100).then(({ dataList = [] }) => {
       setAscDivisions(dataList);
     });
   };
@@ -533,558 +554,109 @@ const GnDivisionForm = () => {
     });
   };
 
-
-
-
-
-
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-    <FormWrapper style={{ overflowY: "scroll" }}>
-      <PageHeader
-        goBack={goBack}
-        saving={saving}
-        state={state}
-        formName="Grama Nildari Division"
-      />
-      <FormButtonGroup
-        state={state}
-        DEF_ACTIONS={DEF_ACTIONS}
-        saving={saving}
-        enableSave={enableSave}
-        handleFormSubmit={handleFormSubmit}
-        resetForm={resetForm}
-      />
-      <Grid
-        container
-        sx={{
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-          marginY: "0px",
-        }}
-      >
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>GN Division Code</FieldName>
-            <TextField
-              name="code"
-              id="code"
-              value={formData?.code || ""}
-              fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
-              onChange={(e) => handleChange(e?.target?.value || "", "code")}
-              inputProps={{ style: { textTransform: "uppercase" } }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>GN Division Name</FieldName>
-            <TextField
-              name="name"
-              id="name"
-              value={formData?.name || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "name")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}></Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Province</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={provinces}
-              value={selectedProvince}
-              getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
-              onChange={(event, value) => {
-               console.log(value);
-               setSelectedProvince(value);
-               setSelectedDistrict({ name: "", code: "" });
-               setSelectedDsDevision({ name: "", code: "" });
-               resetDsDivision();
-               getDistricts(value.id);
-             }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>District</FieldName>
-            <Autocomplete
-              disabled={selectedProvince?.id == null}
-              options={districs}
-              value={selectedDistrict}
-              getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
-              onChange={(event, value) => {
-                console.log(value);
-                setSelectedDistrict(value);
-                setSelectedDsDevision({ name: "", code: "" });
-               
-                getDsDivisions(value.id);
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>DS Division</FieldName>
-            <Autocomplete
-              disabled={selectedDistrict?.id == null}
-              options={dsDivisions}
-              value={formData.dsDivisionDTO || selectedDsDevision}
-              getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
-              onChange={(event, value) => {
-                console.log(value);
-               handleChange(value || "", "dsDivisionDTO");
-              }}
-              fullWidth
-              disableClearable
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-                marginRight: "5px",
-              }}
-              renderInput={(params) => (
-                <TextField {...params} size="small" fullWidth />
-              )}
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginY: "0px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
-          <Grid item lg={3}>
+      <FormWrapper style={{ overflowY: "scroll" }}>
+        <PageHeader
+          goBack={goBack}
+          saving={saving}
+          state={state}
+          formName="Grama Nildari Division"
+        />
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+            marginY: "0px",
+          }}
+        >
+          <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>Agriculture Structure Type</FieldName>
-              <Select
-                name="doaType"
-                id="doaType"
-                value={formData?.gnDivisionType || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) => {
-                  setDoaType(e.target.value || "userSelectedType");
-                  resetProAndIntProFields();
-                }}
+              <FieldName>GN Division Code</FieldName>
+              <TextField
+                name="code"
+                id="code"
+                value={formData?.code || ""}
                 fullWidth
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
+                onChange={(e) => handleChange(e?.target?.value || "", "code")}
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 sx={{
-                  borderRadius: "8px",
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
                 }}
                 size="small"
-              >
-                <MenuItem value={"PROVINCIAL"}> Provincial</MenuItem>
-                <MenuItem value={"INTER_PROVINCIAL"}>Inter Provincial</MenuItem>
-                <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
-              </Select>
+              />
             </FieldWrapper>
           </Grid>
-        ) : null}
-        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+          <Grid item sm={4} md={4} lg={4}>
+            <FieldWrapper>
+              <FieldName>GN Division Name</FieldName>
+              <TextField
+                name="name"
+                id="name"
+                value={formData?.name || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "name")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
           <Grid item lg={4}></Grid>
-        ) : null}
-        {state.isAdmin || state.isAgrarian || state.isEcoz ? (
-          <Grid item lg={4}></Grid>
-        ) : null}
-        {state.isProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Provincial DOA</FieldName>
-              <Autocomplete
-                disabled={doaType !== "PROVINCIAL" && !state.isProvincial}
-                options={doas}
-                value={selectedDoa}
-                getOptionLabel={(i) =>
-                  `${i?.proDirectorId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                  console.log(value);
-                  if(value){
-                    console.log("provinceSegmentId:", value.proDirectorId);
-                    console.log("description:", value.description);
-                  }
-                  setSelectedDoa(value);
-                  setSelectedDdoa({ provincialDdId: "", description: "" });
-                  setSelectedAda({ provinceSegmentId: "", description: "" });
-                  resetAiRegion();
-                  getDDOAS(value.id);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : (
-          ""
-        )}
-        {state.isProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-             <FieldName>Provincial DDOA</FieldName>
-             <Autocomplete
-              disabled={selectedDoa?.id == null}
-              options={ddoas}
-              value={selectedDdoa}
-              getOptionLabel={(i) =>
-               `${i?.provincialDdId} - ${i?.description}`
-              }
-              onChange={(event, value) => {
-                console.log("Selected Value:", value);
-                if (value) {
-                 console.log("provincialDdId:", value.provincialDdId);
-                 console.log("description:", value.description);
-                }
-                 setSelectedDdoa(value)
-                 setSelectedAda({ provinceSegmentId: "", description: "" });
-                 resetAiRegion();
-                 getADAS(value?.id);
-                 
-                 
-                }}
-
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : (
-          ""
-        )}
-        {state.isProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Provincial ADA</FieldName>
-              <Autocomplete
-                disabled={selectedDdoa?.id == null}
-                options={adas}
-                value={selectedAda}
-                getOptionLabel={(i) =>
-                  `${i?.provinceSegmentId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                  console.log("Selected Value:",value);
-                  if(value){
-                    console.log("provinceSegmentId:", value.provinceSegmentId);
-                    console.log("description:", value.description);
-                  }
-
-              
-                  setSelectedAda(value);
-                  getAiRegions(value);
-                  resetAiRegion();
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : (
-          ""
-        )}
-        {state.isProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>AI Region</FieldName>
-              <Autocomplete
-                disabled={selectedAda?.id == null}
-                options={aiRegions}
-                value={formData.aiRegionsDTO || selectedAiRegion}
-                getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
-                onChange={(event, value) => {
-                  console.log(value);
-                  handleChange(value, "aiRegionsDTO");
-                  handleChange("PROVINCIAL", "gnDivisionType");
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : (
-          ""
-        )}
-        {state.isIntProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Director DOA</FieldName>
-              <Autocomplete
-                disabled={
-                  doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial
-                }
-                options={interProDoas}
-                value={selectedInterProDoa}
-                getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
-                onChange={(event, value) => {
-                  console.log(value);
-                  setSelectedInterProDoa(value);
-                  setSelectedInterProDdoa({ ddId: "", description: "" });
-                  setSelectedInterProAda({ segmentId: "", description: "" });
-                  resetAiRegion();
-                  getInterProDDOAS(value.id);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : null}
-        {state.isIntProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Inter Provincial DDOA</FieldName>
-              <Autocomplete
-                disabled={selectedInterProDoa?.id == null}
-                options={interProDdoas}
-                value={selectedInterProDdoa}
-                getOptionLabel={(i) => `${i?.ddId} - ${i?.description}`}
-                onChange={(event, value) => {
-                  console.log("Selected Value:",value);
-                  if(value){
-                    console.log("ddID:", value.ddId);
-                    console.log("description:", value.description);
-                  }
-                  setSelectedInterProDdoa(value);
-                  setSelectedInterProAda({ segmentId: "", description: "" });
-                  resetAiRegion();
-                  getInterProADAS(value.id);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : null}
-        {state.isIntProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>Inter Provincial ADA</FieldName>
-              <Autocomplete
-                disabled={selectedInterProDdoa?.id == null}
-                options={interProAdas}
-                value={selectedInterProAda}
-                getOptionLabel={(i) =>
-                  `${i?.segmentId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                 
-                  console.log("Selected Value:",value);
-                  if(value){
-                    console.log("segmentID:", value.segmentId);
-                    console.log("description:", value.description);
-                  }
-                  setSelectedInterProAda(value);
-                  resetAiRegion();
-                  getAiRegions(value);
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : null}
-        {state.isIntProvincial ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item lg={3}>
-            <FieldWrapper>
-              <FieldName>AI Region</FieldName>
-              <Autocomplete
-                disabled={selectedInterProAda?.id == null}
-                options={aiRegions}
-                value={formData.aiRegionsDTO || selectedAiRegion}
-                getOptionLabel={(i) =>
-                 `${i?.regionId} - ${i?.description}`
-                }
-                onChange={(event, value) => {
-                  console.log(value);
-                  handleChange(value, "aiRegionsDTO");
-                  handleChange("INTER_PROVINCIAL", "gnDivisionType");
-                }}
-                fullWidth
-                disableClearable
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                  },
-                  marginRight: "5px",
-                }}
-                renderInput={(params) => (
-                  <TextField {...params} size="small" fullWidth />
-                )}
-              />
-            </FieldWrapper>
-          </Grid>
-        ) : null}
-        {state.isMahaweli ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
+        </Grid>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
           <Grid item lg={4}>
             <FieldWrapper>
-              <FieldName>Mahaweli System</FieldName>
+              <FieldName>Province</FieldName>
               <Autocomplete
-                disabled={doaType !== "MAHAWELI" && !state.isMahaweli}
-                options={mahaweliSystems}
-                value={selectedSystem}
-                getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                options={provinces}
+                value={selectedProvince}
+                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedSystem(value);
-                  getBlocks(value.id);
+                  setSelectedProvince(value);
+                  setSelectedDistrict({ name: "", code: "" });
+                  setSelectedDsDevision({ name: "", code: "" });
+                  resetDsDivision();
+                  getDistricts(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -1100,24 +672,20 @@ const GnDivisionForm = () => {
               />
             </FieldWrapper>
           </Grid>
-        ) : null}
-        {state.isMahaweli ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
           <Grid item lg={4}>
             <FieldWrapper>
-              <FieldName>Mahaweli Block</FieldName>
+              <FieldName>District</FieldName>
               <Autocomplete
-                disabled={selectedSystem?.id == null}
-                options={mahaweliBlocks}
-                value={selectedBlock}
-                getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
+                disabled={selectedProvince?.id == null}
+                options={districs}
+                value={selectedDistrict}
+                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
                 onChange={(event, value) => {
                   console.log(value);
-                  setSelectedBlock(value);
+                  setSelectedDistrict(value);
+                  setSelectedDsDevision({ name: "", code: "" });
 
-                  getMahaweliUnits(value.id);
+                  getDsDivisions(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -1133,64 +701,602 @@ const GnDivisionForm = () => {
               />
             </FieldWrapper>
           </Grid>
-        ) : null}
-        {state.isMahaweli ||
-        state.isAdmin ||
-        state.isAgrarian ||
-        state.isEcoz ? (
-          <Grid item sm={3} md={3} lg={4}>
+          <Grid item lg={4}>
             <FieldWrapper>
-              <FieldName>Mahaweli Unit</FieldName>
+              <FieldName>DS Division</FieldName>
+              <Autocomplete
+                disabled={selectedDistrict?.id == null}
+                options={dsDivisions}
+                value={formData.dsDivisionDTO || selectedDsDevision}
+                getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
+                onChange={(event, value) => {
+                  console.log(value);
+                  handleChange(value || "", "dsDivisionDTO");
+                }}
+                fullWidth
+                disableClearable
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                  marginRight: "5px",
+                }}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" fullWidth />
+                )}
+              />
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            marginY: "0px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Agriculture Structure Type</FieldName>
+                <Select
+                  name="doaType"
+                  id="doaType"
+                  value={formData?.gnDivisionType || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) => {
+                    setDoaType(e.target.value || "userSelectedType");
+                    resetProAndIntProFields();
+                  }}
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"PROVINCIAL"}> Provincial</MenuItem>
+                  <MenuItem value={"INTER_PROVINCIAL"}>
+                    Inter Provincial
+                  </MenuItem>
+                  <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+            <Grid item lg={4}></Grid>
+          ) : null}
+          {state.isAdmin || state.isAgrarian || state.isEcoz ? (
+            <Grid item lg={4}></Grid>
+          ) : null}
+          {state.isProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Provincial DOA</FieldName>
+                <Autocomplete
+                  disabled={doaType !== "PROVINCIAL" && !state.isProvincial}
+                  options={doas}
+                  value={selectedDoa}
+                  getOptionLabel={(i) =>
+                    `${i?.proDirectorId} - ${i?.description}`
+                  }
+                  onChange={(event, value) => {
+                    console.log(value);
+                    if (value) {
+                      console.log("provinceSegmentId:", value.proDirectorId);
+                      console.log("description:", value.description);
+                    }
+                    setSelectedDoa(value);
+                    setSelectedDdoa({ provincialDdId: "", description: "" });
+                    setSelectedAda({ provinceSegmentId: "", description: "" });
+                    resetAiRegion();
+                    getDDOAS(value.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : (
+            ""
+          )}
+          {state.isProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Provincial DDOA</FieldName>
+                <Autocomplete
+                  disabled={selectedDoa?.id == null}
+                  options={ddoas}
+                  value={selectedDdoa}
+                  getOptionLabel={(i) =>
+                    `${i?.provincialDdId} - ${i?.description}`
+                  }
+                  onChange={(event, value) => {
+                    console.log("Selected Value:", value);
+                    if (value) {
+                      console.log("provincialDdId:", value.provincialDdId);
+                      console.log("description:", value.description);
+                    }
+                    setSelectedDdoa(value);
+                    setSelectedAda({ provinceSegmentId: "", description: "" });
+                    resetAiRegion();
+                    getADAS(value?.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : (
+            ""
+          )}
+          {state.isProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Provincial ADA</FieldName>
+                <Autocomplete
+                  disabled={selectedDdoa?.id == null}
+                  options={adas}
+                  value={selectedAda}
+                  getOptionLabel={(i) =>
+                    `${i?.provinceSegmentId} - ${i?.description}`
+                  }
+                  onChange={(event, value) => {
+                    console.log("Selected Value:", value);
+                    if (value) {
+                      console.log(
+                        "provinceSegmentId:",
+                        value.provinceSegmentId
+                      );
+                      console.log("description:", value.description);
+                    }
+
+                    setSelectedAda(value);
+                    getAiRegions(value);
+                    resetAiRegion();
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : (
+            ""
+          )}
+          {state.isProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>AI Region</FieldName>
+                <Autocomplete
+                  disabled={selectedAda?.id == null}
+                  options={aiRegions}
+                  value={formData.aiRegionsDTO || selectedAiRegion}
+                  getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log(value);
+                    handleChange(value, "aiRegionsDTO");
+                    handleChange("PROVINCIAL", "gnDivisionType");
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : (
+            ""
+          )}
+          {state.isIntProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Director DOA</FieldName>
+                <Autocomplete
+                  disabled={
+                    doaType !== "INTER_PROVINCIAL" && !state.isIntProvincial
+                  }
+                  options={interProDoas}
+                  value={selectedInterProDoa}
+                  getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log(value);
+                    setSelectedInterProDoa(value);
+                    setSelectedInterProDdoa({ ddId: "", description: "" });
+                    setSelectedInterProAda({ segmentId: "", description: "" });
+                    resetAiRegion();
+                    getInterProDDOAS(value.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isIntProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Inter Provincial DDOA</FieldName>
+                <Autocomplete
+                  disabled={selectedInterProDoa?.id == null}
+                  options={interProDdoas}
+                  value={selectedInterProDdoa}
+                  getOptionLabel={(i) => `${i?.ddId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log("Selected Value:", value);
+                    if (value) {
+                      console.log("ddID:", value.ddId);
+                      console.log("description:", value.description);
+                    }
+                    setSelectedInterProDdoa(value);
+                    setSelectedInterProAda({ segmentId: "", description: "" });
+                    resetAiRegion();
+                    getInterProADAS(value.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isIntProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>Inter Provincial ADA</FieldName>
+                <Autocomplete
+                  disabled={selectedInterProDdoa?.id == null}
+                  options={interProAdas}
+                  value={selectedInterProAda}
+                  getOptionLabel={(i) => `${i?.segmentId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log("Selected Value:", value);
+                    if (value) {
+                      console.log("segmentID:", value.segmentId);
+                      console.log("description:", value.description);
+                    }
+                    setSelectedInterProAda(value);
+                    resetAiRegion();
+                    getAiRegions(value);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isIntProvincial ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={3}>
+              <FieldWrapper>
+                <FieldName>AI Region</FieldName>
+                <Autocomplete
+                  disabled={selectedInterProAda?.id == null}
+                  options={aiRegions}
+                  value={formData.aiRegionsDTO || selectedAiRegion}
+                  getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log(value);
+                    handleChange(value, "aiRegionsDTO");
+                    handleChange("INTER_PROVINCIAL", "gnDivisionType");
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isMahaweli ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Mahaweli System</FieldName>
+                <Autocomplete
+                  disabled={doaType !== "MAHAWELI" && !state.isMahaweli}
+                  options={mahaweliSystems}
+                  value={selectedSystem}
+                  getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log(value);
+                    setSelectedSystem(value);
+                    getBlocks(value.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isMahaweli ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item lg={4}>
+              <FieldWrapper>
+                <FieldName>Mahaweli Block</FieldName>
+                <Autocomplete
+                  disabled={selectedSystem?.id == null}
+                  options={mahaweliBlocks}
+                  value={selectedBlock}
+                  getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
+                  onChange={(event, value) => {
+                    console.log(value);
+                    setSelectedBlock(value);
+
+                    getMahaweliUnits(value.id);
+                  }}
+                  fullWidth
+                  disableClearable
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                    marginRight: "5px",
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" fullWidth />
+                  )}
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+          {state.isMahaweli ||
+          state.isAdmin ||
+          state.isAgrarian ||
+          state.isEcoz ? (
+            <Grid item sm={3} md={3} lg={4}>
+              <FieldWrapper>
+                <FieldName>Mahaweli Unit</FieldName>
+                <Autocomplete
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    selectedBlock?.id == null
+                  }
+                  options={mahaweliUnitList}
+                  value={formData.mahaweliUnitDTO || selectedMahaweliUnit}
+                  getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "mahaweliUnitDTO");
+                    handleChange("MAHAWELI", "gnDivisionType");
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
+        </Grid>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            marginTop: "10px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={4} md={4} lg={4}>
+            <FieldWrapper>
+              <FormControl fullWidth>
+                <FieldName>District Commissioner</FieldName>
+                <Autocomplete
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  options={dcomms}
+                  value={selectedDcomm}
+                  getOptionLabel={(i) => `${i.districtCommId} - ${i.name}`}
+                  onChange={(event, value) => {
+                    setSelectedDcomm(value);
+                    setSelectedAscDivision({
+                      ascId: "",
+                      name: "",
+                    });
+                    getAscDivisions(value.id);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  disableClearable
+                  size="small"
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                />
+              </FormControl>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={4} md={4} lg={4}>
+            <FieldWrapper>
+              <FormControl fullWidth>
+                <FieldName>ASC Division </FieldName>
+                <Autocomplete
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    selectedDcomm.id == null
+                  }
+                  options={ascDivisions}
+                  value={formData?.ascDto || selectedAscDivision}
+                  getOptionLabel={(i) => `${i.ascId} - ${i.name}`}
+                  onChange={(event, value) => {
+                    handleChange(value, "ascDto");
+                    setSelectedAscDivision(value);
+                    getArps(value.id);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  disableClearable
+                  size="small"
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                />
+              </FormControl>
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>ARPA Area</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
-                  selectedBlock?.id == null
+                  selectedAscDivision.id == null
                 }
-                options={mahaweliUnitList}
-                value={formData.mahaweliUnitDTO || selectedMahaweliUnit}
-                getOptionLabel={(i) => `${i.unitId} - ${i.description}`}
+                options={arps}
+                value={formData.arpaDTO || selectedArp}
+                getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
                 onChange={(event, value) => {
-                  handleChange(value, "mahaweliUnitDTO");
-                  handleChange("MAHAWELI", "gnDivisionType");
+                  handleChange(value, "arpaDTO");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
                     borderRadius: "8px",
                   },
                 }}
+                disableClearable
                 renderInput={(params) => <TextField {...params} size="small" />}
                 fullWidth
               />
             </FieldWrapper>
           </Grid>
-        ) : null}
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginTop: "10px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FormControl fullWidth>
-              <FieldName>District Commissioner</FieldName>
+        </Grid>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            marginTop: "0px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item lg={4}>
+            <FieldWrapper>
+              <FieldName>Agri Eco Zone</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                options={dcomms}
-                value={selectedDcomm}
-                getOptionLabel={(i) => `${i.districtCommId} - ${i.name}`}
+                options={agroEcoList}
+                value={formData?.agroEcologicalZoneDTO || selectedAgriEcoZone}
+                getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
                 onChange={(event, value) => {
-                  setSelectedDcomm(value);
-                  setSelectedAscDivision({
-                    ascId: "",
-                    name: "",
-                  });
-                  getAscDivisions(value.id);
+                  handleChange(value, "agroEcologicalZoneDTO");
                 }}
                 sx={{
                   "& .MuiOutlinedInput-root": {
@@ -1198,359 +1304,272 @@ const GnDivisionForm = () => {
                   },
                 }}
                 disableClearable
-                size="small"
                 renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
               />
-            </FormControl>
-          </FieldWrapper>
+            </FieldWrapper>
+          </Grid>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FormControl fullWidth>
-              <FieldName>ASC Division </FieldName>
-              <Autocomplete
-                disabled={
-                  state?.action === DEF_ACTIONS.VIEW || selectedDcomm.id == null
+
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            marginTop: "0px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={4} md={4} lg={4}>
+            <FieldWrapper>
+              <FieldName>Total Households</FieldName>
+              <TextField
+                name="totalHouseholds"
+                id="totalHouseholds"
+                value={formData?.totalHouseholds || ""}
+                fullWidth
+                type="number"
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "totalHouseholds");
+                }}
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Total Population</FieldName>
+              <TextField
+                name="totalPopulation"
+                id="totalPopulation"
+                value={formData?.totalPopulation || ""}
+                fullWidth
+                type="number"
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  // console.log(e?.target?.value);
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "totalPopulation");
+                }}
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Male Population</FieldName>
+              <TextField
+                name="malePopulation"
+                id="malePopulation"
+                value={formData?.malePopulation || ""}
+                fullWidth
+                type="number"
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "malePopulation");
+
+                  // Calculate and update female population
+                  const totalPopulation =
+                    parseFloat(formData?.totalPopulation) || 0;
+                  const femalePopulation = totalPopulation - value;
+                  handleChange(femalePopulation, "femalePopulation");
+                }}
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Female Population</FieldName>
+              <TextField
+                name="femalePopulation"
+                id="femalePopulation"
+                value={formData?.femalePopulation || ""}
+                fullWidth
+                type="number"
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "femalePopulation");
+                }}
+                InputProps={{
+                  inputProps: { min: 0 },
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          sx={{
+            border: "1px solid #bec0c2",
+            margin: "15px",
+            marginTop: "0px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>measurement type</FieldName>
+
+              <Select
+                value={formData?.userSelectedUnit || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "userSelectedUnit")
                 }
-                options={ascDivisions}
-                value={formData?.ascDto || selectedAscDivision}
-                getOptionLabel={(i) => `${i.ascId} - ${i.name}`}
-                onChange={(event, value) => {
-                  handleChange(value, "ascDto");
-                  setSelectedAscDivision(value);
-                  getArps(value.id);
+                sx={{
+                  borderRadius: "8px",
+                }}
+                size="small"
+                fullWidth
+              >
+                <MenuItem value={"SQUARE_METERS"}>Square meters</MenuItem>
+                <MenuItem value={"ACRES"}>Acres</MenuItem>
+                <MenuItem value={"HECTARES"}>Hectares</MenuItem>
+                <MenuItem value={"PERCH"}>Perch</MenuItem>
+                <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Land Area</FieldName>
+              <TextField
+                name="landArea"
+                id="landArea"
+                value={formData?.landArea || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "landArea");
                 }}
                 sx={{
-                  "& .MuiOutlinedInput-root": {
+                  "& .MuiInputBase-root": {
                     borderRadius: "8px",
                   },
                 }}
-                disableClearable
                 size="small"
-                renderInput={(params) => <TextField {...params} size="small" />}
+                type="number"
               />
-            </FormControl>
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>ARPA Area</FieldName>
-            <Autocomplete
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                selectedAscDivision.id == null
-              }
-              options={arps}
-              value={formData.arpaDTO || selectedArp}
-              getOptionLabel={(i) => `${i.arpaId} - ${i.name}`}
-              onChange={(event, value) => {
-                handleChange(value, "arpaDTO");
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              disableClearable
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginTop: "0px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item lg={4}>
-          <FieldWrapper>
-            <FieldName>Agri Eco Zone</FieldName>
-            <Autocomplete
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              options={agroEcoList}
-              value={formData?.agroEcologicalZoneDTO || selectedAgriEcoZone}
-              getOptionLabel={(i) => `${i.aeZoneId} - ${i.name}`}
-              onChange={(event, value) => {
-                handleChange(value, "agroEcologicalZoneDTO");
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              disableClearable
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
+            </FieldWrapper>
+          </Grid>
+          <Grid item lg={3}>
+            <FieldWrapper>
+              <FieldName>Agriculture Land Area</FieldName>
 
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginTop: "0px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>Total Households</FieldName>
-            <TextField
-              name="totalHouseholds"
-              id="totalHouseholds"
-              value={formData?.totalHouseholds || ""}
-              fullWidth
-              type="number"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "totalHouseholds");
-              }}
-              InputProps={{
-                inputProps: { min: 0 },
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Total Population</FieldName>
-            <TextField
-              name="totalPopulation"
-              id="totalPopulation"
-              value={formData?.totalPopulation || ""}
-              fullWidth
-              type="number"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                // console.log(e?.target?.value);
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "totalPopulation");
-              }}
-              InputProps={{
-                inputProps: { min: 0 },
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Male Population</FieldName>
-            <TextField
-              name="malePopulation"
-              id="malePopulation"
-              value={formData?.malePopulation || ""}
-              fullWidth
-              type="number"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "malePopulation");
+              <TextField
+                name="agriculturalLandArea"
+                id="agriculturalLandArea"
+                value={formData?.agriculturalLandArea || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "agriculturalLandArea");
+                  const landArea = parseFloat(formData?.landArea) || 0;
+                  const nonAgriculturalLandArea = landArea - value;
+                  handleChange(
+                    nonAgriculturalLandArea,
+                    "nonAgriculturalLandArea"
+                  );
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                type="number"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Non - Agriculture Land Area</FieldName>
 
-                // Calculate and update female population
-                const totalPopulation =
-                  parseFloat(formData?.totalPopulation) || 0;
-                const femalePopulation = totalPopulation - value;
-                handleChange(femalePopulation, "femalePopulation");
-              }}
-              InputProps={{
-                inputProps: { min: 0 },
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Female Population</FieldName>
-            <TextField
-              name="femalePopulation"
-              id="femalePopulation"
-              value={formData?.femalePopulation || ""}
-              fullWidth
-              type="number"
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "femalePopulation");
-              }}
-              InputProps={{
-                inputProps: { min: 0 },
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-      <Grid
-        container
-        sx={{
-          border: "1px solid #bec0c2",
-          margin: "15px",
-          marginTop: "0px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>measurement type</FieldName>
+              <TextField
+                name="nonAgriculturalLandArea"
+                id="nonAgriculturalLandArea"
+                value={formData?.nonAgriculturalLandArea || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "nonAgriculturalLandArea");
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                type="number"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Crop Area</FieldName>
 
-            <Select
-              value={formData?.userSelectedUnit || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "userSelectedUnit")
-              }
-              sx={{
-                borderRadius: "8px",
-              }}
-              size="small"
-              fullWidth
-            >
-              <MenuItem value={"SQUARE_METERS"}>Square meters</MenuItem>
-              <MenuItem value={"ACRES"}>Acres</MenuItem>
-              <MenuItem value={"HECTARES"}>Hectares</MenuItem>
-              <MenuItem value={"PERCH"}>Perch</MenuItem>
-              <MenuItem value={"SQUARE_FEET"}>Square feet</MenuItem>
-            </Select>
-          </FieldWrapper>
+              <TextField
+                name="cropArea"
+                id="cropArea"
+                value={formData?.cropArea || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  const value = parseFloat(e.target.value) || 0;
+                  handleChange(value, "cropArea");
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                type="number"
+              />
+            </FieldWrapper>
+          </Grid>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Land Area</FieldName>
-            <TextField
-              name="landArea"
-              id="landArea"
-              value={formData?.landArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "landArea");
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-              type="number"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item lg={3}>
-          <FieldWrapper>
-            <FieldName>Agriculture Land Area</FieldName>
-
-            <TextField
-              name="agriculturalLandArea"
-              id="agriculturalLandArea"
-              value={formData?.agriculturalLandArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "agriculturalLandArea");
-                const landArea = parseFloat(formData?.landArea) || 0;
-                const nonAgriculturalLandArea = landArea - value;
-                handleChange(
-                  nonAgriculturalLandArea,
-                  "nonAgriculturalLandArea"
-                );
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-              type="number"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Non - Agriculture Land Area</FieldName>
-
-            <TextField
-              name="nonAgriculturalLandArea"
-              id="nonAgriculturalLandArea"
-              value={formData?.nonAgriculturalLandArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "nonAgriculturalLandArea");
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-              type="number"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Crop Area</FieldName>
-
-            <TextField
-              name="cropArea"
-              id="cropArea"
-              value={formData?.cropArea || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0;
-                handleChange(value, "cropArea");
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-              type="number"
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-    </FormWrapper>
+      </FormWrapper>
     </div>
   );
 };

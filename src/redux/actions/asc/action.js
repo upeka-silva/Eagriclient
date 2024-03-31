@@ -144,3 +144,28 @@ export const get_ASCListByComId = async (id) => {
     };
   }
 };
+
+export const get_ASCLovByComId = async (id,pageSize) => {
+  try {
+    if(!pageSize){
+      pageSize = 10;
+    }
+    const { httpCode, payloadDto } = await get(
+      `geo-data/asc-divisions/districtCommissionerLevel/${id}?page=0&size=${pageSize}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }  
+};

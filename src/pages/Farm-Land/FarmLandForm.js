@@ -13,12 +13,10 @@ import {
   ListItemText,
   MenuItem,
   Select,
-  Stack,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
-import styled from "styled-components";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import {
@@ -72,7 +70,6 @@ const FarmLandForm = () => {
   const [scsRegionList, setScsRegionList] = useState([]);
   const [soilType, setSoilType] = useState([]);
   const [toggleState, setToggleState] = useState(1);
-  const [otherField, setOtherField] = useState("none");
   const [farmLandId, setFarmLandId] = useState(null);
   const isVerifiedFunctionality = true;
   const [verifiedStatus, setVerifiedStatus] = useState(
