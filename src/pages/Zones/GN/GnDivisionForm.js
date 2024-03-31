@@ -595,10 +595,7 @@ const GnDivisionForm = () => {
                 id="code"
                 value={formData?.code || ""}
                 fullWidth
-                disabled={
-                  state?.action === DEF_ACTIONS.VIEW ||
-                  state?.action === DEF_ACTIONS.EDIT
-                }
+                disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(e) => handleChange(e?.target?.value || "", "code")}
                 inputProps={{ style: { textTransform: "uppercase" } }}
                 sx={{
