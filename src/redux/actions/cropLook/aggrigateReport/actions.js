@@ -81,7 +81,44 @@ export const approveBiWeekCategoryReport = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/crop-category-report/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`, null, true);
+    const response = await put(`crop-look/crop-category-report/ada/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`, null, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+      return {
+        dataList: response?.payload,
+      };
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const approveBiWeekCategoryReportDD = async (
+  seasonId,
+  weekId,
+  cropCategoryId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`crop-look/crop-category-report/dd/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`, null, true);
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -234,7 +271,24 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
 
 export const getApprovalData = async (seasonId, weekId) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/season/${seasonId}/week/${weekId}`, true);
+    const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/forADA/season/${seasonId}/week/${weekId}`, true);
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getApprovalDataDD = async (seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/forDD/season/${seasonId}/week/${weekId}`, true);
     if (httpCode === "200 OK") {
       return payloadDto;
     }

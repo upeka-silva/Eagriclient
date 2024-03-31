@@ -11,15 +11,17 @@ import {
 } from "@mui/material";
 import {
   approveBiWeekCategoryReport,
+  approveBiWeekCategoryReportDD,
   approveBiWeekReport,
   getAggrigateReportData,
   getApprovalData,
+  getApprovalDataDD,
   updateBiWeekReporting,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
-const ApprovalDashboardTable = ({ week = {}, season = {} }) => {
+const ApprovalDashboardTableDD = ({ week = {}, season = {} }) => {
 
   const { addSnackBar } = useSnackBars();
   const [data, setData] = useState([]);
@@ -28,20 +30,18 @@ const ApprovalDashboardTable = ({ week = {}, season = {} }) => {
   useEffect(() => {
     async function fetchData(seasonId, weekId) {
       setLoading(true);
-      const dataList = await getApprovalData(seasonId, weekId);
-      console.log("approval data ----->", dataList);
-      console.log(dataList);
+      const dataList = await getApprovalDataDD(seasonId, weekId);
       setLoading(false);
       setData(dataList);
     }
 
     fetchData(season?.id, week?.id);
-  }, []);
+  }, [season, week]);
 
   const handleReportApprove = async (cropCategoryId) => {
     setLoading(true);
     try {
-      const dataList = await approveBiWeekCategoryReport(
+      const dataList = await approveBiWeekCategoryReportDD(
         season?.id,
         week?.id,
         cropCategoryId,
@@ -78,8 +78,8 @@ const ApprovalDashboardTable = ({ week = {}, season = {} }) => {
             <TableRow>
               <TableCell>Crop Category</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Completed AI Regions</TableCell>
-              <TableCell>Not Completed AI Regions</TableCell>
+              <TableCell>Completed ADA Segments</TableCell>
+              <TableCell>Not Completed ADA Segments</TableCell>
               <TableCell>Approval</TableCell>
             </TableRow>
           </TableHead>
@@ -111,4 +111,4 @@ const ApprovalDashboardTable = ({ week = {}, season = {} }) => {
   );
 };
 
-export default ApprovalDashboardTable;
+export default ApprovalDashboardTableDD;
