@@ -188,3 +188,25 @@ export const get_AiRegionListByTypeByAdaId = async (type, id) => {
     };
   }
 };
+
+export const get_AiRegionLovByTypeByAdaId = async (type, id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region/get-by-parent/${type}/${id}?page=0&size=100`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

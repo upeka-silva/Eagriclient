@@ -153,4 +153,26 @@ export const get_ProvincialDdoaListByDoaId = async (id) => {
       dataList: [],
     };
   }
-}
+};
+
+export const get_ProvincialDdoaLovByDoaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/provincial-deputy-director-level/pro-director-id/${id}?page=0&size=1000`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
