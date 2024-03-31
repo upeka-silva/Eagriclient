@@ -50,8 +50,8 @@ import {
 } from "../../../redux/actions/mahaweliUnit/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import {
-  get_InterProvincialAIListByAdaId,
-  get_ProvincialAIListByAdaId,
+  get_InterProvincialAILovByAdaId,
+  get_ProvincialAILovByAdaId,
 } from "../../../redux/actions/provincialAI/action";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
@@ -501,13 +501,13 @@ const GnDivisionForm = () => {
   const getAiRegions = (value) => {
     console.log(doaType + " " + value);
     if (doaType === "PROVINCIAL") {
-      get_ProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
+      get_ProvincialAILovByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
         setAiRegions(dataList);
       });
     }
     if (doaType === "INTER_PROVINCIAL") {
-      get_InterProvincialAIListByAdaId(value.id).then(({ dataList = [] }) => {
+      get_InterProvincialAILovByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
         setAiRegions(dataList);
       });
