@@ -45,7 +45,7 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DialogBox from "../../components/PageLayout/DialogBox";
 import {
   deleteFarmLandOwnership,
-  get_FarmLandOwnershipListByLandId
+  get_FarmLandOwnershipListByLandId,
 } from "../../redux/actions/farmerLandOwnership/action";
 import { get_ProtectedHousTypeList } from "../../redux/actions/protectedHouseType/action";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
@@ -54,6 +54,11 @@ import DynamicFormListFarmLand from "../DynamicFormFarmLand/DynamicFormListFarmL
 import FarmLandLocation from "./FarmLandLocation";
 import FarmLandOwnershipForm from "./FarmLandOwnership/FarmLandOwnershipForm";
 import OwnershipList from "./FarmLandOwnership/OwnershipList";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../components/TabButtons/TabButtons";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -70,7 +75,9 @@ const FarmLandForm = () => {
   const [otherField, setOtherField] = useState("none");
   const [farmLandId, setFarmLandId] = useState(null);
   const isVerifiedFunctionality = true;
-  const [verifiedStatus, setVerifiedStatus] = useState(state?.target?.landStatus);
+  const [verifiedStatus, setVerifiedStatus] = useState(
+    state?.target?.landStatus
+  );
   const [isProtectedHouseTypeEnable, setIsProtectedHouseTypeEnable] =
     useState(false);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
@@ -89,52 +96,6 @@ const FarmLandForm = () => {
   const [refreshFLOwnership, setRefreshFLOwnership] = useState(true);
   const [loading, setLoading] = useState(false);
   const dateAdapter = new AdapterDayjs();
-
-  const landTypeItems = [
-    { value: "OPEN_FIELD", label: "Open Field" },
-    { value: "PROTECTED_HOUSE", label: "Protected House" },
-  ];
-
-  const areaUnits = [
-    { value: "SQUARE_METERS", label: "Square Meters" },
-    { value: "ACRES", label: "Acres" },
-    { value: "HECTARES", label: "Hectares" },
-    { value: "PERCH", label: "Perch" },
-    { value: "SQUARE_FEET", label: "Squre Feet" },
-  ];
-
-  const columns = [
-    { field: "id", headerName: "ID", width: 70 },
-    { field: "firstName", headerName: "First name", width: 130 },
-    { field: "lastName", headerName: "Last name", width: 130 },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      width: 90,
-    },
-    {
-      field: "fullName",
-      headerName: "Full name",
-      description: "This column has a value getter and is not sortable.",
-      sortable: false,
-      width: 160,
-      valueGetter: (params) =>
-        `${params.row.firstName || ""} ${params.row.lastName || ""}`,
-    },
-  ];
-
-  const rows = [
-    { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-  ];
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -175,7 +136,6 @@ const FarmLandForm = () => {
       setScsRegionList(dataList);
     });
   }, []);
-
 
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
@@ -252,7 +212,7 @@ const FarmLandForm = () => {
       ...prevState,
       id: response?.payload?.id,
     }));
-    setVerifiedStatus(response?.payload.landStatus)
+    setVerifiedStatus(response?.payload.landStatus);
     setSaving(false);
     navigate("/farm-land-form", {
       state: {
@@ -363,7 +323,9 @@ const FarmLandForm = () => {
     setOpenFlO(true);
   };
   const onEditFlOData = () => {
-    const data = flODataList.filter((item) => item?.id === selectedOwnership[0]);
+    const data = flODataList.filter(
+      (item) => item?.id === selectedOwnership[0]
+    );
     console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
@@ -378,7 +340,9 @@ const FarmLandForm = () => {
   };
 
   const onViewFlOData = () => {
-    const data = flODataList.filter((item) => item?.id === selectedOwnership[0]);
+    const data = flODataList.filter(
+      (item) => item?.id === selectedOwnership[0]
+    );
     console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
@@ -476,7 +440,12 @@ const FarmLandForm = () => {
         overflowY: "scroll",
       }}
     >
-      <PageHeader saving={saving} state={state} goBack={goBack} formName='Farm Land' />
+      <PageHeader
+        saving={saving}
+        state={state}
+        goBack={goBack}
+        formName="Farm Land"
+      />
 
       <TabContent
         style={{
@@ -505,7 +474,10 @@ const FarmLandForm = () => {
                   name="code"
                   id="code"
                   value={formData?.code || ""}
-                  disabled={state?.action === DEF_ACTIONS.VIEW || state?.action === DEF_ACTIONS.EDIT}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    state?.action === DEF_ACTIONS.EDIT
+                  }
                   onChange={(e) => handleChange(e?.target?.value || "", "code")}
                   size="small"
                   fullWidth
@@ -595,10 +567,7 @@ const FarmLandForm = () => {
                     }}
                     size="small"
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        size="small"
-                      />
+                      <TextField {...params} size="small" />
                     )}
                   />
                 </FormControl>
@@ -635,10 +604,7 @@ const FarmLandForm = () => {
                     }}
                     size="small"
                     renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        size="small"
-                      />
+                      <TextField {...params} size="small" />
                     )}
                   />
                 </FormControl>
@@ -804,10 +770,7 @@ const FarmLandForm = () => {
                     size="small"
                     renderInput={(params) => (
                       <>
-                        <TextField
-                          {...params}
-                          size="small"
-                        />
+                        <TextField {...params} size="small" />
                       </>
                     )}
                   />
@@ -840,10 +803,7 @@ const FarmLandForm = () => {
                     size="small"
                     renderInput={(params) => (
                       <>
-                        <TextField
-                          {...params}
-                          size="small"
-                        />
+                        <TextField {...params} size="small" />
                       </>
                     )}
                   />
@@ -1077,57 +1037,3 @@ const FarmLandForm = () => {
 };
 
 export default FarmLandForm;
-
-export const TabWrapper = styled(Stack)`
-  && {
-    flex-direction: row;
-    margin: 20px 0px;
-  }
-`;
-
-export const TabButton = styled(Button)`
-  && {
-    padding: 15px;
-    width: 200px;
-    position: relative;
-    border: none;
-    border-radius: 0px;
-    background-color: ${Colors.tableHeaderColor};
-    color: white;
-    line-height: 0px;
-    box-shadow: none;
-    cursor: pointer;
-    &:hover {
-      background-color: ${Colors.iconColor};
-      box-shadow: none;
-    }
-    &:not(:last-child) {
-      border-right: 2px solid white;
-    }
-    &.active-tabs {
-      background: white;
-      color: black;
-    }
-
-    &.active-tabs::before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 5px;
-      background: ${Colors.tableHeaderColor};
-    }
-  }
-`;
-
-export const TabContent = styled(Stack)`
-  && {
-    display: none;
-  }
-  &.active-content {
-    display: flex;
-  }
-`;
