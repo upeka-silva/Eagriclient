@@ -31,7 +31,7 @@ import {
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { get_AiRegionList } from "../../../redux/actions/aiRegion/action";
+import { get_AiRegionLov } from "../../../redux/actions/aiRegion/action";
 import {
   get_arpaList,
   get_arpaListByAscId,
@@ -329,7 +329,7 @@ const GnDivisionForm = () => {
   }, []);
 
   useEffect(() => {
-    get_AiRegionList().then(({ dataList = [] }) => {
+    get_AiRegionLov().then(({ dataList = [] }) => {
       setAiRegionList(dataList);
     });
   }, []);
