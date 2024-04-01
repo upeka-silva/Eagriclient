@@ -6,13 +6,16 @@ import {
   ButtonGroup,
   CircularProgress,
   Divider,
+  FormControl,
   Grid,
+  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   TextField,
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -56,6 +59,27 @@ const GnDivision = () => {
 
   const location = useLocation();
   console.log(location.pathname);
+
+  const [showClearIcon, setShowClearIcon] = useState("none");
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleChange = (event) => {
+    setSearchText(event.target?.value);
+  };
+
+  const handleSearch = () => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
+  };
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [isProvincial, setIsProvincial] = useState(false);
@@ -1112,6 +1136,44 @@ const GnDivision = () => {
               </FieldWrapper>
             </Grid>
           )}
+
+          <Grid item>
+          <FieldWrapper>
+            <FieldName>.</FieldName>
+
+            <TextField
+              name="cropArea"
+              id="cropArea"
+              value={searchText}
+              fullWidth
+              //disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => {
+                // const value = parseFloat(e.target.value) || 0;
+                handleChange(e);
+              }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+          </Grid>
+          
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={handleSearch}
+                sx={{ marginTop: "40px" }}
+              >
+                Search
+              </Button>
+            </FieldWrapper>
+          </Grid>
           <Grid item>
             <FieldWrapper>
               <Button
