@@ -1401,7 +1401,7 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning-ranges",
-        name: "veg Early Warning Ranges",
+        name: "Veg Early Warning Ranges",
         isSideBar: true,
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,

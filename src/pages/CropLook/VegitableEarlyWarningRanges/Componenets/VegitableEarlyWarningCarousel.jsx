@@ -16,67 +16,67 @@ const StyledSlider = styled(Slider)`
  
 `;
 
-const CustomPrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <div className="arrow arrow-left">
-      <IconButton onClick={onClick}>
-        <ChevronLeft style={{ fontSize: "30px" }}/>
-      </IconButton>
-    </div>
-  );
-};
+// const CustomPrevArrow = (props) => {
+//   const { onClick } = props;
+//   return (
+//     <div className="arrow arrow-left">
+//       <IconButton onClick={onClick}>
+//         <ChevronLeft style={{ fontSize: "30px" }}/>
+//       </IconButton>
+//     </div>
+//   );
+// };
 
-const CustomNextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <div className="arrow arrow-right">
-      <IconButton onClick={onClick}>
-        <ChevronRight style={{ fontSize: "30px" }} />
-      </IconButton>
-    </div>
-  );
-};
+// const CustomNextArrow = (props) => {
+//   const { onClick } = props;
+//   return (
+//     <div className="arrow arrow-right">
+//       <IconButton onClick={onClick}>
+//         <ChevronRight style={{ fontSize: "30px" }} />
+//       </IconButton>
+//     </div>
+//   );
+// };
 
-function VegitableEarlyWarningCarousel({status}) {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 5, // Show 5 cards in the first slide
-    slidesToScroll: 1,
-    initialSlide: 0,
-    prevArrow: <CustomPrevArrow />,
-    nextArrow: <CustomNextArrow />,
-    responsive: [
-        {
-            breakpoint: 1840,
-            settings: {
-              slidesToShow: 4,
-              slidesToScroll: 4,
+function VegitableEarlyWarningCarousel({status ,dataList}) {
+  // const settings = {
+  //   dots: false,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 5, // Show 5 cards in the first slide
+  //   slidesToScroll: 1,
+  //   initialSlide: 0,
+  //   prevArrow: <CustomPrevArrow />,
+  //   nextArrow: <CustomNextArrow />,
+  //   responsive: [
+  //       {
+  //           breakpoint: 1840,
+  //           settings: {
+  //             slidesToShow: 4,
+  //             slidesToScroll: 4,
             
-            }
-        },
-        {
-            breakpoint: 1500,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
+  //           }
+  //       },
+  //       {
+  //           breakpoint: 1500,
+  //           settings: {
+  //             slidesToShow: 3,
+  //             slidesToScroll: 3,
             
-            }
-        },
-        {
-            breakpoint: 1266,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 3,
+  //           }
+  //       },
+  //       {
+  //           breakpoint: 1266,
+  //           settings: {
+  //             slidesToShow: 3,
+  //             slidesToScroll: 3,
             
-            }
-        },
+  //           }
+  //       },
         
        
-      ]
-  };
+  //     ]
+  // };
 
   const cardsData = [
     {
@@ -135,7 +135,7 @@ function VegitableEarlyWarningCarousel({status}) {
     <div>
       <Grid container spacing={2} display='flex'>
         {/* Render cards */}
-        {cardsData.map((card, index) => (
+        {dataList.map((card, index) => (
           <Grid key={index} item mb={5}>
             <VegitableEarlyWarningFoodCard
               image={card.image}

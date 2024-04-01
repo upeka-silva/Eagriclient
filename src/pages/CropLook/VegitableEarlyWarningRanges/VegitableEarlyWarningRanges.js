@@ -11,20 +11,59 @@ import VegitableEarlyWarningCarousel from "../VegitableEarlyWarningRanges/Compon
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
-import {get_VegitableEarlyWarningRangeeList} from "../../../redux/actions/cropLook/earlyWarningRegistration/action";
-
+import { get_VegitableEarlyWarningRangeeList } from "../../../redux/actions/cropLook/earlyWarningRegistration/action";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 const VegitableEarlyWarningRanges = () => {
-
-  const [vegitableEarlyWarningList, setVegitableEarlyWarningList] = useState([]);
-
+  const [vegitableEarlyWarningList, setVegitableEarlyWarningList] = useState(
+    []
+  );
+  const [bestVegitableEarlyWarningList, setBestVegitableEarlyWarningList] =
+    useState([]);
+  const [betterVegitableEarlyWarningList, setBetterVegitableEarlyWarningList] =
+    useState([]);
+  const [goodVegitableEarlyWarningList, setGoodVegitableEarlyWarningList] =
+    useState([]);
+  const [badVegitableEarlyWarningList, setBadVegitableEarlyWarningList] =
+    useState([]);
+  const [worstVegitableEarlyWarningList, setWorstVegitableEarlyWarningList] =
+    useState([]);
 
   useEffect(() => {
     debugger;
     get_VegitableEarlyWarningRangeeList().then(({ dataList = [] }) => {
       setVegitableEarlyWarningList(dataList);
+      setData();
     });
   }, []);
+
+  const setData = () => {
+    setBestVegitableEarlyWarningList(
+      vegitableEarlyWarningList.filter(
+        (a) => a.vegetableEarlyWarningStatus === "BEST"
+      )
+    );
+    setBetterVegitableEarlyWarningList(
+      vegitableEarlyWarningList.filter(
+        (a) => a.vegetableEarlyWarningStatus === "BETTER"
+      )
+    );
+    setGoodVegitableEarlyWarningList(
+      vegitableEarlyWarningList.filter(
+        (a) => a.vegetableEarlyWarningStatus === "GOOD"
+      )
+    );
+    setBadVegitableEarlyWarningList(
+      vegitableEarlyWarningList.filter(
+        (a) => a.vegetableEarlyWarningStatus === "BAD"
+      )
+    );
+    setWorstVegitableEarlyWarningList(
+      vegitableEarlyWarningList.filter(
+        (a) => a.vegetableEarlyWarningStatus === "WORST"
+      )
+    );
+  };
 
   return (
     <div
@@ -43,6 +82,7 @@ const VegitableEarlyWarningRanges = () => {
           Selection) – These Two Weeks:
         </Typography>
       </Grid>
+      <Grid display='flex'>
       <Grid container mt={5} px={5}>
         <Autocomplete
           //options={locations}
@@ -66,6 +106,10 @@ const VegitableEarlyWarningRanges = () => {
             />
           )}
         />
+        <Grid   px={30} >
+       <FilterAltIcon></FilterAltIcon>
+       </Grid>
+       </Grid>
       </Grid>
       <Grid container mt={1} sx={{ width: "120vw" }}>
         <Grid
@@ -83,35 +127,60 @@ const VegitableEarlyWarningRanges = () => {
         >
           <Grid container mt={5} px={5}>
             <Grid item md={8}>
-              <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-                Best Selection with Best Price
-              </Typography>
-              <Grid item md={12} mb={5} pl={5}>
-                <VegitableEarlyWarningCarousel status={"Best Selection"} />
+              <Grid visibility={bestVegitableEarlyWarningList && bestVegitableEarlyWarningList.length}>
+                <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+                  Best Selection with Best Price
+                </Typography>
+                <Grid item md={12} mb={5} pl={5}>
+                  <VegitableEarlyWarningCarousel
+                    status={"Best Selection"}
+                    dataList={bestVegitableEarlyWarningList}
+                  />
+                </Grid>
               </Grid>
-              <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-                Better Selection with Good Price
-              </Typography>
-              <Grid item md={12} mb={5} pl={5}>
-                <VegitableEarlyWarningCarousel status={"Better Selection"} />
+              <Grid visibility={betterVegitableEarlyWarningList && betterVegitableEarlyWarningList.length}>
+                <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+                  Better Selection with Good Price
+                </Typography>
+                <Grid item md={12} mb={5} pl={5}>
+                  <VegitableEarlyWarningCarousel
+                    status={"Better Selection"}
+                    dataList={betterVegitableEarlyWarningList}
+                  />
+                </Grid>
               </Grid>
-              <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-                Good Selection with General Price
-              </Typography>
-              <Grid item md={12} mb={5} pl={5}>
-                <VegitableEarlyWarningCarousel status={"Good Selection"} />
+              <Grid visibility={goodVegitableEarlyWarningList && goodVegitableEarlyWarningList.length}>
+                <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+                  Good Selection with General Price
+                </Typography>
+                <Grid item md={12} mb={5} pl={5}>
+                  <VegitableEarlyWarningCarousel
+                    status={"Good Selection"}
+                    dataList={goodVegitableEarlyWarningList}
+                  />
+                </Grid>
               </Grid>
-              <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-                Bad Selection with Worst Price
-              </Typography>
-              <Grid item md={12} mb={5} pl={5}>
-                <VegitableEarlyWarningCarousel status={"Bad Selection"} />
+              <Grid visibility={badVegitableEarlyWarningList && badVegitableEarlyWarningList.length}>
+                <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+                  Bad Selection with Worst Price
+                </Typography>
+                <Grid item md={12} mb={5} pl={5}>
+                  <VegitableEarlyWarningCarousel
+                    status={"Bad Selection"}
+                    dataList={badVegitableEarlyWarningList}
+                  />
+                </Grid>
               </Grid>
-              <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-                Worst Selection with Lower Price
-              </Typography>
-              <Grid item md={12} mb={5} pl={5}>
-                <VegitableEarlyWarningCarousel status={"Worst Selection"} />
+              <Grid visibility={worstVegitableEarlyWarningList && worstVegitableEarlyWarningList.length}>
+                <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+                  Worst Selection with Lower Price
+                </Typography>
+                <Grid item md={12} mb={5} pl={5}>
+                  <VegitableEarlyWarningCarousel
+                    status={"Worst Selection"}
+                    dataList={worstVegitableEarlyWarningList}
+                  />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
