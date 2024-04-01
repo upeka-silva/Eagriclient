@@ -165,6 +165,7 @@ export default function BiWeekDataTable({
                     border: 1,
                     background: "#white",
                     borderColor: "#2e7d32",
+                    color : "#2e7d32",
                     marginRight: 1,
                     borderRadius: 1.5,
                     maxHeight: "30px",
