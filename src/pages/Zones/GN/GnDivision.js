@@ -1,10 +1,4 @@
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
@@ -12,13 +6,18 @@ import {
   ButtonGroup,
   CircularProgress,
   Divider,
+  FormControl,
   Grid,
+  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField
+  TextField,
+  createStyles,
+  makeStyles,
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -62,6 +61,27 @@ const GnDivision = () => {
 
   const location = useLocation();
   console.log(location.pathname);
+
+  const [showClearIcon, setShowClearIcon] = useState("none");
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleChange = (event) => {
+    setSearchText(event.target?.value);
+  };
+
+  const handleSearch = () => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
+  };
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [isProvincial, setIsProvincial] = useState(false);
@@ -593,7 +613,7 @@ const GnDivision = () => {
     setSelectedAscDivision(null);
     setSelectedArpa(null);
     setSelectedAiRegion(null);
-    if(isAdmin){
+    if (isAdmin) {
       setDataEndPoint("geo-data/gn-divisions");
     }
     // setDataEndPoint("geo-data/gn-divisions");
@@ -738,35 +758,34 @@ const GnDivision = () => {
     });
   };
 
-  const changeDataEndPoint = (id)=>{
-    if(isAdmin){
-      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`)
+  const changeDataEndPoint = (id) => {
+    if (isAdmin) {
+      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`);
     }
-    if(isProvincial){
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    if (isProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
     }
-    if(isIntProvincial){
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    if (isIntProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
     }
-    if(isMahaweli){
-      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`)
+    if (isMahaweli) {
+      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`);
     }
-    if(isAgrarian){
-      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`)
+    if (isAgrarian) {
+      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
     }
-   
-  }
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
@@ -1041,25 +1060,23 @@ const GnDivision = () => {
                   if (isAdmin) {
                     console.log(value);
                     setSelectedDsDevision(value);
-                    changeDataEndPoint(value.id)
-                  } 
+                    changeDataEndPoint(value.id);
+                  }
                   if (isProvincial) {
                     setSelectedPAda(value);
                     getAiRegions("PROVINCIAL", value.id);
-                    
                   }
                   if (isIntProvincial) {
                     setSelectedIpAda(value);
                     getAiRegions("INTER_PROVINCIAL", value.id);
-                    
                   }
                   if (isMahaweli) {
                     setSelectedMahaweliUnit(value);
-                    changeDataEndPoint(value.id)
+                    changeDataEndPoint(value.id);
                   }
                   if (isAgrarian) {
                     setSelectedArpa(value);
-                    changeDataEndPoint(value.id)
+                    changeDataEndPoint(value.id);
                   }
                 }}
                 fullWidth
@@ -1094,7 +1111,7 @@ const GnDivision = () => {
                   onChange={(event, value) => {
                     if (isProvincial || isIntProvincial) {
                       setSelectedAiRegion(value);
-                      changeDataEndPoint(value.id)
+                      changeDataEndPoint(value.id);
                     }
                   }}
                   fullWidth
@@ -1121,6 +1138,44 @@ const GnDivision = () => {
               </FieldWrapper>
             </Grid>
           )}
+
+          <Grid item>
+          <FieldWrapper>
+            <FieldName>.</FieldName>
+
+            <TextField
+              name="cropArea"
+              id="cropArea"
+              value={searchText}
+              fullWidth
+              //disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => {
+                // const value = parseFloat(e.target.value) || 0;
+                handleChange(e);
+              }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+          </Grid>
+          
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={handleSearch}
+                sx={{ marginTop: "40px" }}
+              >
+                Search
+              </Button>
+            </FieldWrapper>
+          </Grid>
           <Grid item>
             <FieldWrapper>
               <Button
