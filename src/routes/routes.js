@@ -65,6 +65,7 @@ import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
+import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -1397,6 +1398,14 @@ export const Routes = [
         element: <CropLookEarlyWarningRanges />,
         icon: Settings,
         component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
+      },
+      {
+        path: "/vegitable-early-warning-ranges",
+        name: "veg Early Warning Ranges",
+        isSideBar: true,
+        element: <VegitableEarlyWarningRanges />,
+        icon: Settings,
+        //component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
       },
     ],
   },
