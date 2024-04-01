@@ -7,11 +7,7 @@ export const handleMahaweliBlock = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(
-      "geo-data/mahaweli-blocks",
-      payload,
-      true
-    );
+    const response = await post("geo-data/mahaweli-blocks", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -38,7 +34,7 @@ export const handleMahaweliBlock = async (
   }
 };
 
-export const updateMahaweliBlock= async (
+export const updateMahaweliBlock = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
@@ -137,6 +133,28 @@ export const get_MahaweliBlockListBySystemId = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(
       "geo-data/mahaweli-blocks/mahaweli-system/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_MahaweliBlockLovBySystemId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/mahaweli-blocks/mahaweli-system/${id}?page=0&size=1000`,
       true
     );
     if (httpCode === "200 OK") {

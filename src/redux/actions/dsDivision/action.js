@@ -147,3 +147,25 @@ export const get_DsDivisionListByDistrictId = async (id) => {
     };
   }
 };
+
+export const get_DsDivisionLovByDistrictId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ds-divisions/by-district/${id}?page=0&size=1000`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

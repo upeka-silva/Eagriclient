@@ -1,4 +1,4 @@
-import { get, getWithBody, post } from '../../../services/api/index';
+import { get, post } from '../../../services/api/index';
 export const get_DataList = async (path, page = 0, size = 10,order="asc", target="id") => {
 	try {
 		const queryParams = `page=${page}&size=${size}&sort=${order}&sortCol=${target}`;

@@ -14,8 +14,6 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
-  createStyles,
-  makeStyles,
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from "react";
@@ -29,22 +27,22 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { get_AiRegionListByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
-import { get_arpaListByAscId } from "../../../redux/actions/arpa/action";
-import { get_ASCListByComId } from "../../../redux/actions/asc/action";
-import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
-import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { get_AiRegionLovByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
+import { get_arpaLovByAscId } from "../../../redux/actions/arpa/action";
+import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
+import { get_DistrictLovByProvinceId } from "../../../redux/actions/district/action";
+import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
+import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
-import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
-import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
 import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
 import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import { get_MahaweliUnitListByBlockId } from "../../../redux/actions/mahaweliUnit/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
-import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { get_ProvincialAdaLovByDdoaId } from "../../../redux/actions/provincialAda/action";
+import { get_ProvincialDdoaLovByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -627,13 +625,13 @@ const GnDivision = () => {
   };
 
   const getDistricts = (id) => {
-    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+    get_DistrictLovByProvinceId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDistrics(dataList);
     });
   };
   const getDsDivisions = (id) => {
-    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+    get_DsDivisionLovByDistrictId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDsDivisions(dataList);
     });
@@ -665,7 +663,7 @@ const GnDivision = () => {
 
   useEffect(() => {
     isIntProvincial === true &&
-      get_InterProvincialDoaList().then(({ dataList = [] }) => {
+      get_InterProvincialDoaLov().then(({ dataList = [] }) => {
         console.log(dataList);
         setIpDoas(dataList);
       });
@@ -689,7 +687,7 @@ const GnDivision = () => {
 
   useEffect(() => {
     isAgrarian === true &&
-      get_DistrictCommList().then(({ dataList = [] }) => {
+      get_DistrictCommLov().then(({ dataList = [] }) => {
         setDcomms(dataList);
       });
 
@@ -699,28 +697,28 @@ const GnDivision = () => {
   }, [isMahaweli]);
 
   const getDDOAS = (id) => {
-    get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+    get_ProvincialDdoaLovByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setPDdoas(dataList);
     });
   };
 
   const getADAS = (id) => {
-    get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+    get_ProvincialAdaLovByDdoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setPAdas(dataList);
     });
   };
 
   const getIpDDOAS = (id) => {
-    get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialDdoaLovByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setIpDdoas(dataList);
     });
   };
 
   const getIpADAS = (id) => {
-    get_InterProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialAdaLovByDdoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setIpAdas(dataList);
     });
@@ -741,19 +739,19 @@ const GnDivision = () => {
   };
 
   const getAscDivisions = (id) => {
-    get_ASCListByComId(id).then(({ dataList = [] }) => {
+    get_ASCLovByComId(id, 100).then(({ dataList = [] }) => {
       setAscDivisions(dataList);
     });
   };
 
   const getArpas = (id) => {
-    get_arpaListByAscId(id).then(({ dataList = [] }) => {
+    get_arpaLovByAscId(id).then(({ dataList = [] }) => {
       setArpas(dataList);
     });
   };
 
   const getAiRegions = (type, id) => {
-    get_AiRegionListByTypeByAdaId(type, id).then(({ dataList = [] }) => {
+    get_AiRegionLovByTypeByAdaId(type, id).then(({ dataList = [] }) => {
       setAiRegions(dataList);
     });
   };

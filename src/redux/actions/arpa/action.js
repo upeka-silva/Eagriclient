@@ -123,10 +123,34 @@ export const deleteARPA = async (
   }
 };
 
-
 export const get_arpaListByAscId = async (id) => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/arpa/AscDivision/" + id, true);
+    const { httpCode, payloadDto } = await get(
+      "geo-data/arpa/AscDivision/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_arpaLovByAscId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/arpa/AscDivision/${id}?page=0&size=100`,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
