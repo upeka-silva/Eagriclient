@@ -20,7 +20,7 @@ const CommodityGroupList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"geo-data/commodity-group"}
+        dataEndPoint={"harti/commodity-group"}
         columns={columns}
         selectable
         selectedRows={selectedRows}
