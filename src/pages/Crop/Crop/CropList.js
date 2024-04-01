@@ -23,7 +23,7 @@ const CropList = ({
         "cropSubCategoryDTO.subCategoryId",
         "cropSubCategoryDTO.description",
       ],
-      sortCol: ["cropSubCategory.description"],
+      sortCol: ["cropSubCategory.id"],
       joinString: " - ",
       headerName: "Sub Category",
     },
@@ -38,7 +38,7 @@ const CropList = ({
     // { field: "cropType", headerName: "Crop Type" },
     // { field: "family", headerName: "Family" },
     // { field: "havesting", headerName: "Havesting" },
-    { field: "cropId", headerName: "Crop ID" },
+    { field: "cropId", headerName: "Crop ID", sortCol: ["cropId"], },
   ];
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
