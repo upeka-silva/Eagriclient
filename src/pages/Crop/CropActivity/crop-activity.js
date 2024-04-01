@@ -129,7 +129,7 @@ const CropActivity = () => {
       <Button
         onClick={() => addCropAction()}
         color="success"
-        variant="contained"
+        variant="outlined"
         size="small"
         sx={{ marginTop: "20px" }}
       >
@@ -147,11 +147,11 @@ const CropActivity = () => {
           aria-label="Audit Question Table"
           variant="variant"
         >
-          <TableHead>
+          <TableHead sx={{backgroundColor:'#40a845', height:'40px'}}>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Activity Description</TableCell>
-              <TableCell>Action</TableCell>
+              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Name</TableCell>
+              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Activity Description</TableCell>
+              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
