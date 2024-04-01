@@ -67,7 +67,7 @@ const VegitableEarlyWarningRanges = () => {
           )}
         />
       </Grid>
-      <Grid container mt={1} sx={{ width: "100vw" }}>
+      <Grid container mt={1} sx={{ width: "120vw" }}>
         <Grid
           md={12}
           mt={1}

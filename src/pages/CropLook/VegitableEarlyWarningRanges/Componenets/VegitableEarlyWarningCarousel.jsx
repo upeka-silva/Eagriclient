@@ -133,7 +133,7 @@ function VegitableEarlyWarningCarousel({status}) {
 
   return (
     <div>
-      <StyledSlider StyledSlider {...settings} className="slider-container">
+      <Grid container spacing={2} display='flex'>
         {/* Render cards */}
         {cardsData.map((card, index) => (
           <Grid key={index} item mb={5}>
@@ -146,7 +146,7 @@ function VegitableEarlyWarningCarousel({status}) {
             />
           </Grid>
         ))}
-      </StyledSlider>
+      </Grid>
     </div>
   );
 }

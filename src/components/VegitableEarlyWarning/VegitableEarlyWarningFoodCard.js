@@ -27,15 +27,15 @@ function CustomRating({ value }) {
 
 function EmojiStatus({ status }) {
   if (status === "Best Selection") {
-    return <SentimentVerySatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return <SentimentVerySatisfiedIcon style={{ fontSize: 30, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Better Selection") {
-    return <SentimentSatisfiedAltIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return <SentimentSatisfiedAltIcon style={{ fontSize: 30, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Good Selection") {
-    return <SentimentSatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return <SentimentSatisfiedIcon style={{ fontSize: 30, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Bad Selection") {
-    return <SentimentVeryDissatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return <SentimentVeryDissatisfiedIcon style={{ fontSize: 30, color: ColorStatus({ status })?.footerColor, }} />;
   } else if (status === "Worst Selection") {
-    return <MoodBadIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return <MoodBadIcon style={{ fontSize: 30, color: ColorStatus({ status })?.footerColor, }} />;
   }
 }
 
@@ -90,8 +90,8 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
       <Grid>
         <Card
           sx={{
-            maxWidth: 220,
-            height: 350,
+            maxWidth: 170,
+            height: 280,
             borderRadius: "15px",
             display: "flex",
             flexDirection: "column",
@@ -102,7 +102,7 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
             <CardMedia
               sx={{ borderRadius: "15px" }}
               component="img"
-              height="140"
+              height="100"
               image={image}
               alt="food image"
             />
@@ -117,10 +117,10 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
               </Typography>
               <StartStatus status={status} />
             </Grid>
-            <Typography mt={1} fontSize={"13px"} color="text.secondary">
+            <Typography mt={1} fontSize={"10px"} color="text.secondary">
               {firstText}
             </Typography>
-            <Typography mt={1} fontSize={"13px"} color="text.secondary">
+            <Typography mt={1} fontSize={"10px"} color="text.secondary">
               {secondText}
             </Typography>
           </Grid>
@@ -133,7 +133,7 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
               alignItems: "center",
               marginTop: "auto", // Push the footer content to the bottom
               borderRadius: "0 0 15px 15px", // Rounded bottom corners
-              height: "60px",
+              height: "43px",
               flexDirection: "row",
             }}
             px={2}
@@ -149,7 +149,7 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
             <Grid
               bgcolor="white"
               borderRadius="0 0 15px 0px"
-              sx={{ marginRight: "-12px", padding: "5px" }}
+              sx={{ marginRight: "-14px", padding: "3px" }}
             >
                 <EmojiStatus status={status} />
             </Grid>
