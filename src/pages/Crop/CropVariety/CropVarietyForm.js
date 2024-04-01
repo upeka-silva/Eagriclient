@@ -1,4 +1,4 @@
-import { PhotoCamera } from "@mui/icons-material";
+import { CenterFocusWeakOutlined, JoinRight, PhotoCamera } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -277,14 +277,14 @@ const CropVarietyForm = () => {
         resetForm={resetForm}
       />
       <Grid
-        container
+        container spacing={2}
         sx={{
           margin: "15px",
           width: "97%",
           borderRadius: "5px",
         }}
       >
-        <Grid item lg={8}>
+        <Grid item lg={9}>
           <Grid container>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
@@ -378,12 +378,12 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={4}>
+            <Grid item sm={4} md={4} lg={6}>
               <FieldWrapper>
                 <FieldName>Croplook Variety ID</FieldName>
                 <TextField
                   name="croplookVarietyId"
-                  id="croplookVarietyId"
+                  id="croplookVarietyId"  
                   type="text"
                   value={formData?.croplookVarietyId || ""}
                   fullWidth
@@ -498,7 +498,7 @@ const CropVarietyForm = () => {
                     </Select>
                   </FieldWrapper>
                 </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Pericarp Color</FieldName>
                 <TextField
@@ -519,7 +519,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Pod/Fruit Colour</FieldName>
                 <TextField
@@ -540,7 +540,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
                 <FieldName>Grain Color</FieldName>
                 <TextField
@@ -561,7 +561,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
                 <FieldName>Grain Quality</FieldName>
                 <TextField
@@ -582,7 +582,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
                 <FieldName>Grain Size</FieldName>
                 <TextField
@@ -819,7 +819,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={8}>
+            <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
                 <FieldName>Scientific Name</FieldName>
                 <TextField
@@ -840,7 +840,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={4} md={4} lg={3}>
               <FieldWrapper>
                 <FieldName>Seed Requirement</FieldName>
                 <TextField
@@ -861,7 +861,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
                 <FieldName>Released Year</FieldName>
                 <TextField
@@ -882,7 +882,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={3}>
+            <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
                 <FieldName>Spacing</FieldName>
                 <TextField
@@ -919,7 +919,7 @@ const CropVarietyForm = () => {
             />
           </FieldWrapper>
         </Grid>
-            <Grid item sm={3} md={3} lg={8}>
+            <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
                 <FieldName>Soil Problems</FieldName>
                 <TextField
@@ -940,7 +940,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={5}>
+            <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
                 <FieldName>Plant Growth</FieldName>
                 <TextField
@@ -961,7 +961,7 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-            <Grid item sm={3} md={3} lg={5}>
+            <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
                 <FieldName>Resistant to Pest & Disease</FieldName>
                 <TextField
@@ -1026,7 +1026,7 @@ const CropVarietyForm = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item lg={4}>
+        <Grid item lg={3}>
           <Grid container>
             <Grid item sm={3} md={3} lg={9}>
               <FieldWrapper>
@@ -1050,7 +1050,7 @@ const CropVarietyForm = () => {
                   <Box
                     display="flex"
                     flexDirection="column"
-                    alignItems="center"
+                    alignItems="left"
                     sx={{ position: "relative" }}
                   >
                     <label
