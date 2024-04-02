@@ -88,7 +88,7 @@ export const getCropsByCropCategory = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {},
-  path = 'geo-data/crops/crop-category/' + id
+  path = `geo-data/crops/crop-category/${id}?size=200`
 ) => {
 try {
   const { httpCode, payloadDto } = await get(path, true);
