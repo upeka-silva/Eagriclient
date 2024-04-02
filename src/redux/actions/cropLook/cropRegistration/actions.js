@@ -224,3 +224,36 @@ export const get_DistrictListByProvinceId = async (id) => {
     };
   }
 };
+
+export const deleteCropRegistration = async (
+  id,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await api_delete(`crop-look/crop-registration/${id || ""}`, true);
+    console.log(response);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};

@@ -115,7 +115,7 @@ const BiWeeklyReporting = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {p.aiRegion?.regionId} - {p.aiRegion?.description}
               </ListItemText>
             </ListItem>
           );
