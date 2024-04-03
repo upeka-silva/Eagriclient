@@ -25,6 +25,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
 import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { RestartAlt } from "@mui/icons-material";
 
 
 const CropLookEarlyWarningRangesList = ({
@@ -61,6 +62,14 @@ const CropLookEarlyWarningRangesList = ({
     const [category, setCategory] = useState({ categoryId: "", description: "" });
     const [subCategory, setSubCategory] = useState({subCategoryId: "",description: "",});
     const [crop, setCrop] = useState(null);
+    const [id, setId] = useState(null);
+    const [data, setData] = useState(null);
+    const [isdisable, setIsdisable] = useState({
+      crop: false,
+    });
+
+    const [options, setOptions] = useState([]);
+    const [show, setShow] = useState(false);
 
 
     useEffect(() => {
@@ -85,8 +94,31 @@ const CropLookEarlyWarningRangesList = ({
         setCropyOptions(dataList);
       });
     }
+
+    const handleChange = (value, target) => {
+      setShow(false);
+      setId(value?.id);
+      if (Object.keys(cropyOptions).length > 0) {
+        setShow(true);
+      }
+      setIsdisable((prevState) => ({
+        ...prevState,
+        [target]: true,
+      }));
+      setData(value);
+    };
   
-    
+    const reset = () => {
+      const allTrueIsdisable = {
+        crop: false,
+      };
+      setIsdisable(allTrueIsdisable);
+      setCategory(null);
+      setSubCategory(null);
+      setCrop(null);
+      setData(null);
+      setShow(null);
+    };
   
     return (
       <TableWrapper>
@@ -133,7 +165,7 @@ const CropLookEarlyWarningRangesList = ({
             <FieldName>Crop Sub Category</FieldName>
             <Autocomplete
               options={subCategoryOptions}
-              disabled={category.categoryId === ""}
+              disabled={category === null || category?.categoryId === ""}
               getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
               value={subCategory || null}
               onChange={(event, value) => {
@@ -163,11 +195,12 @@ const CropLookEarlyWarningRangesList = ({
             <FieldName>Crop</FieldName>
             <Autocomplete
               options={cropyOptions}
-              disabled={subCategory.subCategoryId  === ""}
+              disabled={subCategory === null || subCategory?.subCategoryId === ""}
               getOptionLabel={(i) => `${i?.cropId} - ${i?.description}`}
               value={crop || null}
               onChange={(event, value) => {
                 setCrop(value);
+                handleChange(value, "crop");
               }}
               disableClearable
               sx={{
@@ -186,11 +219,26 @@ const CropLookEarlyWarningRangesList = ({
             />
           </FieldWrapper>
         </Grid>
+            <Grid item lg={2}>
+              <FieldWrapper>
+                <Button
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  onClick={reset}
+                  sx={{ marginTop: "40px" }}
+                >
+                  <RestartAlt />
+                  Reset
+                </Button>
+              </FieldWrapper>
+            </Grid>
         </Grid>
         </ActionWrapper>
-        <DataTable
+        {show ? (
+          <DataTable
           loadingTable
-          dataEndPoint={dataEndPoint}
+          dataEndPoint={`crop/early-warning-ranges/crop/${id}`}
           columns={columns}
           selectable
           selectedRows={selectedRows}
@@ -198,6 +246,19 @@ const CropLookEarlyWarningRangesList = ({
           onRowSelect={onRowSelect}
           unSelectAll={unSelectAll}
         />
+        ) : (
+          <DataTable
+          loadingTable
+          dataEndPoint={"crop/early-warning-ranges"}
+          columns={columns}
+          selectable
+          selectedRows={selectedRows}
+          selectAll={selectAll}
+          onRowSelect={onRowSelect}
+          unSelectAll={unSelectAll}
+        />
+        )}
+        
       </TableWrapper>
     );
   };
