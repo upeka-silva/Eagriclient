@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { Avatar, Button, Chip, Grid } from "@mui/material";
 import {
-  Avatar,
-  Button,
-  Chip,
-  Grid,
-} from "@mui/material";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import DamageAddModal from "./damage-add";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -40,7 +38,7 @@ const BiWeeklySingleInput = ({
 
   return (
     <>
-      <Grid container spacing={1} sx={{paddingTop: "20px"}}>
+      <Grid container spacing={1} sx={{ paddingTop: "20px" }}>
         <Grid item xs={2}>
           <Chip
             avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
@@ -95,7 +93,7 @@ const BiWeeklySingleInput = ({
                   color: "green",
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "#33b858",
-  
+
                     borderRadius: "8px",
                   },
                   "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {
@@ -115,41 +113,55 @@ const BiWeeklySingleInput = ({
           <Grid container>
             {varietyTarget?.id ? (
               <Grid item xs={12}>
-              <PermissionWrapper
-                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_VARIETY_REPORT}`}
-              >
-                {(varietyTarget?.damageExtents && varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (((mode === DEF_ACTIONS.EDIT) || (mode === DEF_ACTIONS.ADD && varietyTarget?.id))) ? (
-                  (
-                  (mode === DEF_ACTIONS.VIEW) ? (
-                    <Button
-                  variant="outlined"
-                  color="success"
-                  size="small"
-                  onClick={handleAddDamage}
-                  sx={{ marginTop: "10px" }}
-                >
-                  View Damage
-                </Button>):<Button
-                  variant="outlined"
-                  color="success"
-                  size="small"
-                  onClick={handleAddDamage}
-                  sx={{ marginTop: "10px" }}
-                >
-                  Add Damage
-                </Button>
+                {(varietyTarget?.damageExtents &&
+                  varietyTarget?.damageExtents[0]?.id &&
+                  mode === DEF_ACTIONS.VIEW) ||
+                mode === DEF_ACTIONS.EDIT ||
+                (mode === DEF_ACTIONS.ADD && varietyTarget?.id) ? (
+                  mode === DEF_ACTIONS.VIEW ? (
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                    >
+                      <Button
+                        variant="outlined"
+                        color="success"
+                        size="small"
+                        onClick={handleAddDamage}
+                        sx={{ marginTop: "10px" }}
+                      >
+                        View Damage
+                      </Button>
+                    </PermissionWrapper>
+                  ) : (
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                    >
+                      <Button
+                        variant="outlined"
+                        color="success"
+                        size="small"
+                        onClick={handleAddDamage}
+                        sx={{ marginTop: "10px" }}
+                      >
+                        Add Damage
+                      </Button>
+                    </PermissionWrapper>
                   )
-                ): <Button
-                disabled={true}
-                variant="outlined"
-                color="success"
-                size="small"
-                sx={{ marginTop: "10px" }}
-              >
-                Add Damage
-              </Button>}
-                
-                </PermissionWrapper>
+                ) : (
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                  >
+                    <Button
+                      disabled={true}
+                      variant="outlined"
+                      color="success"
+                      size="small"
+                      sx={{ marginTop: "10px" }}
+                    >
+                      Add Damage
+                    </Button>
+                  </PermissionWrapper>
+                )}
               </Grid>
             ) : null}
           </Grid>
