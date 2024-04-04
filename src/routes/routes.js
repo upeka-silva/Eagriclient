@@ -1401,11 +1401,11 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning-ranges",
-        name: "Veg Early Warning Ranges",
+        name: "Veg Early Warnings",
         isSideBar: true,
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
-        //component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
+        //component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
       },
     ],
   },

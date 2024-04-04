@@ -118,10 +118,10 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
               <StartStatus status={status} />
             </Grid>
             <Typography mt={1} fontSize={"10px"} color="text.secondary">
-              {firstText}
+             {'Cul.Ext. -' + firstText +' (ha.)'} 
             </Typography>
             <Typography mt={1} fontSize={"10px"} color="text.secondary">
-              {secondText}
+             {'Available Cul.Ext. -' +secondText+' (ha.)'}
             </Typography>
           </Grid>
 
@@ -139,7 +139,7 @@ function VegitableEarlyWarningFoodCard({ image, foodName, status,firstText, seco
             px={2}
           >
             <Typography
-              sx={{ color: "#fff", fontSize: "14px" }}
+              sx={{ color: "#fff", fontSize: "13px" }}
               variant="body2"
               color="text.secondary"
             >

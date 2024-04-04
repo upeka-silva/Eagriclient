@@ -132,8 +132,9 @@ export const handleEarlyWarningRegistartion = async (
 
     export const get_VegitableEarlyWarningRangeeList = async (
       ) => {
+        debugger ;
         try {
-          const { httpCode, payloadDto } = await get("crop-look/vegetable-early-warnings");
+          const { httpCode, payloadDto } = await get("crop-look/vegetable-early-warnings", true);
           if (httpCode === '200 OK') {
             return {
               dataList: payloadDto

@@ -138,11 +138,11 @@ function VegitableEarlyWarningCarousel({status ,dataList}) {
         {dataList.map((card, index) => (
           <Grid key={index} item mb={5}>
             <VegitableEarlyWarningFoodCard
-              image={card.image}
-              foodName={card.foodName}
+              image={Brinjol}
+              foodName={card?.cropDTO?.description}
               status={status}
-              firstText={card.firstText}
-              secondText={card.secondText}
+              firstText={card.accumulatedExtend}
+              secondText={card.accumulatedExtend}
             />
           </Grid>
         ))}

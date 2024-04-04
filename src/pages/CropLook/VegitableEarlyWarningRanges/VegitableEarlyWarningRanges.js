@@ -12,12 +12,14 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect } from "react";
 import { get_VegitableEarlyWarningRangeeList } from "../../../redux/actions/cropLook/earlyWarningRegistration/action";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const VegitableEarlyWarningRanges = () => {
   const [vegitableEarlyWarningList, setVegitableEarlyWarningList] = useState(
     []
   );
+  const [searchValue, setSearchValue] = useState("");
+
   const [bestVegitableEarlyWarningList, setBestVegitableEarlyWarningList] =
     useState([]);
   const [betterVegitableEarlyWarningList, setBetterVegitableEarlyWarningList] =
@@ -33,36 +35,52 @@ const VegitableEarlyWarningRanges = () => {
     debugger;
     get_VegitableEarlyWarningRangeeList().then(({ dataList = [] }) => {
       setVegitableEarlyWarningList(dataList);
-      setData();
+      setData(dataList);
     });
   }, []);
 
-  const setData = () => {
+  useEffect(() => {
+    var filteredlist = filter();
+    setData(filteredlist);
+  }, [searchValue]);
+
+  const setData = (dataList = []) => {
     setBestVegitableEarlyWarningList(
-      vegitableEarlyWarningList.filter(
-        (a) => a.vegetableEarlyWarningStatus === "BEST"
-      )
+      dataList.filter((a) => a.vegetableEarlyWarningStatus === "BEST")
     );
     setBetterVegitableEarlyWarningList(
-      vegitableEarlyWarningList.filter(
-        (a) => a.vegetableEarlyWarningStatus === "BETTER"
-      )
+      dataList.filter((a) => a.vegetableEarlyWarningStatus === "BETTER")
     );
     setGoodVegitableEarlyWarningList(
-      vegitableEarlyWarningList.filter(
-        (a) => a.vegetableEarlyWarningStatus === "GOOD"
-      )
+      dataList.filter((a) => a.vegetableEarlyWarningStatus === "GOOD")
     );
     setBadVegitableEarlyWarningList(
-      vegitableEarlyWarningList.filter(
-        (a) => a.vegetableEarlyWarningStatus === "BAD"
-      )
+      dataList.filter((a) => a.vegetableEarlyWarningStatus === "BAD")
     );
     setWorstVegitableEarlyWarningList(
-      vegitableEarlyWarningList.filter(
-        (a) => a.vegetableEarlyWarningStatus === "WORST"
-      )
+      dataList.filter((a) => a.vegetableEarlyWarningStatus === "WORSE")
     );
+  };
+
+  var handleSearch = () => {
+    var filteredlist = filter();
+    setData(filteredlist);
+  };
+
+  var filter = () => {
+    if (searchValue !== "") {
+      return vegitableEarlyWarningList.filter(
+        (a) => a.cropDTO.description === searchValue
+      );
+    } else {
+      return vegitableEarlyWarningList;
+    }
+  };
+
+  const handleChange = (value) => {
+    setSearchValue(value);
+    var filteredlist = filter();
+    setData(filteredlist);
   };
 
   return (
@@ -82,34 +100,30 @@ const VegitableEarlyWarningRanges = () => {
           Selection) – These Two Weeks:
         </Typography>
       </Grid>
-      <Grid display='flex'>
-      <Grid container mt={5} px={5}>
-        <Autocomplete
-          //options={locations}
-          getOptionLabel={(option) => option.district}
-          //onChange={handleLocationChange}
-          renderInput={(params) => (
-            <InputBase
-              {...params.InputProps}
-              inputProps={params.inputProps}
-              sx={{
-                color: "black",
-                width: "450px",
-                height: "40px",
-                bgcolor: "#ffffff",
-                borderRadius: "20px",
-                padding: "0px 0px 0px 30px",
-                border: "2px solid #DBDBDB",
-              }}
-              placeholder="Search…"
-              endAdornment={<SearchIcon />}
-            />
-          )}
-        />
-        <Grid   px={30} >
-       <FilterAltIcon></FilterAltIcon>
-       </Grid>
-       </Grid>
+      <Grid display="flex">
+        <Grid container mt={5} px={5}>
+          <InputBase
+            sx={{
+              color: "black",
+              width: "450px",
+              height: "40px",
+              bgcolor: "#ffffff",
+              borderRadius: "20px",
+              padding: "0px 20px 0px 30px",
+              border: "2px solid #DBDBDB",
+            }}
+            placeholder="Search…"
+            onChange={(e) => handleChange(e?.target?.value || "")}
+            value={searchValue}
+            endAdornment={
+              <SearchIcon onClick={handleSearch} sx={{ display: "flex" }} />
+            }
+          />
+
+          <Grid px={30}>
+            <FilterAltIcon onClick={handleSearch}></FilterAltIcon>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid container mt={1} sx={{ width: "120vw" }}>
         <Grid
@@ -127,7 +141,12 @@ const VegitableEarlyWarningRanges = () => {
         >
           <Grid container mt={5} px={5}>
             <Grid item md={8}>
-              <Grid visibility={bestVegitableEarlyWarningList && bestVegitableEarlyWarningList.length}>
+              <Grid
+                visibility={
+                  bestVegitableEarlyWarningList &&
+                  bestVegitableEarlyWarningList.length
+                }
+              >
                 <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
                   Best Selection with Best Price
                 </Typography>
@@ -138,7 +157,12 @@ const VegitableEarlyWarningRanges = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid visibility={betterVegitableEarlyWarningList && betterVegitableEarlyWarningList.length}>
+              <Grid
+                visibility={
+                  betterVegitableEarlyWarningList &&
+                  betterVegitableEarlyWarningList.length
+                }
+              >
                 <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
                   Better Selection with Good Price
                 </Typography>
@@ -149,7 +173,12 @@ const VegitableEarlyWarningRanges = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid visibility={goodVegitableEarlyWarningList && goodVegitableEarlyWarningList.length}>
+              <Grid
+                visibility={
+                  goodVegitableEarlyWarningList &&
+                  goodVegitableEarlyWarningList.length
+                }
+              >
                 <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
                   Good Selection with General Price
                 </Typography>
@@ -160,7 +189,12 @@ const VegitableEarlyWarningRanges = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid visibility={badVegitableEarlyWarningList && badVegitableEarlyWarningList.length}>
+              <Grid
+                visibility={
+                  badVegitableEarlyWarningList &&
+                  badVegitableEarlyWarningList.length
+                }
+              >
                 <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
                   Bad Selection with Worst Price
                 </Typography>
@@ -171,7 +205,12 @@ const VegitableEarlyWarningRanges = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid visibility={worstVegitableEarlyWarningList && worstVegitableEarlyWarningList.length}>
+              <Grid
+                visibility={
+                  worstVegitableEarlyWarningList &&
+                  worstVegitableEarlyWarningList.length
+                }
+              >
                 <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
                   Worst Selection with Lower Price
                 </Typography>
