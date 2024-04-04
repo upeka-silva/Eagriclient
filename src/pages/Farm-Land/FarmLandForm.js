@@ -607,6 +607,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
+           
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
@@ -656,7 +657,34 @@ const FarmLandForm = () => {
                 />
               </FieldWrapper>
             </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FormControl fullWidth>
+                  <FieldName>High/Low Land</FieldName>
+                  <Select
+                    name="landCategoryType"
+                    id="landCategoryType"
+                    value={formData?.landCategoryType || ""}
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
+                    onChange={(e) =>
+                      handleChange(e?.target?.value || "", "landCategoryType")
+                    }
+                    fullWidth
+                    sx={{
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    }}
+                    size="small"
+                  >
+                    <MenuItem value={"HIGH_LAND"}>High Land</MenuItem>
+                    <MenuItem value={"LOW_LAND"}>Low Land</MenuItem>
+                   
+                  </Select>
+                </FormControl>
+              </FieldWrapper>
+            </Grid>
           </Grid>
+        
 
           <Grid
             container
