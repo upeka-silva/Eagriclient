@@ -188,7 +188,7 @@ const CropList = ({
           selectAll={selectAll}
           onRowSelect={onRowSelect}
           unSelectAll={unSelectAll}
-          searchable={true}
+          searchable={false}
         />
       </>
     </TableWrapper>
