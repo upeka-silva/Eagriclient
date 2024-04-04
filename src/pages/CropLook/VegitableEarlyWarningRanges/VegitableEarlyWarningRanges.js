@@ -32,7 +32,6 @@ const VegitableEarlyWarningRanges = () => {
     useState([]);
 
   useEffect(() => {
-    debugger;
     get_VegitableEarlyWarningRangeeList().then(({ dataList = [] }) => {
       setVegitableEarlyWarningList(dataList);
       setData(dataList);
