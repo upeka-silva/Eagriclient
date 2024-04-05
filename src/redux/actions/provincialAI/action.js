@@ -7,11 +7,7 @@ export const handleProvincialAI = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(
-      "geo-data/ai-region",
-      payload,
-      true
-    );
+    const response = await post("geo-data/ai-region", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -81,10 +77,7 @@ export const deleteProvincialAI = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(
-      `geo-data/ai-region/${id || ""}`,
-      true
-    );
+    const response = await api_delete(`geo-data/ai-region/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -113,10 +106,7 @@ export const deleteProvincialAI = async (
 
 export const get_ProvincialAIList = async () => {
   try {
-    const { httpCode, payloadDto } = await get(
-      "geo-data/ai-region",
-      true
-    );
+    const { httpCode, payloadDto } = await get("geo-data/ai-region", true);
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -136,7 +126,7 @@ export const get_ProvincialAIList = async () => {
 export const get_ProvincialAIListByAdaId = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/ai-region/get-by-parent/PROVINCIAL/" + id,
+      `geo-data/ai-region/get-by-parent/PROVINCIAL/${id}`,
       true
     );
     if (httpCode === "200 OK") {
@@ -153,7 +143,29 @@ export const get_ProvincialAIListByAdaId = async (id) => {
       dataList: [],
     };
   }
-}
+};
+
+export const get_ProvincialAILovByAdaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region/get-by-parent/PROVINCIAL/${id}?page=0&size=1000`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const get_InterProvincialAIListByAdaId = async (id) => {
   try {
@@ -175,4 +187,26 @@ export const get_InterProvincialAIListByAdaId = async (id) => {
       dataList: [],
     };
   }
-}
+};
+
+export const get_InterProvincialAILovByAdaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region/get-by-parent/INTER_PROVINCIAL/${id}?page=0&size=1000`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

@@ -17,11 +17,7 @@ import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import {
-  TabButton,
-  TabContent,
-  TabWrapper,
-} from "../../Farm-Land/FarmLandForm";
+
 import {
   createCropTarget,
   getAllAiAndMahaweliUnits,
@@ -37,6 +33,7 @@ import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-s
 import DDBiWeeklyReportingTab from "./dd-biweekly-reporting-tab";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
 
 const DDBiWeeklyReportingForm = () => {
   useUserAccessValidation();

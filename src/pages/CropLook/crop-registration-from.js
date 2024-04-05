@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-  Button,
-  ButtonGroup,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -15,12 +9,9 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../components/FormLayout/FormWrapper";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
-import BackToList from "../../components/BackToList/BackToList";
-import CustFormHeader from "../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../Farm-Land/FarmLandForm";
 import CropRegistrationTab from "./crop-registration-tab";
 import {
   createCropRegistration,
@@ -30,6 +21,11 @@ import {
 import { REGION_PARENT_TYPE } from "../../utils/constants/region-parent-type";
 import { Fonts } from "../../utils/constants/Fonts";
 import PageHeader from "../../components/PageHeader/PageHeader";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../components/TabButtons/TabButtons";
 
 const CropRegistrationForm = () => {
   useUserAccessValidation();
@@ -50,8 +46,6 @@ const CropRegistrationForm = () => {
 
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
-
-
 
   // start of crop registration code
 
@@ -204,7 +198,7 @@ const CropRegistrationForm = () => {
           };
         } else {
           payload1 = {
-            mahaweliBlock: { id: selectedDDDivision.id },
+            mahaweliSystem: { id: selectedDDDivision.id },
             season: { id: selectedSeason.id },
             parentType: REGION_PARENT_TYPE.MAHAWELI,
           };
@@ -263,7 +257,6 @@ const CropRegistrationForm = () => {
                 getOptionLabel={(i) =>
                   (i.name !== undefined ? `${i?.name} - ` : "") +
                   (i.description !== undefined ? `${i?.description}` : "")
-                
                 }
                 onChange={(event, value) => {
                   handleDDChange(value);
@@ -288,7 +281,7 @@ const CropRegistrationForm = () => {
                 }
                 options={seasons}
                 value={selectedSeason}
-                getOptionLabel={(i) => 
+                getOptionLabel={(i) =>
                   (i.code !== undefined ? `${i.code} - ` : "") +
                   (i.description !== undefined ? `${i.description}` : "")
                 }

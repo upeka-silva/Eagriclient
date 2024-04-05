@@ -1,8 +1,4 @@
-import {
-  Autocomplete,
-  Grid,
-  TextField
-} from "@mui/material";
+import { Autocomplete, Grid, TextField } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
@@ -150,13 +146,13 @@ const ProvincialAiRegionForm = () => {
 
   return (
     <FormWrapper>
-      <PageHeader 
+      <PageHeader
         saving={saving}
         state={state}
         formName="Provincial Ai Region"
         goBack={goBack}
       />
-     <FormButtonGroup
+      <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
         saving={saving}
@@ -180,10 +176,7 @@ const ProvincialAiRegionForm = () => {
               id="regionId"
               value={formData?.regionId || ""}
               fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
+              disabled={state?.action === DEF_ACTIONS.VIEW}
               onChange={(e) => handleChange(e?.target?.value || "", "regionId")}
               sx={{
                 "& .MuiInputBase-root": {

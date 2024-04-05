@@ -44,6 +44,7 @@ export const get_CategoryList = async (
       "geo-data/crop-categories",
       true
     );
+    
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -87,7 +88,7 @@ export const getCropsByCropCategory = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {},
-  path = 'geo-data/crops/crop-category/' + id
+  path = `geo-data/crops/crop-category/${id}?size=200`
 ) => {
 try {
   const { httpCode, payloadDto } = await get(path, true);

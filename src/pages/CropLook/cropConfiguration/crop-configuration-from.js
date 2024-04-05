@@ -303,7 +303,7 @@ const CropConfigurationForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={3} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Crop Progress Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
@@ -311,11 +311,12 @@ const CropConfigurationForm = () => {
                 {fields
                   ? fields.map((field, index) => (
                     <>
-                      <Grid item sm={6} md={6} lg={6}>
+                      <Grid item sm={6} md={8} lg={8}>
                         <TextField
                           disabled={true}
                           variant="outlined"
                           id={index}
+                          fullWidth
                           value={field}
                           onChange={(e) =>
                             cropInputFieldsHandler(e.target.value)
@@ -323,6 +324,7 @@ const CropConfigurationForm = () => {
                           sx={{
                             "& .MuiInputBase-root": {
                               borderRadius: "8px",
+                              
                             },
                           }}
                           size="small"
@@ -346,7 +348,7 @@ const CropConfigurationForm = () => {
               </Grid>
             </FieldWrapper>
           </Grid>
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={3} md={4} lg={4}>
             <FieldWrapper>
               <FieldName>Crop Targets Fields Names</FieldName>
               <Grid container spacing={1} direction="row">
@@ -354,9 +356,10 @@ const CropConfigurationForm = () => {
                 {targetFields
                   ? targetFields.map((field, index) => (
                     <>
-                      <Grid item sm={6} md={6} lg={6}>
+                      <Grid item sm={6} md={8} lg={8}>
                         <TextField
                           disabled={true}
+                          fullWidth
                           variant="outlined"
                           id={index}
                           value={field}

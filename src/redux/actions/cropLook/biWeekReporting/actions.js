@@ -107,6 +107,40 @@ export const changeStatusOfBiWeekReport = async (
   }
 };
 
+export const changeStatusOfBiWeekCropCategoryReport = async (
+  id,
+  status,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await put(`crop-look/crop-category-report/${id}/status/${status}`, null, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccess();
+      return response.payload;
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
 export const createDamageExtents = async (
   payload = {},
   onSuccess = () => {},

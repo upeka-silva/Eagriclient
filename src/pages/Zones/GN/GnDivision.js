@@ -1,10 +1,4 @@
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
@@ -12,13 +6,16 @@ import {
   ButtonGroup,
   CircularProgress,
   Divider,
+  FormControl,
   Grid,
+  InputAdornment,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  TextField
+  TextField,
 } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -30,22 +27,22 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
-import { get_AiRegionListByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
-import { get_arpaListByAscId } from "../../../redux/actions/arpa/action";
-import { get_ASCListByComId } from "../../../redux/actions/asc/action";
-import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
-import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
-import { get_DsDivisionListByDistrictId } from "../../../redux/actions/dsDivision/action";
+import { get_AiRegionLovByTypeByAdaId } from "../../../redux/actions/aiRegion/action";
+import { get_arpaLovByAscId } from "../../../redux/actions/arpa/action";
+import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
+import { get_DistrictLovByProvinceId } from "../../../redux/actions/district/action";
+import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
+import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
 import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
-import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/interProvincialAda/action";
-import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
+import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
+import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
+import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
 import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
 import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import { get_MahaweliUnitListByBlockId } from "../../../redux/actions/mahaweliUnit/action";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
-import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
-import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
+import { get_ProvincialAdaLovByDdoaId } from "../../../redux/actions/provincialAda/action";
+import { get_ProvincialDdoaLovByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -62,6 +59,27 @@ const GnDivision = () => {
 
   const location = useLocation();
   console.log(location.pathname);
+
+  const [showClearIcon, setShowClearIcon] = useState("none");
+
+  const [searchText, setSearchText] = useState("");
+
+  const handleChange = (event) => {
+    setSearchText(event.target?.value);
+  };
+
+  const handleSearch = () => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
+  };
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [isProvincial, setIsProvincial] = useState(false);
@@ -593,7 +611,7 @@ const GnDivision = () => {
     setSelectedAscDivision(null);
     setSelectedArpa(null);
     setSelectedAiRegion(null);
-    if(isAdmin){
+    if (isAdmin) {
       setDataEndPoint("geo-data/gn-divisions");
     }
     // setDataEndPoint("geo-data/gn-divisions");
@@ -607,13 +625,13 @@ const GnDivision = () => {
   };
 
   const getDistricts = (id) => {
-    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+    get_DistrictLovByProvinceId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDistrics(dataList);
     });
   };
   const getDsDivisions = (id) => {
-    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+    get_DsDivisionLovByDistrictId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDsDivisions(dataList);
     });
@@ -645,7 +663,7 @@ const GnDivision = () => {
 
   useEffect(() => {
     isIntProvincial === true &&
-      get_InterProvincialDoaList().then(({ dataList = [] }) => {
+      get_InterProvincialDoaLov().then(({ dataList = [] }) => {
         console.log(dataList);
         setIpDoas(dataList);
       });
@@ -669,7 +687,7 @@ const GnDivision = () => {
 
   useEffect(() => {
     isAgrarian === true &&
-      get_DistrictCommList().then(({ dataList = [] }) => {
+      get_DistrictCommLov().then(({ dataList = [] }) => {
         setDcomms(dataList);
       });
 
@@ -679,28 +697,28 @@ const GnDivision = () => {
   }, [isMahaweli]);
 
   const getDDOAS = (id) => {
-    get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+    get_ProvincialDdoaLovByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setPDdoas(dataList);
     });
   };
 
   const getADAS = (id) => {
-    get_ProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+    get_ProvincialAdaLovByDdoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setPAdas(dataList);
     });
   };
 
   const getIpDDOAS = (id) => {
-    get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialDdoaLovByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setIpDdoas(dataList);
     });
   };
 
   const getIpADAS = (id) => {
-    get_InterProvincialAdaListByDdoaId(id).then(({ dataList = [] }) => {
+    get_InterProvincialAdaLovByDdoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setIpAdas(dataList);
     });
@@ -721,52 +739,51 @@ const GnDivision = () => {
   };
 
   const getAscDivisions = (id) => {
-    get_ASCListByComId(id).then(({ dataList = [] }) => {
+    get_ASCLovByComId(id, 100).then(({ dataList = [] }) => {
       setAscDivisions(dataList);
     });
   };
 
   const getArpas = (id) => {
-    get_arpaListByAscId(id).then(({ dataList = [] }) => {
+    get_arpaLovByAscId(id).then(({ dataList = [] }) => {
       setArpas(dataList);
     });
   };
 
   const getAiRegions = (type, id) => {
-    get_AiRegionListByTypeByAdaId(type, id).then(({ dataList = [] }) => {
+    get_AiRegionLovByTypeByAdaId(type, id).then(({ dataList = [] }) => {
       setAiRegions(dataList);
     });
   };
 
-  const changeDataEndPoint = (id)=>{
-    if(isAdmin){
-      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`)
+  const changeDataEndPoint = (id) => {
+    if (isAdmin) {
+      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`);
     }
-    if(isProvincial){
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    if (isProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
     }
-    if(isIntProvincial){
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`)
+    if (isIntProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
     }
-    if(isMahaweli){
-      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`)
+    if (isMahaweli) {
+      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`);
     }
-    if(isAgrarian){
-      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`)
+    if (isAgrarian) {
+      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
     }
-   
-  }
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
@@ -1041,25 +1058,23 @@ const GnDivision = () => {
                   if (isAdmin) {
                     console.log(value);
                     setSelectedDsDevision(value);
-                    changeDataEndPoint(value.id)
-                  } 
+                    changeDataEndPoint(value.id);
+                  }
                   if (isProvincial) {
                     setSelectedPAda(value);
                     getAiRegions("PROVINCIAL", value.id);
-                    
                   }
                   if (isIntProvincial) {
                     setSelectedIpAda(value);
                     getAiRegions("INTER_PROVINCIAL", value.id);
-                    
                   }
                   if (isMahaweli) {
                     setSelectedMahaweliUnit(value);
-                    changeDataEndPoint(value.id)
+                    changeDataEndPoint(value.id);
                   }
                   if (isAgrarian) {
                     setSelectedArpa(value);
-                    changeDataEndPoint(value.id)
+                    changeDataEndPoint(value.id);
                   }
                 }}
                 fullWidth
@@ -1094,7 +1109,7 @@ const GnDivision = () => {
                   onChange={(event, value) => {
                     if (isProvincial || isIntProvincial) {
                       setSelectedAiRegion(value);
-                      changeDataEndPoint(value.id)
+                      changeDataEndPoint(value.id);
                     }
                   }}
                   fullWidth
@@ -1121,6 +1136,44 @@ const GnDivision = () => {
               </FieldWrapper>
             </Grid>
           )}
+
+          <Grid item>
+          <FieldWrapper>
+            <FieldName>.</FieldName>
+
+            <TextField
+              name="cropArea"
+              id="cropArea"
+              value={searchText}
+              fullWidth
+              //disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => {
+                // const value = parseFloat(e.target.value) || 0;
+                handleChange(e);
+              }}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                },
+              }}
+              size="small"
+            />
+          </FieldWrapper>
+          </Grid>
+          
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={handleSearch}
+                sx={{ marginTop: "40px" }}
+              >
+                Search
+              </Button>
+            </FieldWrapper>
+          </Grid>
           <Grid item>
             <FieldWrapper>
               <Button

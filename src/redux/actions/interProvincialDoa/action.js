@@ -7,11 +7,7 @@ export const handleInterProvincialDoa = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(
-      "geo-data/director-doa",
-      payload,
-      true
-    );
+    const response = await post("geo-data/director-doa", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -113,8 +109,27 @@ export const deleteInterProvincialDoa = async (
 
 export const get_InterProvincialDoaList = async () => {
   try {
+    const { httpCode, payloadDto } = await get("geo-data/director-doa", true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_InterProvincialDoaLov = async () => {
+  try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/director-doa",
+      `geo-data/director-doa?page=0&size=1000`,
       true
     );
     if (httpCode === "200 OK") {

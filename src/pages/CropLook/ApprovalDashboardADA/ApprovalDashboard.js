@@ -13,13 +13,15 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import CategoryReportTabel from "./categoryReportTable";
+import CategoryReportTabel from "./ApprovalDashboardTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import ReportApprovalTable from "./ApprovalDashboardTable";
+import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
 
-const AggrigateReport = () => {
+const ApprovalDashboard = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -32,22 +34,19 @@ const AggrigateReport = () => {
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
-  console.log("cropCategoryList type:", typeof cropCategoryList);
-  console.log({selectedSeason})
+  const [selectedWeek, setSelectedWeek] = useState(null);
 
   useEffect(() => {
-    get_CategoryList().then(({ dataList = [] }) => {
-      console.log("crop list");
-      console.log(dataList);
-      setCropCategoryList(dataList);
-    });
-
     getSeasons().then(({ dataList = [] }) => {
-      console.log("seasons ---------->");
-      console.log(dataList);
       setSeasons(dataList);
     });
   }, []);
+
+  const filterBiWeekList = (biWeekList) => {
+    return biWeekList.filter(
+      (data) => data.status === BI_WEEK_DATA_STATUS.ENABLED
+    );
+  };
 
   return (
     <div
@@ -80,6 +79,7 @@ const AggrigateReport = () => {
                   getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                   onChange={(event, value) => {
                     setSelectedSeason(value);
+                    setSelectedWeek(null);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -93,28 +93,42 @@ const AggrigateReport = () => {
                 />
               </FieldWrapper>
             </Grid>
+            {selectedSeason ? (
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Week</FieldName>
+                <Autocomplete
+                  options={filterBiWeekList(selectedSeason?.biWeekDataList)}
+                  value={selectedWeek}
+                  getOptionLabel={(i) => `${i.weekDescription}`}
+                  onChange={(event, value) => {
+                    setSelectedWeek(value);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+          ) : null}
           </Grid>
         </Grid>
-        <Grid item>
+        <Grid item md={12}>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
           >
-            <TableWrapper>
-              {selectedSeason &&
-                cropCategoryList &&
-                cropCategoryList?.map((category) => (
-                  <div key={category.categoryId}>
-                    <h5>{category.categoryName}</h5>
-                   
-                    <CategoryReportTabel
-                      category={category}
+            {selectedWeek && <TableWrapper>
+                    <ReportApprovalTable
                       season={selectedSeason}
+                      week={selectedWeek}
                     />
-
-
-                  </div>
-                ))}
-            </TableWrapper>
+            </TableWrapper>}
           </PermissionWrapper>
         </Grid>
       </Grid>
@@ -122,4 +136,4 @@ const AggrigateReport = () => {
   );
 };
 
-export default AggrigateReport;
+export default ApprovalDashboard;

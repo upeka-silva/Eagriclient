@@ -39,6 +39,7 @@ import LoginSecondBack from "../../assets/images/loginSecondBack.png";
 
 import { useAuthContext } from "../../context/AuthContext";
 import { ThemeProvider, createTheme, useMediaQuery } from "@mui/system";
+import LandingHeader from "../Landing/components/LandingHeader";
 
 const Login = () => {
   const theme = useTheme();
@@ -155,37 +156,7 @@ const Login = () => {
           container
           sx={{ height: "100vh" }}
         >
-          <Grid
-            md={12}
-            mt={1}
-            mb={1}
-            px={5}
-            item
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              
-              width: "20vw",
-            }}
-          >
-            <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
-              <img width={"210px"} height={"65px"} src={Cropix} alt="cropix" />
-              <Typography
-                ml={5}
-                mt={2}
-                fontWeight={"bold"}
-                color={"#666666"}
-                sx={{ maxWidth: "300px" }} // Limit text width
-              >
-                Crop Resources, Optimizing Operations <br /> through Precise
-                Information, Exchange System
-              </Typography>
-            </Grid>
-
-            <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
-              <img width={"290px"} height={"65px"} src={MainLogo} alt="Logo" />
-            </Grid>
-          </Grid>
+          <LandingHeader/>
 
           {isChecked ? (
             <>

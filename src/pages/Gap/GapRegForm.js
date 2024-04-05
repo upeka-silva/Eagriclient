@@ -21,6 +21,7 @@ import {
   Modal,
   Backdrop,
   Fade,
+  Box,
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import Switch from "@mui/material/Switch";
@@ -57,7 +58,10 @@ import {
 } from "../../redux/actions/gap/action";
 import { gapReqDto } from "./gap-type";
 import { get_GnDivisionList } from "../../redux/actions/gnDivision/action";
-import { get_FarmersListByScsRegionId, get_ScsRegionList } from "../../redux/actions/scsRegion/action";
+import {
+  get_FarmersListByScsRegionId,
+  get_ScsRegionList,
+} from "../../redux/actions/scsRegion/action";
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { get } from "../../services/api";
 import { Colors } from "../../utils/constants/Colors";
@@ -65,7 +69,10 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { getUserPermissionByComponent, getUserPermissionStateByAuthority } from "../../utils/helpers/permission";
+import {
+  getUserPermissionByComponent,
+  getUserPermissionStateByAuthority,
+} from "../../utils/helpers/permission";
 import DynamicFormListGap from "../DynamicFormGap/DynamicFormListGap";
 import AddCropDetailsDialog from "./AddCropDetailsDialog";
 import CropDetailsList from "./CropDetails/CropDetailsList";
@@ -73,10 +80,15 @@ import GapRequestCertificate from "./GapRequestCertificate/GapRequestCertificate
 import { useAuthContext } from "../../context/AuthContext";
 import GapRequestActionsButtons from "./GapRegActionsButtons";
 import GapRegActionList from "../Gap/GapRegActionList";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import FilePresentIcon from '@mui/icons-material/FilePresent';
-import UploadFileOutlinedIcon from '@mui/icons-material/UploadFileOutlined';
-import AttachmentOutlinedIcon from '@mui/icons-material/AttachmentOutlined';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import FilePresentIcon from "@mui/icons-material/FilePresent";
+import UploadFileOutlinedIcon from "@mui/icons-material/UploadFileOutlined";
+import AttachmentOutlinedIcon from "@mui/icons-material/AttachmentOutlined";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../components/TabButtons/TabButtons";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -108,7 +120,10 @@ const GapRegForm = () => {
 
   const [testPermission, setTestPermission] = useState();
 
-  const [openApproveDialog, setOpenApproveDialog] = useState({open :false, option : ''});
+  const [openApproveDialog, setOpenApproveDialog] = useState({
+    open: false,
+    option: "",
+  });
 
   useUserAccessValidation();
   const { state } = useLocation();
@@ -145,7 +160,7 @@ const GapRegForm = () => {
   const [statusLoading, setStatusLoading] = useState(false);
 
   const initStatus = {
-    lblState: 'DRAFT',
+    lblState: "DRAFT",
     lblText: "Draft",
     lblColor: "primary",
   };
@@ -157,7 +172,8 @@ const GapRegForm = () => {
   const [inputScsRegionCategory, setInputScsRegionCategory] = useState("");
   const [inputFarmerCategory, setInputFarmerCategory] = useState("");
   const [inputFarmLandCategory, setInputFarmLandCategory] = useState("");
-  const [inputBasicAssesmentCategory, setInputBasicAssesmentCategory] = useState("");
+  const [inputBasicAssesmentCategory, setInputBasicAssesmentCategory] =
+    useState("");
 
   const [rejectReason, setRejectReason] = useState("");
   const [gapReqActionList, setGapReqActionList] = useState([]);
@@ -173,10 +189,12 @@ const GapRegForm = () => {
 
   const [file, setFile] = useState();
   const [iconColor, setIconColor] = useState("gray");
-  const [otherCertificateImg, setOtherCertificateImg] = useState(null)
-  const [OtherCertificateFileType, setOtherCertificateFileType] = useState(null);
+  const [otherCertificateImg, setOtherCertificateImg] = useState(null);
+  const [OtherCertificateFileType, setOtherCertificateFileType] =
+    useState(null);
 
-  const [openOtherCertificateDialog, setOpenOtherCertificateDialog] = useState(false);
+  const [openOtherCertificateDialog, setOpenOtherCertificateDialog] =
+    useState(false);
 
   const handleCloseOtherCertificateDialog = () => {
     setOpenOtherCertificateDialog(false);
@@ -284,16 +302,16 @@ const GapRegForm = () => {
       fetchGapReq("gap-request", formData?.id);
       get_GapRequestActionList(formData?.id);
 
-      if (formData?.appliedGapBefore){
-        setEnablePreGAPReqNo(true)
+      if (formData?.appliedGapBefore) {
+        setEnablePreGAPReqNo(true);
       }
 
-      if (formData?.otherCertificateDocStoredFileName){
-        setEnableOtherCeritications(true)
+      if (formData?.otherCertificateDocStoredFileName) {
+        setEnableOtherCeritications(true);
       }
     }
   }, []);
- 
+
   const changeGapReqStatus = async (statusToSave) => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       try {
@@ -325,14 +343,14 @@ const GapRegForm = () => {
 
   const handleChange = (value, target) => {
     if (target === "hasOtherCertificates" && !value) {
-      setFormData(prevState => ({ 
-        ...prevState, 
-        otherCertificateDocOriginalFileName: '',
-        otherCertificateDocPresignedUrl: '',
-        otherCertificateDocStoredFileName: '',
-        otherCertificateDocExpireDate: null
+      setFormData((prevState) => ({
+        ...prevState,
+        otherCertificateDocOriginalFileName: "",
+        otherCertificateDocPresignedUrl: "",
+        otherCertificateDocStoredFileName: "",
+        otherCertificateDocExpireDate: null,
       }));
-    } 
+    }
 
     setFormData((current = {}) => {
       let newData = { ...current };
@@ -345,7 +363,7 @@ const GapRegForm = () => {
     }
 
     if (target === "appliedGapBefore" && !value) {
-      setFormData(prevState => ({ ...prevState, previousGapReqNo: '' }));
+      setFormData((prevState) => ({ ...prevState, previousGapReqNo: "" }));
     }
 
     if (target === "businessNature") {
@@ -364,62 +382,81 @@ const GapRegForm = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setIconColor("primary")
-      setOtherCertificateImg(URL.createObjectURL(file))
-  
+      setIconColor("primary");
+      setOtherCertificateImg(URL.createObjectURL(file));
+
       const fileType = getFileType(file);
       setOtherCertificateFileType(fileType);
-  
+
       const form = new FormData();
       form.append("file", file);
       setFile(form);
     }
-  }
+  };
 
   const getFileType = (file) => {
     // Get the file extension
     const extension = getFileExtension(file.name);
     // Check if it's an image, pdf, or word document
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-      return 'image';
-    } else if (extension === 'pdf') {
-      return 'pdf';
-    } else if (['doc', 'docx'].includes(extension)) {
-      return 'word';
+    if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+      return "image";
+    } else if (extension === "pdf") {
+      return "pdf";
+    } else if (["doc", "docx"].includes(extension)) {
+      return "word";
     }
     return null; // Unknown file type
-  }
-  
+  };
+
   useEffect(() => {
     // Determine file type based on file extension
-    const fileExtension = getFileExtension(formData.otherCertificateDocStoredFileName || formData.otherCertificateDocOriginalFileName || '');
+    const fileExtension = getFileExtension(
+      formData.otherCertificateDocStoredFileName ||
+        formData.otherCertificateDocOriginalFileName ||
+        ""
+    );
     const fileType = getFileTypeFromExtension(fileExtension);
     setOtherCertificateFileType(fileType);
-  }, [formData.otherCertificateDocStoredFileName, formData.otherCertificateDocOriginalFileName]);
-  
+  }, [
+    formData.otherCertificateDocStoredFileName,
+    formData.otherCertificateDocOriginalFileName,
+  ]);
+
   // Function to get file extension
   const getFileExtension = (fileName) => {
-   return fileName.split('.').pop().toLowerCase();
-  }
-  
+    return fileName.split(".").pop().toLowerCase();
+  };
+
   // Function to determine file type from extension
   const getFileTypeFromExtension = (extension) => {
-    if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-      return 'image';
-    } else if (extension === 'pdf' || extension === 'doc' || extension === 'docx') {
+    if (["jpg", "jpeg", "png", "gif"].includes(extension)) {
+      return "image";
+    } else if (
+      extension === "pdf" ||
+      extension === "doc" ||
+      extension === "docx"
+    ) {
       return extension; // Return the file extension directly for PDF and Word documents
     }
     return null; // Unknown file type
-  }
-  
+  };
+
   const handlePreview = () => {
-    if (OtherCertificateFileType === 'image') {
+    if (OtherCertificateFileType === "image") {
       setOpenOtherCertificateDialog(true); // Open modal for image preview
-    } else if (OtherCertificateFileType === 'pdf' || OtherCertificateFileType === 'word') {
-      window.open(otherCertificateImg != null ? otherCertificateImg : formData.otherCertificateDocPresignedUrl, '_blank'); // Open in a new browser tab
+    } else if (
+      OtherCertificateFileType === "pdf" ||
+      OtherCertificateFileType === "word"
+    ) {
+      window.open(
+        otherCertificateImg != null
+          ? otherCertificateImg
+          : formData.otherCertificateDocPresignedUrl,
+        "_blank"
+      ); // Open in a new browser tab
     }
-  }
-  
+  };
+
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
@@ -460,8 +497,11 @@ const GapRegForm = () => {
   const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       console.log(`state target ${JSON.stringify(state.target)}`);
-      console.log(`formdata ${JSON.stringify(state.formData)}`)
-      if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData) || file != null) {
+      console.log(`formdata ${JSON.stringify(state.formData)}`);
+      if (
+        JSON.stringify(state?.target || {}) !== JSON.stringify(formData) ||
+        file != null
+      ) {
         return true;
       }
     }
@@ -508,32 +548,38 @@ const GapRegForm = () => {
       try {
         if (formData?.id) {
           const response = await updateGap(formData, onSuccess, onError);
-          if(response && response?.payload){
+          if (response && response?.payload) {
             const gapReqId = response.payload.id;
-            const otherCertificate = response.payload.otherCertificateDocPresignedUrl;
+            const otherCertificate =
+              response.payload.otherCertificateDocPresignedUrl;
             const hasOtherCertificate = response.payload.hasOtherCertificate;
 
             setFormData(response?.payload);
-            await addGapRequestAction(response.payload.id, 'UPDATED')
+            await addGapRequestAction(response.payload.id, "UPDATED");
 
             if (gapReqId != null && otherCertificate != null && file != null) {
-              await uploadOtherCertificate(gapReqId, file, onSuccess, onError)
+              await uploadOtherCertificate(gapReqId, file, onSuccess, onError);
             }
           }
         } else {
-            const response = await handleGap(formData, onSuccess, onError);
-            if (response && response.payload) {
-              const gapReqId = response.payload.id;
-              const hasOtherCertificate = response.payload.hasOtherCertificate
-              const otherCertificatePresignedUrl = response.payload.otherCertificatePresignedUrl
-              
-              setFormData(response.payload);
-              await addGapRequestAction(response.payload.id, 'DRAFT');
-        
-              if (gapReqId != null && otherCertificatePresignedUrl == null && file != null) {
-                await uploadOtherCertificate(gapReqId, file, onSuccess, onError)
-              }
+          const response = await handleGap(formData, onSuccess, onError);
+          if (response && response.payload) {
+            const gapReqId = response.payload.id;
+            const hasOtherCertificate = response.payload.hasOtherCertificate;
+            const otherCertificatePresignedUrl =
+              response.payload.otherCertificatePresignedUrl;
+
+            setFormData(response.payload);
+            await addGapRequestAction(response.payload.id, "DRAFT");
+
+            if (
+              gapReqId != null &&
+              otherCertificatePresignedUrl == null &&
+              file != null
+            ) {
+              await uploadOtherCertificate(gapReqId, file, onSuccess, onError);
             }
+          }
         }
       } catch (error) {
         console.log(error);
@@ -541,7 +587,7 @@ const GapRegForm = () => {
     }
   };
 
-  console.log(`formdata: ${JSON.stringify(formData)}`)
+  console.log(`formdata: ${JSON.stringify(formData)}`);
 
   const getLandsByFarmerId = (id) => {
     getFarmLandByFarmerId(id).then(({ dataList = {} }) => {
@@ -553,7 +599,7 @@ const GapRegForm = () => {
     get_FarmersListByScsRegionId(id).then(({ dataList = [] }) => {
       setFarmerList(dataList);
     });
-  }
+  };
 
   // Implementation Of Crop Details Tab
 
@@ -673,24 +719,43 @@ const GapRegForm = () => {
   };
 
   const isRejectState = (state) => {
-    return ['SCS_REGIONAL_OFFICER_REJECT', 'REJECTED_BY_DD', 'REJECTED_BY_MAIN_SCS'].includes(state);
-  } 
+    return [
+      "SCS_REGIONAL_OFFICER_REJECT",
+      "REJECTED_BY_DD",
+      "REJECTED_BY_MAIN_SCS",
+    ].includes(state);
+  };
   const isApproveState = (state) => {
-    return ['APPROVED_BY_DD', 'SCS_REGIONAL_OFFICER_APPROVE', 'MAIN_SCS_REGIONAL_OFFICER_APPROVE', 'GENERATE_CERTIFICATE', 'SEND_CERTIFICATE', 'EXTERNAL_AUDITOR_SUBMITTED', 'SUBMITTED', 'ASSIGN_AUDITORS', 'DRAFT'].includes(state);
-}
+    return [
+      "APPROVED_BY_DD",
+      "SCS_REGIONAL_OFFICER_APPROVE",
+      "MAIN_SCS_REGIONAL_OFFICER_APPROVE",
+      "GENERATE_CERTIFICATE",
+      "SEND_CERTIFICATE",
+      "EXTERNAL_AUDITOR_SUBMITTED",
+      "SUBMITTED",
+      "ASSIGN_AUDITORS",
+      "DRAFT",
+    ].includes(state);
+  };
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "column",
         fontFamily: `${Fonts.fontStyle1}`,
         marginTop: "10px",
-        height: "100vh",
+        height: "90vh",
         overflowY: "scroll",
       }}
     >
-      <PageHeader saving={saving} state={state} formName="GAP Request" goBack={goBack} />
+      <PageHeader
+        saving={saving}
+        state={state}
+        formName="GAP Request"
+        goBack={goBack}
+      />
       <Grid container sx={{ marginTop: "10px", marginBottom: "10px" }}>
         <Grid
           item
@@ -706,7 +771,7 @@ const GapRegForm = () => {
             borderRadius: "5px",
           }}
         >
-          <HorizontalStepper gapReqStatus={gapReqStatus}/>
+          <HorizontalStepper gapReqStatus={gapReqStatus} />
         </Grid>
       </Grid>
 
@@ -739,123 +804,120 @@ const GapRegForm = () => {
                       <PermissionWrapper
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
-                        {  
-                        (gapReqStatus.lblState === "SUBMITTED") ||
-                        (gapReqStatus.lblState === "APPROVED_BY_DD") ||
-                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE") ||
-                        (gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE")
-                        ? null :
-                        (<Button
-                          variant="contained"
-                          disabled={!enableSave()}
-                          onClick={handleFormSubmit}
-                          size="small"
-                          color="success"
-                        >
-                          {state?.action === DEF_ACTIONS.ADD
-                            ? "SAVE"
-                            : "UPDATE"}
-                        </Button>)}
+                        {gapReqStatus.lblState === "SUBMITTED" ||
+                        gapReqStatus.lblState === "APPROVED_BY_DD" ||
+                        gapReqStatus.lblState ===
+                          "SCS_REGIONAL_OFFICER_APPROVE" ||
+                        gapReqStatus.lblState ===
+                          "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ? null : (
+                          <Button
+                            variant="contained"
+                            disabled={!enableSave()}
+                            onClick={handleFormSubmit}
+                            size="small"
+                            color="success"
+                          >
+                            {state?.action === DEF_ACTIONS.ADD
+                              ? "SAVE"
+                              : "UPDATE"}
+                          </Button>
+                        )}
                       </PermissionWrapper>
 
                       <PermissionWrapper
                         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GAP_REQUEST}`}
                       >
-                    {
-                     (gapReqStatus.lblState === "DRAFT") ||
-                     (gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                     (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                     (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS") ? (
-                      <Button
-                        onClick={resetForm}
-                        color="success"
-                        variant="outlined"
-                        size="small"
-                        sx={{ marginLeft: "10px" }}
-                      >
-                        RESET
-                      </Button>
-                      ): null 
-                    }
-                    </PermissionWrapper>
+                        {gapReqStatus.lblState === "DRAFT" ||
+                        gapReqStatus.lblState === "REJECTED_BY_DD" ||
+                        gapReqStatus.lblState ===
+                          "SCS_REGIONAL_OFFICER_REJECT" ||
+                        gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS" ? (
+                          <Button
+                            onClick={resetForm}
+                            color="success"
+                            variant="outlined"
+                            size="small"
+                            sx={{ marginLeft: "10px" }}
+                          >
+                            RESET
+                          </Button>
+                        ) : null}
+                      </PermissionWrapper>
                     </ButtonGroup>
                     <PermissionWrapper
-                        permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_AI}`}
+                      permission={`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_AI}`}
                     >
-                     {(gapReqStatus.lblState === "DRAFT") ||
-                      (gapReqStatus.lblState === "REJECTED_BY_DD") ||
-                      (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                      (gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS")
-                     ? (
-                      <Button
-                        onClick={() => setOpenConfSubmit(true)}
-                        color="success"
-                        variant="outlined"
-                        size="small"
-                        sx={{ marginLeft: "10px" }}
-                      >
-                        SUBMIT
-                      </Button>
-                    ) : null}
+                      {gapReqStatus.lblState === "DRAFT" ||
+                      gapReqStatus.lblState === "REJECTED_BY_DD" ||
+                      gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT" ||
+                      gapReqStatus.lblState === "REJECTED_BY_MAIN_SCS" ? (
+                        <Button
+                          onClick={() => setOpenConfSubmit(true)}
+                          color="success"
+                          variant="outlined"
+                          size="small"
+                          sx={{ marginLeft: "10px" }}
+                        >
+                          SUBMIT
+                        </Button>
+                      ) : null}
                     </PermissionWrapper>
 
                     <GapRequestActionsButtons
-                     role={role}
-                     gapReqStatus={gapReqStatus}
-                     setOpenApproveDialog={setOpenApproveDialog}
-                     existingAuditores={formData?.externalAuditors}
-                     />
-               
+                      role={role}
+                      gapReqStatus={gapReqStatus}
+                      setOpenApproveDialog={setOpenApproveDialog}
+                      existingAuditores={formData?.externalAuditors}
+                    />
+
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.ASSIGN}_${DEF_COMPONENTS.EXTERNAL_AUDITORS}`}
                     >
-                      {
-                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_REJECT") ||
-                        (gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED") ||
-                        (gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE")
-                        // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
-                         ? null : (
+                      {gapReqStatus.lblState ===
+                        "SCS_REGIONAL_OFFICER_REJECT" ||
+                      gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED" ||
+                      gapReqStatus.lblState ===
+                        "SCS_REGIONAL_OFFICER_APPROVE" ? null : ( // role == "SCS_REGINAL_OFFICER" && gapReqStatus.lblState === "APPROVED_BY_DD" && formData?.externalAuditors != 0
                         <Button
-                        onClick={() => {
-                          setIsAuditorsAssignDialogOpen(true);
-                        }}
-                        color="success"
-                        variant="outlined"
-                        size="small"
-                        sx={{ marginLeft: "10px" }}
-                      >
-                        ASSIGN AUDITORS
-                      </Button>
-                        )
-                      }
+                          onClick={() => {
+                            setIsAuditorsAssignDialogOpen(true);
+                          }}
+                          color="success"
+                          variant="outlined"
+                          size="small"
+                          sx={{ marginLeft: "10px" }}
+                        >
+                          ASSIGN AUDITORS
+                        </Button>
+                      )}
                     </PermissionWrapper>
-                    
+
                     <PermissionWrapper
                       permission={`${DEF_ACTIONS.GENERATE}_${DEF_COMPONENTS.GAP_CERTIFICATE}`}
                     >
-                      {
-                      gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE" || 
-                      gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? 
-                      (<Button
-                        onClick={() => {
-                          generateCertificate();
-                          changeGapReqStatus("GENERATE_CERTIFICATE");
-                        }}
-                        color="success"
-                        variant="outlined"
-                        size="small"
-                        sx={{ marginLeft: "10px" }}
-                      >
-                        {isCertificateGenerating ? (
-                          <>
-                            Generate Certificate &nbsp;&nbsp;{" "}
-                            <CircularProgress size="1rem" color="success" />
-                          </>
-                        ) : (
-                          "Generate Certificate"
-                        )}
-                      </Button>) : null
-                      }
+                      {gapReqStatus.lblState ===
+                        "MAIN_SCS_REGIONAL_OFFICER_APPROVE" ||
+                      gapReqStatus.lblState === "GENERATE_CERTIFICATE" ? (
+                        <Button
+                          onClick={() => {
+                            generateCertificate();
+                            changeGapReqStatus("GENERATE_CERTIFICATE");
+                          }}
+                          color="success"
+                          variant="outlined"
+                          size="small"
+                          sx={{ marginLeft: "10px" }}
+                        >
+                          {isCertificateGenerating ? (
+                            <>
+                              Generate Certificate &nbsp;&nbsp;{" "}
+                              <CircularProgress size="1rem" color="success" />
+                            </>
+                          ) : (
+                            "Generate Certificate"
+                          )}
+                        </Button>
+                      ) : null}
                     </PermissionWrapper>
                   </>
                 )}
@@ -863,16 +925,18 @@ const GapRegForm = () => {
             )}
           </ButtonWrapper>
 
-           {/* Display Gap Registation Number  */}
-          {
-            formData?.gapRegistrationNumber ? (
-              <Chip
+          {/* Display Gap Registation Number  */}
+          {formData?.gapRegistrationNumber ? (
+            <Chip
               label={`Gap Registration Number : ${formData?.gapRegistrationNumber}`}
               variant="filled"
-              style={{ marginTop: "5px", color: "#ffffff", backgroundColor: "#2aaf70" }} //#2caf70 #4caf50 
+              style={{
+                marginTop: "5px",
+                color: "#ffffff",
+                backgroundColor: "#2aaf70",
+              }} //#2caf70 #4caf50
             />
-            ) : null
-          }
+          ) : null}
 
           {!statusLoading ? (
             <Chip
@@ -880,9 +944,13 @@ const GapRegForm = () => {
               variant="filled"
               style={{
                 marginTop: "5px",
-                backgroundColor: isRejectState(gapReqStatus.lblState) ? 'red' : (isApproveState(gapReqStatus.lblState) ? 'green' : 'default'),
-                color: 'white'
-            }}
+                backgroundColor: isRejectState(gapReqStatus.lblState)
+                  ? "red"
+                  : isApproveState(gapReqStatus.lblState)
+                  ? "green"
+                  : "default",
+                color: "white",
+              }}
             />
           ) : (
             <CircularProgress />
@@ -956,16 +1024,16 @@ const GapRegForm = () => {
                 <Autocomplete
                   key={formData?.scsRegionDTO}
                   id="scsRegionDTO"
-                  isOptionEqualToValue={(option, value) => option.scsRegionId === value.scsRegionId}
+                  isOptionEqualToValue={(option, value) =>
+                    option.scsRegionId === value.scsRegionId
+                  }
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={scsRegionList}
                   value={formData ? formData.scsRegionDTO : ""}
-                  getOptionLabel={(i) =>
-                    `${i.scsRegionId} - ${i.name}`
-                  }
+                  getOptionLabel={(i) => `${i.scsRegionId} - ${i.name}`}
                   inputValue={inputScsRegionCategory}
                   onInputChange={(event, newInputValue) => {
-                    setInputScsRegionCategory(newInputValue)
+                    setInputScsRegionCategory(newInputValue);
                   }}
                   onChange={(event, value) => {
                     handleChange(value, "scsRegionDTO");
@@ -994,7 +1062,10 @@ const GapRegForm = () => {
                 <Autocomplete
                   key={formData?.farmerDTO}
                   id="farmerDTO"
-                  disabled={state?.action === DEF_ACTIONS.VIEW  || formData?.scsRegionDTO == null}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.scsRegionDTO == null
+                  }
                   options={farmerList}
                   value={formData ? formData.farmerDTO : ""}
                   getOptionLabel={(i) =>
@@ -1002,7 +1073,7 @@ const GapRegForm = () => {
                   }
                   inputValue={inputFarmerCategory}
                   onInputChange={(event, newInputValue) => {
-                    setInputFarmerCategory(newInputValue)
+                    setInputFarmerCategory(newInputValue);
                   }}
                   onChange={(event, value) => {
                     handleChange(value, "farmerDTO");
@@ -1022,71 +1093,75 @@ const GapRegForm = () => {
               )}
             </FieldWrapper>
           </Grid>
-        <Grid container spacing={0}>
-          <Grid item sm={12} md={6} lg={4}>
-            <FieldWrapper>
-              <FieldName>Farm Land</FieldName>
-              <Autocomplete
-                key={formData?.farmLandDTO}
-                id="farmLandDTO"
-                disabled={
-                  state?.action === DEF_ACTIONS.VIEW ||
-                  formData?.farmerDTO == null
-                }
-                options={farmerLandList}
-                value={formData ? formData.farmLandDTO : ""}
-                getOptionLabel={(i) => `${i.code} - ${i.name}`}
-                inputValue={inputFarmLandCategory}
-                onInputChange={(event, newInputValue) => {
-                  setInputFarmLandCategory(newInputValue)
-                }}
-                onChange={(event, value) => {
-                  handleChange(value, "farmLandDTO");
-                  getAllAssessmentsByFLId(value?.id);
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
-            </FieldWrapper>
+          <Grid container spacing={0}>
+            <Grid item sm={12} md={6} lg={4}>
+              <FieldWrapper>
+                <FieldName>Farm Land</FieldName>
+                <Autocomplete
+                  key={formData?.farmLandDTO}
+                  id="farmLandDTO"
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.farmerDTO == null
+                  }
+                  options={farmerLandList}
+                  value={formData ? formData.farmLandDTO : ""}
+                  getOptionLabel={(i) => `${i.code} - ${i.name}`}
+                  inputValue={inputFarmLandCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputFarmLandCategory(newInputValue);
+                  }}
+                  onChange={(event, value) => {
+                    handleChange(value, "farmLandDTO");
+                    getAllAssessmentsByFLId(value?.id);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={12} md={6} lg={4}>
+              <FieldWrapper>
+                <FieldName>Basic Assesment</FieldName>
+                <Autocomplete
+                  key={formData?.basicAssessmentDTO}
+                  id="basicAssessmentDTO"
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.farmLandDTO == null
+                  }
+                  options={basicAssessments}
+                  value={formData ? formData?.basicAssessmentDTO : ""}
+                  getOptionLabel={(i) => `${i.assessmentId}`}
+                  inputValue={inputBasicAssesmentCategory}
+                  onInputChange={(event, newInputValue) => {
+                    setInputBasicAssesmentCategory(newInputValue);
+                  }}
+                  onChange={(event, value) => {
+                    handleChange(value, "basicAssessmentDTO");
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                      backgroundColor: `${Colors.white}`,
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
-          <Grid item sm={12} md={6} lg={4}>
-            <FieldWrapper>
-              <FieldName>Basic Assesment</FieldName>
-              <Autocomplete
-                key={formData?.basicAssessmentDTO}
-                id="basicAssessmentDTO"
-                disabled={
-                  state?.action === DEF_ACTIONS.VIEW ||
-                  formData?.farmLandDTO == null
-                }
-                options={basicAssessments}
-                value={formData ? formData?.basicAssessmentDTO : ""}
-                getOptionLabel={(i) => `${i.assessmentId}`}
-                inputValue={inputBasicAssesmentCategory}
-                onInputChange={(event, newInputValue) => {
-                  setInputBasicAssesmentCategory(newInputValue)
-                }}
-                onChange={(event, value) => {
-                  handleChange(value, "basicAssessmentDTO");
-                }}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-                renderInput={(params) => <TextField {...params} size="small" />}
-                fullWidth
-              />
-            </FieldWrapper>
-          </Grid>
-        </Grid>
         </Grid>
         <Grid container sx={{ marginBottom: "20px" }} spacing={1}></Grid>
       </TabContent>
@@ -1178,7 +1253,10 @@ const GapRegForm = () => {
                   id="appliedGapBefore"
                   value={formData?.appliedGapBefore || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || false, "appliedGapBefore")
+                    handleChange(
+                      e?.target?.checked || false,
+                      "appliedGapBefore"
+                    )
                   }
                   checked={formData?.appliedGapBefore}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -1344,53 +1422,65 @@ const GapRegForm = () => {
                   <FieldName>
                     Type of certification (Please attach a photocopy)
                   </FieldName>
-                  <Stack spacing={{ xs: 2, sm: 2}} direction="row">
-                    {(formData?.otherCertificateDocStoredFileName || otherCertificateImg ) && (
-                      <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <FilePresentIcon fontSize="large"  color="success" sx={{ marginRight: '5px'}}/>
+                  <Stack spacing={{ xs: 2, sm: 2 }} direction="row">
+                    {(formData?.otherCertificateDocStoredFileName ||
+                      otherCertificateImg) && (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <FilePresentIcon
+                          fontSize="large"
+                          color="success"
+                          sx={{ marginRight: "5px" }}
+                        />
                         <Button
                           size="small"
                           color="success"
                           variant="outlined"
-                          startIcon={<VisibilityIcon color="success"/>}
-                          onClick={handlePreview} >Preview
+                          startIcon={<VisibilityIcon color="success" />}
+                          onClick={handlePreview}
+                        >
+                          Preview
                         </Button>
                       </div>
                     )}
-                    {
-                      state?.action === DEF_ACTIONS.VIEW ? null :
-                     ( <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <UploadFileOutlinedIcon 
-                         fontSize="large" 
-                         sx={{ marginRight: '5px', 
-                               color: iconColor === "gray" ? "gray" : "#1976d2"
-                            }}/>
-                      <InputLabel
-                          style={{ 
-                            cursor: 'pointer', 
+                    {state?.action === DEF_ACTIONS.VIEW ? null : (
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <UploadFileOutlinedIcon
+                          fontSize="large"
+                          sx={{
+                            marginRight: "5px",
                             color: iconColor === "gray" ? "gray" : "#1976d2",
-                            fontSize: '10px', 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            border: '1px solid', 
-                            borderColor: iconColor === "gray" ? "gray" : "#1976d2", 
-                            borderRadius: '4px', 
-                            padding: '4px 6px 4px 6px' 
                           }}
-                            htmlFor="otherCertificateDoc"                       
-                      >
-                        <AttachmentOutlinedIcon sx={{ marginRight: 1}} fontSize="small" color={iconColor} /> CHOOSE A FILE
-                      </InputLabel>
-                      </div>)
-                    }
+                        />
+                        <InputLabel
+                          style={{
+                            cursor: "pointer",
+                            color: iconColor === "gray" ? "gray" : "#1976d2",
+                            fontSize: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                            border: "1px solid",
+                            borderColor:
+                              iconColor === "gray" ? "gray" : "#1976d2",
+                            borderRadius: "4px",
+                            padding: "4px 6px 4px 6px",
+                          }}
+                          htmlFor="otherCertificateDoc"
+                        >
+                          <AttachmentOutlinedIcon
+                            sx={{ marginRight: 1 }}
+                            fontSize="small"
+                            color={iconColor}
+                          />{" "}
+                          CHOOSE A FILE
+                        </InputLabel>
+                      </div>
+                    )}
                     <input
                       name="otherCertificateDoc"
                       id="otherCertificateDoc"
                       fullWidth
                       disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(event) =>
-                        handleFileChange(event)
-                      }
+                      onChange={(event) => handleFileChange(event)}
                       type="file"
                       accept="image/*"
                       sx={{
@@ -1399,9 +1489,8 @@ const GapRegForm = () => {
                           backgroundColor: `${Colors.white}`,
                         },
                       }}
-                      style={{ display: 'none' }}
+                      style={{ display: "none" }}
                     />
-      
                   </Stack>
                 </FieldWrapper>
               </Grid>
@@ -1548,7 +1637,10 @@ const GapRegForm = () => {
                   id="seedsFromOwnFarm"
                   value={formData?.seedsFromOwnFarm || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || false, "seedsFromOwnFarm")
+                    handleChange(
+                      e?.target?.checked || false,
+                      "seedsFromOwnFarm"
+                    )
                   }
                   checked={formData?.seedsFromOwnFarm}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -1762,16 +1854,23 @@ const GapRegForm = () => {
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                     options={soilType}
                     value={
-                      soilType.find(option => `${option.soilTypeCode} - ${option.description}` === formData?.existingSoilType) || null
-                  }                    getOptionLabel={(i) =>
+                      soilType.find(
+                        (option) =>
+                          `${option.soilTypeCode} - ${option.description}` ===
+                          formData?.existingSoilType
+                      ) || null
+                    }
+                    getOptionLabel={(i) =>
                       i.soilTypeCode
                         ? `${i.soilTypeCode} - ${i.description}`
                         : ""
                     }
                     onChange={(event, value) => {
-                      const selectedDescription = value ? value.description : "";
+                      const selectedDescription = value
+                        ? value.description
+                        : "";
                       const selectedCode = value ? value.soilTypeCode : "";
-                      const concat = `${selectedCode} - ${selectedDescription}`
+                      const concat = `${selectedCode} - ${selectedDescription}`;
                       handleChange(concat, "existingSoilType");
                     }}
                     fullWidth
@@ -1975,7 +2074,10 @@ const GapRegForm = () => {
                   id="addedCompostToSoil"
                   value={formData?.addedCompostToSoil || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || false, "addedCompostToSoil")
+                    handleChange(
+                      e?.target?.checked || false,
+                      "addedCompostToSoil"
+                    )
                   }
                   checked={formData?.addedCompostToSoil}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -2144,7 +2246,10 @@ const GapRegForm = () => {
                   id="hasWaterTestReport"
                   value={formData?.hasWaterTestReport || ""}
                   onChange={(e) =>
-                    handleChange(e?.target?.checked || false, "hasWaterTestReport")
+                    handleChange(
+                      e?.target?.checked || false,
+                      "hasWaterTestReport"
+                    )
                   }
                   checked={formData?.hasWaterTestReport}
                   disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -2836,23 +2941,23 @@ const GapRegForm = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_AREA}`}
             >
-              { state?.action === DEF_ACTIONS.VIEW ? null : (
-                <Button onClick={onCreateCropDetails} >
-                 <Add />
-                 {DEF_ACTIONS.ADD}
-                </Button>)
-              }
+              {state?.action === DEF_ACTIONS.VIEW ? null : (
+                <Button onClick={onCreateCropDetails}>
+                  <Add />
+                  {DEF_ACTIONS.ADD}
+                </Button>
+              )}
             </PermissionWrapper>
             {selectedCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                { state?.action === DEF_ACTIONS.VIEW ? null : (
+                {state?.action === DEF_ACTIONS.VIEW ? null : (
                   <Button onClick={onEditCropDetails}>
-                   <Edit />
-                   {DEF_ACTIONS.EDIT}
-                  </Button>)
-                }
+                    <Edit />
+                    {DEF_ACTIONS.EDIT}
+                  </Button>
+                )}
               </PermissionWrapper>
             )}
 
@@ -2871,13 +2976,12 @@ const GapRegForm = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_AREA}`}
               >
-                {
-                  state?.action === DEF_ACTIONS.VIEW ? null :(
-                  <Button onClick={onDeleteCropDetails} >
+                {state?.action === DEF_ACTIONS.VIEW ? null : (
+                  <Button onClick={onDeleteCropDetails}>
                     <Delete />
                     {DEF_ACTIONS.DELETE}
-                  </Button>)
-                }
+                  </Button>
+                )}
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -2897,7 +3001,7 @@ const GapRegForm = () => {
           gapData={formData}
           formMode={null}
           auditFormType={"INTERNAL_AUDIT"}
-          action= {state?.action}
+          action={state?.action}
         />
       </TabContent>
 
@@ -2908,9 +3012,9 @@ const GapRegForm = () => {
           formId={formData?.id}
           formMode={null}
           gapData={formData}
-          gapReqStatus = {gapReqStatus.lblState}
+          gapReqStatus={gapReqStatus.lblState}
           auditFormType={"EXTERNAL_AUDIT"}
-          action= {state?.action}
+          action={state?.action}
         />
       </TabContent>
 
@@ -2919,7 +3023,7 @@ const GapRegForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 7 ? "active-content" : ""}>
-          <GapRegActionList gapReqActionList={gapReqActionList}/>
+        <GapRegActionList gapReqActionList={gapReqActionList} />
       </TabContent>
 
       <AddCropDetailsDialog
@@ -2995,17 +3099,28 @@ const GapRegForm = () => {
 
       <DialogBox
         open={openApproveDialog.open}
-        title={openApproveDialog.option === 'approve' ? `Approve Gap Request` : 'Reject Gap Request'}
+        title={
+          openApproveDialog.option === "approve"
+            ? `Approve Gap Request`
+            : "Reject Gap Request"
+        }
         actions={
-          <div style={{ display: "flex", flexDirection: "column", width: "100%", gap: "10px" }}>
-            {openApproveDialog.option === 'reject' && (
-                <TextField
-                  style={{ marginBottom: "8px", width: "95%", margin: "auto"}}
-                  value={rejectReason}
-                  onChange={(e) => setRejectReason(e.target.value)}
-                  label="Enter reject reason"
-                  variant="outlined"
-                />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              gap: "10px",
+            }}
+          >
+            {openApproveDialog.option === "reject" && (
+              <TextField
+                style={{ marginBottom: "8px", width: "95%", margin: "auto" }}
+                value={rejectReason}
+                onChange={(e) => setRejectReason(e.target.value)}
+                label="Enter reject reason"
+                variant="outlined"
+              />
             )}
             <ActionWrapper>
               <div>
@@ -3013,59 +3128,71 @@ const GapRegForm = () => {
                   variant="contained"
                   color="info"
                   onClick={() => {
-                    if (openApproveDialog.option === 'approve') {
-                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) && 
-                          gapReqStatus.lblState === "SUBMITTED"
+                    if (openApproveDialog.option === "approve") {
+                      if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`
+                        ) &&
+                        gapReqStatus.lblState === "SUBMITTED"
                       ) {
                         changeGapReqStatus("APPROVED_BY_DD");
                       } else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
-                        gapReqStatus.lblState === 'ASSIGN_AUDITORS'
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                        ) &&
+                        gapReqStatus.lblState === "ASSIGN_AUDITORS"
                       ) {
                         changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
                       } else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) &&
-                        gapReqStatus.lblState === 'APPROVED_BY_DD'
-                      ) {
-                        changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
-                      } else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
-                        gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
-                      ) {
-                        changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE")
-                      }
-                      else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_MAIN_SCS}`) &&
-                        gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
-                      ) {
-                        changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE")
-                      }
-                    }
-                    else if (openApproveDialog.option === 'reject') {
-                      if (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`) &&
-                          gapReqStatus.lblState === "SUBMITTED"
-                      ) {
-                        changeGapReqStatus("REJECTED_BY_DD");
-                      }
-                      else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                        ) &&
                         gapReqStatus.lblState === "APPROVED_BY_DD"
                       ) {
-                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
-                      }
-                      else if (
-                        getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`) &&
+                        changeGapReqStatus("EXTERNAL_AUDITOR_SUBMITTED");
+                      } else if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`
+                        ) &&
                         gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
                       ) {
-                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT")
-                      }                  
-                      else {
-                        changeGapReqStatus("REJECTED_BY_MAIN_SCS")
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_APPROVE");
+                      } else if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_MAIN_SCS}`
+                        ) &&
+                        gapReqStatus.lblState === "SCS_REGIONAL_OFFICER_APPROVE"
+                      ) {
+                        changeGapReqStatus("MAIN_SCS_REGIONAL_OFFICER_APPROVE");
+                      }
+                    } else if (openApproveDialog.option === "reject") {
+                      if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_DD}`
+                        ) &&
+                        gapReqStatus.lblState === "SUBMITTED"
+                      ) {
+                        changeGapReqStatus("REJECTED_BY_DD");
+                      } else if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`
+                        ) &&
+                        gapReqStatus.lblState === "APPROVED_BY_DD"
+                      ) {
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT");
+                      } else if (
+                        getUserPermissionStateByAuthority(
+                          `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.GAP_BY_SCS}`
+                        ) &&
+                        gapReqStatus.lblState === "EXTERNAL_AUDITOR_SUBMITTED"
+                      ) {
+                        changeGapReqStatus("SCS_REGIONAL_OFFICER_REJECT");
+                      } else {
+                        changeGapReqStatus("REJECTED_BY_MAIN_SCS");
                       }
                     }
-                    setOpenApproveDialog({ open: false, option: '' });
-                  }
-                  }
+                    setOpenApproveDialog({ open: false, option: "" });
+                  }}
                   sx={{ ml: "8px" }}
                 >
                   Confirm
@@ -3073,7 +3200,9 @@ const GapRegForm = () => {
                 <Button
                   variant="contained"
                   color="error"
-                  onClick={() => setOpenApproveDialog({ open: false, option: '' })}
+                  onClick={() =>
+                    setOpenApproveDialog({ open: false, option: "" })
+                  }
                   sx={{ ml: "8px" }}
                 >
                   Close
@@ -3083,14 +3212,15 @@ const GapRegForm = () => {
           </div>
         }
       >
-<>
-  {openApproveDialog.option === 'approve' ? 
-    (getUserPermissionStateByAuthority(`${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`) && gapReqStatus.lblState === "ASSIGN_AUDITORS" ? 
-      `Please confirm to submit this GAP request.` :
-      `Please confirm to approve this GAP request.`) :
-    `Please confirm to reject this GAP request.`
-  }
-</>
+        <>
+          {openApproveDialog.option === "approve"
+            ? getUserPermissionStateByAuthority(
+                `${DEF_ACTIONS.APPROVE}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+              ) && gapReqStatus.lblState === "ASSIGN_AUDITORS"
+              ? `Please confirm to submit this GAP request.`
+              : `Please confirm to approve this GAP request.`
+            : `Please confirm to reject this GAP request.`}
+        </>
       </DialogBox>
 
       <MultiItemSelect
@@ -3100,9 +3230,8 @@ const GapRegForm = () => {
         itemHandler={auditorsAssignDialogValuesHandler}
         handleClose={auditorsAssignDialogHandler}
         existingAuditores={formData?.externalAuditors}
-        changeGapReqStatus = {changeGapReqStatus}
+        changeGapReqStatus={changeGapReqStatus}
         gapReqStatus={gapReqStatus}
-
       />
 
       <Modal
@@ -3116,12 +3245,16 @@ const GapRegForm = () => {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500
+          timeout: 500,
         }}
       >
         <Fade in={openOtherCertificateDialog} timeout={500}>
           <img
-            src={otherCertificateImg != null ? otherCertificateImg : formData.otherCertificateDocPresignedUrl}
+            src={
+              otherCertificateImg != null
+                ? otherCertificateImg
+                : formData.otherCertificateDocPresignedUrl
+            }
             alt="Certificate"
             style={{
               maxHeight: "60vh",
@@ -3129,71 +3262,16 @@ const GapRegForm = () => {
               position: "absolute",
               top: "50%",
               left: "50%",
-              transform: "translate(-50%, -50%)"
+              transform: "translate(-50%, -50%)",
             }}
           />
         </Fade>
       </Modal>
-
-    </div>
+    </Box>
   );
 };
 
 export default GapRegForm;
-
-export const TabWrapper = styled(Stack)`
-  && {
-    flex-direction: row;
-    margin: 20px 0px;
-  }
-`;
-
-export const TabButton = styled(Button)`
-  && {
-    padding: 15px;
-    padding-inline: 25px;
-    position: relative;
-    border: none;
-    border-radius: 0px;
-    background-color: ${Colors.tableHeaderColor};
-    color: white;
-    line-height: 0px;
-    box-shadow: none;
-    cursor: pointer;
-    &:hover {
-      background-color: ${Colors.iconColor};
-      box-shadow: none;
-    }
-    &:not(:last-child) {
-      border-right: 2px solid white;
-    }
-    &.active-tabs {
-      background: white;
-      color: black;
-    }
-
-    &.active-tabs::before {
-      content: "";
-      display: block;
-      position: absolute;
-      top: -5px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 5px;
-      background: ${Colors.tableHeaderColor};
-    }
-  }
-`;
-
-export const TabContent = styled(Stack)`
-  && {
-    display: none;
-  }
-  &.active-content {
-    display: flex;
-  }
-`;
 
 export const AddFarmerButton = styled.button`
   width: 200px;
