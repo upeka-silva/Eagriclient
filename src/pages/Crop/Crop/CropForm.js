@@ -145,10 +145,11 @@ const CropForm = ({
     });
   };
 
-  const handleCropPestAdd = async (formDataD, onSuccess, onError) => {
+  const handleCropPestAdd = async (event, formDataD, functionMode) => {
+    console.log({formDataD});
     setLoading(true);
     try {
-      await assignCropPest(cropId, formDataD, onSuccess, onError);
+      await assignCropPest(cropId, formDataD);
       setLoading(false);
       setOpenCropPestAddDialog(false);
     } catch (error) {
@@ -165,7 +166,6 @@ const CropForm = ({
     } catch (error) {
       console.log(error);
     }
-    console.log("form data is: ", formDataD["cropPest"]);
   };
 
   const toggleCropDiseaseSelect = (component) => {
@@ -199,7 +199,7 @@ const CropForm = ({
   };
 
   const onConfirm = async () => {
-    if (toggleState === 1) {
+    if (toggleState === 2) {
       try {
         setLoading(true);
         for (const cropPest of selectCropPest) {
@@ -1343,10 +1343,7 @@ const CropForm = ({
                 >
                   <Button
                     onClick={onAddPest}
-                    disabled={
-                      state?.action === DEF_ACTIONS.VIEW ||
-                      state?.action === DEF_ACTIONS.ADD
-                    }
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
                   >
                     <Add />
                     {DEF_ACTIONS.ADD}
@@ -1376,8 +1373,6 @@ const CropForm = ({
                   selectedRows={selectCropPest}
                   selectAll={selectAllCropPest}
                   unSelectAll={resetSelectedCropPest}
-                  onDelete={handleCropPestDelete}
-                  cropId={cropId}
                 />
               )}
             </TabContent>
