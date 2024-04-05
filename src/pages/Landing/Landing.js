@@ -2,29 +2,22 @@ import {
   Autocomplete,
   Button,
   Grid,
-  InputAdornment,
   InputBase,
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
 //images
-import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
-import Cropix from "../../assets/images/cropixLogo.png";
 import SearchIcon from "@mui/icons-material/Search";
-import Samba from "../../assets/images/sambasample.png";
-import LandingCarousal from "../../assets/images/landingcarasol.png";
 import CultivateImg from "../../assets/images/cultivate.png";
-
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
 import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
-import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
-import axios from "axios";
+
 
 function Landing() {
   useUserAccessValidation();

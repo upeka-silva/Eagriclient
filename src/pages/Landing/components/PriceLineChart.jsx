@@ -5,13 +5,10 @@ import {
   Card,
   CardContent,
   CircularProgress,
-  Grid,
   Typography,
 } from "@mui/material";
 import Chart from "react-apexcharts";
-import { styled } from "@mui/system";
 import { useNavigate } from "react-router";
-import axios from "axios";
 import { getAllHartiData } from "../../../redux/actions/hartiGraph/action";
 
 const PriceLineChart = ({ data }) => {
@@ -92,7 +89,7 @@ const PriceLineChart = ({ data }) => {
     },
 
     xaxis: {
-      categories: "", // Assuming all items have the same years
+      categories: "", 
       labels: {
         show: false, // hide x-axis labels
       },
