@@ -1423,7 +1423,7 @@ export const Routes = [
         isSideBar: true,
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
-        //component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
       },
     ],
   },
@@ -1515,7 +1515,7 @@ export const Routes = [
         isSideBar: true,
         element: <CommodityItem />,
         icon: GroupIcon ,
-        component: DEF_COMPONENTS.CommodityItem,
+        component: DEF_COMPONENTS.COMMODITY_ITEM,
       },
       {
         path: "/economic-center",
