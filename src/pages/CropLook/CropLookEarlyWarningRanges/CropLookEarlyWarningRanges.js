@@ -9,9 +9,12 @@ import { useNavigate } from "react-router";
 import {
   Button,
   ButtonGroup,
-  Autocomplete,
-  TextField,
-  Grid,
+  CircularProgress,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import CropLookEarlyWarningRangesList from "./CropLookEarlyWarningRangesList";
@@ -28,6 +31,8 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { deleteEarlyWarningRange } from "../../../redux/actions/cropLook/earlyWarningRegistration/action";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
 
 const CropLookEarlyWarningRanges = () => {
@@ -38,7 +43,7 @@ const CropLookEarlyWarningRanges = () => {
   
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
-    const [dataEndPoint, setDataEndPoint] = useState("crop/early-warning-ranges");
+    // const [dataEndPoint, setDataEndPoint] = useState("crop/early-warning-ranges");
   
     const [selectedEarlyWarningRanges, setSelectedEarlyWarningRanges] = useState([]);
     const [dialogSelectedEarlyWarningRanges, setDialogSelectedEarlyWarningRanges] = useState([]);
@@ -65,6 +70,29 @@ const CropLookEarlyWarningRanges = () => {
   
     const resetSelectedEarlyWarningRanges = () => {
         setSelectedEarlyWarningRanges([]);
+    };
+
+    const renderSelectedItems = () => {
+      return (
+        <List>
+          {selectedEarlyWarningRanges.map((p, key) => {
+            return (
+              <ListItem>
+                <ListItemIcon>
+                  {loading ? (
+                    <CircularProgress size={16} />
+                  ) : (
+                    <RadioButtonCheckedIcon color="info" />
+                  )}
+                </ListItemIcon>
+                <ListItemText>
+                  {p.id} - {p.cropDTO?.cropId}
+                </ListItemText>
+              </ListItem>
+            );
+          })}
+        </List>
+      );
     };
   
     const onCreate = () => {
@@ -203,22 +231,39 @@ const CropLookEarlyWarningRanges = () => {
               onRowSelect={toggleEarlyWarningRangeSelect}
               selectAll={selectAllEarlyWarningRanges}
               unSelectAll={resetSelectedEarlyWarningRanges}
-              dataEndPoint={dataEndPoint}
+              // dataEndPoint={dataEndPoint}
             />
           )}
         </PermissionWrapper>
-        <ConfirmationDialog
-          open={open}
-          title="Do you want to delete?"
-          items={selectedEarlyWarningRanges}
-          loading={loading}
-          onClose={close}
-          onConfirm={onConfirm}
-          setDialogSelectedTypes={setDialogSelectedEarlyWarningRanges}
-          dialogSelectedTypes={dialogSelectedEarlyWarningRanges}
-          propertyId="id"
-          propertyDescription="name"
-        />
+      <DialogBox
+        open={open}
+        title="Do you want to delete?"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={onConfirm}
+              sx={{ ml: "8px" }}
+            >
+              Confirm
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={close}
+              sx={{ ml: "8px" }}
+            >
+              Close
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>
+          <Divider sx={{ mt: "16px" }} />
+          {renderSelectedItems()}
+        </>
+      </DialogBox>
       </div>
     );
   };
