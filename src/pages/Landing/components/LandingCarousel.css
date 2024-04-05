@@ -1,0 +1,17 @@
+.arrow{
+    font-size: 30px;
+    /* padding: 5px 15px; */
+    border-radius: 10px;
+    display: flex;
+    width: 50px;
+    position: absolute;
+    top: 160px;
+}
+
+.arrow-right{
+    right: -50px;
+}
+
+.arrow-left{
+    left: -60px
+}

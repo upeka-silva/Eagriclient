@@ -3,7 +3,7 @@ import { get } from "../../../services/api";
 
 export const get_CommodityGroup= async () => {
     try {
-      const { httpCode, payloadDto } = await get("geo-data/commodity-group", true);
+      const { httpCode, payloadDto } = await get("harti/commodity-group", true);
       if (httpCode === "200 OK") {
         return {
           dataList: payloadDto

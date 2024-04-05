@@ -63,6 +63,10 @@ import CreatePostForm from "../pages/Extention/CreatePostForm";
 import CommodityGroup from "../pages/Harty/CommodityGroup";
 import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
+import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
+import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
+import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -202,6 +206,8 @@ import Landing from "../pages/Landing/Landing";
 import AggrigateReport from "../pages/CropLook/aggrigateReport/aggrigate-reporting";
 import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
+import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
+import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
 
 
 export const Routes = [
@@ -261,6 +267,10 @@ export const Routes = [
   {
     path: "/userProfile",
     element: <ProfileView />,
+  },
+  {
+    path: "/early-warning-ranges-form",
+    element: <CropLookEarlyWarningRangesForm />,
   },
 
   {
@@ -1383,6 +1393,38 @@ export const Routes = [
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
+      {
+        path: "/report-approval-ada",
+        name: "Approval Panel (ADA)",
+        isSideBar: true,
+        element: <ApprovalDashboard />,
+        icon: Preview,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+      },
+      {
+        path: "/report-approval-dd",
+        name: "Approval Panel (DD)",
+        isSideBar: true,
+        element: <ApprovalDashboardDD />,
+        icon: Preview,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+      },
+      {
+        path: "/early-warning-ranges",
+        name: "Early Warning Limits",
+        isSideBar: true,
+        element: <CropLookEarlyWarningRanges />,
+        icon: Settings,
+        component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
+      },
+      {
+        path: "/vegitable-early-warning-ranges",
+        name: "Veg Early Warnings",
+        isSideBar: true,
+        element: <VegitableEarlyWarningRanges />,
+        icon: Settings,
+        //component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+      },
     ],
   },
   {
@@ -1454,8 +1496,8 @@ export const Routes = [
   },
 
   {
-    path: "/harty",
-    name: "Harty",
+    path: "/harti",
+    name: "HARTI",
     isSideBar: true,
     icon: WaterIcon,
     children: [

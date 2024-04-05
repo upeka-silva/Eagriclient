@@ -12,23 +12,12 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { updateCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { useEffect } from "react";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import {
-  TabButton,
-  TabContent,
-  TabWrapper,
-} from "../../Farm-Land/FarmLandForm";
-import {
-  createCropTarget,
-  getAllAiAndMahaweliUnits,
-} from "../../../redux/actions/cropLook/cropTarget/actions";
+import { getAllAiAndMahaweliUnits } from "../../../redux/actions/cropLook/cropTarget/actions";
 import BiWeeklyReportingTab from "./biweekly-reporting-tab";
 import {
   changeStatusOfBiWeekReport,
@@ -38,10 +27,15 @@ import {
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { Vrpano } from "@mui/icons-material";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
+import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -88,7 +82,7 @@ const BiWeeklyReportingForm = () => {
       setSelectedSeason(state?.target?.season);
       var region = state?.target?.aiRegion
         ? state?.target?.aiRegion
-        : state?.target?.mahaweliBlock || {}; 
+        : state?.target?.mahaweliBlock || {};
       region.parentType = state?.target?.parentType;
       setSelectedAiRegion(region);
       setSelectedWeek(state?.target?.week);
@@ -215,7 +209,7 @@ const BiWeeklyReportingForm = () => {
   const approveBiWeekReport = () => {
     changeStatusOfBiWeekReport(
       biWeekReportId,
-      BI_WEEK_REPORT_STATUS.APPROVED,
+      BI_WEEK_REPORT_STATUS.AI_COMPLETED,
       onSuccessStatusChange,
       onErrorStatusChange
     );
@@ -270,26 +264,11 @@ const BiWeeklyReportingForm = () => {
                   }}
                 />
               </Grid>
-              <Grid item sx={{ pt: "8px" }}>
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-                >
-                  <Button
-                    variant="outlined"
-                    color="success"
-                    onClick={() => setOpenConfApprove(true)}
-                    sx={{ ml: "8px" }}
-                    size="small"
-                  >
-                    Approve
-                  </Button>
-                </PermissionWrapper>
-              </Grid>
             </Grid>
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>AI Region</FieldName>
+              <FieldName>AI Region/Mahaweli Block</FieldName>
               <Autocomplete
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||

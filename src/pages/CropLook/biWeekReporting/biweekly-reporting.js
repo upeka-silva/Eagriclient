@@ -265,7 +265,6 @@ const BiWeeklyReporting = () => {
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

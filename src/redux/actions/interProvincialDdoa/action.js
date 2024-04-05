@@ -133,11 +133,32 @@ export const get_InterProvincialDdoaList = async () => {
   }
 };
 
-
 export const get_InterProvincialDdoaListByDoaId = async (id) => {
   try {
     const { httpCode, payloadDto } = await get(
       "geo-data/interprovincial-dd-levels/director-doa/" + id,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_InterProvincialDdoaLovByDoaId = async (id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/interprovincial-dd-levels/director-doa/${id}?page=0&size=1000`,
       true
     );
     if (httpCode === "200 OK") {

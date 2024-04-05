@@ -15,8 +15,7 @@ export const handleAI = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,56 +34,80 @@ export const handleAI = async (
   }
 };
 
-
-
-export const get_AiRegionList = async (
-  ) => {
-    try {
-      const {httpCode, payloadDto} = await get("geo-data/ai-region", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const get_AiRegionList = async () => {
+  try {
+    const { httpCode, payloadDto } = await get("geo-data/ai-region", true);
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
-
-  export const get_AiRegionListWithoutPagination = async (
-    ) => {
-      try {
-        const {httpCode, payloadDto} = await get("geo-data/ai-region?size=1000", true);
-        if (httpCode === '200 OK') {
-          return {
-            dataList: payloadDto
-          }
-        }
-        return {
-          dataList: []
-        }
-      } catch (error) {
-        console.log(error)
-        return {
-          dataList: []
-        }
-      }
+    return {
+      dataList: [],
     };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
+export const get_AiRegionLov = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region?page=0&size=100`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_AiRegionListWithoutPagination = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/ai-region?size=1000",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateAI = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/ai-regions/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/ai-regions/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -92,8 +115,7 @@ export const updateAI = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -112,15 +134,14 @@ export const updateAI = async (
   }
 };
 
-
 export const deleteAI = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/ai-region/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`geo-data/ai-region/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -128,8 +149,7 @@ export const deleteAI = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -145,24 +165,48 @@ export const deleteAI = async (
       onError(error);
     }
   }
-}
+};
 
-export const get_AiRegionListByTypeByAdaId = async ( type , id
-  ) => {
-    try {
-      const {httpCode, payloadDto} = await get(`geo-data/ai-region/get-by-parent/${type}/` + id, true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const get_AiRegionListByTypeByAdaId = async (type, id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region/get-by-parent/${type}/` + id,
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_AiRegionLovByTypeByAdaId = async (type, id) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `geo-data/ai-region/get-by-parent/${type}/${id}?page=0&size=100`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

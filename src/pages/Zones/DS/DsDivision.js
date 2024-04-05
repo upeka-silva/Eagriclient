@@ -27,6 +27,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import SearchBox from "../../../components/SearchBox/SearchBox";
 
 const DsDivision = () => {
   useUserAccessValidation();
@@ -63,6 +64,19 @@ const DsDivision = () => {
       }
       return newList;
     });
+  };
+
+  const handleSearch = (searchText) => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
   };
 
   const selectAllDsDivisions = (all = []) => {
@@ -282,6 +296,7 @@ const DsDivision = () => {
               />
             </FieldWrapper>
           </Grid>
+          <SearchBox handleSearch={handleSearch} />
           <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <Button

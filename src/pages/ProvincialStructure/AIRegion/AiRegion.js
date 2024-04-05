@@ -45,6 +45,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import SearchBox from "../../../components/SearchBox/SearchBox";
 
 const ProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -228,6 +229,19 @@ const ProvincialAiRegion = () => {
     );
   };
 
+  const handleSearch = (searchText) => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
+  };
+
   return (
     <div
     style={{
@@ -383,6 +397,7 @@ const ProvincialAiRegion = () => {
               />
             </FieldWrapper>
           </Grid>
+          <SearchBox handleSearch={handleSearch} />
           <Grid item lg={2}>
             <FieldWrapper>
               <Button

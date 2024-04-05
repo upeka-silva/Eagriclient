@@ -94,6 +94,7 @@ export const getUserPermissionByComponent = async (module) => {
       EDIT: filteredArray.some((item) => item.authority.includes("EDIT")),
       VIEW: filteredArray.some((item) => item.authority.includes("VIEW")),
       VIEW_LIST: filteredArray.some((item) => item.authority.includes("VIEW_LIST")),
+      APPROVE: filteredArray.some((item) => item.authority.includes("APPROVE")),
     };
 
     if (
@@ -101,7 +102,8 @@ export const getUserPermissionByComponent = async (module) => {
       permission.DELETE ||
       permission.EDIT ||
       permission.VIEW ||
-      permission.VIEW_LIST
+      permission.VIEW_LIST ||
+      permission.APPROVE
     ) {
       permission.isEnabled = true;
     } else {

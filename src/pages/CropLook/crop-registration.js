@@ -35,6 +35,7 @@ import {
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropRegistrationList from "./crop-registration-list";
 import { Fonts } from "../../utils/constants/Fonts";
+import { deleteCropRegistration } from "../../redux/actions/cropLook/cropRegistration/actions";
 
 const CropRegistration = () => {
 

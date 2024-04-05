@@ -31,6 +31,7 @@ import {
   Radio,
   Slider,
   useTheme,
+  Box,
 } from "@mui/material";
 import { DateField } from "@mui/x-date-pickers/DateField";
 import { MultiInputDateRangeField } from "@mui/x-date-pickers-pro/MultiInputDateRangeField";
@@ -79,7 +80,7 @@ export const DataTable = ({
 
   const [rows, setRows] = useState(dataRows);
   const [loading, setLoading] = useState(loadingTable);
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
   const [orderByTarget, setOrderByTarget] = useState(null);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
@@ -97,7 +98,15 @@ export const DataTable = ({
       fetchTableData();
       console.log(advanceSearchData);
     }
-  }, [page, pageSize, dataEndPoint, filterEndPoint, advanceSearchData]);
+  }, [
+    page,
+    pageSize,
+    dataEndPoint,
+    filterEndPoint,
+    advanceSearchData,
+    order,
+    orderByTarget,
+  ]);
 
   useEffect(() => {
     setAdvanceSearchData((current) => {
@@ -118,9 +127,17 @@ export const DataTable = ({
               filterEndPoint,
               page,
               pageSize,
-              advanceSearchData
+              advanceSearchData,
+              order,
+              orderByTarget?.sortCol
             )
-          : await get_DataList(dataEndPoint, page, pageSize);
+          : await get_DataList(
+              dataEndPoint,
+              page,
+              pageSize,
+              order,
+              orderByTarget?.sortCol
+            );
 
       if (dataList) {
         setRows(dataList);
@@ -750,7 +767,6 @@ export const DataTable = ({
   };
 
   const extractNestedData = (row = {}, keys = "") => {
-
     if (!row || keys === "") {
       return null;
     }
@@ -762,7 +778,7 @@ export const DataTable = ({
     let target = {};
     for (let key of keys.split(".")) {
       if (target === null || target === undefined) {
-        return null; 
+        return null;
       }
       if (Object.keys(target).length === 0) {
         target = row[key];
@@ -956,7 +972,7 @@ export const DataTable = ({
                         active={orderByTarget === c.field}
                         direction={orderByTarget === c.field ? order : "asc"}
                         onClick={() =>
-                          setOrderBy(order === "asc" ? "desc" : "asc", c.field)
+                          setOrderBy(order === "asc" ? "desc" : "asc", c)
                         }
                       >
                         {c.headerName}
@@ -1102,6 +1118,20 @@ export const DataTable = ({
                           "en-UK",
                           { hour12: true, hour: "2-digit", minute: "2-digit" }
                         )}
+                      </TableCell>
+                    );
+                  }
+                  if (c?.type === "scientific") {
+                    return (
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        sx={{ padding: "2px 0px 2px 20px !important" }}
+                      >
+                        <Typography component="div">
+                          <Box sx={{ fontStyle: "italic", m: 1 }}>
+                            {r[c.field]}
+                          </Box>
+                        </Typography>
                       </TableCell>
                     );
                   }
