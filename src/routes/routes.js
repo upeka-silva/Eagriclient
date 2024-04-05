@@ -208,6 +208,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
+import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 
 
 export const Routes = [
@@ -228,6 +229,10 @@ export const Routes = [
   {
     path: "/price-food-chart",
     element: <FoodPriceChart />,
+  },
+  {
+    path: "/all-price-food-charts",
+    element: <AllFoodPriceChart />,
   },
   {
     path: "/login",

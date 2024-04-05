@@ -6,7 +6,7 @@ import {
   InputBase,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //images
 import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
@@ -24,6 +24,7 @@ import PriceLineChart from "./components/PriceLineChart";
 import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
+import axios from "axios";
 
 function Landing() {
   useUserAccessValidation();
@@ -33,6 +34,7 @@ function Landing() {
     Latitude: 7.2345496,
   };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
+ 
 
   const data = {
     vegetables: [
@@ -221,14 +223,12 @@ function Landing() {
 
   const handleLocationChange = (event, value) => {
     setSelectedLocation(value);
-    console.log("Selected Location:", value);
   };
 
   return (
     <div>
       <Grid container mt={1} sx={{ width: "100vw" }}>
-        
-        <LandingHeader/>
+        <LandingHeader />
 
         <Grid md={12}>
           <hr />
