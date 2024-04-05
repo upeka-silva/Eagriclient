@@ -12,6 +12,7 @@ import Chart from "react-apexcharts";
 import { styled } from "@mui/system";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import { getAllHartiData } from "../../../redux/actions/hartiGraph/action";
 
 const PriceLineChart = ({ data }) => {
   const navigate = useNavigate();
@@ -22,20 +23,17 @@ const PriceLineChart = ({ data }) => {
   const [loading, setLoading] = useState(false);
 
   //get the data price and foods data
-  //get rice data
 
   const riceData = async () => {
     setLoading(true);
-    const response = await axios
-      .get(
-        "http://localhost:8080/api/v1/latest-producer-price/getfoodpricedata"
-      )
+    getAllHartiData()
       .then((response) => {
-        setallData(response.data);
-        const riceGroupData = response?.data
+        console.log({ response });
+        setallData(response?.dataList);
+        const riceGroupData = response?.dataList
           .filter((item) => item.groupName === "Rice")
           .slice(0, 4);
-        const otherFruitsData = response?.data?.filter(
+        const otherFruitsData = response?.dataList?.filter(
           (item) => item.groupName === "Other Fruits"
         );
         setOtherFruitsData(otherFruitsData);
