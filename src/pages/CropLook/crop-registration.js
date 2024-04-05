@@ -22,7 +22,6 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { deleteCropRegistration } from "../../redux/actions/cropLook/cropRegistration/actions";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../utils/constants/apiMessages";
 import {
   Add,
@@ -35,7 +34,6 @@ import {
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropRegistrationList from "./crop-registration-list";
 import { Fonts } from "../../utils/constants/Fonts";
-import { deleteCropRegistration } from "../../redux/actions/cropLook/cropRegistration/actions";
 
 const CropRegistration = () => {
 
