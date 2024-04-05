@@ -327,7 +327,6 @@ const CropLookSeason = () => {
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
