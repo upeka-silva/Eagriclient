@@ -23,7 +23,7 @@ import {
   SideBarItemToolTip,
 } from "./Components";
 import { Fonts } from "../../utils/constants/Fonts";
-import { getUserPermissionByComponent } from "../../utils/helpers/permission";
+import { getUserPermissionForLeftNav } from "../../utils/helpers/permission";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -51,7 +51,7 @@ const SideBar = () => {
       const filteredRoutes = await Promise.all(
         Routes.map(async (r) => {
           if (r?.isSideBar === true && r?.component) {
-            const p = await getUserPermissionByComponent(r.component);
+            const p = await getUserPermissionForLeftNav(r.component);
 
             if (!p.isEnabled) {
               return null; // returning null for routes to be filtered out
@@ -61,7 +61,7 @@ const SideBar = () => {
             const filteredChildren = await Promise.all(
               r?.children.map(async (c) => {
                 if (c?.isSideBar === true && c?.component) {
-                  const p = await getUserPermissionByComponent(c.component);
+                  const p = await getUserPermissionForLeftNav(c.component);
                   if (!p.isEnabled) {
                     return null; // returning null for routes to be filtered out
                   }
@@ -70,7 +70,7 @@ const SideBar = () => {
                   const filteredChildren = await Promise.all(
                     c?.children.map(async (cc) => {
                       if (cc?.isSideBar === true && cc?.component) {
-                        const p = await getUserPermissionByComponent(
+                        const p = await getUserPermissionForLeftNav(
                           cc?.component
                         );
                         if (!p.isEnabled) {
