@@ -12,6 +12,7 @@ import {
   Paper,
   Typography,
   Card,
+  Switch,
 } from "@mui/material";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import styled from "styled-components";
@@ -654,29 +655,48 @@ const CropForm = ({
                         </Select>
                       </FieldWrapper>
                     </Grid>
-                    <Grid item sm={3} md={3} lg={6}>
-                      <FieldWrapper>
-                        <FieldName>Scientific Name</FieldName>
-                        <TextField
-                          name="scientificName"
-                          id="scientificName"
-                          value={formData?.scientificName || ""}
-                          fullWidth
-                          disabled={state?.action === DEF_ACTIONS.VIEW}
-                          onChange={(e) =>
-                            handleChange(
-                              e?.target?.value || "",
-                              "scientificName"
-                            )
-                          }
-                          sx={{
-                            "& .MuiInputBase-root": {
-                              borderRadius: "8px",
-                            },
-                          }}
-                          size="small"
-                        />
-                      </FieldWrapper>
+                    <Grid container spacing={1}>
+                      <Grid item sm={3} md={3} lg={6}>
+                        <FieldWrapper>
+                          <FieldName>Scientific Name</FieldName>
+                          <TextField
+                            name="scientificName"
+                            id="scientificName"
+                            value={formData?.scientificName || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                              handleChange(
+                                e?.target?.value || "",
+                                "scientificName"
+                              )
+                            }
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                borderRadius: "8px",
+                              },
+                            }}
+                            size="small"
+                          />
+                        </FieldWrapper>
+                      </Grid>
+
+                      <Grid item sm={4} md={4} lg={4} spacing={0}>
+                        <FieldWrapper>
+                          <FieldName>Export Crop</FieldName>
+                          <Switch
+                            name="isExportCrop"
+                            id="isExportCrop"
+                            value={formData?.isExportCrop || ""}
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                              handleChange(e?.target?.checked || "", "isExportCrop")
+                            }
+                            checked={formData?.isExportCrop}
+                            aria-label="Switch demo"
+                          />
+                        </FieldWrapper>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
