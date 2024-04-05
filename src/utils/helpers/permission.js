@@ -124,7 +124,7 @@ export const getUserPermissionForLeftNav = async (module) => {
       return item.authority.includes(module);
     });
     const permission = {
-      SHOW: filteredArray.some((item) => item.authority.includes("SHOW_"))
+      SHOW: filteredArray.some((item) => item.authority.includes("LEFT_NAV_"))
     };
 
     if (
