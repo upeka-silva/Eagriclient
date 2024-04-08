@@ -215,13 +215,14 @@ export const changeUserStatus = async (
  };
 
  export const getUserProfile = async () => {
-  debugger ;
   try {
-    var userid  = await getLSItem(StorageConstants.user_id)?.value || ""
-    const { httpCode, payloadDto } = await get(`user/profile/${userid}`, true);
+    var userid  = localStorage.getItem(StorageConstants.user_id);
+    
+    console.log({userid});
+    const { httpCode, payload } = await get(`user/profile/${userid}`, true);
     if (httpCode === "200 OK") {
       return {
-        data: payloadDto,
+        data: payload,
       };
     }
     return {
