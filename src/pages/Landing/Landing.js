@@ -2,28 +2,22 @@ import {
   Autocomplete,
   Button,
   Grid,
-  InputAdornment,
   InputBase,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //images
-import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
-import Cropix from "../../assets/images/cropixLogo.png";
 import SearchIcon from "@mui/icons-material/Search";
-import Samba from "../../assets/images/sambasample.png";
-import LandingCarousal from "../../assets/images/landingcarasol.png";
 import CultivateImg from "../../assets/images/cultivate.png";
-
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
 import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
-import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
+
 
 function Landing() {
   useUserAccessValidation();
@@ -33,6 +27,7 @@ function Landing() {
     Latitude: 7.2345496,
   };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
+ 
 
   const data = {
     vegetables: [
@@ -221,14 +216,12 @@ function Landing() {
 
   const handleLocationChange = (event, value) => {
     setSelectedLocation(value);
-    console.log("Selected Location:", value);
   };
 
   return (
     <div>
       <Grid container mt={1} sx={{ width: "100vw" }}>
-        
-        <LandingHeader/>
+        <LandingHeader />
 
         <Grid md={12}>
           <hr />

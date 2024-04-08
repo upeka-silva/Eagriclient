@@ -4,35 +4,60 @@ import {
   Button,
   Card,
   CardContent,
-  Grid,
+  CircularProgress,
   Typography,
 } from "@mui/material";
 import Chart from "react-apexcharts";
-import { styled } from "@mui/system";
 import { useNavigate } from "react-router";
+import { getAllHartiData } from "../../../redux/actions/hartiGraph/action";
 
 const PriceLineChart = ({ data }) => {
-  const [loaded, setLoaded] = useState(false);
   const navigate = useNavigate();
 
+  const [allRiceData, setallRiceData] = useState([]);
+  const [otherFruitsData, setOtherFruitsData] = useState([]);
+  const [allData, setallData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  //get the data price and foods data
+
+  const riceData = async () => {
+    setLoading(true);
+    getAllHartiData()
+      .then((response) => {
+        console.log({ response });
+        setallData(response?.dataList);
+        const riceGroupData = response?.dataList
+          .filter((item) => item.groupName === "Rice")
+          .slice(0, 4);
+        const otherFruitsData = response?.dataList?.filter(
+          (item) => item.groupName === "Other Fruits"
+        );
+        setOtherFruitsData(otherFruitsData);
+        setallRiceData(riceGroupData);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 500); // 0.5 seconds delay
-    return () => clearTimeout(timer); // cleanup on unmount
+    riceData();
   }, []);
 
   const redirectFoodChart = (dataObject) => {
-  
     if (dataObject) {
       navigate("/price-food-chart", {
         state: {
-            data: dataObject && dataObject,
-            fruits: data.fruits,
-            vegetables : data.vegetables
-        }
-        
+          data: dataObject && dataObject,
+        },
       });
     } else {
-      navigate("/price-food-chart");
+      navigate("/all-price-food-charts", {
+        state: {
+          data: allData,
+        },
+      });
     }
   };
 
@@ -64,7 +89,7 @@ const PriceLineChart = ({ data }) => {
     },
 
     xaxis: {
-      categories: Object.keys(data.vegetables[0].yearPrice), // Assuming all items have the same years
+      categories: "", 
       labels: {
         show: false, // hide x-axis labels
       },
@@ -115,69 +140,100 @@ const PriceLineChart = ({ data }) => {
   };
 
   const renderChart = (item) => {
+    const data = item.monthlyPriceAverage.map((entry) =>
+      parseFloat(entry.averagePrice)
+    );
     const series = [
       {
         name: "Price",
-        data: Object.values(item.yearPrice),
+        data: data,
       },
     ];
 
     return (
-      <Card
-        onClick={() => redirectFoodChart(item)}
-        key={item.name}
-        sx={{
-          width: "250px",
-          height: "140px",
-          borderRadius: "15px", // Add border radius
-          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Add box shadow
-          marginBottom: "20px", // Add margin bottom
-        }}
-      >
-        <CardContent>
-          <Typography fontSize={""} gutterBottom>
-            {item.name}
-          </Typography>
-          <Chart
-            options={options}
-            series={series}
-            type="line"
-            width="200px"
-            height="100px"
-          />
-        </CardContent>
-      </Card>
+      <>
+        <Card
+          onClick={() => redirectFoodChart(item)}
+          key={item.name}
+          sx={{
+            width: "250px",
+            height: "140px",
+            borderRadius: "15px", // Add border radius
+            boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)", // Add box shadow
+            marginBottom: "20px", // Add margin bottom
+          }}
+        >
+          <CardContent>
+            <Typography fontSize={""} gutterBottom>
+              {item?.foodName}
+            </Typography>
+            <Chart
+              options={options}
+              series={series}
+              type="line"
+              width="200px"
+              height="100px"
+            />
+          </CardContent>
+        </Card>
+      </>
     );
   };
 
-  return loaded ? (
+  return (
     <div>
-      <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-        Vegetables
-      </Typography>
-      <Box display="flex" flexWrap="wrap" sx={{}}>
-        {data.vegetables.map((item) => (
-          <Box marginRight="20px">{renderChart(item)}</Box>
-        ))}
-      </Box>
-      <div style={{ textAlign: "right" }}>
-        <Button onClick={() => redirectFoodChart()}>View More..</Button>
-      </div>
-
-      <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
-        Fruits
-      </Typography>
-      <Box display="flex" flexWrap="wrap" fontWeight={"bold"} sx={{}}>
-        {data.fruits.map((item) => (
-          <Box marginRight="20px">{renderChart(item)}</Box>
-        ))}
-      </Box>
-      <div style={{ textAlign: "right" }}>
-        <Button>View More..</Button>
-      </div>
-      {/* {data.fruits.map(renderChart)} */}
+      {loading ? (
+        <CircularProgress
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      ) : (
+        <>
+          <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+            {allRiceData[0]?.groupName}
+          </Typography>
+          <Box display="flex" flexWrap="wrap" sx={{}}>
+            {allRiceData.length > 0 &&
+              allRiceData?.map((item) => (
+                <Box marginRight="20px">{renderChart(item)}</Box>
+              ))}
+          </Box>
+          <div style={{ textAlign: "right" }}>
+            <Button onClick={() => redirectFoodChart()}>View More..</Button>
+          </div>
+        </>
+      )}
+      {loading ? (
+        <CircularProgress
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      ) : (
+        <>
+          <Typography fontSize={"15px"} fontWeight={"bold"} mb={2}>
+            Fruits
+          </Typography>
+          <Box display="flex" flexWrap="wrap" fontWeight={"bold"} sx={{}}>
+            {otherFruitsData?.length > 0 &&
+              otherFruitsData?.map((item) => (
+                <Box marginRight="20px">{renderChart(item)}</Box>
+              ))}
+          </Box>
+          <div style={{ textAlign: "right" }}>
+            <Button onClick={() => redirectFoodChart()}>View More..</Button>
+          </div>
+        </>
+      )}
     </div>
-  ) : null;
+  );
 };
 
 export default PriceLineChart;
