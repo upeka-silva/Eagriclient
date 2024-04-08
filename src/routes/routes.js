@@ -65,6 +65,7 @@ import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
+import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -207,6 +208,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
+import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 
 
 export const Routes = [
@@ -1246,6 +1248,21 @@ export const Routes = [
         path: "/create-post-form",
         isSideBar: false,
         element: <CreatePostForm />,
+      },
+      {
+        path: "/agriculture-project",
+        name: "Agriculture project",
+        isSideBar: true,
+        element: <AgricultureProject />,
+        icon: Category,
+        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+      },
+
+      {
+        path: "/agriculture-project-form",
+        name: "Agriculture Project Form",
+        isSideBar: false,
+        element: <AgricultureProjectForm />,
       },
     ],
   },

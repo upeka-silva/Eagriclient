@@ -1324,8 +1324,8 @@ const CropForm = ({
                   <Button
                     onClick={onAddPest}
                     disabled={
-                      state?.action === DEF_ACTIONS.VIEW ||
-                      state?.action === DEF_ACTIONS.ADD
+                      state?.action === DEF_ACTIONS.VIEW 
+                      // state?.action === DEF_ACTIONS.ADD
                     }
                   >
                     <Add />

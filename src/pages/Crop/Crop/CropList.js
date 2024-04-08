@@ -12,6 +12,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 
 const CropList = ({
+  url,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -181,14 +182,14 @@ const CropList = ({
       <>
         <DataTable
           loadingTable
-          dataEndPoint={dataEndPoint}
+          dataEndPoint={url}
           columns={columns}
           selectable
           selectedRows={selectedRows}
           selectAll={selectAll}
           onRowSelect={onRowSelect}
           unSelectAll={unSelectAll}
-          searchable={true}
+          searchable={false}
         />
       </>
     </TableWrapper>
