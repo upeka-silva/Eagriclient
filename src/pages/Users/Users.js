@@ -16,7 +16,11 @@ import {
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { changePassword, deleteUsers, changeUserStatus } from "../../redux/actions/users/action";
+import {
+  changePassword,
+  deleteUsers,
+  changeUserStatus,
+} from "../../redux/actions/users/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import UsersList from "./UserList";
@@ -25,14 +29,11 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Event, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import PasswordChangeDialog from "./passwordChangeDialog";
-import { useDispatch } from 'react-redux';
-import Checkbox from '@mui/material/Checkbox';
-import { useSelector } from 'react-redux';
+import { useDispatch } from "react-redux";
+import Checkbox from "@mui/material/Checkbox";
+import { useSelector } from "react-redux";
 import { Fonts } from "../../utils/constants/Fonts";
-
-
-
-
+import SearchBox from "../../components/SearchBox/SearchBox";
 
 const Users = () => {
   useUserAccessValidation();
@@ -44,7 +45,7 @@ const Users = () => {
   const [openPasswordReset, setOpenPasswordReset] = useState(false);
   const [selectUsers, setSelectUsers] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  
+  const [dataUrl, setDataUrl] = useState("user-manage/users");
 
   const toggleUsersSelect = (component) => {
     setSelectUsers((current = []) => {
@@ -143,31 +144,26 @@ const Users = () => {
     setOpen(false);
   };
 
-
-
   const handleChangeUserStatus = () => {
     if (selectUsers.length === 1) {
       var user = selectUsers[0];
       const newStatus = !user.enabled;
-   
-      changeUserStatus(user.id, newStatus).then((status) => {
 
-        const changdStatus =  (status === 'disabled') ? false : true;
+      changeUserStatus(user.id, newStatus).then((status) => {
+        const changdStatus = status === "disabled" ? false : true;
 
         user.enabled = changdStatus;
-  
+
         setSelectUsers([user]);
       });
-
     }
-   };
-   
+  };
+
   const renderSelectedItems = () => {
     return (
       <List>
         {selectUsers.map((p, key) => {
           return (
-            
             <ListItem>
               <ListItemIcon>
                 {loading ? (
@@ -177,8 +173,8 @@ const Users = () => {
                 )}
               </ListItemIcon>
               <Checkbox
-              checked={selectUsers.includes(p)}
-              onChange={(e) => toggleUsersSelect(p)}
+                checked={selectUsers.includes(p)}
+                onChange={(e) => toggleUsersSelect(p)}
               />
               <ListItemText>
                 {p.email} - {p.firstName} {p.lastName}
@@ -219,16 +215,29 @@ const Users = () => {
     }
   };
 
+  const handleSearch = (searchText) => {
+    let url = dataUrl;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataUrl(url);
+  };
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Users" />
       <ActionWrapper isLeft>
@@ -289,27 +298,30 @@ const Users = () => {
           )}
 
           {selectUsers.length === 1 && (
-            <PermissionWrapper permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`} >
-             <Button onClick={handleChangeUserStatus} >
-          {selectUsers[0].enabled ? 'De-activate' : 'Activate'}
-            </Button>
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.USER}`}
+            >
+              <Button onClick={handleChangeUserStatus}>
+                {selectUsers[0].enabled ? "De-activate" : "Activate"}
+              </Button>
             </PermissionWrapper>
           )}
-
-
-
         </ButtonGroup>
+        <SearchBox handleSearch={handleSearch} />
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.USER}`}
       >
         {loading === false && (
-          <UsersList
-            selectedRows={selectUsers}
-            onRowSelect={toggleUsersSelect}
-            selectAll={selectAllUsers}
-            unSelectAll={resetSelectedUsers}
-          />
+          <>
+            <UsersList
+              selectedRows={selectUsers}
+              onRowSelect={toggleUsersSelect}
+              selectAll={selectAllUsers}
+              unSelectAll={resetSelectedUsers}
+              dataUrl={dataUrl}
+            />
+          </>
         )}
       </PermissionWrapper>
       <DialogBox
@@ -343,12 +355,14 @@ const Users = () => {
         </>
       </DialogBox>
 
-      {openPasswordReset && selectUsers[0]?.email ? <PasswordChangeDialog
-        open={openPasswordReset}
-        handleClose={handlePasswordChanegDialogClose}
-        confirmAction={handlePasswordChange}
-        email={selectUsers[0].email}
-      /> : null}
+      {openPasswordReset && selectUsers[0]?.email ? (
+        <PasswordChangeDialog
+          open={openPasswordReset}
+          handleClose={handlePasswordChanegDialogClose}
+          confirmAction={handlePasswordChange}
+          email={selectUsers[0].email}
+        />
+      ) : null}
     </div>
   );
 };
