@@ -65,7 +65,6 @@ import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
-import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
@@ -209,6 +208,7 @@ import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
 import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
+import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 
 
 export const Routes = [
@@ -229,6 +229,10 @@ export const Routes = [
   {
     path: "/price-food-chart",
     element: <FoodPriceChart />,
+  },
+  {
+    path: "/all-price-food-charts",
+    element: <AllFoodPriceChart />,
   },
   {
     path: "/login",
@@ -1433,6 +1437,14 @@ export const Routes = [
         icon: Settings,
         component: DEF_COMPONENTS.EARLY_WARNING_RANGES,
       },
+      {
+        path: "/vegitable-early-warning-ranges",
+        name: "Veg Early Warnings",
+        isSideBar: true,
+        element: <VegitableEarlyWarningRanges />,
+        icon: Settings,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+      },
     ],
   },
   {
@@ -1523,7 +1535,7 @@ export const Routes = [
         isSideBar: true,
         element: <CommodityItem />,
         icon: GroupIcon ,
-        component: DEF_COMPONENTS.CommodityItem,
+        component: DEF_COMPONENTS.COMMODITY_ITEM,
       },
       {
         path: "/economic-center",

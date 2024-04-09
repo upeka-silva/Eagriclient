@@ -199,7 +199,7 @@ const CropLookEarlyWarningRangesForm = () => {
           item
           sm={3}
           md={3}
-          lg={2}
+          lg={3}
           display={state?.action !== DEF_ACTIONS.ADD ? "none" : ""}
         >
           <FieldWrapper>
@@ -238,7 +238,7 @@ const CropLookEarlyWarningRangesForm = () => {
           item
           sm={3}
           md={3}
-          lg={2}
+          lg={3}
           display={state?.action !== DEF_ACTIONS.ADD ? "none" : ""}
         >
           <FieldWrapper>
@@ -270,7 +270,7 @@ const CropLookEarlyWarningRangesForm = () => {
             />
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={2}>
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
             <FieldName>Crop</FieldName>
             <Autocomplete
@@ -368,7 +368,7 @@ const CropLookEarlyWarningRangesForm = () => {
         </Grid>
         <Grid item sm={2} md={2} lg={2}>
           <FieldWrapper>
-            <FieldName>Light Green Lower</FieldName>
+            <FieldName>Light Green Upper</FieldName>
             <TextField
               name="lightGreenUpper"
               id="lightGreenUpper"

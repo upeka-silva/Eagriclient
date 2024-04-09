@@ -116,3 +116,28 @@ export const getUserPermissionByComponent = async (module) => {
     return false;
   }
 };
+
+export const getUserPermissionForLeftNav = async (module) => {
+  try {
+    const authorities = (await getCurrentUserPermissionList()) || [];
+    const filteredArray = authorities.filter((item) => {
+      return item.authority.includes(module);
+    });
+    const permission = {
+      SHOW: filteredArray.some((item) => item.authority.includes("LEFT_NAV_"))
+    };
+
+    if (
+      permission.SHOW
+    ) {
+      permission.isEnabled = true;
+    } else {
+      permission.isEnabled = false;
+    }
+    return permission
+
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

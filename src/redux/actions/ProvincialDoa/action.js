@@ -114,7 +114,7 @@ export const deleteProvincialDoa = async (
 export const get_ProvincialDoaList = async () => {
   try {
     const { httpCode, payloadDto } = await get(
-      "geo-data/provincial-director-levels",
+      "geo-data/provincial-director-levels?size=1000",
       true
     );
     if (httpCode === "200 OK") {

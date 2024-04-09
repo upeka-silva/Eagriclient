@@ -104,7 +104,7 @@ const CropConfiguration = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.code} - {p.name}
+                {p.cropCategory?.categoryId} - {p.cropCategory?.description}
               </ListItemText>
             </ListItem>
           );
@@ -237,7 +237,7 @@ const CropConfiguration = () => {
         }
       >
         <>
-          <DeleteMsg />
+        {renderSelectedItems()}
         </>
       </DialogBox>
     </div>

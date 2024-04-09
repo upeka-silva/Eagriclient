@@ -12,6 +12,7 @@ import {
   Paper,
   Typography,
   Card,
+  Switch,
 } from "@mui/material";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import styled from "styled-components";
@@ -144,10 +145,11 @@ const CropForm = ({
     });
   };
 
-  const handleCropPestAdd = async (formDataD, onSuccess, onError) => {
+  const handleCropPestAdd = async (event, formDataD, functionMode) => {
+    console.log({formDataD});
     setLoading(true);
     try {
-      await assignCropPest(cropId, formDataD, onSuccess, onError);
+      await assignCropPest(cropId, formDataD);
       setLoading(false);
       setOpenCropPestAddDialog(false);
     } catch (error) {
@@ -164,7 +166,6 @@ const CropForm = ({
     } catch (error) {
       console.log(error);
     }
-    console.log("form data is: ", formDataD["cropPest"]);
   };
 
   const toggleCropDiseaseSelect = (component) => {
@@ -198,7 +199,7 @@ const CropForm = ({
   };
 
   const onConfirm = async () => {
-    if (toggleState === 1) {
+    if (toggleState === 2) {
       try {
         setLoading(true);
         for (const cropPest of selectCropPest) {
@@ -654,29 +655,48 @@ const CropForm = ({
                         </Select>
                       </FieldWrapper>
                     </Grid>
-                    <Grid item sm={3} md={3} lg={6}>
-                      <FieldWrapper>
-                        <FieldName>Scientific Name</FieldName>
-                        <TextField
-                          name="scientificName"
-                          id="scientificName"
-                          value={formData?.scientificName || ""}
-                          fullWidth
-                          disabled={state?.action === DEF_ACTIONS.VIEW}
-                          onChange={(e) =>
-                            handleChange(
-                              e?.target?.value || "",
-                              "scientificName"
-                            )
-                          }
-                          sx={{
-                            "& .MuiInputBase-root": {
-                              borderRadius: "8px",
-                            },
-                          }}
-                          size="small"
-                        />
-                      </FieldWrapper>
+                    <Grid container spacing={1}>
+                      <Grid item sm={3} md={3} lg={6}>
+                        <FieldWrapper>
+                          <FieldName>Scientific Name</FieldName>
+                          <TextField
+                            name="scientificName"
+                            id="scientificName"
+                            value={formData?.scientificName || ""}
+                            fullWidth
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                              handleChange(
+                                e?.target?.value || "",
+                                "scientificName"
+                              )
+                            }
+                            sx={{
+                              "& .MuiInputBase-root": {
+                                borderRadius: "8px",
+                              },
+                            }}
+                            size="small"
+                          />
+                        </FieldWrapper>
+                      </Grid>
+
+                      <Grid item sm={4} md={4} lg={4} spacing={0}>
+                        <FieldWrapper>
+                          <FieldName>Export Crop</FieldName>
+                          <Switch
+                            name="isExportCrop"
+                            id="isExportCrop"
+                            value={formData?.isExportCrop || ""}
+                            disabled={state?.action === DEF_ACTIONS.VIEW}
+                            onChange={(e) =>
+                              handleChange(e?.target?.checked || "", "isExportCrop")
+                            }
+                            checked={formData?.isExportCrop}
+                            aria-label="Switch demo"
+                          />
+                        </FieldWrapper>
+                      </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -1323,10 +1343,7 @@ const CropForm = ({
                 >
                   <Button
                     onClick={onAddPest}
-                    disabled={
-                      state?.action === DEF_ACTIONS.VIEW 
-                      // state?.action === DEF_ACTIONS.ADD
-                    }
+                    disabled={state?.action === DEF_ACTIONS.VIEW}
                   >
                     <Add />
                     {DEF_ACTIONS.ADD}
@@ -1356,8 +1373,6 @@ const CropForm = ({
                   selectedRows={selectCropPest}
                   selectAll={selectAllCropPest}
                   unSelectAll={resetSelectedCropPest}
-                  onDelete={handleCropPestDelete}
-                  cropId={cropId}
                 />
               )}
             </TabContent>
