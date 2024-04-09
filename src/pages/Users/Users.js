@@ -219,11 +219,13 @@ const Users = () => {
     let url = dataUrl;
     const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
     
-    if (url.includes('searchText=')) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
-    } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
-    }
+  if (url.includes('searchText=') && searchText) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
+  } else if (url.includes('searchText=') && !searchText) {
+    url = url.replace(/searchText=[^&]+/, "");
+  } else {
+    url += (url.includes('?') ? '&' : '?') + searchTextParam;
+  }
 
     setDataUrl(url);
   };
