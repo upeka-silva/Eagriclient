@@ -36,6 +36,14 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Delete } from "@mui/icons-material";
 import CropList from "../../Crop/Crop/CropList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
+// import {
+//   TabButton,
+//   TabWrapper,
+// } from "../../components/TabButtons/TabButtons";
+
+import { TabButton } from "../../../components/TabButtons/TabButtons";
+import { TabWrapper } from "../../../components/TabButtons/TabButtons";
+
 
 const AgricultureProjectForm = () => {
   useUserAccessValidation();
@@ -59,16 +67,66 @@ const AgricultureProjectForm = () => {
   const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
   const [pestUrl, setPestUrl] = useState(null);
+  // const [openActivity, setOpenActivity] = useState(false);
+  const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
+  const [openActivity, setOpenActivity] = useState(false);
+  const [activityData, setActivityData] = useState();
+  const [selectedActivity, setSelectedActivity] = useState([]);
+  const [activityDataList, setActivityDataList] = useState([]);
+  const [activityAction, setActivityAction] = useState(DEF_ACTIONS.ADD);
+  const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
+  const [toggleState, setToggleState] = useState(1);
+  const toggleTab = (index) => {
+    setToggleState(index);
+  };
   
-  
-
-  
-
-  const { addSnackBar } = useSnackBars();
+   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/extension/agriculture-project");
   };
+  const onCreateActivityData = () => {
+    setOpenActivity(true);
+  };
+
+  const onEditActivityData = () => {
+    const data = flODataList.filter(
+      (item) => item?.id === selectedOwnership[0]
+    );
+    console.log(data[0]);
+    const dateFrom = dateAdapter.date(data[0].dateFrom);
+    const dateUntil = dateAdapter.date(data[0].dateUntil);
+
+    setFlOAction(DEF_ACTIONS.EDIT);
+    setFlOData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setOpenActivity(true);
+  };
+  const onDeleteActivityData = () => {
+    setOpenDeleteActivity(true);
+    //setOpenFlO(true);
+  };
+  const closeActivity = () => {
+    setOpenActivity(false);
+  };
+
+  const onViewActivityData = () => {
+    const data = flODataList.filter(
+      (item) => item?.id === selectedActivity[0]
+    );
+    console.log(data[0]);
+    const dateFrom = dateAdapter.date(data[0].dateFrom);
+    const dateUntil = dateAdapter.date(data[0].dateUntil);
+
+    setActivityAction(DEF_ACTIONS.VIEW);
+    setActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setOpenActivity(true);
+  };
+
+  const toggleActivitySelect = (component) => {
+    console.log(component);
+    setSelectedActivity(component);
+  };
+
 
   useEffect(() => {
     const projectId = formData.id;
@@ -488,16 +546,52 @@ const AgricultureProjectForm = () => {
           </FieldWrapper>
         </Grid>
       </Grid>
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <ActionWrapper isLeft>
-              <ButtonGroup
-                variant="outlined"
-                disableElevation
-                size="small"
-                aria-label="action button group"
-                color="success"
+
+      <TabWrapper>
+        <TabButton
+          variant="contained"
+          className={toggleState === 1 ? "active-tabs" : ""}
+          onClick={() => toggleTab(1)}
+        >
+          Crops
+        </TabButton>
+        <TabButton
+          variant="contained"
+          className={toggleState === 2 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}
+          disabled={!tabEnabled}
+        >
+          Activity
+        </TabButton>
+
+        {/* <TabButton
+          variant="contained"
+          className={toggleState === 4 ? "active-tabs" : ""}
+          onClick={() => toggleTab(4)}
+          disabled={!tabEnabled}
+        >
+          
+        </TabButton>
+
+        <TabButton
+          variant="contained"
+          className={toggleState === 5 ? "active-tabs" : ""}
+          onClick={() => toggleTab(5)}
+          disabled={!tabEnabled}
+        >
+          
+        </TabButton> */}
+      </TabWrapper>
+
+
+      <TabContent className={toggleState === 1 ? "active-content" : ""}>
+              <ActionWrapper isLeft>
+                <ButtonGroup
+                  variant="outlined"
+                  disableElevation
+                  size="small"
+                  aria-label="action button group"
+                  color="success"
               >
                 <Button
                   onClick={onAddCrop}
@@ -528,9 +622,8 @@ const AgricultureProjectForm = () => {
                 )}
               </ButtonGroup>
             </ActionWrapper>
-          </Grid>
-          <Grid item xs={12}>
-            {!loading && (
+          
+            {loading === false && (
               <CropList
                 url={cropUrl}
                 dataEndPoint={cropUrl}
@@ -542,9 +635,50 @@ const AgricultureProjectForm = () => {
                 projectId={projectId}
               />
             )}
-          </Grid>
-        </Grid>
-      </Container>
+          </TabContent>
+
+          <TabContent className={toggleState === 2 ? "active-content" : ""}>
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <Button onClick={onCreateActivityData}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+
+            {selectedOwnership.length === 1 && (
+              <Button onClick={onEditActivityData}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            )}
+
+            {selectedOwnership.length === 1 && (
+              <Button onClick={onViewActivityData}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            )}
+
+            {selectedOwnership.length > 0 && (
+              <Button onClick={onDeleteActivityData}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            )}
+          </ButtonGroup>
+        </ActionWrapper>
+
+        <OwnershipList
+          onRowSelect={toggleActivitySelect}
+          data={flODataList}
+        />
+      </TabContent>
       <DialogBox
         open={open}
         title="Delete Crop"
