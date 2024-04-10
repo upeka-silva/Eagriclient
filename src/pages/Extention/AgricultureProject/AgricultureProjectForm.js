@@ -5,6 +5,12 @@ import {
   Grid,
   TextField,
   Chip,
+  Divider,
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -20,6 +26,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   changeStatus,
   handleAgricultureProject,
@@ -33,7 +40,7 @@ import {
   get_CropList,
 } from "../../../redux/actions/crop/crop/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import { Add, Delete } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CropList from "../../Crop/Crop/CropList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 // import {
@@ -43,7 +50,11 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 
 import { TabButton } from "../../../components/TabButtons/TabButtons";
 import { TabWrapper } from "../../../components/TabButtons/TabButtons";
-
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import ProjectActivityList from "./ProjectActivity/ProjectActivityList";
+import ProjectActivityForm from "./ProjectActivity/ProjectActivityForm";
+import { deleteProjectActivity, get_ActivityListByProjectId } from "../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
 
 const AgricultureProjectForm = () => {
   useUserAccessValidation();
@@ -53,10 +64,10 @@ const AgricultureProjectForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
-  
+
   const [saving, setSaving] = useState(false);
   const [projectId, setProjectId] = useState(null);
-  
+
   const [formDataD, setFormDataD] = useState(state?.target || {});
   const [isDataFetch, setIsDataFetch] = useState(true);
   const [cropUrl, setCropUrl] = useState(null);
@@ -72,15 +83,24 @@ const AgricultureProjectForm = () => {
   const [openActivity, setOpenActivity] = useState(false);
   const [activityData, setActivityData] = useState();
   const [selectedActivity, setSelectedActivity] = useState([]);
+  console.log({selectedActivity})
   const [activityDataList, setActivityDataList] = useState([]);
+  console.log({ activityDataList });
   const [activityAction, setActivityAction] = useState(DEF_ACTIONS.ADD);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
+  // const [ActivityDataList, setActivityDataList] = useState([]);
+  const [selectedProjectActivity, setSelectedProjectActivity] = useState([]);
+  // const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [toggleState, setToggleState] = useState(1);
+  const dateAdapter = new AdapterDayjs();
+  const [refreshActivity, setRefreshActivity] = useState(true);
+  
+
   const toggleTab = (index) => {
     setToggleState(index);
   };
-  
-   const { addSnackBar } = useSnackBars();
+
+  const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
     navigate("/extension/agriculture-project");
@@ -90,15 +110,15 @@ const AgricultureProjectForm = () => {
   };
 
   const onEditActivityData = () => {
-    const data = flODataList.filter(
-      (item) => item?.id === selectedOwnership[0]
+    const data = activityDataList.filter(
+      (item) => item?.id === selectedProjectActivity[0]
     );
     console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
 
-    setFlOAction(DEF_ACTIONS.EDIT);
-    setFlOData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setActivityAction(DEF_ACTIONS.EDIT);
+    setActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
     setOpenActivity(true);
   };
   const onDeleteActivityData = () => {
@@ -108,25 +128,34 @@ const AgricultureProjectForm = () => {
   const closeActivity = () => {
     setOpenActivity(false);
   };
+  const handleFlOData = (value, target) => {
+    setActivityData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
 
   const onViewActivityData = () => {
-    const data = flODataList.filter(
-      (item) => item?.id === selectedActivity[0]
-    );
-    console.log(data[0]);
-    const dateFrom = dateAdapter.date(data[0].dateFrom);
-    const dateUntil = dateAdapter.date(data[0].dateUntil);
+    const data = activityDataList;
+
+    console.log("ggs", data[0]);
 
     setActivityAction(DEF_ACTIONS.VIEW);
-    setActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setActivityData({ ...data[0] });
     setOpenActivity(true);
   };
 
   const toggleActivitySelect = (component) => {
-    console.log(component);
-    setSelectedActivity(component);
+    console.log({component});
+    setSelectedProjectActivity(component);
   };
-
+  const resetData = () => {
+    setActivityData({});
+  };
+  const refreshActivityList = () => {
+    setRefreshActivity(!refreshActivity);
+  };
 
   useEffect(() => {
     const projectId = formData.id;
@@ -135,7 +164,7 @@ const AgricultureProjectForm = () => {
 
   const onAddCrop = () => {
     setProjectId(formData?.id);
-  
+
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropAddDialog(true);
@@ -154,21 +183,47 @@ const AgricultureProjectForm = () => {
   };
 
   const handleCropAdd = async (onSuccess, formDataD, onError) => {
-   
     setLoading(true);
     try {
       await assignCrop(projectId, formDataD);
       setLoading(false);
       setOpenCropAddDialog(false);
-    } catch (error) {
- 
-    }
+    } catch (error) {}
   };
   const onDelete = () => {
     setProjectId(formData.id);
-    
+
     setOpen(true);
   };
+
+  const closeActivityDelete = () => {
+    setOpenDeleteActivity(false);
+  };
+
+  const renderSelectedItems = () => {
+    return (
+      <List>
+        {selectedProjectActivity.map((p, key) => {
+          console.log(p);
+          return (
+            <ListItem>
+              <ListItemIcon>
+                {loading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RadioButtonCheckedIcon color="info" />
+                )}
+              </ListItemIcon>
+              <ListItemText>
+                {p.actionId} - {p.description}
+              </ListItemText>
+            </ListItem>
+          );
+        })}
+      </List>
+    );
+  };
+ 
 
   const toggleCropSelect = (component) => {
     setSelectCrop((current = []) => {
@@ -195,9 +250,45 @@ const AgricultureProjectForm = () => {
     setOpenCropAddDialog(false);
   };
 
+  const resetSelectedActivity = () => {
+    setSelectedProjectActivity([]);
+    refreshActivityList();
+  };
+
+
+  const onConfirmDeleteActivity = async () => {
+    try {
+      setLoading(true);
+      for (const id of selectedProjectActivity) {
+        await deleteProjectActivity(id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeActivityDelete();
+      resetSelectedActivity();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
   const close = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    formData?.id &&
+      get_ActivityListByProjectId(formData?.id).then(({ dataList = [] }) => {
+        console.log(dataList);
+        setActivityDataList(dataList);
+      });
+  }, [refreshActivity]);
 
   const setSubmitted1 = async () => {
     try {
@@ -206,14 +297,11 @@ const AgricultureProjectForm = () => {
           formData.id,
           "ONGOING",
           onSuccess,
-          onError,
-      
+          onError
         );
         setFormData(resValue);
       }
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   };
 
   const setSubmitted2 = async () => {
@@ -226,9 +314,7 @@ const AgricultureProjectForm = () => {
           onError
         );
       }
-    } catch (error) {
-    
-    }
+    } catch (error) {}
   };
 
   const onConfirm = async () => {
@@ -241,7 +327,6 @@ const AgricultureProjectForm = () => {
       close();
       resetSelectedCrop();
     } catch (error) {
-   
       setLoading(false);
     }
   };
@@ -270,8 +355,6 @@ const AgricultureProjectForm = () => {
   };
 
   const onSuccess = () => {
-   
-
     addSnackBar({
       type: SnackBarTypes.success,
       message:
@@ -306,10 +389,9 @@ const AgricultureProjectForm = () => {
             ...formData,
             id: response?.payload?.id,
           });
+          setTabEnabled(true);
         }
-      } catch (error) {
-  
-      }
+      } catch (error) {}
     }
   };
 
@@ -416,21 +498,20 @@ const AgricultureProjectForm = () => {
           </div>
 
           <div style={{ position: "fixed", top: 110, left: 520 }}>
-            {state?.action !== DEF_ACTIONS.VIEW &&
-               (
-                <>
-                  <Button
-                    onClick={setSubmitted2}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    color="success"
-                    variant="outlined"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                  >
-                    Close
-                  </Button>
-                </>
-              )}
+            {state?.action !== DEF_ACTIONS.VIEW && (
+              <>
+                <Button
+                  onClick={setSubmitted2}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  color="success"
+                  variant="outlined"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
+                >
+                  Close
+                </Button>
+              </>
+            )}
           </div>
         </Grid>
         <Grid item sm={3} md={3} lg={3}>
@@ -583,61 +664,59 @@ const AgricultureProjectForm = () => {
         </TabButton> */}
       </TabWrapper>
 
-
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
-              <ActionWrapper isLeft>
-                <ButtonGroup
-                  variant="outlined"
-                  disableElevation
-                  size="small"
-                  aria-label="action button group"
-                  color="success"
-              >
-                <Button
-                  onClick={onAddCrop}
-                  disabled={
-                    formData?.id == undefined ||
-                    state?.action === DEF_ACTIONS.VIEW
-                  }
-                >
-                  <Add />
-                  {DEF_ACTIONS.ADD}
-                </Button>
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <Button
+              onClick={onAddCrop}
+              disabled={
+                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
+              }
+            >
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
 
-                <AddCropDialog
-                  open={openCropAddDialog}
-                  setConfirmDialog={setOpenCropAddDialog}
-                  confirmAction={handleCropAdd}
-                  handleClose={closeCropAddDialog}
-                  formId={formDataD?.id}
-                  formData={formDataD}
-                  mode={dialogMode}
-                  projectId={projectId}
-                />
-                {selectCrop.length > 0 && (
-                  <Button onClick={onDelete}>
-                    <Delete />
-                    {DEF_ACTIONS.DELETE}
-                  </Button>
-                )}
-              </ButtonGroup>
-            </ActionWrapper>
-          
-            {loading === false && (
-              <CropList
-                url={cropUrl}
-                dataEndPoint={cropUrl}
-                onRowSelect={toggleCropSelect}
-                selectedRows={selectCrop}
-                selectAll={selectAllCrop}
-                unSelectAll={resetSelectedCrop}
-                onDelete={handleCropDelete}
-                projectId={projectId}
-              />
+            <AddCropDialog
+              open={openCropAddDialog}
+              setConfirmDialog={setOpenCropAddDialog}
+              confirmAction={handleCropAdd}
+              handleClose={closeCropAddDialog}
+              formId={formDataD?.id}
+              formData={formDataD}
+              mode={dialogMode}
+              projectId={projectId}
+            />
+            {selectCrop.length > 0 && (
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             )}
-          </TabContent>
+          </ButtonGroup>
+        </ActionWrapper>
 
-          <TabContent className={toggleState === 2 ? "active-content" : ""}>
+        {loading === false && (
+          <CropList
+            url={cropUrl}
+            dataEndPoint={cropUrl}
+            onRowSelect={toggleCropSelect}
+            selectedRows={selectCrop}
+            selectAll={selectAllCrop}
+            unSelectAll={resetSelectedCrop}
+            onDelete={handleCropDelete}
+            projectId={projectId}
+          />
+        )}
+      </TabContent>
+
+      <TabContent className={toggleState === 2 ? "active-content" : ""}>
         <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
@@ -651,21 +730,21 @@ const AgricultureProjectForm = () => {
               {DEF_ACTIONS.ADD}
             </Button>
 
-            {selectedOwnership.length === 1 && (
+            {selectedProjectActivity.length === 1 && (
               <Button onClick={onEditActivityData}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
             )}
 
-            {selectedOwnership.length === 1 && (
+            {selectedProjectActivity.length === 1 && (
               <Button onClick={onViewActivityData}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
             )}
 
-            {selectedOwnership.length > 0 && (
+            {selectedProjectActivity.length > 0 && (
               <Button onClick={onDeleteActivityData}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
@@ -674,11 +753,57 @@ const AgricultureProjectForm = () => {
           </ButtonGroup>
         </ActionWrapper>
 
-        <OwnershipList
+        <ProjectActivityForm
+          open={openActivity}
+          ProjectActivityData={formData}
+          setOpenActivity={setOpenActivity}
+          action={activityAction}
+          onClose={closeActivity}
+          // farmLandData={formData}
+          data={activityData}
+          onChange={handleFlOData}
+          resetData={resetData}
+          refresh={refreshActivityList}
+        />
+
+        <ProjectActivityList
           onRowSelect={toggleActivitySelect}
-          data={flODataList}
+          data={activityDataList}
         />
       </TabContent>
+      <Box>
+        <DialogBox
+          open={openDeleteActivity}
+          title="Delete Project Activity"
+          actions={
+            <ActionWrapper>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={ onConfirmDeleteActivity}
+                sx={{ ml: "8px" }}
+              >
+                Confirm
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={closeActivityDelete}
+                sx={{ ml: "8px" }}
+              >
+                Close
+              </Button>
+            </ActionWrapper>
+          }
+        >
+          <>
+            <DeleteMsg />
+            <Divider sx={{ mt: "16px" }} />
+            {renderSelectedItems()}
+          </>
+        </DialogBox>
+      </Box>
+
       <DialogBox
         open={open}
         title="Delete Crop"
