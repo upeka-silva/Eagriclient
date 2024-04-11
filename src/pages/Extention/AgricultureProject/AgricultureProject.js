@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   ButtonGroup,
@@ -8,40 +8,46 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText,
+  ListItemText
 } from "@mui/material";
-import CropList from "./CropList";
+import React, { useState } from "react";
+import { useNavigate } from "react-router";
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import DialogBox from "../../../components/PageLayout/DialogBox";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
+
+import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { useSnackBars } from "../../../context/SnackBarContext";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader";
-import { deleteCrop } from "../../../redux/actions/crop/crop/action";
-import { Fonts } from "../../../utils/constants/Fonts";
 
-const Crop = () => {
+import { Fonts } from "../../../utils/constants/Fonts";
+import AgricultureProjectList from "./AgricultureProjectList";
+import { deleteAgricultureProject } from "../../../redux/actions/extension/agricultureProject/action";
+
+const AgricultureProject = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-
-  const [selectCrop, setSelectCrop] = useState([]);
+  const [selectedAgricultureProjects, setSelectedAgricultureProjects] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [searchData, setSearchData] = useState({
+    code: "",
+    name: "",
+  });
+  const [search, setSearch] = useState({});
 
-  const toggleCategorySelect = (component) => {
-    setSelectCrop((current = []) => {
+  const toggleAgricultureProjectSelect = (component) => {
+    setSelectedAgricultureProjects((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -53,37 +59,37 @@ const Crop = () => {
     });
   };
 
-  const url = `geo-data/crops`;
-
-  const selectAllCategories = (all = []) => {
-    setSelectCrop(all);
+  const selectAllAgricultureProjects = (all = []) => {
+    setSelectedAgricultureProjects(all);
   };
 
-  const resetSelectedCategory = () => {
-    setSelectCrop([]);
+  const resetSelectedAgricultureProjects = () => {
+    setSelectedAgricultureProjects([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/crop-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/extension/agriculture-project-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/crop-form", {
+    navigate("/extension/agriculture-project-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCrop[0] || {},
+        target: selectedAgricultureProjects[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/crop-form", {
+    navigate("/extension/agriculture-project-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCrop[0] || {},
+        target: selectedAgricultureProjects[0] || {},
       },
     });
   };
@@ -99,7 +105,7 @@ const Crop = () => {
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCrop.map((p, key) => {
+        {selectedAgricultureProjects.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -110,7 +116,7 @@ const Crop = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.cropId} - {p.description}
+                {p.code} - {p.name}
               </ListItemText>
             </ListItem>
           );
@@ -136,18 +142,19 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of selectCrop) {
-        await deleteCrop(crop?.id, onSuccess, onError);
+      for (const AgricultureProject of selectedAgricultureProjects) {
+        await deleteAgricultureProject(AgricultureProject?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedCategory();
+      resetSelectedAgricultureProjects();
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
 
+  
   return (
     <div
     style={{
@@ -159,7 +166,7 @@ const Crop = () => {
       overflowY: "scroll",
     }}
     >
-      <ListHeader title="Crop" />
+      <ListHeader title="Agriculture Projects" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -169,16 +176,16 @@ const Crop = () => {
           color="success"
         >
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
           >
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectCrop.length === 1 && (
+          {selectedAgricultureProjects.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
             >
               <Button onClick={onEdit}>
                 <Edit />
@@ -186,9 +193,9 @@ const Crop = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectCrop.length === 1 && (
+          {selectedAgricultureProjects.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
             >
               <Button onClick={onView}>
                 <Vrpano />
@@ -196,9 +203,9 @@ const Crop = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectCrop.length > 0 && (
+          {selectedAgricultureProjects.length > 0 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
             >
               <Button onClick={onDelete}>
                 <Delete />
@@ -209,21 +216,21 @@ const Crop = () => {
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
       >
         {loading === false && (
-          <CropList
-            url={url}
-            selectedRows={selectCrop}
-            onRowSelect={toggleCategorySelect}
-            selectAll={selectAllCategories}
-            unSelectAll={resetSelectedCategory}
+          <AgricultureProjectList
+            selectedRows={selectedAgricultureProjects}
+            onRowSelect={toggleAgricultureProjectSelect}
+            selectAll={selectAllAgricultureProjects}
+            unSelectAll={resetSelectedAgricultureProjects}
+            advancedSearchData={search}
           />
         )}
       </PermissionWrapper>
       <DialogBox
         open={open}
-        title="Do you want to delete?"
+        title="Delete Agriculture Project(s)"
         actions={
           <ActionWrapper>
             <Button
@@ -246,6 +253,7 @@ const Crop = () => {
         }
       >
         <>
+          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
@@ -254,4 +262,4 @@ const Crop = () => {
   );
 };
 
-export default Crop;
+export default AgricultureProject;

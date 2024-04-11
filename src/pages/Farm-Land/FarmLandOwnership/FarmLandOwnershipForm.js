@@ -28,6 +28,7 @@ import { get_GnDivisionListWithoutPage } from "../../../redux/actions/gnDivision
 import { Colors } from "../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { handleProjectActivity, updateProjectActivity } from "../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -77,7 +78,7 @@ export default function FarmLandOwnershipForm({
     let dateUntil = new Date(data.dateUntil);
     try {
       if (farmLandData?.id && data?.id) {
-        await updateFarmLandOwnership(
+        await updateProjectActivity(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,
@@ -92,7 +93,7 @@ export default function FarmLandOwnershipForm({
       }
       if (farmLandData?.id) {
         console.log("handleFarmLandOwnership");
-        await handleFarmLandOwnership(
+        await handleProjectActivity(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,

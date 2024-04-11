@@ -40,6 +40,7 @@ import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/ac
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliBlockList from "./MahaweliBlockList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import SearchBox from "../../../components/SearchBox/SearchBox";
 
 
 const MahaweliBlock = () => {
@@ -205,6 +206,21 @@ const MahaweliBlock = () => {
     setDataEndPoint("geo-data/mahaweli-blocks");
   };
 
+  const handleSearch = (searchText="") => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=') && searchText) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
+  } else if (url.includes('searchText=') && !searchText) {
+    url = url.replace(/searchText=[^&]+/, "");
+  } else {
+    url += (url.includes('?') ? '&' : '?') + searchTextParam;
+  }
+
+    setDataEndPoint(url);
+  };
+
   return (
     <div
     style={{
@@ -337,9 +353,9 @@ const MahaweliBlock = () => {
               </Button>
             </FieldWrapper>
           </Grid>
+          <SearchBox handleSearch={handleSearch} />
         </Grid>
       </ActionWrapper>
-
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.MAHAWELI_BLOCK}`}
       >
