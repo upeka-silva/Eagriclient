@@ -66,7 +66,7 @@ export const fetchAllActions = async (onSuccess = () => { }, onError = (_message
 
 export const fetchAllPermissions = async (onSuccess = () => { }, onError = (_message) => { }) => {
     try {
-        const { httpCode, payloadDto, message = '' } = await get('permissions/?page=0&size=1000&sort=asc&sort', true);
+        const { httpCode, payloadDto, message = '' } = await get('permissions/?page=0&size=2000&sort=asc&sort', true);
         if (httpCode === '200 OK') {
             return payloadDto;
         } else {
