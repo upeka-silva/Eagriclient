@@ -235,7 +235,6 @@ const CropPest = () => {
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
