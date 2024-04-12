@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import {
-  getTargetCropsByAiAndSeasonAndCropCategory,
-} from "../../../redux/actions/cropLook/cropTarget/actions";
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
+import { getTargetCropsByAiAndSeasonAndCropCategory } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import BiweeklyCropInput from "../components/biweekly-cropInput";
-import { changeStatusOfBiWeekCropCategoryReport, updateBiWeekReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
+import {
+  changeStatusOfBiWeekCropCategoryReport,
+  updateBiWeekReporting,
+} from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -30,6 +34,7 @@ const BiWeeklyReportingTab = ({
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isCleared, setIsCleared] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
+  const [cropTargetId, setCropTargetId] = useState(savedCropCategoryTarget?.id);
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -38,15 +43,11 @@ const BiWeeklyReportingTab = ({
       setConfigFields(data ? data.fields : []);
       checkDataLoadStatus();
     });
-
-    console.log("inside tab ========>");
     if (
       (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
       savedCropCategoryTarget?.biWeekCropReport
     ) {
       setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
-      console.log('crop category tab check ----->');
-      console.log(savedCropCategoryTarget);
     } else {
       getTargetCropsByAiAndSeasonAndCropCategory(
         aiRegion.id,
@@ -74,10 +75,13 @@ const BiWeeklyReportingTab = ({
 
     // Calculate total target
     let total = 0;
-    if(configFields.length > 0) {
-      let target = updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
-      configFields.forEach(field => {
-        total += parseFloat(target[getDbFieldName(field)] ? target[getDbFieldName(field)] : 0);
+    if (configFields.length > 0) {
+      let target =
+        updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
+      configFields.forEach((field) => {
+        total += parseFloat(
+          target[getDbFieldName(field)] ? target[getDbFieldName(field)] : 0
+        );
       });
     }
 
@@ -95,8 +99,6 @@ const BiWeeklyReportingTab = ({
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
-          console.log('inside reporting clear-->');
-          console.log(crop.varietyTargets);
           if (variety.targetedExtentMajor) variety.targetedExtentMajor = 0;
           if (variety.targetedExtentMinor) variety.targetedExtentMinor = 0;
           if (variety.targetedExtentRainfed) variety.targetedExtentRainfed = 0;
@@ -106,8 +108,13 @@ const BiWeeklyReportingTab = ({
         }
 
         for (const variety of crop.varietyTargets) {
-          Object.keys(variety).forEach(key => {
-            if(key === 'varietyId' || key === 'varietyName' || key === 'imageUrl' || key === 'id') {
+          Object.keys(variety).forEach((key) => {
+            if (
+              key === "varietyId" ||
+              key === "varietyName" ||
+              key === "imageUrl" ||
+              key === "id"
+            ) {
               return;
             }
             if (variety[key]) {
@@ -141,9 +148,8 @@ const BiWeeklyReportingTab = ({
         onSuccess,
         onError
       );
-      console.log("after saving biweek crop report------------>");
-      console.log(dataList.dataList.biWeekCropReport);
       setCropTargets(dataList?.dataList?.biWeekCropReport);
+      setCropTargetId(dataList?.dataList?.id);
     } catch (error) {
       console.log(error);
     }
@@ -169,9 +175,8 @@ const BiWeeklyReportingTab = ({
           : "Successfully Updated",
     });
     setSaving(false);
-    setOpenDialog(false)
+    setOpenDialog(false);
   };
-
 
   const onError = (message) => {
     addSnackBar({
@@ -192,47 +197,49 @@ const BiWeeklyReportingTab = ({
 
   return (
     <>
-    <Grid container>
-      <Grid item sm={12} md={12} lg={12}>
-        <div style={{ textAlign: "left" }}>
-          <Button
-            disabled={mode === DEF_ACTIONS.VIEW}
-            style={{ marginRight: "10px" }}
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={handleCropClear}
-            sx={{ marginTop: "10px" }}
-          >
-            Clear
-          </Button>
-
-          {saving ? (
-            <Button variant="contained" size="small">
-              {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-            </Button>
-          ) : (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
-            >
+      <Grid container>
+        <Grid item sm={12} md={12} lg={12}>
+          <div style={{ textAlign: "left" }}>
             <Button
-              disabled={mode === DEF_ACTIONS.VIEW || isCleared}
-              variant="outlined"
+              disabled={mode === DEF_ACTIONS.VIEW}
+              style={{ marginRight: "10px" }}
+              variant="contained"
               color="success"
               size="small"
-              onClick={handleCropUpdate}
+              onClick={handleCropClear}
               sx={{ marginTop: "10px" }}
             >
-              Update
+              Clear
             </Button>
-            </PermissionWrapper>
-          )}
 
-              {savedCropCategoryTarget?.id && <Grid item sx={{ pt: "8px" }}>
+            {saving ? (
+              <Button variant="contained" size="small">
+                {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+              </Button>
+            ) : (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
+              >
+                <Button
+                  disabled={mode === DEF_ACTIONS.VIEW || isCleared}
+                  variant="outlined"
+                  color="success"
+                  size="small"
+                  onClick={handleCropUpdate}
+                  sx={{ marginTop: "10px" }}
+                >
+                  Update
+                </Button>
+              </PermissionWrapper>
+            )}
+
+            {cropTargetId && (
+              <Grid item sx={{ pt: "8px" }}>
                 <PermissionWrapper
                   permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
                 >
                   <Button
+                    disabled={!cropTargetId}
                     variant="outlined"
                     color="success"
                     onClick={() => setOpenDialog(true)}
@@ -242,48 +249,49 @@ const BiWeeklyReportingTab = ({
                     Complete
                   </Button>
                 </PermissionWrapper>
-              </Grid>}
-        </div>
+              </Grid>
+            )}
+          </div>
+        </Grid>
+        <Grid item sm={12} md={12} lg={12}>
+          {dataLoaded &&
+            cropTargets.map((cropTarget, cropIndex) => (
+              <BiweeklyCropInput
+                cropTarget={cropTarget}
+                targetedExtentHandler={targetedExtentHandler}
+                mode={mode}
+                cropIndex={cropIndex}
+                configFields={configFields}
+              />
+            ))}
+        </Grid>
       </Grid>
-      <Grid item sm={12} md={12} lg={12}>
-        {dataLoaded &&
-          cropTargets.map((cropTarget, cropIndex) => (
-            <BiweeklyCropInput
-              cropTarget={cropTarget}
-              targetedExtentHandler={targetedExtentHandler}
-              mode={mode}
-              cropIndex={cropIndex}
-              configFields={configFields}
-            />
-          ))}
-      </Grid>
-    </Grid>
-    <DialogBox
-            open={openDialog}
-            title="Approve Report"
-            actions={
-              <ActionWrapper>
-                <Button
-                  variant="contained"
-                  color="info"
-                  onClick={approveCategoryReport}
-                  sx={{ ml: "8px" }}
-                >
-                  OK
-                </Button>
-                <Button
-                  variant="contained"
-                  color="error"
-                  onClick={() => setOpenDialog(false)}
-                  sx={{ ml: "8px" }}
-                >
-                  Cancel
-                </Button>
-              </ActionWrapper>
-            }
-          >
-            <>Do you want to approve?</>
-          </DialogBox>
+      <DialogBox
+        open={openDialog}
+        title="Approve Report"
+        actions={
+          <ActionWrapper>
+            <Button
+              variant="contained"
+              color="info"
+              onClick={approveCategoryReport}
+              sx={{ ml: "8px" }}
+            >
+              OK
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => setOpenDialog(false)}
+              sx={{ ml: "8px" }}
+            >
+              Cancel
+            </Button>
+          </ActionWrapper>
+        }
+      >
+        <>Do you want to approve?</>
+      </DialogBox>
     </>
   );
 };
