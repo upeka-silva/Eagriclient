@@ -36,6 +36,20 @@ const BiWeeklySingleInput = ({
     targetedExtentHandler(cropIndex, varietyIndex, field, value);
   };
 
+  // This will remove `extent` prefix form field
+  const removeExtent = (field) => {
+    let prefix = "Extent ";
+
+    // Check if the string starts with the prefix
+    if (field.startsWith(prefix)) {
+      // Remove the prefix
+      let result = field.substring(prefix.length) + " (Ha)";
+      return result;
+    } else {
+      return field;
+    }
+  };
+
   return (
     <>
       <Grid container spacing={1} sx={{ paddingTop: "20px" }}>
@@ -56,7 +70,7 @@ const BiWeeklySingleInput = ({
                   disabled={mode === DEF_ACTIONS.VIEW}
                   variant="outlined"
                   id="input1"
-                  label={field + " (Ha)"}
+                  label={removeExtent(field)}
                   value={varietyTarget[getDbFieldName(field)]}
                   onChange={(e) =>
                     extentHandler(

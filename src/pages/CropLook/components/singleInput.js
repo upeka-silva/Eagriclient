@@ -12,10 +12,19 @@ const SingleInput = ({
   mode,
   configFields,
 }) => {
-  useEffect(() => {
-    console.log("fields inside single input");
-    console.log(configFields);
-  }, []);
+  // This will remove `Target` prefix form field
+  const removeTarget = (field) => {
+    let prefix = "Target ";
+
+    // Check if the string starts with the prefix
+    if (field.startsWith(prefix)) {
+      // Remove the prefix
+      let result = field.substring(prefix.length) + " (Ha)";
+      return result;
+    } else {
+      return field;
+    }
+  };
 
   return (
     <Grid container>
@@ -40,7 +49,7 @@ const SingleInput = ({
                 disabled={mode === DEF_ACTIONS.VIEW}
                 variant="outlined"
                 id="input1"
-                label={field}
+                label={removeTarget(field)}
                 value={varietyTarget[getDbFieldName(field)]}
                 onChange={(e) =>
                   targetedExtentHandler(
