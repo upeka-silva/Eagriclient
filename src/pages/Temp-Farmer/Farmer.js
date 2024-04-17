@@ -5,14 +5,8 @@ import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { FieldName } from "../../components/FormLayout/FieldName";
 import { Button, Grid, TextField } from "@mui/material";
-import RadioGroup from "@mui/material/RadioGroup";
-import Radio from "@mui/material/Radio";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { useNavigate } from "react-router";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { useLocation } from "react-router";
 import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
@@ -20,10 +14,6 @@ import { get_DistrictList } from "../../redux/actions/district/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import {
-  handleFarmer,
-  handleFarmerOTP,
-} from "../../redux/actions/temp-farmer/action";
 import GnDivisionSelector from "../../components/GnDivisionSelector/GnDivisionSelector";
 import OTPDialog from "./OTPDialog/OTPDialog";
 import { ArrowCircleLeftRounded } from "@mui/icons-material";
