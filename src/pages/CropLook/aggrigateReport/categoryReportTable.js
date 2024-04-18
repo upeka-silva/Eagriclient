@@ -9,70 +9,82 @@ import {
   Paper,
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
 
 const CategoryReportTabel = ({ category, season }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [targetConfigs, setTargetConfigs] = useState([]);
+  const [reportConfigs, setReportConfigs] = useState([]);
+  const [confLoading, setConfLoading] = useState([]);
 
   console.log({ category, season });
 
   useEffect(() => {
     async function fetchData(categoryId, seasonId) {
-      console.log({categoryId, seasonId});
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
-      console.log('aggrigate data list',dataList);
-      console.log(dataList);
       setLoading(false);
       setData(dataList);
     }
 
+    async function fetchConfig(categoryId) {
+      setConfLoading(true);
+      const configs = await getConfigurationById(categoryId);
+      setTargetConfigs(configs.targetFields);
+      setReportConfigs(configs.fields);
+      setConfLoading(false);
+    }
+
+    fetchConfig(category?.categoryId);
     fetchData(category?.categoryId, season?.id);
   }, [season]);
 
   return (
     <>
-    <h5>{category.description}</h5>
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Variety</TableCell>
-            <TableCell>Target Major (ha)</TableCell>
-            <TableCell>Target Minor (ha)</TableCell>
-            <TableCell>Target Rainfed (ha)</TableCell>
-            <TableCell>Target Irrigate (ha)</TableCell>
-            <TableCell>Target (ha)</TableCell>
-            <TableCell>Total Target (ha)</TableCell>
-            <TableCell>Progress Major (ha)</TableCell>
-            <TableCell>Progress Minor (ha)</TableCell>
-            <TableCell>Progress Rainfed (ha)</TableCell>
-            <TableCell>Progress Irrigate (ha)</TableCell>
-            <TableCell>Progress Extent (ha)</TableCell>
-            <TableCell>Total Progress (ha)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.length > 0 && data?.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.varietyName}</TableCell>
-              <TableCell>{row.totalTargetedExtentMajor || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtentMinor || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtentRainfed || "--"}</TableCell>
-              <TableCell>{row.targetedExtentIrrigate || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtent || "--"}</TableCell>
-              <TableCell>{row.allTargetedExtent || "--"}</TableCell>
-              <TableCell>{row.totalExtentMajor || "--"}</TableCell>
-              <TableCell>{row.totalExtentMinor || "--"}</TableCell>
-              <TableCell>{row.totalExtentRainfed || "--"}</TableCell>
-              <TableCell>{row.totalExtentIrrigate || "--"}</TableCell>
-              <TableCell>{row.totalExtent || "--"}</TableCell>
-              <TableCell>{row.allExtent || "--"}</TableCell>
+      <h5>{category.description}</h5>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Variety</TableCell>
+              {targetConfigs.length > 0 &&
+                targetConfigs.map((fieldName, index) => (
+                  <TableCell key={index}>{fieldName} (ha)</TableCell>
+                ))}
+              <TableCell>Total Target (ha)</TableCell>
+              {reportConfigs.length > 0 &&
+                reportConfigs.map((fieldName1, index1) => (
+                  <TableCell key={index1}>{fieldName1} (ha)</TableCell>
+                ))}
+              <TableCell>Total Extent (ha)</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {data.length > 0 &&
+              data?.map((row, index) => (
+                <TableRow key={index}>
+                  {targetConfigs.length > 0 &&
+                    targetConfigs.map((fieldName, innerIndex) => (
+                      <TableCell key={innerIndex}>
+                        {row[convertCropLookFields(fieldName)]}
+                      </TableCell>
+                    ))}
+                  <TableCell>{row.grandTotalTargeted}</TableCell>
+                  {reportConfigs.length > 0 &&
+                    reportConfigs.map((fieldName1, innerIndex1) => (
+                      <TableCell key={innerIndex1}>
+                        {row[convertCropLookFields(fieldName1)]}
+                      </TableCell>
+                    ))}
+
+                  <TableCell>{row.grandTotalBiWeek}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };
