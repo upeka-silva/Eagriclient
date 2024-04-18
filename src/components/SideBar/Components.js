@@ -11,7 +11,8 @@ import theme from "../../utils/theme/theme.json";
 
 export const DrawerToggleButton = styled(IconButton)`
   background: white !important;
-  box-shadow: ${Colors.shadow};
+  border-radius: 8px 8px 8px 8px !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1); 
 `;
 
 export const SideBarItemButton = styled(ListItemButton)`
