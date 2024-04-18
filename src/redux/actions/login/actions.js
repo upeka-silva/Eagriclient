@@ -48,6 +48,7 @@ export const initiateLogout = async (
   try {
     await removeLSItem(StorageConstants.token);
     await removeLSItem(StorageConstants.compress_token);
+	await removeLSItem(StorageConstants.user_id);
     resetAuthContext();
     onSuccess();
   } catch (_error) {

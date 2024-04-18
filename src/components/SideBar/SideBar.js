@@ -112,7 +112,7 @@ const SideBar = () => {
     return (
       <CollapseContainer
         key={children.length}
-        in={selectedRoute === parent.name}
+        in={selectedRoute === parent.name && open === true ? true : false}
         timeout="auto"
         unmountOnExit
       >
@@ -194,6 +194,7 @@ const SideBar = () => {
             setSelectedRoute((current) =>
               current === r?.name ? null : r?.name
             );
+            setOpen(true)
           };
 
           return (
@@ -319,12 +320,8 @@ const SideBar = () => {
           }}
         >
           {open && (
-            <Typography
-              variant="h4"
-              fontWeight="bold"
-              fontFamily={Fonts.fontStyle1}
-            >
-              CROPIX
+            <Typography variant="h4" fontWeight="bold" >
+               CROPIX
             </Typography>
           )}
           <SideBarItemToolTip
@@ -334,7 +331,7 @@ const SideBar = () => {
           >
             <DrawerToggleButton
               onClick={toggleDrawer}
-              sx={{ background: "white" }}
+              sx={{ height:"38px !important",width:"38px !important" }}
             >
               {open ? <ChevronLeftIcon /> : <ViewListIcon />}
             </DrawerToggleButton>
