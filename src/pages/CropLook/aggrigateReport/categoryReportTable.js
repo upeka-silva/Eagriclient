@@ -65,6 +65,7 @@ const CategoryReportTabel = ({ category, season }) => {
             {data.length > 0 &&
               data?.map((row, index) => (
                 <TableRow key={index}>
+                  <TableCell>{row.varietyName}</TableCell>
                   {targetConfigs.length > 0 &&
                     targetConfigs.map((fieldName, innerIndex) => (
                       <TableCell key={innerIndex}>
