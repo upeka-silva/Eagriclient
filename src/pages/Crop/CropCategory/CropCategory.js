@@ -22,18 +22,21 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
+import { deleteCropCategory, downloadCropCategoryExcel } from "../../../redux/actions/crop/cropCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   Add,
   CancelOutlined,
   CheckRounded,
   Delete,
+  Download,
   Edit,
+  Margin,
   Vrpano,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { style } from "d3";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -152,6 +155,14 @@ const CropCategory = () => {
     }
   };
 
+  const onDownload = async () => {
+    try {
+      await downloadCropCategoryExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <div
     style={{
@@ -211,6 +222,22 @@ const CropCategory = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
