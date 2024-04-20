@@ -48,31 +48,31 @@ const CategoryReportTabel = ({ category, season }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Variety</TableCell>
+              <TableCell style={{ backgroundColor:'#A8CD9F'}}>Variety</TableCell>
               {targetConfigs.length > 0 &&
                 targetConfigs.map((fieldName, index) => (
                   <TableCell key={index}>{fieldName} (ha)</TableCell>
                 ))}
-              <TableCell>Total Target (ha)</TableCell>
+              <TableCell style={{ backgroundColor:'#A8CD9F'}}>Total Target (ha)</TableCell>
               {reportConfigs.length > 0 &&
                 reportConfigs.map((fieldName1, index1) => (
                   <TableCell key={index1}>{fieldName1} (ha)</TableCell>
                 ))}
-              <TableCell>Total Extent (ha)</TableCell>
+              <TableCell style={{ backgroundColor:'#A8CD9F'}}>Total Extent (ha)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {data.length > 0 &&
               data?.map((row, index) => (
                 <TableRow key={index}>
-                  <TableCell>{row.varietyName}</TableCell>
+                  <TableCell style={{ backgroundColor:'#A8CD9F'}}>{row.varietyName}</TableCell>
                   {targetConfigs.length > 0 &&
                     targetConfigs.map((fieldName, innerIndex) => (
                       <TableCell key={innerIndex}>
                         {row[convertCropLookFields(fieldName)]}
                       </TableCell>
                     ))}
-                  <TableCell>{row.grandTotalTargeted}</TableCell>
+                  <TableCell style={{ backgroundColor:'#A8CD9F'}}>{row.grandTotalTargeted}</TableCell>
                   {reportConfigs.length > 0 &&
                     reportConfigs.map((fieldName1, innerIndex1) => (
                       <TableCell key={innerIndex1}>
@@ -80,7 +80,7 @@ const CategoryReportTabel = ({ category, season }) => {
                       </TableCell>
                     ))}
 
-                  <TableCell>{row.grandTotalBiWeek}</TableCell>
+                  <TableCell style={{ backgroundColor:'#A8CD9F'}}>{row.grandTotalBiWeek}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

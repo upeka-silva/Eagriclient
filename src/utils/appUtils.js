@@ -104,6 +104,8 @@ export const convertCropLookFields = (field) => {
       case "Target Lowland":
         return "totalTargetedLowland";
 
+      case "Extent Highland Rainfed":
+        return "totalExtentHighlandRainfed";
       case "Extent Highland Irrigate":
         return "totalExtentHighlandIrrigate";
       case "Comm Newly Borne Extent":
