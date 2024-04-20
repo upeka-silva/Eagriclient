@@ -225,7 +225,7 @@ export const deleteDiseaseFromCrop = async (
 export const downloadCropDiseaseExcel = async () => {
   try {
     const blobData = await getBlob(
-      "crop/crop-pests/export/excel",
+      "crop/crop-diseases/export/excel",
       true
     );
     const fileName = `cropDisease_${
