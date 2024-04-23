@@ -39,7 +39,7 @@ const CropList = ({
     // { field: "cropType", headerName: "Crop Type" },
     // { field: "family", headerName: "Family" },
     // { field: "havesting", headerName: "Havesting" },
-    { field: "cropId", headerName: "Crop ID", sortCol: ["cropId"], },
+    { field: "cropId", headerName: "Crop ID", sortCol: ["cropId"] },
   ];
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
@@ -47,6 +47,7 @@ const CropList = ({
   const [data, setData] = useState(null);
 
   const [category, setCategory] = useState({ categoryId: "", description: "" });
+  console.log({ category });
   const [subCategory, setSubCategory] = useState({
     subCategoryId: "",
     description: "",
@@ -73,6 +74,7 @@ const CropList = ({
   };
 
   const filter = () => {
+    console.log("inside filter");
     if (category?.id) {
       setDataEndPoint(`geo-data/crops/crop-category/${category?.id}`);
     }
@@ -182,7 +184,7 @@ const CropList = ({
       <>
         <DataTable
           loadingTable
-          dataEndPoint={url}
+          dataEndPoint={dataEndPoint}
           columns={columns}
           selectable
           selectedRows={selectedRows}
