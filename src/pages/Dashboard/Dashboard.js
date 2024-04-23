@@ -6,6 +6,7 @@ import ChartTwo from "./ChartTwo";
 import StatBox from "../../components/DashBoardStatBox/StatBox";
 import { Forest, Image, Satellite } from "@mui/icons-material";
 import { tokens } from "../../utils/theme/app-theme";
+import SriLankaMap from "../../components/ArcGisMap/SriLankaMap";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -54,6 +55,11 @@ const Dashboard = () => {
         </Grid>
         <Grid item sm={8} md={8} lg={8} sx={12}>
           <ChartTwo />
+        </Grid>
+      </Grid>
+      <Grid container spacing={2} sx={{ marginTop: "30px" }}>
+        <Grid item sm={4} md={4} lg={4} sx={12}>
+         <SriLankaMap/>
         </Grid>
       </Grid>
     </div>
