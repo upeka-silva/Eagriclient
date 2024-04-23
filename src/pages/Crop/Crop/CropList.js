@@ -47,7 +47,6 @@ const CropList = ({
   const [data, setData] = useState(null);
 
   const [category, setCategory] = useState({ categoryId: "", description: "" });
-  console.log({ category });
   const [subCategory, setSubCategory] = useState({
     subCategoryId: "",
     description: "",
@@ -55,14 +54,12 @@ const CropList = ({
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/crops");
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
-      console.log(dataList);
       setCats(dataList);
     });
   }, []);
 
   const getSubCategories = (id) => {
     get_SubCategoryById(id).then(({ dataList = [] }) => {
-      console.log(dataList);
       setSubcats(dataList);
     });
   };
@@ -74,7 +71,6 @@ const CropList = ({
   };
 
   const filter = () => {
-    console.log("inside filter");
     if (category?.id) {
       setDataEndPoint(`geo-data/crops/crop-category/${category?.id}`);
     }
