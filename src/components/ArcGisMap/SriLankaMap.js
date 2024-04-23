@@ -69,7 +69,8 @@ const SriLankaMap = () => {
     };
   }, []);
 
-  return <div ref={mapRef} style={{ height: 800, width: "100%" }}></div>;
+  return <div ref={mapRef} style={{ height: 765, width: "100%",boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
+  border: "1.5px solid #c0c9c0",borderRadius:"15px",padding:"7px" }}/>
   //   alignContent: "center", margin: "auto"
 };
 
