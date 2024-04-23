@@ -74,6 +74,7 @@ export const DataTable = ({
   onRowSelect = (_r) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
+  refresh
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -106,6 +107,7 @@ export const DataTable = ({
     advanceSearchData,
     order,
     orderByTarget,
+    refresh
   ]);
 
   useEffect(() => {

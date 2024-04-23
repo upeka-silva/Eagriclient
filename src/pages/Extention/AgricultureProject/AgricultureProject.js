@@ -215,9 +215,9 @@ const AgricultureProject = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
-      <PermissionWrapper
+      {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
-      >
+      > */}
         {loading === false && (
           <AgricultureProjectList
             selectedRows={selectedAgricultureProjects}
@@ -227,7 +227,7 @@ const AgricultureProject = () => {
             advancedSearchData={search}
           />
         )}
-      </PermissionWrapper>
+      {/* </PermissionWrapper> */}
       <DialogBox
         open={open}
         title="Delete Agriculture Project(s)"

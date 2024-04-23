@@ -10,7 +10,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -53,8 +53,19 @@ import { TabWrapper } from "../../../components/TabButtons/TabButtons";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import ProjectActivityList from "./ProjectActivity/ProjectActivityList";
 import ProjectActivityForm from "./ProjectActivity/ProjectActivityForm";
-import { deleteProjectActivity, get_ActivityListByProjectId } from "../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
+import {
+  deleteProjectActivity,
+  get_ActivityByActivityId,
+  get_ActivityListByProjectId,
+} from "../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import ProjectSubActivityForm from "./ProjectActivity/projectSubActivityForm";
+import ProjectSubActivityList from "./projectSubActivity/ProjectSubActivityList";
+import {
+  deleteProjectSubActivity,
+  get_SubActivityByActivityId,
+} from "../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const AgricultureProjectForm = () => {
   useUserAccessValidation();
@@ -80,21 +91,42 @@ const AgricultureProjectForm = () => {
   const [pestUrl, setPestUrl] = useState(null);
   // const [openActivity, setOpenActivity] = useState(false);
   const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
+  const [openDeleteSubActivity, setOpenDeleteSubActivity] = useState(false);
+  const [selectedSubActivityAllData, setSelectedSubActivityAllData] = useState(
+    []
+  );
+
+  //open a dialog box for activity
   const [openActivity, setOpenActivity] = useState(false);
+  const [openSubActivity, setOpenSubActivity] = useState(false);
+
   const [activityData, setActivityData] = useState();
+  const [subActivityData, setSubActivityData] = useState();
+  console.log({ subActivityData });
   const [selectedActivity, setSelectedActivity] = useState([]);
-  console.log({selectedActivity})
+  console.log({ selectedActivity });
   const [activityDataList, setActivityDataList] = useState([]);
+  const [subActivityDataList, setSubActivityDataList] = useState([]);
+  console.log({ subActivityDataList });
+  const [selectActivityData, setSelectActivityData] = useState([]);
+  console.log({ selectActivityData });
   console.log({ activityDataList });
   const [activityAction, setActivityAction] = useState(DEF_ACTIONS.ADD);
+  const [subactivityAction, setSubActivityAction] = useState(DEF_ACTIONS.ADD);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
   // const [ActivityDataList, setActivityDataList] = useState([]);
   const [selectedProjectActivity, setSelectedProjectActivity] = useState([]);
+  const [selectedProjectSubActivity, setSelectProjectedSubActivity] = useState(
+    []
+  );
+  console.log({ selectedProjectSubActivity });
   // const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [toggleState, setToggleState] = useState(1);
   const dateAdapter = new AdapterDayjs();
   const [refreshActivity, setRefreshActivity] = useState(true);
-  
+  const [refreshSubActivity, setRefreshSubActivity] = useState(true);
+  const [dialogSelectedSubActivityTypes, setDialogSelectedSubActivityTypes] =
+    useState([]);
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -107,6 +139,12 @@ const AgricultureProjectForm = () => {
   };
   const onCreateActivityData = () => {
     setOpenActivity(true);
+  };
+
+  const onCreateSubActivityData = () => {
+    setOpenSubActivity(true);
+    setSubActivityData([])
+    setSubActivityAction(DEF_ACTIONS.ADD);
   };
 
   const onEditActivityData = () => {
@@ -125,11 +163,37 @@ const AgricultureProjectForm = () => {
     setOpenDeleteActivity(true);
     //setOpenFlO(true);
   };
+
+  const onDeleteSubActivityData = () => {
+    setOpenDeleteSubActivity(true);
+    setDialogSelectedSubActivityTypes(selectedSubActivityAllData);
+  };
+
   const closeActivity = () => {
     setOpenActivity(false);
   };
+  const closeSubActivity = () => {
+    setOpenSubActivity(false);
+  };
+
+  const onEditSubActivityData = () => {
+    setSubActivityData(selectedSubActivityAllData[0]);
+
+    setSubActivityAction(DEF_ACTIONS.EDIT);
+    //setSubActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setOpenSubActivity(true);
+  };
+
   const handleFlOData = (value, target) => {
     setActivityData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const handleSubActivityData = (value, target) => {
+    setSubActivityData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
       return newData;
@@ -146,16 +210,76 @@ const AgricultureProjectForm = () => {
     setOpenActivity(true);
   };
 
+  const onViewSubActivityData = () => {
+    setSubActivityData(selectedSubActivityAllData[0]);
+    setSubActivityAction(DEF_ACTIONS.VIEW);
+    
+    setOpenSubActivity(true);
+  };
+
   const toggleActivitySelect = (component) => {
-    console.log({component});
+    console.log({ component });
     setSelectedProjectActivity(component);
   };
   const resetData = () => {
     setActivityData({});
   };
+
+  
+
+  const toggleSubActivitySelect = (component) => {
+    console.log({ component });
+    const selectedIndex = selectedSubActivityAllData.findIndex(
+      (selected) => selected.id === component.id
+    );
+
+    let newSelected = [...selectedSubActivityAllData];
+
+    if (selectedIndex === -1) {
+      newSelected.push(component);
+    } else {
+      newSelected.splice(selectedIndex, 1);
+    }
+
+    setSelectedSubActivityAllData(newSelected);
+
+    // setSelectProjectedSubActivity(component);
+    // const selectedRowAllData = component?.map((rowId) => {
+    //   return subActivityDataList.find((row) => row.id === rowId);
+    // });
+
+    // console.log({ selectedRowAllData });
+    // setSelectedSubActivityAllData(selectedRowAllData);
+  };
+
+  //active sub activity
+  const activeSubActivity = () => {
+    setToggleState(3);
+
+    //set activity data by activity id
+    const activityId = selectedProjectActivity[0];
+    console.log({ activityId });
+
+    get_ActivityByActivityId(activityId).then(({ dataList = [] }) => {
+      console.log("newly", dataList);
+      setSelectActivityData(dataList);
+      fetchDataForSubActivityByActivityId(activityId);
+    });
+  };
+
+  const resetSubActivityData = () => {};
+
   const refreshActivityList = () => {
     setRefreshActivity(!refreshActivity);
   };
+
+  const refreshSubActivityList = () => {
+    setRefreshSubActivity(!refreshSubActivity);
+  };
+
+  useEffect(() => {
+    
+  },[])
 
   useEffect(() => {
     const projectId = formData.id;
@@ -200,6 +324,10 @@ const AgricultureProjectForm = () => {
     setOpenDeleteActivity(false);
   };
 
+  const closeSubActivityDelete = () => {
+    setOpenDeleteSubActivity(false);
+  };
+
   const renderSelectedItems = () => {
     return (
       <List>
@@ -223,7 +351,6 @@ const AgricultureProjectForm = () => {
       </List>
     );
   };
- 
 
   const toggleCropSelect = (component) => {
     setSelectCrop((current = []) => {
@@ -255,6 +382,10 @@ const AgricultureProjectForm = () => {
     refreshActivityList();
   };
 
+  const resetSelectedSubActivity = () => {
+    setSelectProjectedSubActivity([]);
+    refreshSubActivityList();
+  };
 
   const onConfirmDeleteActivity = async () => {
     try {
@@ -265,6 +396,21 @@ const AgricultureProjectForm = () => {
       setLoading(false);
       closeActivityDelete();
       resetSelectedActivity();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onConfirmDeleteSubActivity = async () => {
+    try {
+      setLoading(true);
+      for (const id of selectedSubActivityAllData) {
+        await deleteProjectSubActivity(id?.id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeSubActivityDelete();
+      resetSelectedSubActivity();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -289,6 +435,18 @@ const AgricultureProjectForm = () => {
         setActivityDataList(dataList);
       });
   }, [refreshActivity]);
+
+  useEffect(() => {
+    selectActivityData?.id &&
+      fetchDataForSubActivityByActivityId(selectActivityData?.id);
+  }, [refreshSubActivity]);
+
+  const fetchDataForSubActivityByActivityId = (activityId) => {
+    get_SubActivityByActivityId(activityId).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setSubActivityDataList(dataList);
+    });
+  };
 
   const setSubmitted1 = async () => {
     try {
@@ -631,30 +789,31 @@ const AgricultureProjectForm = () => {
       <TabWrapper>
         <TabButton
           variant="contained"
+          className={toggleState === 2 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}
+          disabled={false}
+        >
+          Activity
+        </TabButton>
+
+        <TabButton
+          variant="contained"
+          className={toggleState === 3 ? "active-tabs" : ""}
+          //onClick={() => toggleTab(3)}
+          // disabled={!tabEnabled}
+        >
+          Sub Activity
+        </TabButton>
+
+        <TabButton
+          variant="contained"
           className={toggleState === 1 ? "active-tabs" : ""}
           onClick={() => toggleTab(1)}
         >
           Crops
         </TabButton>
-        <TabButton
-          variant="contained"
-          className={toggleState === 2 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
-          disabled={!tabEnabled}
-        >
-          Activity
-        </TabButton>
 
         {/* <TabButton
-          variant="contained"
-          className={toggleState === 4 ? "active-tabs" : ""}
-          onClick={() => toggleTab(4)}
-          disabled={!tabEnabled}
-        >
-          
-        </TabButton>
-
-        <TabButton
           variant="contained"
           className={toggleState === 5 ? "active-tabs" : ""}
           onClick={() => toggleTab(5)}
@@ -751,6 +910,18 @@ const AgricultureProjectForm = () => {
               </Button>
             )}
           </ButtonGroup>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+            sx={{ marginLeft: "10px" }}
+          >
+            {selectedProjectActivity.length === 1 && (
+              <Button onClick={() => activeSubActivity()}>Sub Activity</Button>
+            )}
+          </ButtonGroup>
         </ActionWrapper>
 
         <ProjectActivityForm
@@ -771,6 +942,80 @@ const AgricultureProjectForm = () => {
           data={activityDataList}
         />
       </TabContent>
+
+      <TabContent className={toggleState === 3 ? "active-content" : ""}>
+        <h1>Sub Activity</h1>
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <Button onClick={onCreateSubActivityData}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+
+            {selectedSubActivityAllData?.length === 1 && (
+              <Button onClick={onEditSubActivityData}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
+            )}
+
+            {selectedSubActivityAllData?.length === 1 && (
+              <Button onClick={onViewSubActivityData}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
+            )}
+
+            {selectedSubActivityAllData?.length > 0 && (
+              <Button onClick={onDeleteSubActivityData}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            )}
+          </ButtonGroup>
+        </ActionWrapper>
+
+        <ProjectSubActivityForm
+          open={openSubActivity}
+          ProjectActivityData={selectActivityData}
+          setOpenActivity={setOpenSubActivity}
+          action={subactivityAction}
+          onClose={closeSubActivity}
+          // farmLandData={formData}
+          data={subActivityData}
+          onChange={handleSubActivityData}
+          resetData={resetSubActivityData}
+          refresh={refreshSubActivityList}
+        />
+
+        <ProjectSubActivityList
+          onRowSelect={toggleSubActivitySelect}
+          selectedRows={selectedSubActivityAllData}
+          // data={subActivityDataList}
+          activityDataId={selectActivityData?.id}
+          refresh={refreshSubActivity}
+        />
+      </TabContent>
+
+      <ConfirmationDialog
+        open={openDeleteSubActivity}
+        title="Do you want to delete?"
+        items={selectedSubActivityAllData}
+        loading={loading}
+        onClose={closeSubActivityDelete}
+        onConfirm={onConfirmDeleteSubActivity}
+        setDialogSelectedTypes={setDialogSelectedSubActivityTypes}
+        dialogSelectedTypes={dialogSelectedSubActivityTypes}
+        propertyId="subActivityId"
+        propertyDescription="description"
+      />
+
       <Box>
         <DialogBox
           open={openDeleteActivity}
@@ -780,7 +1025,7 @@ const AgricultureProjectForm = () => {
               <Button
                 variant="contained"
                 color="info"
-                onClick={ onConfirmDeleteActivity}
+                onClick={onConfirmDeleteActivity}
                 sx={{ ml: "8px" }}
               >
                 Confirm

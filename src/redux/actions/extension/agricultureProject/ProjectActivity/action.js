@@ -1,4 +1,4 @@
-import { put,post,get,api_delete } from "../../../../../services/api";
+import { put, post, get, api_delete } from "../../../../../services/api";
 import { defaultMessages } from "../../../../../utils/constants/apiMessages";
 
 export const handleProjectActivity = async (
@@ -22,7 +22,7 @@ export const handleProjectActivity = async (
       };
       throw exception;
     }
-    return response
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -34,13 +34,16 @@ export const handleProjectActivity = async (
   }
 };
 
-export const deleteProjectActivity= async (
+export const deleteProjectActivity = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`extension/project-activity/${id || ""}`, true);
+    const response = await api_delete(
+      `extension/project-activity/${id || ""}`,
+      true
+    );
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -67,13 +70,17 @@ export const deleteProjectActivity= async (
   }
 };
 
-export const updateProjectActivity= async (
+export const updateProjectActivity = async (
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`extension/project-activity/${payload?.id || ""}`, payload, true);
+    const response = await put(
+      `extension/project-activity/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -100,10 +107,12 @@ export const updateProjectActivity= async (
   }
 };
 
-
 export const get_ProjectActivityList = async () => {
   try {
-    const { httpCode, payloadDto } = await get("extension/project-activity", true);
+    const { httpCode, payloadDto } = await get(
+      "extension/project-activity",
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -122,11 +131,36 @@ export const get_ProjectActivityList = async () => {
 
 export const get_ActivityListByProjectId = async (id) => {
   try {
-    const { httpCode, payloadDto } = await get(`extension/project-activity/${id}/activities`, true);
-    
+    const { httpCode, payloadDto } = await get(
+      `extension/project-activity/${id}/activities`,
+      true
+    );
+
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const get_ActivityByActivityId = async (id) => {
+  try {
+    const { httpCode, payload } = await get(
+      `extension/project-activity/${id}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payload,
       };
     }
     return {
