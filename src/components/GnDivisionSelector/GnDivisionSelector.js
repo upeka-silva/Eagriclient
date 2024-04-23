@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { FieldWrapper } from "../FormLayout/FieldWrapper";
 import { FieldName } from "../FormLayout/FieldName";
 import { get_ProvinceList } from "../../redux/actions/province/action";
-import { get_DistrictListByProvinceId } from "../../redux/actions/district/action";
-import { get_DsDivisionListByDistrictId } from "../../redux/actions/dsDivision/action";
+import { get_DistrictListByProvinceId, get_DistrictLovByProvinceId } from "../../redux/actions/district/action";
+import { get_DsDivisionListByDistrictId, get_DsDivisionLovByDistrictId } from "../../redux/actions/dsDivision/action";
 import { get_GnDivisionListByDsDivisionId } from "../../redux/actions/gnDivision/action";
 
 export default function GnDivisionSelector({ handleChange, formData }) {
@@ -38,13 +38,13 @@ export default function GnDivisionSelector({ handleChange, formData }) {
   }, []);
 
   const getDistricts = (id) => {
-    get_DistrictListByProvinceId(id).then(({ dataList = [] }) => {
+    get_DistrictLovByProvinceId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDistricts(dataList);
     });
   };
   const getDsDivisions = (id) => {
-    get_DsDivisionListByDistrictId(id).then(({ dataList = [] }) => {
+    get_DsDivisionLovByDistrictId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDsDivisions(dataList);
     });

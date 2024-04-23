@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React from "react";
 import TextField from "@mui/material/TextField";
-import { Avatar, Box, Chip, Grid } from "@mui/material";
+import { Avatar, Chip, Grid } from "@mui/material";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { getDbFieldName } from "../../../utils/appUtils";
 
@@ -12,10 +12,19 @@ const SingleInput = ({
   mode,
   configFields,
 }) => {
-  useEffect(() => {
-    console.log("fields inside single input");
-    console.log(configFields);
-  }, []);
+  // This will remove `Target` prefix form field
+  const removeTarget = (field) => {
+    let prefix = "Target ";
+
+    // Check if the string starts with the prefix
+    if (field.startsWith(prefix)) {
+      // Remove the prefix
+      let result = field.substring(prefix.length) + " (Ha)";
+      return result;
+    } else {
+      return field;
+    }
+  };
 
   return (
     <Grid container>
@@ -33,14 +42,14 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={10} sx={{ pl: "5px" }}>
         <Grid container spacing={1}>
-          {configFields.map((field) => (
+          {configFields.map((field,index) => (
             <Grid item xs={2} sx={{ mt: "10px" }}>
               <TextField
                 type="number"
                 disabled={mode === DEF_ACTIONS.VIEW}
                 variant="outlined"
-                id="input1"
-                label={field}
+                id={`input_${varietyTarget.varietyName}_${index}`}
+                label={removeTarget(field)}
                 value={varietyTarget[getDbFieldName(field)]}
                 onChange={(e) =>
                   targetedExtentHandler(

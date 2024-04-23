@@ -1,4 +1,4 @@
-import { put, get, post, api_delete } from "../../../../services/api";
+import { put, get, post, api_delete, getBlob } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleCropVariety = async (
@@ -88,7 +88,7 @@ export const getCropsByCropCategory = async (
   id,
   onSuccess = () => {},
   onError = (_message) => {},
-  path = 'geo-data/crops/crop-category/' + id
+  path = `geo-data/crops/crop-category/${id}?size=200`
 ) => {
 try {
   const { httpCode, payloadDto } = await get(path, true);
@@ -238,3 +238,23 @@ export const handleCropVarietyImage = async (
     }
   }
 };
+export const downloadCropVarietyExcel = async () => {
+  try {
+    const blobData = await getBlob(
+      "geo-data/crop-varieties/export/excel",
+      true
+    );
+    const fileName = `cropVariety_${
+      new Date().toISOString().split("T")[0]
+    }.xlsx`;
+    const url = window.URL.createObjectURL(new Blob([blobData]));
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+  } catch (error) {
+    console.error(error);
+}
+}

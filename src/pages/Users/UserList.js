@@ -4,6 +4,7 @@ import { DataTable } from "../../components/PageLayout/Table";
 
 const UsersList = ({
   selectedRows = [],
+  dataUrl = 'user-manage/users',
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
@@ -25,7 +26,7 @@ const UsersList = ({
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={"user-manage/users"}
+        dataEndPoint={dataUrl}
         columns={columns}
         selectable
         selectedRows={selectedRows}

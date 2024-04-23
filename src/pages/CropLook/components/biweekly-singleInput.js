@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
+import { Avatar, Button, Chip, Grid } from "@mui/material";
 import {
-  Avatar,
-  Button,
-  Chip,
-  Grid,
-} from "@mui/material";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import DamageAddModal from "./damage-add";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -38,41 +36,74 @@ const BiWeeklySingleInput = ({
     targetedExtentHandler(cropIndex, varietyIndex, field, value);
   };
 
+  // This will remove `extent` prefix form field
+  const removeExtent = (field) => {
+    let prefix = "Extent ";
+
+    // Check if the string starts with the prefix
+    if (field.startsWith(prefix)) {
+      // Remove the prefix
+      let result = field.substring(prefix.length) + " (Ha)";
+      return result;
+    } else {
+      return field;
+    }
+  };
+
   return (
     <>
-      <Grid container spacing={1} sx={{paddingTop: "20px"}}>
+      <Grid container spacing={1} sx={{ paddingTop: "20px" }}>
         <Grid item xs={2}>
           <Chip
-            avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
+            avatar={
+              <Avatar
+                alt={varietyTarget.varietyName}
+                src={varietyTarget.imageUrl}
+                sx={{ mr: 1 }}
+              />
+            }
             label={varietyTarget.varietyName}
             variant="outlined"
-            sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
+            sx={{
+              mt: "4px",
+              bgcolor: "#A7E99C",
+              width: "400px",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
           />
         </Grid>
         <Grid item xs={8}>
           <Grid container spacing={1}>
-            {configFields.map((field) => (
+            {configFields.map((field, i) => (
               <Grid item xs={2}>
                 <TextField
                   type="number"
                   disabled={mode === DEF_ACTIONS.VIEW}
                   variant="outlined"
-                  id="input1"
-                  label={field + " (Ha)"}
+                  id={`input_${varietyTarget.varietyName}_${i}`}
+                  label={removeExtent(field)}
                   value={varietyTarget[getDbFieldName(field)]}
-                  onChange={(e) =>
-                    extentHandler(
-                      cropIndex,
-                      varietyIndex,
-                      getDbFieldName(field),
-                      e.target.value
-                    )
-                  }
-                  //style={{ flex: 1, marginRight: 8 }}
+                  InputProps={{
+                    inputProps: { min: 0 },
+                  }}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    if (!isNaN(inputValue) && inputValue >= 0) {
+                      // Check if the input is a valid number and not negative
+                      extentHandler(
+                        cropIndex,
+                        varietyIndex,
+                        getDbFieldName(field),
+                        inputValue
+                      );
+                    }
+                  }}
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
                     },
+                    input: { textAlign: "right" },
                   }}
                   size="small"
                 />
@@ -84,7 +115,7 @@ const BiWeeklySingleInput = ({
                 type="number"
                 disabled={true}
                 variant="outlined"
-                id="input5"
+                id={`input_${varietyTarget?.varietyName}_${varietyTarget?.id}total`}
                 label="Total Extent (Ha)"
                 value={varietyTarget["totalExtent"] || 0}
                 sx={{
@@ -95,7 +126,7 @@ const BiWeeklySingleInput = ({
                   color: "green",
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "#33b858",
-  
+
                     borderRadius: "8px",
                   },
                   "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {
@@ -115,41 +146,55 @@ const BiWeeklySingleInput = ({
           <Grid container>
             {varietyTarget?.id ? (
               <Grid item xs={12}>
-              <PermissionWrapper
-                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_VARIETY_REPORT}`}
-              >
-                {(varietyTarget?.damageExtents && varietyTarget?.damageExtents[0]?.id && mode === DEF_ACTIONS.VIEW) || (((mode === DEF_ACTIONS.EDIT) || (mode === DEF_ACTIONS.ADD && varietyTarget?.id))) ? (
-                  (
-                  (mode === DEF_ACTIONS.VIEW) ? (
-                    <Button
-                  variant="outlined"
-                  color="success"
-                  size="small"
-                  onClick={handleAddDamage}
-                  sx={{ marginTop: "10px" }}
-                >
-                  View Damage
-                </Button>):<Button
-                  variant="outlined"
-                  color="success"
-                  size="small"
-                  onClick={handleAddDamage}
-                  sx={{ marginTop: "10px" }}
-                >
-                  Add Damage
-                </Button>
+                {(varietyTarget?.damageExtents &&
+                  varietyTarget?.damageExtents[0]?.id &&
+                  mode === DEF_ACTIONS.VIEW) ||
+                mode === DEF_ACTIONS.EDIT ||
+                (mode === DEF_ACTIONS.ADD && varietyTarget?.id) ? (
+                  mode === DEF_ACTIONS.VIEW ? (
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                    >
+                      <Button
+                        variant="outlined"
+                        color="success"
+                        size="small"
+                        onClick={handleAddDamage}
+                        sx={{ marginTop: "10px" }}
+                      >
+                        View Damage
+                      </Button>
+                    </PermissionWrapper>
+                  ) : (
+                    <PermissionWrapper
+                      permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                    >
+                      <Button
+                        variant="outlined"
+                        color="success"
+                        size="small"
+                        onClick={handleAddDamage}
+                        sx={{ marginTop: "10px" }}
+                      >
+                        Add Damage
+                      </Button>
+                    </PermissionWrapper>
                   )
-                ): <Button
-                disabled={true}
-                variant="outlined"
-                color="success"
-                size="small"
-                sx={{ marginTop: "10px" }}
-              >
-                Add Damage
-              </Button>}
-                
-                </PermissionWrapper>
+                ) : (
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
+                  >
+                    <Button
+                      disabled={true}
+                      variant="outlined"
+                      color="success"
+                      size="small"
+                      sx={{ marginTop: "10px" }}
+                    >
+                      Add Damage
+                    </Button>
+                  </PermissionWrapper>
+                )}
               </Grid>
             ) : null}
           </Grid>

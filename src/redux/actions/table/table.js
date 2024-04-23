@@ -1,10 +1,9 @@
 import { get, post } from '../../../services/api/index';
 export const get_DataList = async (path, page = 0, size = 10,order="asc", target="id") => {
 	try {
-		const { totalElements, httpCode, payloadDto } = await get(
-			`${path}?page=${page}&size=${size}&sort=${order}&sortCol=${target}`,
-			true
-		);
+		const queryParams = `page=${page}&size=${size}&sort=${order}&sortCol=${target}`;
+        const url = path.includes('?') ? `${path}&${queryParams}` : `${path}?${queryParams}`;
+		const { totalElements, httpCode, payloadDto } = await get(url, true);
 		if (httpCode === '200 OK') {
 			return {
 				dataList: payloadDto,

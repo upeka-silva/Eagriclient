@@ -12,6 +12,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 
 const CropList = ({
+  url,
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
@@ -23,7 +24,7 @@ const CropList = ({
         "cropSubCategoryDTO.subCategoryId",
         "cropSubCategoryDTO.description",
       ],
-      sortCol: ["cropSubCategory.description"],
+      sortCol: ["cropSubCategory.id"],
       joinString: " - ",
       headerName: "Sub Category",
     },
@@ -38,7 +39,7 @@ const CropList = ({
     // { field: "cropType", headerName: "Crop Type" },
     // { field: "family", headerName: "Family" },
     // { field: "havesting", headerName: "Havesting" },
-    { field: "cropId", headerName: "Crop ID" },
+    { field: "cropId", headerName: "Crop ID", sortCol: ["cropId"], },
   ];
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
@@ -181,13 +182,14 @@ const CropList = ({
       <>
         <DataTable
           loadingTable
-          dataEndPoint={dataEndPoint}
+          dataEndPoint={url}
           columns={columns}
           selectable
           selectedRows={selectedRows}
           selectAll={selectAll}
           onRowSelect={onRowSelect}
           unSelectAll={unSelectAll}
+          searchable={false}
         />
       </>
     </TableWrapper>

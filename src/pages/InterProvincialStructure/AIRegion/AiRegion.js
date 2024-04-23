@@ -47,6 +47,7 @@ import { get_InterProvincialAdaListByDdoaId } from "../../../redux/actions/inter
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import SearchBox from "../../../components/SearchBox/SearchBox";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -91,6 +92,19 @@ const InterProvincialAiRegion = () => {
       }
       return newList;
     });
+  };
+
+  const handleSearch = (searchText) => {
+    let url = dataEndPoint;
+    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
+    
+    if (url.includes('searchText=')) {
+        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else {
+      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+    }
+
+    setDataEndPoint(url);
   };
 
   const selectAllProvincialAI = (all = []) => {
@@ -376,6 +390,7 @@ const InterProvincialAiRegion = () => {
               />
             </FieldWrapper>
           </Grid>
+          <SearchBox handleSearch={handleSearch} />
           <Grid item lg={2}>
             <FieldWrapper>
               <Button

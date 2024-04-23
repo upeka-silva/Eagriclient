@@ -74,3 +74,82 @@ export const getDbFieldName = (field) => {
     return "na";
   }
 };
+
+
+export const convertCropLookFields = (field) => {
+
+  switch(field) {
+    case "Target Total Extent":
+      return "";
+    case "Target Major":
+      return "totalTargetedExtentMajor";
+      case "Target Minor":
+        return "totalTargetedExtentMinor";
+      case "Target Existing Extent":
+        return "totalTargetedExisting";
+      case "Target New Extent":
+        return "totalTargetedExtentNew";
+      case "Target Removed Extent":
+        return "totalTargetedRemoved";
+      case "Target Home Garden":
+        return "totalTargetedHomeGarden";
+      case "Target Greenhouse":
+        return "totalTargetedGreenHouse";
+      case "Target Highland Rainfed":
+        return "totalTargetHighlandRainfed";
+      case "Target Rainfed":
+        return "totalTargetedExtentRainfed";
+      case "Target Highland Irrigated":
+        return "totalTargetedExtentIrrigate";
+      case "Target Lowland":
+        return "totalTargetedLowland";
+
+      case "Extent Highland Rainfed":
+        return "totalExtentHighlandRainfed";
+      case "Extent Highland Irrigate":
+        return "totalExtentHighlandIrrigate";
+      case "Comm Newly Borne Extent":
+        return "totalCommNewlyBorneExtent";
+      case "Extent Minor":
+        return "totalExtentMinor";
+      case "Bearing HG Removed Extent":
+        return "totalBearingHgRemovedExtent";
+      case "Normal Season Extent":
+        return "totalNormalSeasonExtent";
+      case "HG Replanted Extent":
+        return "totalHgReplantedExtent";
+      case "Extent Lowland":
+        return "totalExtentLowland";
+      case "Extent Greenhouse":
+        return "totalExtentGreenHouse";
+      case "Non-Bearing HG Removed Extent":
+        return "";
+      case "Extent Highland Rainfed":
+        return "";
+      case "HG Newly Planted Extent":
+        return "totalHgNewlyPlantedExtent";
+      case "Non-Bearing Comm Removed Extent":
+        return "totalNonBearingCommRemovedExtent";
+      case "Extent Major":
+        return "totalExtentMajor";
+      case "Inter Season Extent":
+        return "totalInterSeasonExtent";
+      case "Bearing Comm Removed Extent":
+        return "totalBearingCommRemovedExtent";
+      case "Extent Rainfed":
+        return "totalExtentRainfed";
+      case "Comm Removed Extent":
+        return "totalCommRemovedExtent";
+      case "Comm Newly Planted Extent":
+        return "totalCommNewlyPlantedExtent";
+      case "Extent Home Garden":
+        return "totalExtentHomeGarden";
+      case "HG Newly Borne Extent":
+        return "totalHgNewlyBorneExtent";
+      case "Comm Replanted Extent":
+        return "totalCommReplantedExtent";
+    default:
+        return field;
+  }
+
+};
