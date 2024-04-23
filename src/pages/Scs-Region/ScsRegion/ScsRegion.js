@@ -236,7 +236,7 @@ const ScsRegionBranch = () => {
         setDialogSelectedTypes={setDialogSelectedScsRegion}
         dialogSelectedTypes={dialogSelectedScsRegion}
         propertyId="scsRegionId"
-        propertyDescription="name "
+        propertyDescription="name"
       />
     </div>
   );
