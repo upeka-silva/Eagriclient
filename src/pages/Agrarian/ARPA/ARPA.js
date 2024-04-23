@@ -36,6 +36,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ARPA = () => {
   useUserAccessValidation();
@@ -43,6 +44,8 @@ const ARPA = () => {
 
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/arpa");
   const [selectedArpa, setSelectedArpa] = useState([]);
+  const [dialogSelectedArpa, setDialogSelectedArpa] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -104,10 +107,12 @@ const ARPA = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedArpa(selectedArpa);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedArpa(dialogSelectedArpa);
   };
 
   const renderSelectedItems = () => {
@@ -150,7 +155,7 @@ const ARPA = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const arpa of selectedArpa) {
+      for (const arpa of dialogSelectedArpa) {
         await deleteARPA(arpa?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -193,14 +198,14 @@ const ARPA = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="ARPA Division" />
       <ActionWrapper isLeft>
@@ -341,36 +346,18 @@ const ARPA = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete ARPA Area"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedArpa}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedArpa}
+        dialogSelectedTypes={dialogSelectedArpa}
+        propertyId="arpaId"
+        propertyDescription="name"
+      />
     </div>
   );
 };

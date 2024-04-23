@@ -28,6 +28,7 @@ import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialDoaList from "./ProvincialDoaList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProvincialDoa = () => {
   useUserAccessValidation();
@@ -40,6 +41,9 @@ const ProvincialDoa = () => {
   const [search, setSearch] = useState({});
 
   const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
+  const [dialogSelectedProvincialDoa, setDialogSelectedProvincialDoa] =
+    useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleProvincialDoaSelect = (component) => {
@@ -92,10 +96,12 @@ const ProvincialDoa = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialDoa(selectedProvincialDoa);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialDoa([]);
   };
 
   const renderSelectedItems = () => {
@@ -139,7 +145,7 @@ const ProvincialDoa = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialDoa) {
+      for (const provincialDoa of dialogSelectedProvincialDoa) {
         await deleteProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
@@ -153,64 +159,63 @@ const ProvincialDoa = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <ListHeader title="Provincial DOA"/>
+      <ListHeader title="Provincial DOA" />
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
-        >
-          <Button  onClick={onCreate}>
-          <Add />
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
-
-        {selectedProvincialDoa.length === 1 && (
           <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
           >
-            <Button onClick={onEdit}>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+          </PermissionWrapper>
+
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
+            >
+              <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
-          >
-            <Button onClick={onView}>
-              <Vrpano />
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
+            >
+              <Button onClick={onView}>
+                <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
-          >
-            <Button onClick={onDelete}>
-                
-                <Delete/>
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}
+            >
+              <Button onClick={onDelete}>
+                <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-          </PermissionWrapper>
-        )}
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
@@ -225,36 +230,18 @@ const ProvincialDoa = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialDoa}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialDoa}
+        dialogSelectedTypes={dialogSelectedProvincialDoa}
+        propertyId="proDirectorId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

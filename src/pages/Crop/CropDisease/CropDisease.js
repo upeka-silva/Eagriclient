@@ -27,6 +27,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteCropDisease } from "../../../redux/actions/crop/CropDisease/action";
 import CropDiseaseList from "./CropDiseaseList";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropDisease = () => {
   useUserAccessValidation();
@@ -36,6 +37,9 @@ const CropDisease = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const [dialogSelectedCropDisease, setDialogSelectedCropDisease] = useState(
+    []
+  );
   const [selectCropDisease, setSelectCropDisease] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const url = `crop/crop-diseases`;
@@ -88,10 +92,12 @@ const CropDisease = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropDisease(selectCropDisease);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropDisease([]);
   };
 
   const renderSelectedItems = () => {
@@ -134,7 +140,7 @@ const CropDisease = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropDisease of selectCropDisease) {
+      for (const cropDisease of dialogSelectedCropDisease) {
         await deleteCropDisease(cropDisease?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -210,7 +216,7 @@ const CropDisease = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Delete Crop Disease"
         actions={
@@ -239,7 +245,19 @@ const CropDisease = () => {
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
-      </DialogBox>
+      </DialogBox> */}
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectCropDisease}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropDisease}
+        dialogSelectedTypes={dialogSelectedCropDisease}
+        propertyId="diseaseName"
+        propertyDescription="type"
+      />
     </div>
   );
 };

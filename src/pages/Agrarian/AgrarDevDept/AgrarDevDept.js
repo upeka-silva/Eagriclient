@@ -27,6 +27,7 @@ import { deleteAgrarDevDept } from "../../../redux/actions/agrarDevDept/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const AgrarDevDept = () => {
   useUserAccessValidation();
@@ -39,6 +40,8 @@ const AgrarDevDept = () => {
   const [search, setSearch] = useState({});
 
   const [selectedAgrarDevDept, setSelectedAgrarDevDept] = useState([]);
+  const [dialogSelectedAgrarDevDept, setDialogSelectedAgrarDevDept] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleAgrarDevDeptSelect = (component) => {
@@ -91,10 +94,12 @@ const AgrarDevDept = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedAgrarDevDept(selectedAgrarDevDept);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedAgrarDevDept([]);
   };
 
   const renderSelectedItems = () => {
@@ -138,7 +143,7 @@ const AgrarDevDept = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const agrarDevDept of selectedAgrarDevDept) {
+      for (const agrarDevDept of dialogSelectedAgrarDevDept) {
         await deleteAgrarDevDept(agrarDevDept.id, onSuccess, onError);
       }
       setLoading(false);
@@ -223,36 +228,18 @@ const AgrarDevDept = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Department of Agrarian development"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedAgrarDevDept}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedAgrarDevDept}
+        dialogSelectedTypes={dialogSelectedAgrarDevDept}
+        propertyId = "doAgrarianDevelopmentId"
+        propertyDescription = "name"
+      />
     </div>
   );
 };

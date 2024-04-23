@@ -10,7 +10,10 @@ import {
 } from "@mui/material";
 
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -20,14 +23,21 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import { Add } from "@mui/icons-material";
 import AddCropActivityDialog from "./add-crop-activity-dialog";
-import { createCropActivity, deleteCropActivity, getAllCropActivity, updateCropActivity } from "../../../redux/actions/crop/cropActivity/action";
+import {
+  createCropActivity,
+  deleteCropActivity,
+  getAllCropActivity,
+  updateCropActivity,
+} from "../../../redux/actions/crop/cropActivity/action";
 import { isEmpty } from "../../../utils/helpers/stringUtils";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
   const [dialogMode, setDialogMode] = useState(null);
-  const [openCropActivityAddDialog, setOpenCropActivityAddDialog] = useState(false);
+  const [openCropActivityAddDialog, setOpenCropActivityAddDialog] =
+    useState(false);
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
   const [isDataFetch, setIsDataFetch] = useState(true);
@@ -35,6 +45,11 @@ const CropActivity = () => {
 
   const [cropActivities, setCropActivities] = useState([]);
   const [formMode, setFormMode] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+  const [dialogSelectedCropActivity, setDialogSelectedCropActivity] = useState(
+    []
+  );
 
   useEffect(() => {
     setIsDataFetch(false);
@@ -122,67 +137,79 @@ const CropActivity = () => {
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
+      <CustFormHeader
+        saving={saving}
+        state={{ action: "Add" }}
+        formName="Crop Activity"
+      />
       <PermissionWrapper
         permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
       >
-      <Button
-        onClick={() => addCropAction()}
-        color="success"
-        variant="outlined"
-        size="small"
-        sx={{ marginTop: "20px" }}
-      >
-        <Add />
-        {DEF_ACTIONS.ADD}
-      </Button>
+        <Button
+          onClick={() => addCropAction()}
+          color="success"
+          variant="outlined"
+          size="small"
+          sx={{ marginTop: "20px" }}
+        >
+          <Add />
+          {DEF_ACTIONS.ADD}
+        </Button>
       </PermissionWrapper>
-      
+
       {/* )} */}
 
-      <TableContainer sx={{ marginTop: "15px"}}>
+      <TableContainer sx={{ marginTop: "15px" }}>
         <Table
           sx={{ minWidth: 650 }}
           size="small"
           aria-label="Audit Question Table"
           variant="variant"
         >
-          <TableHead sx={{backgroundColor:'#40a845', height:'40px'}}>
+          <TableHead sx={{ backgroundColor: "#40a845", height: "40px" }}>
             <TableRow>
-              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Name</TableCell>
-              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Activity Description</TableCell>
-              <TableCell sx={{color:'#ffffff',fontSize:'13px'}}>Action</TableCell>
+              <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
+                Name
+              </TableCell>
+              <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
+                Activity Description
+              </TableCell>
+              <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
+                Action
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Array.isArray(cropActivities) && isDataFetch && cropActivities.map((row, index) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.name}</TableCell>
-                <TableCell>{row.description}</TableCell>
-                <TableCell>
-                  <Button
-                    onClick={handleCropActivityAdd(row, DEF_ACTIONS.EDIT)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    EDIT
-                  </Button>
-                  <Button
-                    onClick={handleCropActivityDelete(row)}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
-                    disabled={formMode === DEF_ACTIONS.VIEW}
-                  >
-                    DELETE
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {Array.isArray(cropActivities) &&
+              isDataFetch &&
+              cropActivities.map((row, index) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.description}</TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={handleCropActivityAdd(row, DEF_ACTIONS.EDIT)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      EDIT
+                    </Button>
+                    <Button
+                      onClick={handleCropActivityDelete(row)}
+                      color="success"
+                      variant="contained"
+                      size="small"
+                      sx={{ marginLeft: "10px" }}
+                      disabled={formMode === DEF_ACTIONS.VIEW}
+                    >
+                      DELETE
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -196,7 +223,7 @@ const CropActivity = () => {
         formData={formData}
         mode={dialogMode}
       />
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title={`Delete Crop Activity`}
         actions={
@@ -220,10 +247,19 @@ const CropActivity = () => {
           </ActionWrapper>
         }
       >
-        <>
-          <DeleteMsg />
-        </>
-      </DialogBox>
+      </DialogBox> */}
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={cropActivities}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropActivity}
+        dialogSelectedTypes={dialogSelectedCropActivity}
+        propertyId="soilTypeCode"
+        propertyDescription="description"
+      />
     </div>
   );
 };

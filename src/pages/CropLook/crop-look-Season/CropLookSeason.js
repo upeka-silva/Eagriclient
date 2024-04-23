@@ -23,13 +23,23 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { Add, Delete, Edit, Vrpano, CheckCircle, Lock } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  Vrpano,
+  CheckCircle,
+  Lock,
+} from "@mui/icons-material";
 import CropLookSeasonList from "./CropLookSeasonList";
-import { changeStatusCropLookSeason, deleteCropLookSeason } from "../../../redux/actions/cropLook/season/action";
+import {
+  changeStatusCropLookSeason,
+  deleteCropLookSeason,
+} from "../../../redux/actions/cropLook/season/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropLookSeason = () => {
   useUserAccessValidation();
@@ -40,6 +50,8 @@ const CropLookSeason = () => {
   const [open, setOpen] = useState(false);
   const [openStatusChageModal, setOpenStatusChageModal] = useState(false);
   const [selectAgriSeason, setSelectAgriSeason] = useState([]);
+  const [dialogSelectAgriSeason, setDialogSelectAgriSeason] = useState([]);
+
   const [seasonStatus, setSeasonStatus] = useState("");
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -107,6 +119,7 @@ const CropLookSeason = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectAgriSeason(selectAgriSeason);
   };
 
   const onChangeStatus = (status) => {
@@ -116,6 +129,7 @@ const CropLookSeason = () => {
 
   const close = () => {
     setOpen(false);
+    setDialogSelectAgriSeason([]);
   };
 
   const closeStatusChangeModal = () => {
@@ -155,23 +169,23 @@ const CropLookSeason = () => {
   const onSuccess = (operationType) => {
     let message = "";
     let formattedType = operationType.trim().toUpperCase();
-    console.log("")
-    switch(formattedType){
-       case "ENABLED":
-         message = "Successfully enabled";
-         break;
-       case "CLOSED":
-         message = "Successfully closed";
-         break;
+    console.log("");
+    switch (formattedType) {
+      case "ENABLED":
+        message = "Successfully enabled";
+        break;
+      case "CLOSED":
+        message = "Successfully closed";
+        break;
     }
 
     addSnackBar({
-       type: SnackBarTypes.success,
-       message: message,
+      type: SnackBarTypes.success,
+      message: message,
     });
-   };
-   
-   const onError = (message) => {
+  };
+
+  const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
       message: message || defaultMessages.apiErrorUnknown,
@@ -181,7 +195,7 @@ const CropLookSeason = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const agriSeason of selectAgriSeason) {
+      for (const agriSeason of dialogSelectAgriSeason) {
         await deleteCropLookSeason(agriSeason?.id, onDeleteSuccess, onError);
       }
       setLoading(false);
@@ -195,30 +209,34 @@ const CropLookSeason = () => {
 
   const onConfirmStatusChange = async () => {
     try {
-       setLoading(true);
-       for (const agriSeason of selectAgriSeason) {
-         await changeStatusCropLookSeason(agriSeason?.id, seasonStatus, () => onSuccess(seasonStatus), onError);
-       }
-       setLoading(false);
-       closeStatusChangeModal();
-       resetSelectedAgriSeason();
+      setLoading(true);
+      for (const agriSeason of selectAgriSeason) {
+        await changeStatusCropLookSeason(
+          agriSeason?.id,
+          seasonStatus,
+          () => onSuccess(seasonStatus),
+          onError
+        );
+      }
+      setLoading(false);
+      closeStatusChangeModal();
+      resetSelectedAgriSeason();
     } catch (error) {
-       console.log(error);
-       setLoading(false);
+      console.log(error);
+      setLoading(false);
     }
-   };
-   
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Look Season" />
       <ActionWrapper isLeft>
@@ -267,26 +285,28 @@ const CropLookSeason = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "ENABLED" && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
-            >
-              <Button onClick={() => onChangeStatus("ENABLED")}>
-                <CheckCircle />
-                Enable
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectAgriSeason.length === 1 && selectAgriSeason[0].status !== "CLOSED" && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
-            >
-              <Button onClick={() => onChangeStatus("CLOSED")}>
-                <Lock />
-                Close
-              </Button>
-            </PermissionWrapper>
-          )}
+          {selectAgriSeason.length === 1 &&
+            selectAgriSeason[0].status !== "ENABLED" && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
+              >
+                <Button onClick={() => onChangeStatus("ENABLED")}>
+                  <CheckCircle />
+                  Enable
+                </Button>
+              </PermissionWrapper>
+            )}
+          {selectAgriSeason.length === 1 &&
+            selectAgriSeason[0].status !== "CLOSED" && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_LOOK_SEASON}`}
+              >
+                <Button onClick={() => onChangeStatus("CLOSED")}>
+                  <Lock />
+                  Close
+                </Button>
+              </PermissionWrapper>
+            )}
         </ButtonGroup>
       </ActionWrapper>
 
@@ -302,7 +322,7 @@ const CropLookSeason = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Delete Crop Look Season"
         actions={
@@ -330,7 +350,20 @@ const CropLookSeason = () => {
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
-      </DialogBox>
+      </DialogBox> */}
+
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectAgriSeason}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectAgriSeason}
+        dialogSelectedTypes={dialogSelectAgriSeason}
+        propertyId="agriSeason.code"
+        propertyDescription="description"
+      />
 
       <DialogBox
         open={openStatusChageModal}
@@ -355,9 +388,7 @@ const CropLookSeason = () => {
             </Button>
           </ActionWrapper>
         }
-      >
-       
-      </DialogBox>
+      ></DialogBox>
     </div>
   );
 };

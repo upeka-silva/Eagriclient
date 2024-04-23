@@ -35,6 +35,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -45,6 +46,8 @@ const CropSubCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [dialogSelectedCropSubCategoryTypes, setDialogSelectedCropSubCategoryTypes] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleSubCategorySelect = (component) => {
@@ -95,10 +98,12 @@ const CropSubCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropSubCategoryTypes(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropSubCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -141,7 +146,7 @@ const CropSubCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
+      for (const cropSubCat of dialogSelectedCropSubCategoryTypes) {
         await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -241,7 +246,7 @@ const CropSubCategory = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Are you sure you want to delete?"
         actions={
@@ -266,7 +271,20 @@ const CropSubCategory = () => {
       >
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
-      </DialogBox>
+      </DialogBox> */}
+  <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropSubCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCropSubCategoryTypes}
+        propertyId = "subCategoryId"
+        propertyDescription = "description"
+      />
+
     </div>
   );
 };

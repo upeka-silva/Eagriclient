@@ -34,6 +34,7 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -44,6 +45,9 @@ const CropCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCategory, setSelectCategory] = useState([]);
+  const [dialogSelectedCategoryTypes,setDialogSelectedCategoryTypes] = useState([]);
+
+  
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleCategorySelect = (component) => {
@@ -94,10 +98,12 @@ const CropCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCategoryTypes(selectCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -140,7 +146,7 @@ const CropCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
+      for (const cropCat of dialogSelectedCategoryTypes) {
         await deleteCropCategory(cropCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -224,7 +230,7 @@ const CropCategory = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Do You Want to Delete?"
         actions={
@@ -251,7 +257,21 @@ const CropCategory = () => {
           <Divider sx={{ mt: "8px" }} />
           {renderSelectedItems()}
         </>
-      </DialogBox>
+      </DialogBox> */}
+
+<ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCategoryTypes}
+        propertyId = "categoryId"
+        propertyDescription = "description"
+      />
+
     </div>
   );
 };

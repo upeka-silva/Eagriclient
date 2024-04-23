@@ -24,6 +24,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropCalendarList from "./crop-calendar-list";
 import { deleteCropCalendar } from "../../../redux/actions/crop/cropCalendar/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropCalendar = () => {
   useUserAccessValidation();
@@ -33,6 +34,7 @@ const CropCalendar = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [dialogSelectSubCategory, setDialogSelectSubCategory] = useState([]);
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -79,10 +81,12 @@ const CropCalendar = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectSubCategory(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectSubCategory([]);
   };
 
   const onSuccess = () => {
@@ -102,7 +106,7 @@ const CropCalendar = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const subCat of selectSubCategory) {
+      for (const subCat of dialogSelectSubCategory) {
         await deleteCropCalendar(subCat.id, onSuccess, onError);
       }
       // await deleteCropCalendar(selectSubCategory[0].id, onSuccess, onError);
@@ -118,14 +122,14 @@ const CropCalendar = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Calendar" />
       <ActionWrapper isLeft>
@@ -203,31 +207,18 @@ const CropCalendar = () => {
           />
         )}
       </PermissionWrapper>
-
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Do You Want to Delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectSubCategory}
+        dialogSelectedTypes={dialogSelectSubCategory}
+        propertyId="soilTypeCode"
+        propertyDescription="description"
+      />
     </div>
   );
 };

@@ -25,6 +25,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const AgriSeason = () => {
   useUserAccessValidation();
@@ -34,6 +35,7 @@ const AgriSeason = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectAgriSeason, setSelectAgriSeason] = useState([]);
+  const [dialogSelectedAgriSeason, setDialogSelectedAgriSeason] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleAgriSeasonSelect = (component) => {
@@ -100,10 +102,12 @@ const AgriSeason = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedAgriSeason(selectAgriSeason);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedAgriSeason([]);
   };
 
   const renderSelectedItems = () => {
@@ -146,7 +150,7 @@ const AgriSeason = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const agriSeason of selectAgriSeason) {
+      for (const agriSeason of dialogSelectedAgriSeason) {
         await deleteAgriSeason(agriSeason?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -160,14 +164,14 @@ const AgriSeason = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Agriculture Season" />
       <ActionWrapper isLeft>
@@ -230,7 +234,7 @@ const AgriSeason = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Delete Agriculture Season"
         actions={
@@ -259,7 +263,19 @@ const AgriSeason = () => {
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>
-      </DialogBox>
+      </DialogBox> */}
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectAgriSeason}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedAgriSeason}
+        dialogSelectedTypes={dialogSelectedAgriSeason}
+        propertyId="code"
+        propertyDescription="description"
+      />
     </div>
   );
 };
