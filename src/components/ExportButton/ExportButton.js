@@ -24,7 +24,8 @@ const ExportButton = () => {
       color="success"
     >
       <PermissionWrapper>
-        <Button onClick={onDownload} title="export" color="success">
+        <Button onClick={onDownload} title="export" color="success"   variant="outlined"
+>
           <Download />
           {DEF_ACTIONS.EXPORT}
         </Button>

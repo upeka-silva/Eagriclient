@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import CropSubCategoryList from "./CropSubCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -167,80 +168,81 @@ const CropSubCategory = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Sub Category" />
-      <ExportButton/>
       <ActionWrapper isLeft>
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        <Stack direction="row" spacing={1}>
+          <ExportButton />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectSubCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onEdit}
-                sx={{ ml: "8px" }}
-              >
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+              <Button onClick={onCreate}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
             </PermissionWrapper>
-          )}
-          {selectSubCategory.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-            >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onView}
-                sx={{ ml: "8px" }}
+            {selectSubCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
               >
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectSubCategory.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
-            >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onDelete}
-                sx={{ ml: "8px" }}
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={onEdit}
+                  sx={{ ml: "8px" }}
+                >
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectSubCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
               >
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
-
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={onView}
+                  sx={{ ml: "8px" }}
+                >
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectSubCategory.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+              >
+                <Button
+                  variant="outlined"
+                  color="success"
+                  onClick={onDelete}
+                  sx={{ ml: "8px" }}
+                >
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}

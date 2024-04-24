@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import CropVarietyList from "./CropVarietyList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -166,8 +167,10 @@ const CropVariety = () => {
     }}
     >
       <ListHeader title="Crop Variety" />
-      <ExportButton/>
+  
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton/>
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -202,7 +205,7 @@ const CropVariety = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-         
+         </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_VARIETY}`}
