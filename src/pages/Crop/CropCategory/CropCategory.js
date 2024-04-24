@@ -37,6 +37,8 @@ import {
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { style } from "d3";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 const CropCategory = () => {
@@ -48,6 +50,9 @@ const CropCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCategory, setSelectCategory] = useState([]);
+  const [dialogSelectedCategoryTypes,setDialogSelectedCategoryTypes] = useState([]);
+
+  
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleCategorySelect = (component) => {
@@ -98,10 +103,12 @@ const CropCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCategoryTypes(selectCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -144,7 +151,7 @@ const CropCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
+      for (const cropCat of dialogSelectedCategoryTypes) {
         await deleteCropCategory(cropCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -238,35 +245,21 @@ const CropCategory = () => {
             unSelectAll={resetSelectedCategory}
           />
         )}
-      </PermissionWrapper>
-      <DialogBox
+      </PermissionWrapper>      
+
+<ConfirmationDialog
         open={open}
-        title="Do You Want to Delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "8px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCategoryTypes}
+        propertyId = "categoryId"
+        propertyDescription = "description"
+      />
+
     </div>
   );
 };

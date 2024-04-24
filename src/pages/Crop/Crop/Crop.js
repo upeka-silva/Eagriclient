@@ -30,6 +30,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteCrop, downloadCropExcel } from "../../../redux/actions/crop/crop/action";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -41,6 +42,9 @@ const Crop = () => {
 
   const [selectCrop, setSelectCrop] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  //delete
+  const [dialogSelectedCropTypes, setDialogSelectedCrop] = useState([]);
 
   const toggleCategorySelect = (component) => {
     setSelectCrop((current = []) => {
@@ -92,10 +96,12 @@ const Crop = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCrop(selectCrop);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCrop([]);
   };
 
   const renderSelectedItems = () => {
@@ -138,7 +144,7 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of selectCrop) {
+      for (const crop of dialogSelectedCropTypes) {
         await deleteCrop(crop?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -159,14 +165,14 @@ const Crop = () => {
   
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop" />
       <ActionWrapper isLeft>
@@ -233,35 +239,19 @@ const Crop = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        items={selectCrop}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCrop}
+        dialogSelectedTypes={dialogSelectedCropTypes}
+        propertyId="cropId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

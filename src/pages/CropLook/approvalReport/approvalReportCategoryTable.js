@@ -11,9 +11,9 @@ import {
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
-import AggrigateVarietyCell from "./aggrigateVarietyCell";
+import ApprovalReportTableCell from "./approvalReportTableCell";
 
-const CategoryReportTabel = ({ category, season }) => {
+const ApprovalReportCategoryTable = ({ category, season }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
@@ -31,7 +31,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
 
-      fetchConfig(categoryId, dataList);
+      fetchConfig(category?.categoryId, dataList);
 
       const groupedData = dataList.reduce((acc, obj) => {
         const cropName = obj?.cropName;
@@ -69,7 +69,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setConfLoading(false);
     }
 
-    fetchData(category?.id, season?.id);
+    fetchData(category?.categoryId, season?.id);
   }, [season]);
 
   const updateIrrigationModeMap = (key, value) => {
@@ -136,7 +136,7 @@ const CategoryReportTabel = ({ category, season }) => {
           <TableBody>
             {!confLoading &&
               Object.keys(data).map((cropName) => (
-                <AggrigateVarietyCell
+                <ApprovalReportTableCell
                   cropName={cropName}
                   cropData={data[cropName]}
                   targetConfigs={targetConfigs}
@@ -150,4 +150,4 @@ const CategoryReportTabel = ({ category, season }) => {
   );
 };
 
-export default CategoryReportTabel;
+export default ApprovalReportCategoryTable;

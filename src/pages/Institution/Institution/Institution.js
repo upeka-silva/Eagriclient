@@ -29,6 +29,7 @@ import InstitutionList from "./InstitutionList";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from '../../../components/ListHeader/ListHeader';
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Institution = () => {
   useUserAccessValidation();
@@ -38,6 +39,8 @@ const Institution = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectInstitution, setSelectInstitution] = useState([]);
+  const [dialogSelectInstitution, setDialogSelectInstitution] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleInstitutionSelect = (component) => {
@@ -90,10 +93,12 @@ const Institution = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectInstitution(selectInstitution);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectInstitution([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +141,7 @@ const Institution = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const institution of selectInstitution) {
+      for (const institution of dialogSelectInstitution) {
         await deleteInstitution(institution?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -208,36 +213,18 @@ const Institution = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Institution"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectInstitution}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectInstitution}
+        dialogSelectedTypes={dialogSelectInstitution}
+        propertyId = ""
+        propertyDescription = "" // add details
+      />
     </div>
   );
 };

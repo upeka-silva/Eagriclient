@@ -30,6 +30,8 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ProvinceList from "./ProvinceList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+
 const Province = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -38,6 +40,8 @@ const Province = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [dialogSelectedProvince, setDialogSelectedProvince] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [searchData, setSearchData] = useState({
     code: "",
@@ -95,10 +99,12 @@ const Province = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvince(selectedProvinces);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedProvince([]);
   };
 
   const renderSelectedItems = () => {
@@ -141,7 +147,7 @@ const Province = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const province of selectedProvinces) {
+      for (const province of dialogSelectedProvince) {
         await deleteProvince(province?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -158,18 +164,18 @@ const Province = () => {
     } catch (error) {
       console.error(error);
     }
-  };
-  
+  };  
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
@@ -238,36 +244,18 @@ const Province = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Province(s)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvinces}
+        loading={loading}
+        onClose={close} 
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvince}
+        dialogSelectedTypes={dialogSelectedProvince}
+        propertyId="name"
+        propertyDescription="code"
+      />
     </div>
   );
 };

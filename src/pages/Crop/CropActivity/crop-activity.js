@@ -25,6 +25,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import { Add, Download } from "@mui/icons-material";
 import AddCropActivityDialog from "./add-crop-activity-dialog";
+
 import {
   createCropActivity,
   deleteCropActivity,
@@ -33,6 +34,7 @@ import {
   updateCropActivity,
 } from "../../../redux/actions/crop/cropActivity/action";
 import { isEmpty } from "../../../utils/helpers/stringUtils";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 const CropActivity = () => {
@@ -48,6 +50,11 @@ const CropActivity = () => {
 
   const [cropActivities, setCropActivities] = useState([]);
   const [formMode, setFormMode] = useState(true);
+
+  const [loading, setLoading] = useState(false);
+  const [dialogSelectedCropActivity, setDialogSelectedCropActivity] = useState(
+    []
+  );
 
   useEffect(() => {
     setIsDataFetch(false);
@@ -185,8 +192,6 @@ const CropActivity = () => {
         </Stack>
       </ActionWrapper>
 
-      {/* )} */}
-
       <TableContainer sx={{ marginTop: "15px" }}>
         <Table
           sx={{ minWidth: 650 }}
@@ -250,35 +255,19 @@ const CropActivity = () => {
         handleClose={closeDamageAddDialog}
         formData={formData}
         mode={dialogMode}
-      />
-      <DialogBox
+      />      
+      <ConfirmationDialog
         open={open}
-        title={`Delete Crop Activity`}
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ mr: "12px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ mr: "8px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={cropActivities}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropActivity}
+        dialogSelectedTypes={dialogSelectedCropActivity}
+        propertyId="soilTypeCode"
+        propertyDescription="description"
+      />
     </div>
   );
 };

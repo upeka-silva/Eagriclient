@@ -47,6 +47,8 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+
 const District = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -64,6 +66,7 @@ const District = () => {
     code: "",
     name: "",
   });
+  const [dialogSelectedDistrict, setDialogSelectedDistrict] = useState([]);
 
   const toggleDistrictSelect = (component) => {
     setSelectedDistricts((current = []) => {
@@ -115,10 +118,12 @@ const District = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedDistrict(selectedDistricts);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedDistrict([]);
   };
 
   const renderSelectedItems = () => {
@@ -161,7 +166,7 @@ const District = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const district of selectedDistricts) {
+      for (const district of dialogSelectedDistrict) {
         await deleteDistrict(district?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -199,14 +204,14 @@ const District = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="District" />
       <ActionWrapper isLeft>
@@ -270,7 +275,6 @@ const District = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-               
                 options={options}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -323,36 +327,18 @@ const District = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete District"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedDistricts}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedDistrict}
+        dialogSelectedTypes={dialogSelectedDistrict}
+        propertyId="code"
+        propertyDescription="name"
+      />
     </div>
   );
 };

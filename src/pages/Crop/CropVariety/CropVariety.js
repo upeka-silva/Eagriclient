@@ -28,6 +28,7 @@ import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -39,6 +40,8 @@ const CropVariety = () => {
 
   const [selectCategory, setSelectCategory] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+  const [dialogSelectedCropVarietyTypes, setDialogSelectedCropVarietyTypes] = useState([]);
+    useState([]);
 
   const toggleCategorySelect = (component) => {
     setSelectCategory((current = []) => {
@@ -90,10 +93,12 @@ const CropVariety = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropVarietyTypes(selectCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropVarietyTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +141,7 @@ const CropVariety = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
+      for (const cropCat of dialogSelectedCropVarietyTypes) {
         await deleteCropVariety(cropCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -157,14 +162,14 @@ const CropVariety = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Variety" />
   
@@ -181,27 +186,39 @@ const CropVariety = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_VARIETY}`}
           >
-            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
           {selectCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
-              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
           {selectCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
-              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
           {selectCategory.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_VARIETY}`}
             >
-              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -219,31 +236,19 @@ const CropVariety = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Ok
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-      </DialogBox>
+        items={selectCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropVarietyTypes}
+        dialogSelectedTypes={dialogSelectedCropVarietyTypes}
+        propertyId="varietyId"
+        propertyDescription="varietyName"
+      />
     </div>
   );
 };

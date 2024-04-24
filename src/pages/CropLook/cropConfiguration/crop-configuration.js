@@ -37,9 +37,9 @@ import BiWeeklyReportingList from "./crop-configuration-list";
 import CropConfigurationList from "./crop-configuration-list";
 import { deleteCropConfiguration } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropConfiguration = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -47,6 +47,7 @@ const CropConfiguration = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [dialogSelectSubCategory, setDialogSelectSubCategory] = useState([]);
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -70,7 +71,9 @@ const CropConfiguration = () => {
   };
 
   const onCreate = () => {
-    navigate("/crop-look/crop-configuration-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-look/crop-configuration-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onView = () => {
@@ -84,10 +87,12 @@ const CropConfiguration = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectSubCategory(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectSubCategory([]);
   };
 
   const renderSelectedItems = () => {
@@ -130,7 +135,11 @@ const CropConfiguration = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await deleteCropConfiguration(selectSubCategory[0].id, onSuccess, onError);
+      await deleteCropConfiguration(
+        dialogSelectSubCategory[0].id,
+        onSuccess,
+        onError
+      );
       setLoading(false);
       close();
       resetSelectedSubCategory();
@@ -142,14 +151,14 @@ const CropConfiguration = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Field Configuration" />
       <ActionWrapper isLeft>
@@ -213,33 +222,18 @@ const CropConfiguration = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Do You Want to Delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-        <>
-        {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectSubCategory}
+        dialogSelectedTypes={dialogSelectSubCategory}
+        propertyId="cropCategory.id"
+        propertyDescription="cropCategory.description"
+      />
     </div>
   );
 };

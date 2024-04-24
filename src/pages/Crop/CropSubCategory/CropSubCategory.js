@@ -41,6 +41,8 @@ import {
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+
 const CropSubCategory = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -50,6 +52,11 @@ const CropSubCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [
+    dialogSelectedCropSubCategoryTypes,
+    setDialogSelectedCropSubCategoryTypes,
+  ] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleSubCategorySelect = (component) => {
@@ -100,10 +107,12 @@ const CropSubCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropSubCategoryTypes(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropSubCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -146,7 +155,7 @@ const CropSubCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
+      for (const cropSubCat of dialogSelectedCropSubCategoryTypes) {
         await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -257,32 +266,19 @@ const CropSubCategory = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Are you sure you want to delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-        <Divider sx={{ mt: "16px" }} />
-        {renderSelectedItems()}
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropSubCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCropSubCategoryTypes}
+        propertyId="subCategoryId"
+        propertyDescription="description"
+      />
+        
     </div>
   );
 };
