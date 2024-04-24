@@ -322,35 +322,6 @@ const CropLookSeason = () => {
           />
         )}
       </PermissionWrapper>
-      {/* <DialogBox
-        open={open}
-        title="Delete Crop Look Season"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox> */}
 
       <ConfirmationDialog
         open={open}

@@ -223,31 +223,7 @@ const CropVariety = () => {
           />
         )}
       </PermissionWrapper>
-      {/* <DialogBox
-        open={open}
-        title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Ok
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-      </DialogBox> */}
+
       <ConfirmationDialog
         open={open}
         title="Do you want to delete?"

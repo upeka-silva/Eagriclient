@@ -23,7 +23,7 @@ const ConfirmationDialog = ({
   dialogSelectedTypes,
   propertyId,
   propertyDescription,
-}) => {
+}) => {  
   const toggleDialogObjectSelect = (objItem) => {
     const selectedIndex = dialogSelectedTypes.findIndex(
       (selected) => selected.id === objItem.id
@@ -36,20 +36,6 @@ const ConfirmationDialog = ({
       newSelected.splice(selectedIndex, 1);
     }
     setDialogSelectedTypes(newSelected);
-  };
-
-  console.log({ propertyId });
-
-  const getPropertyValue = (obj, path) => {
-    const properties = path.split(".");
-    let value = obj;
-    for (let prop of properties) {
-      value = value[prop];
-      if (value === undefined || value === null) {
-        return undefined;
-      }
-    }
-    return value;
   };
 
   return (
@@ -78,7 +64,7 @@ const ConfirmationDialog = ({
       }
     >
       <>
-        <Divider sx={{}} />
+        <Divider sx={{  }} />
         <List>
           {items.map((p, key) => (
             <ListItem key={key}>
@@ -95,18 +81,12 @@ const ConfirmationDialog = ({
               </ListItemIcon>
               <ListItemText>
                 <ListItemText>
-                  {getPropertyValue(p, propertyDescription) ||
-                  getPropertyValue(p, propertyId)
-                    ? `${getPropertyValue(
-                        p,
-                        propertyId  
-                      )} - ${getPropertyValue(p, propertyDescription)}`
-                    : "Unknown"}
+                    {p[propertyId]} - {p[propertyDescription]}
                 </ListItemText>
               </ListItemText>
             </ListItem>
           ))}
-        </List>
+        </List>    
       </>
     </DialogBox>
   );
