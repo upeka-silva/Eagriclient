@@ -22,7 +22,10 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropSubCategory } from "../../../redux/actions/crop/cropSubCategory/action";
+import {
+  deleteCropSubCategory,
+  downloadCropSubCategoryExcel,
+} from "../../../redux/actions/crop/cropSubCategory/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -32,9 +35,11 @@ import {
   Vrpano,
   CheckRounded,
   CancelOutlined,
+  Download,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -45,6 +50,11 @@ const CropSubCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [
+    dialogSelectedCropSubCategoryTypes,
+    setDialogSelectedCropSubCategoryTypes,
+  ] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleSubCategorySelect = (component) => {
@@ -95,10 +105,12 @@ const CropSubCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropSubCategoryTypes(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropSubCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -141,7 +153,7 @@ const CropSubCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
+      for (const cropSubCat of dialogSelectedCropSubCategoryTypes) {
         await deleteCropSubCategory(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -153,16 +165,24 @@ const CropSubCategory = () => {
     }
   };
 
+  const onDownload = async () => {
+    try {
+      await downloadCropSubCategoryExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Sub Category" />
       <ActionWrapper isLeft>
@@ -227,6 +247,24 @@ const CropSubCategory = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+
+        <PermissionWrapper
+        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
+        >
+          <Button
+            onClick={onDownload}
+            title="export"
+            style={{
+              position: "absolute",
+              right: "30px",
+            }}
+            color="success"
+          >
+            <Download />
+            Export
+            {DEF_ACTIONS.EXPORT}
+          </Button>
+        </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
@@ -241,32 +279,19 @@ const CropSubCategory = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Are you sure you want to delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropSubCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCropSubCategoryTypes}
+        propertyId="subCategoryId"
+        propertyDescription="description"
+      />
+        
     </div>
   );
 };

@@ -24,10 +24,11 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
-import { deleteCrop } from "../../../redux/actions/crop/crop/action";
+import { deleteCrop, downloadCropExcel } from "../../../redux/actions/crop/crop/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -39,6 +40,9 @@ const Crop = () => {
 
   const [selectCrop, setSelectCrop] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  //delete
+  const [dialogSelectedCropTypes, setDialogSelectedCrop] = useState([]);
 
   const toggleCategorySelect = (component) => {
     setSelectCrop((current = []) => {
@@ -90,10 +94,12 @@ const Crop = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCrop(selectCrop);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCrop([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +142,7 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of selectCrop) {
+      for (const crop of dialogSelectedCropTypes) {
         await deleteCrop(crop?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -147,17 +153,24 @@ const Crop = () => {
       setLoading(false);
     }
   };
+  const onDownload = async () => {
+    try {
+      await downloadCropExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop" />
       <ActionWrapper isLeft>
@@ -167,7 +180,15 @@ const Crop = () => {
           size="small"
           aria-label="action button group"
           color="success"
-        >
+        > <PermissionWrapper
+        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+      >
+        <Button onClick={onDownload} title="export" 
+          color="success">
+          <Download />
+          {DEF_ACTIONS.EXPORT}
+        </Button>
+      </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
           >
@@ -207,6 +228,7 @@ const Crop = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+         
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}
@@ -221,35 +243,19 @@ const Crop = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        items={selectCrop}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCrop}
+        dialogSelectedTypes={dialogSelectedCropTypes}
+        propertyId="cropId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

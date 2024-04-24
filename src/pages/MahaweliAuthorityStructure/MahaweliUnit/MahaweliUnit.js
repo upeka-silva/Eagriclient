@@ -36,6 +36,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliUnitList from "./MahaweliUnitList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const MahaweliUnit = () => {
   useUserAccessValidation();
@@ -49,8 +50,12 @@ const MahaweliUnit = () => {
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/mahaweli-units");
 
   const [selectedMahaweliUnit, setSelectedMahaweliUnit] = useState([]);
+  const [dialogSelectedMahaweliUnit, setDialogSelectedMahaweliUnit] = useState(
+    []
+  );
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
- 
+
   const [mahaweliSystems, setMahaweliSystems] = useState([]);
   const [mahaweliBlocks, setMahaweliBlocks] = useState([]);
   const [selectedAuthority, setSelectedAuthority] = useState({
@@ -116,10 +121,12 @@ const MahaweliUnit = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedMahaweliUnit(selectedMahaweliUnit);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedMahaweliUnit([]);
   };
 
   const renderSelectedItems = () => {
@@ -163,7 +170,7 @@ const MahaweliUnit = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const MahaweliUnit of selectedMahaweliUnit) {
+      for (const MahaweliUnit of dialogSelectedMahaweliUnit) {
         await deleteMahaweliUnit(MahaweliUnit.id, onSuccess, onError);
       }
       setLoading(false);
@@ -176,7 +183,9 @@ const MahaweliUnit = () => {
   };
 
   const getFilteredData = (selectedBlock) => {
-    setDataEndPoint(`geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id);
+    setDataEndPoint(
+      `geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id
+    );
   };
 
   const resetFilter = () => {
@@ -191,7 +200,7 @@ const MahaweliUnit = () => {
     setSelectedBlock({
       code: "",
       description: "",
-    })
+    });
     setDataEndPoint("geo-data/mahaweli-units");
   };
 
@@ -200,26 +209,25 @@ const MahaweliUnit = () => {
       console.log(dataList);
       setMahaweliSystems(dataList);
     });
-    
   }, []);
 
-  const getBlocks = (id)=>{
-      get_MahaweliBlockListBySystemId(id).then(({ dataList = [] }) => {
-        console.log(dataList);
-        setMahaweliBlocks(dataList);
-      })
-  }
+  const getBlocks = (id) => {
+    get_MahaweliBlockListBySystemId(id).then(({ dataList = [] }) => {
+      console.log(dataList);
+      setMahaweliBlocks(dataList);
+    });
+  };
 
   const handleSearch = (searchText = "") => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=') && searchText) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
-    } else if (url.includes('searchText=') && !searchText) {
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=") && searchText) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
+    } else if (url.includes("searchText=") && !searchText) {
       url = url.replace(/searchText=[^&]+/, "");
     } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
     }
 
     setDataEndPoint(url);
@@ -227,14 +235,14 @@ const MahaweliUnit = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Mahaweli Unit" />
       <ActionWrapper isLeft>
@@ -327,8 +335,8 @@ const MahaweliUnit = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedSystem(value);
-              
-                  getBlocks(value.id)
+
+                  getBlocks(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -401,36 +409,18 @@ const MahaweliUnit = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedMahaweliUnit}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedMahaweliUnit}
+        dialogSelectedTypes={dialogSelectedMahaweliUnit}
+        propertyId="unitId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

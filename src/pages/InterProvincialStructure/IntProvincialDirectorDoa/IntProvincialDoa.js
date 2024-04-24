@@ -34,6 +34,7 @@ import IntProvincialDoaList from "./IntProvincialDoaList";
 import { deleteInterProvincialDoa } from "../../../redux/actions/interProvincialDoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 
 const IntProvincialDoa = () => {
@@ -48,6 +49,8 @@ const IntProvincialDoa = () => {
 
   const [dataEndPoint,setDataEndPoint] = useState("geo-data/director-doa")
   const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
+  const [dialogSelectedProvincialDoa, setDialogSelectedProvincialDoa] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleProvincialDoaSelect = (component) => {
@@ -100,10 +103,12 @@ const IntProvincialDoa = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialDoa(selectedProvincialDoa);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialDoa([]);
   };
 
   const renderSelectedItems = () => {
@@ -147,7 +152,7 @@ const IntProvincialDoa = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialDoa) {
+      for (const provincialDoa of dialogSelectedProvincialDoa) {
         await deleteInterProvincialDoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
@@ -234,36 +239,19 @@ const IntProvincialDoa = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialDoa}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialDoa}
+        dialogSelectedTypes={dialogSelectedProvincialDoa}
+        propertyId = "doaId"
+        propertyDescription = "description"
+      />
     </div>
   );
 };

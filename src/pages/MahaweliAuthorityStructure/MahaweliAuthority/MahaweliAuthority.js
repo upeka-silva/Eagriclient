@@ -28,6 +28,7 @@ import { deleteMahaweliAuthority } from "../../../redux/actions/mahaweliAuthorit
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliAuthorityList from "./MahaweliAuthorityList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const MahaweliAuthority = () => {
   useUserAccessValidation();
@@ -40,6 +41,9 @@ const MahaweliAuthority = () => {
   const [search, setSearch] = useState({});
 
   const [selectedMahweliAuthority, setSelectedMahweliAuthority] = useState([]);
+  const [dialogSelectedMahweliAuthority, setDialogSelectedMahweliAuthority] =
+    useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleMahweliAuthoritySelect = (component) => {
@@ -92,10 +96,12 @@ const MahaweliAuthority = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedMahweliAuthority(selectedMahweliAuthority);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedMahweliAuthority([]);
   };
 
   const renderSelectedItems = () => {
@@ -139,7 +145,7 @@ const MahaweliAuthority = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedMahweliAuthority) {
+      for (const provincialDoa of dialogSelectedMahweliAuthority) {
         await deleteMahaweliAuthority(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
@@ -153,14 +159,14 @@ const MahaweliAuthority = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Mahaweli Authority" />
       <ActionWrapper isLeft>
@@ -224,36 +230,18 @@ const MahaweliAuthority = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedMahweliAuthority}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedMahweliAuthority}
+        dialogSelectedTypes={dialogSelectedMahweliAuthority}
+        propertyId="authorityId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

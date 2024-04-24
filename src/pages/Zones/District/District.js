@@ -26,7 +26,7 @@ import DistrictList from "./DistrictList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteDistrict } from "../../../redux/actions/district/action";
+import { deleteDistrict,downloadDistrictExcel } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
@@ -37,6 +37,7 @@ import {
   Vrpano,
   Search,
   RestartAlt,
+  Download,
 } from "@mui/icons-material";
 
 import { get_ProvinceList } from "../../../redux/actions/province/action";
@@ -44,6 +45,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const District = () => {
   useUserAccessValidation();
@@ -62,6 +64,7 @@ const District = () => {
     code: "",
     name: "",
   });
+  const [dialogSelectedDistrict, setDialogSelectedDistrict] = useState([]);
 
   const toggleDistrictSelect = (component) => {
     setSelectedDistricts((current = []) => {
@@ -113,10 +116,12 @@ const District = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedDistrict(selectedDistricts);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedDistrict([]);
   };
 
   const renderSelectedItems = () => {
@@ -159,7 +164,7 @@ const District = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const district of selectedDistricts) {
+      for (const district of dialogSelectedDistrict) {
         await deleteDistrict(district?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -187,17 +192,24 @@ const District = () => {
     console.log(selectedProvince);
     setDataEndPoint("geo-data/districts");
   };
+  const onDownload = async () => {
+    try {
+      await downloadDistrictExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="District" />
       <ActionWrapper isLeft>
@@ -208,6 +220,15 @@ const District = () => {
           aria-label="action button group"
           color="success"
         >
+          <PermissionWrapper
+       
+      >
+        <Button onClick={onDownload} title="export" 
+          color="success">
+          <Download />
+          {DEF_ACTIONS.EXPORT}
+        </Button>
+      </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
           >
@@ -254,7 +275,6 @@ const District = () => {
             <FieldWrapper>
               <FieldName>Select Province</FieldName>
               <Autocomplete
-               
                 options={options}
                 value={selectedProvince}
                 getOptionLabel={(i) => `${i?.code} - ${i?.name}`}
@@ -307,36 +327,18 @@ const District = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete District"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedDistricts}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedDistrict}
+        dialogSelectedTypes={dialogSelectedDistrict}
+        propertyId="code"
+        propertyDescription="name"
+      />
     </div>
   );
 };

@@ -17,9 +17,9 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
+import { deleteDsDivision,downloaddsDivisionsExcel } from "../../../redux/actions/dsDivision/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -178,7 +178,13 @@ const DsDivision = () => {
       setDistrics(dataList);
     });
   };
-
+  const onDownload = async () => {
+    try {
+      await downloaddsDivisionsExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -198,7 +204,15 @@ const DsDivision = () => {
           size="small"
           aria-label="action button group"
           color="success"
-        >
+        ><PermissionWrapper
+       
+      >
+        <Button onClick={onDownload} title="export" 
+          color="success">
+          <Download />
+          {DEF_ACTIONS.EXPORT}
+        </Button>
+      </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
           >

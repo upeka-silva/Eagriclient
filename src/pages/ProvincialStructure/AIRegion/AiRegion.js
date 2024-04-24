@@ -46,6 +46,7 @@ import { get_ProvincialAdaListByDdoaId } from "../../../redux/actions/provincial
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -61,6 +62,10 @@ const ProvincialAiRegion = () => {
     "geo-data/ai-region/get-by-parent/PROVINCIAL"
   );
   const [selectedProvincialAI, setSelectedProvincialAI] = useState([]);
+  const [dialogSelectedProvincialAI, setDialogSelectedProvincialAI] = useState(
+    []
+  );
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [doas, setDoas] = useState([]);
@@ -129,10 +134,12 @@ const ProvincialAiRegion = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialAI(selectedProvincialAI);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialAI([]);
   };
 
   const renderSelectedItems = () => {
@@ -176,7 +183,7 @@ const ProvincialAiRegion = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialAI of selectedProvincialAI) {
+      for (const provincialAI of dialogSelectedProvincialAI) {
         await deleteProvincialAI(provincialAI.id, onSuccess, onError);
       }
       setLoading(false);
@@ -193,7 +200,6 @@ const ProvincialAiRegion = () => {
       console.log(dataList);
       setDoas(dataList);
     });
-    
   }, []);
 
   const resetFilter = () => {
@@ -231,12 +237,12 @@ const ProvincialAiRegion = () => {
 
   const handleSearch = (searchText) => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=')) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=")) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
     } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
     }
 
     setDataEndPoint(url);
@@ -244,14 +250,14 @@ const ProvincialAiRegion = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
@@ -282,7 +288,6 @@ const ProvincialAiRegion = () => {
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length === 1 && (
-
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AI_REGION}`}
             >
@@ -293,7 +298,6 @@ const ProvincialAiRegion = () => {
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length > 0 && (
-
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AI_REGION}`}
             >
@@ -311,7 +315,6 @@ const ProvincialAiRegion = () => {
             <FieldWrapper>
               <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
-                
                 options={doas}
                 value={selectedDoa}
                 getOptionLabel={(i) =>
@@ -427,36 +430,18 @@ const ProvincialAiRegion = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialAI}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialAI}
+        dialogSelectedTypes={dialogSelectedProvincialAI}
+        propertyId="regionId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

@@ -11,13 +11,13 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import SoilTypeList from "./SoilTypeList";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteSoilType } from "../../../redux/actions/soil/soilType/action";
+import { deleteSoilType, downloadSoilTypeExcel } from "../../../redux/actions/soil/soilType/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
@@ -25,7 +25,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog/Confirmat
 const SoilType = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-
+  const { state } = useLocation();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
@@ -91,7 +91,10 @@ const SoilType = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: 
+      state?.action === DEF_ACTIONS.DELETE ?
+        "Successfully Deleted" :
+        "Successfully Downloading",
     });
   };
 
@@ -114,6 +117,13 @@ const SoilType = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+  const onDownload = async () => {
+    try {
+      await downloadSoilTypeExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -176,6 +186,22 @@ const SoilType = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper withoutPermissions>
         {loading === false && (

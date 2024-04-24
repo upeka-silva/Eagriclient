@@ -22,18 +22,23 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory } from "../../../redux/actions/crop/cropCategory/action";
+import { deleteCropCategory, downloadCropCategoryExcel } from "../../../redux/actions/crop/cropCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   Add,
   CancelOutlined,
   CheckRounded,
   Delete,
+  Download,
   Edit,
+  Margin,
   Vrpano,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { style } from "d3";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -44,6 +49,9 @@ const CropCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCategory, setSelectCategory] = useState([]);
+  const [dialogSelectedCategoryTypes,setDialogSelectedCategoryTypes] = useState([]);
+
+  
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleCategorySelect = (component) => {
@@ -94,10 +102,12 @@ const CropCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCategoryTypes(selectCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCategoryTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -140,7 +150,7 @@ const CropCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropCat of selectCategory) {
+      for (const cropCat of dialogSelectedCategoryTypes) {
         await deleteCropCategory(cropCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -152,6 +162,14 @@ const CropCategory = () => {
     }
   };
 
+  const onDownload = async () => {
+    try {
+      await downloadCropCategoryExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
   return (
     <div
     style={{
@@ -211,6 +229,22 @@ const CropCategory = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
@@ -223,35 +257,21 @@ const CropCategory = () => {
             unSelectAll={resetSelectedCategory}
           />
         )}
-      </PermissionWrapper>
-      <DialogBox
+      </PermissionWrapper>      
+
+<ConfirmationDialog
         open={open}
-        title="Do You Want to Delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "8px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCategoryTypes}
+        dialogSelectedTypes={dialogSelectedCategoryTypes}
+        propertyId = "categoryId"
+        propertyDescription = "description"
+      />
+
     </div>
   );
 };

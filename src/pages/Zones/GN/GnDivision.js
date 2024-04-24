@@ -1,4 +1,4 @@
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
@@ -15,7 +15,7 @@ import {
   ListItemText,
   TextField,
 } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -33,7 +33,7 @@ import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictLovByProvinceId } from "../../../redux/actions/district/action";
 import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
 import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
-import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
+import { deleteGnDivision,downloadGnDivisionExcel } from "../../../redux/actions/gnDivision/action";
 import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
@@ -52,6 +52,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import GnDivisionList from "./GnDivisionList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const GnDivision = () => {
   useUserAccessValidation();
@@ -70,12 +71,12 @@ const GnDivision = () => {
 
   const handleSearch = () => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=')) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=")) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
     } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
     }
 
     setDataEndPoint(url);
@@ -100,6 +101,8 @@ const GnDivision = () => {
   const [open, setOpen] = useState(false);
 
   const [selectedGnDivisions, setSelectedGnDivisions] = useState([]);
+  const [dialogSelectedGnDivision, setDialogSelectedGnDivision] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [dataEndPoint, setDataEndPoint] = useState("");
 
@@ -530,10 +533,12 @@ const GnDivision = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedGnDivision(selectedGnDivisions);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedGnDivision([]);
   };
 
   const renderSelectedItems = () => {
@@ -576,7 +581,7 @@ const GnDivision = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const gnDivision of selectedGnDivisions) {
+      for (const gnDivision of dialogSelectedGnDivision) {
         await deleteGnDivision(gnDivision?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -773,7 +778,13 @@ const GnDivision = () => {
       setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
     }
   };
-
+  const onDownload = async () => {
+    try {
+      await downloadGnDivisionExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -793,7 +804,14 @@ const GnDivision = () => {
           size="small"
           aria-label="action button group"
           color="success"
+        ><PermissionWrapper
         >
+          <Button onClick={onDownload} title="export" 
+            color="success">
+            <Download />
+            {DEF_ACTIONS.EXPORT}
+          </Button>
+        </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
           >
@@ -1138,29 +1156,29 @@ const GnDivision = () => {
           )}
 
           <Grid item>
-          <FieldWrapper>
-            <FieldName>.</FieldName>
+            <FieldWrapper>
+              <FieldName>.</FieldName>
 
-            <TextField
-              name="cropArea"
-              id="cropArea"
-              value={searchText}
-              fullWidth
-              //disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => {
-                // const value = parseFloat(e.target.value) || 0;
-                handleChange(e);
-              }}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
+              <TextField
+                name="cropArea"
+                id="cropArea"
+                value={searchText}
+                fullWidth
+                //disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => {
+                  // const value = parseFloat(e.target.value) || 0;
+                  handleChange(e);
+                }}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
           </Grid>
-          
+
           <Grid item>
             <FieldWrapper>
               <Button
@@ -1211,36 +1229,18 @@ const GnDivision = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete GN Division"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedGnDivisions}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedGnDivision}
+        dialogSelectedTypes={dialogSelectedGnDivision}
+        propertyId="code"
+        propertyDescription="name"
+      />
     </div>
   );
 };

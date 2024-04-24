@@ -23,10 +23,16 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropPestList from "./CropPestList";
-import { deleteCropPest, get_CropPestList } from "../../../redux/actions/crop/CropPest/action";
+import {
+  deleteCropPest,
+  downloadCropPestExcel,
+  get_CropPestList,
+} from "../../../redux/actions/crop/CropPest/action";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+
 
 const CropPest = () => {
   useUserAccessValidation();
@@ -37,6 +43,7 @@ const CropPest = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCropPest, setSelectCropPest] = useState([]);
+  const [dialogSelectedCropPest, setDialogSelectedCropPest] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const url = `crop/crop-pests`;
 
@@ -88,10 +95,12 @@ const CropPest = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropPest(selectCropPest);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropPest([]);
   };
 
   const renderSelectedItems = () => {
@@ -134,7 +143,7 @@ const CropPest = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of selectCropPest) {
+      for (const crop of dialogSelectedCropPest) {
         await deleteCropPest(crop?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -143,6 +152,13 @@ const CropPest = () => {
     } catch (error) {
       console.log(error);
       setLoading(false);
+    }
+  };
+  const onDownload = async () => {
+    try {
+      await downloadCropPestExcel();
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -196,6 +212,22 @@ const CropPest = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_PEST}`}
@@ -210,36 +242,18 @@ const CropPest = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Crop Pest"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectCropPest}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropPest}
+        dialogSelectedTypes={dialogSelectedCropPest}
+        propertyId="pestName"
+        propertyDescription="scientificName"
+      />
     </div>
   );
 };

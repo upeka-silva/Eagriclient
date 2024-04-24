@@ -55,36 +55,55 @@ const BiWeeklySingleInput = ({
       <Grid container spacing={1} sx={{ paddingTop: "20px" }}>
         <Grid item xs={2}>
           <Chip
-            avatar={<Avatar alt="Natacha" src={varietyTarget.imageUrl} />}
+            avatar={
+              <Avatar
+                alt={varietyTarget.varietyName}
+                src={varietyTarget.imageUrl}
+                sx={{ mr: 1 }}
+              />
+            }
             label={varietyTarget.varietyName}
             variant="outlined"
-            sx={{ mt: "4px", bgcolor: "#A7E99C", width: "400px" }}
+            sx={{
+              mt: "4px",
+              bgcolor: "#A7E99C",
+              width: "400px",
+              alignItems: "center",
+              justifyContent: "flex-start",
+            }}
           />
         </Grid>
         <Grid item xs={8}>
           <Grid container spacing={1}>
-            {configFields.map((field) => (
+            {configFields.map((field, i) => (
               <Grid item xs={2}>
                 <TextField
                   type="number"
                   disabled={mode === DEF_ACTIONS.VIEW}
                   variant="outlined"
-                  id="input1"
+                  id={`input_${varietyTarget.varietyName}_${i}`}
                   label={removeExtent(field)}
                   value={varietyTarget[getDbFieldName(field)]}
-                  onChange={(e) =>
-                    extentHandler(
-                      cropIndex,
-                      varietyIndex,
-                      getDbFieldName(field),
-                      e.target.value
-                    )
-                  }
-                  //style={{ flex: 1, marginRight: 8 }}
+                  InputProps={{
+                    inputProps: { min: 0 },
+                  }}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    if (!isNaN(inputValue) && inputValue >= 0) {
+                      // Check if the input is a valid number and not negative
+                      extentHandler(
+                        cropIndex,
+                        varietyIndex,
+                        getDbFieldName(field),
+                        inputValue
+                      );
+                    }
+                  }}
                   sx={{
                     "& .MuiInputBase-root": {
                       borderRadius: "8px",
                     },
+                    input: { textAlign: "right" },
                   }}
                   size="small"
                 />
@@ -96,7 +115,7 @@ const BiWeeklySingleInput = ({
                 type="number"
                 disabled={true}
                 variant="outlined"
-                id="input5"
+                id={`input_${varietyTarget?.varietyName}_${varietyTarget?.id}total`}
                 label="Total Extent (Ha)"
                 value={varietyTarget["totalExtent"] || 0}
                 sx={{

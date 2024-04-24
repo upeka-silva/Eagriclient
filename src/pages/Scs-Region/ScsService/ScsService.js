@@ -27,6 +27,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ScsServiceList from "./ScsServiceList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ScsService = () => {
   useUserAccessValidation();
@@ -37,6 +38,8 @@ const ScsService = () => {
   const [open, setOpen] = useState(false);
 
   const [selectedScsService, setSelectedScsService] = useState([]);
+  const [dialogSelectedScsService, setDialogSelectedScsService] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleScsServiceSelect = (component) => {
@@ -89,10 +92,12 @@ const ScsService = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedScsService(selectedScsService);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedScsService([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +141,7 @@ const ScsService = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const scsService of selectedScsService) {
+      for (const scsService of dialogSelectedScsService) {
         await deleteScsService(scsService.id, onSuccess, onError);
       }
       setLoading(false);
@@ -150,14 +155,14 @@ const ScsService = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Scs Service" />
       <ActionWrapper isLeft>
@@ -221,36 +226,18 @@ const ScsService = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Scs Service"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedScsService}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedScsService}
+        dialogSelectedTypes={dialogSelectedScsService}
+        propertyId="scsServiceId"
+        propertyDescription="name"
+      />
     </div>
   );
 };
