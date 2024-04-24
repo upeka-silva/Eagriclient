@@ -214,6 +214,7 @@ import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDa
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
 import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
+import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
 
 
 export const Routes = [
@@ -1402,6 +1403,22 @@ export const Routes = [
         element: <AggrigateReport />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/approval-report-info-dd",
+        name: "Approval Report Info DD",
+        isSideBar: true,
+        element: <ApprovalReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+      },
+      {
+        path: "/approval-report-info-ada",
+        name: "Approval Report Info ADA",
+        isSideBar: true,
+        element: <ApprovalReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
       },
       {
         path: "/report-approval-ada",
