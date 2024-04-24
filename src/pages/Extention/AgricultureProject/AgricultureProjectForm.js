@@ -243,18 +243,11 @@ const AgricultureProjectForm = () => {
 
     setSelectedSubActivityAllData(newSelected);
 
-    // setSelectProjectedSubActivity(component);
-    // const selectedRowAllData = component?.map((rowId) => {
-    //   return subActivityDataList.find((row) => row.id === rowId);
-    // });
-
-    // console.log({ selectedRowAllData });
-    // setSelectedSubActivityAllData(selectedRowAllData);
   };
 
   //active sub activity
   const activeSubActivity = () => {
-    setToggleState(3);
+    setToggleState(2);
 
     //set activity data by activity id
     const activityId = selectedProjectActivity[0];
@@ -405,7 +398,7 @@ const AgricultureProjectForm = () => {
   const onConfirmDeleteSubActivity = async () => {
     try {
       setLoading(true);
-      for (const id of selectedSubActivityAllData) {
+      for (const id of dialogSelectedSubActivityTypes) {
         await deleteProjectSubActivity(id?.id, onSuccessDelete, onError);
       }
       setLoading(false);
@@ -789,8 +782,8 @@ const AgricultureProjectForm = () => {
       <TabWrapper>
         <TabButton
           variant="contained"
-          className={toggleState === 2 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          className={toggleState === 1 ? "active-tabs" : ""}
+          onClick={() => toggleTab(1)}
           disabled={false}
         >
           Activity
@@ -798,7 +791,7 @@ const AgricultureProjectForm = () => {
 
         <TabButton
           variant="contained"
-          className={toggleState === 3 ? "active-tabs" : ""}
+          className={toggleState === 2 ? "active-tabs" : ""}
           //onClick={() => toggleTab(3)}
           // disabled={!tabEnabled}
         >
@@ -807,8 +800,8 @@ const AgricultureProjectForm = () => {
 
         <TabButton
           variant="contained"
-          className={toggleState === 1 ? "active-tabs" : ""}
-          onClick={() => toggleTab(1)}
+          className={toggleState === 3 ? "active-tabs" : ""}
+          onClick={() => toggleTab(2)}
         >
           Crops
         </TabButton>
@@ -823,7 +816,7 @@ const AgricultureProjectForm = () => {
         </TabButton> */}
       </TabWrapper>
 
-      <TabContent className={toggleState === 1 ? "active-content" : ""}>
+      <TabContent className={toggleState === 3 ? "active-content" : ""}>
         <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
@@ -875,7 +868,7 @@ const AgricultureProjectForm = () => {
         )}
       </TabContent>
 
-      <TabContent className={toggleState === 2 ? "active-content" : ""}>
+      <TabContent className={toggleState === 1 ? "active-content" : ""}>
         <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
@@ -943,7 +936,7 @@ const AgricultureProjectForm = () => {
         />
       </TabContent>
 
-      <TabContent className={toggleState === 3 ? "active-content" : ""}>
+      <TabContent className={toggleState === 2 ? "active-content" : ""}>
         <h1>Sub Activity</h1>
         <ActionWrapper isLeft>
           <ButtonGroup
