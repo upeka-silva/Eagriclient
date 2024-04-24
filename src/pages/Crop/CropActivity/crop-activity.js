@@ -148,20 +148,16 @@ const CropActivity = () => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        fontFamily: `${Fonts.fontStyle1}`,
-        marginTop: "10px",
-        height: "90vh",
-        overflowY: "scroll",
-      }}
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
     >
-      <CustFormHeader
-        saving={saving}
-        state={{ action: "Add" }}
-        formName="Crop Activity"
-      />
+      <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -173,36 +169,36 @@ const CropActivity = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
           >
-            <Button
-              onClick={() => addCropAction()}
-              color="success"
-              variant="outlined"
-              size="small"
-              sx={{ marginTop: "20px" }}
-            >
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-        </ButtonGroup>
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-        >
           <Button
-            onClick={onDownload}
-            title="export"
-            style={{
-              position: "absolute",
-              right: "30px",
-            }}
+            onClick={() => addCropAction()}
             color="success"
+            variant="outlined"
+            size="small"
+            sx={{ marginTop: "20px" }}
           >
-            <Download />
-            Export
-            {DEF_ACTIONS.EXPORT}
+            <Add />
+            {DEF_ACTIONS.ADD}
           </Button>
-        </PermissionWrapper>
-      </ActionWrapper>
+          </PermissionWrapper>
+
+        </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>  
+      </ActionWrapper>    
 
       <TableContainer sx={{ marginTop: "15px" }}>
         <Table
@@ -267,7 +263,7 @@ const CropActivity = () => {
         handleClose={closeDamageAddDialog}
         formData={formData}
         mode={dialogMode}
-      />
+      />      
       <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
