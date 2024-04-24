@@ -31,7 +31,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
 
-      fetchConfig(category?.categoryId, dataList);
+      fetchConfig(categoryId, dataList);
 
       const groupedData = dataList.reduce((acc, obj) => {
         const cropName = obj?.cropName;
@@ -69,7 +69,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setConfLoading(false);
     }
 
-    fetchData(category?.categoryId, season?.id);
+    fetchData(category?.id, season?.id);
   }, [season]);
 
   const updateIrrigationModeMap = (key, value) => {
