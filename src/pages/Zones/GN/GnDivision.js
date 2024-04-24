@@ -1,4 +1,4 @@
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
@@ -33,7 +33,7 @@ import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictLovByProvinceId } from "../../../redux/actions/district/action";
 import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
 import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
-import { deleteGnDivision } from "../../../redux/actions/gnDivision/action";
+import { deleteGnDivision,downloadGnDivisionExcel } from "../../../redux/actions/gnDivision/action";
 import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
@@ -778,7 +778,13 @@ const GnDivision = () => {
       setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
     }
   };
-
+  const onDownload = async () => {
+    try {
+      await downloadGnDivisionExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -798,7 +804,14 @@ const GnDivision = () => {
           size="small"
           aria-label="action button group"
           color="success"
+        ><PermissionWrapper
         >
+          <Button onClick={onDownload} title="export" 
+            color="success">
+            <Download />
+            {DEF_ACTIONS.EXPORT}
+          </Button>
+        </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
           >

@@ -23,9 +23,9 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
-import { deleteCropDisease } from "../../../redux/actions/crop/CropDisease/action";
+import { deleteCropDisease, downloadCropDiseaseExcel } from "../../../redux/actions/crop/CropDisease/action";
 import CropDiseaseList from "./CropDiseaseList";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
@@ -151,6 +151,13 @@ const CropDisease = () => {
       setLoading(false);
     }
   };
+  const onDownload = async () => {
+    try {
+      await downloadCropDiseaseExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
@@ -202,6 +209,22 @@ const CropDisease = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_DISEASE}`}

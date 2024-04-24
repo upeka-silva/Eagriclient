@@ -1,4 +1,4 @@
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano,Download } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
@@ -18,7 +18,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { deleteProvince } from "../../../redux/actions/province/action";
+import { deleteProvince,downloadProvincesExcel } from "../../../redux/actions/province/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -156,6 +156,13 @@ const Province = () => {
       setLoading(false);
     }
   };
+  const onDownload = async () => {
+    try {
+      await downloadProvincesExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
   return (
     <div
@@ -170,13 +177,22 @@ const Province = () => {
     >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
+    
+          
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
+        ><PermissionWrapper
         >
+          <Button onClick={onDownload} title="export" 
+            color="success">
+            <Download />
+            {DEF_ACTIONS.EXPORT}
+          </Button>
+        </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
           >

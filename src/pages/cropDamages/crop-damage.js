@@ -16,10 +16,11 @@ import {
   Vrpano,
   CheckRounded,
   CancelOutlined,
+  Download,
 } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
-import { deleteDamageCategory } from "../../redux/actions/crop/cropDamage/action";
+import { deleteDamageCategory, downloadCropDamageExcel } from "../../redux/actions/crop/cropDamage/action";
 import { Fonts } from "../../utils/constants/Fonts";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
@@ -114,6 +115,13 @@ const CropDamage = () => {
       setLoading(false);
     }
   };
+  const onDownload = async () => {
+    try {
+      await downloadCropDamageExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -189,6 +197,22 @@ const CropDamage = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+          <PermissionWrapper
+            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}

@@ -26,7 +26,7 @@ import DistrictList from "./DistrictList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteDistrict } from "../../../redux/actions/district/action";
+import { deleteDistrict,downloadDistrictExcel } from "../../../redux/actions/district/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
@@ -37,6 +37,7 @@ import {
   Vrpano,
   Search,
   RestartAlt,
+  Download,
 } from "@mui/icons-material";
 
 import { get_ProvinceList } from "../../../redux/actions/province/action";
@@ -191,6 +192,13 @@ const District = () => {
     console.log(selectedProvince);
     setDataEndPoint("geo-data/districts");
   };
+  const onDownload = async () => {
+    try {
+      await downloadDistrictExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div
@@ -212,6 +220,15 @@ const District = () => {
           aria-label="action button group"
           color="success"
         >
+          <PermissionWrapper
+       
+      >
+        <Button onClick={onDownload} title="export" 
+          color="success">
+          <Download />
+          {DEF_ACTIONS.EXPORT}
+        </Button>
+      </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
           >

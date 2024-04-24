@@ -1396,21 +1396,6 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
       {
-        path: "/dd-biweekly-reporting",
-        name: "DD Bi Weekly Reporting",
-        isSideBar: true,
-        element: <DDBiWeeklyReporting />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/dd-biweekly-reporting-form",
-        name: "DD Bi Weekly Reporting Form",
-        isSideBar: false,
-        element: <DDBiWeeklyReportingForm />,
-        icon: SouthAmericaIcon,
-      },
-      {
         path: "/dd-report",
         name: "Aggrigated Report",
         isSideBar: true,

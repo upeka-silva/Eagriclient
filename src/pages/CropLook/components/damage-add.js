@@ -238,7 +238,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
                       type="number"
                       disabled={mode === DEF_ACTIONS.VIEW}
                       variant="outlined"
-                      id="input1"
+                      id={`input1_${index}`}
                       label="10% Extent"
                       value={damageExtent.extent10}
                       onChange={(e) =>
@@ -260,7 +260,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
                       type="number"
                       disabled={mode === DEF_ACTIONS.VIEW}
                       variant="outlined"
-                      id="input2"
+                      id={`input2_${index}`}
                       label="25% Extent"
                       value={damageExtent.extent25}
                       onChange={(e) =>
@@ -282,7 +282,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
                       type="number"
                       disabled={mode === DEF_ACTIONS.VIEW}
                       variant="outlined"
-                      id="input3"
+                      id={`input3_${index}`}
                       label="50% Extent"
                       value={damageExtent.extent50}
                       onChange={(e) =>
@@ -304,7 +304,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
                       type="number"
                       disabled={mode === DEF_ACTIONS.VIEW}
                       variant="outlined"
-                      id="input4"
+                      id={`input4_${index}`}
                       label="75% Extent"
                       value={damageExtent.extent75}
                       onChange={(e) =>
@@ -326,7 +326,7 @@ const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
                       type="number"
                       disabled={mode === DEF_ACTIONS.VIEW}
                       variant="outlined"
-                      id="input5"
+                      id={`input5_${index}`}
                       label="100% Extent"
                       value={damageExtent.extent100}
                       onChange={(e) =>

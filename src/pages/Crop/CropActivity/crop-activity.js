@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   Button,
+  ButtonGroup,
   Table,
   TableBody,
   TableCell,
@@ -21,8 +22,9 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import { Add } from "@mui/icons-material";
+import { Add, Download } from "@mui/icons-material";
 import AddCropActivityDialog from "./add-crop-activity-dialog";
+
 import {
   createCropActivity,
   deleteCropActivity,
@@ -31,6 +33,7 @@ import {
 } from "../../../redux/actions/crop/cropActivity/action";
 import { isEmpty } from "../../../utils/helpers/stringUtils";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
@@ -134,30 +137,67 @@ const CropActivity = () => {
   const close = () => {
     setOpen(false);
   };
+  const onDownload = async () => {
+    try {
+      await downloadCropActivityExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
-    <div>
-      <CustFormHeader
-        saving={saving}
-        state={{ action: "Add" }}
-        formName="Crop Activity"
-      />
-      <PermissionWrapper
-        permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
-      >
-        <Button
-          onClick={() => addCropAction()}
-          color="success"
+    <div
+    style={{
+      display: "flex",
+      flexDirection: "column",
+      fontFamily: `${Fonts.fontStyle1}`,
+      marginTop: "10px",
+      height: "90vh",
+      overflowY: "scroll",
+    }}
+    >
+      <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
+      <ActionWrapper isLeft>
+        <ButtonGroup
           variant="outlined"
+          disableElevation
           size="small"
-          sx={{ marginTop: "20px" }}
+          aria-label="action button group"
+          color="success"
         >
-          <Add />
-          {DEF_ACTIONS.ADD}
-        </Button>
-      </PermissionWrapper>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
+          >
+          <Button
+            onClick={() => addCropAction()}
+            color="success"
+            variant="outlined"
+            size="small"
+            sx={{ marginTop: "20px" }}
+          >
+            <Add />
+            {DEF_ACTIONS.ADD}
+          </Button>
+          </PermissionWrapper>
 
-      {/* )} */}
+        </ButtonGroup>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+          >
+            <Button onClick={onDownload} title="export" 
+              style={
+                {
+                  position: "absolute",
+                  right: "30px",
+                }
+              }
+              color="success">
+              <Download />
+              Export
+              {DEF_ACTIONS.EXPORT}
+            </Button>
+          </PermissionWrapper>  
+      </ActionWrapper>    
 
       <TableContainer sx={{ marginTop: "15px" }}>
         <Table
@@ -222,32 +262,7 @@ const CropActivity = () => {
         handleClose={closeDamageAddDialog}
         formData={formData}
         mode={dialogMode}
-      />
-      {/* <DialogBox
-        open={open}
-        title={`Delete Crop Activity`}
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ mr: "12px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ mr: "8px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-      </DialogBox> */}
+      />      
       <ConfirmationDialog
         open={open}
         title="Do you want to delete?"

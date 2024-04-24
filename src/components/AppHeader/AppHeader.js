@@ -231,7 +231,7 @@ const AppHeader = () => {
               variant="subtitle1"
               sx={{ marginTop: "0px !important" }}
             >
-              Extension Officer | Colombo
+              {user?.userType} | Colombo
             </Typography>
             <Stack direction="row" spacing={2}>
               <Button
