@@ -66,14 +66,12 @@ const GnDivisionForm = () => {
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
-  const [open, setOpen] = useState(false);
   const [mahaweliUnitList, setMahaweliUnitList] = useState([]);
   const [dsDivisionList, setDsDivisionList] = useState([]);
   const [agroEcoList, setAgroEcoList] = useState([]);
 
   const [aiRegionList, setAiRegionList] = useState([]);
   const [arpaList, setArpaList] = useState([]);
-  const [dsOptions, setDsOptions] = useState([]);
   const [districs, setDistrics] = useState([]);
   const [dsDivisions, setDsDivisions] = useState([]);
   const [provinces, setProvinces] = useState([]);
@@ -127,6 +125,7 @@ const GnDivisionForm = () => {
   const [doaType, setDoaType] = useState("");
 
   const [aiRegions, setAiRegions] = useState([]);
+  const [intAiRegions, setItAiRegions] = useState([]);
   const [selectedAiRegion, setSelectedAiRegion] = useState({
     regionId: "",
     description: "",
@@ -509,7 +508,7 @@ const GnDivisionForm = () => {
     if (doaType === "INTER_PROVINCIAL") {
       get_InterProvincialAILovByAdaId(value.id).then(({ dataList = [] }) => {
         console.log(dataList);
-        setAiRegions(dataList);
+        setItAiRegions(dataList);
       });
     }
   };
@@ -908,7 +907,7 @@ const GnDivisionForm = () => {
                 <Autocomplete
                   disabled={selectedAda?.id == null}
                   options={aiRegions}
-                  value={formData.aiRegionsDTO || selectedAiRegion}
+                  value={formData?.aiRegionsDTO || selectedAiRegion}
                   getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
                   onChange={(event, value) => {
                     console.log(value);
@@ -1053,12 +1052,12 @@ const GnDivisionForm = () => {
                 <FieldName>AI Region</FieldName>
                 <Autocomplete
                   disabled={selectedInterProAda?.id == null}
-                  options={aiRegions}
-                  value={formData.aiRegionsDTO || selectedAiRegion}
+                  options={intAiRegions}
+                  value={formData?.intAiRegionsDTO || selectedAiRegion}
                   getOptionLabel={(i) => `${i?.regionId} - ${i?.description}`}
                   onChange={(event, value) => {
                     console.log(value);
-                    handleChange(value, "aiRegionsDTO");
+                    handleChange(value, "intAiRegionsDTO");
                     handleChange("INTER_PROVINCIAL", "gnDivisionType");
                   }}
                   fullWidth
