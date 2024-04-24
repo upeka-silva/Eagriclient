@@ -21,14 +21,10 @@ const Dashboard = () => {
 
   const [selectCropCategory, setSelectCropCategory] = useState({ id: 1 });
   const [cropCategory, setCropCategory] = useState([]);
-;
-
   const cropCategoryChipHandleClick = async (chipLabel) => {
     setSelectCropCategory(chipLabel);
     console.info("You clicked the Chip: ", chipLabel);
   };
-
- 
 
   useEffect(() => {
     const fetchCropCategoryData = async () => {
@@ -37,8 +33,6 @@ const Dashboard = () => {
     };
     fetchCropCategoryData();
   }, []);
-
-  
 
   const series = [11, 2, 2, 2, 7];
   const optionss = {
@@ -208,6 +202,9 @@ const Dashboard = () => {
     },
   };
 
+  const ulrString =
+    "http://localhost:8080/api/v1/map/get-district-features?object=1-1,1-2,1-3";
+
   return (
     <div
       style={{
@@ -218,16 +215,16 @@ const Dashboard = () => {
         //width:"10px",
         overflowY: "scroll",
         //scrollbarColor: '#52C41A #F1F1F1',
-        scrollbarWidth: 'none',
-        '&::-webkit-scrollbar': {
-          width: '1px !important', // Change this to adjust the width of the scrollbar
+        scrollbarWidth: "none",
+        "&::-webkit-scrollbar": {
+          width: "1px !important", // Change this to adjust the width of the scrollbar
           //display: 'none'
         },
-        '&::-webkit-scrollbar-track': {
-          background: '#F1F1F1',
+        "&::-webkit-scrollbar-track": {
+          background: "#F1F1F1",
         },
-        '&::-webkit-scrollbar-thumb': {
-          background: '#52C41A',
+        "&::-webkit-scrollbar-thumb": {
+          background: "#52C41A",
         },
       }}
     >
@@ -330,34 +327,28 @@ const Dashboard = () => {
             </Grid>
           </Grid>
 
-          <Grid
-            item
-            sm={12}
-            md={4}
-            lg={4}
-          >
-            <SriLankaMap />
+          <Grid item sm={12} md={4} lg={4}>
+            <SriLankaMap ulrString={ulrString} />
           </Grid>
         </Grid>
         <Grid container spacing={4} sx={{ marginTop: "2px" }}>
           <Grid item sm={12} md={2} lg={2}></Grid>
           <Grid item md={10} lg={10}>
             <Grid
-            sx={{
-              borderRadius: "15px",
+              sx={{
+                borderRadius: "15px",
                 boxShadow: "0px 2px 2px rgba(0, 0, 0, 0.25)",
                 border: "1.5px solid #c0c9c0",
                 backgroundColor: "#87C5AA",
-            }}
+              }}
             >
-            <ReactApexChart
-              options={barChartOptions}
-              series={seriesBar}
-              type="bar"
-              height={380}
-            />
+              <ReactApexChart
+                options={barChartOptions}
+                series={seriesBar}
+                type="bar"
+                height={380}
+              />
             </Grid>
-            
           </Grid>
         </Grid>
       </Grid>

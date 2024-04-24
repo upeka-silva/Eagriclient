@@ -3,8 +3,10 @@ import { loadModules } from "esri-loader";
 import "./style.css";
 import { get_map } from "../../redux/actions/farmer/action";
 
-const SriLankaMap = () => {
+const SriLankaMap = ({ulrString}) => {
   const mapRef = useRef(null);
+
+  const baseURL = ulrString ? ulrString : ""
 
   useEffect(() => {
     let map;
@@ -31,16 +33,16 @@ const SriLankaMap = () => {
           });
 
           // const url = get_map;
-          const url =
-            "http://localhost:8080/api/v1/map/get-district-features?object=1-1, 2-1, 3-1, 4-1, 5-1, 6-1";
+          
+            
 
           const geojsonLayer = new GeoJSONLayer({
-            url: url,
+            url: baseURL,
             renderer: {
               type: "simple",
               symbol: {
                 type: "simple-fill",
-                color: [0, 255, 0, 0.6],
+                color: [255, 0, 0, 0.5],
                 outline: {
                   color: [0, 0, 0, 0.6],
                   width: 0.5,
