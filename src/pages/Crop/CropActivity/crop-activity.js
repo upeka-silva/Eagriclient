@@ -24,7 +24,7 @@ import AddCropActivityDialog from "./add-crop-activity-dialog";
 import { createCropActivity, deleteCropActivity, downloadCropActivityExcel, getAllCropActivity, updateCropActivity } from "../../../redux/actions/crop/cropActivity/action";
 import { isEmpty } from "../../../utils/helpers/stringUtils";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
@@ -141,6 +141,7 @@ const CropActivity = () => {
     }}
     >
       <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
+      <ExportButton/>
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -165,23 +166,6 @@ const CropActivity = () => {
           </PermissionWrapper>
 
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
-        
 
       </ActionWrapper>
       

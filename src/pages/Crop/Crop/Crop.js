@@ -28,6 +28,7 @@ import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteCrop, downloadCropExcel } from "../../../redux/actions/crop/crop/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -167,6 +168,7 @@ const Crop = () => {
     }}
     >
       <ListHeader title="Crop" />
+      <ExportButton/>
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -174,15 +176,7 @@ const Crop = () => {
           size="small"
           aria-label="action button group"
           color="success"
-        > <PermissionWrapper
-        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-      >
-        <Button onClick={onDownload} title="export" 
-          color="success">
-          <Download />
-          {DEF_ACTIONS.EXPORT}
-        </Button>
-      </PermissionWrapper>
+        > 
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
           >

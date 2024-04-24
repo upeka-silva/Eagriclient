@@ -26,6 +26,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const CropVariety = () => {
   useUserAccessValidation();
@@ -165,6 +166,7 @@ const CropVariety = () => {
     }}
     >
       <ListHeader title="Crop Variety" />
+      <ExportButton/>
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -200,22 +202,7 @@ const CropVariety = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+         
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_VARIETY}`}

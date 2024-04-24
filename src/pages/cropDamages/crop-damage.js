@@ -22,6 +22,7 @@ import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import { deleteDamageCategory, downloadCropDamageExcel } from "../../redux/actions/crop/cropDamage/action";
 import { Fonts } from "../../utils/constants/Fonts";
+import ExportButton from "../../components/ExportButton/ExportButton";
 
 const CropDamage = () => {
   useUserAccessValidation();
@@ -131,6 +132,7 @@ const CropDamage = () => {
     }}
     >
       <ListHeader title="Crop Damages" />
+      <ExportButton/>
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -193,22 +195,7 @@ const CropDamage = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+         
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}

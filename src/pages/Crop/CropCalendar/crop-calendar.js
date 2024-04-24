@@ -25,6 +25,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropCalendarList from "./crop-calendar-list";
 import { deleteCropCalendar, downloadCropCalendarExcel } from "../../../redux/actions/crop/cropCalendar/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const CropCalendar = () => {
   useUserAccessValidation();
@@ -136,6 +137,7 @@ const CropCalendar = () => {
     }}
     >
       <ListHeader title="Crop Calendar" />
+      <ExportButton/>
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -198,22 +200,7 @@ const CropCalendar = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+        
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CALENDAR}`}
