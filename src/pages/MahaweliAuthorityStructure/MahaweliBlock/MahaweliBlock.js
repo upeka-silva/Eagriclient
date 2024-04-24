@@ -24,13 +24,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import ListHeader from "../../../components/ListHeader/ListHeader";
@@ -41,7 +35,7 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliBlockList from "./MahaweliBlockList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
-
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const MahaweliBlock = () => {
   useUserAccessValidation();
@@ -55,6 +49,9 @@ const MahaweliBlock = () => {
 
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/mahaweli-blocks");
   const [selectedMahaweliBlocks, setSelectedMahaweliBlocks] = useState([]);
+  const [dialogSelectedMahaweliBlocks, setDialogSelectedMahaweliBlocks] =
+    useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [mahaweliAuthorities, setMahaweliAuthorities] = useState([]);
@@ -118,14 +115,16 @@ const MahaweliBlock = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedMahaweliBlocks(selectedMahaweliBlocks);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedMahaweliBlocks([]);
   };
 
   const getFilteredData = (selectedSystem) => {
-    console.log("selectedSys",selectedSystem)
+    console.log("selectedSys", selectedSystem);
     setDataEndPoint(
       `geo-data/mahaweli-blocks/mahaweli-system/` + selectedSystem?.id
     );
@@ -172,7 +171,7 @@ const MahaweliBlock = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const block of selectedMahaweliBlocks) {
+      for (const block of dialogSelectedMahaweliBlocks) {
         await deleteMahaweliBlock(block.id, onSuccess, onError);
       }
       setLoading(false);
@@ -184,14 +183,10 @@ const MahaweliBlock = () => {
     }
   };
 
-  
-
   useEffect(() => {
     get_MahaweliSystemList().then(({ dataList = [] }) => {
-      
       setMahaweliSystems(dataList);
     });
-    
   }, []);
 
   const resetFilter = () => {
@@ -206,31 +201,31 @@ const MahaweliBlock = () => {
     setDataEndPoint("geo-data/mahaweli-blocks");
   };
 
-  const handleSearch = (searchText="") => {
+  const handleSearch = (searchText = "") => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=') && searchText) {
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=") && searchText) {
       url = url.replace(/searchText=[^&]+/, searchTextParam);
-  } else if (url.includes('searchText=') && !searchText) {
-    url = url.replace(/searchText=[^&]+/, "");
-  } else {
-    url += (url.includes('?') ? '&' : '?') + searchTextParam;
-  }
+    } else if (url.includes("searchText=") && !searchText) {
+      url = url.replace(/searchText=[^&]+/, "");
+    } else {
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
+    }
 
     setDataEndPoint(url);
   };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Mahaweli Block" />
       <ActionWrapper isLeft>
@@ -316,12 +311,10 @@ const MahaweliBlock = () => {
             <FieldWrapper>
               <FieldName>Select Mahaweli System</FieldName>
               <Autocomplete
-                
                 options={mahaweliSystems}
                 value={selectedSystem}
                 getOptionLabel={(i) => `${i?.systemId} - ${i?.description}`}
                 onChange={(event, value) => {
-                  
                   setSelectedSystem(value);
                   getFilteredData(value);
                 }}
@@ -369,36 +362,18 @@ const MahaweliBlock = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedMahaweliBlocks}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedMahaweliBlocks}
+        dialogSelectedTypes={dialogSelectedMahaweliBlocks}
+        propertyId="code"
+        propertyDescription="description"
+      />
     </div>
   );
 };

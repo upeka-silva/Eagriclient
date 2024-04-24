@@ -18,6 +18,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ProtectedHouseTypeList from "./ProtectedHouseTypeList";
 import DeleteDialog from "../../components/DeleteDialog/DeleteDialog";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProtectedHouseType = () => {
   useUserAccessValidation();
@@ -32,10 +33,11 @@ const ProtectedHouseType = () => {
   const [dataEndPoint, setDataEndPoint] = useState({
     protectedHouseType: "protected-house-types",
   });
+  const [selectedProtectedHouseType, setSelectedProtectedHouseType] = useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const [selectedProtectedHouseType, setSelectedProtectedHouseType] = useState([]);
+  const [dialogSelectedProtectedHouseType, setDialogSelectedProtectedHouseType] = useState([]);
 
   const toggleProtectedHouseTypeSelect = (component) => {
     setSelectedProtectedHouseType((current = []) => {
@@ -87,10 +89,13 @@ const ProtectedHouseType = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProtectedHouseType(selectedProtectedHouseType);
+
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProtectedHouseType([]);
   };
 
   const onSuccess = () => {
@@ -110,7 +115,7 @@ const ProtectedHouseType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialAI of selectedProtectedHouseType) {
+      for (const provincialAI of dialogSelectedProtectedHouseType) {
         await deleteProtectedHousType(provincialAI.id, onSuccess, onError);
       }
       setLoading(false);
@@ -196,14 +201,17 @@ const ProtectedHouseType = () => {
           />
         )}
       </PermissionWrapper>
-      <DeleteDialog
+      <ConfirmationDialog
         open={open}
+        title="Do you want to delete?"
+        items={selectedProtectedHouseType}
+        loading={loading}
         onClose={onClose}
         onConfirm={onConfirm}
-        title="Delete Protected House Type"
-        content="Are you sure you want to delete the selected Protected House Type?"
-        loading={loading}
-        selectedProtectedHouseType={selectedProtectedHouseType}
+        setDialogSelectedTypes={setDialogSelectedProtectedHouseType}
+        dialogSelectedTypes={dialogSelectedProtectedHouseType}
+        propertyId="typeId"
+        propertyDescription="description"
       />
     </div>
   );

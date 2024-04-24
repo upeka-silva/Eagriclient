@@ -24,26 +24,18 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import {
-  Add,
-  Delete,
-  Edit,
-  RestartAlt,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import {
-  get_ProvincialDoaList
-} from "../../../redux/actions/ProvincialDoa/action";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
 import { deleteProvincialAda } from "../../../redux/actions/provincialAda/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialAdaList from "./ProvicialAdaList";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProvincialAda = () => {
   useUserAccessValidation();
@@ -59,6 +51,8 @@ const ProvincialAda = () => {
     "geo-data/provincial-ada-segments"
   );
   const [selectedProvincialAda, setSelectedProvincialAda] = useState([]);
+  const [dialogSelectedprovincialAda, setDialogSelectedprovincialAda] =
+    useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [doas, setDoas] = useState([]);
@@ -122,10 +116,12 @@ const ProvincialAda = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedprovincialAda(selectedProvincialAda);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedprovincialAda([]);
   };
 
   const renderSelectedItems = () => {
@@ -169,7 +165,7 @@ const ProvincialAda = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialAda of selectedProvincialAda) {
+      for (const provincialAda of dialogSelectedprovincialAda) {
         await deleteProvincialAda(provincialAda.id, onSuccess, onError);
       }
       setLoading(false);
@@ -210,23 +206,23 @@ const ProvincialAda = () => {
     setDataEndPoint("geo-data/provincial-ada-segments");
   };
 
-  const getDDOAS = (id)=>{
-     get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
+  const getDDOAS = (id) => {
+    get_ProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setDdoas(dataList);
-    })
-  }
+    });
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Provincial ADA Segments" />
       <ActionWrapper isLeft>
@@ -295,7 +291,7 @@ const ProvincialAda = () => {
                   setSelectedDoa(value);
                   setSelectedDdoa({ provincialDdId: "", description: "" });
                   // setDdoas(value.provincialDeputyDirectorLevelList);
-                  getDDOAS(value.id)
+                  getDDOAS(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -370,36 +366,18 @@ const ProvincialAda = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialAda}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedprovincialAda}
+        dialogSelectedTypes={dialogSelectedprovincialAda}
+        propertyId="provinceSegmentId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

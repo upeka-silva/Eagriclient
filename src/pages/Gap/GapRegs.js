@@ -26,18 +26,18 @@ import { Fonts } from "../../utils/constants/Fonts";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import { getUserPermissionByComponent } from "../../utils/helpers/permission";
 import AccessDeniedMsg from "../../components/AccessDeniedMsg/AccessDeniedMsg";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const GapRegs = () => {
   useUserAccessValidation();
-  
-  useEffect(()=>{
-    getUserPermissionByComponent('GAP_REQUEST').then((p)=>{
-        if(!p.isEnabled){
-          setPermission(false)
-        }
-    })
-  },[])
 
+  useEffect(() => {
+    getUserPermissionByComponent("GAP_REQUEST").then((p) => {
+      if (!p.isEnabled) {
+        setPermission(false);
+      }
+    });
+  }, []);
 
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -45,8 +45,10 @@ const GapRegs = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectGapReq, setSelectGapReq] = useState([]);
+  const [dialogSelectGapReq, setDialogSelectGapReq] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [permission,setPermission] = useState(true)
+  const [permission, setPermission] = useState(true);
 
   const toggleUsersSelect = (component) => {
     setSelectGapReq((current = []) => {
@@ -96,10 +98,12 @@ const GapRegs = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectGapReq(selectGapReq);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectGapReq([]);
   };
 
   const renderSelectedItems = () => {
@@ -142,7 +146,7 @@ const GapRegs = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const gapRequest of selectGapReq) {
+      for (const gapRequest of dialogSelectGapReq) {
         await deleteGapRequest(gapRequest?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -156,14 +160,14 @@ const GapRegs = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <Typography
         variant="h6"
@@ -174,9 +178,7 @@ const GapRegs = () => {
         Gap Registration
       </Typography>
 
-      {
-        permission == false && <AccessDeniedMsg/>
-      }
+      {permission == false && <AccessDeniedMsg />}
 
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -238,35 +240,19 @@ const GapRegs = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
-        title="Delete Gap Request"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectGapReq}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectGapReq}
+        dialogSelectedTypes={dialogSelectGapReq}
+        propertyId="formType"
+        propertyDescription="formDescription"
+      />
     </div>
   );
 };

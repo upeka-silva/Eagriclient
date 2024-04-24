@@ -34,6 +34,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { useSelector } from "react-redux";
 import { Fonts } from "../../utils/constants/Fonts";
 import SearchBox from "../../components/SearchBox/SearchBox";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Users = () => {
   useUserAccessValidation();
@@ -44,6 +45,7 @@ const Users = () => {
   const [open, setOpen] = useState(false);
   const [openPasswordReset, setOpenPasswordReset] = useState(false);
   const [selectUsers, setSelectUsers] = useState([]);
+  const [dialogSelectUsers, setDialogSelectUsers] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [dataUrl, setDataUrl] = useState("user-manage/users");
 
@@ -138,10 +140,12 @@ const Users = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectUsers(selectUsers);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectUsers([]);
   };
 
   const handleChangeUserStatus = () => {
@@ -203,7 +207,7 @@ const Users = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const users of selectUsers) {
+      for (const users of dialogSelectUsers) {
         await deleteUsers(users?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -217,15 +221,15 @@ const Users = () => {
 
   const handleSearch = (searchText) => {
     let url = dataUrl;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-  if (url.includes('searchText=') && searchText) {
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=") && searchText) {
       url = url.replace(/searchText=[^&]+/, searchTextParam);
-  } else if (url.includes('searchText=') && !searchText) {
-    url = url.replace(/searchText=[^&]+/, "");
-  } else {
-    url += (url.includes('?') ? '&' : '?') + searchTextParam;
-  }
+    } else if (url.includes("searchText=") && !searchText) {
+      url = url.replace(/searchText=[^&]+/, "");
+    } else {
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
+    }
 
     setDataUrl(url);
   };
@@ -326,36 +330,19 @@ const Users = () => {
           </>
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
-        title="Delete Application Users"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectUsers}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectUsers}
+        dialogSelectedTypes={dialogSelectUsers}
+        propertyId="firstName"
+        propertyDescription="lastName"
+      />
 
       {openPasswordReset && selectUsers[0]?.email ? (
         <PasswordChangeDialog

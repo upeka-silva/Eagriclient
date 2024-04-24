@@ -27,8 +27,9 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader"
+import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const AgroEco = () => {
   useUserAccessValidation();
@@ -36,6 +37,7 @@ const AgroEco = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [selectedAgroEco, setSelectedAgroEco] = useState([]);
+  const [dilogSelectedAgroEco, setDialogSelectedAgroEco] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [open, setOpen] = useState(false);
   const { addSnackBar } = useSnackBars();
@@ -104,12 +106,13 @@ const AgroEco = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedAgroEco(selectedAgroEco);
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const agro of selectedAgroEco) {
+      for (const agro of dilogSelectedAgroEco) {
         await deleteAgroEco(agro?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -123,6 +126,7 @@ const AgroEco = () => {
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedAgroEco([]);
   };
 
   const renderSelectedItems = () => {
@@ -150,14 +154,14 @@ const AgroEco = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Agro Eco Zone" />
       <ActionWrapper isLeft>
@@ -171,27 +175,39 @@ const AgroEco = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
           >
-            <Button onClick={onCreate}><Add/>{DEF_ACTIONS.ADD}</Button>
+            <Button onClick={onCreate}>
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
           </PermissionWrapper>
           {selectedAgroEco.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
             >
-              <Button onClick={onEdit}><Edit/>{DEF_ACTIONS.EDIT}</Button>
+              <Button onClick={onEdit}>
+                <Edit />
+                {DEF_ACTIONS.EDIT}
+              </Button>
             </PermissionWrapper>
           )}
           {selectedAgroEco.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
             >
-              <Button onClick={onView}><Vrpano/>{DEF_ACTIONS.VIEW}</Button>
+              <Button onClick={onView}>
+                <Vrpano />
+                {DEF_ACTIONS.VIEW}
+              </Button>
             </PermissionWrapper>
           )}
           {selectedAgroEco.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}
             >
-              <Button onClick={onDelete}><Delete/>{DEF_ACTIONS.DELETE}</Button>
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -208,36 +224,18 @@ const AgroEco = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Agro ECO Zone"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedAgroEco}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedAgroEco}
+        dialogSelectedTypes={dilogSelectedAgroEco}
+        propertyId="aeZoneId"
+        propertyDescription="name"
+      />
     </div>
   );
 };

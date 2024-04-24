@@ -48,6 +48,7 @@ import { get_InterProvincialDoaList } from "../../../redux/actions/interProvinci
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -63,6 +64,8 @@ const InterProvincialAiRegion = () => {
     "geo-data/ai-region/get-by-parent/INTER_PROVINCIAL"
   );
   const [selectedProvincialAI, setSelectedProvincialAI] = useState([]);
+  const [dialogSelectedProvincialAI, setDialogSelectedProvincialAI] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [doas, setDoas] = useState([]);
@@ -144,10 +147,12 @@ const InterProvincialAiRegion = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialAI(selectedProvincialAI);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialAI([]);
   };
 
   useEffect(() => {
@@ -231,7 +236,7 @@ const InterProvincialAiRegion = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialAI of selectedProvincialAI) {
+      for (const provincialAI of dialogSelectedProvincialAI) {
         await deleteProvincialAI(provincialAI.id, onSuccess, onError);
       }
       setLoading(false);
@@ -420,36 +425,18 @@ const InterProvincialAiRegion = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialAI}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialAI}
+        dialogSelectedTypes={dialogSelectedProvincialAI}
+        propertyId = "regionId"
+        propertyDescription = "description"
+      />
     </div>
   );
 };

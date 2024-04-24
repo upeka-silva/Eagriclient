@@ -29,6 +29,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Role = () => {
   useUserAccessValidation();
@@ -36,6 +37,8 @@ const Role = () => {
   const { addSnackBar } = useSnackBars();
 
   const [selectedRole, setSelectedRole] = useState([]);
+  const [dialogSelectedRole, setDialogSelectedRole] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [open, setOpen] = useState(false);
@@ -79,12 +82,13 @@ const Role = () => {
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedRole([]);
   };
 
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const ai of selectedRole) {
+      for (const ai of dialogSelectedRole) {
         await deleteRole(ai?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -142,6 +146,7 @@ const Role = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedRole(selectedRole)
   };
 
   return (
@@ -218,36 +223,18 @@ const Role = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Roles"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedRole}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedRole}
+        dialogSelectedTypes={dialogSelectedRole}
+        propertyId="code"
+        propertyDescription="name"
+      />
     </div>
   );
 };

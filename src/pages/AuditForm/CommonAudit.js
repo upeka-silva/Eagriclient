@@ -26,6 +26,7 @@ import { deleteAuditForm } from "../../redux/actions/auditForm/action";
 import { components } from "react-select";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CommonAudit = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -35,31 +36,33 @@ const CommonAudit = ({ auditFormType = "" }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectAuditForm, setSelectAuditForm] = useState([]);
+  const [dialogSelectAuditForm, setDialogSelectAuditForm] = useState([]);
+
   const [selectedQuestions, setSelectedQuestions] = useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   let uRIPath = "";
   let formHeader = "";
-  let component = ""
+  let component = "";
 
   const populateAttributes = () => {
     if (auditFormType === "SELF_ASSESSMENT") {
       uRIPath = "self-assessment-form";
       formHeader = "Self Assessment Form";
-      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE;
     } else if (auditFormType === "INTERNAL_AUDIT") {
       uRIPath = "internal-audit-form";
       formHeader = "Internal Audit Form";
-      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE;
     } else if (auditFormType === "EXTERNAL_AUDIT") {
       uRIPath = "external-audit-form";
       formHeader = "Final Audit Form";
-      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE;
     } else if (auditFormType === "BASIC_ASSESSMENT") {
       uRIPath = "basic-assessment-form";
       formHeader = "Basic Assessment Form";
-      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE
+      component = DEF_COMPONENTS.QUESTIONS_FORM_TEMPLATE;
     }
   };
 
@@ -120,10 +123,12 @@ const CommonAudit = ({ auditFormType = "" }) => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectAuditForm(selectAuditForm);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectAuditForm([]);
   };
 
   const renderSelectedItems = () => {
@@ -166,7 +171,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const auditForm of selectAuditForm) {
+      for (const auditForm of dialogSelectAuditForm) {
         await deleteAuditForm(auditForm?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -180,14 +185,14 @@ const CommonAudit = ({ auditFormType = "" }) => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title={formHeader} />
       <ActionWrapper isLeft>
@@ -198,60 +203,42 @@ const CommonAudit = ({ auditFormType = "" }) => {
           aria-label="action button group"
           color="success"
         >
-
-
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_` + component}
-          >
-
+          <PermissionWrapper permission={`${DEF_ACTIONS.ADD}_` + component}>
             <Button onClick={onCreate}>
               <Add />
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
           {selectAuditForm.length === 1 && (
-
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_` + component}
-            >
-
+            <PermissionWrapper permission={`${DEF_ACTIONS.EDIT}_` + component}>
               <Button onClick={onEdit}>
                 <Edit />
                 {DEF_ACTIONS.EDIT}
               </Button>
-             </PermissionWrapper>
+            </PermissionWrapper>
           )}
           {selectAuditForm.length === 1 && (
-
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_` + component}
-            >
-
+            <PermissionWrapper permission={`${DEF_ACTIONS.VIEW}_` + component}>
               <Button onClick={onView}>
                 <Vrpano />
                 {DEF_ACTIONS.VIEW}
               </Button>
-             </PermissionWrapper>
+            </PermissionWrapper>
           )}
           {selectAuditForm.length > 0 && (
-
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_` + component}
             >
-
               <Button onClick={onDelete}>
                 <Delete />
                 {DEF_ACTIONS.DELETE}
               </Button>
-             </PermissionWrapper>
+            </PermissionWrapper>
           )}
         </ButtonGroup>
       </ActionWrapper>
 
-      <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_` + component}
-      >
-
+      <PermissionWrapper permission={`${DEF_ACTIONS.VIEW_LIST}_` + component}>
         {loading === false && (
           <CommonAuditList
             pathParm={auditFormType}
@@ -262,36 +249,18 @@ const CommonAudit = ({ auditFormType = "" }) => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title={`Delete ${formHeader}`}
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectAuditForm}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectAuditForm}
+        dialogSelectedTypes={dialogSelectAuditForm}
+        propertyId = "soilTypeCode"
+        propertyDescription = "description"
+      />
     </div>
   );
 };

@@ -22,6 +22,7 @@ import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import { deleteDamageCategory, downloadCropDamageExcel } from "../../redux/actions/crop/cropDamage/action";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropDamage = () => {
   useUserAccessValidation();
@@ -31,6 +32,7 @@ const CropDamage = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [dialogSelectedCropDamage, setDialogSelectedCropDamage] = useState([]);
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -77,10 +79,12 @@ const CropDamage = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCropDamage(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCropDamage([]);
   };
 
   const onSuccess = () => {
@@ -100,7 +104,7 @@ const CropDamage = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const subCat of selectSubCategory) {
+      for (const subCat of dialogSelectedCropDamage) {
         await deleteDamageCategory(subCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -121,14 +125,14 @@ const CropDamage = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Damages" />
       <ActionWrapper isLeft>
@@ -223,7 +227,7 @@ const CropDamage = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      {/* <DialogBox
         open={open}
         title="Do You Want to Delete?"
         actions={
@@ -246,7 +250,20 @@ const CropDamage = () => {
           </ActionWrapper>
         }
       >
-      </DialogBox>
+      </DialogBox> */}
+
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCropDamage}
+        dialogSelectedTypes={dialogSelectedCropDamage}
+        propertyId="name"
+        propertyDescription="description"
+      />
     </div>
   );
 };
