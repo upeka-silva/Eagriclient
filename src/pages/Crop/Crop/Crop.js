@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import CropList from "./CropList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -24,10 +25,11 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano,Download } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { deleteCrop, downloadCropExcel } from "../../../redux/actions/crop/crop/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Crop = () => {
@@ -160,7 +162,7 @@ const Crop = () => {
       console.error(error);
     }
   };
-
+  
   return (
     <div
       style={{
@@ -174,21 +176,15 @@ const Crop = () => {
     >
       <ListHeader title="Crop" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
-        > <PermissionWrapper
-        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-      >
-        <Button onClick={onDownload} title="export" 
-          color="success">
-          <Download />
-          {DEF_ACTIONS.EXPORT}
-        </Button>
-      </PermissionWrapper>
+        > 
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
           >
@@ -228,7 +224,7 @@ const Crop = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-         
+         </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}

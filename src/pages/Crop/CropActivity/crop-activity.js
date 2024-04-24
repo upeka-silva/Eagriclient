@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   Button,
   ButtonGroup,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -35,7 +36,7 @@ import {
 import { isEmpty } from "../../../utils/helpers/stringUtils";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
@@ -148,57 +149,48 @@ const CropActivity = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <CustFormHeader saving={saving} state={{action:'Add'}} formName="Crop Activity" />
-      <ActionWrapper isLeft>
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
-          >
-          <Button
-            onClick={() => addCropAction()}
-            color="success"
-            variant="outlined"
-            size="small"
-            sx={{ marginTop: "20px" }}
-          >
-            <Add />
-            {DEF_ACTIONS.ADD}
-          </Button>
-          </PermissionWrapper>
+      <CustFormHeader
+        saving={saving}
+        state={{ action: "Add" }}
+        formName="Crop Activity"
+      />
 
-        </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+      <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>  
-      </ActionWrapper>    
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
+            >
+              <Button
+                onClick={() => addCropAction()}
+                color="success"
+                variant="outlined"
+                size="small"
+                aria-label="action button group"
+              >
+                <Add />
+                {DEF_ACTIONS.ADD}
+              </Button>
+            </PermissionWrapper>
+          </ButtonGroup>
+        </Stack>
+      </ActionWrapper>
 
       <TableContainer sx={{ marginTop: "15px" }}>
         <Table

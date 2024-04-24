@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, ButtonGroup } from "@mui/material";
+import { Button, ButtonGroup, Stack } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
@@ -22,6 +22,7 @@ import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import { deleteDamageCategory, downloadCropDamageExcel } from "../../redux/actions/crop/cropDamage/action";
 import { Fonts } from "../../utils/constants/Fonts";
+import ExportButton from "../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropDamage = () => {
@@ -136,6 +137,8 @@ const CropDamage = () => {
     >
       <ListHeader title="Crop Damages" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -197,22 +200,7 @@ const CropDamage = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+         </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
