@@ -178,7 +178,7 @@ const CropCategory = () => {
       <ListHeader title="Crop Category" />
       <ActionWrapper isLeft>
       <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton/>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation

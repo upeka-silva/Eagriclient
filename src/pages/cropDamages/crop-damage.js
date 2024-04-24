@@ -134,7 +134,7 @@ const CropDamage = () => {
       <ListHeader title="Crop Damages" />
       <ActionWrapper isLeft>
       <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton/>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation

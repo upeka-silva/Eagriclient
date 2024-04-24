@@ -159,7 +159,7 @@ const CropDisease = () => {
       <ListHeader title="Crop Disease" />
       <ActionWrapper isLeft>
       <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton/>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation

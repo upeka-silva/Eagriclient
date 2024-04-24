@@ -8,7 +8,8 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Stack
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -28,7 +29,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ProvinceList from "./ProvinceList";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const Province = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -172,8 +173,8 @@ const Province = () => {
     >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
-    
-          
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -182,11 +183,6 @@ const Province = () => {
           color="success"
         ><PermissionWrapper
         >
-          <Button onClick={onDownload} title="export" 
-            color="success">
-            <Download />
-            {DEF_ACTIONS.EXPORT}
-          </Button>
         </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
@@ -227,6 +223,7 @@ const Province = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}

@@ -180,7 +180,7 @@ const CropSubCategory = () => {
       <ListHeader title="Crop Sub Category" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1}>
-          <ExportButton />
+          <ExportButton onDownload={onDownload} />
           <ButtonGroup
             variant="outlined"
             disableElevation

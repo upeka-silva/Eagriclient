@@ -14,6 +14,7 @@ import {
   TextField,
   Box,
   Grid,
+  Stack,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -45,7 +46,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const District = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -209,6 +210,8 @@ const District = () => {
     >
       <ListHeader title="District" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -216,14 +219,9 @@ const District = () => {
           aria-label="action button group"
           color="success"
         >
-          <PermissionWrapper
-       
+          <PermissionWrapper  
       >
-        <Button onClick={onDownload} title="export" 
-          color="success">
-          <Download />
-          {DEF_ACTIONS.EXPORT}
-        </Button>
+
       </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DISTRICT}`}
@@ -264,6 +262,7 @@ const District = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
