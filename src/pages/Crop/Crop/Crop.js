@@ -174,7 +174,15 @@ const Crop = () => {
           size="small"
           aria-label="action button group"
           color="success"
-        >
+        > <PermissionWrapper
+        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+      >
+        <Button onClick={onDownload} title="export" 
+          color="success">
+          <Download />
+          {DEF_ACTIONS.EXPORT}
+        </Button>
+      </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
           >
@@ -214,22 +222,7 @@ const Crop = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+         
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}
