@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Box, Card, Chip, Grid, Typography, useTheme } from "@mui/material";
+import {
+  Autocomplete,
+  Box,
+  Card,
+  Chip,
+  Grid,
+  InputBase,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import ChartOne from "./ChartOne";
 import ChartTwo from "./ChartTwo";
@@ -12,6 +21,8 @@ import SriLankaMap from "../../components/ArcGisMap/SriLankaMap";
 import { getConfigurationById } from "../../redux/actions/cropLook/cropConfiguration/action";
 import { Chart } from "react-google-charts";
 import ReactApexChart from "react-apexcharts";
+import { getCropLookSeasons } from "../../redux/actions/cropLook/biWeekReporting/actions";
+import { getIrrigationModeProgress } from "../../redux/actions/cropLook/irrigationMode/action";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -21,6 +32,13 @@ const Dashboard = () => {
 
   const [selectCropCategory, setSelectCropCategory] = useState({ id: 1 });
   const [cropCategory, setCropCategory] = useState([]);
+  const [allCropLookSeason, setAllCropLookSeason] = useState([]);
+  const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
+
+  console.log({ allIrrigationModeData });
+  const [selectCropLookSeason, setCropLookSeason] = useState();
+  console.log({ selectCropCategory });
+
   const cropCategoryChipHandleClick = async (chipLabel) => {
     setSelectCropCategory(chipLabel);
     console.info("You clicked the Chip: ", chipLabel);
@@ -31,10 +49,131 @@ const Dashboard = () => {
       const { dataList } = await get_CategoryList();
       setCropCategory(dataList);
     };
+    const fetchCropLookSeasons = async () => {
+      await getCropLookSeasons().then((res) => {
+        setAllCropLookSeason(res?.dataList);
+        console.log("crpdata", res?.dataList);
+      });
+    };
+
     fetchCropCategoryData();
+    fetchCropLookSeasons();
   }, []);
 
-  const series = [11, 2, 2, 2, 7];
+  useEffect(() => {
+    if (selectCropLookSeason?.id && selectCropCategory?.id) {
+      getIrrigationModeProgress(
+        selectCropLookSeason?.id,
+        selectCropCategory?.id
+      ).then((res) => {
+        setAllIrrigationModeData(res?.dataList);
+      });
+    }
+  }, [selectCropLookSeason, selectCropCategory]);
+
+  useEffect(() => {
+    const sortedData = allIrrigationModeData.sort(
+      (a, b) => (b.total || 0) - (a.total || 0)
+    );
+    const top10 = sortedData.slice(0, 10);
+
+    const otherVarieties = sortedData.slice(10);
+    const otherTotalSum = otherVarieties.reduce(
+      (sum, obj) => sum + (obj.total || 0),
+      0
+    );
+
+    const result = {
+      top10,
+      other: {
+        varietyId: "Others",
+        varietyName: "Others",
+        total: otherTotalSum,
+      },
+    };
+    console.log({ sortedData });
+  }, [allIrrigationModeData]);
+
+  const handleCropLookSeasonChange = (event, value) => {
+    console.log("dd", value);
+    setCropLookSeason(value);
+  };
+
+  const series = [11, 2, 2];
+  const seriestwo = [30,30,15];
+  const optionssthree = {
+    dataLabels: {
+      enabled: true,
+      style: {
+        fontSize: "15px",
+      },
+    },
+    plotOptions: {
+      pie: {
+        donut: {
+          size: "45%",
+          show: false,
+          labels: {
+            name: {
+              show: true,
+              fontSize: "10px",
+            },
+          },
+        },
+      },
+    },
+    labels: ["Bg 360", "At 311", "Bw 361"],
+    legend: {
+      position: "bottom", // Change this to your desired position: top, bottom, left, right
+    },
+    responsive: [
+      {
+        breakpoint: 3900,
+        options: {
+          chart: {
+            width: 400,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+      {
+        breakpoint: 1750,
+        options: {
+          chart: {
+            width: 400,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+      {
+        breakpoint: 1700,
+        options: {
+          chart: {
+            width: 300,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+      {
+        breakpoint: 1400,
+        options: {
+          chart: {
+            width: 200,
+          },
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    ],
+    // Add other options as needed
+  }
   const optionss = {
     dataLabels: {
       enabled: true,
@@ -56,7 +195,7 @@ const Dashboard = () => {
         },
       },
     },
-    labels: ["Work", "Eat", "Commute", "Watch TV", "Sleep"],
+    labels: ["Major", "Minor", "RainFed"],
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -296,6 +435,31 @@ const Dashboard = () => {
               ))}
             </Grid>
 
+            <Grid mb={3}>
+              <Autocomplete
+                options={allCropLookSeason}
+                getOptionLabel={(option) => option?.agriSeason?.description}
+                onChange={handleCropLookSeasonChange}
+                renderInput={(params) => (
+                  <InputBase
+                    {...params.InputProps}
+                    inputProps={params.inputProps}
+                    sx={{
+                      color: "black",
+                      width: "250px",
+                      height: "40px",
+                      bgcolor: "#ffffff",
+                      borderRadius: "20px",
+                      padding: "0px 0px 0px 30px",
+                      border: "2px solid #DBDBDB",
+                    }}
+                    placeholder="Select season"
+                    //endAdornment={<SearchIcon />}
+                  />
+                )}
+              />
+            </Grid>
+
             <Grid
               sx={{
                 borderRadius: "15px",
@@ -307,7 +471,7 @@ const Dashboard = () => {
               flexDirection={"row"}
             >
               <ReactApexChart options={optionss} series={series} type="donut" />
-              <ReactApexChart options={optionss} series={series} type="donut" />
+              <ReactApexChart options={optionssthree} series={seriestwo} type="donut" />
             </Grid>
 
             <Grid
