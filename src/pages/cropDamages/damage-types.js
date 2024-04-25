@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Divider,
-} from "@mui/material";
+import { Button, Divider } from "@mui/material";
 
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
@@ -29,12 +26,14 @@ const DamageTypes = ({
   formMode = null,
 }) => {
   const { state } = useLocation();
+  //eslint-disable-next-line
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
   const [dialogMode, setDialogMode] = useState(null);
   const [openDamageTypeAddDialog, setOpenDamageTypeAddDialog] = useState(false);
   const [open, setOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState(null);
+  // eslint-disable-next-line
   const [isDataFetch, setIsDataFetch] = useState(true);
   const { addSnackBar } = useSnackBars();
 
@@ -123,23 +122,28 @@ const DamageTypes = ({
         >
           <Add />
         </Button>
-      )) || ((onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
-        <Button
-          disabled={!formId}
-          onClick={() => addDamageType()}
-          color="success"
-          variant="contained"
-          size="small"
-          sx={{ marginBottom: "15px", marginTop: "20px" }}  
-        >
-          <Add />
-        </Button>
-      ))}
+      )) ||
+        ((onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+          <Button
+            disabled={!formId}
+            onClick={() => addDamageType()}
+            color="success"
+            variant="contained"
+            size="small"
+            sx={{ marginBottom: "15px", marginTop: "20px" }}
+          >
+            <Add />
+          </Button>
+        ))}
 
-      {damageTypes ? <DamageTypeList data={damageTypes} 
-      currentFormMode ={formMode}
-      onEdit={handleDamageTypeAdd} 
-      onDelete={handleDamageTypeDelete}/> : null}
+      {damageTypes ? (
+        <DamageTypeList
+          data={damageTypes}
+          currentFormMode={formMode}
+          onEdit={handleDamageTypeAdd}
+          onDelete={handleDamageTypeDelete}
+        />
+      ) : null}
 
       <AddDamageTypeDialog
         open={openDamageTypeAddDialog}
