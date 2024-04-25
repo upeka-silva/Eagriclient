@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import CropCategoryList from "./CropCategoryList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -39,7 +40,7 @@ import { Fonts } from "../../../utils/constants/Fonts";
 
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { style } from "d3";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const CropCategory = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -183,6 +184,8 @@ const CropCategory = () => {
     >
       <ListHeader title="Crop Category" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -229,22 +232,7 @@ const CropCategory = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+         </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
