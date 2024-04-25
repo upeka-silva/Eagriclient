@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   Box,
-  TextField,
-  Link,
-  CircularProgress,
+  TextField, CircularProgress,
   IconButton,
   useTheme,
   Grid,
   Button,
-  Card,
-  ToggleButtonGroup,
-  Switch,
+  Card, Switch,
   Fab,
   Slide,
-  Fade,
+  Fade
 } from "@mui/material/";
 import Typography from "@mui/material/Typography";
 import { initiateLogin } from "../../redux/actions/login/actions";
@@ -23,8 +19,6 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -34,11 +28,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //images
 import LoginBackground from "../../assets/images/loginBack.png";
-import Cropix from "../../assets/images/cropixLogo.png";
 import LoginSecondBack from "../../assets/images/loginSecondBack.png";
 
 import { useAuthContext } from "../../context/AuthContext";
-import { ThemeProvider, createTheme, useMediaQuery } from "@mui/system";
+import { useMediaQuery } from "@mui/system";
 import LandingHeader from "../Landing/components/LandingHeader";
 
 const Login = () => {

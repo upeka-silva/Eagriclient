@@ -1,25 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Autocomplete,
-  Box,
-  Card,
-  Chip,
-  Grid,
-  InputBase,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Chip, Grid, useTheme } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import ChartOne from "./ChartOne";
-import ChartTwo from "./ChartTwo";
-import StatBox from "../../components/DashBoardStatBox/StatBox";
-import { Forest, Image, Satellite } from "@mui/icons-material";
 import { tokens } from "../../utils/theme/app-theme";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
 import SriLankaMap from "../../components/ArcGisMap/SriLankaMap";
-import { getConfigurationById } from "../../redux/actions/cropLook/cropConfiguration/action";
-import { Chart } from "react-google-charts";
 import ReactApexChart from "react-apexcharts";
 import { getCropLookSeasons } from "../../redux/actions/cropLook/biWeekReporting/actions";
 import { getIrrigationModeProgress } from "../../redux/actions/cropLook/irrigationMode/action";
