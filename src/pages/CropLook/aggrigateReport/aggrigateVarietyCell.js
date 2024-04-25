@@ -101,7 +101,7 @@ const AggrigateVarietyCell = ({
 
       <TableRow>
         <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell>
-        <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell>
+        <TableCell style={{ backgroundColor: "#FCFFE0" }}>Total</TableCell>
         {targetConfigs.length > 0 &&
           targetConfigs.map((fieldName, innerIndex) => (
             <TableCell key={innerIndex} style={{ backgroundColor: "#FCFFE0" }} align="right">

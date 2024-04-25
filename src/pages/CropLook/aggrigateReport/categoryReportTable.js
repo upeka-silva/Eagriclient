@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
@@ -18,7 +19,6 @@ const CategoryReportTabel = ({ category, season }) => {
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
-  const [confLoading, setConfLoading] = useState([]);
   const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
   const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
     new Map()
@@ -39,13 +39,10 @@ const CategoryReportTabel = ({ category, season }) => {
         acc[cropName].push(obj);
         return acc;
       }, {});
-
-      setLoading(false);
       setData(groupedData);
     }
 
     async function fetchConfig(categoryId, dataList) {
-      setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
       setTargetConfigs(configs.targetFields);
       setReportConfigs(configs.fields);
@@ -66,7 +63,7 @@ const CategoryReportTabel = ({ category, season }) => {
           data?.grandTotalTargeted
         );
       }
-      setConfLoading(false);
+      setLoading(false);
     }
 
     fetchData(category?.id, season?.id);
@@ -134,7 +131,7 @@ const CategoryReportTabel = ({ category, season }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!confLoading &&
+            {!loading ?
               Object.keys(data).map((cropName) => (
                 <AggrigateVarietyCell
                   cropName={cropName}
@@ -142,7 +139,7 @@ const CategoryReportTabel = ({ category, season }) => {
                   targetConfigs={targetConfigs}
                   reportConfigs={reportConfigs}
                 />
-              ))}
+              )) : <CircularProgress/>}
           </TableBody>
         </Table>
       </TableContainer>
