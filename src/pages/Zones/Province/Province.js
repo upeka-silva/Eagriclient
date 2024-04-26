@@ -1,4 +1,4 @@
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano,Download } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
@@ -8,7 +8,8 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Stack
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -18,7 +19,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { deleteProvince } from "../../../redux/actions/province/action";
+import { deleteProvince,downloadProvincesExcel } from "../../../redux/actions/province/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -28,6 +29,8 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ProvinceList from "./ProvinceList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Province = () => {
   useUserAccessValidation();
@@ -37,6 +40,8 @@ const Province = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedProvinces, setSelectedProvinces] = useState([]);
+  const [dialogSelectedProvince, setDialogSelectedProvince] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [searchData, setSearchData] = useState({
     code: "",
@@ -94,10 +99,12 @@ const Province = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvince(selectedProvinces);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedProvince([]);
   };
 
   const renderSelectedItems = () => {
@@ -140,7 +147,7 @@ const Province = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const province of selectedProvinces) {
+      for (const province of dialogSelectedProvince) {
         await deleteProvince(province?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -151,28 +158,38 @@ const Province = () => {
       setLoading(false);
     }
   };
+  const onDownload = async () => {
+    try {
+      await downloadProvincesExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };  
 
-  
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
+        ><PermissionWrapper
         >
+        </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
           >
@@ -212,6 +229,7 @@ const Province = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCE}`}
@@ -226,36 +244,18 @@ const Province = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Province(s)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvinces}
+        loading={loading}
+        onClose={close} 
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvince}
+        dialogSelectedTypes={dialogSelectedProvince}
+        propertyId="name"
+        propertyDescription="code"
+      />
     </div>
   );
 };

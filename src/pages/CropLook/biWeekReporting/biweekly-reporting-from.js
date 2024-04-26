@@ -26,7 +26,6 @@ import {
 } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -35,12 +34,10 @@ import {
   TabContent,
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
-import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});

@@ -34,6 +34,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { get_DistrictCommList } from "../../../redux/actions/districtComm/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -41,6 +42,8 @@ const ASC = () => {
 
   const [dataEndPoint, setDataEndPoint] = useState("geo-data/asc-divisions");
   const [selectedAsc, setSelectedAsc] = useState([]);
+  const [dialogSelectedAsc, setDialogSelectedAsc] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -96,10 +99,12 @@ const ASC = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedAsc(selectedAsc);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedAsc([]);
   };
 
   const renderSelectedItems = () => {
@@ -142,7 +147,7 @@ const ASC = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const asc of selectedAsc) {
+      for (const asc of dialogSelectedAsc) {
         await deleteASC(asc?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -177,14 +182,14 @@ const ASC = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="ASC Division" />
       <ActionWrapper isLeft>
@@ -294,36 +299,18 @@ const ASC = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete ASC Area"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedAsc}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedAsc}
+        dialogSelectedTypes={dialogSelectedAsc}
+        propertyId="ascId"
+        propertyDescription="name"
+      />
     </div>
   );
 };

@@ -25,6 +25,7 @@ import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import FarmLandList from "./FarmLandList";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const FarmLand = () => {
   useUserAccessValidation();
@@ -32,6 +33,8 @@ const FarmLand = () => {
   const { addSnackBar } = useSnackBars();
 
   const [selectedFarmLand, setSelectedFarmLand] = useState([]);
+  const [dialogSelectedFarmLand, setDialogSelectedFarmLand] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -86,10 +89,12 @@ const FarmLand = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedFarmLand(selectedFarmLand);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedFarmLand([]);
   };
 
   const renderSelectedItems = () => {
@@ -132,7 +137,7 @@ const FarmLand = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const farmLand of selectedFarmLand) {
+      for (const farmLand of dialogSelectedFarmLand) {
         await deleteFarmLand(farmLand?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -216,37 +221,18 @@ const FarmLand = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Farm Land"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Cancel
-              
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedFarmLand}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedFarmLand}
+        dialogSelectedTypes={dialogSelectedFarmLand}
+        propertyId = "code"
+        propertyDescription = "name"
+      />
      
     </div>
   );

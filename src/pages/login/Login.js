@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import {
   Box,
-  TextField,
-  Link,
-  CircularProgress,
+  TextField, CircularProgress,
   IconButton,
   useTheme,
   Grid,
   Button,
-  Card,
-  ToggleButtonGroup,
-  Switch,
+  Card, Switch,
   Fab,
   Slide,
-  Fade,
+  Fade
 } from "@mui/material/";
 import Typography from "@mui/material/Typography";
 import { initiateLogin } from "../../redux/actions/login/actions";
@@ -23,8 +19,6 @@ import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import { Colors } from "../../utils/constants/Colors";
-import { Fonts } from "../../utils/constants/Fonts";
-import MainLogo from "../../assets/images/DepartmentOfAgricultureLogo.png";
 
 import InputAdornment from "@mui/material/InputAdornment";
 import MailOutlineIcon from "@mui/icons-material/MailOutline";
@@ -34,11 +28,10 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 
 //images
 import LoginBackground from "../../assets/images/loginBack.png";
-import Cropix from "../../assets/images/cropixLogo.png";
 import LoginSecondBack from "../../assets/images/loginSecondBack.png";
 
 import { useAuthContext } from "../../context/AuthContext";
-import { ThemeProvider, createTheme, useMediaQuery } from "@mui/system";
+import { useMediaQuery } from "@mui/system";
 import LandingHeader from "../Landing/components/LandingHeader";
 
 const Login = () => {
@@ -151,159 +144,160 @@ const Login = () => {
       </Fab>
 
       <>
-      <LoginWrapper>
-        <Grid
-          container
-          sx={{ height: "100vh" }}
-        >
-          <LandingHeader/>
+        <LoginWrapper>
+          <Grid container sx={{ height: "100vh" }}>
+            <LandingHeader />
 
-          {isChecked ? (
-            <>
-              {/* component 2 start */}
+            {isChecked ? (
+              <>
+                {/* component 2 start */}
 
-              <Fade in={isChecked} direction="up" timeout={500}>
-                <Grid
-                  item
-                  container
-                  md={12}
-                  sx={{
-                    backgroundImage: `url(${LoginSecondBack})`,
-                    backgroundSize: "cover",
-
-                    height: "100%",
-                    width: "100vw",
-                  }}
-                >
-                  <Grid item md={6} mt={30}></Grid>
-                  <Grid item md={2}></Grid>
+                <Fade in={isChecked} direction="up" timeout={500}>
                   <Grid
                     item
-                    md={4}
-                    style={{ display: "flex", justifyContent: "center" }}
+                    container
+                    md={12}
+                    sx={{
+                      backgroundImage: `url(${LoginSecondBack})`,
+                      backgroundSize: "cover",
+
+                      height: "100%",
+                      width: "100vw",
+                    }}
                   >
-                    <Card
-                      sx={{
-                        height: height,
-                        marginTop: cardTop,
-                        maxHeight: "600px",
-                        maxWidth: "400px",
-                        padding: "20px",
-                        bgcolor: "#CCDBDC",
-                        borderRadius: "20px",
-                        boxShadow: "none",
-                      }}
+                    <Grid item md={6} mt={30}></Grid>
+                    <Grid item md={2}></Grid>
+                    <Grid
+                      item
+                      md={4}
+                      style={{ display: "flex", justifyContent: "center" }}
                     >
-                      {initializing ? (
-                        <Box>
-                          <CircularProgress
-                            sx={{ color: theme.coreColors.white }}
-                          />
-                          <Typography
-                            component="h1"
-                            variant="h5"
-                            sx={{ mt: "16px" }}
-                          >
-                            Initializing
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{
-                              marginTop: 5,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
+                      <Card
+                        sx={{
+                          height: height,
+                          marginTop: cardTop,
+                          maxHeight: "600px",
+                          maxWidth: "400px",
+                          padding: "20px",
+                          bgcolor: "#CCDBDC",
+                          borderRadius: "20px",
+                          boxShadow: "none",
+                        }}
+                      >
+                        {initializing ? (
+                          <Box>
+                            <CircularProgress
+                              sx={{ color: theme.coreColors.white }}
+                            />
                             <Typography
-                              fontSize={"22px"}
-                              color={"#2B5366"}
-                              mb={3}
+                              component="h1"
+                              variant="h5"
+                              sx={{ mt: "16px" }}
                             >
-                              Sign In
+                              Initializing
                             </Typography>
+                          </Box>
+                        ) : (
+                          <>
                             <Box
-                              component="form"
-                              onSubmit={handleSubmit}
-                              onValidate
                               sx={{
-                                mt: 2,
+                                marginTop: 5,
                                 display: "flex",
                                 flexDirection: "column",
+                                alignItems: "center",
                               }}
                             >
-                              <TextField
-                                margin="normal"
-                                fullWidth
-                                id="userName"
-                                placeholder="Enter your Username"
-                                name="userName"
-                                type="text"
-                                onChange={handleChange}
-                                value={formData.userName}
+                              <Typography
+                                fontSize={"22px"}
+                                color={"#2B5366"}
+                                mb={3}
+                              >
+                                Sign In
+                              </Typography>
+                              <Box
+                                component="form"
+                                onSubmit={handleSubmit}
+                                onValidate
                                 sx={{
-                                  "& .MuiInputBase-root": {
-                                    height: 45,
-                                    background: `#CCDBDC`,
-                                    borderRadius: "10px",
-                                  },
+                                  mt: 2,
+                                  display: "flex",
+                                  flexDirection: "column",
                                 }}
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <MailOutlineIcon
-                                        style={{ color: `${Colors.iconColor}` }}
-                                      />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                              <TextField
-                                margin="normal"
-                                fullWidth
-                                id="password"
-                                placeholder="Password"
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                onChange={handleChange}
-                                value={formData.password}
-                                sx={{
-                                  "& .MuiInputBase-root": {
-                                    height: 45,
-                                    background: `#CCDBDC`,
-                                    borderRadius: "10px",
-                                  },
-                                }}
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <LockResetIcon
-                                        style={{ color: `${Colors.iconColor}` }}
-                                      />
-                                    </InputAdornment>
-                                  ),
+                              >
+                                <TextField
+                                  margin="normal"
+                                  fullWidth
+                                  id="userName"
+                                  placeholder="Enter your Username"
+                                  name="userName"
+                                  type="text"
+                                  onChange={handleChange}
+                                  value={formData.userName}
+                                  sx={{
+                                    "& .MuiInputBase-root": {
+                                      height: 45,
+                                      background: `#CCDBDC`,
+                                      borderRadius: "10px",
+                                    },
+                                  }}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <MailOutlineIcon
+                                          style={{
+                                            color: `${Colors.iconColor}`,
+                                          }}
+                                        />
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
+                                <TextField
+                                  margin="normal"
+                                  fullWidth
+                                  id="password"
+                                  placeholder="Password"
+                                  name="password"
+                                  type={showPassword ? "text" : "password"}
+                                  onChange={handleChange}
+                                  value={formData.password}
+                                  sx={{
+                                    "& .MuiInputBase-root": {
+                                      height: 45,
+                                      background: `#CCDBDC`,
+                                      borderRadius: "10px",
+                                    },
+                                  }}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <LockResetIcon
+                                          style={{
+                                            color: `${Colors.iconColor}`,
+                                          }}
+                                        />
+                                      </InputAdornment>
+                                    ),
 
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton onClick={handleClick}>
-                                        {showPassword ? (
-                                          <VisibilityIcon />
-                                        ) : (
-                                          <VisibilityOffIcon
-                                            style={{
-                                              color: `${Colors.iconColor}`,
-                                            }}
-                                          />
-                                        )}
-                                      </IconButton>
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <IconButton onClick={handleClick}>
+                                          {showPassword ? (
+                                            <VisibilityIcon />
+                                          ) : (
+                                            <VisibilityOffIcon
+                                              style={{
+                                                color: `${Colors.iconColor}`,
+                                              }}
+                                            />
+                                          )}
+                                        </IconButton>
+                                      </InputAdornment>
+                                    ),
+                                  }}
+                                />
 
-                              {/* <LinkWrapper>
+                                {/* <LinkWrapper>
                         <Link
                           href="#"
                           style={{
@@ -315,325 +309,316 @@ const Login = () => {
                           <ForgotPassword>Forgot password?</ForgotPassword>
                         </Link>
                       </LinkWrapper> */}
-                              <Box
-                                sx={{
-                                  marginTop: "2vw",
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                <Button
-                                  type="submit"
-                                  variant="contained"
+                                <Box
                                   sx={{
-                                    backgroundColor: "#85A497",
-                                    boxShadow: "none",
-                                    width: "170px",
-                                    height: "35px",
-
-                                    borderRadius: "15px",
-                                    textAlign: "center",
-                                    textTransform: "none",
-                                    "&:hover": {
+                                    marginTop: "2vw",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
                                       backgroundColor: "#85A497",
                                       boxShadow: "none",
-                                    },
-                                  }}
-                                >
-                                  {loading ? (
-                                    <CircularProgress
-                                      size={20}
-                                      sx={{ mt: "8px", mb: "8px" }}
-                                      style={{ color: `${Colors.white}` }}
-                                    />
-                                  ) : (
-                                    "Sign In"
-                                  )}
-                                </Button>
-                              </Box>
-                              <Box
-                                sx={{ marginTop: "8vw" }}
-                                display={"flex"}
-                                justifyContent={"center"}
-                              >
-                                <Button
-                                  variant="outlined"
-                                  style={{
-                                    borderRadius: 20,
-                                    textTransform: "none",
-                                    width: "150px",
-                                    borderColor: "#717972",
-                                    color: "#717972",
-                                    marginRight: "20px",
-                                  }}
-                                  onClick={goFarmer}
-                                >
-                                  Register Farmer
-                                </Button>
+                                      width: "170px",
+                                      height: "35px",
 
-                                <Button
-                                  variant="outlined"
-                                  style={{
-                                    borderRadius: 20,
-                                    textTransform: "none",
-                                    width: "150px",
-                                    borderColor: "#717972",
-                                    color: "#717972",
-                                  }}
-                                  onClick={goOrganization}
+                                      borderRadius: "15px",
+                                      textAlign: "center",
+                                      textTransform: "none",
+                                      "&:hover": {
+                                        backgroundColor: "#85A497",
+                                        boxShadow: "none",
+                                      },
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <CircularProgress
+                                        size={20}
+                                        sx={{ mt: "8px", mb: "8px" }}
+                                        style={{ color: `${Colors.white}` }}
+                                      />
+                                    ) : (
+                                      "Sign In"
+                                    )}
+                                  </Button>
+                                </Box>
+                                <Box
+                                  sx={{ marginTop: "8vw" }}
+                                  display={"flex"}
+                                  justifyContent={"center"}
                                 >
-                                  Register Organization
-                                </Button>
+                                  <Button
+                                    variant="outlined"
+                                    style={{
+                                      borderRadius: 20,
+                                      textTransform: "none",
+                                      width: "150px",
+                                      borderColor: "#717972",
+                                      color: "#717972",
+                                      marginRight: "20px",
+                                    }}
+                                    onClick={goFarmer}
+                                  >
+                                    Register Farmer
+                                  </Button>
+
+                                  <Button
+                                    variant="outlined"
+                                    style={{
+                                      borderRadius: 20,
+                                      textTransform: "none",
+                                      width: "150px",
+                                      borderColor: "#717972",
+                                      color: "#717972",
+                                    }}
+                                    onClick={goOrganization}
+                                  >
+                                    Register Organization
+                                  </Button>
+                                </Box>
                               </Box>
                             </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Card>
+                          </>
+                        )}
+                      </Card>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Fade>
+                </Fade>
 
-              {/* component 2 end */}
-            </>
-          ) : (
-            <>
-              {/* component 1 start */}
-              <Slide direction="right" in={!isChecked}>
-                <Grid
-                  item
-                  container
-                  md={12}
-                  sx={{
-                    backgroundImage: `url(${LoginBackground})`,
-                    backgroundSize: "cover",
-
-                    height: "100%",
-                    width: "100vw",
-                  }}
-                >
-                  <Grid item md={6} mt={30}></Grid>
-                  <Grid item md={2}></Grid>
+                {/* component 2 end */}
+              </>
+            ) : (
+              <>
+                {/* component 1 start */}
+                <Slide direction="right" in={!isChecked}>
                   <Grid
                     item
-                    md={4}
-                    style={{ display: "flex", justifyContent: "center" }}
+                    container
+                    md={12}
+                    sx={{
+                      backgroundImage: `url(${LoginBackground})`,
+                      backgroundSize: "cover",
+
+                      height: "100%",
+                      width: "100vw",
+                    }}
                   >
-                    <Card
-                      sx={{
-                        height: height,
-                        marginTop: cardTop,
-                        maxHeight: "600px",
-                        maxWidth: "400px",
-                        padding: "20px",
-                        bgcolor: "#CCDBDC",
-                        borderRadius: "20px",
-                        boxShadow: "none",
-                      }}
+                    <Grid item md={6} mt={30}></Grid>
+                    <Grid item md={2}></Grid>
+                    <Grid
+                      item
+                      md={4}
+                      style={{ display: "flex", justifyContent: "center" }}
                     >
-                      {initializing ? (
-                        <Box>
-                          <CircularProgress
-                            sx={{ color: theme.coreColors.white }}
-                          />
-                          <Typography
-                            component="h1"
-                            variant="h5"
-                            sx={{ mt: "16px" }}
-                          >
-                            Initializing
-                          </Typography>
-                        </Box>
-                      ) : (
-                        <>
-                          <Box
-                            sx={{
-                              marginTop: 5,
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
+                      <Card
+                        sx={{
+                          height: height,
+                          marginTop: cardTop,
+                          maxHeight: "600px",
+                          maxWidth: "400px",
+                          padding: "20px",
+                          bgcolor: "#CCDBDC",
+                          borderRadius: "20px",
+                          boxShadow: "none",
+                        }}
+                      >
+                        {initializing ? (
+                          <Box>
+                            <CircularProgress
+                              sx={{ color: theme.coreColors.white }}
+                            />
                             <Typography
-                              fontSize={"22px"}
-                              color={"#2B5366"}
-                              mb={3}
+                              component="h1"
+                              variant="h5"
+                              sx={{ mt: "16px" }}
                             >
-                              Sign In
+                              Initializing
                             </Typography>
+                          </Box>
+                        ) : (
+                          <>
                             <Box
-                              component="form"
-                              onSubmit={handleSubmit}
-                              onValidate
                               sx={{
-                                mt: 2,
+                                marginTop: 5,
                                 display: "flex",
                                 flexDirection: "column",
+                                alignItems: "center",
                               }}
                             >
-                              <TextField
-                                margin="normal"
-                                fullWidth
-                                id="userName"
-                                placeholder="Enter your Username"
-                                name="userName"
-                                type="text"
-                                onChange={handleChange}
-                                value={formData.userName}
-                                sx={{
-                                  "& .MuiInputBase-root": {
-                                    height: 45,
-                                    background: `#CCDBDC`,
-                                    borderRadius: "10px",
-                                  },
-                                }}
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <MailOutlineIcon
-                                        style={{ color: `${Colors.iconColor}` }}
-                                      />
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-                              <TextField
-                                margin="normal"
-                                fullWidth
-                                id="password"
-                                placeholder="Password"
-                                name="password"
-                                type={showPassword ? "text" : "password"}
-                                onChange={handleChange}
-                                value={formData.password}
-                                sx={{
-                                  "& .MuiInputBase-root": {
-                                    height: 45,
-                                    background: `#CCDBDC`,
-                                    borderRadius: "10px",
-                                  },
-                                }}
-                                InputProps={{
-                                  startAdornment: (
-                                    <InputAdornment position="start">
-                                      <LockResetIcon
-                                        style={{ color: `${Colors.iconColor}` }}
-                                      />
-                                    </InputAdornment>
-                                  ),
-
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton onClick={handleClick}>
-                                        {showPassword ? (
-                                          <VisibilityIcon />
-                                        ) : (
-                                          <VisibilityOffIcon
-                                            style={{
-                                              color: `${Colors.iconColor}`,
-                                            }}
-                                          />
-                                        )}
-                                      </IconButton>
-                                    </InputAdornment>
-                                  ),
-                                }}
-                              />
-
-                              {/* <LinkWrapper>
-                        <Link
-                          href="#"
-                          style={{
-                            color: `${Colors.buttonColor}`,
-                            fontSize: "12px",
-                            fontWeight: 400,
-                          }}
-                        >
-                          <ForgotPassword>Forgot password?</ForgotPassword>
-                        </Link>
-                      </LinkWrapper> */}
+                              <Typography
+                                fontSize={"22px"}
+                                color={"#2B5366"}
+                                mb={3}
+                              >
+                                Sign In
+                              </Typography>
                               <Box
+                                component="form"
+                                onSubmit={handleSubmit}
+                                onValidate
                                 sx={{
-                                  marginTop: "2vw",
+                                  mt: 2,
                                   display: "flex",
-                                  justifyContent: "center",
+                                  flexDirection: "column",
                                 }}
                               >
-                                <Button
-                                  type="submit"
-                                  variant="contained"
+                                <TextField
+                                  margin="normal"
+                                  fullWidth
+                                  id="userName"
+                                  placeholder="Enter your Username"
+                                  name="userName"
+                                  type="text"
+                                  onChange={handleChange}
+                                  value={formData.userName}
                                   sx={{
-                                    backgroundColor: "#85A497",
-                                    boxShadow: "none",
-                                    width: "170px",
-                                    height: "35px",
-
-                                    borderRadius: "15px",
-                                    textAlign: "center",
-                                    textTransform: "none",
-                                    "&:hover": {
-                                      backgroundColor: "#85A497",
-                                      boxShadow: "none",
+                                    "& .MuiInputBase-root": {
+                                      height: 45,
+                                      background: `#CCDBDC`,
+                                      borderRadius: "10px",
                                     },
                                   }}
-                                >
-                                  {loading ? (
-                                    <CircularProgress
-                                      size={20}
-                                      sx={{ mt: "8px", mb: "8px" }}
-                                      style={{ color: `${Colors.white}` }}
-                                    />
-                                  ) : (
-                                    "Sign In"
-                                  )}
-                                </Button>
-                              </Box>
-                              <Box
-                                sx={{ marginTop: "8vw" }}
-                                display={"flex"}
-                                justifyContent={"center"}
-                              >
-                                <Button
-                                  variant="outlined"
-                                  style={{
-                                    borderRadius: 20,
-                                    textTransform: "none",
-                                    width: "150px",
-                                    borderColor: "#717972",
-                                    color: "#717972",
-                                    marginRight: "20px",
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <MailOutlineIcon
+                                          style={{
+                                            color: `${Colors.iconColor}`,
+                                          }}
+                                        />
+                                      </InputAdornment>
+                                    ),
                                   }}
-                                  onClick={goFarmer}
-                                >
-                                  Register Farmer
-                                </Button>
+                                />
+                                <TextField
+                                  margin="normal"
+                                  fullWidth
+                                  id="password"
+                                  placeholder="Password"
+                                  name="password"
+                                  type={showPassword ? "text" : "password"}
+                                  onChange={handleChange}
+                                  value={formData.password}
+                                  sx={{
+                                    "& .MuiInputBase-root": {
+                                      height: 45,
+                                      background: `#CCDBDC`,
+                                      borderRadius: "10px",
+                                    },
+                                  }}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment position="start">
+                                        <LockResetIcon
+                                          style={{
+                                            color: `${Colors.iconColor}`,
+                                          }}
+                                        />
+                                      </InputAdornment>
+                                    ),
 
-                                <Button
-                                  variant="outlined"
-                                  style={{
-                                    borderRadius: 20,
-                                    textTransform: "none",
-                                    width: "150px",
-                                    borderColor: "#717972",
-                                    color: "#717972",
+                                    endAdornment: (
+                                      <InputAdornment position="end">
+                                        <IconButton onClick={handleClick}>
+                                          {showPassword ? (
+                                            <VisibilityIcon />
+                                          ) : (
+                                            <VisibilityOffIcon
+                                              style={{
+                                                color: `${Colors.iconColor}`,
+                                              }}
+                                            />
+                                          )}
+                                        </IconButton>
+                                      </InputAdornment>
+                                    ),
                                   }}
-                                  onClick={goOrganization}
+                                />
+                                <Box
+                                  sx={{
+                                    marginTop: "2vw",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                  }}
                                 >
-                                  Register Organization
-                                </Button>
+                                  <Button
+                                    type="submit"
+                                    variant="contained"
+                                    sx={{
+                                      backgroundColor: "#85A497",
+                                      boxShadow: "none",
+                                      width: "170px",
+                                      height: "35px",
+
+                                      borderRadius: "15px",
+                                      textAlign: "center",
+                                      textTransform: "none",
+                                      "&:hover": {
+                                        backgroundColor: "#85A497",
+                                        boxShadow: "none",
+                                      },
+                                    }}
+                                  >
+                                    {loading ? (
+                                      <CircularProgress
+                                        size={20}
+                                        sx={{ mt: "8px", mb: "8px" }}
+                                        style={{ color: `${Colors.white}` }}
+                                      />
+                                    ) : (
+                                      "Sign In"
+                                    )}
+                                  </Button>
+                                </Box>
+                                <Box
+                                  sx={{ marginTop: "8vw" }}
+                                  display={"flex"}
+                                  justifyContent={"center"}
+                                >
+                                  <Button
+                                    variant="outlined"
+                                    style={{
+                                      borderRadius: 20,
+                                      textTransform: "none",
+                                      width: "150px",
+                                      borderColor: "#717972",
+                                      color: "#717972",
+                                      marginRight: "20px",
+                                    }}
+                                    onClick={goFarmer}
+                                  >
+                                    Register Farmer
+                                  </Button>
+
+                                  <Button
+                                    variant="outlined"
+                                    style={{
+                                      borderRadius: 20,
+                                      textTransform: "none",
+                                      width: "150px",
+                                      borderColor: "#717972",
+                                      color: "#717972",
+                                    }}
+                                    onClick={goOrganization}
+                                  >
+                                    Register Organization
+                                  </Button>
+                                </Box>
                               </Box>
                             </Box>
-                          </Box>
-                        </>
-                      )}
-                    </Card>
+                          </>
+                        )}
+                      </Card>
+                    </Grid>
                   </Grid>
-                </Grid>
-              </Slide>
-              {/* component 1 end */}
-            </>
-          )}
-        </Grid>
+                </Slide>
+                {/* component 1 end */}
+              </>
+            )}
+          </Grid>
         </LoginWrapper>
       </>
     </>
@@ -687,8 +672,6 @@ export default Login;
 // `;
 
 const LoginWrapper = styled.div`
- 
-  margin-right: -160px;
   height: 100vh;
   overflow: hidden;
 `;

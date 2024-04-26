@@ -7,72 +7,142 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
+import AggrigateVarietyCell from "./aggrigateVarietyCell";
 
 const CategoryReportTabel = ({ category, season }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
-
-  console.log({ category, season });
+  const [targetConfigs, setTargetConfigs] = useState([]);
+  const [reportConfigs, setReportConfigs] = useState([]);
+  const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
+  const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
+    new Map()
+  );
 
   useEffect(() => {
+    setirrIgationModeMap(new Map());
+    setirrIgationModeTargetMap(new Map());
     async function fetchData(categoryId, seasonId) {
-      console.log({categoryId, seasonId});
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
-      console.log('aggrigate data list',dataList);
-      console.log(dataList);
-      setLoading(false);
-      setData(dataList);
+
+      fetchConfig(categoryId, dataList);
+
+      const groupedData = dataList.reduce((acc, obj) => {
+        const cropName = obj?.cropName;
+        acc[cropName] = acc[cropName] || [];
+        acc[cropName].push(obj);
+        return acc;
+      }, {});
+      setData(groupedData);
     }
 
-    fetchData(category?.categoryId, season?.id);
+    async function fetchConfig(categoryId, dataList) {
+      const configs = await getConfigurationById(categoryId);
+      setTargetConfigs(configs.targetFields);
+      setReportConfigs(configs.fields);
+
+      for (let data of dataList) {
+        for (let field of configs?.fields) {
+          const dbField = convertCropLookFields(field);
+          updateIrrigationModeMap(field, data[dbField]);
+        }
+
+        for (let field1 of configs?.targetFields) {
+          const dbField = convertCropLookFields(field1);
+          updateIrrigationModeTargetMap(field1, data[dbField]);
+        }
+        updateIrrigationModeMap("grandTotalBiWeek", data?.grandTotalBiWeek);
+        updateIrrigationModeTargetMap(
+          "grandTotalTargeted",
+          data?.grandTotalTargeted
+        );
+      }
+      setLoading(false);
+    }
+
+    fetchData(category?.id, season?.id);
   }, [season]);
+
+  const updateIrrigationModeMap = (key, value) => {
+    setirrIgationModeMap((prevMap) => {
+      const newMap = new Map(prevMap);
+
+      if (newMap.has(key)) {
+        newMap.set(key, newMap.get(key) + value);
+      } else {
+        newMap.set(key, value);
+      }
+
+      return newMap;
+    });
+  };
+
+  const updateIrrigationModeTargetMap = (key, value) => {
+    setirrIgationModeTargetMap((prevMap) => {
+      const newMap = new Map(prevMap);
+
+      if (newMap.has(key)) {
+        newMap.set(key, newMap.get(key) + value);
+      } else {
+        newMap.set(key, value);
+      }
+
+      return newMap;
+    });
+  };
+
+  const getRoundValue = (value) => {
+    return value?.toFixed(3);
+  };
 
   return (
     <>
-    <h5>{category.description}</h5>
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Variety</TableCell>
-            <TableCell>Target Major (ha)</TableCell>
-            <TableCell>Target Minor (ha)</TableCell>
-            <TableCell>Target Rainfed (ha)</TableCell>
-            <TableCell>Target Irrigate (ha)</TableCell>
-            <TableCell>Target (ha)</TableCell>
-            <TableCell>Total Target (ha)</TableCell>
-            <TableCell>Progress Major (ha)</TableCell>
-            <TableCell>Progress Minor (ha)</TableCell>
-            <TableCell>Progress Rainfed (ha)</TableCell>
-            <TableCell>Progress Irrigate (ha)</TableCell>
-            <TableCell>Progress Extent (ha)</TableCell>
-            <TableCell>Total Progress (ha)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.length > 0 && data?.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.varietyName}</TableCell>
-              <TableCell>{row.totalTargetedExtentMajor || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtentMinor || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtentRainfed || "--"}</TableCell>
-              <TableCell>{row.targetedExtentIrrigate || "--"}</TableCell>
-              <TableCell>{row.totalTargetedExtent || "--"}</TableCell>
-              <TableCell>{row.allTargetedExtent || "--"}</TableCell>
-              <TableCell>{row.totalExtentMajor || "--"}</TableCell>
-              <TableCell>{row.totalExtentMinor || "--"}</TableCell>
-              <TableCell>{row.totalExtentRainfed || "--"}</TableCell>
-              <TableCell>{row.totalExtentIrrigate || "--"}</TableCell>
-              <TableCell>{row.totalExtent || "--"}</TableCell>
-              <TableCell>{row.allExtent || "--"}</TableCell>
+      <h5>{category.description}</h5>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+            <TableCell style={{ backgroundColor: "#A8CD9F" }}>
+                Crop
+              </TableCell>
+              <TableCell style={{ backgroundColor: "#A8CD9F" }}>
+                Variety
+              </TableCell>
+              {targetConfigs.length > 0 &&
+                targetConfigs.map((fieldName, index) => (
+                  <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>{fieldName} (ha)</TableCell>
+                ))}
+              <TableCell style={{ backgroundColor: "#F5DAD2" }}>
+                Total Target (ha)
+              </TableCell>
+              {reportConfigs.length > 0 &&
+                reportConfigs.map((fieldName1, index1) => (
+                  <TableCell key={index1} style={{ backgroundColor: "#A8CD9F" }}>{fieldName1} (ha)</TableCell>
+                ))}
+              <TableCell style={{ backgroundColor: "#F5DAD2" }}>
+                Total Extent (ha)
+              </TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {!loading ?
+              Object.keys(data).map((cropName) => (
+                <AggrigateVarietyCell
+                  cropName={cropName}
+                  cropData={data[cropName]}
+                  targetConfigs={targetConfigs}
+                  reportConfigs={reportConfigs}
+                />
+              )) : <CircularProgress/>}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 };

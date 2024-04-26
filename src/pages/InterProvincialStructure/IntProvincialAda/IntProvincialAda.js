@@ -52,6 +52,7 @@ import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/inter
 import { deleteInterProvincialAda } from "../../../redux/actions/interProvincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const IntProvincialAda = () => {
   useUserAccessValidation();
@@ -67,6 +68,9 @@ const IntProvincialAda = () => {
     "geo-data/interprovincial-ada-segments"
   );
   const [selectedProvincialAda, setSelectedProvincialAda] = useState([]);
+  const [dialogSelectedProvincialAda, setDialogSelectedProvincialAda] =
+    useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [doas, setDoas] = useState([]);
@@ -130,10 +134,12 @@ const IntProvincialAda = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialAda(selectedProvincialAda);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialAda([]);
   };
 
   const renderSelectedItems = () => {
@@ -177,7 +183,7 @@ const IntProvincialAda = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialAda) {
+      for (const provincialDoa of dialogSelectedProvincialAda) {
         await deleteInterProvincialAda(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
@@ -219,23 +225,23 @@ const IntProvincialAda = () => {
     setDataEndPoint("geo-data/interprovincial-ada-segments");
   };
 
-  const getDDOAS = (id)=>{
+  const getDDOAS = (id) => {
     get_InterProvincialDdoaListByDoaId(id).then(({ dataList = [] }) => {
-     console.log(dataList);
-     setDdoas(dataList);
-   })
- }
+      console.log(dataList);
+      setDdoas(dataList);
+    });
+  };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Inter Provincial ADA" />
       <ActionWrapper isLeft>
@@ -302,7 +308,7 @@ const IntProvincialAda = () => {
                   setSelectedDoa(value);
                   setSelectedDdoa({ ddId: "", description: "" });
                   // setDdoas(value.provincialDeputyDirectorLevelList);
-                  getDDOAS(value.id)
+                  getDDOAS(value.id);
                 }}
                 fullWidth
                 disableClearable
@@ -375,36 +381,18 @@ const IntProvincialAda = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialAda}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialAda}
+        dialogSelectedTypes={dialogSelectedProvincialAda}
+        propertyId="segmentId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

@@ -26,6 +26,7 @@ import UserTypeList from "./UserTypeList";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const UserType = () => {
   useUserAccessValidation();
@@ -36,6 +37,8 @@ const UserType = () => {
   const [open, setOpen] = useState(false);
 
   const [selectUserType, setSelectUserType] = useState([]);
+  const [dialogSelectUserType, setDialogSelectUserType] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleUserTypeSelect = (component) => {
@@ -88,10 +91,12 @@ const UserType = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectUserType(selectUserType);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectUserType([]);
   };
 
   const renderSelectedItems = () => {
@@ -134,7 +139,7 @@ const UserType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const userType of selectUserType) {
+      for (const userType of dialogSelectUserType) {
         await deleteUserType(userType?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -218,36 +223,18 @@ const UserType = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete User type"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectUserType}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectUserType}
+        dialogSelectedTypes={dialogSelectUserType}
+        propertyId = "userTypeId"
+        propertyDescription = "description"
+      />
     </div>
   );
 };

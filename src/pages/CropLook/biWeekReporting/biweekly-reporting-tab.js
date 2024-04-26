@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid } from "@mui/material";
+import { Button, ButtonGroup, Grid, Stack, Typography } from "@mui/material";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
@@ -200,57 +200,60 @@ const BiWeeklyReportingTab = ({
       <Grid container>
         <Grid item sm={12} md={12} lg={12}>
           <div style={{ textAlign: "left" }}>
-            <Button
-              disabled={mode === DEF_ACTIONS.VIEW}
-              style={{ marginRight: "10px" }}
-              variant="contained"
-              color="success"
-              size="small"
-              onClick={handleCropClear}
-              sx={{ marginTop: "10px" }}
-            >
-              Clear
-            </Button>
-
-            {saving ? (
-              <Button variant="contained" size="small">
-                {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-              </Button>
-            ) : (
-              <PermissionWrapper
-                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
-              >
-                <Button
-                  disabled={mode === DEF_ACTIONS.VIEW || isCleared}
-                  variant="outlined"
-                  color="success"
-                  size="small"
-                  onClick={handleCropUpdate}
-                  sx={{ marginTop: "10px" }}
-                >
-                  Update
-                </Button>
-              </PermissionWrapper>
-            )}
-
-            {cropTargetId && (
-              <Grid item sx={{ pt: "8px" }}>
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
-                >
+            <Stack direction="row" spacing={1}>
+              <ButtonGroup size="small" aria-label="Small button group">
+                <Grid item sx={{ pt: "8px" }}>
                   <Button
-                    disabled={!cropTargetId}
+                    disabled={mode === DEF_ACTIONS.VIEW}
                     variant="outlined"
                     color="success"
-                    onClick={() => setOpenDialog(true)}
-                    sx={{ ml: "8px" }}
                     size="small"
+                    onClick={handleCropClear}
                   >
-                    Complete
+                    Clear
                   </Button>
-                </PermissionWrapper>
-              </Grid>
-            )}
+                </Grid>
+                {saving ? (
+                  <Button variant="contained" size="small">
+                    {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+                  </Button>
+                ) : (
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_CROP_CATEGORY_REPORT}`}
+                  >
+                    <Grid item sx={{ pt: "8px" }}>
+                      <Button
+                        disabled={mode === DEF_ACTIONS.VIEW || isCleared}
+                        variant="contained"
+                        color="success"
+                        size="small"
+                        onClick={handleCropUpdate}
+                      >
+                        Update
+                      </Button>
+                    </Grid>
+                  </PermissionWrapper>
+                )}
+              </ButtonGroup>
+
+              {cropTargetId && (
+                <Grid item sx={{ pt: "8px" }}>
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
+                  >
+                    <Button
+                      disabled={!cropTargetId}
+                      variant="outlined"
+                      color="success"
+                      onClick={() => setOpenDialog(true)}
+                      size="small"
+                    >
+                      Complete
+                    </Button>
+                  </PermissionWrapper>
+                </Grid>
+              )}
+            </Stack>
           </div>
         </Grid>
         <Grid item sm={12} md={12} lg={12}>
@@ -268,7 +271,7 @@ const BiWeeklyReportingTab = ({
       </Grid>
       <DialogBox
         open={openDialog}
-        title="Approve Report"
+        title="Submit Reporting"
         actions={
           <ActionWrapper>
             <Button
@@ -290,7 +293,7 @@ const BiWeeklyReportingTab = ({
           </ActionWrapper>
         }
       >
-        <>Do you want to approve?</>
+        <Typography>Do you want to submit your reporting?</Typography>
       </DialogBox>
     </>
   );

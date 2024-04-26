@@ -1,8 +1,5 @@
 import { Add } from "@mui/icons-material";
-import {
-  Button,
-  Grid
-} from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
@@ -10,13 +7,16 @@ import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import {
-  getFormTemplateByType
-} from "../../redux/actions/auditForm/action";
+import { getFormTemplateByType } from "../../redux/actions/auditForm/action";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
-const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId, stateData }) => {
+const DynamicFormFarmLand = ({
+  auditFormType = "",
+  afterSave,
+  formId,
+  stateData,
+}) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -70,23 +70,23 @@ const DynamicFormFarmLand = ({ auditFormType = "", afterSave, formId, stateData 
     setSaving(false);
   };
 
-  const populateAttributes = () => {
-    if (auditFormType === "SELF_ASSESSMENT") {
-      uriPath = "self-assessments";
-      formHeader = "SELF ASSESSMENT FORM";
-    } else if (auditFormType === "INTERNAL_AUDIT") {
-      uriPath = "internal-audit";
-      formHeader = "INTERNAL AUDIT FORM";
-    } else if (auditFormType === "EXTERNAL_AUDIT") {
-      uriPath = "external-audit";
-      formHeader = "EXTERNAL AUDIT FORM";
-    } else if (auditFormType === "BASIC_ASSESSMENT") {
-      uriPath = "basic-assessments";
-      formHeader = "BASIC ASSESSMENT FORM";
-    }
-  };
+  // const populateAttributes = () => {
+  //   if (auditFormType === "SELF_ASSESSMENT") {
+  //     uriPath = "self-assessments";
+  //     formHeader = "SELF ASSESSMENT FORM";
+  //   } else if (auditFormType === "INTERNAL_AUDIT") {
+  //     uriPath = "internal-audit";
+  //     formHeader = "INTERNAL AUDIT FORM";
+  //   } else if (auditFormType === "EXTERNAL_AUDIT") {
+  //     uriPath = "external-audit";
+  //     formHeader = "EXTERNAL AUDIT FORM";
+  //   } else if (auditFormType === "BASIC_ASSESSMENT") {
+  //     uriPath = "basic-assessments";
+  //     formHeader = "BASIC ASSESSMENT FORM";
+  //   }
+  // };
 
-  populateAttributes();
+  // populateAttributes();
 
   useEffect(() => {
     getFormTemplateByType(auditFormType).then(({ data = {} }) => {

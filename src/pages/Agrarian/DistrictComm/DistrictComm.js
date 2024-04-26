@@ -35,6 +35,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const DistrictComm = () => {
   useUserAccessValidation();
@@ -47,6 +48,10 @@ const DistrictComm = () => {
   const [search, setSearch] = useState({});
 
   const [selectedDistrictComm, setSelectedDistrictComm] = useState([]);
+  const [dialogSelectedDistrictComm, setDialogSelectedDistrictComm] = useState(
+    []
+  );
+
   const [dataEndPoint, setDataEndPoint] = useState(
     "geo-data/district-commissioner-level"
   );
@@ -105,10 +110,12 @@ const DistrictComm = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedDistrictComm(selectedDistrictComm);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedDistrictComm([]);
   };
 
   useEffect(() => {
@@ -163,7 +170,7 @@ const DistrictComm = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const districtComm of selectedDistrictComm) {
+      for (const districtComm of dialogSelectedDistrictComm) {
         await deleteDistrictComm(districtComm.id, onSuccess, onError);
       }
       setLoading(false);
@@ -177,14 +184,14 @@ const DistrictComm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="District Commissioner" />
       <ActionWrapper isLeft>
@@ -236,7 +243,6 @@ const DistrictComm = () => {
           )}
         </ButtonGroup>
       </ActionWrapper>
-      
 
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DISTRICT_COMMISSIONER_LEVEL}`}
@@ -251,36 +257,18 @@ const DistrictComm = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete District Commissioner"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedDistrictComm}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedDistrictComm}
+        dialogSelectedTypes={dialogSelectedDistrictComm}
+        propertyId="districtCommId"
+        propertyDescription="name"
+      />
     </div>
   );
 };

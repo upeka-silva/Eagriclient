@@ -12,14 +12,15 @@ import {
   Autocomplete,
   TextField,
   Grid,
+  Stack,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteDsDivision } from "../../../redux/actions/dsDivision/action";
+import { deleteDsDivision,downloaddsDivisionsExcel } from "../../../redux/actions/dsDivision/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -28,7 +29,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import SearchBox from "../../../components/SearchBox/SearchBox";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const DsDivision = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -178,7 +179,13 @@ const DsDivision = () => {
       setDistrics(dataList);
     });
   };
-
+  const onDownload = async () => {
+    try {
+      await downloaddsDivisionsExcel(onSuccess, onError);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -192,13 +199,14 @@ const DsDivision = () => {
     >
       <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
-          color="success"
-        >
+          color="success"      >
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
           >
@@ -238,6 +246,7 @@ const DsDivision = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
