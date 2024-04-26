@@ -85,7 +85,7 @@ const SecondaryData = () => {
     language: "",
   });
 
-  const handleSubmit = () => { };
+  const handleSubmit = () => {};
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -297,7 +297,9 @@ const SecondaryData = () => {
                 </Stepper>
                 {activeStep === steps.length ? (
                   <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1, textAlign: "center", color: "green" }}>
+                    <Typography
+                      sx={{ mt: 2, mb: 1, textAlign: "center", color: "green" }}
+                    >
                       All steps completed - you&apos;re finished
                     </Typography>
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

@@ -1,10 +1,10 @@
-import { put, post, get, api_delete } from "../../../services/api";
+import { put, post, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleFarmer = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("temp-farmers", payload, true);
@@ -15,15 +15,14 @@ export const handleFarmer = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -35,16 +34,14 @@ export const handleFarmer = async (
   }
 };
 
-
-
 export const deleteFarmer = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -52,8 +49,7 @@ export const deleteFarmer = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -69,15 +65,15 @@ export const deleteFarmer = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateFarmer = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`/${payload?.id || ''}`, payload, true);
+    const response = await put(`/${payload?.id || ""}`, payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -85,8 +81,7 @@ export const updateFarmer = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -105,12 +100,10 @@ export const updateFarmer = async (
   }
 };
 
-
-
 export const handleFarmerContact = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("farmer-contacts", payload, true);
@@ -121,8 +114,7 @@ export const handleFarmerContact = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -143,11 +135,15 @@ export const handleFarmerContact = async (
 
 export const updateFarmerContact = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`farmer-contacts/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `farmer-contacts/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -155,8 +151,7 @@ export const updateFarmerContact = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -177,11 +172,15 @@ export const updateFarmerContact = async (
 
 export const handleFarmerOTP = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await post("temp-farmers/otp-verifications", payload, true);
+    const response = await post(
+      "temp-farmers/otp-verifications",
+      payload,
+      true
+    );
     if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
@@ -189,15 +188,14 @@ export const handleFarmerOTP = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -211,8 +209,8 @@ export const handleFarmerOTP = async (
 
 export const handleFarmerOTPResend = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("temp-farmers/resend-otp", payload, true);
@@ -223,15 +221,14 @@ export const handleFarmerOTPResend = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

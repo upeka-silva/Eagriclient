@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
@@ -26,13 +27,13 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropPestList from "./CropPestList";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 import {
   deleteCropPest,
   downloadCropPestExcel,
   get_CropPestList,
 } from "../../../redux/actions/crop/CropPest/action";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-
 
 const CropPest = () => {
   useUserAccessValidation();
@@ -166,6 +167,8 @@ const CropPest = () => {
     <div>
       <ListHeader title="Crop Pest" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -212,22 +215,7 @@ const CropPest = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+          </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_PEST}`}

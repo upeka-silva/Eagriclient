@@ -7,18 +7,18 @@ import {
   TableHead,
   TableRow,
   Paper,
-  CircularProgress,
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
 import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
-import AggrigateVarietyCell from "./aggrigateVarietyCell";
+import ApprovalReportTableCell from "./approvalReportTableCell";
 
-const CategoryReportTabel = ({ category, season }) => {
+const ApprovalReportCategoryTable = ({ category, season }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
+  const [confLoading, setConfLoading] = useState([]);
   const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
   const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
     new Map()
@@ -31,7 +31,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
 
-      fetchConfig(categoryId, dataList);
+      fetchConfig(category?.categoryId, dataList);
 
       const groupedData = dataList.reduce((acc, obj) => {
         const cropName = obj?.cropName;
@@ -39,10 +39,13 @@ const CategoryReportTabel = ({ category, season }) => {
         acc[cropName].push(obj);
         return acc;
       }, {});
+
+      setLoading(false);
       setData(groupedData);
     }
 
     async function fetchConfig(categoryId, dataList) {
+      setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
       setTargetConfigs(configs.targetFields);
       setReportConfigs(configs.fields);
@@ -63,10 +66,10 @@ const CategoryReportTabel = ({ category, season }) => {
           data?.grandTotalTargeted
         );
       }
-      setLoading(false);
+      setConfLoading(false);
     }
 
-    fetchData(category?.id, season?.id);
+    fetchData(category?.categoryId, season?.id);
   }, [season]);
 
   const updateIrrigationModeMap = (key, value) => {
@@ -131,15 +134,15 @@ const CategoryReportTabel = ({ category, season }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!loading ?
+            {!confLoading &&
               Object.keys(data).map((cropName) => (
-                <AggrigateVarietyCell
+                <ApprovalReportTableCell
                   cropName={cropName}
                   cropData={data[cropName]}
                   targetConfigs={targetConfigs}
                   reportConfigs={reportConfigs}
                 />
-              )) : <CircularProgress/>}
+              ))}
           </TableBody>
         </Table>
       </TableContainer>
@@ -147,4 +150,4 @@ const CategoryReportTabel = ({ category, season }) => {
   );
 };
 
-export default CategoryReportTabel;
+export default ApprovalReportCategoryTable;

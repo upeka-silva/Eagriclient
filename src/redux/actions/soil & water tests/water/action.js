@@ -1,10 +1,10 @@
-import { put, post, get, api_delete } from "../../../../services/api"
+import { put, post, api_delete } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleWaterTest = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("geo-data/water-samples", payload, true);
@@ -15,8 +15,7 @@ export const handleWaterTest = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -35,15 +34,17 @@ export const handleWaterTest = async (
   }
 };
 
-
 export const deleteWaterTests = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/water-samples/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `geo-data/water-samples/${id || ""}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -51,8 +52,7 @@ export const deleteWaterTests = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -68,15 +68,19 @@ export const deleteWaterTests = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateWaterTest = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/water-samples/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/water-samples/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -84,8 +88,7 @@ export const updateWaterTest = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
