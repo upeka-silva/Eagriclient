@@ -1,65 +1,142 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { loadModules } from "esri-loader";
-import "./style.css";
-import { get_map } from "../../redux/actions/farmer/action";
+import axios from "axios";
+import * as d3 from "d3";
 
-const SriLankaMap = ({ulrString}) => {
+const SriLankaMap = ({ url, type, distribution }) => {
   const mapRef = useRef(null);
+  useEffect(() => {
+    let codeTypeValue = "";
+    let functionName = null;
+    if (type === "gn") {
+      codeTypeValue = "GNDCODE7";
+    } else if (type === "ds") {
+      codeTypeValue = "ADM3_PCODE";
+      functionName = "convertDsCode";
+    } else if (type === "district") {
+      codeTypeValue = "ADM2_PCODE";
+      functionName = "convertDistrictCode";
+    }
+    localStorage.setItem("code", codeTypeValue);
+    localStorage.setItem("functionName", functionName);
+  }, [type]);
 
-  const baseURL = ulrString ? ulrString : ""
+  let code = localStorage.getItem("code");
 
   useEffect(() => {
     let map;
     let view;
     let isMounted = true;
-
-    loadModules([
-      "esri/Map",
-      "esri/views/MapView",
-      "esri/layers/GeoJSONLayer",
-      "esri/request",
-    ])
-      .then(([Map, MapView, GeoJSONLayer, esriRequest]) => {
+    let json = [];
+    loadModules(["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer"])
+      .then(([Map, MapView, GeoJSONLayer]) => {
         if (isMounted) {
-          const map = new Map({
+          map = new Map({
             basemap: "topo",
           });
 
-          const view = new MapView({
+          view = new MapView({
             container: mapRef.current,
             map: map,
             center: [80.7718, 7.8731],
             zoom: 8,
           });
 
-          // const url = get_map;
-          
-            
-
           const geojsonLayer = new GeoJSONLayer({
-            url: baseURL,
+            url: url,
             renderer: {
-              type: "simple",
-              symbol: {
+              type: "unique-value",
+              field: code,
+              uniqueValueInfos: [],
+              defaultSymbol: {
                 type: "simple-fill",
                 color: [255, 0, 0, 0.5],
                 outline: {
-                  color: [0, 0, 0, 0.6],
+                  color: [100, 100, 100],
                   width: 0.5,
                 },
               },
             },
             popupTemplate: {
-              title: "{Name}",
-              content: "Type: {Type}<br>District: {District}",
+              title: code,
+              content: "District Code: " + code,
             },
           });
+
+          const colorScale = d3
+            .scaleSequential()
+            .interpolator(d3.interpolateGreens)
+            .domain([0, d3.max(Object.values(distribution))]);
+
+          const getColor = (id) => {
+            const density = distribution[id];
+            return density ? colorScale(density) : "white";
+          };
+          code = localStorage.getItem("code");
+          const convertCode = (type, code) => {
+            //x-x-xx-xxx
+            if (type === "gn" && code.length >= 7) {
+              let strNumber = code.toString();
+              let regexPattern = /^(\d)(\d)(\d{2})(\d{3})$/;
+              let formattedNumber = strNumber.replace(
+                regexPattern,
+                "$1-$2-$3-$4"
+              );
+              return formattedNumber;
+            }
+            //x-x-xx
+            if (type === "ds" && code.length >= 6) {
+              let removeLk = code.slice(2);
+              let regexPattern = /^(\d)(\d)(\d{2})$/;
+              let formattedNumber = removeLk.replace(regexPattern, "$1-$2-$3");
+              return formattedNumber;
+            }
+            //x-x
+            if (type === "district" && code.length >= 4) {
+              let removeLk = code.slice(2);
+              let n1 = removeLk.charAt(0);
+              let n2 = removeLk.charAt(1);
+              const result = `${n1}-${n2}`;
+              return result;
+            } else {
+              return code;
+            }
+          };
+
+          const fetchData = async () => {
+            try {
+              const response = await axios.get(url);
+              for (let i = 0; i < response.data.features.length; i++) {
+                json.push({
+                  value: response.data.features[i].properties[code],
+                  symbol: {
+                    type: "simple-fill",
+                    color: getColor(
+                      convertCode(
+                        type,
+                        response.data.features[i].properties[code]
+                      )
+                    ),
+                    outline: {
+                      color: [100, 100, 100],
+                      width: 0.5,
+                    },
+                  },
+                });
+              }
+              geojsonLayer.renderer.uniqueValueInfos = json;
+            } catch (error) {
+              console.error("Error fetching data: ", error);
+            }
+          };
+          fetchData();
           map.add(geojsonLayer);
         }
       })
       .catch((error) => {
         console.error("Error loading ArcGIS modules: ", error);
       });
+
     return () => {
       isMounted = false;
       if (view) {
@@ -82,12 +159,9 @@ const SriLankaMap = ({ulrString}) => {
         border: "1.5px solid #c0c9c0",
         borderRadius: "15px",
         overflow: "hidden",
-        
-        // padding: "7px",
       }}
-    />
+    ></div>
   );
-  //   alignContent: "center", margin: "auto"
 };
 
 export default SriLankaMap;
