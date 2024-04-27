@@ -1,13 +1,11 @@
 import { put, post, get, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { getLSItem } from "../../../services/storage";
 import { StorageConstants } from "../../../services/storage/constant";
-
 
 export const handleUsers = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("user/register", payload, true);
@@ -18,16 +16,14 @@ export const handleUsers = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
-    
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -41,8 +37,8 @@ export const handleUsers = async (
 
 export const changePassword = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("user/changePassword", payload, true);
@@ -53,16 +49,14 @@ export const changePassword = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
-    
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -74,15 +68,14 @@ export const changePassword = async (
   }
 };
 
-
 export const deleteUsers = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`user/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`user/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -90,8 +83,7 @@ export const deleteUsers = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -107,15 +99,19 @@ export const deleteUsers = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateUsers = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`user/register/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `user/register/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -123,8 +119,7 @@ export const updateUsers = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -146,8 +141,8 @@ export const updateUsers = async (
 export const handleUserProfile = async (
   id,
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post(`user/${id}/profile`, payload, true);
@@ -158,16 +153,14 @@ export const handleUserProfile = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
-    
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -179,16 +172,19 @@ export const handleUserProfile = async (
   }
 };
 
-
 export const changeUserStatus = async (
-  id, 
+  id,
   status,
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`user-manage/${id}/status/${status}`, null, true);
- 
+    const response = await put(
+      `user-manage/${id}/status/${status}`,
+      null,
+      true
+    );
+
     if (response.httpCode === "200 OK") {
       return response.payload;
     } else {
@@ -203,7 +199,7 @@ export const changeUserStatus = async (
       };
       throw exception;
     }
-  } catch ({error}) {
+  } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
       const { apiError } = data;
@@ -212,13 +208,13 @@ export const changeUserStatus = async (
       onError(error);
     }
   }
- };
+};
 
- export const getUserProfile = async () => {
+export const getUserProfile = async () => {
   try {
-    var userid  = localStorage.getItem(StorageConstants.user_id);
-    
-    console.log({userid});
+    var userid = localStorage.getItem(StorageConstants.user_id);
+
+    console.log({ userid });
     const { httpCode, payload } = await get(`user/profile/${userid}`, true);
     if (httpCode === "200 OK") {
       return {
@@ -235,5 +231,3 @@ export const changeUserStatus = async (
     };
   }
 };
- 
- 

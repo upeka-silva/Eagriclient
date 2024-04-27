@@ -68,10 +68,6 @@ import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarni
 import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
 
-
-
-
-
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -87,14 +83,12 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import ContentPasteSearchIcon from "@mui/icons-material/ContentPasteSearch";
 import SouthAmericaIcon from "@mui/icons-material/SouthAmerica";
 import WaterDamageIcon from "@mui/icons-material/WaterDamage";
-import GiIsland from "@mui/icons-material/WaterDamage";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import AccessibilityIcon from "@mui/icons-material/Accessibility";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import SupervisedUserCircleIcon from "@mui/icons-material/SupervisedUserCircle";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 import YardIcon from "@mui/icons-material/Yard";
-import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import GppGoodIcon from "@mui/icons-material/GppGood";
 import SettingsIcon from "@mui/icons-material/Settings";
 import BiotechIcon from "@mui/icons-material/Biotech";
@@ -103,25 +97,18 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from '@mui/icons-material/Group';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
-
 import Organization from "../pages/Organization/Organization";
 import {
   Apple,
   Assessment,
   CalendarMonth,
-  Category,
-  Grain,
-  HowToReg,
-  Moving,
-  PeopleAlt,
-  Preview,
+  Category, HowToReg,
+  Moving, Preview,
   Rowing,
   Settings,
   Plagiarism,
-  TrendingDown,
-  Create,
-  BugReportRounded,
-  CoronavirusRounded,
+  TrendingDown, BugReportRounded,
+  CoronavirusRounded
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -140,7 +127,6 @@ import UsersForm from "../pages/Users/UserForm";
 import PrivateCompaniesList from "../pages/PrivateCompanies/PrivateCompaniesList";
 import GapRegs from "../pages/Gap/GapRegs";
 import GapRegForm from "../pages/Gap/GapRegForm";
-import Map from "../pages/Map/Map";
 import ProvincialDdoa from "../pages/ProvincialStructure/ProvincialDdoa/ProvincialDdoa";
 import ProvincialDdoaForm from "../pages/ProvincialStructure/ProvincialDdoa/ProvicialDdoaForm";
 import ProvincialAda from "../pages/ProvincialStructure/ProvincialAda/ProvicialAda";
@@ -193,8 +179,6 @@ import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
-import DDBiWeeklyReporting from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting";
-import DDBiWeeklyReportingForm from "../pages/CropLook/ddBiWeekReporting/dd-biweekly-reporting-from";
 import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
@@ -219,9 +203,7 @@ import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 
-
 export const Routes = [
- 
   {
     path: "/password-reset",
     element: <PasswordResetPage />,
@@ -248,9 +230,8 @@ export const Routes = [
     element: <Login />,
   },
   {
-     path: "/signup",
-     element: <SignUp />,
-     
+    path: "/signup",
+    element: <SignUp />,
   },
   {
     path: "/basic-register",
@@ -977,7 +958,7 @@ export const Routes = [
         element: <InstitutionForm />,
       },
     ],
-  },  
+  },
 
   {
     path: "/tests",
@@ -1550,7 +1531,7 @@ export const Routes = [
         name: "Commodity Group",
         isSideBar: true,
         element: <CommodityGroup />,
-        icon: GroupIcon ,
+        icon: GroupIcon,
         component: DEF_COMPONENTS.COMMODITY_GROUP,
       },
       {
@@ -1558,7 +1539,7 @@ export const Routes = [
         name: "Commodity",
         isSideBar: true,
         element: <CommodityItem />,
-        icon: GroupIcon ,
+        icon: GroupIcon,
         component: DEF_COMPONENTS.COMMODITY_ITEM,
       },
       {
@@ -1566,12 +1547,11 @@ export const Routes = [
         name: "Economic Center",
         isSideBar: true,
         element: <EconomicCenter />,
-        icon: GroupIcon ,
+        icon: GroupIcon,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      },      
-     ],
+      },
+    ],
   },
-
 
   // {
   //   path: "/map",

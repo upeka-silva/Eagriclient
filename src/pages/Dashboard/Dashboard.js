@@ -1,28 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  Autocomplete,
-  Box,
-  Card,
-  Chip,
-  Grid,
-  InputBase,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Autocomplete, Chip, Grid, InputBase, useTheme } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import ChartOne from "./ChartOne";
-import ChartTwo from "./ChartTwo";
-import StatBox from "../../components/DashBoardStatBox/StatBox";
-import { Forest, Image, Satellite } from "@mui/icons-material";
 import { tokens } from "../../utils/theme/app-theme";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
 import SriLankaMap from "../../components/ArcGisMap/SriLankaMap";
-import { getConfigurationById } from "../../redux/actions/cropLook/cropConfiguration/action";
-import { Chart } from "react-google-charts";
 import ReactApexChart from "react-apexcharts";
 import { getCropLookSeasons } from "../../redux/actions/cropLook/biWeekReporting/actions";
-import { getIrrigationModeProgress } from "../../redux/actions/cropLook/irrigationMode/action";
+import {
+  getIrrigationModeProgress,
+  getTargetExtent,
+  getvarietyProgress,
+} from "../../redux/actions/cropLook/irrigationMode/action";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -34,10 +23,39 @@ const Dashboard = () => {
   const [cropCategory, setCropCategory] = useState([]);
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
+  const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
+  const [allTargetExtent, setAllTargetExtent] = useState([]);
+  console.log({ allTargetExtent });
+
+  console.log({ allVarietyProgressData });
+
+  const [irrigationSortData, setIrrigationSortData] = useState({
+    varietyNames: [],
+    total: [],
+  });
+
+  const [varietyProgressSortData, setvarietyProgressData] = useState({
+    keys: [],
+    value: [],
+  });
+
+  const [targetExtentConfigData, setTargetExtentConfigData] = useState({
+    district: [],
+    totalExtent: [],
+    totalTarget: [],
+  });
+
+  console.log("bb", allCropLookSeason[0]?.id);
 
   console.log({ allIrrigationModeData });
   const [selectCropLookSeason, setCropLookSeason] = useState();
-  console.log({ selectCropCategory });
+  console.log({ selectCropLookSeason });
+
+  useEffect(() => {
+    if (allCropLookSeason.length > 0) {
+      setCropLookSeason(allCropLookSeason[0]);
+    }
+  }, [allCropLookSeason]);
 
   const cropCategoryChipHandleClick = async (chipLabel) => {
     setSelectCropCategory(chipLabel);
@@ -61,46 +79,142 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    console.log("beforenewg");
     if (selectCropLookSeason?.id && selectCropCategory?.id) {
+      console.log("newg");
       getIrrigationModeProgress(
         selectCropLookSeason?.id,
         selectCropCategory?.id
       ).then((res) => {
         setAllIrrigationModeData(res?.dataList);
       });
+
+      getvarietyProgress(selectCropLookSeason?.id, selectCropCategory?.id).then(
+        (res) => {
+          console.log({ res });
+          //setAllIrrigationModeData(res?.dataList);
+          setAllVarietyProgressData(res?.dataList);
+        }
+      );
+
+      getTargetExtent(selectCropLookSeason?.id, selectCropCategory?.id).then(
+        (res) => {
+          setAllTargetExtent(res?.dataList);
+        }
+      );
     }
-  }, [selectCropLookSeason, selectCropCategory]);
+  }, [selectCropLookSeason, selectCropCategory, allCropLookSeason]);
 
   useEffect(() => {
     const sortedData = allIrrigationModeData.sort(
       (a, b) => (b.total || 0) - (a.total || 0)
     );
-    const top10 = sortedData.slice(0, 10);
+    const top10 = sortedData.slice(0, 9);
 
-    const otherVarieties = sortedData.slice(10);
+    const otherVarieties = sortedData.slice(9, sortedData?.length);
+
     const otherTotalSum = otherVarieties.reduce(
       (sum, obj) => sum + (obj.total || 0),
       0
     );
 
-    const result = {
-      top10,
-      other: {
-        varietyId: "Others",
-        varietyName: "Others",
-        total: otherTotalSum,
-      },
+    const otherObj = {
+      varietyId: "Others",
+      varietyName: "Others",
+      total: otherTotalSum,
     };
-    console.log({ sortedData });
+
+    top10.push(otherObj);
+
+    const varietyNames = top10.map((item) => item.varietyName);
+    const total = top10.map((item) => item?.total);
+
+    setIrrigationSortData({
+      varietyNames,
+      total,
+    });
+
+    console.log({ varietyNames });
+    console.log({ total });
   }, [allIrrigationModeData]);
+
+  useEffect(() => {
+    const newVar = allVarietyProgressData?.[0];
+    let sortedKeysArray = [];
+    let sortedValuesArray = [];
+
+    console.log("tt", newVar);
+
+    //   const newVar = allVarietyProgressData[0];
+
+    if (newVar) {
+      const dataArray = Object.entries(newVar);
+      console.log({ dataArray });
+
+      dataArray?.sort((a, b) => {
+        // Compare the second element of each inner array (which contains the value)
+        // Use parseFloat to convert string values to numbers for comparison
+        return parseFloat(b[1]) - parseFloat(a[1]);
+      });
+
+      const top10 = dataArray.slice(0, 9);
+
+      const restValues = dataArray.slice(10);
+      const restValuesSum = restValues.reduce(
+        (acc, val) => acc + (parseFloat(val[1]) || 0),
+        0
+      );
+
+      const otherObj = ["other", restValuesSum];
+
+      top10.push(otherObj);
+
+      console.log({ top10 });
+
+      sortedKeysArray = top10.map((entry) => {
+        // Extract the substring after "totalExtent" if it exists, otherwise keep the key as it is
+        const key = entry[0].startsWith("totalExtent")
+          ? entry[0].substring("totalExtent".length)
+          : entry[0];
+        // Capitalize the first letter of the key
+        return key.charAt(0).toUpperCase() + key.slice(1);
+      });
+      sortedValuesArray = top10.map((entry) =>
+        entry[1] === null ? 0 : entry[1]
+      );
+
+      console.log({ sortedValuesArray });
+
+      setvarietyProgressData({
+        keys: sortedKeysArray,
+        value: sortedValuesArray,
+      });
+    }
+
+    console.log({ sortedKeysArray });
+  }, [allVarietyProgressData]);
+
+  useEffect(() => {
+    const district = allTargetExtent?.map((item) => item?.districtName);
+    const totalExtent = allTargetExtent?.map((item) => item?.totalExtent);
+    const totalTarget = allTargetExtent?.map((item) => item?.totalTarget);
+
+    setTargetExtentConfigData({
+      district: district,
+      totalExtent: totalExtent,
+      totalTarget: totalTarget,
+    });
+  }, [allTargetExtent]);
 
   const handleCropLookSeasonChange = (event, value) => {
     console.log("dd", value);
     setCropLookSeason(value);
   };
 
-  const series = [11, 2, 2];
-  const seriestwo = [30,30,15];
+  const series = varietyProgressSortData?.value;
+  const seriestwo = irrigationSortData?.total
+    ? irrigationSortData?.total
+    : null;
   const optionssthree = {
     dataLabels: {
       enabled: true,
@@ -122,7 +236,9 @@ const Dashboard = () => {
         },
       },
     },
-    labels: ["Bg 360", "At 311", "Bw 361"],
+    labels: irrigationSortData?.varietyNames
+      ? irrigationSortData?.varietyNames
+      : null,
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -173,7 +289,7 @@ const Dashboard = () => {
       },
     ],
     // Add other options as needed
-  }
+  };
   const optionss = {
     dataLabels: {
       enabled: true,
@@ -195,7 +311,7 @@ const Dashboard = () => {
         },
       },
     },
-    labels: ["Major", "Minor", "RainFed"],
+    labels: varietyProgressSortData?.keys.map(key => key.length > 5 ? key.substr(0, 5) + '..' : key),
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -286,12 +402,12 @@ const Dashboard = () => {
 
   const seriesBar = [
     {
-      name: "Net Profit",
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
+      name: "Total Target",
+      data: targetExtentConfigData ? targetExtentConfigData?.totalTarget : "",
     },
     {
-      name: "Revenue",
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
+      name: "Total Extent",
+      data: targetExtentConfigData ? targetExtentConfigData?.totalExtent : "",
     },
   ];
 
@@ -316,17 +432,9 @@ const Dashboard = () => {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: [
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-      ],
+      categories: targetExtentConfigData
+        ? targetExtentConfigData?.district
+        : "",
     },
     yaxis: {
       title: {
@@ -439,6 +547,7 @@ const Dashboard = () => {
               <Autocomplete
                 options={allCropLookSeason}
                 getOptionLabel={(option) => option?.agriSeason?.description}
+                value={selectCropLookSeason}
                 onChange={handleCropLookSeasonChange}
                 renderInput={(params) => (
                   <InputBase
@@ -471,7 +580,11 @@ const Dashboard = () => {
               flexDirection={"row"}
             >
               <ReactApexChart options={optionss} series={series} type="donut" />
-              <ReactApexChart options={optionssthree} series={seriestwo} type="donut" />
+              <ReactApexChart
+                options={optionssthree}
+                series={seriestwo}
+                type="donut"
+              />
             </Grid>
 
             <Grid

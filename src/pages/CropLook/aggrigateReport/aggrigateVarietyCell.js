@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { convertCropLookFields } from "../../../utils/appUtils";
+import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
 import { TableCell, TableRow } from "@mui/material";
 
 const AggrigateVarietyCell = ({
@@ -22,7 +22,6 @@ const AggrigateVarietyCell = ({
         const dbField = convertCropLookFields(field);
         updateIrrigationModeMap(field, data[dbField]);
       }
-
       for (let field1 of targetConfigs) {
         const dbField = convertCropLookFields(field1);
         updateIrrigationModeTargetMap(field1, data[dbField]);
