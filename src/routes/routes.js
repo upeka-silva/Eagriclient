@@ -95,8 +95,8 @@ import BiotechIcon from "@mui/icons-material/Biotech";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
-import GroupIcon from "@mui/icons-material/Group";
-
+import GroupIcon from '@mui/icons-material/Group';
+import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import Organization from "../pages/Organization/Organization";
 import {
   Apple,
@@ -200,6 +200,8 @@ import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalD
 import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
+import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
+import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 
 export const Routes = [
   {
@@ -1500,6 +1502,20 @@ export const Routes = [
         isSideBar: false,
         icon: KeyIcon,
         element: <PermissionsByRole />,
+      },
+      {
+        path: "/iso-unit",
+        name: "ISO Unit",
+        isSideBar: true,
+        icon: SquareFootIcon,
+        element: <IsoUnit />,
+        component: DEF_COMPONENTS.ISO_UNIT,
+      },
+      {
+        path: "/iso-unit-form",
+        name: "ISO Unit Form",
+        isSideBar: false,
+        element: <IsoUnitForm />,
       },
     ],
   },
