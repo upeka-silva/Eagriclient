@@ -43,6 +43,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { deleteProvincialDdoa } from "../../../redux/actions/provincialDdoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProvincialDdoa = () => {
   useUserAccessValidation();
@@ -55,11 +56,16 @@ const ProvincialDdoa = () => {
   const [search, setSearch] = useState({});
 
   const [selectedProvincialDdoa, setSelectedProvincialDdoa] = useState([]);
+  const [dialogSelectedProvincialDdoa, setDialogSelectedProvincialDdoa] =
+    useState([]);
   const [dataEndPoint, setDataEndPoint] = useState(
     "geo-data/provincial-deputy-director-level"
   );
 
-  const [selectedDoa, setSelectedDoa] = useState({proDirectorId:"",description:""});
+  const [selectedDoa, setSelectedDoa] = useState({
+    proDirectorId: "",
+    description: "",
+  });
   const [doas, setDoas] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -113,10 +119,12 @@ const ProvincialDdoa = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedProvincialDdoa(selectedProvincialDdoa);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedProvincialDdoa([]);
   };
 
   useEffect(() => {
@@ -175,7 +183,7 @@ const ProvincialDdoa = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const provincialDoa of selectedProvincialDdoa) {
+      for (const provincialDoa of dialogSelectedProvincialDdoa) {
         await deleteProvincialDdoa(provincialDoa.id, onSuccess, onError);
       }
       setLoading(false);
@@ -188,20 +196,20 @@ const ProvincialDdoa = () => {
   };
 
   const resetFilter = () => {
-    setSelectedDoa({proDirectorId: "", description: "" });
-    setDataEndPoint("geo-data/provincial-deputy-director-level")
+    setSelectedDoa({ proDirectorId: "", description: "" });
+    setDataEndPoint("geo-data/provincial-deputy-director-level");
   };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Provincial DDOA" />
       <ActionWrapper isLeft>
@@ -259,7 +267,6 @@ const ProvincialDdoa = () => {
             <FieldWrapper>
               <FieldName>Select Provincial DOA</FieldName>
               <Autocomplete
-               
                 options={doas}
                 value={selectedDoa}
                 getOptionLabel={(i) =>
@@ -314,36 +321,18 @@ const ProvincialDdoa = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedProvincialDdoa}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedProvincialDdoa}
+        dialogSelectedTypes={dialogSelectedProvincialDdoa}
+        propertyId="provincialDdId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

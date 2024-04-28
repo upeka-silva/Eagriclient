@@ -28,6 +28,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 
 const InstitutionCategory = () => {
@@ -36,6 +37,8 @@ const InstitutionCategory = () => {
   const { addSnackBar } = useSnackBars();
 
   const [selectInstitutionCat, setSelectInstitutionCat] = useState([]);
+  const [dialogSelectInstitutionCat, setDialogSelectInstitutionCat] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -90,10 +93,12 @@ const InstitutionCategory = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectInstitutionCat(selectInstitutionCat);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectInstitutionCat([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +141,7 @@ const InstitutionCategory = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const institutionCat of selectInstitutionCat) {
+      for (const institutionCat of dialogSelectInstitutionCat) {
         await deleteInstitutionCat(institutionCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -208,36 +213,18 @@ const InstitutionCategory = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Institution Category"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectInstitutionCat}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectInstitutionCat}
+        dialogSelectedTypes={dialogSelectInstitutionCat}
+        propertyId = "code"
+        propertyDescription = "description"
+      />
     </div>
   );
 };

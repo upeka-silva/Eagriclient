@@ -4,11 +4,11 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import CropList from "./CropList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -18,16 +18,19 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
-import { deleteCrop, downloadCropExcel } from "../../../redux/actions/crop/crop/action";
+import {
+  deleteCrop,
+  downloadCropExcel,
+} from "../../../redux/actions/crop/crop/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const Crop = () => {
   useUserAccessValidation();
@@ -39,6 +42,9 @@ const Crop = () => {
 
   const [selectCrop, setSelectCrop] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  //delete
+  const [dialogSelectedCropTypes, setDialogSelectedCrop] = useState([]);
 
   const toggleCategorySelect = (component) => {
     setSelectCrop((current = []) => {
@@ -90,10 +96,12 @@ const Crop = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedCrop(selectCrop);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedCrop([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +144,7 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of selectCrop) {
+      for (const crop of dialogSelectedCropTypes) {
         await deleteCrop(crop?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -157,79 +165,66 @@ const Crop = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop" />
       <ActionWrapper isLeft>
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectCrop.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+              <Button onClick={onCreate}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
             </PermissionWrapper>
-          )}
-          {selectCrop.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
-            >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectCrop.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
-            >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-          >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+            {selectCrop.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
+              >
+                <Button onClick={onEdit}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCrop.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
+              >
+                <Button onClick={onView}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCrop.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
+              >
+                <Button onClick={onDelete}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}
@@ -244,35 +239,19 @@ const Crop = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        items={selectCrop}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedCrop}
+        dialogSelectedTypes={dialogSelectedCropTypes}
+        propertyId="cropId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

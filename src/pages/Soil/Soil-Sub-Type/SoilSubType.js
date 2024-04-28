@@ -30,6 +30,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const SoilSubType = () => {
   useUserAccessValidation();
@@ -40,6 +41,8 @@ const SoilSubType = () => {
   const [open, setOpen] = useState(false);
 
   const [selectedSoilSubTypes, setSelectedSoilSubTypes] = useState([]);
+  const [dialogSelectedSoilSubTypes, setDialogSelectedSoilSubTypes] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleSoilSubTypesSelect = (component) => {
@@ -92,10 +95,12 @@ const SoilSubType = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedSoilSubTypes(selectedSoilSubTypes)
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectedSoilSubTypes([]);
   };
 
   const renderSelectedItems = () => {
@@ -138,7 +143,7 @@ const SoilSubType = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilSubType of selectedSoilSubTypes) {
+      for (const soilSubType of dialogSelectedSoilSubTypes) {
         await deleteSoilSubType(soilSubType?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -210,36 +215,18 @@ const SoilSubType = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Ok
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-         
-          <Divider sx={{ mt: "8px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        items={selectedSoilSubTypes}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedSoilSubTypes}
+        dialogSelectedTypes={dialogSelectedSoilSubTypes}
+        propertyId="soilSubTypeCode"
+        propertyDescription="description"
+      />
     </div>
   );
 };

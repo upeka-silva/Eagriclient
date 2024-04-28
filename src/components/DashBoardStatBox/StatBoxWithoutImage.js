@@ -24,10 +24,9 @@ function StatBoxWithoutImage({ title, subtitle,count }) {
       <Grid item xs={3}>
         <Box>
           <Typography
-            variant="h5"
             fontWeight="bold"
             sx={{ color: '#4D5F7C',
-            fontSize:'1.2vw'
+            fontSize:'1vw'
             }}
           >
             {count}
@@ -37,12 +36,12 @@ function StatBoxWithoutImage({ title, subtitle,count }) {
       <Grid item xs={1}></Grid>
       <Grid item xs={8}>
         <Box>
-          <Typography fontSize={'0.8vw'} fontWeight="bold" sx={{ color: colors.black }}>
+          <Typography fontSize={'0.7vw'} fontWeight="bold" sx={{ color: colors.black }}>
             {title}
           </Typography>
         </Box>
         <Box>
-          <Typography fontSize={'0.7vw'}  sx={{ color: colors.black }}>
+          <Typography fontSize={'0.6vw'}  sx={{ color: colors.black }}>
             {subtitle}
           </Typography>
         </Box>

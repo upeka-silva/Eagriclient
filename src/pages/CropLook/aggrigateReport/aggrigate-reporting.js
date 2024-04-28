@@ -18,6 +18,7 @@ import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
 
 const AggrigateReport = () => {
   useUserAccessValidation();
@@ -32,22 +33,22 @@ const AggrigateReport = () => {
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
-  console.log("cropCategoryList type:", typeof cropCategoryList);
-  console.log({selectedSeason})
+  const [toggleState, setToggleState] = useState(1);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
-      console.log("crop list");
-      console.log(dataList);
       setCropCategoryList(dataList);
     });
 
     getSeasons().then(({ dataList = [] }) => {
-      console.log("seasons ---------->");
-      console.log(dataList);
       setSeasons(dataList);
     });
   }, []);
+
+  const toggleTab = (index) => {
+    console.log("toggle state : " + index);
+    setToggleState(index);
+  };
 
   return (
     <div
@@ -95,27 +96,39 @@ const AggrigateReport = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item>
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
-          >
-            <TableWrapper>
-              {selectedSeason &&
-                cropCategoryList &&
-                cropCategoryList?.map((category) => (
-                  <div key={category.categoryId}>
-                    <h5>{category.categoryName}</h5>
-                   
-                    <CategoryReportTabel
-                      category={category}
-                      season={selectedSeason}
-                    />
+        <Grid item sx={{ marginTop: "20px" }}>
+          <TabWrapper style={{ margin: "0px 0px" }}>
+            {cropCategoryList.map((category, index) => (
+              <TabButton
+                className={toggleState === index + 1 ? "active-tabs" : ""}
+                onClick={() => toggleTab(index + 1)}
+              >
+                {category?.description}
+              </TabButton>
+            ))}
+          </TabWrapper>
 
-
-                  </div>
-                ))}
-            </TableWrapper>
-          </PermissionWrapper>
+          {selectedSeason &&
+            cropCategoryList &&
+            cropCategoryList.map((category, index) => (
+              <TabContent
+                //style={{ marginTop: "10px" }}
+                className={toggleState === index + 1 ? "active-content" : ""}
+              >
+                <PermissionWrapper
+                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                >
+                  <TableWrapper>
+                    <div key={category.categoryId}>
+                      <CategoryReportTabel
+                        category={category}
+                        season={selectedSeason}
+                      />
+                    </div>
+                  </TableWrapper>
+                </PermissionWrapper>
+              </TabContent>
+            ))}
         </Grid>
       </Grid>
     </div>

@@ -36,9 +36,9 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import TargetRegistrationList from "./target-registration-list";
 import { deleteIndicativeTargetRegistration } from "../../../redux/actions/indicativeTargets/actions";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const TargetRegistration = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -47,6 +47,8 @@ const TargetRegistration = () => {
   const [open, setOpen] = useState(false);
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [dialogSelectSubCategory, setDialogSelectSubCategory] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleSubCategorySelect = (component) => {
@@ -72,7 +74,9 @@ const TargetRegistration = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop-target/crop-target-registration-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-target/crop-target-registration-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -97,10 +101,12 @@ const TargetRegistration = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectSubCategory(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectSubCategory([]);
   };
 
   const renderSelectedItems = () => {
@@ -143,8 +149,12 @@ const TargetRegistration = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
-        await deleteIndicativeTargetRegistration(cropSubCat?.id, onSuccess, onError);
+      for (const cropSubCat of dialogSelectSubCategory) {
+        await deleteIndicativeTargetRegistration(
+          cropSubCat?.id,
+          onSuccess,
+          onError
+        );
       }
       setLoading(false);
       close();
@@ -157,14 +167,14 @@ const TargetRegistration = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Registration Details" />
       <ActionWrapper isLeft>
@@ -242,36 +252,18 @@ const TargetRegistration = () => {
           />
         )}
       </PermissionWrapper>
-
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Do You Want to Delete?"
-        actions={
-          <ActionWrapper>
-            <ButtonGroup
-              variant="outlined"
-              disableElevation
-              size="small"
-              aria-label="action button group"
-            >
-              <Button color="info" onClick={onConfirm} sx={{ ml: "8px" }}>
-                <CheckRounded />
-                Confirm
-              </Button>
-              <Button color="error" onClick={close} sx={{ ml: "8px" }}>
-                <CancelOutlined />
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectSubCategory}
+        dialogSelectedTypes={dialogSelectSubCategory}
+        propertyId="regionName"
+        propertyDescription="regionType"
+      />
     </div>
   );
 };

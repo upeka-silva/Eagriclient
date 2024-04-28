@@ -1,19 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material";
+import { Button, Divider } from "@mui/material";
 
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { useSnackBars } from "../../context/SnackBarContext";
-import { deleteAuditFormQuestion } from "../../redux/actions/auditForm/auditFormQuestions/actions";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import DeleteMsg from "../../utils/constants/DeleteMsg";
 import DialogBox from "../../components/PageLayout/DialogBox";
@@ -32,12 +22,11 @@ import AssessmentList from "./AssessmentList";
 import { deleteFarmLandAssesmentQuestion } from "../../redux/actions/farmLand/action";
 
 const DynamicFormListFarmLand = ({
-  formId ,
+  formId,
   formMode = null,
   auditFormType = "",
   stateData = {},
 }) => {
-
   const navigate = useNavigate();
 
   const { state } = useLocation();
@@ -50,8 +39,9 @@ const DynamicFormListFarmLand = ({
   const [deleteItem, setDeleteItem] = useState(null);
   const { addSnackBar } = useSnackBars();
 
+  //eslint-disable-next-line
   const dateAdapter = new AdapterDayjs();
-  
+
   let uriPath = "";
   let formHeader = "";
 
@@ -77,6 +67,7 @@ const DynamicFormListFarmLand = ({
     getFormTemplatesByFormLandId(formId, uriPath).then(({ data = [] }) => {
       setDataListTemplates(data);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCropAreaDelete = (prop) => (event) => {
@@ -136,7 +127,13 @@ const DynamicFormListFarmLand = ({
     setSaving(true);
     try {
       if (functionMode === DEF_ACTIONS.ADD) {
-        await saveFormDataWithValues(formId, uriPath, saveData, onSuccess, onError);
+        await saveFormDataWithValues(
+          formId,
+          uriPath,
+          saveData,
+          onSuccess,
+          onError
+        );
       } else if (functionMode === DEF_ACTIONS.EDIT) {
         await updateFormDataWithValues(
           data.id,
@@ -163,7 +160,13 @@ const DynamicFormListFarmLand = ({
   };
 
   const onConfirm = async () => {
-    await deleteFarmLandAssesmentQuestion(formId, uriPath, deleteItem?.id, onSuccess, onError);
+    await deleteFarmLandAssesmentQuestion(
+      formId,
+      uriPath,
+      deleteItem?.id,
+      onSuccess,
+      onError
+    );
     console.log("id is:" + formId);
     close();
   };
@@ -206,7 +209,7 @@ const DynamicFormListFarmLand = ({
         isShowAction={false}
         saving={saving}
         state={state}
-        formName= {formHeader}
+        formName={formHeader}
       />
 
       {(dialogMode === null || dialogMode === DEF_ACTIONS.ADD) && (
@@ -230,11 +233,12 @@ const DynamicFormListFarmLand = ({
         />
       )}
 
-    <AssessmentList data={dataListTemplates} 
-      currentFormMode ={formMode}
-      onEdit={viewAssessmentForm} 
-      onDelete={handleCropAreaDelete}
-      currentState ={state}
+      <AssessmentList
+        data={dataListTemplates}
+        currentFormMode={formMode}
+        onEdit={viewAssessmentForm}
+        onDelete={handleCropAreaDelete}
+        currentState={state}
       />
 
       <DialogBox

@@ -7,7 +7,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,12 +21,7 @@ import {
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import {
-  Add,
-  Delete,
-  Edit,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { get_MahaweliAuthorityList } from "../../../redux/actions/mahaweliAuthority/action";
@@ -34,6 +29,7 @@ import { deleteMahaweliSystem } from "../../../redux/actions/mahaweliSystem/acti
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliSystemList from "./MahaweliSystemList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const MahaweliSystem = () => {
   useUserAccessValidation();
@@ -46,9 +42,10 @@ const MahaweliSystem = () => {
   const [search, setSearch] = useState({});
 
   const [selectedMahaweliSystem, setSelectedMahaweliSystem] = useState([]);
-  const [dataEndPoint, setDataEndPoint] = useState(
-    "geo-data/mahaweli-systems"
-  );
+  const [dialogSelectedMahaweliSystem, setDialogSelectedMahaweliSystem] =
+    useState([]);
+
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/mahaweli-systems");
 
   const [mahaweliAuthority, setSelecteMahaweliAuthority] = useState({
     authorityId: "",
@@ -107,10 +104,12 @@ const MahaweliSystem = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedMahaweliSystem(selectedMahaweliSystem);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedMahaweliSystem([]);
   };
 
   useEffect(() => {
@@ -169,7 +168,7 @@ const MahaweliSystem = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const system of selectedMahaweliSystem) {
+      for (const system of dialogSelectedMahaweliSystem) {
         await deleteMahaweliSystem(system.id, onSuccess, onError);
       }
       setLoading(false);
@@ -188,14 +187,14 @@ const MahaweliSystem = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Mahaweli System" />
       <ActionWrapper isLeft>
@@ -308,36 +307,18 @@ const MahaweliSystem = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Provincial Level"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedMahaweliSystem}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedMahaweliSystem}
+        dialogSelectedTypes={dialogSelectedMahaweliSystem}
+        propertyId="systemId"
+        propertyDescription="description"
+      />
     </div>
   );
 };

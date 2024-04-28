@@ -27,6 +27,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ScsRegionList from "./ScsRegionList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ScsRegionBranch = () => {
   useUserAccessValidation();
@@ -37,6 +38,8 @@ const ScsRegionBranch = () => {
   const [open, setOpen] = useState(false);
 
   const [selectedScsRegion, setSelectedScsRegion] = useState([]);
+  const [dialogSelectedScsRegion, setDialogSelectedScsRegion] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleScsRegionSelect = (component) => {
@@ -89,10 +92,12 @@ const ScsRegionBranch = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectedScsRegion(selectedScsRegion);
   };
 
   const onClose = () => {
     setOpen(false);
+    setDialogSelectedScsRegion([]);
   };
 
   const renderSelectedItems = () => {
@@ -136,7 +141,7 @@ const ScsRegionBranch = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const agrarDevDept of selectedScsRegion) {
+      for (const agrarDevDept of dialogSelectedScsRegion) {
         await deleteScsRegion(agrarDevDept.id, onSuccess, onError);
       }
       setLoading(false);
@@ -150,14 +155,14 @@ const ScsRegionBranch = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Scs Region Branch" />
       <ActionWrapper isLeft>
@@ -221,36 +226,18 @@ const ScsRegionBranch = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete SCS Region"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={onClose}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedScsRegion}
+        loading={loading}
+        onClose={onClose}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectedScsRegion}
+        dialogSelectedTypes={dialogSelectedScsRegion}
+        propertyId="scsRegionId"
+        propertyDescription="name"
+      />
     </div>
   );
 };
