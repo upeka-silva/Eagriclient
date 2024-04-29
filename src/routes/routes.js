@@ -215,6 +215,8 @@ import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalD
 import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
+import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
+
 
 
 export const Routes = [
@@ -1551,7 +1553,16 @@ export const Routes = [
         element: <EconomicCenter />,
         icon: GroupIcon ,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      },      
+      }, 
+      {
+        path: "/getfoodpricedata",
+        name: "Harti Price",
+        isSideBar: true,
+        element: <HartyPrices />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.LATEST_PRODUCER_PRICE,
+      }, 
+           
      ],
   },
 
