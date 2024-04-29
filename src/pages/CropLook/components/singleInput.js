@@ -42,7 +42,7 @@ const SingleInput = ({
       </Grid>
       <Grid item xs={10} sx={{ pl: "5px" }}>
         <Grid container spacing={1}>
-          {configFields.map((field,index) => (
+          {configFields.map((field, index) => (
             <Grid item xs={2} sx={{ mt: "10px" }}>
               <TextField
                 type="number"
@@ -51,14 +51,17 @@ const SingleInput = ({
                 id={`input_${varietyTarget.varietyName}_${index}`}
                 label={removeTarget(field)}
                 value={varietyTarget[getDbFieldName(field)]}
-                onChange={(e) =>
-                  targetedExtentHandler(
-                    cropIndex,
-                    varietyIndex,
-                    getDbFieldName(field),
-                    e.target.value
-                  )
-                }
+                onChange={(e) => {
+                  const inputValue = e.target.value;
+                  if (!isNaN(inputValue) && inputValue >= 0) {
+                    targetedExtentHandler(
+                      cropIndex,
+                      varietyIndex,
+                      getDbFieldName(field),
+                      e.target.value
+                    );
+                  }
+                }}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "5px",
