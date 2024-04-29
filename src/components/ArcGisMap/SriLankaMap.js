@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { loadModules } from "esri-loader";
-import axios from "axios";
 import * as d3 from "d3";
+import { handleMapData } from "../../redux/actions/map/action";
 
 const SriLankaMap = ({ url, type, distribution }) => {
   const mapRef = useRef(null);
@@ -103,19 +103,20 @@ const SriLankaMap = ({ url, type, distribution }) => {
             }
           };
 
+          //pass from backend
+          const mapUrl = `map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1`;
+
           const fetchData = async () => {
             try {
-              const response = await axios.get(url);
-              for (let i = 0; i < response.data.features.length; i++) {
+              const response = await handleMapData(mapUrl);
+              for (let i = 0; i < response.features.length; i++) {
+                console.log(response.features[i]);
                 json.push({
-                  value: response.data.features[i].properties[code],
+                  value: response.features[i].properties[code],
                   symbol: {
                     type: "simple-fill",
                     color: getColor(
-                      convertCode(
-                        type,
-                        response.data.features[i].properties[code]
-                      )
+                      convertCode(type, response.features[i].properties[code])
                     ),
                     outline: {
                       color: [100, 100, 100],
@@ -124,12 +125,15 @@ const SriLankaMap = ({ url, type, distribution }) => {
                   },
                 });
               }
+              console.log("sss", json);
               geojsonLayer.renderer.uniqueValueInfos = json;
             } catch (error) {
               console.error("Error fetching data: ", error);
             }
           };
+
           fetchData();
+
           map.add(geojsonLayer);
         }
       })

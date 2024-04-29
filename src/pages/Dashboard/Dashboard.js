@@ -12,6 +12,7 @@ import {
   getTargetExtent,
   getvarietyProgress,
 } from "../../redux/actions/cropLook/irrigationMode/action";
+import { baseURL } from "../../utils/constants/api";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -454,8 +455,9 @@ const Dashboard = () => {
   //Sri lanka map url, distribution and type
 
   const url =
-    "http://localhost:8080/api/v1/map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1";
+    baseURL + "map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1";
 
+  console.log(url);
   const distribution = {
     "1-1": 154915,
     "1-2": 37424,
