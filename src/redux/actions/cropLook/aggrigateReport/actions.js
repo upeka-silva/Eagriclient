@@ -269,6 +269,23 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
+export const getAggrigateBiWeekReportData = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(`crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}/week/${weekId}`, true);
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getApprovalData = async (seasonId, weekId) => {
   try {
     const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/forADA/season/${seasonId}/week/${weekId}`, true);
