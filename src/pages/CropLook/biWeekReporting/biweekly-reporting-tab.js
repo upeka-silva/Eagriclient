@@ -21,6 +21,7 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 const BiWeeklyReportingTab = ({
   mode,
+  status,
   registrationId,
   cropCategoryId,
   aiRegion,
@@ -258,11 +259,13 @@ const BiWeeklyReportingTab = ({
         </Grid>
         <Grid item sm={12} md={12} lg={12}>
           {dataLoaded &&
-            cropTargets.map((cropTarget, cropIndex) => (
+            cropTargets !== null &&
+            cropTargets?.map((cropTarget, cropIndex) => (
               <BiweeklyCropInput
                 cropTarget={cropTarget}
                 targetedExtentHandler={targetedExtentHandler}
                 mode={mode}
+                status={status}
                 cropIndex={cropIndex}
                 configFields={configFields}
               />
