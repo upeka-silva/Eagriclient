@@ -1150,8 +1150,13 @@ export const DataTable = ({
                     );
                   }
                   if (c?.type === "float") {
-                    let content = parseFloat(r[c.field]).toFixed(2);
-                  
+                    let content = r[c.field];
+                    if (content !== null && content !== undefined) {
+                      content = parseFloat(content).toFixed(2);
+                    } else {
+                      content = "null";
+                    }
+                    
                     return (
                       <TableCell
                         key={`${key}-${key2}`}
