@@ -1,4 +1,4 @@
-import { put, post, get, api_delete } from "../../../services/api";
+import { put, post, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleUserType = async (
