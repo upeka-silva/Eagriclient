@@ -8,20 +8,26 @@ const HartyPricesList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
-
   const columns = [
+    { field: "weeknum", headerName: "Week", type: "number" },
+    { field: "allocated_date", headerName: "Allocated Date", type: "date" },
     { field: "groupname", headerName: "Group Name" },
-    { field: "itemname", headerName: "Item Name" },
-    { field: "itemnum", headerName: "Item No" },
-    { field: "loccode", headerName: "LocCode" },
-    { field: "location", headerName: "Location" },
-    { field: "pricetype", headerName: "Price Type" },
-    { field: "s_avg", headerName: "Average " },
-    { field: "s_max", headerName: "Max" },
-    { field: "s_min", headerName: "Min" },
-    { field: "weeknum", headerName: "Week" },
-  ];
+    {
+      field: ["itemnum", "itemname"],
+      headerName: "Item",
+      joinString: " - ",
+    },
+    {
+      field: ["loccode", "location"],
+      headerName: "Location",
+      joinString: " - ",
+    },
 
+    { field: "pricetype", headerName: "Price Type" },
+    { field: "s_min", headerName: "Min", type: "float" },
+    { field: "s_max", headerName: "Max", type: "float" },
+    { field: "s_max", headerName: "Average", type: "float" },
+  ];
 
   return (
     <TableWrapper>
