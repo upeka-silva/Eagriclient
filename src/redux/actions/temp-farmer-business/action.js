@@ -1,10 +1,10 @@
-import { put, post, get, api_delete } from "../../../services/api";
+import { put, post, api_delete } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleFarmerBusiness = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("temp-farmer-businesses", payload, true);
@@ -15,15 +15,14 @@ export const handleFarmerBusiness = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    return response
+    return response;
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -35,16 +34,17 @@ export const handleFarmerBusiness = async (
   }
 };
 
-
-
 export const deleteFarmerBusiness = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`temp-farmer-businesses/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `temp-farmer-businesses/${id || ""}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -52,8 +52,7 @@ export const deleteFarmerBusiness = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -69,15 +68,19 @@ export const deleteFarmerBusiness = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateFarmerBusiness = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`temp-farmer-businesses/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `temp-farmer-businesses/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -85,8 +88,7 @@ export const updateFarmerBusiness = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -105,16 +107,18 @@ export const updateFarmerBusiness = async (
   }
 };
 
-
-
 export const handleFarmerBusinessBranch = async (
   id,
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await post(`temp-farmer-businesses/${id}/branches`, payload, true);
+    const response = await post(
+      `temp-farmer-businesses/${id}/branches`,
+      payload,
+      true
+    );
     if (response.httpCode === "201 CREATED") {
       onSuccess();
     } else {
@@ -122,8 +126,7 @@ export const handleFarmerBusinessBranch = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -145,12 +148,15 @@ export const handleFarmerBusinessBranch = async (
 export const deleteFarmerBusinessBranch = async (
   businessId,
   branchId,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`temp-farmer-businesses/${businessId}/branches/${branchId}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `temp-farmer-businesses/${businessId}/branches/${branchId}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -158,8 +164,7 @@ export const deleteFarmerBusinessBranch = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -175,16 +180,20 @@ export const deleteFarmerBusinessBranch = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateFarmerBusinessBranch = async (
   id,
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`temp-farmer-businesses/${id}/branches/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `temp-farmer-businesses/${id}/branches/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -192,8 +201,7 @@ export const updateFarmerBusinessBranch = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -210,4 +218,4 @@ export const updateFarmerBusinessBranch = async (
       onError(error);
     }
   }
-}
+};

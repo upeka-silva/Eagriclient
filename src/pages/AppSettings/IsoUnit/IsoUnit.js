@@ -1,38 +1,22 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Button,
-  ButtonGroup,
-  CircularProgress,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-} from "@mui/material";
-import CropList from "./CropList";
+import { useNavigate } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../../utils/constants/permission";
-import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
-import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import IsoUnitList from "./IsoUnitList";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader";
-import {
-  deleteCrop,
-  downloadCropExcel,
-} from "../../../redux/actions/crop/crop/action";
-import { Fonts } from "../../../utils/constants/Fonts";
-import ExportButton from "../../../components/ExportButton/ExportButton";
+import { useState } from "react";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
+import { Button, ButtonGroup, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Stack } from "@mui/material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
+import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
+import { Fonts } from "../../../utils/constants/Fonts";
+import { deleteIsoUnit } from "../../../redux/actions/app_settings/roles/isoUnit/action";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 
-const Crop = () => {
+const IsoUnit = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -40,14 +24,13 @@ const Crop = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [selectCrop, setSelectCrop] = useState([]);
+  const [selectIsoUnit, setSelectIsoUnit] = useState([]);
+  const [dialogSelectedIsoUnit, setDialogSelectedIsoUnit] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  //delete
-  const [dialogSelectedCropTypes, setDialogSelectedCrop] = useState([]);
-
-  const toggleCategorySelect = (component) => {
-    setSelectCrop((current = []) => {
+  const toggleIsoUnitSelect = (component) => {
+    setSelectIsoUnit((current = []) => {
       let newList = [...current];
       let index = newList.findIndex((c) => c?.id === component?.id);
       if (index > -1) {
@@ -59,55 +42,55 @@ const Crop = () => {
     });
   };
 
-  const url = `geo-data/crops`;
-
-  const selectAllCategories = (all = []) => {
-    setSelectCrop(all);
+  const selectAllIsoUnit = (all = []) => {
+    setSelectIsoUnit(all);
   };
 
-  const resetSelectedCategory = () => {
-    setSelectCrop([]);
+  const resetSelectedIsoUnit = () => {
+    setSelectIsoUnit([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop/crop-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/app-settings/iso-unit-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
     setAction(DEF_ACTIONS.EDIT);
-    navigate("/crop/crop-form", {
+    navigate("/app-settings/iso-unit-form", {
       state: {
         action: DEF_ACTIONS.EDIT,
-        target: selectCrop[0] || {},
+        target: selectIsoUnit[0] || {},
       },
     });
   };
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop/crop-form", {
+    navigate("/app-settings/iso-unit-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
-        target: selectCrop[0] || {},
+        target: selectIsoUnit[0] || {},
       },
     });
   };
 
   const onDelete = () => {
     setOpen(true);
-    setDialogSelectedCrop(selectCrop);
+    setDialogSelectedIsoUnit(selectIsoUnit);
   };
 
   const close = () => {
     setOpen(false);
-    setDialogSelectedCrop([]);
+    setDialogSelectedIsoUnit([]);
   };
 
   const renderSelectedItems = () => {
     return (
       <List>
-        {selectCrop.map((p, key) => {
+        {selectIsoUnit.map((p, key) => {
           return (
             <ListItem>
               <ListItemIcon>
@@ -118,7 +101,7 @@ const Crop = () => {
                 )}
               </ListItemIcon>
               <ListItemText>
-                {p.cropId} - {p.description}
+                {p.unitCode} - {p.description}
               </ListItemText>
             </ListItem>
           );
@@ -144,22 +127,15 @@ const Crop = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const crop of dialogSelectedCropTypes) {
-        await deleteCrop(crop?.id, onSuccess, onError);
+      for (const isoUnit of dialogSelectedIsoUnit) {
+        await deleteIsoUnit(isoUnit?.id, onSuccess, onError);
       }
       setLoading(false);
       close();
-      resetSelectedCategory();
+      resetSelectedIsoUnit();
     } catch (error) {
       console.log(error);
       setLoading(false);
-    }
-  };
-  const onDownload = async () => {
-    try {
-      await downloadCropExcel();
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -174,10 +150,10 @@ const Crop = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop" />
+      <ListHeader title="ISO Unit" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
-          <ExportButton onDownload={onDownload} />
+          {/* <ExportButton onDownload={onDownload} /> */}
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -186,38 +162,38 @@ const Crop = () => {
             color="success"
           >
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ISO_UNIT}`}
             >
-              <Button onClick={onCreate}>
+              <Button onClick={onCreate} title="add">
                 <Add />
                 {DEF_ACTIONS.ADD}
               </Button>
             </PermissionWrapper>
-            {selectCrop.length === 1 && (
+            {selectIsoUnit.length === 1 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.ISO_UNIT}`}
               >
-                <Button onClick={onEdit}>
+                <Button onClick={onEdit} title="edit">
                   <Edit />
                   {DEF_ACTIONS.EDIT}
                 </Button>
               </PermissionWrapper>
             )}
-            {selectCrop.length === 1 && (
+            {selectIsoUnit.length === 1 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ISO_UNIT}`}
               >
-                <Button onClick={onView}>
+                <Button onClick={onView} title="view">
                   <Vrpano />
                   {DEF_ACTIONS.VIEW}
                 </Button>
               </PermissionWrapper>
             )}
-            {selectCrop.length > 0 && (
+            {selectIsoUnit.length > 0 && (
               <PermissionWrapper
-                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ISO_UNIT}`}
               >
-                <Button onClick={onDelete}>
+                <Button onClick={onDelete} title="delete">
                   <Delete />
                   {DEF_ACTIONS.DELETE}
                 </Button>
@@ -227,33 +203,32 @@ const Crop = () => {
         </Stack>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP}`}
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ISO_UNIT}`} 
       >
         {loading === false && (
-          <CropList
-            url={url}
-            selectedRows={selectCrop}
-            onRowSelect={toggleCategorySelect}
-            selectAll={selectAllCategories}
-            unSelectAll={resetSelectedCategory}
-          />
+            <IsoUnitList
+                selectedRows={selectIsoUnit}
+                onRowSelect={toggleIsoUnitSelect}
+                selectAll={selectAllIsoUnit}
+                unSelectAll={resetSelectedIsoUnit}
+             />
         )}
       </PermissionWrapper>
 
       <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
-        items={selectCrop}
+        items={selectIsoUnit}
         loading={loading}
         onClose={close}
         onConfirm={onConfirm}
-        setDialogSelectedTypes={setDialogSelectedCrop}
-        dialogSelectedTypes={dialogSelectedCropTypes}
-        propertyId="cropId"
+        setDialogSelectedTypes={setDialogSelectedIsoUnit}
+        dialogSelectedTypes={dialogSelectedIsoUnit}
+        propertyId="unitCode"
         propertyDescription="description"
       />
     </div>
   );
 };
 
-export default Crop;
+export default IsoUnit;

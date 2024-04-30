@@ -73,11 +73,9 @@ const CropForm = ({
 
   const [subOptions, setSubOptions] = useState([]);
   const [soilOptions, setSoilOptions] = useState([]);
-  const [selectedFile, setSelectedFile] = useState();
   const [selectedImage, setSelectedImage] = useState(
     state?.target?.prsignedUrl || null
   );
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [form, setForm] = useState();
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
@@ -89,8 +87,6 @@ const CropForm = ({
   const [dialogMode, setDialogMode] = useState(null);
   const [openCropDiseaseAddDialog, setOpenCropDiseaseAddDialog] =
     useState(false);
-  const [isDataFetch, setIsDataFetch] = useState(true);
-  const [deleteItem, setDeleteItem] = useState(null);
   const [cropId, setCropId] = useState(null);
   const [pestUrl, setPestUrl] = useState(null);
   const [diseaseUrl, setDiseaseUrl] = useState(null);
@@ -99,17 +95,12 @@ const CropForm = ({
     const cropId = formData.id;
     setPestUrl(`crop/crop-pests/${cropId}/pests`);
     setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
-  });
+    //eslint-disable-next-line
+  }, []);
 
   const goBack = () => {
     navigate("/crop/crop");
   };
-
-  const handleCropPestDelete = (prop) => (event) => {
-    setDeleteItem(prop);
-    setOpen(true);
-  };
-
   const toggleTab = (index) => {
     setToggleState(index);
   };
@@ -119,7 +110,6 @@ const CropForm = ({
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropPestAddDialog(true);
-    setIsDataFetch(false);
     setPestUrl(`crop/crop-pests/${cropId}/pests`);
   };
 
@@ -128,7 +118,6 @@ const CropForm = ({
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropDiseaseAddDialog(true);
-    setIsDataFetch(false);
     setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
   };
 
@@ -146,7 +135,7 @@ const CropForm = ({
   };
 
   const handleCropPestAdd = async (event, formDataD, functionMode) => {
-    console.log({formDataD});
+    console.log({ formDataD });
     setLoading(true);
     try {
       await assignCropPest(cropId, formDataD);
@@ -314,7 +303,6 @@ const CropForm = ({
           ? "Successfully Added"
           : "Successfully Updated",
     });
-    setSaving(false);
   };
 
   const onError = (message) => {
@@ -322,13 +310,10 @@ const CropForm = ({
       type: SnackBarTypes.error,
       message: message || "Login Failed",
     });
-    setSaving(false);
   };
 
   const handleFormSubmit = async () => {
     if (enableSave()) {
-      setSaving(true);
-
       try {
         if (form && state?.action === DEF_ACTIONS.ADD) {
           const response = await handleCrop(formData, onSuccess, onError);
@@ -408,7 +393,6 @@ const CropForm = ({
 
   const handleImageChange = async (event) => {
     const file = event.target.files[0];
-    setSelectedFile(event?.target?.file);
     console.log(event?.target);
     if (file) {
       const reader = new FileReader();
