@@ -474,3 +474,19 @@ export const uploadOtherCertificate = async (
     }
   }
 }
+
+export const getNextGapId = async (
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+try {
+  const { httpCode, payload } = await get(`gap-request/next-gap-id`, true, null, true);
+  if (httpCode === '200 OK') {
+    return payload;
+  }
+  return ""
+} catch (error) {
+  console.log(error)
+  return ""
+}
+};

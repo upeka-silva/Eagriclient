@@ -7,10 +7,10 @@ import {
   TableHead,
   TableRow,
   Paper,
+  CircularProgress,
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
 import AggrigateVarietyCell from "./aggrigateVarietyCell";
 
 const CategoryReportTabel = ({ category, season }) => {
@@ -18,15 +18,8 @@ const CategoryReportTabel = ({ category, season }) => {
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
-  const [confLoading, setConfLoading] = useState([]);
-  const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
-  const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
-    new Map()
-  );
 
   useEffect(() => {
-    setirrIgationModeMap(new Map());
-    setirrIgationModeTargetMap(new Map());
     async function fetchData(categoryId, seasonId) {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
@@ -39,70 +32,18 @@ const CategoryReportTabel = ({ category, season }) => {
         acc[cropName].push(obj);
         return acc;
       }, {});
-
-      setLoading(false);
       setData(groupedData);
     }
 
     async function fetchConfig(categoryId, dataList) {
-      setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
       setTargetConfigs(configs.targetFields);
       setReportConfigs(configs.fields);
-
-      for (let data of dataList) {
-        for (let field of configs?.fields) {
-          const dbField = convertCropLookFields(field);
-          updateIrrigationModeMap(field, data[dbField]);
-        }
-
-        for (let field1 of configs?.targetFields) {
-          const dbField = convertCropLookFields(field1);
-          updateIrrigationModeTargetMap(field1, data[dbField]);
-        }
-        updateIrrigationModeMap("grandTotalBiWeek", data?.grandTotalBiWeek);
-        updateIrrigationModeTargetMap(
-          "grandTotalTargeted",
-          data?.grandTotalTargeted
-        );
-      }
-      setConfLoading(false);
+      setLoading(false);
     }
 
     fetchData(category?.id, season?.id);
   }, [season]);
-
-  const updateIrrigationModeMap = (key, value) => {
-    setirrIgationModeMap((prevMap) => {
-      const newMap = new Map(prevMap);
-
-      if (newMap.has(key)) {
-        newMap.set(key, newMap.get(key) + value);
-      } else {
-        newMap.set(key, value);
-      }
-
-      return newMap;
-    });
-  };
-
-  const updateIrrigationModeTargetMap = (key, value) => {
-    setirrIgationModeTargetMap((prevMap) => {
-      const newMap = new Map(prevMap);
-
-      if (newMap.has(key)) {
-        newMap.set(key, newMap.get(key) + value);
-      } else {
-        newMap.set(key, value);
-      }
-
-      return newMap;
-    });
-  };
-
-  const getRoundValue = (value) => {
-    return value?.toFixed(3);
-  };
 
   return (
     <>
@@ -134,7 +75,7 @@ const CategoryReportTabel = ({ category, season }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!confLoading &&
+            {!loading ?
               Object.keys(data).map((cropName) => (
                 <AggrigateVarietyCell
                   cropName={cropName}
@@ -142,7 +83,7 @@ const CategoryReportTabel = ({ category, season }) => {
                   targetConfigs={targetConfigs}
                   reportConfigs={reportConfigs}
                 />
-              ))}
+              )) : <CircularProgress/>}
           </TableBody>
         </Table>
       </TableContainer>
