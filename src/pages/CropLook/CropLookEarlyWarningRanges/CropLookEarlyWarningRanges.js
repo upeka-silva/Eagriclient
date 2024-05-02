@@ -86,7 +86,7 @@ const CropLookEarlyWarningRanges = () => {
                   )}
                 </ListItemIcon>
                 <ListItemText>
-                  {p.id} - {p.cropDTO?.cropId}
+                  {p.id} - {p.cropDTO?.description}
                 </ListItemText>
               </ListItem>
             );
@@ -246,7 +246,7 @@ const CropLookEarlyWarningRanges = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              OK
             </Button>
             <Button
               variant="contained"

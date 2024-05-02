@@ -13,8 +13,8 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { useEffect } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { get_SubCategoryById, get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_CropById, get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
 import { RestartAlt } from "@mui/icons-material";
 
 const CropLookEarlyWarningRangesList = ({
@@ -79,7 +79,7 @@ const CropLookEarlyWarningRangesList = ({
   }, []);
 
   const getSubCategories = (id) => {
-    get_SubCategoryById(id).then(({ dataList = [] }) => {
+    get_all_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setSubCategoryOptions(dataList);
     });
@@ -93,7 +93,7 @@ const CropLookEarlyWarningRangesList = ({
 
   const getCrops = (id) => {
     debugger;
-    get_CropById(id).then(({ dataList = [] }) => {
+    get_all_CropById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setCropyOptions(dataList);
     });

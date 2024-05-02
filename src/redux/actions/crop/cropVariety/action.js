@@ -84,6 +84,30 @@ export const get_CropById = async (
   }
 };
 
+export const get_all_CropById = async (
+  id,
+  onSuccess = () => {},
+  onError = (_message) => {},
+  path = 'geo-data/crops/crop-sub-category/' + id + '/all'
+) => {
+try {
+  const { httpCode, payloadDto } = await get(path, true);
+  if (httpCode === "200 OK") {
+    return {
+      dataList: payloadDto,
+    };
+  }
+  return {
+    dataList: [],
+  };
+} catch (error) {
+  console.error(error);
+  return {
+    dataList: [],
+  };
+}
+};
+
 export const getCropsByCropCategory = async (
   id,
   onSuccess = () => {},
