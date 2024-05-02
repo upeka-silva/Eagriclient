@@ -19,8 +19,8 @@ import { useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { get_SubCategoryById, get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_CropById, get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
 
 const CropLookEarlyWarningRangesForm = () => {
   useUserAccessValidation();
@@ -54,7 +54,7 @@ const CropLookEarlyWarningRangesForm = () => {
 
   const getSubCategories = (id) => {
     debugger;
-    get_SubCategoryById(id).then(({ dataList = [] }) => {
+    get_all_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setSubCategoryOptions(dataList);
     });
@@ -62,7 +62,7 @@ const CropLookEarlyWarningRangesForm = () => {
 
   const getCrops = (id) => {
     debugger;
-    get_CropById(id).then(({ dataList = [] }) => {
+    get_all_CropById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setCropyOptions(dataList);
     });
