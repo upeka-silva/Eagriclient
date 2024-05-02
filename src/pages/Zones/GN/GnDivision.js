@@ -13,6 +13,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
@@ -52,6 +53,7 @@ import {
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import GnDivisionList from "./GnDivisionList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const GnDivision = () => {
@@ -798,20 +800,15 @@ const GnDivision = () => {
     >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
-        ><PermissionWrapper
         >
-          <Button onClick={onDownload} title="export" 
-            color="success">
-            <Download />
-            {DEF_ACTIONS.EXPORT}
-          </Button>
-        </PermissionWrapper>
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
           >
@@ -853,6 +850,7 @@ const GnDivision = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>

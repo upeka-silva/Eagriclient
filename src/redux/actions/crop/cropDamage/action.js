@@ -1,4 +1,4 @@
-import {put,get,post, api_delete, getBlob } from "../../../../services/api";
+import { put, get, post, api_delete, getBlob } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const createDamage = async (
@@ -16,8 +16,7 @@ export const createDamage = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -43,7 +42,11 @@ export const createDamageType = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post(`crop/damage-category/${damageCategoryId}/damage-type`, payload, true);
+    const response = await post(
+      `crop/damage-category/${damageCategoryId}/damage-type`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -51,8 +54,7 @@ export const createDamageType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -73,43 +75,45 @@ export const createDamageType = async (
 
 export const getAllDamageCategory = async (
   onSuccess = () => {},
-  onError = (_message) => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const {httpCode, payloadDto} = await get("crop/damage-category", true);
-    if (httpCode === '200 OK') {
+    const { httpCode, payloadDto } = await get("crop/damage-category", true);
+    if (httpCode === "200 OK") {
       return payloadDto;
     }
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   }
 };
 
 export const getAllDamageTypes = async (
   damageCategoryId,
   onSuccess = () => {},
-  onError = (_message) => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const {httpCode, payloadDto} = await get(`crop/damage-category/${damageCategoryId}/damage-type`, true);
-    if (httpCode === '200 OK') {
+    const { httpCode, payloadDto } = await get(
+      `crop/damage-category/${damageCategoryId}/damage-type`,
+      true
+    );
+    if (httpCode === "200 OK") {
       return payloadDto;
     }
     return [];
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   }
 };
-
 
 export const updateDamage = async (
   payload = {},
@@ -117,7 +121,11 @@ export const updateDamage = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop/damage-category/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `crop/damage-category/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
       return response.payload;
@@ -126,8 +134,7 @@ export const updateDamage = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -153,7 +160,11 @@ export const updateDamageType = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop/damage-category/${damageCategoryId || ''}/damage-type/${id}`, payload, true);
+    const response = await put(
+      `crop/damage-category/${damageCategoryId || ""}/damage-type/${id}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
       return response.payload;
@@ -162,8 +173,7 @@ export const updateDamageType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -184,12 +194,12 @@ export const updateDamageType = async (
 
 export const deleteDamageCategory = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop/damage-category/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`crop/damage-category/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -197,8 +207,7 @@ export const deleteDamageCategory = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -213,18 +222,21 @@ export const deleteDamageCategory = async (
     } else {
       onError(error);
     }
-  } 
-}
+  }
+};
 
 export const deleteDamageType = async (
   categoryId,
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop/damage-category/${categoryId || ''}/damage-type/${id}`, true);
-    console.log(response)
+    const response = await api_delete(
+      `crop/damage-category/${categoryId || ""}/damage-type/${id}`,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -232,8 +244,7 @@ export const deleteDamageType = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -248,14 +259,11 @@ export const deleteDamageType = async (
     } else {
       onError(error);
     }
-  } 
-}
+  }
+};
 export const downloadCropDamageExcel = async () => {
   try {
-    const blobData = await getBlob(
-      "crop/damage-category/export/excel",
-      true
-    );
+    const blobData = await getBlob("crop/damage-category/export/excel", true);
     const fileName = `cropDamage_${
       new Date().toISOString().split("T")[0]
     }.xlsx`;
@@ -268,5 +276,5 @@ export const downloadCropDamageExcel = async () => {
     link.parentNode.removeChild(link);
   } catch (error) {
     console.error(error);
-}
-}
+  }
+};

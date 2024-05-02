@@ -121,10 +121,11 @@ export const getUserPermissionForLeftNav = async (module) => {
   try {
     const authorities = (await getCurrentUserPermissionList()) || [];
     const filteredArray = authorities.filter((item) => {
-      return item.authority.includes(module);
+      return item.authority === "LEFT_NAV_" + module;
     });
+
     const permission = {
-      SHOW: filteredArray.some((item) => item.authority.includes("LEFT_NAV_"))
+      SHOW: filteredArray.length > 0
     };
 
     if (

@@ -11,16 +11,22 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import CategoryReportTabel from "./categoryReportTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
+import ApprovalReportCategoryTable from "./approvalReportCategoryTable";
+import BiWeekProgressTale from "./biWeekProgressTable";
+import { approveBiWeekCategoryReportDD } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-const AggrigateReport = () => {
+const ApprovalReport = ({owner=""}) => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -34,6 +40,7 @@ const AggrigateReport = () => {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [toggleState, setToggleState] = useState(1);
+  const [selectedWeek, setSelectedWeek] = useState(null);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -50,6 +57,11 @@ const AggrigateReport = () => {
     setToggleState(index);
   };
 
+  const setSelectedSeasonValue = (value) => {
+    setSelectedWeek(null);
+    setSelectedSeason(value);
+  };
+
   return (
     <div
       style={{
@@ -61,7 +73,7 @@ const AggrigateReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report" />
+      <ListHeader title="Approval Report Info" />
       <Grid
         container
         sx={{
@@ -80,7 +92,7 @@ const AggrigateReport = () => {
                   //value={selectedSeason}
                   getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                   onChange={(event, value) => {
-                    setSelectedSeason(value);
+                    setSelectedSeasonValue(value);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -94,9 +106,33 @@ const AggrigateReport = () => {
                 />
               </FieldWrapper>
             </Grid>
+            {selectedSeason ? (
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Week</FieldName>
+                  <Autocomplete
+                    options={selectedSeason?.biWeekDataList}
+                    value={selectedWeek}
+                    getOptionLabel={(i) => `${i.weekDescription}`}
+                    onChange={(event, value) => {
+                      setSelectedWeek(value);
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Grid>
+            ) : null}
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
+        <Grid item sx={{ marginTop: "20px" }} width="80%">
           <TabWrapper style={{ margin: "0px 0px" }}>
             {cropCategoryList.map((category, index) => (
               <TabButton
@@ -109,25 +145,41 @@ const AggrigateReport = () => {
           </TabWrapper>
 
           {selectedSeason &&
+            selectedWeek &&
             cropCategoryList &&
             cropCategoryList.map((category, index) => (
-              <TabContent
-                //style={{ marginTop: "10px" }}
-                className={toggleState === index + 1 ? "active-content" : ""}
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
               >
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                <TabContent
+                  //style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
-                      <CategoryReportTabel
+                      <BiWeekProgressTale
+                        category={category}
+                        season={selectedSeason}
+                        week={selectedWeek}
+                        owner={owner}
+                      />
+                    </div>
+                  </TableWrapper>
+                </TabContent>
+                <TabContent
+                  //style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
+                >
+                  <TableWrapper>
+                    <div key={category.categoryId}>
+                      <ApprovalReportCategoryTable
                         category={category}
                         season={selectedSeason}
                       />
                     </div>
                   </TableWrapper>
-                </PermissionWrapper>
-              </TabContent>
+                </TabContent>
+              </PermissionWrapper>
             ))}
         </Grid>
       </Grid>
@@ -135,4 +187,4 @@ const AggrigateReport = () => {
   );
 };
 
-export default AggrigateReport;
+export default ApprovalReport;

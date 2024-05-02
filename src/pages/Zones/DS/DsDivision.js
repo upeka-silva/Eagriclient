@@ -12,6 +12,7 @@ import {
   Autocomplete,
   TextField,
   Grid,
+  Stack,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
@@ -28,7 +29,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import SearchBox from "../../../components/SearchBox/SearchBox";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const DsDivision = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -198,21 +199,14 @@ const DsDivision = () => {
     >
       <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
+      <ExportButton onDownload={onDownload} />  
         <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
-          color="success"
-        ><PermissionWrapper
-       
-      >
-        <Button onClick={onDownload} title="export" 
-          color="success">
-          <Download />
-          {DEF_ACTIONS.EXPORT}
-        </Button>
-      </PermissionWrapper>
+          color="success"      >
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
           >
@@ -252,6 +246,7 @@ const DsDivision = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
