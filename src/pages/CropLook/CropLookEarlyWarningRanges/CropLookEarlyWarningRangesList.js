@@ -4,22 +4,13 @@ import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
 import { useLocation, useNavigate } from "react-router";
-import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import {
-  handleEarlyWarningRegistartion,
-  updateEarlyWarningRegistartion,
-} from "../../../redux/actions/cropLook/earlyWarningRegistration/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 
 import { useEffect } from "react";
-import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
@@ -37,19 +28,30 @@ const CropLookEarlyWarningRangesList = ({
   const { state } = useLocation();
   //const location = useLocation();
   console.log(state);
-  const navigate = useNavigate();
 
   const columns = [
     { field: "cropDTO.description", headerName: "Crop" },
-    { field: "twoWeekRecommendation", headerName: "Two Week Recommendation" },
-    { field: "greenUpper", headerName: "Green Upper" },
-    { field: "lightGreenLower", headerName: "Light Green Lower" },
-    { field: "lightGreenUpper", headerName: "Light Green Upper" },
-    { field: "yellowLower", headerName: "Yellow Lower" },
-    { field: "yellowUpper", headerName: "Yellow Upper" },
-    { field: "orangeLower", headerName: "Orange Lower" },
-    { field: "orangeUpper", headerName: "Orange Upper" },
-    { field: "redLower", headerName: "Red Lower" },
+    {
+      field: "twoWeekRecommendation",
+      headerName: "Two Week Recommendation",
+      type: "float",
+    },
+    { field: "greenUpper", headerName: "Green Upper", type: "float" },
+    {
+      field: "lightGreenLower",
+      headerName: "Light Green Lower",
+      type: "float",
+    },
+    {
+      field: "lightGreenUpper",
+      headerName: "Light Green Upper",
+      type: "float",
+    },
+    { field: "yellowLower", headerName: "Yellow Lower", type: "float" },
+    { field: "yellowUpper", headerName: "Yellow Upper", type: "float" },
+    { field: "orangeLower", headerName: "Orange Lower", type: "float" },
+    { field: "orangeUpper", headerName: "Orange Upper", type: "float" },
+    { field: "redLower", headerName: "Red Lower", type: "float" },
   ];
 
   const [categoryOptions, setCategoryOptions] = useState([]);
@@ -61,7 +63,6 @@ const CropLookEarlyWarningRangesList = ({
     description: "",
   });
   const [crop, setCrop] = useState(null);
-  const [newDataEntryPoint, setNewDataEntryPoint] = useState(dataEndPoint);
 
   const [id, setId] = useState(null);
   const [data, setData] = useState(null);
@@ -69,7 +70,6 @@ const CropLookEarlyWarningRangesList = ({
     crop: false,
   });
 
-  const [options, setOptions] = useState([]);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -269,7 +269,7 @@ const CropLookEarlyWarningRangesList = ({
         />
       )}
     </TableWrapper>
-  ); 
+  );
 };
 
 export default CropLookEarlyWarningRangesList;

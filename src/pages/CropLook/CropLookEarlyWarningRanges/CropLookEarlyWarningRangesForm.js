@@ -299,7 +299,7 @@ const CropLookEarlyWarningRangesForm = () => {
           </FieldWrapper>
         </Grid>
         <Grid item sm={12} md={12} lg={12}></Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={6} md={3} lg={2}>
           <FieldWrapper>
             <FieldName>Two Week Recommendation</FieldName>
             <TextField
