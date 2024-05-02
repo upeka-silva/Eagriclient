@@ -98,20 +98,23 @@ import BiotechIcon from "@mui/icons-material/Biotech";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
-import GroupIcon from '@mui/icons-material/Group';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import GroupIcon from "@mui/icons-material/Group";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
 import {
   Apple,
   Assessment,
   CalendarMonth,
-  Category, HowToReg,
-  Moving, Preview,
+  Category,
+  HowToReg,
+  Moving,
+  Preview,
   Rowing,
   Settings,
   Plagiarism,
-  TrendingDown, BugReportRounded,
-  CoronavirusRounded
+  TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";

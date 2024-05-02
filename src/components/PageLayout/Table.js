@@ -138,7 +138,6 @@ export const DataTable = ({
               order,
               orderByTarget?.sortCol
             );
-
       if (dataList) {
         setRows(dataList);
         console.log(rows);
