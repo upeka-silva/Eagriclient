@@ -12,6 +12,7 @@ import {
   getTargetExtent,
   getvarietyProgress,
 } from "../../redux/actions/cropLook/irrigationMode/action";
+import { baseURL } from "../../utils/constants/api";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -311,7 +312,9 @@ const Dashboard = () => {
         },
       },
     },
-    labels: varietyProgressSortData?.keys.map(key => key.length > 5 ? key.substr(0, 5) + '..' : key),
+    labels: varietyProgressSortData?.keys.map((key) =>
+      key.length > 5 ? key.substr(0, 5) + ".." : key
+    ),
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -449,8 +452,23 @@ const Dashboard = () => {
     },
   };
 
-  const ulrString =
-    "http://localhost:8080/api/v1/map/get-district-features?object=1-1,1-2,1-3";
+  //Sri lanka map url, distribution and type
+
+  const url =
+    baseURL + "map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1";
+
+  console.log(url);
+  const distribution = {
+    "1-1": 154915,
+    "1-2": 37424,
+    "4-3": 21110,
+    "6-0": 111110,
+    "6-2": 32110,
+    "8-1": 12310,
+    "9-1": 86110,
+  };
+
+  const type = "district";
 
   return (
     <div
@@ -605,7 +623,7 @@ const Dashboard = () => {
           </Grid>
 
           <Grid item sm={12} md={4} lg={4}>
-            <SriLankaMap ulrString={ulrString} />
+            <SriLankaMap url={url} distribution={distribution} type={type} />
           </Grid>
         </Grid>
         <Grid container spacing={4} sx={{ marginTop: "2px" }}>
