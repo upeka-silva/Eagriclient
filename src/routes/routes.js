@@ -1561,7 +1561,7 @@ export const Routes = [
       }, 
       {
         path: "/getfoodpricedata",
-        name: "Harti Price",
+        name: "HARTI Price",
         isSideBar: true,
         element: <HartyPrices />,
         icon: GroupIcon ,
