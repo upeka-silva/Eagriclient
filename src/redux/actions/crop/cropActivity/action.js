@@ -1,4 +1,4 @@
-import {put,get,post, api_delete, getBlob } from "../../../../services/api";
+import { put, get, post, api_delete, getBlob } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const createCropActivity = async (
@@ -16,15 +16,13 @@ export const createCropActivity = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
       };
       throw exception;
     }
-    console.log(response);
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -38,43 +36,43 @@ export const createCropActivity = async (
 
 export const getAllCropActivity = async (
   onSuccess = () => {},
-  onError = (_message) => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const {httpCode, payloadDto} = await get("crop/crop-activity", true);
-    if (httpCode === '200 OK') {
+    const { httpCode, payloadDto } = await get("crop/crop-activity", true);
+    if (httpCode === "200 OK") {
       return payloadDto;
     }
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
-      dataList: []
-    }
+      dataList: [],
+    };
   }
 };
 
-
 export const updateCropActivity = async (
-  id,
   payload = {},
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop/crop-activity/${id || ''}`, payload, true);
+    const response = await put(
+      `crop/crop-activity/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
-      return response.payload;
     } else {
       const exception = {
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -94,12 +92,12 @@ export const updateCropActivity = async (
 
 export const deleteCropActivity = async (
   id,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop/crop-activity/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`crop/crop-activity/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -107,8 +105,7 @@ export const deleteCropActivity = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -123,15 +120,11 @@ export const deleteCropActivity = async (
     } else {
       onError(error);
     }
-  } 
-
-}
+  }
+};
 export const downloadCropActivityExcel = async () => {
   try {
-    const blobData = await getBlob(
-      "crop/crop-activity/export/excel",
-      true
-    );
+    const blobData = await getBlob("crop/crop-activity/export/excel", true);
     const fileName = `cropActivity_${
       new Date().toISOString().split("T")[0]
     }.xlsx`;
@@ -144,5 +137,5 @@ export const downloadCropActivityExcel = async () => {
     link.parentNode.removeChild(link);
   } catch (error) {
     console.error(error);
-}
-}
+  }
+};

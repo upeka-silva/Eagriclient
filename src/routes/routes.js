@@ -32,8 +32,11 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
+import CropActivity from "../pages/Crop/CropActivity/CropActivity";
+import CropActivityForm from "../pages/Crop/CropActivity/CropActivityForm";
 import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
+
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -179,7 +182,6 @@ import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
-import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
 import ScsService from "../pages/Scs-Region/ScsService/ScsService";
@@ -872,6 +874,12 @@ export const Routes = [
         element: <CropActivity />,
         icon: Rowing,
         component: DEF_COMPONENTS.CROP_ACTIVITY,
+      },
+      {
+        path: "/activity-form",
+        name: "Crop Activity Form",
+        isSideBar: false,
+        element: <CropActivityForm />,
       },
       // {
       //   path: "/grain-type",
