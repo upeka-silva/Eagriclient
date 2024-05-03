@@ -13,10 +13,10 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect, useState } from "react";
 
-
-
-
-import { handleProjectActivity, updateProjectActivity } from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
+import {
+  handleProjectActivity,
+  updateProjectActivity,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import { ButtonWrapper } from "../../../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../../components/FormLayout/FieldWrapper";
@@ -27,12 +27,16 @@ import { ActionWrapper } from "../../../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../../../context/SnackBarContext";
 import { Colors } from "../../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../../utils/constants/permission";
+import {
+  handleProjectSubActivity,
+  updateProjectSubActivity,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ProjectActivityForm({
+export default function ProjectSubActivityForm({
   open = false,
   onClose = () => {},
   action,
@@ -45,13 +49,15 @@ export default function ProjectActivityForm({
   refresh,
   setOpenActivity,
 }) {
-  console.log({ProjectActivityData})
+  console.log({ ProjectActivityData });
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
-  console.log("datanewss",data)
-  const [gnDivisionList, setGnDivisionList] = useState([]);
+  console.log("datanewss", data);
   const [saving, setSaving] = useState(false);
-  const [farmerList, setFarmerList] = useState([]);
+
+  useEffect(() => { 
+    console.log("refresh ")
+  }, []);
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {
@@ -77,11 +83,11 @@ export default function ProjectActivityForm({
     // let dateFrom = new Date(data.dateFrom);
     // let dateUntil = new Date(data.dateUntil);
     try {
-      if (ProjectActivityData?.id && data?.id) {
-        await updateProjectActivity(
+      if (action === DEF_ACTIONS.EDIT) {
+        console.log("update");
+        await updateProjectSubActivity(
           {
             ...data,
-            agricultureProjectDTO: ProjectActivityData,
           },
 
           onSuccess,
@@ -89,12 +95,12 @@ export default function ProjectActivityForm({
         );
         refresh();
       }
-      if (ProjectActivityData?.id) {
-        console.log("handleFarmLandOwnership",ProjectActivityData?.id);
-        await handleProjectActivity(
+      if (action === DEF_ACTIONS.ADD && ProjectActivityData?.id) {
+        console.log("handleFarmLandOwnership", ProjectActivityData?.id);
+        await handleProjectSubActivity(
           {
             ...data,
-            agricultureProjectDTO: ProjectActivityData,
+            projectActivityDTO: ProjectActivityData,
           },
           onSuccess,
           onError
@@ -127,18 +133,6 @@ export default function ProjectActivityForm({
     setSaving(false);
   };
 
-  // useEffect(() => {
-  //   get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
-  //     setGnDivisionList(dataList);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   get_FarmerList().then(({ dataList = [] }) => {
-  //     setFarmerList(dataList);
-  //   });
-  // }, []);
-
   return (
     <div>
       <Dialog
@@ -149,7 +143,7 @@ export default function ProjectActivityForm({
       >
         <FormWrapper>
           <FormHeader style={{ marginLeft: "15px" }}>
-            {action === DEF_ACTIONS.ADD ? "Add" : ""} Project Activity
+            {action === DEF_ACTIONS.ADD ? "Add" : ""} Project Sub Activity
           </FormHeader>
 
           <ButtonWrapper
@@ -161,36 +155,35 @@ export default function ProjectActivityForm({
               paddingLeft: "18px",
             }}
           >
-          
-              <ActionWrapper>
-                {saving ? (
-                  <Button variant="contained" color="success" size="small">
-                    {action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+            <ActionWrapper>
+              {saving ? (
+                <Button variant="contained" color="success" size="small">
+                  {action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="outlined"
-                      disabled={!enableSave()}
-                      onClick={handleFormSubmit}
-                      size="small"
-                      color="success"
-                    >
-                      {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                    </Button>
-                    <Button
-                      onClick={resetData}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      RESET
-                    </Button>
-                  </>
-                )}
-              </ActionWrapper>
-            
+                  <Button
+                    onClick={resetData}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
+            </ActionWrapper>
+
             <Button
               color="success"
               variant="contained"
@@ -214,12 +207,12 @@ export default function ProjectActivityForm({
                 <FieldWrapper>
                   <FieldName>Activity Id</FieldName>
                   <TextField
-                    name="activityId"
-                    id="aactivityId"
-                    value={data?.activityId || ""}
+                    name="subActivityId"
+                    id="subActivityId"
+                    value={data?.subActivityId || ""}
                     disabled={action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT}
                     onChange={(e) =>
-                      onChange(e?.target?.value || "", "activityId")
+                      onChange(e?.target?.value || "", "subActivityId")
                     }
                     size="small"
                     fullWidth

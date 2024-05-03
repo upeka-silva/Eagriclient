@@ -10,7 +10,7 @@ const AgricultureProjectList = ({
   advancedSearchData = {},
 }) => {
   const columns = [
-    { field: "projectId", headerName: "Project Id" },
+    { field: "projectId", headerName: "Project Id" }, 
     { field: "description", headerName: "Description" },
    
   ];
