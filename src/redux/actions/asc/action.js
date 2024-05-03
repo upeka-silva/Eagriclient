@@ -96,7 +96,10 @@ export const deleteASC = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`geo-data/asc-divisions/${id || ""}`, true);
+    const response = await api_delete(
+      `geo-data/asc-divisions/${id || ""}`,
+      true
+    );
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -145,9 +148,9 @@ export const get_ASCListByComId = async (id) => {
   }
 };
 
-export const get_ASCLovByComId = async (id,pageSize) => {
+export const get_ASCLovByComId = async (id, pageSize) => {
   try {
-    if(!pageSize){
+    if (!pageSize) {
       pageSize = 10;
     }
     const { httpCode, payloadDto } = await get(
@@ -167,5 +170,5 @@ export const get_ASCLovByComId = async (id,pageSize) => {
     return {
       dataList: [],
     };
-  }  
+  }
 };

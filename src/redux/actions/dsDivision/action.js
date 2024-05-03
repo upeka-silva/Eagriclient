@@ -1,4 +1,4 @@
-import { put, post, api_delete, get,getBlob } from "../../../services/api";
+import { put, post, api_delete, get, getBlob } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleDsDivision = async (
@@ -170,17 +170,19 @@ export const get_DsDivisionLovByDistrictId = async (id) => {
   }
 };
 export const downloaddsDivisionsExcel = async (
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const blobData = await getBlob("geo-data/ds-divisions/export/excel", true);
     if (blobData) {
-      const fileName = `geo-data/ds-divisions_${new Date().toISOString().split('T')[0]}.xlsx`;
+      const fileName = `geo-data/ds-divisions_${
+        new Date().toISOString().split("T")[0]
+      }.xlsx`;
       const url = window.URL.createObjectURL(new Blob([blobData]));
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.setAttribute('download', fileName);
+      link.setAttribute("download", fileName);
       document.body.appendChild(link);
       link.click();
       link.parentNode.removeChild(link);
@@ -190,8 +192,7 @@ export const downloaddsDivisionsExcel = async (
         error: {
           data: {
             apiError: {
-              message:
-                blobData?.message || defaultMessages.apiErrorUnknown,
+              message: blobData?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -206,5 +207,27 @@ export const downloaddsDivisionsExcel = async (
     } else {
       onError(error);
     }
+  }
+};
+
+export const get_DsDivisionListById = async (id) => {
+  try {
+    const { httpCode, payload } = await get(
+      `geo-data/ds-divisions/get-ds-list/${id} `,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payload,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
   }
 };
