@@ -55,7 +55,7 @@ const BiWeeklyReportingList = ({
       <TableWrapper>
         <DataTable
           loadingTable
-          dataEndPoint={`crop-look/bi-week-reporting`} //ssss
+          dataEndPoint={`crop-look/bi-week-reporting`}
           columns={columns}
           selectable
           selectedRows={selectedRows}

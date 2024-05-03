@@ -6,9 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import {
-  DEF_ACTIONS
-} from "../../../utils/constants/permission";
+import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
@@ -38,7 +36,6 @@ const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
-  // console.log("ssss", target.season.biWeekDataList[0].status);
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
@@ -58,17 +55,14 @@ const BiWeeklyReportingForm = () => {
   useEffect(() => {
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
-      console.log(dataList);
     });
 
     getCropLookSeasons().then(({ dataList = [] }) => {
       setSeasons(dataList);
-      console.log(dataList);
     });
 
     get_CategoryList().then(({ dataList = [] }) => {
       setCropCategoryList(dataList);
-      console.log(dataList);
     });
 
     if (
@@ -356,7 +350,6 @@ const BiWeeklyReportingForm = () => {
             {!isLoading &&
               cropCategoryList.map((category, index) => (
                 <TabContent
-                  //style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
                   {biWeekReportId ? (
