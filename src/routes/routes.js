@@ -70,6 +70,7 @@ import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRa
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
 import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
+import VegitableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -1447,6 +1448,14 @@ export const Routes = [
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
         component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+      },
+      {
+        path: "/vegitable-early-warning",
+        name: "vegitable early warning ",
+        isSideBar: true,
+        element: <VegitableEarlyWarning />,
+        icon: WbSunnyIcon,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING,
       },
     ],
   },
