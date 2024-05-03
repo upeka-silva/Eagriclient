@@ -1,10 +1,5 @@
 import { Add } from "@mui/icons-material";
-import {
-  Button,
-  Grid,
-  MenuItem,
-  Select
-} from "@mui/material";
+import { Button, Grid, MenuItem, Select } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
@@ -18,13 +13,19 @@ import {
   fileUploadForm,
   getFormTemplateByType,
   saveGapDataWithValues,
-  updateGapDataWithValues
+  updateGapDataWithValues,
 } from "../../redux/actions/auditForm/action";
 import { Colors } from "../../utils/constants/Colors";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 
-const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, gapData}) => {
+const DynamicFormGap = ({
+  auditFormType = "",
+  afterSave,
+  formId,
+  gapReqStatus,
+  gapData,
+}) => {
   useUserAccessValidation();
   const { state } = useLocation();
   const location = useLocation();
@@ -59,7 +60,8 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, g
         action: DEF_ACTIONS.ADD,
         formId: formId,
         gapReqStatus: gapReqStatus,
-        gapData: gapData
+        gapData: gapData,
+        uriPath: uriPath,
       },
     });
   };
@@ -109,7 +111,12 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, g
       qid,
       onSuccessAfterUploadFile,
       onError
-    );
+    ).then((data) => {
+      addSnackBar({
+        type: SnackBarTypes.success,
+        message: "Successfully Uploaded !!!",
+      });
+    });
   };
 
   const onSuccessAfterUploadFile = async (response, qid) => {
@@ -226,7 +233,6 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, g
         console.log(error);
       }
     } else {
-      console.log("elseeeeeeeeeeeeeeeee");
       const formDataFile = new FormData();
       formDataFile.append("file", fileData);
       await fileUploadForm(
@@ -363,7 +369,11 @@ const DynamicFormGap = ({ auditFormType = "", afterSave, formId, gapReqStatus, g
             {state?.action !== DEF_ACTIONS.VIEW && (
               <ActionWrapper>
                 <PermissionWrapper
-                  permission={auditFormType === "INTERNAL_AUDIT" ?`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}` : `${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`}
+                  permission={
+                    auditFormType === "INTERNAL_AUDIT"
+                      ? `${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTERNAL_AUDIT}`
+                      : `${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.EXTERNAL_AUDIT}`
+                  }
                 >
                   <Button
                     variant="outlined"

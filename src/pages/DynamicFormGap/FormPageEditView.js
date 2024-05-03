@@ -176,7 +176,6 @@ export default function FormPageEditView(
   };
 
   const handle = async (event, data, functionMode, fileUploadResponse) => {
-    console.log("handle");
     const auditAnswers = [];
     const keysArray = Object.keys(data);
     for (const qKey of keysArray) {
@@ -192,12 +191,19 @@ export default function FormPageEditView(
         if (fileUploadResponse && fileUploadResponse[questionId]) {
           const fileRes = fileUploadResponse[questionId];
           if (fileRes) {
+
+            let proofDocId;
+                    if (state.formData.auditAnswers && state.formData.auditAnswers[0] && state.formData.auditAnswers[0].proofDocs && state.formData.auditAnswers[0].proofDocs[0]) {
+                        proofDocId = state.formData.auditAnswers[0].proofDocs[0].id; // Accessing the existing proofDoc's id
+                    }
             proofDocs.push({
+              id: proofDocId,
               docUrl: fileRes.storedFileName,
               presignedUrl: fileRes.presignedUrl,
               originalFileName: fileRes.originalFileName,
               presignExpireDate: fileRes.expireDate,
             });
+            console.log("presignedUrl",fileRes.originalFileName)
           }
         }
 
@@ -234,8 +240,8 @@ export default function FormPageEditView(
     setSaving(true);
     try {
       await updateGapDataWithValues(
-        state.formData.id,
-        state.formId.formId,
+        state?.formData?.id,
+        state?.formId?.formId,
         state.uriPath,
         saveData,
         onSuccess,
@@ -274,11 +280,13 @@ export default function FormPageEditView(
       message: "Successfully executed !!!",
     });
 
-    getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(
-      ({ data = [] }) => {
-        setDataListTemplates(data);
-      }
-    );
+    // getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(
+    //   ({ data = [] }) => {
+    //     setDataListTemplates(data);
+    //   }
+    // );
+    setSaving(false);
+
   };
   return (
     <>
