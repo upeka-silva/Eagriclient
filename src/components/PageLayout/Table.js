@@ -140,7 +140,6 @@ export const DataTable = ({
               order,
               orderByTarget?.sortCol
             );
-
       if (dataList) {
         setRows(dataList);
         console.log(rows);
@@ -1137,6 +1136,42 @@ export const DataTable = ({
                       </TableCell>
                     );
                   }
+                  if (c?.type === "number") {
+                    return (
+                      <TableCell
+                      key={`${key}-${key2}`}
+                      sx={{ padding: "2px 20px 2px 20px !important", textAlign: "right" }}
+                    >
+                      <Typography component="div">
+                        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                          {r[c.field]}
+                        </Box>
+                      </Typography>
+                      </TableCell>
+                    );
+                  }
+                  if (c?.type === "float") {
+                    let content = r[c.field];
+                    if (content !== null && content !== undefined) {
+                      content = parseFloat(content).toFixed(2);
+                    } else {
+                      content = "null";
+                    }
+                    
+                    return (
+                      <TableCell
+                        key={`${key}-${key2}`}
+                        sx={{ padding: "2px 20px 2px 20px !important", textAlign: "right" }}
+                      >
+                        <Typography component="div">
+                          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                            {content}
+                          </Box>
+                        </Typography>
+                      </TableCell>
+                    );
+                  }
+                  
                   if (c?.type === "list" || Array.isArray(c?.field)) {
                     return (
                       <TableCell key={`${key}-${key2}`}>

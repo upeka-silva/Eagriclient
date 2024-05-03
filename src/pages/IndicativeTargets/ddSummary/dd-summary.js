@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Grid,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -9,7 +10,7 @@ import {
   TableRow,
   TextField,
 } from "@mui/material";
-import { getSummaryByDDIdAndSeason } from "../../../redux/actions/indicativeTargets/actions";
+import { getSummaryByDDIdAndSeason,downloadDDsummaryExcel} from "../../../redux/actions/indicativeTargets/actions";
 import { useEffect, useState } from "react";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -19,7 +20,7 @@ import { getAgriSeasons } from "../../../redux/actions/cropLook/season/action";
 import { Colors } from "../../../utils/constants/Colors";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const DDLevelSummary = () => {
   const [data, setData] = useState([]);
@@ -34,6 +35,13 @@ const DDLevelSummary = () => {
     });
   }, []);
 
+  const onDownload = async () => {
+    try {
+      await downloadDDsummaryExcel();
+    } catch (error) {
+      console.error(error);
+    }
+  };
   const onSelectSeason = (seasonId) => {
     console.log("season Id");
     console.log(seasonId);
@@ -57,7 +65,11 @@ const DDLevelSummary = () => {
       <ListHeader title="Indicative Target Summary (DD Level)" />
 
       <ActionWrapper isLeft>
-        <Grid container>
+  <Grid container alignItems="center" spacing={2}>
+    <Grid item>
+      <ExportButton onDownload={onDownload} />
+    </Grid>
+    <Grid item xs ={3}>
           {/* <Grid item lg={3}>
             <FieldWrapper>
               <FieldName>Crop Category</FieldName>
@@ -88,7 +100,7 @@ const DDLevelSummary = () => {
               />
             </FieldWrapper>
           </Grid> */}
-          <Grid item lg={3}>
+
             <FieldWrapper>
               <FieldName>Season</FieldName>
               <Autocomplete

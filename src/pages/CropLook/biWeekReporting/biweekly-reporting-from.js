@@ -7,8 +7,7 @@ import { useUserAccessValidation } from "../../../hooks/authentication";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
+  DEF_ACTIONS
 } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
@@ -39,6 +38,7 @@ const BiWeeklyReportingForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
+  // console.log("ssss", target.season.biWeekDataList[0].status);
 
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
@@ -365,6 +365,7 @@ const BiWeeklyReportingForm = () => {
                       aiRegion={selectedAiRegion}
                       seasonId={selectedSeason?.id}
                       cropCategoryId={category?.id}
+                      status={state}
                       mode={state?.action}
                       savedCropCategoryTarget={
                         cropCategoryTarget

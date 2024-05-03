@@ -49,6 +49,7 @@ import {
   deleteCropDetails,
   getCropDetailsList,
   getGapCertificate,
+  getNextGapId,
   getUsersByRoleCode,
   get_GapRequestActionList,
   handleGap,
@@ -196,6 +197,8 @@ const GapRegForm = () => {
   const [openOtherCertificateDialog, setOpenOtherCertificateDialog] =
     useState(false);
 
+  const [nextGapId, setNextGapId] = useState('');  
+
   const handleCloseOtherCertificateDialog = () => {
     setOpenOtherCertificateDialog(false);
   };
@@ -244,7 +247,15 @@ const GapRegForm = () => {
     if (state && state.tabIndex) {
       setToggleState(state.tabIndex);
     }
+    if (state?.action === DEF_ACTIONS.ADD) {
+      randomIdGenerator();
+    }
   }, [state]);
+
+  const randomIdGenerator = async () => {
+    const generatedId = await getNextGapId(); 
+    setNextGapId(generatedId)   
+  }
 
   const goBack = () => {
     navigate("/gap/gap-registration");
@@ -562,7 +573,8 @@ const GapRegForm = () => {
             }
           }
         } else {
-          const response = await handleGap(formData, onSuccess, onError);
+          const savedData = { ...formData, code: nextGapId }; 
+          const response = await handleGap(savedData, onSuccess, onError);
           if (response && response.payload) {
             const gapReqId = response.payload.id;
             const hasOtherCertificate = response.payload.hasOtherCertificate;
@@ -998,10 +1010,11 @@ const GapRegForm = () => {
               <TextField
                 name="code"
                 id="code"
-                value={formData?.code || ""}
+                value={state?.action === DEF_ACTIONS.ADD ? nextGapId : formData?.code}
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
-                  state?.action === DEF_ACTIONS.EDIT
+                  state?.action === DEF_ACTIONS.EDIT ||
+                  state?.action === DEF_ACTIONS.ADD
                 }
                 onChange={(e) => handleChange(e?.target?.value || "", "code")}
                 size="small"

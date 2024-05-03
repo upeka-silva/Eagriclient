@@ -116,7 +116,7 @@ const IsoUnitForm = () => {
             width: "97%",
           }}
         >
-          <Grid item sm={3} md={3} lg={3}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Unit Code</FieldName>
               <TextField
@@ -162,7 +162,7 @@ const IsoUnitForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={6} md={6} lg={6}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Base Unit</FieldName>
               <TextField
@@ -183,7 +183,7 @@ const IsoUnitForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={6} md={6} lg={6}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>ISO Unit Type</FieldName>
               <Select
@@ -222,7 +222,7 @@ const IsoUnitForm = () => {
               </Select>
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={3}>
+          <Grid item sm={12} md={3} lg={2}>
             <FieldWrapper>
               <FieldName>Multiplication Factor</FieldName>
               <TextField
@@ -247,7 +247,7 @@ const IsoUnitForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={3}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Dividing Factor</FieldName>
               <TextField
@@ -272,7 +272,7 @@ const IsoUnitForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={3}>
+          <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>10 To The Power</FieldName>
               <TextField

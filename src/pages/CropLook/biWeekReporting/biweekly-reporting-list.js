@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
@@ -10,9 +10,12 @@ const BiWeeklyReportingList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    {field: "aiRegionOrMahaweliUnitDisplayName", headerName: "Ai Region/ Mahaweli Unit "},
-    {field: "status", headerName: "Status"},
-    {field: "parentType", headerName: "Region Type"},
+    {
+      field: "aiRegionOrMahaweliUnitDisplayName",
+      headerName: "Ai Region/ Mahaweli Unit ",
+    },
+    { field: "status", headerName: "Status" },
+    { field: "parentType", headerName: "Region Type" },
     { field: "season.code", headerName: "Season" },
     { field: "week.weekDescription", headerName: "Week" },
   ];
@@ -52,7 +55,7 @@ const BiWeeklyReportingList = ({
       <TableWrapper>
         <DataTable
           loadingTable
-          dataEndPoint={`crop-look/bi-week-reporting`}
+          dataEndPoint={`crop-look/bi-week-reporting`} //ssss
           columns={columns}
           selectable
           selectedRows={selectedRows}

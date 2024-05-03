@@ -16,10 +16,17 @@ import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
 import ApprovalReportCategoryTable from "./approvalReportCategoryTable";
+import BiWeekProgressTale from "./biWeekProgressTable";
+import { approveBiWeekCategoryReportDD } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-const ApprovalReport = () => {
+const ApprovalReport = ({owner=""}) => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -53,7 +60,7 @@ const ApprovalReport = () => {
   const setSelectedSeasonValue = (value) => {
     setSelectedWeek(null);
     setSelectedSeason(value);
-  }
+  };
 
   return (
     <div
@@ -100,32 +107,32 @@ const ApprovalReport = () => {
               </FieldWrapper>
             </Grid>
             {selectedSeason ? (
-            <Grid item sm={3} md={3} lg={3}>
-              <FieldWrapper>
-                <FieldName>Week</FieldName>
-                <Autocomplete
-                  options={selectedSeason?.biWeekDataList}
-                  value={selectedWeek}
-                  getOptionLabel={(i) => `${i.weekDescription}`}
-                  onChange={(event, value) => {
-                    setSelectedWeek(value);
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
-            </Grid>
-          ) : null}
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Week</FieldName>
+                  <Autocomplete
+                    options={selectedSeason?.biWeekDataList}
+                    value={selectedWeek}
+                    getOptionLabel={(i) => `${i.weekDescription}`}
+                    onChange={(event, value) => {
+                      setSelectedWeek(value);
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Grid>
+            ) : null}
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
+        <Grid item sx={{ marginTop: "20px" }} width="80%">
           <TabWrapper style={{ margin: "0px 0px" }}>
             {cropCategoryList.map((category, index) => (
               <TabButton
@@ -137,15 +144,31 @@ const ApprovalReport = () => {
             ))}
           </TabWrapper>
 
-          {selectedSeason && selectedWeek &&
+          {selectedSeason &&
+            selectedWeek &&
             cropCategoryList &&
             cropCategoryList.map((category, index) => (
-              <TabContent
-                //style={{ marginTop: "10px" }}
-                className={toggleState === index + 1 ? "active-content" : ""}
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
               >
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                <TabContent
+                  //style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
+                >
+                  <TableWrapper>
+                    <div key={category.categoryId}>
+                      <BiWeekProgressTale
+                        category={category}
+                        season={selectedSeason}
+                        week={selectedWeek}
+                        owner={owner}
+                      />
+                    </div>
+                  </TableWrapper>
+                </TabContent>
+                <TabContent
+                  //style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
@@ -155,8 +178,8 @@ const ApprovalReport = () => {
                       />
                     </div>
                   </TableWrapper>
-                </PermissionWrapper>
-              </TabContent>
+                </TabContent>
+              </PermissionWrapper>
             ))}
         </Grid>
       </Grid>

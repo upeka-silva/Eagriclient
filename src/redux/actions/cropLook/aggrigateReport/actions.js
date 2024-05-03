@@ -44,7 +44,11 @@ export const updateBiWeekReporting = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/bi-week-reporting/${id}/category/${cropCategoryId}/crop-targets`, payload, true);
+    const response = await put(
+      `crop-look/bi-week-reporting/${id}/category/${cropCategoryId}/crop-targets`,
+      payload,
+      true
+    ); //ssss
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -81,7 +85,11 @@ export const approveBiWeekCategoryReport = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/crop-category-report/ada/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`, null, true);
+    const response = await put(
+      `crop-look/crop-category-report/ada/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`,
+      null,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -118,7 +126,11 @@ export const approveBiWeekCategoryReportDD = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/crop-category-report/dd/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`, null, true);
+    const response = await put(
+      `crop-look/crop-category-report/dd/season/${seasonId}/week/${weekId}/category/${cropCategoryId}`,
+      null,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -154,7 +166,11 @@ export const changeStatusOfBiWeekReport = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/bi-week-reporting/${id}/status/${status}`, null, true);
+    const response = await put(
+      `crop-look/bi-week-reporting/${id}/status/${status}`,
+      null,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return response.payload;
@@ -187,7 +203,11 @@ export const createDamageExtents = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("crop-look/bi-week-damage-extents", payload, true);
+    const response = await post(
+      "crop-look/bi-week-damage-extents",
+      payload,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -223,7 +243,11 @@ export const updateDamageExtents = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/bi-week-damage-extents/variety-report/${varietyReportId}`, payload, true);
+    const response = await put(
+      `crop-look/bi-week-damage-extents/variety-report/${varietyReportId}`,
+      payload,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -254,7 +278,27 @@ export const updateDamageExtents = async (
 
 export const getAggrigateReportData = async (categoryId, seasonId) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getAggrigateBiWeekReportData = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(`crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}/week/${weekId}`, true);
     if (httpCode === "200 OK") {
       return payloadDto;
     }
@@ -271,7 +315,10 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
 
 export const getApprovalData = async (seasonId, weekId) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/forADA/season/${seasonId}/week/${weekId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/crop-category-summary/forADA/season/${seasonId}/week/${weekId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return payloadDto;
     }
@@ -288,7 +335,10 @@ export const getApprovalData = async (seasonId, weekId) => {
 
 export const getApprovalDataDD = async (seasonId, weekId) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-category-summary/forDD/season/${seasonId}/week/${weekId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/crop-category-summary/forDD/season/${seasonId}/week/${weekId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return payloadDto;
     }
@@ -323,40 +373,46 @@ export const getDDDivisionsByLogedInUser = async () => {
 };
 
 export const getCropLookSeasons = async () => {
-    try {
-      const { httpCode, payloadDto } = await get("crop-look/seasons/enabled", true);
-      if (httpCode === "200 OK") {
-        return {
-          dataList: payloadDto,
-        };
-      }
+  try {
+    const { httpCode, payloadDto } = await get(
+      "crop-look/seasons/enabled",
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: [],
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        dataList: [],
+        dataList: payloadDto,
       };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
-  export const getAggregateBiWeekReport = async (seasonId, weekId) => {
-    try {
-      const { httpCode, payloadDto } = await get(`crop-look/dd-bi-week-reporting/aggregate?seasonId=${seasonId}&weekId=${weekId}`, true);
-      if (httpCode === "200 OK") {
-        return payloadDto;
-      }
-      return {
-        dataList: [],
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        dataList: [],
-      };
+export const getAggregateBiWeekReport = async (seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-bi-week-reporting/aggregate?seasonId=${seasonId}&weekId=${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateDistrict = async (
   payload = {},
@@ -395,9 +451,16 @@ export const updateDistrict = async (
   }
 };
 
-export const getTargetCropsByAiAndSeasonAndCropCategory = async (aiId, seasonId, categoryId) => {
+export const getTargetCropsByAiAndSeasonAndCropCategory = async (
+  aiId,
+  seasonId,
+  categoryId
+) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-registration/ai-region/${aiId}/season/${seasonId}/cropCategory/${categoryId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/crop-registration/ai-region/${aiId}/season/${seasonId}/cropCategory/${categoryId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -428,8 +491,8 @@ export const updateCropRegistrationItems = async (
     if (response.httpCode === "200 OK") {
       onSuccess();
       return {
-        dataList: response?.payload || {} ,
-      }
+        dataList: response?.payload || {},
+      };
     } else {
       const exception = {
         error: {
@@ -487,10 +550,12 @@ export const deleteDistrict = async (
   }
 };
 
-
 export const getTargetSeasonalRegion = async (id) => {
   try {
-    const { httpCode, payload } = await get("crop-look/target-seasonal-region/" + id, true);
+    const { httpCode, payload } = await get(
+      "crop-look/target-seasonal-region/" + id,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payload,
@@ -513,7 +578,10 @@ export const deleteBiWeeklyReporting = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop-look/bi-week-reporting/${id || ""}`, true);
+    const response = await api_delete(
+      `crop-look/bi-week-reporting/${id || ""}`,
+      true
+    );
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();

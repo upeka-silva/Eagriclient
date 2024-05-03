@@ -32,8 +32,11 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
+import CropActivity from "../pages/Crop/CropActivity/CropActivity";
+import CropActivityForm from "../pages/Crop/CropActivity/CropActivityForm";
 import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
+
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -98,21 +101,24 @@ import BiotechIcon from "@mui/icons-material/Biotech";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
-import GroupIcon from '@mui/icons-material/Group';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import GroupIcon from "@mui/icons-material/Group";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {
   Apple,
   Assessment,
   CalendarMonth,
-  Category, HowToReg,
-  Moving, Preview,
+  Category,
+  HowToReg,
+  Moving,
+  Preview,
   Rowing,
   Settings,
   Plagiarism,
-  TrendingDown, BugReportRounded,
-  CoronavirusRounded
+  TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -183,7 +189,6 @@ import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
-import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
 import ScsService from "../pages/Scs-Region/ScsService/ScsService";
@@ -205,6 +210,7 @@ import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
 import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
+import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 
@@ -877,6 +883,12 @@ export const Routes = [
         icon: Rowing,
         component: DEF_COMPONENTS.CROP_ACTIVITY,
       },
+      {
+        path: "/activity-form",
+        name: "Crop Activity Form",
+        isSideBar: false,
+        element: <CropActivityForm />,
+      },
       // {
       //   path: "/grain-type",
       //   name: "Grain Type",
@@ -1397,7 +1409,7 @@ export const Routes = [
         path: "/approval-report-info-dd",
         name: "Approval Report Info DD",
         isSideBar: true,
-        element: <ApprovalReport />,
+        element: <ApprovalReport owner={'DD'}/>,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
       },
@@ -1405,7 +1417,7 @@ export const Routes = [
         path: "/approval-report-info-ada",
         name: "Approval Report Info ADA",
         isSideBar: true,
-        element: <ApprovalReport />,
+        element: <ApprovalReport owner={'ADA'} />,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
       },
@@ -1554,8 +1566,16 @@ export const Routes = [
         element: <EconomicCenter />,
         icon: GroupIcon,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      },
-    ],
+      }, 
+      {
+        path: "/getfoodpricedata",
+        name: "HARTI Price",
+        isSideBar: true,
+        element: <HartyPrices />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.LATEST_PRODUCER_PRICE,
+      },            
+     ],
   },
 
   // {
