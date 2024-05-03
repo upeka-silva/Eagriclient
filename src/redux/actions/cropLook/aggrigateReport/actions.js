@@ -48,7 +48,7 @@ export const updateBiWeekReporting = async (
       `crop-look/bi-week-reporting/${id}/category/${cropCategoryId}/crop-targets`,
       payload,
       true
-    ); //ssss
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -296,9 +296,16 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
-export const getAggrigateBiWeekReportData = async (categoryId, seasonId, weekId) => {
+export const getAggrigateBiWeekReportData = async (
+  categoryId,
+  seasonId,
+  weekId
+) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}/week/${weekId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return payloadDto;
     }
@@ -505,7 +512,6 @@ export const updateCropRegistrationItems = async (
       };
       throw exception;
     }
-    console.log(response);
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

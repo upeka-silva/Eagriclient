@@ -10,19 +10,13 @@ import {
   Button,
 } from "@mui/material";
 import {
-  approveBiWeekCategoryReport,
   approveBiWeekCategoryReportDD,
-  approveBiWeekReport,
-  getAggrigateReportData,
-  getApprovalData,
   getApprovalDataDD,
-  updateBiWeekReporting,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 const ApprovalDashboardTableDD = ({ week = {}, season = {} }) => {
-
   const { addSnackBar } = useSnackBars();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

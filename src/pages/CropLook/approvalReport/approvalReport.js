@@ -6,7 +6,6 @@ import {
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { useSnackBars } from "../../../context/SnackBarContext";
 
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -23,18 +22,9 @@ import {
 } from "../../../components/TabButtons/TabButtons";
 import ApprovalReportCategoryTable from "./approvalReportCategoryTable";
 import BiWeekProgressTale from "./biWeekProgressTable";
-import { approveBiWeekCategoryReportDD } from "../../../redux/actions/cropLook/aggrigateReport/actions";
-import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 const ApprovalReport = ({owner=""}) => {
   useUserAccessValidation();
-  const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);

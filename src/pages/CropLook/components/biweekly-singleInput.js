@@ -127,7 +127,6 @@ const BiWeeklySingleInput = ({
                   color: "green",
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "#33b858",
-
                     borderRadius: "8px",
                   },
                   "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {

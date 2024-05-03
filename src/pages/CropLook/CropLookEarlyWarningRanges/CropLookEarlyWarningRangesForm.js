@@ -19,13 +19,12 @@ import { useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-import { get_SubCategoryById, get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import { get_CropById, get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
 
 const CropLookEarlyWarningRangesForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   console.log(state);
   const navigate = useNavigate();
 

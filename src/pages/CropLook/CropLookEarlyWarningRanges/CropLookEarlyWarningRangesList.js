@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
-import { useLocation, useNavigate } from "react-router";
+import { useLocation } from "react-router";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 
@@ -13,8 +13,8 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { useEffect } from "react";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-import { get_SubCategoryById, get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import { get_CropById, get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
 import { RestartAlt } from "@mui/icons-material";
 
 const CropLookEarlyWarningRangesList = ({
