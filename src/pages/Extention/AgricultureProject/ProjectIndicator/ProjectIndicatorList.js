@@ -1,43 +1,45 @@
-import { Box } from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { DataGrid } from "@mui/x-data-grid";
-import React from "react";
-import { Colors } from "../../../../utils/constants/Colors";
-import Switch from "@mui/material/Switch";
+import React from "react"
 import { TableWrapper } from "../../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../../components/PageLayout/Table";
 
-export default function ProjectSubActivityList({
+export default function ProjectIndicatorList({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
-  activityDataId,
+  subActivityDataId,
   refresh,
 }) {
- 
-
+  console.log({subActivityDataId})
   const columns = [
     {
-      field: "subActivityId",
-      headerName: "Sub Activity Id",
+      field: "indicatorId",
+      headerName: "Indicator Id",
     },
     {
       field: "description",
       headerName: "Description",
     },
+    {
+      field: "isoUnitDTO.description",
+      headerName: "ISO Unit",
+    },
+    {
+        field: "target",
+        headerName: "Target",
+    }
   ];
   return (
     <TableWrapper>
       <DataTable
         loadingTable
-        dataEndPoint={`extension/project-sub-activity/${activityDataId}/subactivities`}
+        dataEndPoint={`extension/project-indicator/${subActivityDataId ? subActivityDataId?.id : ""}/indicators`}
         columns={columns}
         selectable
         selectedRows={selectedRows}
         selectAll={selectAll}
         onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
+        //unSelectAll={unSelectAll}
         refresh={refresh}
       />
     </TableWrapper>

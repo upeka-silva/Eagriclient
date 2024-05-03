@@ -101,6 +101,7 @@ import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from '@mui/icons-material/Group';
 import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import Organization from "../pages/Organization/Organization";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {
   Apple,
   Assessment,
@@ -1247,6 +1248,7 @@ export const Routes = [
          name: "Create Project",
          isSideBar: true,
          element: <AgricultureProject />,
+         icon: AssignmentIndIcon,
         component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {

@@ -11,6 +11,9 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Autocomplete,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import { CircularProgress } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -18,7 +21,10 @@ import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 
-import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
@@ -43,11 +49,6 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import CropList from "../../Crop/Crop/CropList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-// import {
-//   TabButton,
-//   TabWrapper,
-// } from "../../components/TabButtons/TabButtons";
-
 import { TabButton } from "../../../components/TabButtons/TabButtons";
 import { TabWrapper } from "../../../components/TabButtons/TabButtons";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -59,22 +60,27 @@ import {
   get_ActivityListByProjectId,
 } from "../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import ProjectSubActivityForm from "./ProjectActivity/projectSubActivityForm";
+import ProjectSubActivityForm from "./projectSubActivity/projectSubActivityForm";
 import ProjectSubActivityList from "./projectSubActivity/ProjectSubActivityList";
 import {
   deleteProjectSubActivity,
   get_SubActivityByActivityId,
 } from "../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { Colors } from "../../../utils/constants/Colors";
+import { get_ProvinceList } from "../../../redux/actions/province/action";
+import ProjectIndicatorForm from "./ProjectIndicator/ProjectIndicatorForm";
+import ProjectIndicatorList from "./ProjectIndicator/ProjectIndicatorList";
+import { deleteProjectIndicator } from "../../../redux/actions/extension/agricultureProject/projectIndicator/action";
+import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const AgricultureProjectForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
-
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
+  console.log({ formData });
 
   const [saving, setSaving] = useState(false);
   const [projectId, setProjectId] = useState(null);
@@ -88,20 +94,30 @@ const AgricultureProjectForm = () => {
   const [selectCrop, setSelectCrop] = useState([]);
   const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
-  const [pestUrl, setPestUrl] = useState(null);
-  // const [openActivity, setOpenActivity] = useState(false);
+
+
+  //delete handlers
   const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
   const [openDeleteSubActivity, setOpenDeleteSubActivity] = useState(false);
-  const [selectedSubActivityAllData, setSelectedSubActivityAllData] = useState(
-    []
-  );
+  const [openDeleteIndicator, setOpenDeleteIndicator] = useState(false);
+
+  //set delete dialog box handlers
+  const [dialogSelectedSubActivityTypes, setDialogSelectedSubActivityTypes] =
+    useState([]);
+  const [dialogSelectedIndicatorTypes, setDialogSelectedIndicatorTypes] =
+    useState([]);
 
   //open a dialog box for activity
   const [openActivity, setOpenActivity] = useState(false);
   const [openSubActivity, setOpenSubActivity] = useState(false);
+  const [openIndicator, setOpenIndicator] = useState(false);
+  console.log({ openIndicator });
 
+  //set data
   const [activityData, setActivityData] = useState();
   const [subActivityData, setSubActivityData] = useState();
+  const [indicatorData, setIndicatorData] = useState();
+
   console.log({ subActivityData });
   const [selectedActivity, setSelectedActivity] = useState([]);
   console.log({ selectedActivity });
@@ -111,22 +127,36 @@ const AgricultureProjectForm = () => {
   const [selectActivityData, setSelectActivityData] = useState([]);
   console.log({ selectActivityData });
   console.log({ activityDataList });
+
+  //set actions
   const [activityAction, setActivityAction] = useState(DEF_ACTIONS.ADD);
   const [subactivityAction, setSubActivityAction] = useState(DEF_ACTIONS.ADD);
+  const [indicatorAction, setIndicatorAction] = useState(DEF_ACTIONS.ADD);
+
   const [tabEnabled, setTabEnabled] = useState(state?.target?.id !== undefined);
-  // const [ActivityDataList, setActivityDataList] = useState([]);
+
+  //selected useStates
   const [selectedProjectActivity, setSelectedProjectActivity] = useState([]);
   const [selectedProjectSubActivity, setSelectProjectedSubActivity] = useState(
     []
   );
-  console.log({ selectedProjectSubActivity });
+  const [selectedSubActivityAllData, setSelectedSubActivityAllData] = useState(
+    []
+  );
+  const [selectedIndicatorAllData, setSelectedIndicatorAllData] = useState([]);
+
+  console.log({ selectedIndicatorAllData });
+
+  console.log({ selectedSubActivityAllData });
   // const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [toggleState, setToggleState] = useState(1);
   const dateAdapter = new AdapterDayjs();
   const [refreshActivity, setRefreshActivity] = useState(true);
   const [refreshSubActivity, setRefreshSubActivity] = useState(true);
-  const [dialogSelectedSubActivityTypes, setDialogSelectedSubActivityTypes] =
-    useState([]);
+  const [refreshIndicator, setRefreshIndicator] = useState(true);
+
+  const [provinceList, setProvinceList] = useState([]);
+  console.log({ provinceList });
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -135,7 +165,7 @@ const AgricultureProjectForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const goBack = () => {
-    navigate("/extension/agriculture-project");
+    navigate("/extension/create-project");
   };
   const onCreateActivityData = () => {
     setOpenActivity(true);
@@ -143,8 +173,14 @@ const AgricultureProjectForm = () => {
 
   const onCreateSubActivityData = () => {
     setOpenSubActivity(true);
-    setSubActivityData([])
+    setSubActivityData([]);
     setSubActivityAction(DEF_ACTIONS.ADD);
+  };
+
+  const onCreateIndicatorData = () => {
+    setOpenIndicator(true);
+    setIndicatorData([]);
+    setIndicatorAction(DEF_ACTIONS.ADD);
   };
 
   const onEditActivityData = () => {
@@ -164,16 +200,27 @@ const AgricultureProjectForm = () => {
     //setOpenFlO(true);
   };
 
+  //delete functions
   const onDeleteSubActivityData = () => {
     setOpenDeleteSubActivity(true);
     setDialogSelectedSubActivityTypes(selectedSubActivityAllData);
   };
 
+  const onDeleteIndicatorData = () => {
+    setOpenDeleteIndicator(true);
+    setDialogSelectedIndicatorTypes(selectedIndicatorAllData);
+  };
+
+  //close dialog boxes
   const closeActivity = () => {
     setOpenActivity(false);
   };
   const closeSubActivity = () => {
     setOpenSubActivity(false);
+  };
+
+  const closeIndicator = () => {
+    setOpenIndicator(false);
   };
 
   const onEditSubActivityData = () => {
@@ -182,6 +229,14 @@ const AgricultureProjectForm = () => {
     setSubActivityAction(DEF_ACTIONS.EDIT);
     //setSubActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
     setOpenSubActivity(true);
+  };
+
+  const onEditIndicatorData = () => {
+    setIndicatorData(selectedIndicatorAllData[0]);
+
+    setIndicatorAction(DEF_ACTIONS.EDIT);
+    //setSubActivityData({ ...data[0], dateFrom: dateFrom, dateUntil: dateUntil });
+    setOpenIndicator(true);
   };
 
   const handleFlOData = (value, target) => {
@@ -194,6 +249,14 @@ const AgricultureProjectForm = () => {
 
   const handleSubActivityData = (value, target) => {
     setSubActivityData((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const handleIndicatorData = (value, target) => {
+    setIndicatorData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
       return newData;
@@ -213,8 +276,15 @@ const AgricultureProjectForm = () => {
   const onViewSubActivityData = () => {
     setSubActivityData(selectedSubActivityAllData[0]);
     setSubActivityAction(DEF_ACTIONS.VIEW);
-    
+
     setOpenSubActivity(true);
+  };
+
+  const onViewIndicatorData = () => {
+    setIndicatorData(selectedIndicatorAllData[0]);
+    setIndicatorAction(DEF_ACTIONS.VIEW);
+
+    setOpenIndicator(true);
   };
 
   const toggleActivitySelect = (component) => {
@@ -225,8 +295,7 @@ const AgricultureProjectForm = () => {
     setActivityData({});
   };
 
-  
-
+  //toggle functions
   const toggleSubActivitySelect = (component) => {
     console.log({ component });
     const selectedIndex = selectedSubActivityAllData.findIndex(
@@ -242,7 +311,6 @@ const AgricultureProjectForm = () => {
     }
 
     setSelectedSubActivityAllData(newSelected);
-
   };
 
   //active sub activity
@@ -260,7 +328,31 @@ const AgricultureProjectForm = () => {
     });
   };
 
+  //toggle indicator select
+  const toggleIndicatorSelect = (component) => {
+    console.log({ component });
+    const selectedIndex = selectedIndicatorAllData?.findIndex(
+      (selected) => selected.id === component.id
+    );
+
+    let newSelected = [...selectedIndicatorAllData];
+
+    if (selectedIndex === -1) {
+      newSelected.push(component);
+    } else {
+      newSelected.splice(selectedIndex, 1);
+    }
+
+    setSelectedIndicatorAllData(newSelected);
+  };
+
+  const activeIndicator = () => {
+    setToggleState(3);
+  };
+
   const resetSubActivityData = () => {};
+
+  const resetIndicatorData = () => {};
 
   const refreshActivityList = () => {
     setRefreshActivity(!refreshActivity);
@@ -270,14 +362,26 @@ const AgricultureProjectForm = () => {
     setRefreshSubActivity(!refreshSubActivity);
   };
 
-  useEffect(() => {
-    
-  },[])
+  const refreshIndicatorList = () => {
+    setRefreshIndicator(!refreshIndicator);
+  };
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const projectId = formData.id;
     setCropUrl(`geo-data/crops/${projectId}/crops`);
   });
+
+  useEffect(() => {
+    const fetchProvince = async () => {
+      await get_ProvinceList().then((res) => {
+        setProvinceList(res?.dataList);
+      });
+    };
+
+    fetchProvince();
+  }, []);
 
   const onAddCrop = () => {
     setProjectId(formData?.id);
@@ -317,8 +421,13 @@ const AgricultureProjectForm = () => {
     setOpenDeleteActivity(false);
   };
 
+  //close delete handlers
   const closeSubActivityDelete = () => {
     setOpenDeleteSubActivity(false);
+  };
+
+  const closeIndicatorDelete = () => {
+    setOpenDeleteIndicator(false);
   };
 
   const renderSelectedItems = () => {
@@ -380,6 +489,11 @@ const AgricultureProjectForm = () => {
     refreshSubActivityList();
   };
 
+  const resetSelectedIndicator = () => {
+    setSelectedIndicatorAllData([]);
+    refreshIndicatorList();
+  };
+
   const onConfirmDeleteActivity = async () => {
     try {
       setLoading(true);
@@ -395,6 +509,7 @@ const AgricultureProjectForm = () => {
     }
   };
 
+  //delete confirm functions
   const onConfirmDeleteSubActivity = async () => {
     try {
       setLoading(true);
@@ -404,6 +519,21 @@ const AgricultureProjectForm = () => {
       setLoading(false);
       closeSubActivityDelete();
       resetSelectedSubActivity();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const onConfirmDeleteIndicators = async () => {
+    try {
+      setLoading(true);
+      for (const id of dialogSelectedIndicatorTypes) {
+        await deleteProjectIndicator(id?.id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeIndicatorDelete();
+      resetSelectedIndicator();
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -667,116 +797,62 @@ const AgricultureProjectForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Created Date</FieldName>
-            <TextField
-              name="createdDate"
-              id="createdDate"
-              value={
-                formData?.createdDate
-                  ? new Date(formData?.createdDate).toLocaleDateString()
-                  : ""
+            <FieldName>Project Type</FieldName>
+            <Select
+              name="agricultureProjectType"
+              id="agricultureProjectType"
+              value={formData?.agricultureProjectType || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "agricultureProjectType")
               }
               fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.ADD ||
-                state?.action === DEF_ACTIONS.EDIT ||
-                state?.action === DEF_ACTIONS.VIEW
-              }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "createdDate")
-              }
               sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
+                borderRadius: "8px",
+                backgroundColor: `${Colors.white}`,
               }}
               size="small"
-            />
+            >
+              <MenuItem value={"CENTRAL_GOVERNMENT"}>
+                Central Government
+              </MenuItem>
+              <MenuItem value={"PROVINCIAL"}>Provincial</MenuItem>
+              <MenuItem value={"MAHAWELI"}>Mahaweli</MenuItem>
+            </Select>
           </FieldWrapper>
         </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Modified Date</FieldName>
-            <TextField
-              name="modifiedDate"
-              id="modifiedDate"
-              value={
-                formData?.modifiedDate
-                  ? new Date(formData?.modifiedDate).toLocaleDateString()
-                  : ""
-              }
-              fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.ADD ||
-                state?.action === DEF_ACTIONS.EDIT ||
-                state?.action === DEF_ACTIONS.VIEW
-              }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "modifiedDate")
-              }
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Created By</FieldName>
-            <TextField
-              name="createdBy"
-              id="createdBy"
-              value={`${formData?.createdByUser?.firstName || ""} ${
-                formData?.createdByUser?.lastName || ""
-              }`}
-              fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.ADD ||
-                state?.action === DEF_ACTIONS.EDIT ||
-                state?.action === DEF_ACTIONS.VIEW
-              }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "createdBy")
-              }
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Modified By</FieldName>
-            <TextField
-              name="modifiedBy"
-              id="modifiedBy"
-              value={`${formData?.modifiedByUser?.firstName || ""} ${
-                formData?.modifiedByUser?.lastName || ""
-              }`}
-              fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.ADD ||
-                state?.action === DEF_ACTIONS.EDIT ||
-                state?.action === DEF_ACTIONS.VIEW
-              }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "modifiedBy")
-              }
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
+
+        {formData?.agricultureProjectType === "PROVINCIAL" && (
+          <>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>Project Type Value</FieldName>
+                <Select
+                  name="agricultureProjectTypeValue"
+                  id="agricultureProjectTypeValue"
+                  value={formData?.agricultureProjectTypeValue || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(
+                      e?.target?.value || "",
+                      "agricultureProjectTypeValue"
+                    )
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                    backgroundColor: `${Colors.white}`,
+                  }}
+                  size="small"
+                >
+                  {provinceList?.map((item) => (
+                    <MenuItem value={item?.name}>{item?.name}</MenuItem>
+                  ))}
+                </Select>
+              </FieldWrapper>
+            </Grid>
+          </>
+        )}
       </Grid>
 
       <TabWrapper>
@@ -801,72 +877,19 @@ const AgricultureProjectForm = () => {
         <TabButton
           variant="contained"
           className={toggleState === 3 ? "active-tabs" : ""}
-          onClick={() => toggleTab(2)}
+          //onClick={() => toggleTab(3)}
+        >
+          Indicator
+        </TabButton>
+
+        <TabButton
+          variant="contained"
+          className={toggleState === 4 ? "active-tabs" : ""}
+          onClick={() => toggleTab(4)}
         >
           Crops
         </TabButton>
-
-        {/* <TabButton
-          variant="contained"
-          className={toggleState === 5 ? "active-tabs" : ""}
-          onClick={() => toggleTab(5)}
-          disabled={!tabEnabled}
-        >
-          
-        </TabButton> */}
       </TabWrapper>
-
-      <TabContent className={toggleState === 3 ? "active-content" : ""}>
-        <ActionWrapper isLeft>
-          <ButtonGroup
-            variant="outlined"
-            disableElevation
-            size="small"
-            aria-label="action button group"
-            color="success"
-          >
-            <Button
-              onClick={onAddCrop}
-              disabled={
-                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
-              }
-            >
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-
-            <AddCropDialog
-              open={openCropAddDialog}
-              setConfirmDialog={setOpenCropAddDialog}
-              confirmAction={handleCropAdd}
-              handleClose={closeCropAddDialog}
-              formId={formDataD?.id}
-              formData={formDataD}
-              mode={dialogMode}
-              projectId={projectId}
-            />
-            {selectCrop.length > 0 && (
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            )}
-          </ButtonGroup>
-        </ActionWrapper>
-
-        {loading === false && (
-          <CropList
-            url={cropUrl}
-            dataEndPoint={cropUrl}
-            onRowSelect={toggleCropSelect}
-            selectedRows={selectCrop}
-            selectAll={selectAllCrop}
-            unSelectAll={resetSelectedCrop}
-            onDelete={handleCropDelete}
-            projectId={projectId}
-          />
-        )}
-      </TabContent>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
         <ActionWrapper isLeft>
@@ -946,32 +969,65 @@ const AgricultureProjectForm = () => {
             aria-label="action button group"
             color="success"
           >
-            <Button onClick={onCreateSubActivityData}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-
-            {selectedSubActivityAllData?.length === 1 && (
-              <Button onClick={onEditSubActivityData}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROJECT_SUB_ACTIVITY}`}
+            >
+              <Button onClick={onCreateSubActivityData}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
-            )}
+            </PermissionWrapper>
 
-            {selectedSubActivityAllData?.length === 1 && (
-              <Button onClick={onViewSubActivityData}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROJECT_SUB_ACTIVITY}`}
+            >
+              {selectedSubActivityAllData?.length === 1 && (
+                <Button onClick={onEditSubActivityData}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              )}
+            </PermissionWrapper>
 
-            {selectedSubActivityAllData?.length > 0 && (
-              <Button onClick={onDeleteSubActivityData}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROJECT_SUB_ACTIVITY}`}
+            >
+              {selectedSubActivityAllData?.length === 1 && (
+                <Button onClick={onViewSubActivityData}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              )}
+            </PermissionWrapper>
+
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROJECT_SUB_ACTIVITY}`}
+            >
+              {selectedSubActivityAllData?.length > 0 && (
+                <Button onClick={onDeleteSubActivityData}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              )}
+            </PermissionWrapper>
           </ButtonGroup>
+
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INDICATOR}`}
+          >
+            <ButtonGroup
+              variant="outlined"
+              disableElevation
+              size="small"
+              aria-label="action button group"
+              color="success"
+              sx={{ marginLeft: "10px" }}
+            >
+              {selectedSubActivityAllData.length === 1 && (
+                <Button onClick={() => activeIndicator()}>Indicators</Button>
+              )}
+            </ButtonGroup>
+          </PermissionWrapper>
         </ActionWrapper>
 
         <ProjectSubActivityForm
@@ -996,6 +1052,135 @@ const AgricultureProjectForm = () => {
         />
       </TabContent>
 
+      <TabContent className={toggleState === 3 ? "active-content" : ""}>
+        <h1>Indicator</h1>
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INDICATOR}`}
+            >
+              <Button onClick={onCreateIndicatorData}>
+                <Add />
+                {DEF_ACTIONS.ADD}
+              </Button>
+            </PermissionWrapper>
+
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INDICATOR}`}
+            >
+              {selectedIndicatorAllData?.length === 1 && (
+                <Button onClick={onEditIndicatorData}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              )}
+            </PermissionWrapper>
+
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INDICATOR}`}
+            >
+              {selectedIndicatorAllData?.length === 1 && (
+                <Button onClick={onViewIndicatorData}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              )}
+            </PermissionWrapper>
+
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INDICATOR}`}
+            >
+              {selectedIndicatorAllData?.length > 0 && (
+                <Button onClick={onDeleteIndicatorData}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              )}
+            </PermissionWrapper>
+          </ButtonGroup>
+        </ActionWrapper>
+
+        <ProjectIndicatorForm
+          open={openIndicator}
+          ProjectSubActivityData={selectedSubActivityAllData[0]}
+          setOpenActivity={setOpenIndicator}
+          action={indicatorAction}
+          onClose={closeIndicator}
+          // farmLandData={formData}
+          data={indicatorData}
+          onChange={handleIndicatorData}
+          resetData={resetIndicatorData}
+          refresh={refreshIndicatorList}
+        />
+
+        <ProjectIndicatorList
+          onRowSelect={toggleIndicatorSelect}
+          selectedRows={selectedIndicatorAllData}
+          // data={subActivityDataList}
+          subActivityDataId={selectedSubActivityAllData[0]}
+          refresh={refreshIndicator}
+        />
+      </TabContent>
+
+      <TabContent className={toggleState === 4 ? "active-content" : ""}>
+        <ActionWrapper isLeft>
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
+            <Button
+              onClick={onAddCrop}
+              disabled={
+                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
+              }
+            >
+              <Add />
+              {DEF_ACTIONS.ADD}
+            </Button>
+
+            <AddCropDialog
+              open={openCropAddDialog}
+              setConfirmDialog={setOpenCropAddDialog}
+              confirmAction={handleCropAdd}
+              handleClose={closeCropAddDialog}
+              formId={formDataD?.id}
+              formData={formDataD}
+              mode={dialogMode}
+              projectId={projectId}
+            />
+            {selectCrop.length > 0 && (
+              <Button onClick={onDelete}>
+                <Delete />
+                {DEF_ACTIONS.DELETE}
+              </Button>
+            )}
+          </ButtonGroup>
+        </ActionWrapper>
+
+        {loading === false && (
+          <CropList
+            url={cropUrl}
+            dataEndPoint={cropUrl}
+            onRowSelect={toggleCropSelect}
+            selectedRows={selectCrop}
+            selectAll={selectAllCrop}
+            unSelectAll={resetSelectedCrop}
+            onDelete={handleCropDelete}
+            projectId={projectId}
+          />
+        )}
+      </TabContent>
+
+      {/* dialog boxes for delete */}
       <ConfirmationDialog
         open={openDeleteSubActivity}
         title="Do you want to delete?"
@@ -1006,6 +1191,19 @@ const AgricultureProjectForm = () => {
         setDialogSelectedTypes={setDialogSelectedSubActivityTypes}
         dialogSelectedTypes={dialogSelectedSubActivityTypes}
         propertyId="subActivityId"
+        propertyDescription="description"
+      />
+
+      <ConfirmationDialog
+        open={openDeleteIndicator}
+        title="Do you want to delete?"
+        items={selectedIndicatorAllData}
+        loading={loading}
+        onClose={closeIndicatorDelete}
+        onConfirm={onConfirmDeleteIndicators}
+        setDialogSelectedTypes={setDialogSelectedIndicatorTypes}
+        dialogSelectedTypes={dialogSelectedIndicatorTypes}
+        propertyId="indicatorId"
         propertyDescription="description"
       />
 

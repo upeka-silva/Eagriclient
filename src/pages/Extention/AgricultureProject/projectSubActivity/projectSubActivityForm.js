@@ -133,18 +133,6 @@ export default function ProjectSubActivityForm({
     setSaving(false);
   };
 
-  // useEffect(() => {
-  //   get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
-  //     setGnDivisionList(dataList);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   get_FarmerList().then(({ dataList = [] }) => {
-  //     setFarmerList(dataList);
-  //   });
-  // }, []);
-
   return (
     <div>
       <Dialog
