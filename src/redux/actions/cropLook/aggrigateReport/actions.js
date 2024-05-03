@@ -48,7 +48,7 @@ export const updateBiWeekReporting = async (
       `crop-look/bi-week-reporting/${id}/category/${cropCategoryId}/crop-targets`,
       payload,
       true
-    ); //ssss
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {

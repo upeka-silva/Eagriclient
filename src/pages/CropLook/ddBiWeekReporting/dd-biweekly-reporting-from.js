@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Grid,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { TextField, Grid, Button, CircularProgress } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -18,22 +13,16 @@ import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/actio
 import { useEffect } from "react";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 
-import {
-  createCropTarget,
-  getAllAiAndMahaweliUnits,
-} from "../../../redux/actions/cropLook/cropTarget/actions";
-import {
-  getAggregateBiWeekReport,
-} from "../../../redux/actions/cropLook/biWeekReporting/actions";
-import { REGION_PARENT_TYPE } from "../../../utils/constants/region-parent-type";
-import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
+import { getAggregateBiWeekReport } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { Vrpano } from "@mui/icons-material";
-import { BI_WEEK_REPORT_STATUS } from "../../../utils/constants/bi-week-report-status";
 import DDBiWeeklyReportingTab from "./dd-biweekly-reporting-tab";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
-import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
 
 const DDBiWeeklyReportingForm = () => {
   useUserAccessValidation();
@@ -87,7 +76,7 @@ const DDBiWeeklyReportingForm = () => {
           if (
             !groupedData[cropCategoryId].crop[cropId].varietyTargets[varietyId]
           ) {
-            groupedData[cropCategoryId].crop[cropId].varietyTargets[varietyId] = 
+            groupedData[cropCategoryId].crop[cropId].varietyTargets[varietyId] =
               {
                 varietyId: varietyId,
                 varietyName: item.varietyName,
@@ -102,10 +91,8 @@ const DDBiWeeklyReportingForm = () => {
                 varietyId
               ];
 
-            variety.targetedExtentMajor +=
-              item.totalTargetedExtentMajor || 0;
-            variety.targetedExtentMinor +=
-              item.totalTargetedExtentMinor || 0;
+            variety.targetedExtentMajor += item.totalTargetedExtentMajor || 0;
+            variety.targetedExtentMinor += item.totalTargetedExtentMinor || 0;
             variety.targetedExtentRainfed +=
               item.totalTargetedExtentRainfed || 0;
             variety.targetedExtentIrrigate +=
@@ -126,8 +113,6 @@ const DDBiWeeklyReportingForm = () => {
         });
 
         const result = Object.values(groupedData);
-        console.log("group data");
-        console.log(result);
         setAggregateList(result);
         setIsLoading(false);
       }
@@ -145,17 +130,22 @@ const DDBiWeeklyReportingForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} formName="Bi Weekly Report" goBack={goBack}/>
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="Bi Weekly Report"
+          goBack={goBack}
+        />
         <Grid container>
           <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
             <Grid container>
