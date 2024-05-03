@@ -154,3 +154,25 @@ export const get_DistrictCommLov = async () => {
     };
   }
 };
+
+export const getAll_districtCommissionerLevel = async () => {
+  try {
+    const { httpCode, payload } = await get(
+      "geo-data/district-commissioner-level/get-all",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payload,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
