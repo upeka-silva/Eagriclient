@@ -23,25 +23,26 @@ const CategoryReportTabel = ({ category, season }) => {
     async function fetchData(categoryId, seasonId) {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
-
       fetchConfig(categoryId, dataList);
 
-      const groupedData = dataList.reduce((acc, obj) => {
+      const groupedData = dataList?.reduce((acc, obj) => {
         const cropName = obj?.cropName;
         acc[cropName] = acc[cropName] || [];
         acc[cropName].push(obj);
         return acc;
       }, {});
+      console.log('grouped data --------------->');
+      console.log(groupedData);
       setData(groupedData);
     }
 
     async function fetchConfig(categoryId, dataList) {
       const configs = await getConfigurationById(categoryId);
-      setTargetConfigs(configs.targetFields);
-      setReportConfigs(configs.fields);
+      setTargetConfigs(configs?.targetFields);
+      setReportConfigs(configs?.fields);
       setLoading(false);
     }
-
+    console.log('fetching data');
     fetchData(category?.id, season?.id);
   }, [season]);
 
@@ -58,14 +59,14 @@ const CategoryReportTabel = ({ category, season }) => {
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
-              {targetConfigs.length > 0 &&
+              {targetConfigs?.length > 0 &&
                 targetConfigs.map((fieldName, index) => (
                   <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>{fieldName} (ha)</TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total Target (ha)
               </TableCell>
-              {reportConfigs.length > 0 &&
+              {reportConfigs?.length > 0 &&
                 reportConfigs.map((fieldName1, index1) => (
                   <TableCell key={index1} style={{ backgroundColor: "#A8CD9F" }}>{fieldName1} (ha)</TableCell>
                 ))}

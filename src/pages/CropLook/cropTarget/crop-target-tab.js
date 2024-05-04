@@ -29,6 +29,7 @@ const CropTargetTab = ({
   const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
+    console.log('CropTargetTab useEffect ===========>');
     getConfigurationById(cropCategoryId).then((data = {}) => {
       setConfigFields(data ? data.targetFields : []);
       checkDataLoadStatus();
