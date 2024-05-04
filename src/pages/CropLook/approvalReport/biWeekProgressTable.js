@@ -14,17 +14,13 @@ import {
   approveBiWeekCategoryReport,
   approveBiWeekCategoryReportDD,
   getAggrigateBiWeekReportData,
-  getAggrigateReportData,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import ApprovalReportTableCell from "./approvalReportTableCell";
 import BiWeekProgressCell from "./biWeekProgressCell";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { useLocation } from "react-router";
 
 const BiWeekProgressTale = ({ category, season, week, owner }) => {
-  const { state } = useLocation();
   const { addSnackBar } = useSnackBars();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);

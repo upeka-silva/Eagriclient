@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
 import {
   TextField,
-  Button,
   CircularProgress,
-  MenuItem,
-  Select,
-  FormControl,
   Grid,
   Autocomplete,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -17,14 +12,11 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
-import { FormHeader } from "../../../components/FormLayout/FormHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import BackToList from "../../../components/BackToList/BackToList";
-import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import {
   changeStatusBiWeekData,

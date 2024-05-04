@@ -68,8 +68,12 @@ import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
-import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
+import VegitableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
+
+
+
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -98,20 +102,24 @@ import BiotechIcon from "@mui/icons-material/Biotech";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
-import GroupIcon from '@mui/icons-material/Group';
-import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import GroupIcon from "@mui/icons-material/Group";
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {
   Apple,
   Assessment,
   CalendarMonth,
-  Category, HowToReg,
-  Moving, Preview,
+  Category,
+  HowToReg,
+  Moving,
+  Preview,
   Rowing,
   Settings,
   Plagiarism,
-  TrendingDown, BugReportRounded,
-  CoronavirusRounded
+  TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -199,9 +207,10 @@ import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
-import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
+import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
+import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
@@ -1248,24 +1257,24 @@ export const Routes = [
         component: DEF_COMPONENTS.AGRICULTURE_POST,
       },
       {
+         path: "/create-project",
+         name: "Create Project",
+         isSideBar: true,
+         element: <AgricultureProject />,
+         icon: AssignmentIndIcon,
+        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+      },
+      {
+         path:"/agriculture-project-form",
+          name: "Agriculture Project Form",
+          isSideBar: false,
+          element: <AgricultureProjectForm />,
+          component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+      },
+      {
         path: "/create-post-form",
         isSideBar: false,
         element: <CreatePostForm />,
-      },
-      {
-        path: "/agriculture-project",
-        name: "Agriculture project",
-        isSideBar: true,
-        element: <AgricultureProject />,
-        icon: Category,
-        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
-      },
-
-      {
-        path: "/agriculture-project-form",
-        name: "Agriculture Project Form",
-        isSideBar: false,
-        element: <AgricultureProjectForm />,
       },
     ],
   },
@@ -1445,6 +1454,14 @@ export const Routes = [
         icon: Settings,
         component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
       },
+      {
+        path: "/vegitable-early-warning",
+        name: "vegitable early warning ",
+        isSideBar: true,
+        element: <VegitableEarlyWarning />,
+        icon: WbSunnyIcon,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING,
+      },
     ],
   },
   {
@@ -1503,7 +1520,7 @@ export const Routes = [
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
-        component: DEF_COMPONENTS.PERMISSION,
+        //component: DEF_COMPONENTS.PERMISSION,
       },
       {
         path: "/permissions-by-role",
@@ -1561,7 +1578,7 @@ export const Routes = [
       }, 
       {
         path: "/getfoodpricedata",
-        name: "Harti Price",
+        name: "HARTI Price",
         isSideBar: true,
         element: <HartyPrices />,
         icon: GroupIcon ,

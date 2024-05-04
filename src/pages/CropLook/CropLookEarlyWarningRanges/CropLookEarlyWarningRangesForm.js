@@ -19,13 +19,12 @@ import { useEffect } from "react";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
-import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
-import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { get_all_SubCategoryById } from "../../../redux/actions/crop/crop/action";
+import { get_all_CropById } from "../../../redux/actions/crop/cropVariety/action";
 
 const CropLookEarlyWarningRangesForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   console.log(state);
   const navigate = useNavigate();
 
@@ -54,7 +53,7 @@ const CropLookEarlyWarningRangesForm = () => {
 
   const getSubCategories = (id) => {
     debugger;
-    get_SubCategoryById(id).then(({ dataList = [] }) => {
+    get_all_SubCategoryById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setSubCategoryOptions(dataList);
     });
@@ -62,7 +61,7 @@ const CropLookEarlyWarningRangesForm = () => {
 
   const getCrops = (id) => {
     debugger;
-    get_CropById(id).then(({ dataList = [] }) => {
+    get_all_CropById(id).then(({ dataList = [] }) => {
       console.log(dataList);
       setCropyOptions(dataList);
     });
@@ -299,7 +298,7 @@ const CropLookEarlyWarningRangesForm = () => {
           </FieldWrapper>
         </Grid>
         <Grid item sm={12} md={12} lg={12}></Grid>
-        <Grid item sm={3} md={3} lg={3}>
+        <Grid item sm={6} md={3} lg={2}>
           <FieldWrapper>
             <FieldName>Two Week Recommendation</FieldName>
             <TextField

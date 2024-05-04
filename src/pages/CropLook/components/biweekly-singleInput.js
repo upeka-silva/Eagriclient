@@ -15,6 +15,7 @@ const BiWeeklySingleInput = ({
   varietyIndex,
   targetedExtentHandler,
   mode,
+  status,
   configFields,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,7 +50,7 @@ const BiWeeklySingleInput = ({
       return field;
     }
   };
-
+  console.log({ mode });
   return (
     <>
       <Grid container spacing={1} sx={{ paddingTop: "20px" }}>
@@ -79,7 +80,7 @@ const BiWeeklySingleInput = ({
               <Grid item xs={2}>
                 <TextField
                   type="number"
-                  disabled={mode === DEF_ACTIONS.VIEW}
+                  disabled={mode === DEF_ACTIONS.VIEW || status === "CLOSE"}
                   variant="outlined"
                   id={`input_${varietyTarget.varietyName}_${i}`}
                   label={removeExtent(field)}
@@ -126,7 +127,6 @@ const BiWeeklySingleInput = ({
                   color: "green",
                   "& .MuiInputBase-input.Mui-disabled": {
                     WebkitTextFillColor: "#33b858",
-
                     borderRadius: "8px",
                   },
                   "& .Mui-disabled .MuiOutlinedInput-notchedOutline": {
