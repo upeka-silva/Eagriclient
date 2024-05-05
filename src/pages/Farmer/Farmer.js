@@ -7,7 +7,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -20,8 +19,6 @@ import { deleteFarmer } from "../../redux/actions/farmer/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import FarmerList from "./FarmerList";
-import DialogBox from "../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
 
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";

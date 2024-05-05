@@ -86,9 +86,7 @@ const CropLookSeasonForm = () => {
       setFormData({});
     }
     setSelectedAgriSeason(null); 
-  };
-  
-  
+  };  
 
   const enableSave = () => {
   if (state?.action === DEF_ACTIONS.EDIT) {
@@ -100,9 +98,7 @@ const CropLookSeasonForm = () => {
       return true;
     }
      return false;
-  };
-  
-  
+  };  
 
   const onSuccess = () => {
     addSnackBar({
@@ -168,12 +164,6 @@ const CropLookSeasonForm = () => {
         console.log(error);
       }
     }
-  };
-
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
   };
 
   const statusChangeHandler = async (id, status) => {
