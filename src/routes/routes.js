@@ -214,6 +214,7 @@ import AgricultureProject from "../pages/Extention/AgricultureProject/Agricultur
 import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
+import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 
 export const Routes = [
   {
@@ -1403,6 +1404,14 @@ export const Routes = [
         name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/national-report",
+        name: "National Report",
+        isSideBar: true,
+        element: <NationalReport />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },

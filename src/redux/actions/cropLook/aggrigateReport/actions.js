@@ -296,6 +296,46 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
+export const getNationalData = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/nationalViewByDistrict/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const approveNationalData = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/vegetable-early-warnings/publish/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getAggrigateBiWeekReportData = async (
   categoryId,
   seasonId,

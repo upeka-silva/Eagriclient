@@ -352,7 +352,7 @@ const BiWeeklyReportingForm = () => {
                 <TabContent
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {biWeekReportId ? (
+                  {toggleState === index + 1 && biWeekReportId ? (
                     <BiWeeklyReportingTab
                       registrationId={biWeekReportId}
                       aiRegion={selectedAiRegion}
