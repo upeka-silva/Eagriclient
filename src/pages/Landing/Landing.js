@@ -5,7 +5,7 @@ import {
   InputBase,
   Typography,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 //images
 import SearchIcon from "@mui/icons-material/Search";
@@ -18,7 +18,6 @@ import PriceLineChart from "./components/PriceLineChart";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
 
-
 function Landing() {
   useUserAccessValidation();
   const defaultLocation = {
@@ -28,164 +27,6 @@ function Landing() {
   };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
  
-
-  const data = {
-    vegetables: [
-      {
-        name: "beans",
-        yearPrice: {
-          2013: 200,
-          2014: 500,
-          2015: 680,
-          2016: 300,
-          2017: 500,
-          2018: 420,
-          2019: 350,
-          2020: 780,
-          2021: 200,
-          2022: 850,
-        },
-      },
-      {
-        name: "carrot",
-        yearPrice: {
-          2013: 150,
-          2014: 180,
-          2015: 200,
-          2016: 220,
-          2017: 840,
-          2018: 260,
-          2019: 380,
-          2020: 300,
-          2021: 620,
-          2022: 340,
-        },
-      },
-      {
-        name: "potato",
-        yearPrice: {
-          2013: 120,
-          2014: 430,
-          2015: 140,
-          2016: 150,
-          2017: 560,
-          2018: 170,
-          2019: 880,
-          2020: 190,
-          2021: 900,
-          2022: 210,
-        },
-      },
-      {
-        name: "tomato",
-        yearPrice: {
-          2013: 250,
-          2014: 270,
-          2015: 300,
-          2016: 320,
-          2017: 350,
-          2018: 380,
-          2019: 400,
-          2020: 420,
-          2021: 450,
-          2022: 470,
-        },
-      },
-      {
-        name: "cabbage",
-        yearPrice: {
-          2013: 180,
-          2014: 200,
-          2015: 220,
-          2016: 280,
-          2017: 260,
-          2018: 880,
-          2019: 300,
-          2020: 320,
-          2021: 340,
-          2022: 960,
-        },
-      },
-    ],
-    fruits: [
-      {
-        name: "apple",
-        yearPrice: {
-          2013: 200,
-          2014: 250,
-          2015: 280,
-          2016: 300,
-          2017: 1000,
-          2018: 420,
-          2019: 450,
-          2020: 480,
-          2021: 500,
-          2022: 950,
-        },
-      },
-      {
-        name: "banana",
-        yearPrice: {
-          2013: 180,
-          2014: 200,
-          2015: 220,
-          2016: 840,
-          2017: 260,
-          2018: 280,
-          2019: 1000,
-          2020: 320,
-          2021: 340,
-          2022: 160,
-        },
-      },
-      {
-        name: "orange",
-        yearPrice: {
-          2013: 220,
-          2014: 240,
-          2015: 260,
-          2016: 280,
-          2017: 300,
-          2018: 920,
-          2019: 340,
-          2020: 360,
-          2021: 380,
-          2022: 100,
-        },
-      },
-      {
-        name: "grape",
-        yearPrice: {
-          2013: 300,
-          2014: 320,
-          2015: 340,
-          2016: 560,
-          2017: 380,
-          2018: 400,
-          2019: 420,
-          2020: 440,
-          2021: 460,
-          2022: 180,
-        },
-      },
-      {
-        name: "watermelon",
-        yearPrice: {
-          2013: 100,
-          2014: 120,
-          2015: 140,
-          2016: 160,
-          2017: 180,
-          2018: 5000,
-          2019: 220,
-          2020: 240,
-          2021: 260,
-          2022: 1080,
-        },
-      },
-    ],
-  };
-
   const locations = [
     { district: "Ampara", Longitude: 81.5516024, Latitude: 7.2345496 },
     { district: "Anuradhapura", Longitude: 80.5110764, Latitude: 8.39152674 },
@@ -309,8 +150,8 @@ function Landing() {
         <Grid container mt={5} px={2}>
           <WeeklyWeather location={selectedLocation} />
         </Grid>
-        <Grid container mt={5} spacing={1} px={5}>
-          <PriceLineChart data={data} />
+        <Grid item mt={5} spacing={1} px={5}>
+          <PriceLineChart />
         </Grid>
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
