@@ -102,81 +102,81 @@ const ProtectedHouseTypeForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-    <FormWrapper>
-      <PageHeader 
-        saving={saving}
-        state={state}
-        formName="Protected House Type"
-        goBack={goBack}
-      />
-      <FormButtonGroup
-        state={state}
-        DEF_ACTIONS={DEF_ACTIONS}
-        saving={saving}
-        enableSave={enableSave}
-        handleFormSubmit={handleFormSubmit}
-        resetForm={resetForm}
-      />
-      <Grid
-        container
-        sx={{
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={3} md={3} lg={4}>
-          <FieldWrapper>
-            <FieldName>Type ID</FieldName>
-            <TextField
-              name="typeId"
-              id="typeId"
-              value={formData?.typeId || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) => handleChange(e?.target?.value || "", "typeId")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-              inputProps={{ style: { textTransform: "uppercase" } }}
-            />
-          </FieldWrapper>
+      <FormWrapper>
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="Protected House Type"
+          goBack={goBack}
+        />
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={3} md={3} lg={4}>
+            <FieldWrapper>
+              <FieldName>Type ID</FieldName>
+              <TextField
+                name="typeId"
+                id="typeId"
+                value={formData?.typeId || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "typeId")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+                inputProps={{ style: { textTransform: "uppercase" } }}
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={4} md={4} lg={4}>
+            <FieldWrapper>
+              <FieldName>Description</FieldName>
+              <TextField
+                name="description"
+                id="id"
+                value={formData?.description || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "description")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
         </Grid>
-        <Grid item sm={4} md={4} lg={4}>
-          <FieldWrapper>
-            <FieldName>Description</FieldName>
-            <TextField
-              name="description"
-              id="id"
-              value={formData?.description || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
-              }
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-      </Grid>
-    </FormWrapper>
+      </FormWrapper>
     </div>
   );
 };

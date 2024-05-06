@@ -1092,7 +1092,7 @@ export const Routes = [
   },
   {
     path: "/protected-house-type-form",
-    name: "Protected House Type",
+    name: "Protected House Type Form",
     element: <ProtectedHouseTypeForm />,
     isSideBar: false,
   },
