@@ -215,6 +215,8 @@ import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
+import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 export const Routes = [
   {
@@ -1272,6 +1274,14 @@ export const Routes = [
           element: <AgricultureProjectForm />,
           component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
+      {
+         path:"/report-project",
+         name: "Report Project",
+         isSideBar: true,
+         element: <ProjectReport />,
+         icon: SummarizeIcon,
+         component: DEF_COMPONENTS.PROJECT_REPORT,
+     },
       {
         path: "/create-post-form",
         isSideBar: false,

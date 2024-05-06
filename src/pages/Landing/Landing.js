@@ -5,7 +5,7 @@ import {
   InputBase,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 //images
 import SearchIcon from "@mui/icons-material/Search";
@@ -17,6 +17,7 @@ import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
+import { get_vegetable_early_warnings } from "../../redux/actions/vegwarning/action";
 
 function Landing() {
   useUserAccessValidation();
@@ -58,6 +59,53 @@ function Landing() {
   const handleLocationChange = (event, value) => {
     setSelectedLocation(value);
   };
+
+
+  //vegetable early warnings
+
+
+  const [statusData, setStatusData] = React.useState({
+    BestData: [],
+    BetterData: [],
+    GoodData: [],
+    WorstData: [],
+  });
+  console.log({ statusData });
+
+  useEffect(() => {
+    get_vegetable_early_warnings().then((response) => {
+      const categorizedData = {
+        BestData: [],
+        BetterData: [],
+        GoodData: [],
+        WorstData: [],
+      };
+
+      console.log("bdata", statusData?.BetterData);
+
+      response.dataList?.forEach((item) => {
+        switch (item?.vegetableEarlyWarningStatus) {
+          case "BEST":
+            categorizedData.BestData.push(response);
+            break;
+          case "BETTER":
+            categorizedData.BetterData.push(item);
+            break;
+          case "GOOD":
+            categorizedData.GoodData.push(response);
+            break;
+          case "WORSE":
+            categorizedData.WorstData.push(item);
+            break;
+          // You can add cases for other statuses if needed
+          default:
+            categorizedData.GoodData.push(item);
+        }
+      });
+
+      setStatusData(categorizedData);
+    });
+  }, []);
 
   return (
     <div>
@@ -156,10 +204,10 @@ function Landing() {
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
             <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Best Selection"} />
+              <LandingCarousel status={"Better Selection"} data={statusData?.BetterData}/>
             </Grid>
             <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Worst Selection"} />
+              <LandingCarousel status={"Worst Selection"} data={statusData?.WorstData}/>
             </Grid>
             <Grid
               mt={5}
