@@ -3032,7 +3032,7 @@ const GapRegForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
-        <GapRequestCertificate url={formData.certificatePresignedUrl} />
+        <GapRequestCertificate url={formData.certificatePresignedUrl} gapId ={formData.id} />
       </TabContent>
 
       <TabContent className={toggleState === 7 ? "active-content" : ""}>
