@@ -294,7 +294,6 @@ const DynamicFormGap = ({
           console.log(error);
         }
       } else {
-        console.log("new id from file upload ");
         onSuccessSave(null);
       }
     }

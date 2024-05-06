@@ -203,7 +203,6 @@ export default function FormPageEditView(
               originalFileName: fileRes.originalFileName,
               presignExpireDate: fileRes.expireDate,
             });
-            console.log("presignedUrl",fileRes.originalFileName)
           }
         }
 
@@ -247,26 +246,6 @@ export default function FormPageEditView(
         onSuccess,
         onError
       );
-      //   if (functionMode === DEF_ACTIONS.ADD) {
-      //     await saveGapDataWithValues(
-      //       1,
-      //       uriPath,
-      //       saveData,
-      //       null,
-      //       null,
-      //       onSuccess,
-      //       onError
-      //     );
-      //   } else if (state.action === DEF_ACTIONS.EDIT) {
-      //     await updateGapDataWithValues(
-      //       state.formData.id,
-      //       1,
-      //       uriPath,
-      //       saveData,
-      //       onSuccess,
-      //       onError
-      //     );
-      //   }
     } catch (error) {
       console.log(error);
     }
@@ -280,12 +259,12 @@ export default function FormPageEditView(
       message: "Successfully executed !!!",
     });
 
-    // getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(
-    //   ({ data = [] }) => {
-    //     setDataListTemplates(data);
-    //   }
-    // );
-    setSaving(false);
+    getFormTemplatesByGapReqId(state.formId.formId, state.uriPath).then(
+      ({ data = [] }) => {
+        setDataListTemplates(data);
+      }
+    );
+    // setSaving(false);
 
   };
   return (
