@@ -1,4 +1,4 @@
-import { api_delete, post, put } from "../../../../../services/api";
+import { api_delete, get, post, put } from "../../../../../services/api";
 import { defaultMessages } from "../../../../../utils/constants/apiMessages";
 
 
@@ -39,6 +39,27 @@ export const handleProjectIndicator = async (
     }
   };
 
+
+  export const get_IndicatorBySubActivityId = async (id) => {
+    try {
+      const { httpCode, payloadDto } = await get(
+        `extension/project-indicator/${id}/indicators`,true
+      );
+      if (httpCode === "200 OK") {
+        return {
+          dataList: payloadDto,
+        };
+      }
+      return {
+        dataList: [],
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        dataList: [],
+      };
+    }
+  };
 
   
 export const updateProjectIndicator = async (
