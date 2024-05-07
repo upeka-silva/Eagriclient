@@ -67,7 +67,7 @@ const NationalReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report" />
+      <ListHeader title="National Report" />
       <Grid
         container
         sx={{
