@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { getFormTemplateByType, getFormTemplatesByGapReqId, getRandomAuditId, saveGapDataWithValues, updateGapDataWithValues } from "../../redux/actions/auditForm/action";
+import {
+  fileUploadForm,
+  getFormTemplateByType,
+  getFormTemplatesByGapReqId,
+  getRandomAuditId,
+  saveGapDataWithValues,
+  updateGapDataWithValues,
+} from "../../redux/actions/auditForm/action";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { Box, Button, Checkbox, Grid, TextField } from "@mui/material";
@@ -12,19 +19,24 @@ import { ButtonWrapper } from "../../components/FormLayout/ButtonWrapper";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
-import { addGapRequestAction, changeStatus } from "../../redux/actions/gap/action";
+import {
+  addGapRequestAction,
+  changeStatus,
+} from "../../redux/actions/gap/action";
 
 export default function DynamicFormPage({ auditFormType = "", afterSave }) {
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  console.log({state})
+
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const [formTemplate, setFormTemplate] = useState({});
   const [newSavedId, setNewSavedId] = useState(null);
   const [fileUploadResponse, setFileUploadResponse] = useState({});
-  const [auditId, setAuditId] = useState('');
+  const [auditId, setAuditId] = useState("");
   const [isRandom, setIsRandom] = useState(true);
 
   const { addSnackBar } = useSnackBars();
@@ -41,28 +53,28 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
       tabIndex = 5;
     }
 
-    const nextState = state?.action === "ADD" ? 
-      {
-        action: DEF_ACTIONS.EDIT, 
-        target: state?.gapData,
-        tabIndex: tabIndex
-      } : 
-      { 
-        tabIndex: tabIndex 
-      };
+    const nextState =
+      state?.action === "ADD"
+        ? {
+            action: DEF_ACTIONS.EDIT,
+            target: state?.gapData,
+            tabIndex: tabIndex,
+          }
+        : {
+            tabIndex: tabIndex,
+          };
 
     navigate("/gap/gap-reg-form" + uriPath, { state: nextState });
-};
-
+  };
 
   const handleChange = (value, target) => {
-    if (target === "auditId"){
-      setIsRandom(false)
+    if (target === "auditId") {
+      setIsRandom(false);
     }
     setFormData((current = {}) => {
       let newData = { ...current };
       if (typeof value === "boolean") {
-        newData[target] = value; 
+        newData[target] = value;
       } else {
         newData[target] = value || "";
       }
@@ -80,7 +92,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     if (state?.action === DEF_ACTIONS.EDIT) {
       setFormData(state?.target || {});
     } else {
-      setIsRandom(!isRandom)
+      setIsRandom(!isRandom);
       setFormData({});
     }
   };
@@ -112,7 +124,7 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
 
   useEffect(() => {
     randomIdGenerator();
-  },[state?.auditFormType])
+  }, [state?.auditFormType]);
 
   const populateAttributes = () => {
     if (state?.auditFormType === "SELF_ASSESSMENT") {
@@ -130,21 +142,54 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
     }
   };
 
+  const onSuccessAfterUploadFile = async (response, qid) => {
+    const obj = { ...fileUploadResponse };
+    obj[qid] = response.payload;
+
+    setFileUploadResponse(obj);
+    setSaving(false);
+  };
+
   const randomIdGenerator = async () => {
     populateAttributes();
-    const generatedId = await getRandomAuditId(state.formId,uriPath); 
-    setAuditId(generatedId)   
-  }
+    const generatedId = await getRandomAuditId(state.formId, uriPath);
+    setAuditId(generatedId);
+  };
 
-  const afterFileUploadSave = async (qid, fileData) => {};
+  const afterFileUploadSave = async (qid, fileData) => {
+    console.log({ qid, fileData });
+
+    const formDataFile = new FormData();
+    formDataFile.append("file", fileData);
+    await fileUploadForm(
+      state?.formId,
+      state?.uriPath,
+      state?.gapData?.id,
+      formDataFile,
+      qid,
+      onSuccessAfterUploadFile,
+      onError
+    ).then((data) => {
+      addSnackBar({
+        type: SnackBarTypes.success,
+        message: "Successfully Uploaded !!!",
+      });
+
+      
+
+    });
+
+
+
+  };
 
   const handleFormSubmit = async () => {
-    console.log('intrnal audit -----> save');
-    console.log(enableSave())
+    console.log("intrnal audit -----> save");
+    console.log(enableSave());
     populateAttributes();
     if (enableSave()) {
       if (newSavedId == null) {
-        console.log( uriPath);
+        console.log(uriPath);
         const saveData = {
           templateId: formTemplate.id,
           auditId: formData?.auditId || auditId,
@@ -154,7 +199,6 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
         };
         setSaving(true);
         try {
-            
           await saveGapDataWithValues(
             state.formId,
             uriPath,
@@ -165,17 +209,25 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
             onError
           );
 
-           //Get Audits for check Availablility
-           const audit_result = await getFormTemplatesByGapReqId(state.formId,uriPath); 
+          //Get Audits for check Availablility
+          const audit_result = await getFormTemplatesByGapReqId(
+            state.formId,
+            uriPath
+          );
 
           //if audit_result lenght equals to zero, then call addGapRequestAction
-          if (Object.keys(audit_result.data).length === 0){
-              if (uriPath === "external-audit"){
-                const changeState = await addGapRequestAction(state.formId, "EXTERNAL_AUDIT_COMPLETED")
-              }
-              else if (uriPath === "internal-audit"){
-                const changeState = await addGapRequestAction(state.formId, "INTERNAL_AUDIT_COMPLETED")
-              }
+          if (Object.keys(audit_result.data).length === 0) {
+            if (uriPath === "external-audit") {
+              const changeState = await addGapRequestAction(
+                state.formId,
+                "EXTERNAL_AUDIT_COMPLETED"
+              );
+            } else if (uriPath === "internal-audit") {
+              const changeState = await addGapRequestAction(
+                state.formId,
+                "INTERNAL_AUDIT_COMPLETED"
+              );
+            }
           }
         } catch (error) {
           console.log(error);
@@ -292,7 +344,6 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
                 variant="outlined"
                 disabled={false}
                 onClick={handleFormSubmit}
-              
                 size="small"
                 color="success"
                 style={{ marginLeft: "10px" }}
@@ -382,11 +433,13 @@ export default function DynamicFormPage({ auditFormType = "", afterSave }) {
                     id={"question_" + item.id}
                     value={formData?.["question_" + item.id]}
                     disabled={state?.action === DEF_ACTIONS.VIEW}
-                    checked={formData?.["question_" + item.id] === true || false}
+                    checked={
+                      formData?.["question_" + item.id] === true || false
+                    }
                     onChange={(e) =>
                       handleChange(e?.target?.checked, "question_" + item.id)
                     }
-                    />
+                  />
                 )}
                 {item.proofRequired === true && (
                   <FileUploadDynamic

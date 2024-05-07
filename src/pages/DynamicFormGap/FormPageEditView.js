@@ -176,7 +176,6 @@ export default function FormPageEditView(
   };
 
   const handle = async (event, data, functionMode, fileUploadResponse) => {
-    console.log("handle");
     const auditAnswers = [];
     const keysArray = Object.keys(data);
     for (const qKey of keysArray) {
@@ -192,7 +191,13 @@ export default function FormPageEditView(
         if (fileUploadResponse && fileUploadResponse[questionId]) {
           const fileRes = fileUploadResponse[questionId];
           if (fileRes) {
+
+            let proofDocId;
+                    if (state.formData.auditAnswers && state.formData.auditAnswers[0] && state.formData.auditAnswers[0].proofDocs && state.formData.auditAnswers[0].proofDocs[0]) {
+                        proofDocId = state.formData.auditAnswers[0].proofDocs[0].id; // Accessing the existing proofDoc's id
+                    }
             proofDocs.push({
+              id: proofDocId,
               docUrl: fileRes.storedFileName,
               presignedUrl: fileRes.presignedUrl,
               originalFileName: fileRes.originalFileName,
@@ -234,33 +239,13 @@ export default function FormPageEditView(
     setSaving(true);
     try {
       await updateGapDataWithValues(
-        state.formData.id,
-        state.formId.formId,
+        state?.formData?.id,
+        state?.formId?.formId,
         state.uriPath,
         saveData,
         onSuccess,
         onError
       );
-      //   if (functionMode === DEF_ACTIONS.ADD) {
-      //     await saveGapDataWithValues(
-      //       1,
-      //       uriPath,
-      //       saveData,
-      //       null,
-      //       null,
-      //       onSuccess,
-      //       onError
-      //     );
-      //   } else if (state.action === DEF_ACTIONS.EDIT) {
-      //     await updateGapDataWithValues(
-      //       state.formData.id,
-      //       1,
-      //       uriPath,
-      //       saveData,
-      //       onSuccess,
-      //       onError
-      //     );
-      //   }
     } catch (error) {
       console.log(error);
     }
@@ -279,6 +264,8 @@ export default function FormPageEditView(
         setDataListTemplates(data);
       }
     );
+    // setSaving(false);
+
   };
   return (
     <>
