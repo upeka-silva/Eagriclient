@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import { getAggrigateReportData } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
 import ApprovalReportTableCell from "./approvalReportTableCell";
 
 const ApprovalReportCategoryTable = ({ category, season }) => {
@@ -19,21 +18,15 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
   const [confLoading, setConfLoading] = useState([]);
-  const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
-  const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
-    new Map()
-  );
 
   useEffect(() => {
-    setirrIgationModeMap(new Map());
-    setirrIgationModeTargetMap(new Map());
     async function fetchData(categoryId, seasonId) {
       setLoading(true);
       const dataList = await getAggrigateReportData(categoryId, seasonId);
 
       fetchConfig(category?.categoryId, dataList);
 
-      const groupedData = dataList.reduce((acc, obj) => {
+      const groupedData = dataList?.reduce((acc, obj) => {
         const cropName = obj?.cropName;
         acc[cropName] = acc[cropName] || [];
         acc[cropName].push(obj);
@@ -47,68 +40,24 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
     async function fetchConfig(categoryId, dataList) {
       setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
-      setTargetConfigs(configs.targetFields);
-      setReportConfigs(configs.fields);
+      setTargetConfigs(configs?.targetFields);
+      setReportConfigs(configs?.fields);
 
-      for (let data of dataList) {
-        for (let field of configs?.fields) {
-          const dbField = convertCropLookFields(field);
-          updateIrrigationModeMap(field, data[dbField]);
-        }
-
-        for (let field1 of configs?.targetFields) {
-          const dbField = convertCropLookFields(field1);
-          updateIrrigationModeTargetMap(field1, data[dbField]);
-        }
-        updateIrrigationModeMap("grandTotalBiWeek", data?.grandTotalBiWeek);
-        updateIrrigationModeTargetMap(
-          "grandTotalTargeted",
-          data?.grandTotalTargeted
-        );
-      }
       setConfLoading(false);
     }
 
-    fetchData(category?.categoryId, season?.id);
+    fetchData(category?.id, season?.id);
   }, [season]);
 
-  const updateIrrigationModeMap = (key, value) => {
-    setirrIgationModeMap((prevMap) => {
-      const newMap = new Map(prevMap);
-
-      if (newMap.has(key)) {
-        newMap.set(key, newMap.get(key) + value);
-      } else {
-        newMap.set(key, value);
-      }
-
-      return newMap;
-    });
-  };
-
-  const updateIrrigationModeTargetMap = (key, value) => {
-    setirrIgationModeTargetMap((prevMap) => {
-      const newMap = new Map(prevMap);
-
-      if (newMap.has(key)) {
-        newMap.set(key, newMap.get(key) + value);
-      } else {
-        newMap.set(key, value);
-      }
-
-      return newMap;
-    });
-  };
-
-  const getRoundValue = (value) => {
-    return value?.toFixed(3);
+  const removeExtent = (field) => {
+    field.replace(/Extent/g, '');
   };
 
   return (
     <>
-      <h5>{category.description}</h5>
+      <h5>Target And Extent Progress</h5>
       <TableContainer component={Paper}>
-        <Table>
+        <Table> 
           <TableHead>
             <TableRow>
             <TableCell style={{ backgroundColor: "#A8CD9F" }}>
@@ -117,19 +66,19 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
-              {targetConfigs.length > 0 &&
-                targetConfigs.map((fieldName, index) => (
+              {targetConfigs?.length > 0 &&
+                targetConfigs?.map((fieldName, index) => (
                   <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>{fieldName} (ha)</TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
-                Total Target (ha)
+                Total (ha)
               </TableCell>
-              {reportConfigs.length > 0 &&
-                reportConfigs.map((fieldName1, index1) => (
+              {reportConfigs?.length > 0 &&
+                reportConfigs?.map((fieldName1, index1) => (
                   <TableCell key={index1} style={{ backgroundColor: "#A8CD9F" }}>{fieldName1} (ha)</TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
-                Total Extent (ha)
+                Total (ha)
               </TableCell>
             </TableRow>
           </TableHead>

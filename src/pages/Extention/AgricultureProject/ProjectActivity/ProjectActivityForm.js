@@ -45,9 +45,10 @@ export default function ProjectActivityForm({
   refresh,
   setOpenActivity,
 }) {
+  console.log({ProjectActivityData})
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
-  console.log("data",data)
+  console.log("datanewss",data)
   const [gnDivisionList, setGnDivisionList] = useState([]);
   const [saving, setSaving] = useState(false);
   const [farmerList, setFarmerList] = useState([]);
@@ -160,7 +161,7 @@ export default function ProjectActivityForm({
               paddingLeft: "18px",
             }}
           >
-            {action !== DEF_ACTIONS.VIEW && (
+          
               <ActionWrapper>
                 {saving ? (
                   <Button variant="contained" color="success" size="small">
@@ -189,7 +190,7 @@ export default function ProjectActivityForm({
                   </>
                 )}
               </ActionWrapper>
-            )}
+            
             <Button
               color="success"
               variant="contained"
@@ -216,7 +217,7 @@ export default function ProjectActivityForm({
                     name="activityId"
                     id="aactivityId"
                     value={data?.activityId || ""}
-                    disabled={action === DEF_ACTIONS.VIEW}
+                    disabled={action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT}
                     onChange={(e) =>
                       onChange(e?.target?.value || "", "activityId")
                     }

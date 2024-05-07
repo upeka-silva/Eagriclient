@@ -474,3 +474,51 @@ export const uploadOtherCertificate = async (
     }
   }
 }
+
+export const getNextGapId = async (
+  onSuccess = () => { },
+  onError = (_message) => { }
+) => {
+try {
+  const { httpCode, payload } = await get(`gap-request/next-gap-id`, true, null, true);
+  if (httpCode === '200 OK') {
+    return payload;
+  }
+  return ""
+} catch (error) {
+  console.log(error)
+  return ""
+}
+};
+
+export const getGapQRCode = async (gapId, payload= {}) => {
+  try {
+    const response = await post(`gap-qrcode/${gapId}`, payload, true);
+    return response;
+  } catch (error) {
+    console.error('Error fetching QR code:', error);
+    return null;
+  }
+};
+
+export const getGapDetails = async (gapId) => {
+  try {
+    const response = await get(`gap-qrcode/${gapId}`, true, null, true);
+    const { httpCode, payload } = response; 
+    
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payload, 
+      };
+    }
+    
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};

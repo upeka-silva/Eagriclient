@@ -32,8 +32,11 @@ import Crop from "../pages/Crop/Crop/Crop";
 import CropForm from "../pages/Crop/Crop/CropForm";
 import CropVariety from "../pages/Crop/CropVariety/CropVariety";
 import CropVarietyForm from "../pages/Crop/CropVariety/CropVarietyForm";
+import CropActivity from "../pages/Crop/CropActivity/CropActivity";
+import CropActivityForm from "../pages/Crop/CropActivity/CropActivityForm";
 import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
+
 
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
@@ -65,8 +68,12 @@ import CommodityItem from "../pages/Harty/CommodityItems/CommodityItem";
 import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
-import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
+import VegitableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
+
+
+
+
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -96,19 +103,23 @@ import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from "@mui/icons-material/Group";
-
+import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import {
   Apple,
   Assessment,
   CalendarMonth,
-  Category, HowToReg,
-  Moving, Preview,
+  Category,
+  HowToReg,
+  Moving,
+  Preview,
   Rowing,
   Settings,
   Plagiarism,
-  TrendingDown, BugReportRounded,
-  CoronavirusRounded
+  TrendingDown,
+  BugReportRounded,
+  CoronavirusRounded,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -179,7 +190,6 @@ import CropDamage from "../pages/cropDamages/crop-damage";
 import CropDamageForm from "../pages/cropDamages/crop-damage-from";
 import { DEF_COMPONENTS } from "../utils/constants/permission";
 import DynamicFormPageFarmLand from "../pages/DynamicFormFarmLand/DynamicFormPageFarmLand";
-import CropActivity from "../pages/Crop/CropActivity/crop-activity";
 import CropCalendar from "../pages/Crop/CropCalendar/crop-calendar";
 import CropCalendarForm from "../pages/Crop/CropCalendar/crop-calendar-from";
 import ScsService from "../pages/Scs-Region/ScsService/ScsService";
@@ -197,9 +207,18 @@ import SignUp from "../pages/SignUp/SignUp";
 import FoodPriceChart from "../pages/Landing/FoodPriceChart";
 import ApprovalDashboard from "../pages/CropLook/ApprovalDashboardADA/ApprovalDashboard";
 import ApprovalDashboardDD from "../pages/CropLook/ApprovalDashboardDD/ApprovalDashboardDD";
-import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
 import AllFoodPriceChart from "../pages/Landing/AllFoodPriceChart";
 import ApprovalReport from "../pages/CropLook/approvalReport/approvalReport";
+import AgricultureProjectForm from "../pages/Extention/AgricultureProject/AgricultureProjectForm";
+import AgricultureProject from "../pages/Extention/AgricultureProject/AgricultureProject";
+import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
+import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
+import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
+import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
+import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
+import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
+import SummarizeIcon from '@mui/icons-material/Summarize';
+
 
 export const Routes = [
   {
@@ -264,6 +283,11 @@ export const Routes = [
   {
     path: "/early-warning-ranges-form",
     element: <CropLookEarlyWarningRangesForm />,
+  },
+  {
+    path: "/gap-details/:id",
+    element: <GapDetailsPreview />,
+    hideSidebar: true,
   },
 
   {
@@ -870,6 +894,12 @@ export const Routes = [
         icon: Rowing,
         component: DEF_COMPONENTS.CROP_ACTIVITY,
       },
+      {
+        path: "/activity-form",
+        name: "Crop Activity Form",
+        isSideBar: false,
+        element: <CropActivityForm />,
+      },
       // {
       //   path: "/grain-type",
       //   name: "Grain Type",
@@ -1071,7 +1101,7 @@ export const Routes = [
   },
   {
     path: "/protected-house-type-form",
-    name: "Protected House Type",
+    name: "Protected House Type Form",
     element: <ProtectedHouseTypeForm />,
     isSideBar: false,
   },
@@ -1237,24 +1267,32 @@ export const Routes = [
         component: DEF_COMPONENTS.AGRICULTURE_POST,
       },
       {
+         path: "/create-project",
+         name: "Create Project",
+         isSideBar: true,
+         element: <AgricultureProject />,
+         icon: AssignmentIndIcon,
+        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+      },
+      {
+         path:"/agriculture-project-form",
+          name: "Agriculture Project Form",
+          isSideBar: false,
+          element: <AgricultureProjectForm />,
+          component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+      },
+      {
+         path:"/report-project",
+         name: "Report Project",
+         isSideBar: true,
+         element: <ProjectReport />,
+         icon: SummarizeIcon,
+         component: DEF_COMPONENTS.PROJECT_REPORT,
+     },
+      {
         path: "/create-post-form",
         isSideBar: false,
         element: <CreatePostForm />,
-      },
-      {
-        path: "/agriculture-project",
-        name: "Agriculture project",
-        isSideBar: true,
-        element: <AgricultureProject />,
-        icon: Category,
-        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
-      },
-
-      {
-        path: "/agriculture-project-form",
-        name: "Agriculture Project Form",
-        isSideBar: false,
-        element: <AgricultureProjectForm />,
       },
     ],
   },
@@ -1270,7 +1308,7 @@ export const Routes = [
         isSideBar: true,
         element: <TargetRegistration />,
         icon: Settings,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_CROP_SETTINGS,
       },
       {
         path: "/crop-target-registration-form",
@@ -1285,7 +1323,7 @@ export const Routes = [
         isSideBar: true,
         element: <DDLevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_DD_SUMMARY,
       },
       {
         path: "/ai-summary",
@@ -1293,7 +1331,7 @@ export const Routes = [
         isSideBar: true,
         element: <AILevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_AI_SUMMARY,
       },
     ],
   },
@@ -1387,10 +1425,18 @@ export const Routes = [
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
+        path: "/national-report",
+        name: "National Report",
+        isSideBar: true,
+        element: <NationalReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
         path: "/approval-report-info-dd",
         name: "Approval Report Info DD",
         isSideBar: true,
-        element: <ApprovalReport />,
+        element: <ApprovalReport owner={'DD'}/>,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
       },
@@ -1398,7 +1444,7 @@ export const Routes = [
         path: "/approval-report-info-ada",
         name: "Approval Report Info ADA",
         isSideBar: true,
-        element: <ApprovalReport />,
+        element: <ApprovalReport owner={'ADA'} />,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
       },
@@ -1433,6 +1479,14 @@ export const Routes = [
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
         component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+      },
+      {
+        path: "/vegitable-early-warning",
+        name: "vegitable early warning ",
+        isSideBar: true,
+        element: <VegitableEarlyWarning />,
+        icon: WbSunnyIcon,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING,
       },
     ],
   },
@@ -1492,7 +1546,7 @@ export const Routes = [
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
-        component: DEF_COMPONENTS.PERMISSION,
+        //component: DEF_COMPONENTS.PERMISSION,
       },
       {
         path: "/permissions-by-role",
@@ -1500,6 +1554,20 @@ export const Routes = [
         isSideBar: false,
         icon: KeyIcon,
         element: <PermissionsByRole />,
+      },
+      {
+        path: "/iso-unit",
+        name: "ISO Unit",
+        isSideBar: true,
+        icon: SquareFootIcon,
+        element: <IsoUnit />,
+        component: DEF_COMPONENTS.ISO_UNIT,
+      },
+      {
+        path: "/iso-unit-form",
+        name: "ISO Unit Form",
+        isSideBar: false,
+        element: <IsoUnitForm />,
       },
     ],
   },
@@ -1533,8 +1601,16 @@ export const Routes = [
         element: <EconomicCenter />,
         icon: GroupIcon,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      },
-    ],
+      }, 
+      {
+        path: "/getfoodpricedata",
+        name: "HARTI Price",
+        isSideBar: true,
+        element: <HartyPrices />,
+        icon: GroupIcon ,
+        component: DEF_COMPONENTS.LATEST_PRODUCER_PRICE,
+      },            
+     ],
   },
 
   // {

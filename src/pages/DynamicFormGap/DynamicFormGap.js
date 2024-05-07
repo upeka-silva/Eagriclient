@@ -42,6 +42,7 @@ const DynamicFormGap = ({
   const [selectedFile, setSelectedFile] = useState(null);
   const [fileUploadResponse, setFileUploadResponse] = useState({});
   const [selectedQid, setSelectedQid] = useState(null);
+  const [selectedType, setSelectedType] = useState(false);
 
   const { addSnackBar } = useSnackBars();
 
@@ -62,6 +63,7 @@ const DynamicFormGap = ({
         gapReqStatus: gapReqStatus,
         gapData: gapData,
         uriPath: uriPath,
+        irrigationMethod: formData.irrigationMethod
       },
     });
   };
@@ -319,7 +321,7 @@ const DynamicFormGap = ({
 
   useEffect(() => {
     getFormTemplateByType(
-      auditFormType + "?gapCategory=SL_GAP&cropCategory=VEG"
+      auditFormType + `?gapCategory=SL_GAP&cropCategory=${formData.irrigationMethod}`
     ).then(({ data = {} }) => {
       console.log("res ", data);
       setFormTemplate(data);
@@ -339,16 +341,17 @@ const DynamicFormGap = ({
                 }
               }
             >
-              Select Type
+              Select Type <span style={{ color: "red" }}>*</span>
             </FieldName>
             <Select
               name="type"
               id="type"
               //value={formData?.irrigationMethod || "OTHER"}
               disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "irrigationMethod")
-              }
+              onChange={(e) => {
+                handleChange(e?.target?.value || "", "irrigationMethod");
+                setSelectedType(true)
+              }}
               fullWidth
               sx={{
                 borderRadius: "8px",
@@ -376,7 +379,7 @@ const DynamicFormGap = ({
                 >
                   <Button
                     variant="outlined"
-                    disabled={false}
+                    disabled={!selectedType}
                     onClick={goIntAudit}
                     size="small"
                     color="success"

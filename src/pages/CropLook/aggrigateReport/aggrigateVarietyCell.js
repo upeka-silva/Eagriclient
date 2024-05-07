@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { convertCropLookFields, getDbFieldName } from "../../../utils/appUtils";
+import { convertCropLookFields } from "../../../utils/appUtils";
 import { TableCell, TableRow } from "@mui/material";
 
 const AggrigateVarietyCell = ({
@@ -103,7 +103,11 @@ const AggrigateVarietyCell = ({
         <TableCell style={{ backgroundColor: "#FCFFE0" }}>Total</TableCell>
         {targetConfigs.length > 0 &&
           targetConfigs.map((fieldName, innerIndex) => (
-            <TableCell key={innerIndex} style={{ backgroundColor: "#FCFFE0" }} align="right">
+            <TableCell
+              key={innerIndex}
+              style={{ backgroundColor: "#FCFFE0" }}
+              align="right"
+            >
               {getRoundValue(irrigationModeTargetMap.get(fieldName))}
             </TableCell>
           ))}
@@ -112,7 +116,11 @@ const AggrigateVarietyCell = ({
         </TableCell>
         {reportConfigs.length > 0 &&
           reportConfigs.map((fieldName1, innerIndex1) => (
-            <TableCell key={innerIndex1} style={{ backgroundColor: "#FCFFE0" }} align="right">
+            <TableCell
+              key={innerIndex1}
+              style={{ backgroundColor: "#FCFFE0" }}
+              align="right"
+            >
               {getRoundValue(irrigationModeMap.get(fieldName1))}
             </TableCell>
           ))}

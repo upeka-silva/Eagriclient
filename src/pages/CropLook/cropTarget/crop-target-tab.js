@@ -9,7 +9,6 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import { CROP_LOOK_FIELD } from "../../../utils/constants/cropLookFields";
 import { getDbFieldName } from "../../../utils/appUtils";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
@@ -29,6 +28,7 @@ const CropTargetTab = ({
   const [isCleared, setIsCleared] = useState(false);
 
   useEffect(() => {
+    console.log('CropTargetTab useEffect ===========>');
     getConfigurationById(cropCategoryId).then((data = {}) => {
       setConfigFields(data ? data.targetFields : []);
       checkDataLoadStatus();

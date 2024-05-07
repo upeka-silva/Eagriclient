@@ -667,19 +667,16 @@ const CropForm = ({
 
                       <Grid item sm={4} md={4} lg={4} spacing={0}>
                         <FieldWrapper>
-                          <FieldName>Export Crop</FieldName>
+                          <FieldName>Plantation Crop</FieldName>
                           <Switch
-                            name="isExportCrop"
-                            id="isExportCrop"
-                            value={formData?.isExportCrop || ""}
+                            name="isPlantationCrop"
+                            id="isPlantationCrop"
+                            value={formData?.isPlantationCrop || ""}
                             disabled={state?.action === DEF_ACTIONS.VIEW}
                             onChange={(e) =>
-                              handleChange(
-                                e?.target?.checked || "",
-                                "isExportCrop"
-                              )
+                              handleChange(e?.target?.checked || "", "isPlantationCrop")
                             }
-                            checked={formData?.isExportCrop}
+                            checked={formData?.isPlantationCrop}
                             aria-label="Switch demo"
                           />
                         </FieldWrapper>

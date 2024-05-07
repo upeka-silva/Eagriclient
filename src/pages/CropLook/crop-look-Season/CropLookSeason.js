@@ -6,7 +6,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -18,11 +17,9 @@ import {
 } from "../../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteAgriSeason } from "../../../redux/actions/agriSeason/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import {
   Add,
   Delete,

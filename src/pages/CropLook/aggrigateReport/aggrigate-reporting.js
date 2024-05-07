@@ -77,7 +77,7 @@ const AggrigateReport = () => {
                 <FieldName>Season</FieldName>
                 <Autocomplete
                   options={seasons}
-                  //value={selectedSeason}
+                  value={selectedSeason}
                   getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                   onChange={(event, value) => {
                     setSelectedSeason(value);

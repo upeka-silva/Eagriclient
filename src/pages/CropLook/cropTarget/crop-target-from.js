@@ -49,6 +49,9 @@ const CropTargetForm = () => {
   // start of crop registration code
 
   useEffect(() => {
+
+    console.log('CropTargetForm useEffect 1');
+
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
       console.log(dataList);
@@ -289,7 +292,7 @@ const CropTargetForm = () => {
                   style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  {cropTargetId ? (
+                  {toggleState === index + 1 && cropTargetId ? (
                     <CropTargetTab
                       registrationId={cropTargetId}
                       aiRegion={selectedAiRegion}

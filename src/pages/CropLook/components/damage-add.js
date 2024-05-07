@@ -22,7 +22,6 @@ import {
 } from "../../../redux/actions/crop/cropDamage/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { useLocation } from "react-router";
 
 const DamageAddModal = ({ isModalOpen, handleModalCancel, mode, variety }) => {
   const [damageExtents, setDamageExtents] = useState([]);

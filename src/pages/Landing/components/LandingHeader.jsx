@@ -20,17 +20,6 @@ function LandingHeader() {
       }}
     >
       <Grid sx={{ display: "flex", justifyContent: "flex-start" }}>
-        <CardMedia
-          component="img"
-          height={70}
-          image={FAOLogo}
-          title="Fao Logo"
-        />
-        <Divider
-          orientation="vertical"
-          flexItem
-          style={{ height: "auto", margin: "0 5px 0px 5px", width: "4px" }}
-        />
         <img
           width={"210px"}
           height={"65px"}
@@ -49,10 +38,23 @@ function LandingHeader() {
           Crop Resources, Optimizing Operations <br /> through Precise
           Information, Exchange System
         </Typography>
-      </Grid>
+        <Divider
+          orientation="vertical"
+          flexItem
+          style={{ height: "auto", margin: "0 20px 0px 5px", width: "4px" }}
+        />
+        <Grid>
+          <img width={"290px"} height={"65px"} src={MainLogo} alt="Logo" />
+        </Grid>
 
+      </Grid>
       <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
-        <img width={"290px"} height={"65px"} src={MainLogo} alt="Logo" />
+        <CardMedia
+          component="img"
+          height={70}
+          image={FAOLogo}
+          title="Fao Logo"
+        />
       </Grid>
     </Grid>
   );
