@@ -26,7 +26,7 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
 
       fetchConfig(category?.categoryId, dataList);
 
-      const groupedData = dataList.reduce((acc, obj) => {
+      const groupedData = dataList?.reduce((acc, obj) => {
         const cropName = obj?.cropName;
         acc[cropName] = acc[cropName] || [];
         acc[cropName].push(obj);
@@ -40,13 +40,13 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
     async function fetchConfig(categoryId, dataList) {
       setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
-      setTargetConfigs(configs.targetFields);
-      setReportConfigs(configs.fields);
+      setTargetConfigs(configs?.targetFields);
+      setReportConfigs(configs?.fields);
 
       setConfLoading(false);
     }
 
-    fetchData(category?.categoryId, season?.id);
+    fetchData(category?.id, season?.id);
   }, [season]);
 
   const removeExtent = (field) => {
@@ -66,15 +66,15 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
-              {targetConfigs.length > 0 &&
-                targetConfigs.map((fieldName, index) => (
+              {targetConfigs?.length > 0 &&
+                targetConfigs?.map((fieldName, index) => (
                   <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>{fieldName} (ha)</TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total (ha)
               </TableCell>
-              {reportConfigs.length > 0 &&
-                reportConfigs.map((fieldName1, index1) => (
+              {reportConfigs?.length > 0 &&
+                reportConfigs?.map((fieldName1, index1) => (
                   <TableCell key={index1} style={{ backgroundColor: "#A8CD9F" }}>{fieldName1} (ha)</TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>

@@ -13,14 +13,19 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import CategoryReportTabel from "./categoryReportTable";
+import CategoryReportTabel from "./nationalReportTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
+import NationalReportTable from "./nationalReportTable";
 
-const AggrigateReport = () => {
+const NationalReport = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -34,6 +39,7 @@ const AggrigateReport = () => {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [toggleState, setToggleState] = useState(1);
+  const [selectedWeek, setSelectedWeek] = useState(null);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -61,7 +67,7 @@ const AggrigateReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report" />
+      <ListHeader title="National Report" />
       <Grid
         container
         sx={{
@@ -94,6 +100,30 @@ const AggrigateReport = () => {
                 />
               </FieldWrapper>
             </Grid>
+            {selectedSeason ? (
+              <Grid item sm={3} md={3} lg={3}>
+                <FieldWrapper>
+                  <FieldName>Week</FieldName>
+                  <Autocomplete
+                    options={selectedSeason?.biWeekDataList}
+                    value={selectedWeek}
+                    getOptionLabel={(i) => `${i.weekDescription}`}
+                    onChange={(event, value) => {
+                      setSelectedWeek(value);
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Grid>
+            ) : null}
           </Grid>
         </Grid>
         <Grid item sx={{ marginTop: "20px" }}>
@@ -120,10 +150,13 @@ const AggrigateReport = () => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
-                      <CategoryReportTabel
-                        category={category}
-                        season={selectedSeason}
-                      />
+                      {(toggleState === index + 1 && selectedSeason && selectedWeek) ? (
+                        <NationalReportTable
+                          category={category}
+                          season={selectedSeason}
+                          week={selectedWeek}
+                        />
+                      ) : null}
                     </div>
                   </TableWrapper>
                 </PermissionWrapper>
@@ -135,4 +168,4 @@ const AggrigateReport = () => {
   );
 };
 
-export default AggrigateReport;
+export default NationalReport;

@@ -14,6 +14,7 @@ import {
 } from "../../../redux/actions/crop/cropActivity/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const CropActivityForm = () => {
   useUserAccessValidation();
@@ -94,7 +95,16 @@ const CropActivityForm = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
+    >
       <FormWrapper>
         <PageHeader
           saving={saving}
@@ -106,7 +116,7 @@ const CropActivityForm = () => {
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}
           saving={saving}
-          enableSave={enableSave}   
+          enableSave={enableSave}
           handleFormSubmit={handleFormSubmit}
           resetForm={resetForm}
         />
@@ -125,12 +135,8 @@ const CropActivityForm = () => {
                 id="name"
                 value={formData?.name || ""}
                 fullWidth
-                disabled={
-                  state?.action === DEF_ACTIONS.VIEW
-                }
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "name")
-                }
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) => handleChange(e?.target?.value || "", "name")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -164,7 +170,7 @@ const CropActivityForm = () => {
           </Grid>
         </Grid>
       </FormWrapper>
-    </>
+    </div>
   );
 };
 

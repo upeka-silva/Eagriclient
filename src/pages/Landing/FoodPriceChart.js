@@ -1,16 +1,9 @@
-import {
-  Autocomplete,
-  Button,
-  Card,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Button, Card, Grid, Typography } from "@mui/material";
+import React from "react";
 import Chart from "react-apexcharts";
 import { useLocation } from "react-router-dom";
-import Cropix from "../../assets/images/Cropix.png";
 import LandingHeader from "./components/LandingHeader";
+import { Fonts } from "../../utils/constants/Fonts";
 
 function FoodPriceChart() {
   const { state } = useLocation();
@@ -51,7 +44,7 @@ function FoodPriceChart() {
       },
     },
     title: {
-      text: ``,
+      text: `Price`,
       style: {
         fontFamily: "inherit", // use the font of the parent element
       },
@@ -59,10 +52,18 @@ function FoodPriceChart() {
   };
 
   return (
-    <div style={{ marginRight: "-160px" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "5px",
+        height: "100vh",
+      }}
+    >
       <LandingHeader />
       <hr />
-      <Grid container px={5} mt={3}>
+      <Grid container px={5} mt={2}>
         <Grid md={12} item sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Grid>
             <Button
@@ -84,7 +85,7 @@ function FoodPriceChart() {
           </Grid>
         </Grid>
         <Grid md={12} mt={1}></Grid>
-        <Grid item container md={12} mt={5} spacing={3}>
+        <Grid item container md={12} mt={2} spacing={3}>
           <Grid item md={6}></Grid>
         </Grid>
         <Grid item md={12}>
@@ -92,8 +93,7 @@ function FoodPriceChart() {
             sx={{
               borderRadius: "15px",
               boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-              padding: "20px",
-              marginTop: "40px",
+              padding: "5px",
             }}
           >
             <Typography fontSize={"18px"} fontWeight="400" gutterBottom>

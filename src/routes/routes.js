@@ -215,6 +215,10 @@ import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
+import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
+import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
+import SummarizeIcon from '@mui/icons-material/Summarize';
+
 
 export const Routes = [
   {
@@ -1097,7 +1101,7 @@ export const Routes = [
   },
   {
     path: "/protected-house-type-form",
-    name: "Protected House Type",
+    name: "Protected House Type Form",
     element: <ProtectedHouseTypeForm />,
     isSideBar: false,
   },
@@ -1278,6 +1282,14 @@ export const Routes = [
           component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
+         path:"/report-project",
+         name: "Report Project",
+         isSideBar: true,
+         element: <ProjectReport />,
+         icon: SummarizeIcon,
+         component: DEF_COMPONENTS.PROJECT_REPORT,
+     },
+      {
         path: "/create-post-form",
         isSideBar: false,
         element: <CreatePostForm />,
@@ -1296,7 +1308,7 @@ export const Routes = [
         isSideBar: true,
         element: <TargetRegistration />,
         icon: Settings,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_CROP_SETTINGS,
       },
       {
         path: "/crop-target-registration-form",
@@ -1311,7 +1323,7 @@ export const Routes = [
         isSideBar: true,
         element: <DDLevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_DD_SUMMARY,
       },
       {
         path: "/ai-summary",
@@ -1319,7 +1331,7 @@ export const Routes = [
         isSideBar: true,
         element: <AILevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_AI_SUMMARY,
       },
     ],
   },
@@ -1409,6 +1421,14 @@ export const Routes = [
         name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/national-report",
+        name: "National Report",
+        isSideBar: true,
+        element: <NationalReport />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },

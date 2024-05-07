@@ -8,9 +8,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Paper,
-  Typography,
-  formControlClasses,
 } from "@mui/material";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
@@ -26,7 +23,7 @@ import ListHeader from "../../components/ListHeader/ListHeader";
 import { defaultMessages } from "../../utils/constants/apiMessages";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { deleteAgriculturePost } from "../../redux/actions/extension/action";
-
+import { Fonts } from "../../utils/constants/Fonts";
 
 const CreatePost = () => {
   useUserAccessValidation();
@@ -63,7 +60,9 @@ const CreatePost = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/extension/create-Post-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/extension/create-Post-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -107,9 +106,7 @@ const CreatePost = () => {
                   <RadioButtonCheckedIcon color="info" />
                 )}
               </ListItemIcon>
-              <ListItemText>
-                {p.code}
-              </ListItemText>
+              <ListItemText>{p.code}</ListItemText>
             </ListItem>
           );
         })}
@@ -147,7 +144,16 @@ const CreatePost = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
+    >
       <ListHeader title="Agriculture Post" />
       <ActionWrapper isLeft>
         <ButtonGroup
@@ -218,7 +224,7 @@ const CreatePost = () => {
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-             OK
+              OK
             </Button>
             <Button
               variant="contained"
@@ -226,13 +232,12 @@ const CreatePost = () => {
               onClick={close}
               sx={{ ml: "8px" }}
             >
-             Cancel
+              Cancel
             </Button>
           </ActionWrapper>
         }
       >
         <>
-          
           <Divider sx={{ mt: "6px" }} />
           {renderSelectedItems()}
         </>

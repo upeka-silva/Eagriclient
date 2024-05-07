@@ -37,8 +37,9 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
       );
 
       fetchConfig(category?.categoryId, dataList);
-
-      const groupedData = dataList.reduce((acc, obj) => {
+      console.log('data list --------->');
+      console.log(dataList);
+      const groupedData =  dataList?.reduce((acc, obj) => {
         const cropName = obj?.cropName;
         acc[cropName] = acc[cropName] || [];
         acc[cropName].push(obj);
@@ -52,12 +53,12 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
     async function fetchConfig(categoryId, dataList) {
       setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
-      setReportConfigs(configs.fields);
+      setReportConfigs(configs?.fields);
 
       setConfLoading(false);
     }
 
-    fetchData(category?.categoryId, season?.id, week?.id);
+    fetchData(category?.id, season?.id, week?.id);
   }, [season]);
 
   const handleReportApprove = async () => {
@@ -132,8 +133,8 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
-              {reportConfigs.length > 0 &&
-                reportConfigs.map((fieldName1, index1) => (
+              {reportConfigs?.length > 0 &&
+                reportConfigs?.map((fieldName1, index1) => (
                   <TableCell
                     key={index1}
                     style={{ backgroundColor: "#A8CD9F" }}

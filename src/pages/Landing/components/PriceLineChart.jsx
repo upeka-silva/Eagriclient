@@ -11,7 +11,7 @@ import Chart from "react-apexcharts";
 import { useNavigate } from "react-router";
 import { getAllHartiData } from "../../../redux/actions/hartiGraph/action";
 
-const PriceLineChart = ({ data }) => {
+const PriceLineChart = () => {
   const navigate = useNavigate();
 
   const [allRiceData, setallRiceData] = useState([]);

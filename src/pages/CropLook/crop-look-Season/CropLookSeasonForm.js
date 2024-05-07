@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  TextField,
-  CircularProgress,
-  Grid,
-  Autocomplete,
-} from "@mui/material";
+import { TextField, CircularProgress, Grid, Autocomplete } from "@mui/material";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useLocation, useNavigate } from "react-router";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -30,7 +25,6 @@ import { Fonts } from "../../../utils/constants/Fonts";
 const CropLookSeasonForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const { addSnackBar } = useSnackBars();
   const dateAdapter = new AdapterDayjs();
 
@@ -85,24 +79,24 @@ const CropLookSeasonForm = () => {
     } else {
       setFormData({});
     }
-    setSelectedAgriSeason(null); 
+    setSelectedAgriSeason(null);
   };
-  
-  
 
   const enableSave = () => {
-  if (state?.action === DEF_ACTIONS.EDIT) {
+    if (state?.action === DEF_ACTIONS.EDIT) {
       if (JSON.stringify(state?.target || {}) !== JSON.stringify(formData)) {
         return true;
       }
     }
-    if (state?.action === DEF_ACTIONS.ADD && formData?.code && formData.code.trim() !== '') {
+    if (
+      state?.action === DEF_ACTIONS.ADD &&
+      formData?.code &&
+      formData.code.trim() !== ""
+    ) {
       return true;
     }
-     return false;
+    return false;
   };
-  
-  
 
   const onSuccess = () => {
     addSnackBar({
@@ -170,12 +164,6 @@ const CropLookSeasonForm = () => {
     }
   };
 
-  const getPathName = () => {
-    return location.pathname === "/" || !location.pathname
-      ? ""
-      : location.pathname;
-  };
-
   const statusChangeHandler = async (id, status) => {
     setIsLoading(true);
     const data = await changeStatusBiWeekData(
@@ -206,156 +194,163 @@ const CropLookSeasonForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-    <FormWrapper>
-      <PageHeader saving={saving} state={state} goBack={goBack} formName="Crop Look Season" />
-      <FormButtonGroup
-        state={state}
-        DEF_ACTIONS={DEF_ACTIONS}
-        saving={saving}
-        enableSave={enableSave}
-        handleFormSubmit={handleFormSubmit}
-        resetForm={resetForm}
-      />
-      <Grid
-        container
-        sx={{
-          margin: "15px",
-          width: "97%",
-          borderRadius: "5px",
-        }}
-      >
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Season ID</FieldName>
-            <TextField
-              name="code"
-              id="code"
-              value={formData?.code || ""}
-              fullWidth
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
-              onChange={(e) => handleChange(e?.target?.value || "", "code")}
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={3} md={3} lg={3}>
-          <FieldWrapper>
-            <FieldName>Description</FieldName>
-            <TextField
-              name="description"
-              id="description"
-              value={formData?.description || ""}
-              fullWidth
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "description")
-              }
-              sx={{
-                "& .MuiInputBase-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              size="small"
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Agriculture Season</FieldName>
-            <Autocomplete
-              disabled={
-                state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
-              }
-              options={agriSeasons}
-              value={selectedAgriSeason}
-              getOptionLabel={(i) => `${i.code}`}
-              onChange={(event, value) => {
-                setSelectedAgriSeason(value);
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  borderRadius: "8px",
-                },
-              }}
-              renderInput={(params) => <TextField {...params} size="small" />}
-              fullWidth
-            />
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>Start Date</FieldName>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-                name="startDate"
-                id="startDate"
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                slotProps={{ textField: { size: "small", error: false } }}
-                value={formData?.startDate || ""}
-                onChange={(newValue) =>
-                  handleChange(newValue || "", "startDate")
+      <FormWrapper>
+        <PageHeader
+          saving={saving}
+          state={state}
+          goBack={goBack}
+          formName="Crop Look Season"
+        />
+        <FormButtonGroup
+          state={state}
+          DEF_ACTIONS={DEF_ACTIONS}
+          saving={saving}
+          enableSave={enableSave}
+          handleFormSubmit={handleFormSubmit}
+          resetForm={resetForm}
+        />
+        <Grid
+          container
+          sx={{
+            margin: "15px",
+            width: "97%",
+            borderRadius: "5px",
+          }}
+        >
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Season ID</FieldName>
+              <TextField
+                name="code"
+                id="code"
+                value={formData?.code || ""}
+                fullWidth
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
                 }
-                in="DD-MM-YYYY"
+                onChange={(e) => handleChange(e?.target?.value || "", "code")}
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
                   },
                 }}
+                size="small"
               />
-            </LocalizationProvider>
-          </FieldWrapper>
-        </Grid>
-        <Grid item sm={2} md={2} lg={2}>
-          <FieldWrapper>
-            <FieldName>End Date</FieldName>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                name="endDate"
-                id="endDate"
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={3} md={3} lg={3}>
+            <FieldWrapper>
+              <FieldName>Description</FieldName>
+              <TextField
+                name="description"
+                id="description"
+                value={formData?.description || ""}
+                fullWidth
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                value={formData?.endDate || ""}
-                onChange={(newValue) => handleChange(newValue || "", "endDate")}
-                slotProps={{ textField: { size: "small", error: false } }}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "description")
+                }
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
                   },
                 }}
+                size="small"
               />
-            </LocalizationProvider>
-          </FieldWrapper>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Agriculture Season</FieldName>
+              <Autocomplete
+                disabled={
+                  state?.action === DEF_ACTIONS.VIEW ||
+                  state?.action === DEF_ACTIONS.EDIT
+                }
+                options={agriSeasons}
+                value={selectedAgriSeason}
+                getOptionLabel={(i) => `${i.code}`}
+                onChange={(event, value) => {
+                  setSelectedAgriSeason(value);
+                }}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                renderInput={(params) => <TextField {...params} size="small" />}
+                fullWidth
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>Start Date</FieldName>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="startDate"
+                  id="startDate"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  slotProps={{ textField: { size: "small", error: false } }}
+                  value={formData?.startDate || ""}
+                  onChange={(newValue) =>
+                    handleChange(newValue || "", "startDate")
+                  }
+                  in="DD-MM-YYYY"
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={2} md={2} lg={2}>
+            <FieldWrapper>
+              <FieldName>End Date</FieldName>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  name="endDate"
+                  id="endDate"
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  value={formData?.endDate || ""}
+                  onChange={(newValue) =>
+                    handleChange(newValue || "", "endDate")
+                  }
+                  slotProps={{ textField: { size: "small", error: false } }}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={12} md={12} lg={12}>
+            {!isLoading ? (
+              <BiWeekDataTable
+                data={biWeekDataList}
+                statusChange={statusChangeHandler}
+                currentFormMode={state?.action}
+              />
+            ) : (
+              <CircularProgress />
+            )}
+          </Grid>
         </Grid>
-        <Grid item sm={12} md={12} lg={12}>
-          {!isLoading ? (
-            <BiWeekDataTable
-              data={biWeekDataList}
-              statusChange={statusChangeHandler}
-              currentFormMode={state?.action}
-            />
-          ) : (
-            <CircularProgress />
-          )}
-        </Grid>
-      </Grid>
-    </FormWrapper>
+      </FormWrapper>
     </div>
   );
 };
