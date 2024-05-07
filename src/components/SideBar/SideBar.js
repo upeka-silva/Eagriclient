@@ -306,7 +306,10 @@ const SideBar = () => {
     return null;
   };
 
-  const hideSidebar = location.pathname === "/landing-page";
+  const hideSidebar = location.pathname === "/landing-page" || /^\/gap-details\/\d+$/.test(location.pathname);
+
+  console.log("location path: " + location.pathname)
+  console.log("hide " + hideSidebar)
 
   return hideSidebar ? null : (
     <DrawerWrapper>

@@ -214,9 +214,11 @@ import AgricultureProject from "../pages/Extention/AgricultureProject/Agricultur
 import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
+import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
 import SummarizeIcon from '@mui/icons-material/Summarize';
+
 
 export const Routes = [
   {
@@ -281,6 +283,11 @@ export const Routes = [
   {
     path: "/early-warning-ranges-form",
     element: <CropLookEarlyWarningRangesForm />,
+  },
+  {
+    path: "/gap-details/:id",
+    element: <GapDetailsPreview />,
+    hideSidebar: true,
   },
 
   {
