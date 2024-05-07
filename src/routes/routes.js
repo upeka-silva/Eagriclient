@@ -1301,7 +1301,7 @@ export const Routes = [
         isSideBar: true,
         element: <TargetRegistration />,
         icon: Settings,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_CROP_SETTINGS,
       },
       {
         path: "/crop-target-registration-form",
@@ -1316,7 +1316,7 @@ export const Routes = [
         isSideBar: true,
         element: <DDLevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_DD_SUMMARY,
       },
       {
         path: "/ai-summary",
@@ -1324,7 +1324,7 @@ export const Routes = [
         isSideBar: true,
         element: <AILevelSummary />,
         icon: Plagiarism,
-        component: DEF_COMPONENTS.CROP_LOOK_CROP_CONFIGURATION,
+        component: DEF_COMPONENTS.INDICATIVE_AI_SUMMARY,
       },
     ],
   },
