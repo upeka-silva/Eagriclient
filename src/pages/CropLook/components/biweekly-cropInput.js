@@ -25,7 +25,7 @@ const BiweeklyCropInput = ({
             cropIndex={cropIndex}
             varietyIndex={varietyIndex}
             mode={mode}
-            status={status.target.week.status}
+            status={status?.target?.week?.status}
             configFields={configFields}
           />
         </Grid>

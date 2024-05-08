@@ -1,4 +1,4 @@
-import { Box, Button, Switch, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
@@ -147,6 +147,7 @@ export default function BiWeekDataTable({
                     maxHeight: "30px",
                     minWidth: "63px",
                     minHeight: "30px",
+                    width: "100px",
                     "&:hover": {
                       backgroundColor: "#2e7d32",
                     },
@@ -154,7 +155,7 @@ export default function BiWeekDataTable({
                   disabled={currentFormMode === DEF_ACTIONS.VIEW}
                   onClick={() => statusChange(row.id, "CLOSE")}
                 >
-                  Close
+                  SET CLOSE
                 </Button>
               </>
             ) : (
@@ -165,17 +166,18 @@ export default function BiWeekDataTable({
                     border: 1,
                     background: "#white",
                     borderColor: "#2e7d32",
-                    color : "#2e7d32",
+                    color: "#2e7d32",
                     marginRight: 1,
                     borderRadius: 1.5,
                     maxHeight: "30px",
                     minWidth: "30px",
                     minHeight: "30px",
+                    width: "100px",
                   }}
                   disabled={currentFormMode === DEF_ACTIONS.VIEW}
                   onClick={() => statusChange(row.id, "ENABLED")}
                 >
-                  Enable
+                  SET ENABLE
                 </Button>
               </>
             )}
