@@ -22,7 +22,6 @@ import {
   SideBarItemButton,
   SideBarItemToolTip,
 } from "./Components";
-import { Fonts } from "../../utils/constants/Fonts";
 import { getUserPermissionForLeftNav } from "../../utils/helpers/permission";
 
 const SideBar = () => {
@@ -89,7 +88,6 @@ const SideBar = () => {
               })
             );
 
-            console.log(filteredChildren.some((c) => c?.isSideBar));
             if (!filteredChildren.some((c) => c?.isSideBar)) {
               return null;
             }
@@ -101,7 +99,6 @@ const SideBar = () => {
       );
 
       setFilteredRoutes(filteredRoutes);
-      console.log(filteredRoutes);
     };
     getFilteredRoutes();
     setLoading(true);
@@ -194,7 +191,7 @@ const SideBar = () => {
             setSelectedRoute((current) =>
               current === r?.name ? null : r?.name
             );
-            setOpen(true)
+            setOpen(true);
           };
 
           return (
@@ -306,11 +303,9 @@ const SideBar = () => {
     return null;
   };
 
-  const hideSidebar = location.pathname === "/landing-page" || /^\/gap-details\/\d+$/.test(location.pathname);
-
-  console.log("location path: " + location.pathname)
-  console.log("hide " + hideSidebar)
-
+  const hideSidebar =
+    location.pathname === "/landing-page" ||
+    /^\/gap-details\/\d+$/.test(location.pathname);
   return hideSidebar ? null : (
     <DrawerWrapper>
       <Drawer variant="permanent" open={open}>
@@ -323,8 +318,8 @@ const SideBar = () => {
           }}
         >
           {open && (
-            <Typography variant="h4" fontWeight="bold" >
-               CROPIX
+            <Typography variant="h4" fontWeight="bold">
+              CROPIX
             </Typography>
           )}
           <SideBarItemToolTip
@@ -334,7 +329,7 @@ const SideBar = () => {
           >
             <DrawerToggleButton
               onClick={toggleDrawer}
-              sx={{ height:"38px !important",width:"38px !important" }}
+              sx={{ height: "38px !important", width: "38px !important" }}
             >
               {open ? <ChevronLeftIcon /> : <ViewListIcon />}
             </DrawerToggleButton>
