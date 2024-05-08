@@ -16,6 +16,7 @@ import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup
 import {
   changeStatusBiWeekData,
   getAgriSeasons,
+  getBiweekData,
   handleCropLookSeason,
 } from "../../../redux/actions/cropLook/season/action";
 import BiWeekDataTable from "./BiWeekDataTable";
@@ -43,28 +44,32 @@ const CropLookSeasonForm = () => {
   const [agriSeasons, setAgriSeasons] = useState([]);
   const [selectedAgriSeason, setSelectedAgriSeason] = useState({});
   const [biWeekDataList, setBiWeekDataList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [seasonId, setSeasonId] = useState(null);
+  const [dataList, setDataList] = useState(null);
 
   useEffect(() => {
     setIsLoading(false);
-  }, [biWeekDataList, seasonId]);
+  }, [biWeekDataList, seasonId, dataList]);
 
   useEffect(() => {
     getAgriSeasons().then(({ dataList = [] }) => {
       setAgriSeasons(dataList);
     });
 
-    setIsLoading(true);
+    getBiweekData(state?.target?.id).then(({ dataList = [] }) => {
+      setDataList(dataList.biWeekDataList);
+      setBiWeekDataList(dataList.biWeekDataList);
+      setIsLoading(true);
+    });
+
     setSelectedAgriSeason(state?.target?.agriSeason);
     setSeasonId(state?.target?.id);
-    setBiWeekDataList(state?.target?.biWeekDataList);
   }, []);
 
   const goBack = () => {
     navigate("/crop-look/season");
   };
-
   const handleChange = (value, target) => {
     setFormData((current = {}) => {
       let newData = { ...current };
