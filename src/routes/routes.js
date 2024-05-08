@@ -1546,7 +1546,7 @@ export const Routes = [
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
-        //component: DEF_COMPONENTS.PERMISSION,
+        component: DEF_COMPONENTS.PERMISSION,
       },
       {
         path: "/permissions-by-role",
