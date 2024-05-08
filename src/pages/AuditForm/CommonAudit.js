@@ -26,7 +26,6 @@ import { deleteAuditForm } from "../../redux/actions/auditForm/action";
 import { components } from "react-select";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import { Fonts } from "../../utils/constants/Fonts";
-import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CommonAudit = ({ auditFormType = "" }) => {
   useUserAccessValidation();
@@ -249,18 +248,7 @@ const CommonAudit = ({ auditFormType = "" }) => {
           />
         )}
       </PermissionWrapper>
-      <ConfirmationDialog
-        open={open}
-        title="Do you want to delete?"
-        items={selectAuditForm}
-        loading={loading}
-        onClose={close}
-        onConfirm={onConfirm}
-        setDialogSelectedTypes={setDialogSelectAuditForm}
-        dialogSelectedTypes={dialogSelectAuditForm}
-        propertyId = "soilTypeCode"
-        propertyDescription = "description"
-      />
+      
     </div>
   );
 };
