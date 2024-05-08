@@ -7,31 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Avatar, Button, Grid } from "@mui/material";
-import { makeStyles } from '@mui/styles';
 import { CircularProgress } from "@mui/material";
 import { stringAvatar } from "../../utils/helpers/stringUtils";
 import { getGapDetails } from "../../redux/actions/gap/action";
 
-const useStyles = makeStyles((theme) => ({
-    tableContainer: {
-        width: 420,
-        margin: '0 auto',
-        backgroundColor: "#fff",
-        borderRadius: "10px",
-        boxShadow: theme.shadows[3],
-        borderRight: "1px solid green"
-    },
-    buttonContainer: {
-        display: "flex",
-        justifyContent: "flex-end",
-        marginTop: theme.spacing(2),
-    },
-}));
-
 const GapDetailsPreview = () => {
     const { id } = useParams();
     const [gapData, setGapData] = useState(null);
-    const classes = useStyles();
 
     useEffect(() => {
         fetchData();
@@ -67,7 +49,16 @@ const GapDetailsPreview = () => {
               style={{ minHeight: "100vh", padding: "16px" }} 
         >
             <Grid item xs={12} sm={10} md={8} lg={6}>
-                <Paper className={classes.tableContainer}>
+                <Paper 
+                  sx={{
+                    width: 420,
+                    margin: '0 auto',
+                    backgroundColor: "#fff",
+                    borderRadius: "10px",
+                    boxShadow: "0px 2px 8px rgba(99, 99, 99, 0.2)",
+                    borderRight: "1px solid green"
+                  }}
+                >
                     {gapData ? (
                             <TableContainer>
                                 <Table>
@@ -81,7 +72,7 @@ const GapDetailsPreview = () => {
                                                         sx={{ width: "60px", height: "60px" }}
                                                     />
                                                 ) : (
-                                                    <Avatar style={{ width: "80px", height: "80px", fontSize: "20px", margin: "auto" }} className={classes.avatar}
+                                                    <Avatar style={{ width: "80px", height: "80px", fontSize: "20px", margin: "auto" }}
                                                         {...stringAvatar((gapData && gapData.farmerDTO && gapData.farmerDTO.firstName + " " + gapData.farmerDTO.lastName) || 'Guest', "ProfileImgSmall")}
                                                     />
                                                 )}
