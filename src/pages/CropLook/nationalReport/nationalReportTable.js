@@ -13,12 +13,8 @@ import {
 } from "@mui/material";
 import {
   approveNationalData,
-  getAggrigateReportData,
   getNationalData,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
-import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import AggrigateVarietyCell from "./nationalReportCell";
-import NationalReportCell from "./nationalReportCell";
 
 const NationalReportTable = ({ category, season, week }) => {
   const [data, setData] = useState([]);
@@ -55,7 +51,6 @@ const NationalReportTable = ({ category, season, week }) => {
       }
       nestedData[province][ddDivision][districtName].push(item);
     });
-
     return nestedData;
   };
 
@@ -70,16 +65,16 @@ const NationalReportTable = ({ category, season, week }) => {
     <>
       <h5>{category.description}</h5>
       <Grid item sm={12} md={12} lg={12}>
-      <Button
-              variant="outlined"
-              color="success"
-              size="small"
-              onClick={handleVegitalbleEarlyWarning}
-              sx={{ marginTop: "10px" }}
-            >
-              Approve
-            </Button>
-            </Grid>
+        <Button
+          variant="outlined"
+          color="success"
+          size="small"
+          onClick={handleVegitalbleEarlyWarning}
+          sx={{ marginTop: "5px", marginBottom: "10px" }}
+        >
+          Approve
+        </Button>
+      </Grid>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -105,32 +100,44 @@ const NationalReportTable = ({ category, season, week }) => {
             {!loading ? (
               Object.keys(data)?.map((province) =>
                 Object.keys(data[province]).map((ddDivision, index) =>
-                  Object.keys(data[province][ddDivision]).map((district) => (
-                    <TableRow key={`${province}-${ddDivision}-${district}`}>
-                      {index === 0 && (
-                        <TableCell rowSpan={province === 'NCP' ? 2 : Object.keys(data[province]).length}>
-                          {province}
-                        </TableCell>
-                      )}
+                  Object.keys(data[province][ddDivision]).map(
+                    (district, index2) => (
+                      <TableRow key={`${province}-${ddDivision}-${district}`}>
+                        {index === 0 && index2 === 0 && (
+                          <TableCell
+                            rowSpan={
+                              province === "NCP"
+                                ? 2
+                                : province === "Inter Province DOA"
+                                ? 8
+                                : Object.keys(data[province]).length
+                            }
+                          >
+                            {province}
+                          </TableCell>
+                        )}
+                        {index2 === 0 && (
+                          <TableCell
+                            rowSpan={
+                              Object.keys(data[province][ddDivision]).length
+                            }
+                          >
+                            {ddDivision}
+                          </TableCell>
+                        )}
+                        <TableCell>{district}</TableCell>
 
-                      <TableCell
-                        rowSpan={Object.keys(data[province][ddDivision]).length}
-                      >
-                        {ddDivision}
-                      </TableCell>
-
-                      <TableCell>{district}</TableCell>
-
-                      {data[province][ddDivision][district].map(
-                        (item, index) => (
-                          <React.Fragment key={index}>
-                            <TableCell>{item?.totalTarget}</TableCell>
-                            <TableCell>{item.totalExtent}</TableCell>
-                          </React.Fragment>
-                        )
-                      )}
-                    </TableRow>
-                  ))
+                        {data[province][ddDivision][district].map(
+                          (item, index) => (
+                            <React.Fragment key={index}>
+                              <TableCell>{item?.totalTarget}</TableCell>
+                              <TableCell>{item.totalExtent}</TableCell>
+                            </React.Fragment>
+                          )
+                        )}
+                      </TableRow>
+                    )
+                  )
                 )
               )
             ) : (

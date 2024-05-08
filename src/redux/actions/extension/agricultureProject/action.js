@@ -57,6 +57,30 @@ export const get_AgricultureProjectList = async (
   }
 };
 
+
+export const get_AgricultureProjectAllList = async (
+) => {
+  try {
+    const { httpCode, payloadDto } = await get("extension/agriculture-project?page=0&size=10&sort=desc&sortCol=id",true);
+    if (httpCode === '200 OK') {
+      return {
+        dataList: payloadDto
+      }
+    }
+    return {
+      dataList: []
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      dataList: []
+    }
+  }
+};
+
+
+
+
 export const deleteAgricultureProject = async (
   id,
   onSuccess = () => { },

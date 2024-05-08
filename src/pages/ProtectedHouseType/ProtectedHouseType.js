@@ -3,15 +3,10 @@ import { useUserAccessValidation } from "../../hooks/authentication";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
-import {
-  Button,
-  ButtonGroup,
-} from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import ListHeader from "../../components/ListHeader/ListHeader";
-import {
-  deleteProtectedHousType,
-} from "../../redux/actions/protectedHouseType/action";
+import { deleteProtectedHousType } from "../../redux/actions/protectedHouseType/action";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
@@ -33,11 +28,16 @@ const ProtectedHouseType = () => {
   const [dataEndPoint, setDataEndPoint] = useState({
     protectedHouseType: "protected-house-types",
   });
-  const [selectedProtectedHouseType, setSelectedProtectedHouseType] = useState([]);
+  const [selectedProtectedHouseType, setSelectedProtectedHouseType] = useState(
+    []
+  );
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
-  const [dialogSelectedProtectedHouseType, setDialogSelectedProtectedHouseType] = useState([]);
+  const [
+    dialogSelectedProtectedHouseType,
+    setDialogSelectedProtectedHouseType,
+  ] = useState([]);
 
   const toggleProtectedHouseTypeSelect = (component) => {
     setSelectedProtectedHouseType((current = []) => {
@@ -90,7 +90,6 @@ const ProtectedHouseType = () => {
   const onDelete = () => {
     setOpen(true);
     setDialogSelectedProtectedHouseType(selectedProtectedHouseType);
-
   };
 
   const onClose = () => {
@@ -129,14 +128,14 @@ const ProtectedHouseType = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Protected House Type" />
       <ActionWrapper isLeft>

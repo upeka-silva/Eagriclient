@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Chip, Grid, InputBase, useTheme } from "@mui/material";
+import { Autocomplete, Chip, Grid, InputBase } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import { tokens } from "../../utils/theme/app-theme";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
 import SriLankaMap from "../../components/ArcGisMap/SriLankaMap";
@@ -17,18 +16,12 @@ import { baseURL } from "../../utils/constants/api";
 const Dashboard = () => {
   useUserAccessValidation();
 
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-
   const [selectCropCategory, setSelectCropCategory] = useState({ id: 1 });
   const [cropCategory, setCropCategory] = useState([]);
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
   const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
   const [allTargetExtent, setAllTargetExtent] = useState([]);
-  console.log({ allTargetExtent });
-
-  console.log({ allVarietyProgressData });
 
   const [irrigationSortData, setIrrigationSortData] = useState({
     varietyNames: [],
@@ -40,13 +33,13 @@ const Dashboard = () => {
     value: [],
   });
 
+  console.log({ varietyProgressSortData });
+
   const [targetExtentConfigData, setTargetExtentConfigData] = useState({
     district: [],
     totalExtent: [],
     totalTarget: [],
   });
-
-  console.log("bb", allCropLookSeason[0]?.id);
 
   console.log({ allIrrigationModeData });
   const [selectCropLookSeason, setCropLookSeason] = useState();
@@ -71,7 +64,6 @@ const Dashboard = () => {
     const fetchCropLookSeasons = async () => {
       await getCropLookSeasons().then((res) => {
         setAllCropLookSeason(res?.dataList);
-        console.log("crpdata", res?.dataList);
       });
     };
 
@@ -80,9 +72,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    console.log("beforenewg");
     if (selectCropLookSeason?.id && selectCropCategory?.id) {
-      console.log("newg");
       getIrrigationModeProgress(
         selectCropLookSeason?.id,
         selectCropCategory?.id
@@ -110,6 +100,7 @@ const Dashboard = () => {
     const sortedData = allIrrigationModeData.sort(
       (a, b) => (b.total || 0) - (a.total || 0)
     );
+
     const top10 = sortedData.slice(0, 9);
 
     const otherVarieties = sortedData.slice(9, sortedData?.length);
@@ -141,24 +132,24 @@ const Dashboard = () => {
 
   useEffect(() => {
     const newVar = allVarietyProgressData?.[0];
+
     let sortedKeysArray = [];
     let sortedValuesArray = [];
 
-    console.log("tt", newVar);
-
-    //   const newVar = allVarietyProgressData[0];
-
     if (newVar) {
       const dataArray = Object.entries(newVar);
-      console.log({ dataArray });
 
-      dataArray?.sort((a, b) => {
-        // Compare the second element of each inner array (which contains the value)
-        // Use parseFloat to convert string values to numbers for comparison
-        return parseFloat(b[1]) - parseFloat(a[1]);
+      // Sort the array based on the numeric values
+      dataArray.sort((a, b) => {
+        const valueA = parseFloat(a[1] ?? 0);
+        const valueB = parseFloat(b[1] ?? 0);
+
+        // Sort in descending order
+        return valueB - valueA;
       });
 
-      const top10 = dataArray.slice(0, 9);
+      // Slice to get the top 10 items
+      const top10 = dataArray.slice(0, 10);
 
       const restValues = dataArray.slice(10);
       const restValuesSum = restValues.reduce(
@@ -170,7 +161,7 @@ const Dashboard = () => {
 
       top10.push(otherObj);
 
-      console.log({ top10 });
+      //console.log({ top10 });
 
       sortedKeysArray = top10.map((entry) => {
         // Extract the substring after "totalExtent" if it exists, otherwise keep the key as it is
@@ -184,15 +175,11 @@ const Dashboard = () => {
         entry[1] === null ? 0 : entry[1]
       );
 
-      console.log({ sortedValuesArray });
-
       setvarietyProgressData({
         keys: sortedKeysArray,
         value: sortedValuesArray,
       });
     }
-
-    console.log({ sortedKeysArray });
   }, [allVarietyProgressData]);
 
   useEffect(() => {
