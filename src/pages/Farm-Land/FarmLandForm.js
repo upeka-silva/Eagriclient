@@ -125,9 +125,6 @@ const FarmLandForm = () => {
     get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
-    // getFarmLandById(state?.target?.id).then(({ payload }) => {
-    //   setFormData(payload);
-    // });
   }, []);
 
   useEffect(() => {
@@ -1058,19 +1055,6 @@ const FarmLandForm = () => {
           <Divider sx={{ mt: "16px" }} />
         </>
       </DialogBox>
-
-      {/* <ConfirmationDialog
-        open={openDeleteOwnership}
-        title="Do you want to delete?"
-        items={selectedOwnership}
-        loading={loading}
-        onClose={closeOwnershipDelete}
-        onConfirm={onConfirmDeleteOwnership}
-        setDialogSelectedTypes={setDialogSelectedOwnership}
-        dialogSelectedTypes={dialogSelectedOwnership}
-        propertyId = "id"
-        propertyDescription = "ownerTypeClient"
-      /> */}
     </Box>
   );
 };
