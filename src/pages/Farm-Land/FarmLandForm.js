@@ -57,6 +57,7 @@ import {
   TabContent,
   TabWrapper,
 } from "../../components/TabButtons/TabButtons";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const FarmLandForm = () => {
   useUserAccessValidation();
@@ -89,6 +90,8 @@ const FarmLandForm = () => {
   const [openFlO, setOpenFlO] = useState(false);
   const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [selectedOwnership, setSelectedOwnership] = useState([]);
+  const [dialogSelectedOwnership, setDialogSelectedOwnership] = useState([]);
+
   const [openDeleteOwnership, setOpenDeleteOwnership] = useState(false);
   const [refreshFLOwnership, setRefreshFLOwnership] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -122,7 +125,6 @@ const FarmLandForm = () => {
     get_GnDivisionListWithoutPage().then(({ dataList = [] }) => {
       setGnDivisionList(dataList);
     });
-    console.log("FORM DATA ----------->", formData);
     // getFarmLandById(state?.target?.id).then(({ payload }) => {
     //   setFormData(payload);
     // });
@@ -333,7 +335,7 @@ const FarmLandForm = () => {
   };
   const onDeleteFlOData = () => {
     setOpenDeleteOwnership(true);
-    //setOpenFlO(true);
+    setDialogSelectedOwnership(selectedOwnership);
   };
 
   const onViewFlOData = () => {
@@ -375,6 +377,7 @@ const FarmLandForm = () => {
 
   const closeOwnershipDelete = () => {
     setOpenDeleteOwnership(false);
+    setDialogSelectedOwnership([]);
   };
   const refreshFLOList = () => {
     setRefreshFLOwnership(!refreshFLOwnership);
@@ -383,7 +386,7 @@ const FarmLandForm = () => {
   const onConfirmDeleteOwnership = async () => {
     try {
       setLoading(true);
-      for (const id of selectedOwnership) {
+      for (const id of dialogSelectedOwnership) {
         await deleteFarmLandOwnership(id, onSuccessDelete, onError);
       }
       setLoading(false);
@@ -607,7 +610,7 @@ const FarmLandForm = () => {
                 </FormControl>
               </FieldWrapper>
             </Grid>
-           
+
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
                 <FormControl fullWidth>
@@ -678,13 +681,11 @@ const FarmLandForm = () => {
                   >
                     <MenuItem value={"HIGH_LAND"}>High Land</MenuItem>
                     <MenuItem value={"LOW_LAND"}>Low Land</MenuItem>
-                   
                   </Select>
                 </FormControl>
               </FieldWrapper>
             </Grid>
           </Grid>
-        
 
           <Grid
             container
@@ -1036,17 +1037,18 @@ const FarmLandForm = () => {
               variant="contained"
               color="info"
               onClick={onConfirmDeleteOwnership}
-              sx={{ ml: "8px" }}
+              sx={{ ml: "30px" }}
             >
-              Confirm
+              OK
             </Button>
+            &nbsp;&nbsp;&nbsp;
             <Button
               variant="contained"
               color="error"
               onClick={closeOwnershipDelete}
-              sx={{ ml: "8px" }}
+              sx={{ mr: "30px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
@@ -1054,9 +1056,21 @@ const FarmLandForm = () => {
         <>
           <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
         </>
       </DialogBox>
+
+      {/* <ConfirmationDialog
+        open={openDeleteOwnership}
+        title="Do you want to delete?"
+        items={selectedOwnership}
+        loading={loading}
+        onClose={closeOwnershipDelete}
+        onConfirm={onConfirmDeleteOwnership}
+        setDialogSelectedTypes={setDialogSelectedOwnership}
+        dialogSelectedTypes={dialogSelectedOwnership}
+        propertyId = "id"
+        propertyDescription = "ownerTypeClient"
+      /> */}
     </Box>
   );
 };

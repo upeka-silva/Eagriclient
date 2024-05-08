@@ -43,7 +43,7 @@ export default function FarmLandOwnershipForm({
   loading,
   stopLoading,
   onChange,
-  resetData,
+  resetData,  
   refresh,
   setOpenFlO
 }) {
@@ -78,7 +78,7 @@ export default function FarmLandOwnershipForm({
     let dateUntil = new Date(data.dateUntil);
     try {
       if (farmLandData?.id && data?.id) {
-        await updateProjectActivity(
+        await updateFarmLandOwnership(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,
@@ -89,11 +89,11 @@ export default function FarmLandOwnershipForm({
           onSuccess,
           onError
         );
+      
         refresh();
       }
       if (farmLandData?.id) {
-        console.log("handleFarmLandOwnership");
-        await handleProjectActivity(
+        await handleFarmLandOwnership(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,
@@ -107,6 +107,7 @@ export default function FarmLandOwnershipForm({
       }
       setSaving(false);
       setOpenFlO(false);
+      resetData();
     } catch (error) {
       console.log(error);
     }
@@ -120,6 +121,7 @@ export default function FarmLandOwnershipForm({
           ? "Successfully Added"
           : "Successfully Updated",
     });
+  
     setSaving(false);
   };
 
