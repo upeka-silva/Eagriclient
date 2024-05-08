@@ -78,7 +78,7 @@ export default function FarmLandOwnershipForm({
     let dateUntil = new Date(data.dateUntil);
     try {
       if (farmLandData?.id && data?.id) {
-        await updateProjectActivity(
+        await updateFarmLandOwnership(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,
@@ -93,7 +93,7 @@ export default function FarmLandOwnershipForm({
       }
       if (farmLandData?.id) {
         console.log("handleFarmLandOwnership");
-        await handleProjectActivity(
+        await handleFarmLandOwnership(
           {
             ...data,
             dateFrom: dateFrom.valueOf() || null,
