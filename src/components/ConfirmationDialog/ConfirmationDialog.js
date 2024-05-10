@@ -79,11 +79,9 @@ const ConfirmationDialog = ({
                   />
                 )}
               </ListItemIcon>
-              <ListItemText>
                 <ListItemText>
                     {p[propertyId]} - {p[propertyDescription]}
                 </ListItemText>
-              </ListItemText>
             </ListItem>
           ))}
         </List>    
