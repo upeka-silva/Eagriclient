@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Chip, Grid, InputBase } from "@mui/material";
+import { Autocomplete, Chip, Grid, InputBase, TextField } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
@@ -16,12 +16,15 @@ import { baseURL } from "../../utils/constants/api";
 const Dashboard = () => {
   useUserAccessValidation();
 
-  const [selectCropCategory, setSelectCropCategory] = useState({ id: 1 });
   const [cropCategory, setCropCategory] = useState([]);
+  console.log({ cropCategory })
+  const [selectCropCategory, setSelectCropCategory] = useState();
+  console.log({ selectCropCategory })
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
   const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
   const [allTargetExtent, setAllTargetExtent] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const [irrigationSortData, setIrrigationSortData] = useState({
     varietyNames: [],
@@ -33,7 +36,7 @@ const Dashboard = () => {
     value: [],
   });
 
-  console.log({ varietyProgressSortData });
+  console.log("selectone", cropCategory[0]);
 
   const [targetExtentConfigData, setTargetExtentConfigData] = useState({
     district: [],
@@ -51,20 +54,26 @@ const Dashboard = () => {
     }
   }, [allCropLookSeason]);
 
-  const cropCategoryChipHandleClick = async (chipLabel) => {
-    setSelectCropCategory(chipLabel);
-    console.info("You clicked the Chip: ", chipLabel);
+  const cropCategoryChipHandleClick = async (event, value) => {
+    setSelectCropCategory(value);
+    console.info("You clicked the Chip: ", value);
   };
 
   useEffect(() => {
     const fetchCropCategoryData = async () => {
-      const { dataList } = await get_CategoryList();
+      const { dataList } = await get_CategoryList().finally(() =>
+        setLoading(false)
+      );
       setCropCategory(dataList);
+      setSelectCropCategory(dataList[0]);
     };
     const fetchCropLookSeasons = async () => {
-      await getCropLookSeasons().then((res) => {
-        setAllCropLookSeason(res?.dataList);
-      });
+      await getCropLookSeasons()
+        .then((res) => {
+          setAllCropLookSeason(res?.dataList);
+          setCropLookSeason(res?.dataList[0]);
+        })
+        .finally(() => setLoading(false));
     };
 
     fetchCropCategoryData();
@@ -97,37 +106,62 @@ const Dashboard = () => {
   }, [selectCropLookSeason, selectCropCategory, allCropLookSeason]);
 
   useEffect(() => {
-    const sortedData = allIrrigationModeData.sort(
-      (a, b) => (b.total || 0) - (a.total || 0)
+    const filteredData = allIrrigationModeData.filter(
+      (item) => item.total !== null && item.total !== 0
     );
+    const sortedData = filteredData.sort((a, b) => b.total - a.total);
 
-    const top10 = sortedData.slice(0, 9);
+    const totals = filteredData.reduce((acc, item) => acc + item.total, 0);
 
-    const otherVarieties = sortedData.slice(9, sortedData?.length);
+    console.log({ totals });
 
-    const otherTotalSum = otherVarieties.reduce(
-      (sum, obj) => sum + (obj.total || 0),
-      0
-    );
+    const percentageData = sortedData.map((item) => ({
+      ...item,
+      total: (item.total / totals) * 100,
+    }));
 
-    const otherObj = {
-      varietyId: "Others",
-      varietyName: "Others",
-      total: otherTotalSum,
-    };
+    const moreThanTwoPercent = percentageData.filter((item) => item.total > 2);
+    const length = moreThanTwoPercent.length;
 
-    top10.push(otherObj);
+    console.log({ moreThanTwoPercent });
 
-    const varietyNames = top10.map((item) => item.varietyName);
-    const total = top10.map((item) => item?.total);
+    const difLength = percentageData.length - length;
+
+    let result = [];
+
+    if (length < 5) {
+      console.log("less then 5");
+      // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
+      const firstItems = moreThanTwoPercent.slice(0, length);
+      console.log({ firstItems });
+      const check = percentageData.slice(length, percentageData.length);
+
+      console.log("pleng", percentageData.length);
+      console.log({ check });
+
+      const othersTotal = percentageData
+        .slice(length, percentageData.length)
+        .reduce((acc, item) => acc + item.total, 0);
+
+      result = [...firstItems, { varietyName: "others", total: othersTotal }];
+    } else {
+      //show first 4 and other varities percentage total show as a others
+
+      const firstFour = moreThanTwoPercent.slice(0, 5);
+      const othersTotal = percentageData
+        .slice(5, percentageData.length - 1)
+        .reduce((acc, item) => acc + item.total, 0);
+
+      result = [...firstFour, { varietyName: "others", total: othersTotal }];
+    }
+
+    const varietyNames = result?.map((item) => item.varietyName);
+    const total = result.map((item) => item?.total);
 
     setIrrigationSortData({
       varietyNames,
       total,
     });
-
-    console.log({ varietyNames });
-    console.log({ total });
   }, [allIrrigationModeData]);
 
   useEffect(() => {
@@ -148,36 +182,62 @@ const Dashboard = () => {
         return valueB - valueA;
       });
 
-      // Slice to get the top 10 items
-      const top10 = dataArray.slice(0, 10);
+      console.log({ dataArray });
 
-      const restValues = dataArray.slice(10);
-      const restValuesSum = restValues.reduce(
-        (acc, val) => acc + (parseFloat(val[1]) || 0),
-        0
+      //const convertedData = dataArray?.map(([name, total]) => ({ name, total }));
+
+      const convertedData = dataArray
+        ?.filter(([name, total]) => name && total)
+        .map(([name, total]) => ({ name, total }));
+
+      const totals = convertedData?.reduce((acc, item) => acc + item.total, 0);
+
+      const percentageData = convertedData?.map((item) => ({
+        ...item,
+        total: (item.total / totals) * 100,
+      }));
+
+      const moreThanTwoPercent = percentageData.filter(
+        (item) => item.total > 2
       );
+      const length = moreThanTwoPercent.length;
 
-      const otherObj = ["other", restValuesSum];
+      console.log("newl", length);
+      console.log({ percentageData });
 
-      top10.push(otherObj);
+      let result = [];
 
-      //console.log({ top10 });
+      if (length < 5) {
+        console.log("less then 5");
+        // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
+        const firstItems = moreThanTwoPercent.slice(0, length);
 
-      sortedKeysArray = top10.map((entry) => {
-        // Extract the substring after "totalExtent" if it exists, otherwise keep the key as it is
-        const key = entry[0].startsWith("totalExtent")
-          ? entry[0].substring("totalExtent".length)
-          : entry[0];
-        // Capitalize the first letter of the key
-        return key.charAt(0).toUpperCase() + key.slice(1);
-      });
-      sortedValuesArray = top10.map((entry) =>
-        entry[1] === null ? 0 : entry[1]
+        const othersTotal = percentageData
+          .slice(length, percentageData.length)
+          .reduce((acc, item) => acc + item.total, 0);
+
+        result = [...firstItems, { name: "others", total: othersTotal }];
+      } else {
+        const firstItems = moreThanTwoPercent?.slice(0, 5);
+        console.log({ firstItems });
+
+        const othersTotal = percentageData
+          .slice(5, convertedData.length - 1)
+          .reduce((acc, item) => acc + item.total, 0);
+
+        result = [...firstItems, { name: "others", total: othersTotal }];
+      }
+
+      const name = result?.map((item) => item?.name);
+      const updatedNames = name?.map((item) =>
+        item?.startsWith("totalExtent") ? item.replace("totalExtent", "") : item
       );
+      console.log({ updatedNames });
+      const total = result?.map((item) => item?.total);
 
       setvarietyProgressData({
-        keys: sortedKeysArray,
-        value: sortedValuesArray,
+        keys: updatedNames,
+        value: total,
       });
     }
   }, [allVarietyProgressData]);
@@ -299,9 +359,7 @@ const Dashboard = () => {
         },
       },
     },
-    labels: varietyProgressSortData?.keys.map((key) =>
-      key.length > 5 ? key.substr(0, 5) + ".." : key
-    ),
+    labels: varietyProgressSortData ? varietyProgressSortData?.keys : [],
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -462,7 +520,7 @@ const Dashboard = () => {
       style={{
         display: "flex",
         flexDirection: "column",
-        marginTop: "10px",
+
         height: "90vh",
         //width:"10px",
         overflowY: "scroll",
@@ -480,8 +538,38 @@ const Dashboard = () => {
         },
       }}
     >
+      <Grid display={"flex"} justifyContent={"flex-end"} my={2}>
+      {loading !== true && (
+        <>
+          <Autocomplete
+          options={allCropLookSeason}
+          getOptionLabel={(option) => option?.agriSeason?.description}
+          value={selectCropLookSeason}
+          onChange={handleCropLookSeasonChange}
+          sx={{ marginRight: "1%" }}
+          renderInput={(params) => (
+            <InputBase
+              {...params.InputProps}
+              inputProps={params.inputProps}
+              sx={{
+                color: "#fff",
+                width: "250px",
+                height: "40px",
+                borderRadius: "20px",
+                padding: "0px 0px 0px 30px",
+                border: "1px solid #DBDBDB",
+                backgroundColor: "#388e3c",
+              }}
+              placeholder="Select season"
+            />
+          )}
+        />
+        </>
+      )}
+      
+      </Grid>
       <Grid>
-        <Grid container spacing={4} sx={{ marginTop: "10px" }}>
+        <Grid container spacing={2}>
           <Grid item sm={12} md={2} lg={2}>
             <StatBoxWithoutImage
               count={"6554"}
@@ -530,7 +618,7 @@ const Dashboard = () => {
             />
           </Grid>
           <Grid item sm={12} md={6} lg={6}>
-            <Grid mb={3}>
+            {/* <Grid mb={3}>
               {cropCategory?.map((item) => (
                 <>
                   <Chip
@@ -546,13 +634,42 @@ const Dashboard = () => {
                   />
                 </>
               ))}
-            </Grid>
+            </Grid> */}
 
-            <Grid mb={3}>
+            <Grid mb={3} sx={{ display: "flex" }}>
+              {loading !== true && (
+                  <>
+                    <Autocomplete
+                      options={cropCategory}
+                      getOptionLabel={(option) => option?.description}
+                      value={selectCropCategory}
+                      onChange={cropCategoryChipHandleClick}
+                      sx={{ marginRight: "5px" }}
+                      renderInput={(params) => (
+                        <InputBase
+                          {...params.InputProps}
+                          inputProps={params.inputProps}
+                          sx={{
+                            color: "black",
+                            width: "250px",
+                            height: "40px",
+                            bgcolor: "#ffffff",
+                            borderRadius: "20px",
+                            padding: "0px 0px 0px 30px",
+                            border: "2px solid #DBDBDB",
+                          }}
+                          placeholder="Select Crop Category"
+                          //endAdornment={<SearchIcon />}
+                        />
+                      )}
+                    />
+                  </>
+                )}
+
               <Autocomplete
                 options={allCropLookSeason}
                 getOptionLabel={(option) => option?.agriSeason?.description}
-                value={selectCropLookSeason}
+                value={loading && selectCropLookSeason}
                 onChange={handleCropLookSeasonChange}
                 renderInput={(params) => (
                   <InputBase
@@ -567,7 +684,7 @@ const Dashboard = () => {
                       padding: "0px 0px 0px 30px",
                       border: "2px solid #DBDBDB",
                     }}
-                    placeholder="Select season"
+                    placeholder="Select Crop"
                     //endAdornment={<SearchIcon />}
                   />
                 )}

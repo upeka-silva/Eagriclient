@@ -21,7 +21,7 @@ function StatBoxWithoutImage({ title, subtitle,count }) {
         marginBottom: '10px'
       }}
     >
-      <Grid item xs={3}>
+      {/* <Grid item xs={3}>
         <Box>
           <Typography
             fontWeight="bold"
@@ -32,9 +32,9 @@ function StatBoxWithoutImage({ title, subtitle,count }) {
             {count}
           </Typography>
         </Box>
-      </Grid>
-      <Grid item xs={1}></Grid>
-      <Grid item xs={8}>
+      </Grid> */}
+      
+      <Grid item xs={12}>
         <Box>
           <Typography fontSize={'0.7vw'} fontWeight="bold" sx={{ color: colors.black }}>
             {title}
