@@ -5,7 +5,7 @@ import {
   MenuItem,
   Select,
   Slide,
-  TextField
+  TextField,
 } from "@mui/material";
 import Dialog from "@mui/material/Dialog";
 import React, { useEffect, useState } from "react";
@@ -43,14 +43,25 @@ export default function AddCropDetailsDialog({
   const [selectedCropCategory, setSelectedCropCategory] = useState("");
   const [selectedCropSubCategory, setSelectedCropSubCategory] = useState("");
 
+  // const [cropCategories, setCropCategories] = useState([]);
+  // const [cropSubCategories, setCropSubCategories] = useState([]);
+
+  // const [crops, setCrops] = useState([]);
+  // const [selectedCrop, setSelectedCrop] = useState(null);
+
+  // const [cropVarieties, setCropVarieties] = useState([]);
+  // const [selectedCropVariety, setSelectedCropVariety] = useState(null);
+
+  const [selectedCropVariety, setSelectedCropVariety] = useState(
+    formData?.cropVarietyDTO
+  );
+  const [selectedCrop, setSelectedCrop] = useState(formData?.cropDTO);
+
   useEffect(() => {
     setFormDataQ(formData);
-    setSelectedCropCategory("")
-    setSelectedCropSubCategory("")
-    console.log(formData)
+    setSelectedCropCategory("");
+    setSelectedCropSubCategory("");
   }, [formData]);
-
-  
 
   const handleChange = (value, target) => {
     setFormDataQ((current = {}) => {
@@ -97,7 +108,7 @@ export default function AddCropDetailsDialog({
           : "Successfully Updated",
     });
     setSaving(false);
-    handleClose()
+    handleClose();
   };
 
   const onError = (message) => {
@@ -116,13 +127,11 @@ export default function AddCropDetailsDialog({
         await updateCropDetails(formDataQ, onSuccess, onError);
         refresh();
       } else {
-        if (selectedCropCategory === ""){
+        if (selectedCropCategory === "") {
           onError("Crop Category must have a value");
-        }
-        else if (selectedCropSubCategory === ""){
+        } else if (selectedCropSubCategory === "") {
           onError("Crop Sub Category must have a value");
-        }
-        else {
+        } else {
           await handleCropDetails(formDataQ, onSuccess, onError);
           refresh();
         }
@@ -133,12 +142,15 @@ export default function AddCropDetailsDialog({
   };
 
   const resetData = () => {
-    console.log("reset Data")
-   
+    console.log(formData, "formData======>", formDataQ, "<========formDataQ");
     if (action === DEF_ACTIONS.EDIT) {
       setFormDataQ(formData || {});
     } else {
       setFormDataQ(null);
+      setSelectedCropCategory("");
+      setSelectedCrop(null);
+      setSelectedCropVariety(null);
+      setSelectedCropSubCategory("");
     }
   };
 
@@ -213,15 +225,19 @@ export default function AddCropDetailsDialog({
             }}
           >
             <CropSelectDropDown
-              setSelectedCropCategory = {setSelectedCropCategory}
-              selectedCropCategory = {selectedCropCategory}
-              setSelectedCropSubCategory = {setSelectedCropSubCategory}
-              selectedCropSubCategory = {selectedCropSubCategory}
+              setSelectedCropCategory={setSelectedCropCategory}
+              selectedCropCategory={selectedCropCategory}
+              setSelectedCropSubCategory={setSelectedCropSubCategory}
+              selectedCropSubCategory={selectedCropSubCategory}
               selectedCropCallback={onSelectedCrop}
               selectedVarietyCallback={onSelectedCropVariety}
               mode={action}
               crop={formData?.cropDTO}
               cropVariety={formData?.cropVarietyDTO}
+              selectedCropVariety={selectedCropVariety}
+              setSelectedCropVariety={setSelectedCropVariety}
+              selectedCrop={selectedCrop}
+              setSelectedCrop={setSelectedCrop}
             />
 
             <Grid item sm={12} md={12} lg={4}>
