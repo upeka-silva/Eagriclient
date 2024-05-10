@@ -36,7 +36,6 @@ import { deleteBiWeeklyReporting } from "../../../redux/actions/cropLook/biWeekR
 import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReporting = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -69,7 +68,9 @@ const BiWeeklyReporting = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop-look/biweekly-reporting-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-look/biweekly-reporting-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -154,14 +155,14 @@ const BiWeeklyReporting = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Bi Weekly Reporting" />
       <ActionWrapper isLeft>

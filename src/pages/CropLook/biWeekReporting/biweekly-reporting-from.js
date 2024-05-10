@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextField, Autocomplete, Grid, Button } from "@mui/material";
+import { TextField, Autocomplete, Grid, Button, Chip } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 
 import { useNavigate, useLocation } from "react-router-dom";
@@ -90,7 +90,6 @@ const BiWeeklyReportingForm = () => {
   // end of crop registration code
 
   const toggleTab = (index) => {
-    console.log("toggle state : " + index);
     setToggleState(index);
   };
 
@@ -231,6 +230,7 @@ const BiWeeklyReportingForm = () => {
         marginTop: "10px",
         height: "90vh",
         overflowY: "scroll",
+        width: "100%",
       }}
     >
       <FormWrapper>
@@ -241,8 +241,8 @@ const BiWeeklyReportingForm = () => {
           formName="Bi Weekly Report"
         />
         <Grid container>
-          <Grid item sm={10} md={10} lg={10} sx={{ alignItems: "center" }}>
-            <Grid container>
+          <Grid item sm={10} md={10} lg={11} sx={{ alignItems: "center" }}>
+            <Grid container sx={{ justifyContent: "space-between" }}>
               <Grid item>
                 <FormButtonGroup
                   {...{
@@ -254,6 +254,23 @@ const BiWeeklyReportingForm = () => {
                     resetForm,
                   }}
                 />
+              </Grid>
+              <Grid item>
+                {state?.target?.week?.status ? (
+                  <Chip
+                    label={state?.target?.week?.status}
+                    variant="filled"
+                    style={{
+                      marginTop: "5px",
+                      alignSelf: "flex-end",
+                      position: "absolute",
+                      right: "50px",
+                      backgroundColor: "green",
+                      color: "white",
+                      width: "100px",
+                    }}
+                  />
+                ) : null}
               </Grid>
             </Grid>
           </Grid>

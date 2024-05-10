@@ -3,21 +3,20 @@ import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleCropLookSeason = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
     const response = await post("crop-look/seasons", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
-      return response.payload
+      return response.payload;
     } else {
       const exception = {
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -38,7 +37,10 @@ export const handleCropLookSeason = async (
 
 export const getAgriSeasons = async () => {
   try {
-    const { httpCode, payloadDto } = await get("geo-data/agriculture-seasons/crop-look", true);
+    const { httpCode, payloadDto } = await get(
+      "geo-data/agriculture-seasons/crop-look",
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -55,15 +57,33 @@ export const getAgriSeasons = async () => {
   }
 };
 
+export const getBiweekData = async (id) => {
+  try {
+    const { httpCode, payload } = await get(`crop-look/seasons/${id}`, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payload,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const deleteCropLookSeason = async (
   id,
-  onDeleteSuccess = () => { },
-  onError = (_message) => { }
+  onDeleteSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop-look/seasons/${id || ''}`, true);
-    console.log(response)
+    const response = await api_delete(`crop-look/seasons/${id || ""}`, true);
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onDeleteSuccess();
     } else {
@@ -71,8 +91,7 @@ export const deleteCropLookSeason = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -88,17 +107,21 @@ export const deleteCropLookSeason = async (
       onError(error);
     }
   }
-}
+};
 
 export const changeStatusCropLookSeason = async (
   id,
   status,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/seasons/${id || ''}/status/${status}`, null, true);
-    console.log(response)
+    const response = await put(
+      `crop-look/seasons/${id || ""}/status/${status}`,
+      null,
+      true
+    );
+    console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -106,8 +129,7 @@ export const changeStatusCropLookSeason = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -123,18 +145,22 @@ export const changeStatusCropLookSeason = async (
       onError(error);
     }
   }
-}
+};
 
 export const changeStatusBiWeekData = async (
   seasonId,
   id,
   status,
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/seasons/${seasonId}/bi-week-data/${id}/status/${status}`, null, true);
-    console.log(response)
+    const response = await put(
+      `crop-look/seasons/${seasonId}/bi-week-data/${id}/status/${status}`,
+      null,
+      true
+    );
+    console.log({ response });
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return response.payload;
@@ -143,8 +169,7 @@ export const changeStatusBiWeekData = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -160,15 +185,19 @@ export const changeStatusBiWeekData = async (
       onError(error);
     }
   }
-}
+};
 
 export const updateAgriSeason = async (
   payload = {},
-  onSuccess = () => { },
-  onError = (_message) => { }
+  onSuccess = () => {},
+  onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`geo-data/agriculture-seasons/${payload?.id || ''}`, payload, true);
+    const response = await put(
+      `geo-data/agriculture-seasons/${payload?.id || ""}`,
+      payload,
+      true
+    );
     if (response.httpCode === "200 OK") {
       onSuccess();
     } else {
@@ -176,8 +205,7 @@ export const updateAgriSeason = async (
         error: {
           data: {
             apiError: {
-              message:
-                response?.message || defaultMessages.apiErrorUnknown,
+              message: response?.message || defaultMessages.apiErrorUnknown,
             },
           },
         },
@@ -195,4 +223,3 @@ export const updateAgriSeason = async (
     }
   }
 };
-

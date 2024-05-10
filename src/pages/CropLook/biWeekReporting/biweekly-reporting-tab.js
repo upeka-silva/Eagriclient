@@ -39,8 +39,6 @@ const BiWeeklyReportingTab = ({
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
-      console.log("data fields");
-      console.log(data);
       setConfigFields(data ? data.fields : []);
       checkDataLoadStatus();
     });
@@ -224,7 +222,11 @@ const BiWeeklyReportingTab = ({
                   >
                     <Grid item sx={{ pt: "8px" }}>
                       <Button
-                        disabled={mode === DEF_ACTIONS.VIEW || isCleared}
+                        disabled={
+                          mode === DEF_ACTIONS.VIEW ||
+                          isCleared ||
+                          status?.target?.week?.status === "CLOSE"
+                        }
                         variant="contained"
                         color="success"
                         size="small"
@@ -243,7 +245,10 @@ const BiWeeklyReportingTab = ({
                     permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
                   >
                     <Button
-                      disabled={!cropTargetId}
+                      disabled={
+                        !cropTargetId ||
+                        status?.target?.week?.status === "CLOSE"
+                      }
                       variant="outlined"
                       color="success"
                       onClick={() => setOpenDialog(true)}

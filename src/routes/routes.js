@@ -1268,7 +1268,7 @@ export const Routes = [
       },
       {
          path: "/create-project",
-         name: "Create Project",
+         name: "Project",
          isSideBar: true,
          element: <AgricultureProject />,
          icon: AssignmentIndIcon,
@@ -1482,7 +1482,7 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning",
-        name: "vegitable early warning ",
+        name: "Vegitable Early Warnings",
         isSideBar: true,
         element: <VegitableEarlyWarning />,
         icon: WbSunnyIcon,
@@ -1546,7 +1546,7 @@ export const Routes = [
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
-        //component: DEF_COMPONENTS.PERMISSION,
+        component: DEF_COMPONENTS.PERMISSION,
       },
       {
         path: "/permissions-by-role",
