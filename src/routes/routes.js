@@ -1482,7 +1482,7 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning",
-        name: "vegitable early warning ",
+        name: "Vegitable Early Warnings",
         isSideBar: true,
         element: <VegitableEarlyWarning />,
         icon: WbSunnyIcon,
