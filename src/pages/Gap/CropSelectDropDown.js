@@ -31,7 +31,6 @@ const CropSelectDropDown = (props) => {
     selectedCrop,
   } = props;
 
-  console.log({selectedCrop})
 
   const [cropCategories, setCropCategories] = useState([]);
   const [cropSubCategories, setCropSubCategories] = useState([]);
@@ -60,7 +59,6 @@ const CropSelectDropDown = (props) => {
   useEffect(() => {
     mode === DEF_ACTIONS.ADD && setSelectedCrop(null);
     mode === DEF_ACTIONS.ADD && setSelectedCropVariety(null);
-    console.log(crop);
     mode === DEF_ACTIONS.EDIT && setSelectedCrop(crop);
     mode === DEF_ACTIONS.EDIT && setSelectedCropVariety(cropVariety);
    
@@ -115,7 +113,6 @@ const CropSelectDropDown = (props) => {
           console.log(error);
         }
       };
-      console.log(selectedCrop);
       fetchCropVarity("geo-data/crop-varieties/crop", selectedCrop?.id);
     } else {
       // Clear the crop varieties if no crop is selected

@@ -42,16 +42,6 @@ export default function AddCropDetailsDialog({
   const [saving, setSaving] = useState(false);
   const [selectedCropCategory, setSelectedCropCategory] = useState("");
   const [selectedCropSubCategory, setSelectedCropSubCategory] = useState("");
-
-  // const [cropCategories, setCropCategories] = useState([]);
-  // const [cropSubCategories, setCropSubCategories] = useState([]);
-
-  // const [crops, setCrops] = useState([]);
-  // const [selectedCrop, setSelectedCrop] = useState(null);
-
-  // const [cropVarieties, setCropVarieties] = useState([]);
-  // const [selectedCropVariety, setSelectedCropVariety] = useState(null);
-
   const [selectedCropVariety, setSelectedCropVariety] = useState(
     formData?.cropVarietyDTO
   );
@@ -120,7 +110,6 @@ export default function AddCropDetailsDialog({
   };
 
   const handleFormSubmit = async (event, data, action) => {
-    console.log(formDataQ);
     setSaving(true);
     try {
       if (formDataQ?.id) {
@@ -142,7 +131,6 @@ export default function AddCropDetailsDialog({
   };
 
   const resetData = () => {
-    console.log(formData, "formData======>", formDataQ, "<========formDataQ");
     if (action === DEF_ACTIONS.EDIT) {
       setFormDataQ(formData || {});
     } else {
