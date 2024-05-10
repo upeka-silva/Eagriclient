@@ -1268,7 +1268,7 @@ export const Routes = [
       },
       {
          path: "/create-project",
-         name: "Create Project",
+         name: "Project",
          isSideBar: true,
          element: <AgricultureProject />,
          icon: AssignmentIndIcon,
