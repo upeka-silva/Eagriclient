@@ -31,7 +31,7 @@ const CategoryReportTabel = ({ category, season }) => {
         acc[cropName].push(obj);
         return acc;
       }, {});
-      console.log('grouped data --------------->');
+      console.log("grouped data --------------->");
       console.log(groupedData);
       setData(groupedData);
     }
@@ -42,7 +42,7 @@ const CategoryReportTabel = ({ category, season }) => {
       setReportConfigs(configs?.fields);
       setLoading(false);
     }
-    console.log('fetching data');
+    console.log("fetching data");
     fetchData(category?.id, season?.id);
   }, [season]);
 
@@ -53,22 +53,27 @@ const CategoryReportTabel = ({ category, season }) => {
         <Table>
           <TableHead>
             <TableRow>
-            <TableCell style={{ backgroundColor: "#A8CD9F" }}>
-                Crop
-              </TableCell>
+              <TableCell style={{ backgroundColor: "#A8CD9F" }}>Crop</TableCell>
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
               {targetConfigs?.length > 0 &&
                 targetConfigs.map((fieldName, index) => (
-                  <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>{fieldName} (ha)</TableCell>
+                  <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>
+                    {fieldName} (ha)
+                  </TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total Target (ha)
               </TableCell>
               {reportConfigs?.length > 0 &&
                 reportConfigs.map((fieldName1, index1) => (
-                  <TableCell key={index1} style={{ backgroundColor: "#A8CD9F" }}>{fieldName1} (ha)</TableCell>
+                  <TableCell
+                    key={index1}
+                    style={{ backgroundColor: "#A8CD9F" }}
+                  >
+                    {fieldName1} (ha)
+                  </TableCell>
                 ))}
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total Extent (ha)
@@ -76,7 +81,7 @@ const CategoryReportTabel = ({ category, season }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!loading ?
+            {!loading ? (
               Object.keys(data).map((cropName) => (
                 <AggrigateVarietyCell
                   cropName={cropName}
@@ -84,7 +89,10 @@ const CategoryReportTabel = ({ category, season }) => {
                   targetConfigs={targetConfigs}
                   reportConfigs={reportConfigs}
                 />
-              )) : <CircularProgress/>}
+              ))
+            ) : (
+              <CircularProgress />
+            )}
           </TableBody>
         </Table>
       </TableContainer>
