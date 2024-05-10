@@ -39,8 +39,7 @@ export const deleteFarmLandOwnership = async (
   onSuccess = () => {},
   onError = (_message) => {}
 ) => {
-  try {
-    console.log("idsssss",id)
+  try {    
     const response = await api_delete(`farm-land-ownership/${id || ""}`, true);
     console.log(response);
     if (response?.httpCode === "200 OK") {
