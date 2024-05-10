@@ -57,6 +57,14 @@ export default function AddCropPestDialog({
       onClose={handleClose}
       aria-labelledby="add-pest"
       aria-describedby="add a pest to crop"
+      sx={{
+        "& .MuiDialog-container": {
+          "& .MuiPaper-root": {
+            width: "100%",
+            maxWidth: "500px",
+          },
+        },
+      }}
     >
       <DialogTitle
         id="add-pest"

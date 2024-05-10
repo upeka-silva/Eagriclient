@@ -13,6 +13,13 @@ import {
   Typography,
   Card,
   Switch,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Checkbox,
+  CircularProgress,
 } from "@mui/material";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import styled from "styled-components";
@@ -90,6 +97,10 @@ const CropForm = ({
   const [cropId, setCropId] = useState(null);
   const [pestUrl, setPestUrl] = useState(null);
   const [diseaseUrl, setDiseaseUrl] = useState(null);
+  const [actionHedding, setActionHedding] = useState({
+    title: "",
+    action: null,
+  });
 
   useEffect(() => {
     const cropId = formData.id;
@@ -106,19 +117,21 @@ const CropForm = ({
   };
 
   const onAddPest = () => {
-    setCropId(formData.id);
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setCropId(formData.id);
+    }
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropPestAddDialog(true);
-    setPestUrl(`crop/crop-pests/${cropId}/pests`);
   };
 
   const onAddDisease = () => {
-    setCropId(formData.id);
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setCropId(formData.id);
+    }
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropDiseaseAddDialog(true);
-    setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
   };
 
   const toggleCropPestSelect = (component) => {
@@ -318,6 +331,7 @@ const CropForm = ({
         if (form && state?.action === DEF_ACTIONS.ADD) {
           const response = await handleCrop(formData, onSuccess, onError);
           setFormData(response.payload);
+          setCropId(response?.payload?.id)
           console.log(response);
           const res = await handleCropImageUpload(response.payload?.id);
           console.log(res);
@@ -382,6 +396,7 @@ const CropForm = ({
           );
           setFormData(response.payload);
           console.log(response);
+          setCropId(response?.payload?.id)
         }
         setSaving(false);
         setTabEnabled(true);
@@ -422,6 +437,24 @@ const CropForm = ({
       return response;
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const toggleDialogObjectSelect = (objItem, action) => {
+    if(objItem != null) {
+      if (action === "DELETE_CROPPEST") {
+        const updatedCropPest = selectCropPest.filter((item) => item.id !== objItem.id);
+        setSelectCropPest(updatedCropPest);
+        if (updatedCropPest.length === 0) {
+         setOpen(false);
+        }
+      } else {
+        const updatedCropDisease = selectCropDisease.filter((item) => item.id!== objItem.id);
+        setSelectCropDisease(updatedCropDisease);
+        if (updatedCropDisease.length === 0) {
+         setOpen(false);
+        }
+      }
     }
   };
 
@@ -1343,7 +1376,13 @@ const CropForm = ({
                     cropId={cropId}
                   />
                   {selectCropPest.length > 0 && (
-                    <Button onClick={onDelete}>
+                    <Button onClick={ () => {
+                      setActionHedding({
+                        title: "Delete Crop Pest",
+                        action: "DELETE_CROPPEST"
+                      })
+                      onDelete()
+                    }}>
                       <Delete />
                       {DEF_ACTIONS.DELETE}
                     </Button>
@@ -1387,7 +1426,13 @@ const CropForm = ({
                     cropId={cropId}
                   />
                   {selectCropDisease.length > 0 && (
-                    <Button onClick={onDelete}>
+                    <Button onClick={() => {
+                      setActionHedding({
+                        title: "Delete Crop Disease",
+                        action: "DELETE_CROPDISEASE"
+                      })
+                      onDelete()
+                    }}>
                       <Delete />
                       {DEF_ACTIONS.DELETE}
                     </Button>
@@ -1409,7 +1454,15 @@ const CropForm = ({
 
         <DialogBox
           open={open}
-          title="Delete Crop Disease"
+          title={actionHedding.title}
+          sx={{
+            "& .MuiDialog-container": {
+              "& .MuiPaper-root": {
+                width: "100%",
+                maxWidth: "300px",
+              },
+            },
+          }}
           actions={
             <ActionWrapper>
               <Button
@@ -1418,7 +1471,7 @@ const CropForm = ({
                 onClick={onConfirm}
                 sx={{ ml: "8px" }}
               >
-                Confirm
+                OK
               </Button>
               <Button
                 variant="contained"
@@ -1426,11 +1479,65 @@ const CropForm = ({
                 onClick={close}
                 sx={{ ml: "8px" }}
               >
-                Close
+                CANCEL
               </Button>
             </ActionWrapper>
           }
-        ></DialogBox>
+        >
+         <>
+        <Divider sx={{  }} />
+        <List>
+          {
+            actionHedding.action === "DELETE_CROPPEST" ? 
+            (
+              selectCropPest?.map((p, key) => (
+                <ListItem key={key}>
+                  <ListItemIcon>
+                    {loading ? (
+                      <CircularProgress size={16} />
+                    ) : (
+                      <Checkbox
+                        checked={selectCropPest.includes(p)}
+                        onChange={() => toggleDialogObjectSelect(p, actionHedding.action)}
+                        color="info"
+                      />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText>
+                    <ListItemText>
+                       {p.pestName}
+                       {p.scientificName !== null && ` - ${p.scientificName}`}
+                    </ListItemText>
+                  </ListItemText>
+                </ListItem>
+              ))
+            ) :
+            (
+              selectCropDisease?.map((p, key) => (
+                <ListItem key={key}>
+                  <ListItemIcon>
+                    {loading ? (
+                      <CircularProgress size={16} />
+                    ) : (
+                      <Checkbox
+                        checked={selectCropDisease.includes(p)}
+                        onChange={() => toggleDialogObjectSelect(p, actionHedding.action)}
+                        color="info"
+                      />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText>
+                    <ListItemText>
+                        {p.diseaseName} - {p.type}
+                    </ListItemText>
+                  </ListItemText>
+                </ListItem>
+              ))
+            )
+          }
+        </List>    
+      </>
+        </DialogBox>
       </FormWrapper>
     </Box>
   );

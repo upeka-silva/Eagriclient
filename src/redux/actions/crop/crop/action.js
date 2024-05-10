@@ -3,13 +3,14 @@ import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const handleCrop = async (
   payload = {},
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
     const response = await post("geo-data/crops", payload, true);
     if (response.httpCode === "200 OK") {
       onSuccess();
+      return response;
     } else {
       const exception = {
         error: {
@@ -22,7 +23,7 @@ export const handleCrop = async (
       };
       throw exception;
     }
-    return response
+
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -35,8 +36,8 @@ export const handleCrop = async (
 };
 
 export const get_CropList = async (
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
     const { httpCode, payloadDto } = await get(
@@ -60,11 +61,11 @@ export const get_CropList = async (
 };
 
 export const get_SubCategoryById = async (
-    id,
-    onSuccess = () => {},
-    onError = (_message) => {},
-    path = "geo-data/crop-sub-categories/crop-category/" + id
-    
+  id,
+  onSuccess = () => { },
+  onError = (_message) => { },
+  path = "geo-data/crop-sub-categories/crop-category/" + id
+
 ) => {
   try {
     const { httpCode, payloadDto } = await get(path, true);
@@ -86,33 +87,33 @@ export const get_SubCategoryById = async (
 
 export const get_all_SubCategoryById = async (
   id,
-  onSuccess = () => {},
-  onError = (_message) => {},
+  onSuccess = () => { },
+  onError = (_message) => { },
   path = "geo-data/crop-sub-categories/crop-category/" + id + "/all"
-  
+
 ) => {
-try {
-  const { httpCode, payloadDto } = await get(path, true);
-  if (httpCode === "200 OK") {
+  try {
+    const { httpCode, payloadDto } = await get(path, true);
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
     return {
-      dataList: payloadDto,
+      dataList: [],
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      dataList: [],
     };
   }
-  return {
-    dataList: [],
-  };
-} catch (error) {
-  console.error(error);
-  return {
-    dataList: [],
-  };
-}
 };
 
 export const updateCrop = async (
   payload = {},
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
     const response = await put(
@@ -148,8 +149,8 @@ export const updateCrop = async (
 
 export const deleteCrop = async (
   id,
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
     const response = await api_delete(`geo-data/crops/${id || ""}`, true);
@@ -181,13 +182,13 @@ export const deleteCrop = async (
 
 export const assignCrop = async (
   projectId,
-  formDataD =[],
-  onSuccess = () => {},
-  onError = (_message) => {}
+  formDataD = [],
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
-    console.log("fomd",formDataD)
-    const response = await put(`extension/agriculture-project/${ projectId || ''}/crop`, formDataD['crops'], true);
+    console.log("fomd", formDataD)
+    const response = await put(`extension/agriculture-project/${projectId || ''}/crop`, formDataD['crops'], true);
     if (response.httpCode === "200 OK") {
       onSuccess();
       return response.payload;
@@ -219,8 +220,8 @@ export const assignCrop = async (
 export const handleCropImage = async (
   id,
   payload = {},
-  onSuccess = () => {},
-  onError = (_message) => {}
+  onSuccess = () => { },
+  onError = (_message) => { }
 ) => {
   try {
     const response = await post(`geo-data/crops/${id}/crop-image`, payload, true);
@@ -238,7 +239,7 @@ export const handleCropImage = async (
       };
       throw exception;
     }
-   return response
+    return response
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;
@@ -253,22 +254,22 @@ export const handleCropImage = async (
 export const getDiseasesByCropId = async (
   cropId = null,
 ) => {
-try {
-  const {httpCode, payloadDto} = await get("crop/crop-diseases/" + cropId + '/diseases', true);
-  if (httpCode === '200 OK') {
+  try {
+    const { httpCode, payloadDto } = await get("crop/crop-diseases/" + cropId + '/diseases', true);
+    if (httpCode === '200 OK') {
+      return {
+        data: payloadDto
+      }
+    }
     return {
-      data: payloadDto
+      data: {}
+    }
+  } catch (error) {
+    console.log(error)
+    return {
+      data: {}
     }
   }
-  return {
-    data: {}
-  }
-} catch (error) {
-  console.log(error)
-  return {
-    data: {}
-  }
-}
 };
 
 export const deleteDiseaseFromCrop = async (
@@ -303,7 +304,7 @@ export const deleteDiseaseFromCrop = async (
     } else {
       onError(error);
     }
-  } 
+  }
 };
 
 export const deleteCropFromProject = async (
@@ -338,7 +339,7 @@ export const deleteCropFromProject = async (
     } else {
       onError(error);
     }
-  } 
+  }
 };
 export const downloadCropExcel = async () => {
   try {
@@ -346,9 +347,8 @@ export const downloadCropExcel = async () => {
       "geo-data/crops/export/excel",
       true
     );
-    const fileName = `crop_${
-      new Date().toISOString().split("T")[0]
-    }.xlsx`;
+    const fileName = `crop_${new Date().toISOString().split("T")[0]
+      }.xlsx`;
     const url = window.URL.createObjectURL(new Blob([blobData]));
     const link = document.createElement("a");
     link.href = url;
@@ -358,5 +358,5 @@ export const downloadCropExcel = async () => {
     link.parentNode.removeChild(link);
   } catch (error) {
     console.error(error);
-}
+  }
 }
