@@ -97,28 +97,7 @@ const FarmLand = () => {
     setDialogSelectedFarmLand([]);
   };
 
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedFarmLand.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.description}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
+  
 
   const onSuccess = () => {
     addSnackBar({

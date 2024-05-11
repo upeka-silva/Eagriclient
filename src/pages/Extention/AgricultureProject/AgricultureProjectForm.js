@@ -95,7 +95,6 @@ const AgricultureProjectForm = () => {
   const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
 
-
   //delete handlers
   const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
   const [openDeleteSubActivity, setOpenDeleteSubActivity] = useState(false);
@@ -575,12 +574,15 @@ const AgricultureProjectForm = () => {
     try {
       if (formData?.id) {
         const resValue = await changeStatus(
-          formData.id,
+          formData?.id,
           "ONGOING",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
-        setFormData(resValue);
+        console.log({ resValue });
+        if (resValue?.payload?.httpCode === "200 OK") {
+          setFormData(resValue?.payload);
+        }
       }
     } catch (error) {}
   };
@@ -591,9 +593,10 @@ const AgricultureProjectForm = () => {
         const resValue = await changeStatus(
           formData.id,
           "CLOSED",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
+        setFormData(resValue?.payload);
       }
     } catch (error) {}
   };
@@ -642,6 +645,14 @@ const AgricultureProjectForm = () => {
         state?.action === DEF_ACTIONS.ADD
           ? "Successfully Added"
           : "Successfully Updated",
+    });
+    setSaving(false);
+  };
+
+  const onSuccessStatus = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Updated Status",
     });
     setSaving(false);
   };
@@ -766,7 +777,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted1}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Ongoing"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -783,7 +797,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted2}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Closed"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -846,7 +863,7 @@ const AgricultureProjectForm = () => {
                   size="small"
                 >
                   {provinceList?.map((item) => (
-                    <MenuItem value={item?.name}>{item?.name}</MenuItem>
+                    <MenuItem value={item?.id}>{item?.name}</MenuItem>
                   ))}
                 </Select>
               </FieldWrapper>

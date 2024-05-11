@@ -33,12 +33,13 @@ import {
   handleProjectSubActivity,
   updateProjectSubActivity,
 } from "../../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
-import {
-  get_AgricultureProjectAllList,
-  get_AgricultureProjectList,
-} from "../../../../redux/actions/extension/agricultureProject/action";
+
 import { get_IndicatorBySubActivityId } from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
-import { handleProjectReport } from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
+import {
+  handleProjectReport,
+  updateProjectReport,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
+import { get_AgricultureProjectAllList } from "../../../../redux/actions/extension/agricultureProject/action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -56,36 +57,41 @@ export default function ProjectReportForm({
   resetData,
   refresh,
   setOpenActivity,
+  setProjectReportData,
 }) {
   console.log({ ProjectActivityData });
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
-  console.log("datanewss", data);
+  console.log("datanewss", formData);
   const [saving, setSaving] = useState(false);
 
   const [projectData, setProjectData] = useState([]);
-  console.log({ projectData });
+  console.log({ action });
   const [projectActivityData, setProjectActivityData] = useState([]);
   const [projectSubActivityData, setProjectSubActivityData] = useState([]);
   const [projectIndicatorData, setProjectIndicatorData] = useState([]);
 
   const [fullWidth, setFullWidth] = React.useState(true);
   const [maxWidth, setMaxWidth] = React.useState("sm");
+
+  const [selectIndicatorData, setSelectIndicatorData] = useState();
   console.log({ projectIndicatorData });
 
-  const handleMaxWidthChange = (event) => {
-    setMaxWidth(
-      // @ts-expect-error autofill of arbitrary value is not handled.
-      event.target.value
-    );
-  };
+  //   const handleMaxWidthChange = (event) => {
+  //     setMaxWidth(
+  //       // @ts-expect-error autofill of arbitrary value is not handled.
+  //       event.target.value
+  //     );
+  //   };
 
-  const handleFullWidthChange = (event) => {
-    setFullWidth(event.target.checked);
-  };
+  //   const handleFullWidthChange = (event) => {
+  //     setFullWidth(event.target.checked);
+  //   };
   useEffect(() => {
-    console.log("refresh ");
-  }, []);
+    if(action === DEF_ACTIONS.EDIT){
+      setFormData(data);
+    }
+  }, [action]);
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {
@@ -108,12 +114,10 @@ export default function ProjectReportForm({
   };
   const handleFormSubmit = async () => {
     setSaving(true);
-    // let dateFrom = new Date(data.dateFrom);
-    // let dateUntil = new Date(data.dateUntil);
     try {
       if (action === DEF_ACTIONS.EDIT) {
         console.log("update");
-        await updateProjectSubActivity(
+        await updateProjectReport(
           {
             ...data,
           },
@@ -124,14 +128,13 @@ export default function ProjectReportForm({
         refresh();
       }
       if (action === DEF_ACTIONS.ADD && data?.projectIndicatorDTO?.id) {
-        console.log("handleFarmLandOwnership", ProjectActivityData?.id);
         await handleProjectReport(data, onSuccess, onError);
         refresh();
-        resetData()
-        setFormData({})
-        setProjectActivityData([])
-        setProjectSubActivityData([])
-        setProjectIndicatorData([])
+        resetData();
+        setFormData({});
+        setProjectActivityData([]);
+        setProjectSubActivityData([]);
+        setProjectIndicatorData([]);
       }
       setSaving(false);
       setOpenActivity(false);
@@ -165,6 +168,7 @@ export default function ProjectReportForm({
         setProjectData(res?.dataList);
       });
     };
+    
 
     getProjectList();
   }, []);
@@ -197,6 +201,17 @@ export default function ProjectReportForm({
       getProjectIndicatorList();
     }
   }, [data]);
+
+  const formIncludeDataReset = () => {
+    if (action !== DEF_ACTIONS.EDIT) {
+      setFormData({});
+      setProjectActivityData([]);
+      setProjectSubActivityData([]);
+      setProjectIndicatorData([]);
+    } else {
+      setProjectReportData(formData);
+    }
+  };
 
   return (
     <div>
@@ -238,7 +253,10 @@ export default function ProjectReportForm({
                     {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
                   <Button
-                    onClick={resetData}
+                    onClick={() => {
+                      resetData();
+                      formIncludeDataReset();
+                    }}
                     color="success"
                     variant="contained"
                     size="small"
@@ -259,57 +277,28 @@ export default function ProjectReportForm({
               Cancel
             </Button>
           </ButtonWrapper>
-          <Grid
-            container
-            sx={{
-              border: "1px solid #bec0c2",
-              borderRadius: "5px",
-              margin: "15px",
-              width: "100%",
-            }}
-          >
-            <Grid item sm={6} md={3} lg={3}>
-              <FieldWrapper>
-                <FieldName>Select Project</FieldName>
-                <Select
-                  name="projectId"
-                  id="projectId"
-                  value={data?.projectId || ""}
-                  disabled={action === DEF_ACTIONS.VIEW}
-                  onChange={
-                    (e) => {
-                      onChange(e?.target?.value, "projectId");
-                    }
-                    // handleChange(e?.target?.value || "", "unitType")
-                  }
-                  fullWidth
-                  sx={{
-                    borderRadius: "8px",
-                  }}
-                  size="small"
-                >
-                  {projectData?.map((item) => (
-                    <MenuItem key={item?.id} value={item?.id}>
-                      {item?.description}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FieldWrapper>
-            </Grid>
-
-            {projectActivityData.length > 0 && (
-              <>
+          {action === DEF_ACTIONS.ADD && (
+            <>
+              <Grid
+                container
+                sx={{
+                  border: "1px solid #bec0c2",
+                  borderRadius: "5px",
+                  margin: "15px",
+                  width: "100%",
+                }}
+              >
                 <Grid item sm={6} md={3} lg={3}>
                   <FieldWrapper>
-                    <FieldName>Project Activity</FieldName>
+                    <FieldName>Select Project</FieldName>
                     <Select
-                      name="activityId"
-                      id="activityId"
-                      value={data?.activityId || ""}
+                      name="projectId"
+                      id="projectId"
+                      value={data?.projectId || ""}
                       disabled={action === DEF_ACTIONS.VIEW}
                       onChange={
                         (e) => {
-                          onChange(e?.target?.value, "activityId");
+                          onChange(e?.target?.value, "projectId");
                         }
                         // handleChange(e?.target?.value || "", "unitType")
                       }
@@ -319,7 +308,7 @@ export default function ProjectReportForm({
                       }}
                       size="small"
                     >
-                      {projectActivityData?.map((item) => (
+                      {projectData?.map((item) => (
                         <MenuItem key={item?.id} value={item?.id}>
                           {item?.description}
                         </MenuItem>
@@ -327,82 +316,116 @@ export default function ProjectReportForm({
                     </Select>
                   </FieldWrapper>
                 </Grid>
-              </>
-            )}
 
-            {projectSubActivityData?.length > 0 && (
-              <>
-                <Grid item sm={6} md={3} lg={3}>
-                  <FieldWrapper>
-                    <FieldName>Project Sub Activity</FieldName>
-                    <Select
-                      name="subActivityId"
-                      id="subActivityId"
-                      value={data?.subActivityId || ""}
-                      disabled={action === DEF_ACTIONS.VIEW}
-                      onChange={
-                        (e) => {
-                          onChange(e?.target?.value, "subActivityId");
-                        }
-                        // handleChange(e?.target?.value || "", "unitType")
-                      }
-                      fullWidth
-                      sx={{
-                        borderRadius: "8px",
-                      }}
-                      size="small"
-                    >
-                      {projectSubActivityData?.map((item) => (
-                        <MenuItem key={item?.id} value={item?.id}>
-                          {item?.description}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FieldWrapper>
-                </Grid>
-              </>
-            )}
+                {projectActivityData.length > 0 && (
+                  <>
+                    <Grid item sm={6} md={3} lg={3}>
+                      <FieldWrapper>
+                        <FieldName>Project Activity</FieldName>
+                        <Select
+                          name="activityId"
+                          id="activityId"
+                          value={data?.activityId || ""}
+                          disabled={action === DEF_ACTIONS.VIEW}
+                          onChange={
+                            (e) => {
+                              onChange(e?.target?.value, "activityId");
+                            }
+                            // handleChange(e?.target?.value || "", "unitType")
+                          }
+                          fullWidth
+                          sx={{
+                            borderRadius: "8px",
+                          }}
+                          size="small"
+                        >
+                          {projectActivityData?.map((item) => (
+                            <MenuItem key={item?.id} value={item?.id}>
+                              {item?.description}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FieldWrapper>
+                    </Grid>
+                  </>
+                )}
 
-            {projectIndicatorData?.length > 0 && (
-              <>
-                <Grid item sm={6} md={3} lg={3}>
-                  <FieldWrapper>
-                    <FieldName>Indicator</FieldName>
-                    <Select
-                      name="indicatorId"
-                      id="indicatorId"
-                      value={data?.projectIndicatorDTO?.id || ""}
-                      disabled={action === DEF_ACTIONS.VIEW}
-                      onChange={
-                        (e) => {
-                          const selectedItemId = e?.target?.value || "";
-                          const selectedItem = projectIndicatorData.find(
-                            (item) => item.id === selectedItemId
-                          );
-                          onChange(
-                            { id: selectedItemId, ...selectedItem },
-                            "projectIndicatorDTO"
-                          );
-                        }
-                        // handleChange(e?.target?.value || "", "unitType")
-                      }
-                      fullWidth
-                      sx={{
-                        borderRadius: "8px",
-                      }}
-                      size="small"
-                    >
-                      {projectIndicatorData?.map((item) => (
-                        <MenuItem key={item?.id} value={item?.id}>
-                          {item?.description}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FieldWrapper>
-                </Grid>
-              </>
-            )}
-          </Grid>
+                {projectSubActivityData?.length > 0 && (
+                  <>
+                    <Grid item sm={6} md={3} lg={3}>
+                      <FieldWrapper>
+                        <FieldName>Project Sub Activity</FieldName>
+                        <Select
+                          name="subActivityId"
+                          id="subActivityId"
+                          value={data?.subActivityId || ""}
+                          disabled={action === DEF_ACTIONS.VIEW}
+                          onChange={
+                            (e) => {
+                              onChange(e?.target?.value, "subActivityId");
+                            }
+                            // handleChange(e?.target?.value || "", "unitType")
+                          }
+                          fullWidth
+                          sx={{
+                            borderRadius: "8px",
+                          }}
+                          size="small"
+                        >
+                          {projectSubActivityData?.map((item) => (
+                            <MenuItem key={item?.id} value={item?.id}>
+                              {item?.description}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FieldWrapper>
+                    </Grid>
+                  </>
+                )}
+
+                {projectIndicatorData?.length > 0 && (
+                  <>
+                    <Grid item sm={6} md={3} lg={3}>
+                      <FieldWrapper>
+                        <FieldName>Indicator</FieldName>
+                        <Select
+                          name="indicatorId"
+                          id="indicatorId"
+                          value={data?.projectIndicatorDTO?.id || ""}
+                          disabled={action === DEF_ACTIONS.VIEW}
+                          onChange={
+                            (e) => {
+                              const selectedItemId = e?.target?.value || "";
+                              const selectedItem = projectIndicatorData.find(
+                                (item) => item.id === selectedItemId
+                              );
+                              onChange(
+                                { id: selectedItemId, ...selectedItem },
+                                "projectIndicatorDTO"
+                              );
+                              setSelectIndicatorData(selectedItem);
+                            }
+                            // handleChange(e?.target?.value || "", "unitType")
+                          }
+                          fullWidth
+                          sx={{
+                            borderRadius: "8px",
+                          }}
+                          size="small"
+                        >
+                          {projectIndicatorData?.map((item) => (
+                            <MenuItem key={item?.id} value={item?.id}>
+                              {item?.description}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </FieldWrapper>
+                    </Grid>
+                  </>
+                )}
+              </Grid>
+            </>
+          )}
           {data?.projectIndicatorDTO?.id && (
             <>
               <Grid

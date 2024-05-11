@@ -15,10 +15,16 @@ import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import CategoryReportTabel from "./categoryReportTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
-import { Autocomplete, Grid, TextField } from "@mui/material";
+import { Autocomplete, Grid, Stack, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { TabButton, TabContent, TabWrapper } from "../../../components/TabButtons/TabButtons";
+import {
+  TabButton,
+  TabContent,
+  TabWrapper,
+} from "../../../components/TabButtons/TabButtons";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 
 const AggrigateReport = () => {
   useUserAccessValidation();
@@ -49,7 +55,13 @@ const AggrigateReport = () => {
     console.log("toggle state : " + index);
     setToggleState(index);
   };
-
+  const onDownload = async (categoryId) => {
+    try {
+      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -73,26 +85,27 @@ const AggrigateReport = () => {
         <Grid item md={12}>
           <Grid container>
             <Grid item md={4}>
-              <FieldWrapper>
-                <FieldName>Season</FieldName>
-                <Autocomplete
-                  options={seasons}
-                  value={selectedSeason}
-                  getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
-                  onChange={(event, value) => {
-                    setSelectedSeason(value);
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
+              <Stack direction="row" spacing={1} alignItems="flex-end">
+                <FieldWrapper sx={{ width: "75%" }}>
+                  <FieldName>Season</FieldName>
+                  <Autocomplete
+                    options={seasons}
+                    getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
+                    onChange={(event, value) => {
+                      setSelectedSeason(value);
+                    }}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                </FieldWrapper>
+              </Stack>
             </Grid>
           </Grid>
         </Grid>
@@ -100,6 +113,7 @@ const AggrigateReport = () => {
           <TabWrapper style={{ margin: "0px 0px" }}>
             {cropCategoryList.map((category, index) => (
               <TabButton
+                key={index}
                 className={toggleState === index + 1 ? "active-tabs" : ""}
                 onClick={() => toggleTab(index + 1)}
               >
@@ -120,6 +134,9 @@ const AggrigateReport = () => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
+                      <ExportButton
+                        onDownload={() => onDownload(category.id)}
+                      />
                       <CategoryReportTabel
                         category={category}
                         season={selectedSeason}

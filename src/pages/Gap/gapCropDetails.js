@@ -197,6 +197,7 @@ const GapCropDetails = ({actionMode, gapReqId}) => {
                 // setConfirmDialog={setOpenDlg}
                 confirmAction={handle}
                 handleClose={closeAddCropArea}
+                setFormData={setFormData}
                 formData={formData}
                 mode={dialogMode}
             /> 

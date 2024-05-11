@@ -86,15 +86,21 @@ const FarmLandForm = () => {
   const { addSnackBar } = useSnackBars();
 
   const [flODataList, setFlODataList] = useState([]);
+  console.log({ flODataList })
   const [flOData, setFlOData] = useState();
   const [openFlO, setOpenFlO] = useState(false);
   const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
   const [selectedOwnership, setSelectedOwnership] = useState([]);
   const [dialogSelectedOwnership, setDialogSelectedOwnership] = useState([]);
+  console.log({ dialogSelectedOwnership });
+  console.log({ dialogSelectedOwnership });
 
   const [openDeleteOwnership, setOpenDeleteOwnership] = useState(false);
   const [refreshFLOwnership, setRefreshFLOwnership] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [selectedOwnershipData, setSelectedOwnershipData] = useState([]);
+  console.log({ selectedOwnershipData })
+
   const dateAdapter = new AdapterDayjs();
 
   const toggleTab = (index) => {
@@ -332,14 +338,13 @@ const FarmLandForm = () => {
   };
   const onDeleteFlOData = () => {
     setOpenDeleteOwnership(true);
-    setDialogSelectedOwnership(selectedOwnership);
+    setDialogSelectedOwnership(selectedOwnershipData);
   };
 
   const onViewFlOData = () => {
     const data = flODataList.filter(
       (item) => item?.id === selectedOwnership[0]
     );
-    console.log(data[0]);
     const dateFrom = dateAdapter.date(data[0].dateFrom);
     const dateUntil = dateAdapter.date(data[0].dateUntil);
 
@@ -353,8 +358,14 @@ const FarmLandForm = () => {
   };
 
   const toggleFarmLandOwnershipSelect = (component) => {
-    console.log(component);
     setSelectedOwnership(component);
+    
+    const selectedRowData = flODataList?.filter((row) =>
+      component.includes(row.id)
+    );
+    console.log("srows", selectedRowData);
+    setSelectedOwnershipData(selectedRowData);
+
   };
 
   const resetSelectedFarmLandOwnership = () => {
@@ -384,7 +395,7 @@ const FarmLandForm = () => {
     try {
       setLoading(true);
       for (const id of dialogSelectedOwnership) {
-        await deleteFarmLandOwnership(id, onSuccessDelete, onError);
+        await deleteFarmLandOwnership(id?.id, onSuccessDelete, onError);
       }
       setLoading(false);
       closeOwnershipDelete();
@@ -393,30 +404,6 @@ const FarmLandForm = () => {
       console.log(error);
       setLoading(false);
     }
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedOwnership.map((p, key) => {
-          console.log(p);
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p} - {p.ownerType}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
   };
 
   const onSuccessDelete = () => {
@@ -1025,36 +1012,19 @@ const FarmLandForm = () => {
         resetData={resetData}
         refresh={refreshFLOList}
       />
-      <DialogBox
+
+     <ConfirmationDialog
         open={openDeleteOwnership}
-        title="Delete Farm Land Ownership"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirmDeleteOwnership}
-              sx={{ ml: "30px" }}
-            >
-              OK
-            </Button>
-            &nbsp;&nbsp;&nbsp;
-            <Button
-              variant="contained"
-              color="error"
-              onClick={closeOwnershipDelete}
-              sx={{ mr: "30px" }}
-            >
-              Cancel
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedOwnershipData}
+        loading={loading}
+        onClose={closeOwnershipDelete}
+        onConfirm={onConfirmDeleteOwnership}
+        setDialogSelectedTypes={setDialogSelectedOwnership}
+        dialogSelectedTypes={dialogSelectedOwnership}
+        propertyId="farmerDTO.lastName"
+        propertyDescription="farmerDTO.firstName"
+      />
     </Box>
   );
 };

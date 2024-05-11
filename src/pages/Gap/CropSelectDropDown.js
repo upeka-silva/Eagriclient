@@ -24,17 +24,22 @@ const CropSelectDropDown = (props) => {
     selectedCropCategory,
     setSelectedCropCategory,
     selectedCropSubCategory,
-    setSelectedCropSubCategory
+    setSelectedCropSubCategory,
+    setSelectedCropVariety,
+    selectedCropVariety,
+    setSelectedCrop,
+    selectedCrop,
   } = props;
+
 
   const [cropCategories, setCropCategories] = useState([]);
   const [cropSubCategories, setCropSubCategories] = useState([]);
 
   const [crops, setCrops] = useState([]);
-  const [selectedCrop, setSelectedCrop] = useState(null);
+  
 
   const [cropVarieties, setCropVarieties] = useState([]);
-  const [selectedCropVariety, setSelectedCropVariety] = useState(null);
+  
 
   // Load crop categories from an API
   useEffect(() => {
@@ -54,7 +59,6 @@ const CropSelectDropDown = (props) => {
   useEffect(() => {
     mode === DEF_ACTIONS.ADD && setSelectedCrop(null);
     mode === DEF_ACTIONS.ADD && setSelectedCropVariety(null);
-    console.log(crop);
     mode === DEF_ACTIONS.EDIT && setSelectedCrop(crop);
     mode === DEF_ACTIONS.EDIT && setSelectedCropVariety(cropVariety);
    
@@ -109,7 +113,6 @@ const CropSelectDropDown = (props) => {
           console.log(error);
         }
       };
-      console.log(selectedCrop);
       fetchCropVarity("geo-data/crop-varieties/crop", selectedCrop?.id);
     } else {
       // Clear the crop varieties if no crop is selected
@@ -136,7 +139,12 @@ const CropSelectDropDown = (props) => {
                 id="questionType"
                 value={selectedCropCategory || ""}
                 disabled={mode === DEF_ACTIONS.VIEW}
-                onChange={(e) => setSelectedCropCategory(e?.target?.value)}
+                onChange={(e) => {setSelectedCropCategory(e?.target?.value)
+                  setSelectedCrop(null)
+                  selectedCropCallback(null)
+                  setSelectedCropVariety(null)
+                  selectedVarietyCallback(null)
+                }}
                 size="small"
                 fullWidth
                 clearable
@@ -171,7 +179,14 @@ const CropSelectDropDown = (props) => {
                 id="questionType"
                 value={selectedCropSubCategory}
                 disabled={mode === DEF_ACTIONS.VIEW}
-                onChange={(e) => setSelectedCropSubCategory(e?.target?.value)}
+                onChange={(e) => {setSelectedCropSubCategory(e?.target?.value)
+                setSelectedCrop(null)
+                selectedCropCallback(null)
+                setSelectedCropVariety(null)
+                selectedVarietyCallback(null)
+                }
+
+                }
                 size="small"
                 fullWidth
                 sx={{
@@ -208,11 +223,14 @@ const CropSelectDropDown = (props) => {
             disabled={mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT}
             disableClearable
             options={crops}
-            value={selectedCrop || crop}
+            value={selectedCrop}
             getOptionLabel={(i) => `${i.cropId} - ${i.description} ${" "}`}
             onChange={(event, value) => {
               setSelectedCrop(value);
               selectedCropCallback(value?.id);
+              setSelectedCropVariety(null);
+              selectedVarietyCallback(null);
+
             }}
             fullWidth
             sx={{
@@ -246,7 +264,7 @@ const CropSelectDropDown = (props) => {
             disabled={mode === DEF_ACTIONS.VIEW}
             disableClearable
             options={cropVarieties}
-            value={selectedCropVariety || cropVariety}
+            value={selectedCropVariety}
             getOptionLabel={(i) => `${i.varietyId} - ${i.varietyName} ${" "}`}
             onChange={(event, value) => {
               setSelectedCropVariety(value);

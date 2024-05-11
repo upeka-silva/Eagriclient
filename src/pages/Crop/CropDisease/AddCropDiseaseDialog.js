@@ -56,6 +56,14 @@ export default function AddCropDiseaseDialog({
       onClose={handleClose}
       aria-labelledby="add-question"
       aria-describedby="add a description to audit forms"
+      sx={{
+        "& .MuiDialog-container": {
+          "& .MuiPaper-root": {
+            width: "100%",
+            maxWidth: "500px",
+          },
+        },
+      }}
     >
       <DialogTitle
         id="add-question"
