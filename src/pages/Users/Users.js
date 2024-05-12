@@ -6,12 +6,10 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
@@ -24,14 +22,10 @@ import {
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import UsersList from "./UserList";
-import DialogBox from "../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
-import { Add, Delete, Edit, Event, Vrpano } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import PasswordChangeDialog from "./passwordChangeDialog";
-import { useDispatch } from "react-redux";
 import Checkbox from "@mui/material/Checkbox";
-import { useSelector } from "react-redux";
 import { Fonts } from "../../utils/constants/Fonts";
 import SearchBox from "../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
