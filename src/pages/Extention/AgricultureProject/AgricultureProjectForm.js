@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonGroup,
-  Container,
   Grid,
   TextField,
   Chip,
@@ -11,7 +10,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Autocomplete,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -43,7 +41,6 @@ import AddCropDialog from "../../Crop/Crop/AddCropDialog";
 import {
   assignCrop,
   deleteCropFromProject,
-  get_CropList,
 } from "../../../redux/actions/crop/crop/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
@@ -92,7 +89,6 @@ const AgricultureProjectForm = () => {
   const [openCropAddDialog, setOpenCropAddDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectCrop, setSelectCrop] = useState([]);
-  const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
 
   //delete handlers
@@ -398,7 +394,6 @@ const AgricultureProjectForm = () => {
     setSelectCrop([]);
   };
   const handleCropDelete = (prop) => (event) => {
-    setDeleteItem(prop);
     setOpen(true);
   };
 
@@ -1157,7 +1152,7 @@ const AgricultureProjectForm = () => {
             <Button
               onClick={onAddCrop}
               disabled={
-                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
+                formData?.id === undefined || state?.action === DEF_ACTIONS.VIEW
               }
             >
               <Add />

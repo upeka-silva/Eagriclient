@@ -3,12 +3,6 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   ButtonGroup,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -20,35 +14,24 @@ import {
 } from "../../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
-import { deleteAgricultureProject } from "../../../../redux/actions/extension/agricultureProject/action";
 import { Fonts } from "../../../../utils/constants/Fonts";
 import ListHeader from "../../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../../components/PermissionWrapper/PermissionWrapper";
-import AgricultureProjectList from "../AgricultureProjectList";
-import DialogBox from "../../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../../utils/constants/DeleteMsg";
 import ProjectReportForm from "./ProjectReportForm";
 import ProjectReportList from "./ProjectReportList";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog/ConfirmationDialog";
-import { deleteProjectIndicator } from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
 import { deleteProjectReport } from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
 
 const ProjectReport = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
   const [selectedProjectReport, setSelectedProjectReport] = useState([]);
 
   console.log({ selectedProjectReport });
 
-  const [searchData, setSearchData] = useState({
-    code: "",
-    name: "",
-  });
   const [search, setSearch] = useState({});
   const [openProjectReport, setOpenProjectReport] = useState(false);
   const [projectReportData, setProjectReportData] = useState([]);

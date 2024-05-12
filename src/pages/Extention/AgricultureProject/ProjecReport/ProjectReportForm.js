@@ -1,22 +1,16 @@
 import {
-  Autocomplete,
   Button,
   Dialog,
-  FormControl,
   Grid,
   MenuItem,
   Select,
   Slide,
   TextField,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect, useState } from "react";
 
 import {
   get_ActivityListByProjectId,
-  handleProjectActivity,
-  updateProjectActivity,
 } from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import { ButtonWrapper } from "../../../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../../../components/FormLayout/FieldName";
@@ -30,8 +24,6 @@ import { Colors } from "../../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../../utils/constants/permission";
 import {
   get_SubActivityByActivityId,
-  handleProjectSubActivity,
-  updateProjectSubActivity,
 } from "../../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
 
 import { get_IndicatorBySubActivityId } from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
