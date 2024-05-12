@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import CropInput from "../components/cropInput";
 import {
   getTargetCropsByAiAndSeasonAndCropCategory,
@@ -27,52 +30,72 @@ const CropTargetTab = ({
   const [dataLoaded, setDataLoaded] = useState(false);
   const [isCleared, setIsCleared] = useState(false);
 
+  const [newCropTargets, setNewCropTargets] = useState([]);
+  const [savedCropTarget, setSavedCropTarget] = useState([]);
+
   useEffect(() => {
-    console.log('CropTargetTab useEffect ===========>');
     getConfigurationById(cropCategoryId).then((data = {}) => {
       setConfigFields(data ? data.targetFields : []);
       checkDataLoadStatus();
     });
 
-    if (
-      (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
-      savedCropCategoryTarget?.cropTargets
-    ) {
-      setCropTargets(savedCropCategoryTarget?.cropTargets);
-    } else {
-      getTargetCropsByAiAndSeasonAndCropCategory(
-        aiRegion.id,
-        seasonId,
-        cropCategoryId,
-        aiRegion.parentType
-      ).then(({ dataList = [] }) => {
-        setCropTargets(dataList);
-        checkDataLoadStatus();
-      });
-    }
+    setSavedCropTarget(savedCropCategoryTarget?.cropTargets);
+    getTargetCropsByAiAndSeasonAndCropCategory(
+      aiRegion.id,
+      seasonId,
+      cropCategoryId,
+      aiRegion.parentType
+    ).then(({ dataList = [] }) => {
+      setNewCropTargets(dataList);
+      checkDataLoadStatus();
+    });
   }, []);
 
+  function findNewVarieties(newCropTargets, oldCropTargets) {
+    if (oldCropTargets === undefined) {
+      oldCropTargets = [];
+    }
+
+    newCropTargets.forEach((newCrop) => {
+      const oldCrop = oldCropTargets?.find(
+        (crop) => crop.cropId === newCrop.cropId
+      );
+
+      if (oldCrop) {
+        newCrop.varietyTargets.forEach((newVariety) => {
+          const existsInOld = oldCrop.varietyTargets.some(
+            (oldVariety) => oldVariety.varietyId === newVariety.varietyId
+          );
+          if (!existsInOld) {
+            oldCrop.varietyTargets.push(newVariety);
+          }
+        });
+      } else {
+        oldCropTargets.push(newCrop);
+      }
+    });
+
+    return oldCropTargets;
+  }
+
+  const getData = findNewVarieties(newCropTargets, savedCropTarget);
+
   const checkDataLoadStatus = () => {
-    //if (configFields.length > 0 && cropTargets.length > 0) {
     setDataLoaded(true);
-    //}
   };
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
-    const updatedVarietyTargets = [...cropTargets];
+    const updatedVarietyTargets = [...getData];
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
 
-    // Calculate total target
     let total = 0;
     if (configFields.length > 0) {
       let target =
         updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex];
       configFields.forEach((field) => {
         total += parseFloat(
-          target[getDbFieldName(field)]
-            ? target[getDbFieldName(field)]
-            : 0
+          target[getDbFieldName(field)] ? target[getDbFieldName(field)] : 0
         );
       });
     }
@@ -81,17 +104,22 @@ const CropTargetTab = ({
       "totalExtent"
     ] = total;
 
-    setCropTargets(updatedVarietyTargets);
+    setSavedCropTarget(updatedVarietyTargets);
     setIsCleared(true);
   };
 
   const handleCropClear = () => {
-    const newCropTargets = [...cropTargets];
+    const newCropTargets = [...getData];
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
         for (const variety of crop.varietyTargets) {
-          Object.keys(variety).forEach(key => {
-            if(key === 'varietyId' || key === 'varietyName' || key === 'imageUrl' || key === 'id') {
+          Object.keys(variety).forEach((key) => {
+            if (
+              key === "varietyId" ||
+              key === "varietyName" ||
+              key === "imageUrl" ||
+              key === "id"
+            ) {
               return;
             }
             if (variety[key]) {
@@ -101,7 +129,7 @@ const CropTargetTab = ({
         }
       }
     }
-    setCropTargets(newCropTargets);
+    setSavedCropTarget(newCropTargets);
     setIsCleared(false);
   };
 
@@ -112,7 +140,7 @@ const CropTargetTab = ({
       cropCategoryTargets: [
         {
           cropCategory: { id: cropCategoryId },
-          cropTargets: cropTargets,
+          cropTargets: getData,
         },
       ],
     };
@@ -152,44 +180,44 @@ const CropTargetTab = ({
   return (
     <Grid container>
       <Grid item sm={12} md={12} lg={12}>
-      <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SEASONAL_CROP_TARGET}`}
+        <PermissionWrapper
+          permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SEASONAL_CROP_TARGET}`}
         >
-        <div style={{ textAlign: "left" }}>
-          <Button
-            disabled={mode === DEF_ACTIONS.VIEW}
-            style={{ marginRight: "10px" }}
-            variant="contained"
-            color="success"
-            size="small"
-            onClick={handleCropClear}
-            sx={{ marginTop: "10px" }}
-          >
-            Clear
-          </Button>
-
-          {saving ? (
-            <Button variant="contained" size="small">
-              {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-            </Button>
-          ) : (
+          <div style={{ textAlign: "left" }}>
             <Button
-              disabled={mode === DEF_ACTIONS.VIEW || !isCleared}
-              variant="outlined"
+              disabled={mode === DEF_ACTIONS.VIEW}
+              style={{ marginRight: "10px" }}
+              variant="contained"
               color="success"
               size="small"
-              onClick={handleCropUpdate}
+              onClick={handleCropClear}
               sx={{ marginTop: "10px" }}
             >
-              Update
+              Clear
             </Button>
-          )}
-        </div>
-      </PermissionWrapper>
+
+            {saving ? (
+              <Button variant="contained" size="small">
+                {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+              </Button>
+            ) : (
+              <Button
+                disabled={mode === DEF_ACTIONS.VIEW || !isCleared}
+                variant="outlined"
+                color="success"
+                size="small"
+                onClick={handleCropUpdate}
+                sx={{ marginTop: "10px" }}
+              >
+                Update
+              </Button>
+            )}
+          </div>
+        </PermissionWrapper>
       </Grid>
       <Grid item sm={12} md={12} lg={12} sx={{ marginTop: "10px" }}>
         {dataLoaded &&
-          cropTargets.map((cropTarget, cropIndex) => (
+          getData.map((cropTarget, cropIndex) => (
             <CropInput
               cropTarget={cropTarget}
               targetedExtentHandler={targetedExtentHandler}

@@ -29,7 +29,6 @@ const BiWeeklyReportingTab = ({
   savedCropCategoryTarget,
 }) => {
   const { addSnackBar } = useSnackBars();
-  const [cropTargets, setCropTargets] = useState([]);
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -37,42 +36,64 @@ const BiWeeklyReportingTab = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [cropTargetId, setCropTargetId] = useState(savedCropCategoryTarget?.id);
 
+  const [newCropTargets, setNewCropTargets] = useState([]);
+  const [savedCropTarget, setSavedCropTarget] = useState([]);
+
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
       setConfigFields(data ? data.fields : []);
       checkDataLoadStatus();
     });
-    if (
-      (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
-      savedCropCategoryTarget?.biWeekCropReport
-    ) {
-      setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
-    } else {
-      getTargetCropsByAiAndSeasonAndCropCategory(
-        aiRegion.id,
-        seasonId,
-        cropCategoryId,
-        aiRegion.parentType
-      ).then(({ dataList = [] }) => {
-        setCropTargets(dataList);
-        checkDataLoadStatus();
-      });
-    }
+    setSavedCropTarget(savedCropCategoryTarget?.biWeekCropReport);
+    getTargetCropsByAiAndSeasonAndCropCategory(
+      aiRegion.id,
+      seasonId,
+      cropCategoryId,
+      aiRegion.parentType
+    ).then(({ dataList = [] }) => {
+      setNewCropTargets(dataList);
+      checkDataLoadStatus();
+    });
   }, []);
 
+  const findNewVarieties = (newCropTargets, oldCropTargets) => {
+    if (oldCropTargets === undefined) {
+      oldCropTargets = [];
+    }
+
+    newCropTargets.forEach((newCrop) => {
+      const oldCrop = oldCropTargets?.find(
+        (crop) => crop.cropId === newCrop.cropId
+      );
+
+      if (oldCrop) {
+        newCrop.varietyTargets.forEach((newVariety) => {
+          const existsInOld = oldCrop.varietyTargets.some(
+            (oldVariety) => oldVariety.varietyId === newVariety.varietyId
+          );
+          if (!existsInOld) {
+            oldCrop.varietyTargets.push(newVariety);
+          }
+        });
+      } else {
+        oldCropTargets.push(newCrop);
+      }
+    });
+
+    return oldCropTargets;
+  };
+
+  const getData = findNewVarieties(newCropTargets, savedCropTarget);
   const checkDataLoadStatus = () => {
-    //if (configFields.length > 0 && cropTargets.length > 0) {
     setDataLoaded(true);
-    //}
   };
 
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
-    const updatedVarietyTargets = [...cropTargets];
+    const updatedVarietyTargets = [...getData];
 
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
 
-    // Calculate total target
     let total = 0;
     if (configFields.length > 0) {
       let target =
@@ -88,12 +109,12 @@ const BiWeeklyReportingTab = ({
       "totalExtent"
     ] = total;
 
-    setCropTargets(updatedVarietyTargets);
+    setSavedCropTarget(updatedVarietyTargets);
     setIsCleared(false);
   };
 
   const handleCropClear = () => {
-    const newCropTargets = [...cropTargets];
+    const newCropTargets = [...getData];
 
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
@@ -123,7 +144,7 @@ const BiWeeklyReportingTab = ({
         }
       }
     }
-    setCropTargets(newCropTargets);
+    setSavedCropTarget(newCropTargets);
     setIsCleared(true);
   };
 
@@ -134,7 +155,7 @@ const BiWeeklyReportingTab = ({
       biWeekCropCategoryReport: [
         {
           cropCategory: { id: cropCategoryId },
-          biWeekCropReport: cropTargets,
+          biWeekCropReport: getData,
         },
       ],
     };
@@ -147,7 +168,7 @@ const BiWeeklyReportingTab = ({
         onSuccess,
         onError
       );
-      setCropTargets(dataList?.dataList?.biWeekCropReport);
+      setSavedCropTarget(dataList?.dataList?.biWeekCropReport);
       setCropTargetId(dataList?.dataList?.id);
     } catch (error) {
       console.log(error);
@@ -264,8 +285,8 @@ const BiWeeklyReportingTab = ({
         </Grid>
         <Grid item sm={12} md={12} lg={12}>
           {dataLoaded &&
-            cropTargets !== null &&
-            cropTargets?.map((cropTarget, cropIndex) => (
+            getData !== null &&
+            getData?.map((cropTarget, cropIndex) => (
               <BiweeklyCropInput
                 cropTarget={cropTarget}
                 targetedExtentHandler={targetedExtentHandler}
