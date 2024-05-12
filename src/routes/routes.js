@@ -1268,7 +1268,7 @@ export const Routes = [
       },
       {
          path: "/create-project",
-         name: "Create Project",
+         name: "Project",
          isSideBar: true,
          element: <AgricultureProject />,
          icon: AssignmentIndIcon,
@@ -1403,7 +1403,7 @@ export const Routes = [
       },
       {
         path: "/biweekly-reporting",
-        name: "Bi Weekly Reporting",
+        name: "Biweekly Reporting",
         isSideBar: true,
         element: <BiWeeklyReporting />,
         icon: Assessment,
@@ -1411,7 +1411,7 @@ export const Routes = [
       },
       {
         path: "/biweekly-reporting-form",
-        name: "Bi Weekly Reporting Form",
+        name: "Biweekly Reporting Form",
         isSideBar: false,
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,

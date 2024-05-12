@@ -1,20 +1,11 @@
+import React, { useState } from "react";
 import {
-  Autocomplete,
   Button,
   Dialog,
-  FormControl,
   Grid,
-  MenuItem,
-  Select,
   Slide,
   TextField,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import React, { useEffect, useState } from "react";
-
-
-
 
 import { handleProjectActivity, updateProjectActivity } from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import { ButtonWrapper } from "../../../../components/FormLayout/ButtonWrapper";

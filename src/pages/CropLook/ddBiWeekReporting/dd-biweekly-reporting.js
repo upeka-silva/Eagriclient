@@ -71,7 +71,7 @@ const DDBiWeeklyReporting = () => {
       overflowY: "scroll",
     }}
     >
-      <ListHeader title="Bi Weekly Reporting" />
+      <ListHeader title="Biweekly Reporting" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"

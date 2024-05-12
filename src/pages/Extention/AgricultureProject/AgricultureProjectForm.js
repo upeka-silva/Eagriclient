@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonGroup,
-  Container,
   Grid,
   TextField,
   Chip,
@@ -11,7 +10,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Autocomplete,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -43,7 +41,6 @@ import AddCropDialog from "../../Crop/Crop/AddCropDialog";
 import {
   assignCrop,
   deleteCropFromProject,
-  get_CropList,
 } from "../../../redux/actions/crop/crop/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
@@ -92,9 +89,7 @@ const AgricultureProjectForm = () => {
   const [openCropAddDialog, setOpenCropAddDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectCrop, setSelectCrop] = useState([]);
-  const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
-
 
   //delete handlers
   const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
@@ -399,7 +394,6 @@ const AgricultureProjectForm = () => {
     setSelectCrop([]);
   };
   const handleCropDelete = (prop) => (event) => {
-    setDeleteItem(prop);
     setOpen(true);
   };
 
@@ -575,12 +569,15 @@ const AgricultureProjectForm = () => {
     try {
       if (formData?.id) {
         const resValue = await changeStatus(
-          formData.id,
+          formData?.id,
           "ONGOING",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
-        setFormData(resValue);
+        console.log({ resValue });
+        if (resValue?.payload?.httpCode === "200 OK") {
+          setFormData(resValue?.payload);
+        }
       }
     } catch (error) {}
   };
@@ -591,9 +588,10 @@ const AgricultureProjectForm = () => {
         const resValue = await changeStatus(
           formData.id,
           "CLOSED",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
+        setFormData(resValue?.payload);
       }
     } catch (error) {}
   };
@@ -642,6 +640,14 @@ const AgricultureProjectForm = () => {
         state?.action === DEF_ACTIONS.ADD
           ? "Successfully Added"
           : "Successfully Updated",
+    });
+    setSaving(false);
+  };
+
+  const onSuccessStatus = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Updated Status",
     });
     setSaving(false);
   };
@@ -766,7 +772,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted1}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Ongoing"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -783,7 +792,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted2}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Closed"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -846,7 +858,7 @@ const AgricultureProjectForm = () => {
                   size="small"
                 >
                   {provinceList?.map((item) => (
-                    <MenuItem value={item?.name}>{item?.name}</MenuItem>
+                    <MenuItem value={item?.id}>{item?.name}</MenuItem>
                   ))}
                 </Select>
               </FieldWrapper>
@@ -1140,7 +1152,7 @@ const AgricultureProjectForm = () => {
             <Button
               onClick={onAddCrop}
               disabled={
-                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
+                formData?.id === undefined || state?.action === DEF_ACTIONS.VIEW
               }
             >
               <Add />

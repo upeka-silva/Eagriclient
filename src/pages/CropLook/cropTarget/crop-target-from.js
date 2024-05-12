@@ -46,25 +46,17 @@ const CropTargetForm = () => {
 
   const [toggleState, setToggleState] = useState(1);
 
-  // start of crop registration code
-
   useEffect(() => {
-
-    console.log('CropTargetForm useEffect 1');
-
     getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
       setOptions(dataList);
-      console.log(dataList);
     });
 
     getSeasons().then(({ dataList = [] }) => {
       setSeasons(dataList);
-      console.log(dataList);
     });
 
     get_CategoryList().then(({ dataList = [] }) => {
       setCropCategoryList(dataList);
-      console.log(dataList);
     });
 
     if (
@@ -90,16 +82,12 @@ const CropTargetForm = () => {
   }, []);
 
   useEffect(() => {
-    console.log("in second use effect registration id: " + cropTargetId);
     if (cropTargetId) {
       setIsLoading(false);
     }
   }, [cropTargetId]);
 
-  // end of crop registration code
-
   const toggleTab = (index) => {
-    console.log("toggle state : " + index);
     setToggleState(index);
   };
 
@@ -183,9 +171,7 @@ const CropTargetForm = () => {
         const dataList = await createCropTarget(payload, onSuccess, onError);
         setCropTargetId(dataList.dataList.id);
         setCropCategoryTarget();
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
   };
 

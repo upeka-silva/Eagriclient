@@ -130,8 +130,12 @@ const NationalReportTable = ({ category, season, week }) => {
                         {data[province][ddDivision][district].map(
                           (item, index) => (
                             <React.Fragment key={index}>
-                              <TableCell>{item?.totalTarget}</TableCell>
-                              <TableCell>{item.totalExtent}</TableCell>
+                              <TableCell align="right">
+                                {item?.totalTarget}
+                              </TableCell>
+                              <TableCell align="right">
+                                {item.totalExtent}
+                              </TableCell>
                             </React.Fragment>
                           )
                         )}

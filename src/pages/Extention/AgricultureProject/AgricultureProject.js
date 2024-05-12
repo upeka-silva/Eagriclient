@@ -8,7 +8,7 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -38,7 +38,8 @@ const AgricultureProject = () => {
 
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [selectedAgricultureProjects, setSelectedAgricultureProjects] = useState([]);
+  const [selectedAgricultureProjects, setSelectedAgricultureProjects] =
+    useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [searchData, setSearchData] = useState({
     code: "",
@@ -143,7 +144,11 @@ const AgricultureProject = () => {
     try {
       setLoading(true);
       for (const AgricultureProject of selectedAgricultureProjects) {
-        await deleteAgricultureProject(AgricultureProject?.id, onSuccess, onError);
+        await deleteAgricultureProject(
+          AgricultureProject?.id,
+          onSuccess,
+          onError
+        );
       }
       setLoading(false);
       close();
@@ -154,17 +159,16 @@ const AgricultureProject = () => {
     }
   };
 
-  
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Agriculture Projects" />
       <ActionWrapper isLeft>
@@ -218,15 +222,15 @@ const AgricultureProject = () => {
       {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
       > */}
-        {loading === false && (
-          <AgricultureProjectList
-            selectedRows={selectedAgricultureProjects}
-            onRowSelect={toggleAgricultureProjectSelect}
-            selectAll={selectAllAgricultureProjects}
-            unSelectAll={resetSelectedAgricultureProjects}
-            advancedSearchData={search}
-          />
-        )}
+      {loading === false && (
+        <AgricultureProjectList
+          selectedRows={selectedAgricultureProjects}
+          onRowSelect={toggleAgricultureProjectSelect}
+          selectAll={selectAllAgricultureProjects}
+          unSelectAll={resetSelectedAgricultureProjects}
+          advancedSearchData={search}
+        />
+      )}
       {/* </PermissionWrapper> */}
       <DialogBox
         open={open}

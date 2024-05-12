@@ -3,12 +3,6 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
   ButtonGroup,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -20,31 +14,24 @@ import {
 } from "../../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
-import { deleteAgricultureProject } from "../../../../redux/actions/extension/agricultureProject/action";
 import { Fonts } from "../../../../utils/constants/Fonts";
 import ListHeader from "../../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../../components/PermissionWrapper/PermissionWrapper";
-import AgricultureProjectList from "../AgricultureProjectList";
-import DialogBox from "../../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../../utils/constants/DeleteMsg";
 import ProjectReportForm from "./ProjectReportForm";
 import ProjectReportList from "./ProjectReportList";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog/ConfirmationDialog";
+import { deleteProjectReport } from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
 
 const ProjectReport = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [selectedAgricultureProjects, setSelectedAgricultureProjects] =
-    useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [searchData, setSearchData] = useState({
-    code: "",
-    name: "",
-  });
+  const [selectedProjectReport, setSelectedProjectReport] = useState([]);
+
+  console.log({ selectedProjectReport });
+
   const [search, setSearch] = useState({});
   const [openProjectReport, setOpenProjectReport] = useState(false);
   const [projectReportData, setProjectReportData] = useState([]);
@@ -53,92 +40,64 @@ const ProjectReport = () => {
     DEF_ACTIONS.ADD
   );
 
+  //delete handlers
+  const [openDeleteProjectReport, setOpenDeleteProjectReport] = useState(false);
+  const [
+    dialogSelectedProjectReportTypes,
+    setDialogSelectedProjectReportTypes,
+  ] = useState([]);
+
+  console.log({ projectReportData });
+
   const closeSubActivity = () => {
     setOpenProjectReport(false);
   };
 
   const toggleAgricultureProjectSelect = (component) => {
-    setSelectedAgricultureProjects((current = []) => {
-      let newList = [...current];
-      let index = newList.findIndex((c) => c?.id === component?.id);
-      if (index > -1) {
-        newList.splice(index, 1);
-      } else {
-        newList.push(component);
-      }
-      return newList;
-    });
+    const selectedIndex = selectedProjectReport?.findIndex(
+      (selected) => selected.id === component.id
+    );
+
+    let newSelected = [...selectedProjectReport];
+
+    if (selectedIndex === -1) {
+      newSelected.push(component);
+    } else {
+      newSelected.splice(selectedIndex, 1);
+    }
+
+    setSelectedProjectReport(newSelected);
   };
 
   const selectAllAgricultureProjects = (all = []) => {
-    setSelectedAgricultureProjects(all);
+    setSelectedProjectReport(all);
   };
 
   const resetSelectedAgricultureProjects = () => {
-    setSelectedAgricultureProjects([]);
+    setSelectedProjectReport([]);
   };
 
   const onCreate = () => {
+    setProjectReportData([]);
     setOpenProjectReport(true);
-    setAction(DEF_ACTIONS.ADD);
+    setProjecrReportAction(DEF_ACTIONS.ADD);
   };
 
   const onEdit = () => {
-    setAction(DEF_ACTIONS.EDIT);
-    //navigate("/extension/agriculture-project-form", {
-    //  state: {
-    //   action: DEF_ACTIONS.EDIT,
-    //   target: selectedAgricultureProjects[0] || {},
-    //  },
-    // });
+    setProjecrReportAction(DEF_ACTIONS.EDIT);
+    setProjectReportData(selectedProjectReport[0]);
+    setOpenProjectReport(true);
   };
 
   const onView = () => {
-    setAction(DEF_ACTIONS.VIEW);
-    //navigate("/extension/agriculture-project-form", {
-    // state: {
-    //    action: DEF_ACTIONS.VIEW,
-    //     target: selectedAgricultureProjects[0] || {},
-    //   },
-    //  });
+    setOpenProjectReport(true);
+    setProjecrReportAction(DEF_ACTIONS.VIEW);
+    setProjectReportData(selectedProjectReport[0]);
   };
 
   const onDelete = () => {
-    setOpen(true);
-  };
-
-  const close = () => {
-    setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedAgricultureProjects.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
-
-  const onSuccess = () => {
-    addSnackBar({
-      type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
-    });
+    setOpenDeleteProjectReport(true);
+    setDialogSelectedProjectReportTypes(selectedProjectReport);
   };
 
   const onError = (message) => {
@@ -146,25 +105,6 @@ const ProjectReport = () => {
       type: SnackBarTypes.error,
       message: message || defaultMessages.apiErrorUnknown,
     });
-  };
-
-  const onConfirm = async () => {
-    try {
-      setLoading(true);
-      for (const AgricultureProject of selectedAgricultureProjects) {
-        await deleteAgricultureProject(
-          AgricultureProject?.id,
-          onSuccess,
-          onError
-        );
-      }
-      setLoading(false);
-      close();
-      resetSelectedAgricultureProjects();
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
   };
 
   const handleProjectReportData = (value, target) => {
@@ -181,6 +121,32 @@ const ProjectReport = () => {
 
   const refreshProjectReportData = () => {
     setRefreshProjectReport(!refreshProjectReport);
+  };
+
+  const closeProjecrReportDelete = () => {
+    setOpenDeleteProjectReport(false);
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const onConfirmDeleteProjectReport = async () => {
+    try {
+      setLoading(true);
+      for (const id of dialogSelectedProjectReportTypes) {
+        await deleteProjectReport(id?.id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeProjecrReportDelete();
+      resetSelectedAgricultureProjects();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -211,7 +177,7 @@ const ProjectReport = () => {
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectedAgricultureProjects.length === 1 && (
+          {selectedProjectReport.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -221,7 +187,7 @@ const ProjectReport = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAgricultureProjects.length === 1 && (
+          {selectedProjectReport.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -231,7 +197,7 @@ const ProjectReport = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAgricultureProjects.length > 0 && (
+          {selectedProjectReport.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -251,7 +217,7 @@ const ProjectReport = () => {
           permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROJECT_REPORT}`}
         >
           <ProjectReportList
-            selectedRows={selectedAgricultureProjects}
+            selectedRows={selectedProjectReport}
             onRowSelect={toggleAgricultureProjectSelect}
             selectAll={selectAllAgricultureProjects}
             unSelectAll={resetSelectedAgricultureProjects}
@@ -270,41 +236,24 @@ const ProjectReport = () => {
         onClose={closeSubActivity}
         // farmLandData={formData}
         data={projectReportData}
+        setProjectReportData={setProjectReportData}
         onChange={handleProjectReportData}
         resetData={resetProjectReportData}
         refresh={refreshProjectReportData}
       />
 
-      <DialogBox
-        open={open}
-        title="Delete Agriculture Project(s)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+      <ConfirmationDialog
+        open={openDeleteProjectReport}
+        title="Do you want to delete?"
+        items={selectedProjectReport}
+        loading={loading}
+        onClose={closeProjecrReportDelete}
+        onConfirm={onConfirmDeleteProjectReport}
+        setDialogSelectedTypes={setDialogSelectedProjectReportTypes}
+        dialogSelectedTypes={dialogSelectedProjectReportTypes}
+        propertyId="reportId"
+        propertyDescription="reportValue"
+      />
     </div>
   );
 };

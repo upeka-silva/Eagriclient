@@ -113,7 +113,7 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
         }}
       >
         <h5 style={{ marginRight: "10px" }}>
-          Bi Week Extent For {week.weekDescription}
+          Biweekly Extent For {week.weekDescription}
         </h5>
         <Button
           variant="outlined"
