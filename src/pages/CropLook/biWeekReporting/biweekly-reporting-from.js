@@ -238,7 +238,7 @@ const BiWeeklyReportingForm = () => {
           saving={saving}
           state={state}
           goBack={goBack}
-          formName="Bi Weekly Report"
+          formName="Biweekly Report"
         />
         <Grid container>
           <Grid item sm={10} md={10} lg={11} sx={{ alignItems: "center" }}>
@@ -256,9 +256,9 @@ const BiWeeklyReportingForm = () => {
                 />
               </Grid>
               <Grid item>
-                {state?.target?.week?.status ? (
+                {state?.target?.week?.statusLabel ? (
                   <Chip
-                    label={state?.target?.week?.status}
+                    label={state?.target?.week?.statusLabel}
                     variant="filled"
                     style={{
                       marginTop: "5px",
@@ -392,7 +392,7 @@ const BiWeeklyReportingForm = () => {
           </Grid>
           <DialogBox
             open={openConfApprove}
-            title="Approve Bi Weekly Report"
+            title="Approve Biweekly Report"
             actions={
               <ActionWrapper>
                 <Button

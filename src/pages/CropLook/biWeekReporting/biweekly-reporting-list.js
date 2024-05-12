@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
+import { Fonts } from "../../../utils/constants/Fonts";
 
 const BiWeeklyReportingList = ({
   selectedRows = [],
@@ -10,14 +11,14 @@ const BiWeeklyReportingList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
+    { field: "parentType", headerName: "Region Type" },
     {
       field: "aiRegionOrMahaweliUnitDisplayName",
       headerName: "Ai Region/ Mahaweli Unit ",
     },
-    { field: "status", headerName: "Status" },
-    { field: "parentType", headerName: "Region Type" },
     { field: "season.code", headerName: "Season" },
     { field: "week.weekDescription", headerName: "Week" },
+    { field: "week.statusLabel", headerName: "Status" },
   ];
 
   const [id, setId] = useState(null);
@@ -51,7 +52,16 @@ const BiWeeklyReportingList = ({
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
+    >
       <TableWrapper>
         <DataTable
           loadingTable
