@@ -81,27 +81,29 @@ function Landing() {
         WorstData: [],
       };
 
-      console.log("bdata", statusData?.BetterData);
+     
 
-      response.dataList?.forEach((item) => {
+      response?.dataList?.forEach((item) => {
+        console.log({ item });
         switch (item?.vegetableEarlyWarningStatus) {
           case "BEST":
-            categorizedData.BestData.push(response);
+            categorizedData.BestData.push(item);
             break;
           case "BETTER":
             categorizedData.BetterData.push(item);
             break;
           case "GOOD":
-            categorizedData.GoodData.push(response);
+            categorizedData.GoodData.push(item);
             break;
           case "WORSE":
             categorizedData.WorstData.push(item);
             break;
-          // You can add cases for other statuses if needed
           default:
-            categorizedData.GoodData.push(item);
+            
         }
       });
+
+      console.log("bdata", categorizedData);
 
       setStatusData(categorizedData);
     });
@@ -204,7 +206,7 @@ function Landing() {
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
             <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Better Selection"} data={statusData?.BetterData}/>
+              <LandingCarousel status={"Good Selection"} data={statusData?.GoodData}/>
             </Grid>
             <Grid item md={12} mb={5} pl={5}>
               <LandingCarousel status={"Worst Selection"} data={statusData?.WorstData}/>

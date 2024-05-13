@@ -6,6 +6,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import { ActionWrapper } from "./ActionWrapper";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -14,6 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const DialogBox = ({
   open = false,
   onClose = () => {},
+  onConfirm = () => {},
   title = "",
   actions = null,
   children = null,

@@ -15,12 +15,16 @@ import {
   approveNationalData,
   getNationalData,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { useSnackBars } from "../../../context/SnackBarContext";
 
 const NationalReportTable = ({ category, season, week }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
+  const { addSnackBar } = useSnackBars();
 
   useEffect(() => {
     async function fetchData(categoryId, seasonId, weekId) {
@@ -56,15 +60,30 @@ const NationalReportTable = ({ category, season, week }) => {
 
   const handleVegitalbleEarlyWarning = () => {
     async function publish(categoryId, seasonId, weekId) {
-      await approveNationalData(categoryId, seasonId, weekId);
+      await approveNationalData(categoryId, seasonId, weekId, onSuccess, onError);
     }
     publish(category?.id, season?.id, week?.id);
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Approved`,
+    });
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || defaultMessages.apiErrorUnknown,
+    });
   };
 
   return (
     <>
       <h5>{category.description}</h5>
       <Grid item sm={12} md={12} lg={12}>
+        {category?.description === "Vegetables" &&
         <Button
           variant="outlined"
           color="success"
@@ -73,7 +92,7 @@ const NationalReportTable = ({ category, season, week }) => {
           sx={{ marginTop: "5px", marginBottom: "10px" }}
         >
           Approve
-        </Button>
+        </Button>}
       </Grid>
       <TableContainer component={Paper}>
         <Table>

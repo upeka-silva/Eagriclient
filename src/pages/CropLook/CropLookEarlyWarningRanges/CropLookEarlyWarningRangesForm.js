@@ -34,6 +34,7 @@ const CropLookEarlyWarningRangesForm = () => {
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [cropyOptions, setCropyOptions] = useState([]);
   const [category, setCategory] = useState({ categoryId: "", description: "" });
+  const [crop, setCrop] = useState({ cropId: "", description: "" });
   const [subCategory, setSubCategory] = useState({
     subCategoryId: "",
     description: "",
@@ -214,6 +215,7 @@ const CropLookEarlyWarningRangesForm = () => {
                 getSubCategories(value?.id);
                 setCategory(value);
                 setSubCategory({ subCategoryId: "", description: "" });
+                setCrop({ cropId: "", description: "" });
                 handleChange("", "crop");
                 setFormData({ ...formData, cropDTO: null });
               }}
