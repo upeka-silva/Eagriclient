@@ -1,4 +1,4 @@
-import { CenterFocusWeakOutlined, JoinRight, PhotoCamera } from "@mui/icons-material";
+import { PhotoCamera } from "@mui/icons-material";
 import {
   Autocomplete,
   Box,
@@ -14,7 +14,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
-import { FormWrapper } from "../../../components/FormLayout/FormWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -28,13 +27,12 @@ import { get_itemNames } from "../../../redux/actions/HARTIItems/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { Fonts } from "../../../utils/constants/Fonts";
-import {MenuItem} from "@mui/material";
-import {Select} from "@mui/material";
+import { MenuItem } from "@mui/material";
+import { Select } from "@mui/material";
 
 const CropVarietyForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -277,7 +275,8 @@ const CropVarietyForm = () => {
         resetForm={resetForm}
       />
       <Grid
-        container spacing={2}
+        container
+        spacing={2}
         sx={{
           margin: "15px",
           width: "97%",
@@ -383,7 +382,7 @@ const CropVarietyForm = () => {
                 <FieldName>Croplook Variety ID</FieldName>
                 <TextField
                   name="croplookVarietyId"
-                  id="croplookVarietyId"  
+                  id="croplookVarietyId"
                   type="text"
                   value={formData?.croplookVarietyId || ""}
                   fullWidth
@@ -402,102 +401,108 @@ const CropVarietyForm = () => {
               </FieldWrapper>
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
-                <FieldWrapper>
-                  <FieldName>Age Type</FieldName>
-                  <Select
-                    name="ageType"
-                    id="ageType"
-                    value={formData?.ageType || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "ageType")
-                    }
-                    fullWidth
-                    sx={{
-                      borderRadius: "8px",
-                    }}
-                    size="small"
-                  >
-                    <MenuItem value={"TWO_MONTHS"}>2 Months</MenuItem>
-                    <MenuItem value={"TWO_AND_HALF_MONTHS"}>2 1/2 Months</MenuItem>
-                    <MenuItem value={"THREE_MONTHS"}>3 Months</MenuItem>
-                    <MenuItem value={"THREE_AND_HALF_MONTHS"}>3 1/2 Months</MenuItem>
-                    <MenuItem value={"FOUR_MONTHS"}>4 Months</MenuItem>
-                    <MenuItem value={"FOUR_AND_HALF_MONTHS"}>4 1/2 Months</MenuItem>
-                    <MenuItem value={"FIVE_TO_SIX_MONTHS"}>5-6 Months</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
+              <FieldWrapper>
+                <FieldName>Age Type</FieldName>
+                <Select
+                  name="ageType"
+                  id="ageType"
+                  value={formData?.ageType || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "ageType")
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"TWO_MONTHS"}>2 Months</MenuItem>
+                  <MenuItem value={"TWO_AND_HALF_MONTHS"}>
+                    2 1/2 Months
+                  </MenuItem>
+                  <MenuItem value={"THREE_MONTHS"}>3 Months</MenuItem>
+                  <MenuItem value={"THREE_AND_HALF_MONTHS"}>
+                    3 1/2 Months
+                  </MenuItem>
+                  <MenuItem value={"FOUR_MONTHS"}>4 Months</MenuItem>
+                  <MenuItem value={"FOUR_AND_HALF_MONTHS"}>
+                    4 1/2 Months
+                  </MenuItem>
+                  <MenuItem value={"FIVE_TO_SIX_MONTHS"}>5-6 Months</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={3} md={3} lg={4}>
-                <FieldWrapper>
-                  <FieldName>Variety Type</FieldName>
-                  <Select
-                    name="varietyType"
-                    id="varietyType"
-                    value={formData?.varietyType || ""}
-                    disabled={state?.action === DEF_ACTIONS.VIEW}
-                    onChange={(e) =>
-                      handleChange(e?.target?.value || "", "varietyType")
-                    }
-                    fullWidth
-                    sx={{
-                      borderRadius: "8px",
-                    }}
-                    size="small"
-                  >
-                    <MenuItem value={"NIV"}>NIV</MenuItem>
-                    <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
-                    <MenuItem value={"OIV"}>OIV</MenuItem>
-                  </Select>
-                </FieldWrapper>
-              </Grid>
-              <Grid item sm={3} md={3} lg={4}>
-                  <FieldWrapper>
-                    <FieldName>Grain Type</FieldName>
-                    <Select
-                      name="grainType"
-                      id="grainType"
-                      value={formData?.grainType || ""}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(e) =>
-                        handleChange(e?.target?.value || "", "grainType")
-                      }
-                      fullWidth
-                      sx={{
-                        borderRadius: "8px",
-                      }}
-                      size="small"
-                    >
-                      <MenuItem value={"LOONG_GRAIN"}>Long Grain</MenuItem>
-                      <MenuItem value={"KEERI_SAMBA"}>Keeri Samba</MenuItem>
-                      <MenuItem value={"SAMBA"}>Samba</MenuItem>
-                      <MenuItem value={"NADU"}>Nadu</MenuItem>
-                    </Select>
-                  </FieldWrapper>
-                </Grid>
-              <Grid item sm={3} md={3} lg={4}>
-                  <FieldWrapper>
-                    <FieldName>Pollination Type</FieldName>
-                    <Select
-                      name="pollinationType"
-                      id="pollinationType"
-                      value={formData?.pollinationType || ""}
-                      disabled={state?.action === DEF_ACTIONS.VIEW}
-                      onChange={(e) =>
-                        handleChange(e?.target?.value || "", "pollinationType")
-                      }
-                      fullWidth
-                      sx={{
-                        borderRadius: "8px",
-                      }}
-                      size="small"
-                    >
-                      <MenuItem value={"OPV"}>OPV</MenuItem>
-                      <MenuItem value={"HYBRID"}>Hybrid</MenuItem>
-                      <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
-                    </Select>
-                  </FieldWrapper>
-                </Grid>
+              <FieldWrapper>
+                <FieldName>Variety Type</FieldName>
+                <Select
+                  name="varietyType"
+                  id="varietyType"
+                  value={formData?.varietyType || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "varietyType")
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"NIV"}>NIV</MenuItem>
+                  <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
+                  <MenuItem value={"OIV"}>OIV</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={4}>
+              <FieldWrapper>
+                <FieldName>Grain Type</FieldName>
+                <Select
+                  name="grainType"
+                  id="grainType"
+                  value={formData?.grainType || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "grainType")
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"LOONG_GRAIN"}>Long Grain</MenuItem>
+                  <MenuItem value={"KEERI_SAMBA"}>Keeri Samba</MenuItem>
+                  <MenuItem value={"SAMBA"}>Samba</MenuItem>
+                  <MenuItem value={"NADU"}>Nadu</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
+            <Grid item sm={3} md={3} lg={4}>
+              <FieldWrapper>
+                <FieldName>Pollination Type</FieldName>
+                <Select
+                  name="pollinationType"
+                  id="pollinationType"
+                  value={formData?.pollinationType || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.value || "", "pollinationType")
+                  }
+                  fullWidth
+                  sx={{
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <MenuItem value={"OPV"}>OPV</MenuItem>
+                  <MenuItem value={"HYBRID"}>Hybrid</MenuItem>
+                  <MenuItem value={"TRADITIONAL"}>Traditional</MenuItem>
+                </Select>
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
                 <FieldName>Pericarp Color</FieldName>
@@ -903,22 +908,22 @@ const CropVarietyForm = () => {
                 />
               </FieldWrapper>
             </Grid>
-        <Grid item sm={4} md={4} lg={4} spacing={0}>
-          <FieldWrapper>
-            <FieldName>Imported</FieldName>
-            <Switch
-              name="isImported"
-              id="isImported"
-              value={formData?.isImported || ""}
-              disabled={state?.action === DEF_ACTIONS.VIEW}
-              onChange={(e) =>
-                handleChange(e?.target?.checked || "", "isImported")
-              }
-              checked={formData?.isImported}
-              aria-label="Switch demo"
-            />
-          </FieldWrapper>
-        </Grid>
+            <Grid item sm={4} md={4} lg={4} spacing={0}>
+              <FieldWrapper>
+                <FieldName>Imported</FieldName>
+                <Switch
+                  name="isImported"
+                  id="isImported"
+                  value={formData?.isImported || ""}
+                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  onChange={(e) =>
+                    handleChange(e?.target?.checked || "", "isImported")
+                  }
+                  checked={formData?.isImported}
+                  aria-label="Switch demo"
+                />
+              </FieldWrapper>
+            </Grid>
             <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
                 <FieldName>Soil Problems</FieldName>
@@ -1013,7 +1018,10 @@ const CropVarietyForm = () => {
                   fullWidth
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   onChange={(e) =>
-                    handleChange(e?.target?.value || "", "specialCharacteristics")
+                    handleChange(
+                      e?.target?.value || "",
+                      "specialCharacteristics"
+                    )
                   }
                   sx={{
                     "& .MuiInputBase-root": {
