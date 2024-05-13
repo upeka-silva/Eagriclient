@@ -129,7 +129,7 @@ const AggrigateReport = () => {
                 //style={{ marginTop: "10px" }}
                 className={toggleState === index + 1 ? "active-content" : ""}
               >
-                <PermissionWrapper
+                {toggleState === index + 1 ? <PermissionWrapper
                   permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
                 >
                   <TableWrapper>
@@ -143,7 +143,7 @@ const AggrigateReport = () => {
                       />
                     </div>
                   </TableWrapper>
-                </PermissionWrapper>
+                </PermissionWrapper> : null}
               </TabContent>
             ))}
         </Grid>
