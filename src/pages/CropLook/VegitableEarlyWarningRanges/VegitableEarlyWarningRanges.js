@@ -69,7 +69,7 @@ const VegitableEarlyWarningRanges = () => {
   var filter = () => {
     if (searchValue !== "") {
       return vegitableEarlyWarningList.filter(
-        (a) => a.cropDTO.description === searchValue
+        (a) => a?.cropDTO?.description.toLowerCase().includes(searchValue.toLowerCase())
       );
     } else {
       return vegitableEarlyWarningList;

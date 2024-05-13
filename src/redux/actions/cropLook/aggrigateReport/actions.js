@@ -316,19 +316,25 @@ export const getNationalData = async (categoryId, seasonId, weekId) => {
   }
 };
 
-export const approveNationalData = async (categoryId, seasonId, weekId) => {
+export const approveNationalData = async (categoryId, seasonId, weekId,onSuccess = () => { },
+onError = (_message) => { }) => {
+  
   try {
     const { httpCode, payloadDto } = await get(
-      `crop-look/vegetable-early-warnings/publish/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      `crop-look/vegetable-early-warnings/approve/category/${categoryId}/season/${seasonId}/week/${weekId}`,
       true
     );
     if (httpCode === "200 OK") {
+      onSuccess();
       return payloadDto;
     }
     return {
       dataList: [],
     };
   } catch (error) {
+    const { data } = error;
+    const { apiError } = data;
+    onError(apiError?.message || defaultMessages.apiErrorUnknown);
     console.log(error);
     return {
       dataList: [],

@@ -42,7 +42,7 @@ const CustomNextArrow = (props) => {
 function LandingCarousel({ status,data }) {
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5, // Show 5 cards in the first slide
     slidesToScroll: 1,
@@ -134,7 +134,9 @@ function LandingCarousel({ status,data }) {
       <StyledSlider StyledSlider {...settings} className="slider-container">
         {/* Render cards */}
         {
+          
           data?.map((card, index) => (
+            card?.isPublished &&
             <Grid key={index} item mb={5}>
               <LandingFoodCard
                 image={card?.cropDTO?.prsignedUrl ? card?.cropDTO?.prsignedUrl : VegesampleImg}
