@@ -1,5 +1,13 @@
-import { Grid, InputAdornment, MenuItem, Select, Switch, TextField } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Autocomplete,
+  Grid,
+  InputAdornment,
+  MenuItem,
+  Select,
+  Switch,
+  TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -11,6 +19,7 @@ import { useUserAccessValidation } from "../../../hooks/authentication";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import {
+  get_isoUnitList,
   handleIsoUnit,
   updateIsoUnit,
 } from "../../../redux/actions/app_settings/roles/isoUnit/action";
@@ -23,6 +32,8 @@ const IsoUnitForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
+
+  const [baseUnits, setBaseUnits] = useState([]);
 
   const goBack = () => {
     navigate("/app-settings/iso-unit");
@@ -93,6 +104,12 @@ const IsoUnitForm = () => {
     }
   };
 
+  useEffect(() => {
+    get_isoUnitList().then(({ dataList = [] }) => {
+      setBaseUnits(dataList);
+    });
+  }, []);
+
   return (
     <>
       <FormWrapper>
@@ -122,7 +139,7 @@ const IsoUnitForm = () => {
               <TextField
                 name="unitCode"
                 id="unitCode"
-                value={formData?.unitCode || ""}
+                value={formData?.baseUnit.unitCode || ""}
                 fullWidth
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
@@ -165,21 +182,22 @@ const IsoUnitForm = () => {
           <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
               <FieldName>Base Unit</FieldName>
-              <TextField
-                name="baseUnit"
-                id="baseUnit"
-                value={formData?.baseUnit || ""}
-                fullWidth
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "baseUnit")
-                }
+              <Autocomplete
                 sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "4px",
                   },
+                  marginRight: "5px",
                 }}
+                id="baseUnit"
+                options={baseUnits}
+                onChange={(event, value) =>
+                  handleChange(value || "", "baseUnit")
+                }
+                getOptionLabel={(option) => option.unitCode}
+                renderInput={(params) => <TextField {...params} />}
                 size="small"
+                fullWidth
               />
             </FieldWrapper>
           </Grid>
@@ -274,7 +292,7 @@ const IsoUnitForm = () => {
           </Grid>
           <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
-              <FieldName>10 To The Power</FieldName>
+              <FieldName>10 to the Power</FieldName>
               <TextField
                 name="tenPower"
                 id="tenPower"

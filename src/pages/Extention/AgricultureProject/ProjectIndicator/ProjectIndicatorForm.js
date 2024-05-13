@@ -1,22 +1,14 @@
 import {
-  Autocomplete,
   Button,
   Dialog,
-  FormControl,
   Grid,
   MenuItem,
   Select,
   Slide,
   TextField,
 } from "@mui/material";
-import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect, useState } from "react";
 
-import {
-  handleProjectActivity,
-  updateProjectActivity,
-} from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import { ButtonWrapper } from "../../../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../../components/FormLayout/FieldWrapper";
@@ -27,12 +19,11 @@ import { ActionWrapper } from "../../../../components/PageLayout/ActionWrapper";
 import { useSnackBars } from "../../../../context/SnackBarContext";
 import { Colors } from "../../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../../utils/constants/permission";
+import { get_isoUnitList } from "../../../../redux/actions/app_settings/roles/isoUnit/action";
 import {
-  handleProjectSubActivity,
-  updateProjectSubActivity,
-} from "../../../../redux/actions/extension/agricultureProject/ProjectSubActivity/action";
-import { get_handleIsoUnitList } from "../../../../redux/actions/app_settings/roles/isoUnit/action";
-import { handleProjectIndicator, updateProjectIndicator } from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
+  handleProjectIndicator,
+  updateProjectIndicator,
+} from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,8 +35,6 @@ export default function ProjectIndicatorForm({
   action,
   ProjectSubActivityData,
   data,
-  loading,
-  stopLoading,
   onChange,
   resetData,
   refresh,
@@ -61,7 +50,7 @@ export default function ProjectIndicatorForm({
   console.log({ isoUnitList });
 
   useEffect(() => {
-    get_handleIsoUnitList().then(({ dataList = [] }) => {
+    get_isoUnitList().then(({ dataList = [] }) => {
       setIsoUnitList(dataList);
     });
   }, []);

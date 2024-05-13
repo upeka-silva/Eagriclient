@@ -106,7 +106,7 @@ export const updateIsoUnit= async (
     }
   }
 
-  export const get_handleIsoUnitList = async (
+  export const get_isoUnitList = async (
     onSuccess = () => {},
     onError = (_message) => {},
   ) => {
