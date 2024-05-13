@@ -58,6 +58,14 @@ const MultiItemSelect = ({
         onClose={handleClose}
         aria-labelledby="add-question"
         aria-describedby="add a description to audit forms"
+        sx={{
+          "& .MuiDialog-container": {
+            "& .MuiPaper-root": {
+              width: "100%",
+              maxWidth: "400px", 
+            },
+          },
+        }}
       >
         <DialogTitle
           id="add-question"
@@ -73,7 +81,7 @@ const MultiItemSelect = ({
               container
               spacing={1}
               sx={{
-                margin: "15px",
+                margin: "15px 0 15px 0",
                 width: "97%",
                 borderRadius: "5px",
               }}
