@@ -1427,7 +1427,7 @@ export const Routes = [
       {
         path: "/national-report",
         name: "National Report",
-        isSideBar: true,
+        isSideBar: false,
         element: <NationalReport />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
