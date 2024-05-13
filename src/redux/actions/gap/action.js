@@ -188,7 +188,24 @@ export const get_GapRequestActionList = async (
 
 export const getUsersByRoleCode = async (code) => {
   try {
-    const { httpCode, payloadDto } = await get(`user/code/${code}`, true);
+    const { httpCode, payloadDto } = await get(`user/scs-region/${code}`, true);
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getUsersByScsRegion = async (scsRegionId) => {
+  try {
+    const { httpCode, payloadDto } = await get(`user/scs-region/${scsRegionId}`, true);
     if (httpCode === "200 OK") {
       return payloadDto;
     }
