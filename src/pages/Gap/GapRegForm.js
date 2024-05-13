@@ -51,6 +51,7 @@ import {
   getGapCertificate,
   getNextGapId,
   getUsersByRoleCode,
+  getUsersByScsRegion,
   get_GapRequestActionList,
   handleGap,
   saveGapExternalAuditores,
@@ -264,7 +265,7 @@ const GapRegForm = () => {
   useEffect(() => {
     setLoading(true);
 
-    getUsersByRoleCode("GAP_EXTERNAL_AUDITOR").then((data = []) => {
+    getUsersByScsRegion(formData?.scsRegionDTO?.id).then((data = []) => {
       setAuditores(data);
     });
 
