@@ -42,7 +42,7 @@ const CustomNextArrow = (props) => {
 function LandingCarousel({ status,data }) {
   const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 5, // Show 5 cards in the first slide
     slidesToScroll: 1,
