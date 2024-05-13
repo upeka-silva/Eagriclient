@@ -18,9 +18,19 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import DsDivisionList from "./DsDivisionList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteDsDivision,downloaddsDivisionsExcel } from "../../../redux/actions/dsDivision/action";
+import {
+  deleteDsDivision,
+  downloaddsDivisionsExcel,
+} from "../../../redux/actions/dsDivision/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Vrpano,
+  Download,
+} from "@mui/icons-material";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import { get_DistrictListByProvinceId } from "../../../redux/actions/district/action";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
@@ -30,6 +40,7 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 const DsDivision = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -49,6 +60,7 @@ const DsDivision = () => {
     name: "",
     code: "",
   });
+  console.log({ selectedProvince });
   const [selectedDistrict, setSelectedDistrict] = useState({
     name: "",
     code: "",
@@ -69,12 +81,12 @@ const DsDivision = () => {
 
   const handleSearch = (searchText) => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=')) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=")) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
     } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
     }
 
     setDataEndPoint(url);
@@ -162,15 +174,30 @@ const DsDivision = () => {
   }, []);
 
   const getFilteredData = (selectedDistrict) => {
-    setDataEndPoint(
-      `geo-data/ds-divisions/by-district/` + selectedDistrict?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/ds-divisions/by-district/` + selectedDistrict?.id
+    // );
+  };
+
+  //filer data
+  const filter = () => {
+    if (selectedDistrict?.id && selectedProvince?.id) {
+      setDataEndPoint(
+        `geo-data/ds-divisions/administration-structure?districtId=${selectedDistrict?.id}`
+      );
+    } else if (selectedProvince?.id) {
+      setDataEndPoint(
+        `geo-data/ds-divisions/administration-structure?provinceId=${selectedProvince?.id}`
+      );
+    } else {
+      setDataEndPoint("geo-data/ds-divisions/administration-structure");
+    }
   };
 
   const resetFilter = () => {
     setSelectedProvince({ code: "", name: "" });
     setSelectedDistrict({ code: "", name: "" });
-    setDataEndPoint("geo-data/ds-divisions");
+    setDataEndPoint("geo-data/ds-divisions/administration-structure");
   };
 
   const getDistricts = (id) => {
@@ -199,53 +226,54 @@ const DsDivision = () => {
     >
       <ListHeader title="DS Division" />
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />  
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"      >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectedDsDivisions.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DS_DIVISION}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+              <Button onClick={onCreate}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
             </PermissionWrapper>
-          )}
-          {selectedDsDivisions.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
-            >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectedDsDivisions.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DS_DIVISION}`}
-            >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
+            {selectedDsDivisions.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+              >
+                <Button onClick={onEdit}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectedDsDivisions.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DS_DIVISION}`}
+              >
+                <Button onClick={onView}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectedDsDivisions.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DS_DIVISION}`}
+              >
+                <Button onClick={onDelete}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
         </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
@@ -305,8 +333,23 @@ const DsDivision = () => {
               />
             </FieldWrapper>
           </Grid>
-          <SearchBox handleSearch={handleSearch} />
-          <Grid item sm={2} md={2} lg={2}>
+
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
@@ -319,6 +362,10 @@ const DsDivision = () => {
                 Reset
               </Button>
             </FieldWrapper>
+          </Grid>
+
+          <Grid container>
+            <SearchBox handleSearch={handleSearch} />
           </Grid>
         </Grid>
       </ActionWrapper>
