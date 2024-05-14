@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   Grid,
   InputBase,
   Typography,
@@ -9,10 +10,8 @@ import React, { useEffect, useState } from "react";
 
 //images
 import SearchIcon from "@mui/icons-material/Search";
-import CultivateImg from "../../assets/images/cultivate.png";
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
-import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
 import LandingCarousel from "./components/LandingCarousel";
@@ -70,7 +69,10 @@ function Landing() {
   });
   console.log({ statusData });
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     get_vegetable_early_warnings().then((response) => {
       const categorizedData = {
         BestData: [],
@@ -100,6 +102,7 @@ function Landing() {
 
       setStatusData(categorizedData);
     });
+    setLoading(false);
   }, []);
 
   return (
@@ -196,20 +199,27 @@ function Landing() {
         <Grid item mt={5} spacing={1} px={5}>
           <PriceLineChart />
         </Grid>
+
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
-            <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel
-                status={"Best Selection"}
-                data={statusData?.BestData}
-              />
-            </Grid>
-            <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel
-                status={"Worst Selection"}
-                data={statusData?.WorstData}
-              />
-            </Grid>
+            {loading ? (
+              <CircularProgress size={16} />
+            ) : (
+              <>
+                <Grid item md={12} mb={5} pl={5}>
+                  <LandingCarousel
+                    status={"Best Selection"}
+                    data={statusData?.BestData}
+                  />
+                </Grid>
+                <Grid item md={12} mb={5} pl={5}>
+                  <LandingCarousel
+                    status={"Worst Selection"}
+                    data={statusData?.WorstData}
+                  />
+                </Grid>
+              </>
+            )}
             {/* <Grid
               mt={5}
               mb={5}
