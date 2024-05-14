@@ -39,7 +39,7 @@ const CustomNextArrow = (props) => {
   );
 };
 
-function LandingCarousel({ status,data }) {
+function LandingCarousel({ status, data }) {
   const settings = {
     dots: false,
     infinite: false,
@@ -127,27 +127,51 @@ function LandingCarousel({ status,data }) {
     // Add more card data as needed
   ];
 
-
-
   return (
     <div>
-      <StyledSlider StyledSlider {...settings} className="slider-container">
-        {/* Render cards */}
-        {
-          
-          data?.map((card, index) => (
-            card?.isPublished &&
-            <Grid key={index} item mb={5}>
-              <LandingFoodCard
-                image={card?.cropDTO?.prsignedUrl ? card?.cropDTO?.prsignedUrl : VegesampleImg}
-                foodName={card?.cropDTO?.description}
-                status={status}
-                firstText={"Cul.Ext -" + card?.accumulatedExtend}
-                secondText={"Available Cul.Ext - " + card?.accumulatedExtend}
-              />
-            </Grid>
-          ))}
-      </StyledSlider>
+      {data?.length < 4 ? (
+        data?.map((card, index) => () => {
+          if (card?.isPublished) {
+            return (
+              <Grid key={index} item mb={5}>
+                <LandingFoodCard
+                  image={card?.cropDTO?.prsignedUrl}
+                  foodName={card?.cropDTO?.description}
+                  status={status}
+                  firstText={"Cul.Ext -" + card?.accumulatedExtend}
+                  secondText={"Available Cul.Ext - " + card?.accumulatedExtend}
+                />
+              </Grid>
+            );
+          }
+        })
+      ) : (
+        <>
+          <StyledSlider StyledSlider {...settings} className="slider-container">
+            {/* Render cards */}
+            {data?.map(
+              (card, index) =>
+                card?.isPublished && (
+                  <Grid key={index} item mb={5}>
+                    <LandingFoodCard
+                      image={
+                        card?.cropDTO?.prsignedUrl
+                          ? card?.cropDTO?.prsignedUrl
+                          : VegesampleImg
+                      }
+                      foodName={card?.cropDTO?.description}
+                      status={status}
+                      firstText={"Cul.Ext -" + card?.accumulatedExtend}
+                      secondText={
+                        "Available Cul.Ext - " + card?.accumulatedExtend
+                      }
+                    />
+                  </Grid>
+                )
+            )}
+          </StyledSlider>
+        </>
+      )}
     </div>
   );
 }
