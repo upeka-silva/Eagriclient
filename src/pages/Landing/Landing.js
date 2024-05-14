@@ -27,7 +27,7 @@ function Landing() {
     Latitude: 7.2345496,
   };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
- 
+
   const locations = [
     { district: "Ampara", Longitude: 81.5516024, Latitude: 7.2345496 },
     { district: "Anuradhapura", Longitude: 80.5110764, Latitude: 8.39152674 },
@@ -60,9 +60,7 @@ function Landing() {
     setSelectedLocation(value);
   };
 
-
   //vegetable early warnings
-
 
   const [statusData, setStatusData] = React.useState({
     BestData: [],
@@ -81,8 +79,6 @@ function Landing() {
         WorstData: [],
       };
 
-     
-
       response?.dataList?.forEach((item) => {
         console.log({ item });
         switch (item?.vegetableEarlyWarningStatus) {
@@ -99,11 +95,8 @@ function Landing() {
             categorizedData.WorstData.push(item);
             break;
           default:
-            
         }
       });
-
-      console.log("bdata", categorizedData);
 
       setStatusData(categorizedData);
     });
@@ -206,10 +199,16 @@ function Landing() {
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
             <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Good Selection"} data={statusData?.GoodData}/>
+              <LandingCarousel
+                status={"Best Selection"}
+                data={statusData?.BestData}
+              />
             </Grid>
             <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Worst Selection"} data={statusData?.WorstData}/>
+              <LandingCarousel
+                status={"Worst Selection"}
+                data={statusData?.WorstData}
+              />
             </Grid>
             <Grid
               mt={5}
