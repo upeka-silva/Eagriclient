@@ -210,7 +210,7 @@ function Landing() {
                 data={statusData?.WorstData}
               />
             </Grid>
-            <Grid
+            {/* <Grid
               mt={5}
               mb={5}
               style={{ display: "flex", flexWrap: "wrap", height: "10%" }}
@@ -230,7 +230,7 @@ function Landing() {
                 title="Paddy Cultivation Extent"
                 extent={"120 mt"}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Grid item md={4}>
