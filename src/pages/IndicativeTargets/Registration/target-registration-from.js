@@ -81,7 +81,7 @@ const TargetRegistrationForm = () => {
   }, []);
 
   const goBack = () => {
-    navigate("/crop-target/crop-registration");
+    navigate("/crop-target/crop-target-registration");
   };
 
   const handleDDChange = (value) => {
@@ -215,7 +215,7 @@ const TargetRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => `${i.name}(${i.parentType})`}
+                getOptionLabel={(i) => `${i.description}`}
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}
