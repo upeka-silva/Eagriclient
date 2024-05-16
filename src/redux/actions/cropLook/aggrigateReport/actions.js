@@ -316,6 +316,26 @@ export const getAggrigateReportDataAILevel = async (categoryId, seasonId, aiId) 
   }
 };
 
+export const getAggrigateReportDataADALevel = async (categoryId, seasonId, adaId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/adaId/${adaId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getNationalData = async (categoryId, seasonId, weekId) => {
   try {
     const { httpCode, payloadDto } = await get(

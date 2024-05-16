@@ -58,6 +58,26 @@ export const getAllAiAndMahaweliUnits = async (
     }
   };
 
+  export const getAllProAndInterAda = async (
+  ) => {
+    try {
+      const {httpCode, payloadDto} = await get("geo-data/ai-region/all-ada-segments", true);
+      if (httpCode === '200 OK') {
+        return {
+          dataList: payloadDto
+        }
+      }
+      return {
+        dataList: []
+      }
+    } catch (error) {
+      console.log(error)
+      return {
+        dataList: []
+      }
+    }
+  };
+
 export const updateCropTarget = async (
   id,
   cropCategoryId,

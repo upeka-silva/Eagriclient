@@ -220,6 +220,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize';
 import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
+import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
 
 export const Routes = [
   {
@@ -1430,6 +1431,14 @@ export const Routes = [
         name: "Aggrigated Report (AI Level)",
         isSideBar: true,
         element: <AggrigateReportAILevel />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/ada-aggrigate-report",
+        name: "Aggrigated Report (ADA Level)",
+        isSideBar: true,
+        element: <AggrigateReportAdaLevel />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },

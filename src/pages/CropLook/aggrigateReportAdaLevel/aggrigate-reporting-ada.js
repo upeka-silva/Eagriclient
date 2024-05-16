@@ -14,6 +14,7 @@ import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import {
   getAllAiAndMahaweliUnits,
+  getAllProAndInterAda,
   getSeasons,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, Stack, TextField } from "@mui/material";
@@ -26,9 +27,9 @@ import {
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
-import CategoryReportTabelAILevel from "./categoryReportTable-ai";
+import CategoryReportTabelAdaLevel from "./categoryReportTable-ada";
 
-const AggrigateReportAILevel = () => {
+const AggrigateReportAdaLevel = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -42,12 +43,12 @@ const AggrigateReportAILevel = () => {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [toggleState, setToggleState] = useState(1);
-  const [aiRegions, setAiRegions] = useState([]);
-  const [selectedAiRegion, setSelectedAiRegion] = useState(null);
+  const [adaRegions, setAdaRegions] = useState([]);
+  const [selectedAdaRegion, setSelectedAdaRegion] = useState(null);
 
   useEffect(() => {
-    getAllAiAndMahaweliUnits().then(({ dataList = [] }) => {
-      setAiRegions(dataList);
+    getAllProAndInterAda().then(({ dataList = [] }) => {
+      setAdaRegions(dataList);
     });
 
     get_CategoryList().then(({ dataList = [] }) => {
@@ -70,8 +71,8 @@ const AggrigateReportAILevel = () => {
       console.error(error);
     }
   };
-  const handleAiRegionChange = (value) => {
-    setSelectedAiRegion(value);
+  const handleAdaRegionChange = (value) => {
+    setSelectedAdaRegion(value);
   };
   return (
     <div
@@ -84,7 +85,7 @@ const AggrigateReportAILevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report (AI Level)" />
+      <ListHeader title="Aggrigated Report (ADA Level)" />
       <Grid
         container
         sx={{
@@ -120,15 +121,15 @@ const AggrigateReportAILevel = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName>AI Region/Mahaweli Block</FieldName>
+                <FieldName>ADA Segments</FieldName>
                 <Autocomplete
-                  options={aiRegions}
-                  value={selectedAiRegion}
+                  options={adaRegions}
+                  value={selectedAdaRegion}
                   getOptionLabel={(i) =>
                     `${i.code || i.regionId} - ${i.description}`
                   }
                   onChange={(event, value) => {
-                    handleAiRegionChange(value);
+                    handleAdaRegionChange(value);
                   }}
                   sx={{
                     "& .MuiOutlinedInput-root": {
@@ -157,7 +158,7 @@ const AggrigateReportAILevel = () => {
             ))}
           </TabWrapper>
 
-          {selectedSeason && selectedAiRegion &&
+          {selectedSeason && selectedAdaRegion &&
             cropCategoryList &&
             cropCategoryList.map((category, index) => (
               <TabContent
@@ -173,10 +174,10 @@ const AggrigateReportAILevel = () => {
                         <ExportButton
                           onDownload={() => onDownload(category.id)}
                         />
-                        <CategoryReportTabelAILevel
+                        <CategoryReportTabelAdaLevel
                           category={category}
                           season={selectedSeason}
-                          aiId={selectedAiRegion?.id}
+                          adaId={selectedAdaRegion?.id}
                         />
                       </div>
                     </TableWrapper>
@@ -190,4 +191,4 @@ const AggrigateReportAILevel = () => {
   );
 };
 
-export default AggrigateReportAILevel;
+export default AggrigateReportAdaLevel;
