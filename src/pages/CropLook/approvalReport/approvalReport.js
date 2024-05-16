@@ -23,7 +23,7 @@ import {
 import ApprovalReportCategoryTable from "./approvalReportCategoryTable";
 import BiWeekProgressTale from "./biWeekProgressTable";
 
-const ApprovalReport = ({owner=""}) => {
+const ApprovalReport = ({ owner = "" }) => {
   useUserAccessValidation();
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
@@ -145,16 +145,18 @@ const ApprovalReport = ({owner=""}) => {
                   //style={{ marginTop: "10px" }}
                   className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  <TableWrapper>
-                    <div key={category.categoryId}>
-                      <BiWeekProgressTale
-                        category={category}
-                        season={selectedSeason}
-                        week={selectedWeek}
-                        owner={owner}
-                      />
-                    </div>
-                  </TableWrapper>
+                  {toggleState === index + 1 ? (
+                    <TableWrapper>
+                      <div key={category.categoryId}>
+                        <BiWeekProgressTale
+                          category={category}
+                          season={selectedSeason}
+                          week={selectedWeek}
+                          owner={owner}
+                        />
+                      </div>
+                    </TableWrapper>
+                  ) : null}
                 </TabContent>
                 <TabContent
                   //style={{ marginTop: "10px" }}
@@ -162,10 +164,10 @@ const ApprovalReport = ({owner=""}) => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
-                      <ApprovalReportCategoryTable
+                      {toggleState === index + 1 ? <ApprovalReportCategoryTable
                         category={category}
                         season={selectedSeason}
-                      />
+                      /> : null}
                     </div>
                   </TableWrapper>
                 </TabContent>

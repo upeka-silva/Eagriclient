@@ -219,6 +219,7 @@ import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/Pr
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
+import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 
 export const Routes = [
   {
@@ -1421,6 +1422,14 @@ export const Routes = [
         name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/ai-aggrigate-report",
+        name: "Aggrigated Report (AI Level)",
+        isSideBar: true,
+        element: <AggrigateReportAILevel />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },

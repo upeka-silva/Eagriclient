@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  Chip,
+  Grid,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
@@ -38,6 +46,7 @@ const BiWeeklyReportingTab = ({
 
   const [newCropTargets, setNewCropTargets] = useState([]);
   const [savedCropTarget, setSavedCropTarget] = useState([]);
+  const [categoryStatus, setCategoryStatus] = useState("");
 
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
@@ -45,6 +54,7 @@ const BiWeeklyReportingTab = ({
       checkDataLoadStatus();
     });
     setSavedCropTarget(savedCropCategoryTarget?.biWeekCropReport);
+    setCategoryStatus(savedCropCategoryTarget?.status);
     getTargetCropsByAiAndSeasonAndCropCategory(
       aiRegion.id,
       seasonId,
@@ -265,21 +275,43 @@ const BiWeeklyReportingTab = ({
                   <PermissionWrapper
                     permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
                   >
-                    <Button
-                      disabled={
-                        !cropTargetId ||
-                        status?.target?.week?.status === "CLOSE"
-                      }
-                      variant="outlined"
-                      color="success"
-                      onClick={() => setOpenDialog(true)}
-                      size="small"
-                    >
-                      Complete
-                    </Button>
+                    <Tooltip title="Already Completed.">
+                      <span>
+                        <Button
+                          disabled={
+                            !cropTargetId ||
+                            categoryStatus === "AI_COMPLETED" ||
+                            categoryStatus === "ADA_COMPLETED"
+                          }
+                          variant="outlined"
+                          color="success"
+                          onClick={() => setOpenDialog(true)}
+                          size="small"
+                        >
+                          Complete
+                        </Button>
+                      </span>
+                    </Tooltip>
                   </PermissionWrapper>
                 </Grid>
               )}
+              <Grid item sx={{ pt: "8px" }}>
+                {categoryStatus ? (
+                  <Chip
+                    label={categoryStatus}
+                    variant="filled"
+                    style={{
+                      marginTop: "5px",
+                      alignSelf: "flex-end",
+                      position: "absolute",
+                      right: "50px",
+                      backgroundColor: "green",
+                      color: "white",
+                      width: "200px",
+                    }}
+                  />
+                ) : null}
+              </Grid>
             </Stack>
           </div>
         </Grid>
