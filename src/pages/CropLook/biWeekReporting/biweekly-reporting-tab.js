@@ -98,12 +98,17 @@ const BiWeeklyReportingTab = ({
     setDataLoaded(true);
   };
 
+  const updatedVarietyTargets = [...getData];
+  updatedVarietyTargets.forEach((updateTarget) => {
+    updateTarget.varietyTargets.forEach((updateVariety) => {
+      if (updateVariety.damageExtents === null) {
+        updateVariety.damageExtents = [];
+      }
+    });
+  });
   const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
-    const updatedVarietyTargets = [...getData];
-
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
-
     let total = 0;
     if (configFields.length > 0) {
       let target =
