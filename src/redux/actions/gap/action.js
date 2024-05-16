@@ -203,9 +203,9 @@ export const getUsersByRoleCode = async (code) => {
   }
 };
 
-export const getUsersByScsRegion = async (scsRegionId) => {
+export const getUsersByAdministrativeDivisionAndValue = async (divisionId, type) => {
   try {
-    const { httpCode, payloadDto } = await get(`user/scs-region/${scsRegionId}`, true);
+    const { httpCode, payloadDto } = await get(`user/division-value/${divisionId}/administrative-division-type/${type}`, true);
     if (httpCode === "200 OK") {
       return payloadDto;
     }

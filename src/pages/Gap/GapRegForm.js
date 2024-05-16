@@ -50,6 +50,7 @@ import {
   getCropDetailsList,
   getGapCertificate,
   getNextGapId,
+  getUsersByAdministrativeDivisionAndValue,
   getUsersByRoleCode,
   getUsersByScsRegion,
   get_GapRequestActionList,
@@ -265,7 +266,7 @@ const GapRegForm = () => {
   useEffect(() => {
     setLoading(true);
 
-    getUsersByScsRegion(formData?.scsRegionDTO?.id).then((data = []) => {
+    getUsersByAdministrativeDivisionAndValue(formData?.scsRegionDTO?.id, "SCSBRANCH").then((data = []) => {
       setAuditores(data);
     });
 
