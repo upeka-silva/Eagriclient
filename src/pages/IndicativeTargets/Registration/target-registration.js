@@ -91,7 +91,7 @@ const TargetRegistration = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop-target/crop-registration-form", {
+    navigate("/crop-target/crop-target-registration-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectSubCategory[0] || {},

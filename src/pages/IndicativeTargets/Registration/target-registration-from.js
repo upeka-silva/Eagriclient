@@ -70,11 +70,11 @@ const TargetRegistrationForm = () => {
       state?.action === DEF_ACTIONS.VIEW
     ) {
       var ddDivision = {
-                          id: state.target.regionId,
-                          name: state.target.regionName,
+        id: state.target.regionId,
+        name: state.target.regionName,
                           parentType: state.target.regionType
 
-                        };
+      };
 
       setSelectedDDDivision(ddDivision);
     }
@@ -215,7 +215,9 @@ const TargetRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => `${i.description}`}
+                getOptionLabel={(i) =>
+                  i.description !== undefined ? `${i.description}` : ""
+                }
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}
@@ -224,7 +226,9 @@ const TargetRegistrationForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                renderInput={(params) => <TextField {...params} size="small" />}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" placeholder="" />
+                )}
                 fullWidth
               />
             </FieldWrapper>
