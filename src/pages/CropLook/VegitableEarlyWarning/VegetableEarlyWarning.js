@@ -121,7 +121,7 @@ const VegetableEarlyWarning = () => {
 
 <ConfirmationDialog
         open={open}
-        title="Do you want to Publish?"
+        title={warnings?.isPublished === true ? "Do You Want To UnPublish?" : "Do You Want To Publish?"}
         items={selectVegeEarlyWarning}
         loading={loading}
         onClose={close}
