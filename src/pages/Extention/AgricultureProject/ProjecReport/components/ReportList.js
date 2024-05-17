@@ -161,6 +161,15 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                   borderRight: "1px solid rgba(224, 224, 224, 1)",
                 }}
               >
+                TARGET
+              </TableCell>
+              <TableCell
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  borderRight: "1px solid rgba(224, 224, 224, 1)",
+                }}
+              >
                 REPORT FOR INDICATOR
               </TableCell>
             </TableRow>
@@ -205,6 +214,14 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                             }}
                           >
                             {indicator?.description}
+                          </TableCell>
+                          <TableCell
+                            sx={{
+                              fontSize: "13px",
+                              borderRight: "1px solid rgba(224, 224, 224, 1)",
+                            }}
+                          >
+                            {indicator?.target}
                           </TableCell>
                           <TableCell>
                             <Grid container>

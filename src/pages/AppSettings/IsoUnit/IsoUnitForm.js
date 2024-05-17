@@ -139,7 +139,7 @@ const IsoUnitForm = () => {
               <TextField
                 name="unitCode"
                 id="unitCode"
-                value={formData?.baseUnit.unitCode || ""}
+                value={formData?.unitCode || ""}
                 fullWidth
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
@@ -194,7 +194,7 @@ const IsoUnitForm = () => {
                 onChange={(event, value) =>
                   handleChange(value || "", "baseUnit")
                 }
-                getOptionLabel={(option) => option.unitCode}
+                getOptionLabel={(option) => option?.unitCode}
                 renderInput={(params) => <TextField {...params} />}
                 size="small"
                 fullWidth
