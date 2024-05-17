@@ -21,6 +21,7 @@ import { Colors } from "../../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../../utils/constants/permission";
 import { get_isoUnitList } from "../../../../redux/actions/app_settings/roles/isoUnit/action";
 import {
+  get_IndicatorBySubActivityId,
   handleProjectIndicator,
   updateProjectIndicator,
 } from "../../../../redux/actions/extension/agricultureProject/projectIndicator/action";
@@ -39,6 +40,7 @@ export default function ProjectIndicatorForm({
   resetData,
   refresh,
   setOpenActivity,
+  indicatorDataList,
 }) {
   console.log({ ProjectSubActivityData });
   const { addSnackBar } = useSnackBars();
@@ -46,8 +48,31 @@ export default function ProjectIndicatorForm({
   console.log("newformff", data);
   const [saving, setSaving] = useState(false);
   const [isoUnitList, setIsoUnitList] = useState([]);
+  const [indicatorData,setIndicatorDataList] = useState();
 
-  console.log({ isoUnitList });
+  console.log("kk", indicatorData );
+
+  useEffect(() => {
+    ProjectSubActivityData?.id &&
+      get_IndicatorBySubActivityId(ProjectSubActivityData?.id).then(
+        ({ dataList = [] }) => {
+          console.log("newinlistss",dataList);
+          setIndicatorDataList(dataList);
+        }
+      );
+  }, [open]);
+
+  let nextGenId;
+  if (action === DEF_ACTIONS.ADD && ProjectSubActivityData) {
+    if (indicatorData?.length > 0) {
+      let result = indicatorData[indicatorData.length - 1].indicatorId;
+      nextGenId = result.replace(/(\d+)\.(\d+)\.(\d+)/, (match, p1, p2, p3) => p1 + "." + p2 + "." + (parseInt(p3) + 1));
+      console.log({ result });
+      
+    } else {
+      nextGenId = ProjectSubActivityData?.subActivityId + ".1";
+    }
+  }
 
   useEffect(() => {
     get_isoUnitList().then(({ dataList = [] }) => {
@@ -102,6 +127,7 @@ export default function ProjectIndicatorForm({
           {
             ...data,
             projectSubActivityDTO: ProjectSubActivityData,
+            indicatorId : nextGenId
           },
           onSuccess,
           onError
@@ -226,9 +252,10 @@ export default function ProjectIndicatorForm({
                   <TextField
                     name="indicatorId"
                     id="indicatorId"
-                    value={data?.indicatorId || ""}
+                    value={nextGenId ? nextGenId : data?.indicatorId || ""}
                     disabled={
                       action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT
+                      || action === DEF_ACTIONS.ADD
                     }
                     onChange={(e) =>
                       onChange(e?.target?.value || "", "indicatorId")

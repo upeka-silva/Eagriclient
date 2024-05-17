@@ -131,6 +131,8 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                   fontSize: "14px",
                   fontWeight: "bold",
                   borderRight: "1px solid rgba(224, 224, 224, 1)",
+                  backgroundColor:'#388e3c',
+                  color: '#fff'
                 }}
               >
                 PROJECT ACTIVITY
@@ -140,6 +142,9 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                   fontSize: "14px",
                   fontWeight: "bold",
                   borderRight: "1px solid rgba(224, 224, 224, 1)",
+                  backgroundColor:'#388e3c',
+                  color: '#fff'
+                  
                 }}
               >
                 PROJECT SUBACTIVITY
@@ -149,6 +154,8 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                   fontSize: "14px",
                   fontWeight: "bold",
                   borderRight: "1px solid rgba(224, 224, 224, 1)",
+                  backgroundColor:'#388e3c',
+                  color: '#fff'
                 }}
               >
                 {" "}
@@ -159,6 +166,8 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                   fontSize: "14px",
                   fontWeight: "bold",
                   borderRight: "1px solid rgba(224, 224, 224, 1)",
+                  backgroundColor:'#388e3c',
+                  color: '#fff'
                 }}
               >
                 TARGET
@@ -229,6 +238,7 @@ function ReportList({ allProjectData, indicatorValues = [] }) {
                                 <TextField
                                   variant="outlined"
                                   color="primary"
+                                  type="number"
                                   value={
                                     changeReportVal.length>0 ?  changeReportVal?.find(
                                       (item) =>

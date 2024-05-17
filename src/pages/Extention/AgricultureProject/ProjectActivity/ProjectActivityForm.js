@@ -29,6 +29,7 @@ export default function ProjectActivityForm({
   loading,
   stopLoading,
   onChange,
+  activityData,
   resetData,
   refresh,
   setOpenActivity,
@@ -40,6 +41,17 @@ export default function ProjectActivityForm({
   const [gnDivisionList, setGnDivisionList] = useState([]);
   const [saving, setSaving] = useState(false);
   const [farmerList, setFarmerList] = useState([]);
+
+  console.log("length",activityData)
+
+  let nextGenId;
+  if (action === DEF_ACTIONS.ADD) {
+    if (activityData?.length > 0) {
+      nextGenId = parseInt(activityData[activityData.length - 1].activityId, 10) + 1;
+    } else {
+      nextGenId = 1;
+    }
+  }
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {
@@ -83,6 +95,7 @@ export default function ProjectActivityForm({
           {
             ...data,
             agricultureProjectDTO: ProjectActivityData,
+            activityId : nextGenId
           },
           onSuccess,
           onError
@@ -204,9 +217,10 @@ export default function ProjectActivityForm({
                   <TextField
                     name="activityId"
                     id="aactivityId"
-                    value={data?.activityId || ""}
+                    value={nextGenId ? nextGenId : data?.activityId || ""}
                     disabled={
                       action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT
+                      || action === DEF_ACTIONS.ADD
                     }
                     onChange={(e) =>
                       onChange(e?.target?.value || "", "activityId")
