@@ -17,6 +17,7 @@ const IsoUnitList = ({
     { field: "multiFactor", headerName: "Multi Factor" },
     { field: "divFactor", headerName: "Div Factor" },
     { field: "tenPower", headerName: "10 To The Power" },
+    { field: "userDefined", headerName: "User Defined" , type: "boolean" },
   ];
 
   return (
