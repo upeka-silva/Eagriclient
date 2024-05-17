@@ -29,8 +29,6 @@ import {
   Delete,
   Edit,
   Vrpano,
-  CheckRounded,
-  CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import TargetRegistrationList from "./target-registration-list";
