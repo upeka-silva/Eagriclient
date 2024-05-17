@@ -912,31 +912,46 @@ const AgricultureProjectForm = () => {
             aria-label="action button group"
             color="success"
           >
-            <Button onClick={onCreateActivityData}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-
-            {selectedProjectActivity.length === 1 && (
-              <Button onClick={onEditActivityData}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              <Button onClick={onCreateActivityData}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
-            )}
+            </PermissionWrapper>
 
-            {selectedProjectActivity.length === 1 && (
-              <Button onClick={onViewActivityData}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length === 1 && (
+                <Button onClick={onEditActivityData}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              )}
+            </PermissionWrapper>
 
-            {selectedProjectActivity.length > 0 && (
-              <Button onClick={onDeleteActivityData}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length === 1 && (
+                <Button onClick={onViewActivityData}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              )}
+            </PermissionWrapper>
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length > 0 && (
+                <Button onClick={onDeleteActivityData}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              )}
+            </PermissionWrapper>
           </ButtonGroup>
           <ButtonGroup
             variant="outlined"

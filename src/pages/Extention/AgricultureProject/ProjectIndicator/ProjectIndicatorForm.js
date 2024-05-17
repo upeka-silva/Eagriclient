@@ -152,10 +152,12 @@ export default function ProjectIndicatorForm({
         open={open}
         TransitionComponent={Transition}
         onClose={onClose}
-        maxWidth={"md"}
+        fullWidth="true"
+        minWidth="lg"
+        maxWidth="lg"
       >
         <FormWrapper>
-          <FormHeader style={{ marginLeft: "15px" }}>
+          <FormHeader ml={2} mt={2}>
             {action === DEF_ACTIONS.ADD ? "Add" : ""} Project Indicator
           </FormHeader>
 
@@ -210,10 +212,11 @@ export default function ProjectIndicatorForm({
           <Grid
             container
             sx={{
-              border: "1px solid #bec0c2",
               borderRadius: "5px",
               margin: "15px",
+              marginBottom: "20px",
               width: "97%",
+              boxShadow: "0px 3px 6px #00000029",
             }}
           >
             {
@@ -244,7 +247,7 @@ export default function ProjectIndicatorForm({
             }
 
             {
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item sm={6} md={8} lg={8}>
                 <FieldWrapper>
                   <FieldName>Description</FieldName>
                   <TextField
