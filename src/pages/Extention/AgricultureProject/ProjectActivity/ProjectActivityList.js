@@ -111,7 +111,7 @@ export default function ProjectActivityList({ onRowSelect = (_c) => {}, data }) 
     {
       field: "activityId",
       headerName: "Activity Id",
-      width: 180,
+      width: 100,
       flex: 1,
       headerClassName: "super-app-theme--header",
       renderCell: (params) =>
@@ -122,7 +122,7 @@ export default function ProjectActivityList({ onRowSelect = (_c) => {}, data }) 
     {
       field: "description",
       headerName: "Description",
-      width: 400,
+      width: 1300,
       headerClassName: "super-app-theme--header",
       renderCell: (params) =>
       params.row.projectActivityDTO 

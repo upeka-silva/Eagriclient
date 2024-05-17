@@ -34,10 +34,6 @@ const ProjectReport = () => {
 
   const [loading, setLoading] = useState(false);
   const [selectedProjectReport, setSelectedProjectReport] = useState([]);
-
-  console.log({ selectedProjectReport });
-
-  const [search, setSearch] = useState({});
   const [openProjectReport, setOpenProjectReport] = useState(false);
   const [projectReportData, setProjectReportData] = useState([]);
   console.log({ projectReportData });

@@ -213,3 +213,22 @@ export const changeStatus = async (
     onError(errorMessage);
   }
 };
+
+export const getNextProjectId = async () => {
+try {
+  const {httpCode, payload} = await get("extension/agriculture-project/get-next-id", true);
+  if (httpCode === '200 OK') {
+    return {
+      data: payload
+    }
+  }
+  return {
+    data: {}
+  }
+} catch (error) {
+  console.log(error)
+  return {
+    data: {}
+  }
+}
+};
