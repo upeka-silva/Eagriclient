@@ -191,10 +191,12 @@ const IsoUnitForm = () => {
                 }}
                 id="baseUnit"
                 options={baseUnits}
+                value={formData?.baseUnit || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(event, value) =>
                   handleChange(value || "", "baseUnit")
                 }
-                getOptionLabel={(option) => option?.unitCode}
+                getOptionLabel={(option) => option?.unitCode || ""}
                 renderInput={(params) => <TextField {...params} />}
                 size="small"
                 fullWidth
