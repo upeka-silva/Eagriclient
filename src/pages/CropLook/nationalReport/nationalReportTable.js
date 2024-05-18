@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {
   approveNationalData,
+  getCropCategoryReport,
   getNationalData,
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
@@ -25,6 +26,15 @@ const NationalReportTable = ({ category, season, week }) => {
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
   const { addSnackBar } = useSnackBars();
+  const [categoryReport, setCategoryReport] = useState([]);
+
+  const getCategoryReport = async () => {
+    await getCropCategoryReport(category?.id, season?.id, week?.id).then(
+      (res) => {
+        setCategoryReport(res);
+      }
+    );
+  };
 
   useEffect(() => {
     async function fetchData(categoryId, seasonId, weekId) {
@@ -34,6 +44,10 @@ const NationalReportTable = ({ category, season, week }) => {
       setData(grouping(dataList));
       setLoading(false);
     }
+
+    getCategoryReport();
+    console.log({categoryReport})
+
     console.log(category?.id + "-" + season?.id + "- " + week?.id);
     fetchData(category?.id, season?.id, week?.id);
   }, [week]);
@@ -58,11 +72,23 @@ const NationalReportTable = ({ category, season, week }) => {
     return nestedData;
   };
 
-  const handleVegitalbleEarlyWarning = () => {
-    async function publish(categoryId, seasonId, weekId) {
-      await approveNationalData(categoryId, seasonId, weekId, onSuccess, onError);
+  const handleVegitalbleEarlyWarning = async () => {
+   const resp = await approveNationalData(
+      category?.id,
+      season?.id,
+      week?.id,
+      onSuccess,
+      onError
+    ).then((res) => {
+      getCategoryReport();
+      if (res) {
+        getCategoryReport();
+      }
+    });
+
+    if(resp){
+      getCategoryReport();
     }
-    publish(category?.id, season?.id, week?.id);
   };
 
   const onSuccess = () => {
@@ -83,16 +109,18 @@ const NationalReportTable = ({ category, season, week }) => {
     <>
       <h5>{category.description}</h5>
       <Grid item sm={12} md={12} lg={12}>
-        {category?.description === "Vegetables" &&
-        <Button
-          variant="outlined"
-          color="success"
-          size="small"
-          onClick={handleVegitalbleEarlyWarning}
-          sx={{ marginTop: "5px", marginBottom: "10px" }}
-        >
-          Approve
-        </Button>}
+        {category?.description === "Vegetables" && (
+            <Button
+              variant="outlined"
+              color="success"
+              size="small"
+              onClick={handleVegitalbleEarlyWarning}
+              sx={{ marginTop: "5px", marginBottom: "10px" }}
+              disabled={categoryReport === null || categoryReport?.nationalApprovedBy !== null}
+            >
+              { (categoryReport !== null && categoryReport?.nationalApprovedBy !== null) ? "Approved" : "Approve"}
+            </Button>
+          )}
       </Grid>
       <TableContainer component={Paper}>
         <Table>
