@@ -160,13 +160,15 @@ const TreeComponent = ({ category, season, week }) => {
 
   return (
     <>
-      <div style={{ width: "100%", height: "100vh", paddingTop: "70px" }}>
+      <div style={{ width: "100%", height: "100vh" }}>
         {!loading ? (
           <Tree
             data={data}
             translate={{ x: 50, y: 50 }}
             renderCustomNodeElement={renderCustomNode}
+            orientation="vertical"
             nodeSize={{ x: 100, y: 50 }}
+            //orientation="horizontal"
           />
         ) : (
           <CircularProgress />

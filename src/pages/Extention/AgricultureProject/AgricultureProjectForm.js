@@ -932,13 +932,13 @@ const AgricultureProjectForm = () => {
           Indicator
         </TabButton>
 
-        <TabButton
+        {/* <TabButton
           variant="contained"
           className={toggleState === 4 ? "active-tabs" : ""}
           onClick={() => toggleTab(4)}
         >
           Crops
-        </TabButton>
+        </TabButton> */}
       </TabWrapper>
 
       <TabContent className={toggleState === 1 ? "active-content" : ""}>
@@ -1197,7 +1197,7 @@ const AgricultureProjectForm = () => {
         />
       </TabContent>
 
-      <TabContent className={toggleState === 4 ? "active-content" : ""}>
+      {/* <TabContent className={toggleState === 4 ? "active-content" : ""}>
         <ActionWrapper isLeft>
           <ButtonGroup
             variant="outlined"
@@ -1247,7 +1247,7 @@ const AgricultureProjectForm = () => {
             projectId={projectId}
           />
         )}
-      </TabContent>
+      </TabContent> */}
 
       {/* dialog boxes for delete */}
       <ConfirmationDialog
