@@ -221,6 +221,7 @@ import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/V
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
+import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 
 export const Routes = [
   {
@@ -1417,6 +1418,14 @@ export const Routes = [
         isSideBar: false,
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
+      },
+      {
+        path: "/progress-tracker",
+        name: "Progress Tracker",
+        isSideBar: true,
+        element: <ProgressTrackerTree />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
         path: "/dd-report",

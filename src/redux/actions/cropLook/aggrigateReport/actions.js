@@ -356,6 +356,26 @@ export const getNationalData = async (categoryId, seasonId, weekId) => {
   }
 };
 
+export const getProgressTrackerNode = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payload } = await get(
+      `crop-look/progress-status-tracker/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payload;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const approveNationalData = async (categoryId, seasonId, weekId,onSuccess = () => { },
 onError = (_message) => { }) => {
   
