@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Dialog,
-  Grid,
-  Slide,
-  TextField,
-} from "@mui/material";
+import { Button, Dialog, Grid, Slide, TextField } from "@mui/material";
 
-import { handleProjectActivity, updateProjectActivity } from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
+import {
+  handleProjectActivity,
+  updateProjectActivity,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectActivity/action";
 import { ButtonWrapper } from "../../../../components/FormLayout/ButtonWrapper";
 import { FieldName } from "../../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../../components/FormLayout/FieldWrapper";
@@ -32,17 +29,29 @@ export default function ProjectActivityForm({
   loading,
   stopLoading,
   onChange,
+  activityData,
   resetData,
   refresh,
   setOpenActivity,
 }) {
-  console.log({ProjectActivityData})
+  console.log({ ProjectActivityData });
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
-  console.log("datanewss",data)
+  console.log("datanewss", data);
   const [gnDivisionList, setGnDivisionList] = useState([]);
   const [saving, setSaving] = useState(false);
   const [farmerList, setFarmerList] = useState([]);
+
+  console.log("length",activityData)
+
+  let nextGenId;
+  if (action === DEF_ACTIONS.ADD) {
+    if (activityData?.length > 0) {
+      nextGenId = parseInt(activityData[activityData.length - 1].activityId, 10) + 1;
+    } else {
+      nextGenId = 1;
+    }
+  }
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {
@@ -81,11 +90,12 @@ export default function ProjectActivityForm({
         refresh();
       }
       if (ProjectActivityData?.id) {
-        console.log("handleFarmLandOwnership",ProjectActivityData?.id);
+        console.log("handleFarmLandOwnership", ProjectActivityData?.id);
         await handleProjectActivity(
           {
             ...data,
             agricultureProjectDTO: ProjectActivityData,
+            activityId : nextGenId
           },
           onSuccess,
           onError
@@ -136,52 +146,51 @@ export default function ProjectActivityForm({
         open={open}
         TransitionComponent={Transition}
         onClose={onClose}
-        maxWidth={"md"}
+        fullWidth="true"
+        minWidth="lg"
+        maxWidth="lg"
       >
         <FormWrapper>
-          <FormHeader style={{ marginLeft: "15px" }}>
+          <FormHeader ml={2} mt={2}>
             {action === DEF_ACTIONS.ADD ? "Add" : ""} Project Activity
           </FormHeader>
 
           <ButtonWrapper
             isCeneter
-            style={{
-              width: "95%",
+            sx={{
               justifyContent: "flex-start",
               margin: "0",
-              paddingLeft: "18px",
             }}
           >
-          
-              <ActionWrapper>
-                {saving ? (
-                  <Button variant="contained" color="success" size="small">
-                    {action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+            <ActionWrapper>
+              {saving ? (
+                <Button variant="contained" color="success" size="small">
+                  {action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    variant="outlined"
+                    disabled={!enableSave()}
+                    onClick={handleFormSubmit}
+                    size="small"
+                    color="success"
+                  >
+                    {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
                   </Button>
-                ) : (
-                  <>
-                    <Button
-                      variant="outlined"
-                      disabled={!enableSave()}
-                      onClick={handleFormSubmit}
-                      size="small"
-                      color="success"
-                    >
-                      {action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
-                    </Button>
-                    <Button
-                      onClick={resetData}
-                      color="success"
-                      variant="contained"
-                      size="small"
-                      sx={{ marginLeft: "10px" }}
-                    >
-                      RESET
-                    </Button>
-                  </>
-                )}
-              </ActionWrapper>
-            
+                  <Button
+                    onClick={resetData}
+                    color="success"
+                    variant="contained"
+                    size="small"
+                    sx={{ marginLeft: "10px" }}
+                  >
+                    RESET
+                  </Button>
+                </>
+              )}
+            </ActionWrapper>
+
             <Button
               color="success"
               variant="contained"
@@ -194,21 +203,25 @@ export default function ProjectActivityForm({
           <Grid
             container
             sx={{
-              border: "1px solid #bec0c2",
               borderRadius: "5px",
               margin: "15px",
+              marginBottom: "20px",
               width: "97%",
+              boxShadow: "0px 3px 6px #00000029",
             }}
           >
             {
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item sm={6} md={3} lg={3}>
                 <FieldWrapper>
                   <FieldName>Activity Id</FieldName>
                   <TextField
                     name="activityId"
                     id="aactivityId"
-                    value={data?.activityId || ""}
-                    disabled={action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT}
+                    value={nextGenId ? nextGenId : data?.activityId || ""}
+                    disabled={
+                      action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT
+                      || action === DEF_ACTIONS.ADD
+                    }
                     onChange={(e) =>
                       onChange(e?.target?.value || "", "activityId")
                     }
@@ -226,7 +239,7 @@ export default function ProjectActivityForm({
             }
 
             {
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item sm={6} md={9} lg={9}>
                 <FieldWrapper>
                   <FieldName>Description</FieldName>
                   <TextField

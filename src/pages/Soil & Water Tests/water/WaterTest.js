@@ -29,13 +29,16 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const WaterTest = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars;
-
+  const { addSnackBar } = useSnackBars();
   const [selectWaterTest, setSelectWaterTest] = useState([]);
+  const [dialogSelectWaterTest, setDialogSelectWaterTest] = useState([]);
+
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -90,33 +93,12 @@ const WaterTest = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectWaterTest(selectWaterTest);
   };
 
   const close = () => {
     setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectWaterTest.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+    setDialogSelectWaterTest([]);
   };
 
   const onSuccess = () => {
@@ -136,9 +118,11 @@ const WaterTest = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const WaterTests of selectWaterTest) {
+      for (const WaterTests of dialogSelectWaterTest	) {
+        console.log("Start",WaterTests?.id)
         await deleteWaterTests(WaterTests?.id, onSuccess, onError);
       }
+      console.log("Over")
       setLoading(false);
       close();
       resetSelectedWaterTests();
@@ -220,36 +204,19 @@ const WaterTest = () => {
           />
         )}
       </PermissionWrapper>
-      <DialogBox
+      <ConfirmationDialog
         open={open}
-        title="Delete Water Sample"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectWaterTest}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectWaterTest}
+        dialogSelectedTypes={dialogSelectWaterTest}
+        propertyId = "code"
+        propertyDescription = "remarks"
+      />
+
     </div>
   );
 };

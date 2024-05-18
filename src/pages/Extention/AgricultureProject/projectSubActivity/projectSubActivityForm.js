@@ -46,18 +46,29 @@ export default function ProjectSubActivityForm({
   stopLoading,
   onChange,
   resetData,
+  subActivityDataList,
   refresh,
   setOpenActivity,
+  activityDataId,
 }) {
-  console.log({ ProjectActivityData });
+  console.log({ activityDataId });
   const { addSnackBar } = useSnackBars();
   const [formData, setFormData] = useState(data);
   console.log("datanewss", data);
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => { 
-    console.log("refresh ")
-  }, []);
+  let nextGenId;
+  if (action === DEF_ACTIONS.ADD && activityDataId) {
+    if (subActivityDataList?.length > 0) {
+      nextGenId = (
+        parseFloat(
+          subActivityDataList[subActivityDataList.length - 1].subActivityId
+        ) + 0.1
+      ).toFixed(1);
+    } else {
+      nextGenId = activityDataId?.activityId + "." + 1;
+    }
+  }
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {
@@ -101,6 +112,7 @@ export default function ProjectSubActivityForm({
           {
             ...data,
             projectActivityDTO: ProjectActivityData,
+            subActivityId: nextGenId,
           },
           onSuccess,
           onError
@@ -139,10 +151,12 @@ export default function ProjectSubActivityForm({
         open={open}
         TransitionComponent={Transition}
         onClose={onClose}
-        maxWidth={"md"}
+        fullWidth="true"
+        minWidth="lg"
+        maxWidth="lg"
       >
         <FormWrapper>
-          <FormHeader style={{ marginLeft: "15px" }}>
+          <FormHeader ml={2} mt={2}>
             {action === DEF_ACTIONS.ADD ? "Add" : ""} Project Sub Activity
           </FormHeader>
 
@@ -196,21 +210,26 @@ export default function ProjectSubActivityForm({
           <Grid
             container
             sx={{
-              border: "1px solid #bec0c2",
               borderRadius: "5px",
               margin: "15px",
+              marginBottom: "20px",
               width: "97%",
+              boxShadow: "0px 3px 6px #00000029",
             }}
           >
             {
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item sm={6} md={3} lg={3}>
                 <FieldWrapper>
-                  <FieldName>Activity Id</FieldName>
+                  <FieldName>Sub Activity Id</FieldName>
                   <TextField
                     name="subActivityId"
                     id="subActivityId"
-                    value={data?.subActivityId || ""}
-                    disabled={action === DEF_ACTIONS.VIEW || action === DEF_ACTIONS.EDIT}
+                    value={nextGenId ? nextGenId : data?.subActivityId || ""}
+                    disabled={
+                      action === DEF_ACTIONS.VIEW ||
+                      action === DEF_ACTIONS.EDIT ||
+                      action === DEF_ACTIONS.ADD
+                    }
                     onChange={(e) =>
                       onChange(e?.target?.value || "", "subActivityId")
                     }
@@ -228,7 +247,7 @@ export default function ProjectSubActivityForm({
             }
 
             {
-              <Grid item sm={6} md={4} lg={4}>
+              <Grid item sm={6} md={9} lg={9}>
                 <FieldWrapper>
                   <FieldName>Description</FieldName>
                   <TextField

@@ -37,7 +37,7 @@ export default function ProjectSubActivityList({
         selectedRows={selectedRows}
         selectAll={selectAll}
         onRowSelect={onRowSelect}
-        unSelectAll={unSelectAll}
+        //unSelectAll={unSelectAll}
         refresh={refresh}
       />
     </TableWrapper>
