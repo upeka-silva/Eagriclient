@@ -29,8 +29,6 @@ import {
   Delete,
   Edit,
   Vrpano,
-  CheckRounded,
-  CancelOutlined,
 } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import TargetRegistrationList from "./target-registration-list";
@@ -91,7 +89,7 @@ const TargetRegistration = () => {
 
   const onView = () => {
     setAction(DEF_ACTIONS.VIEW);
-    navigate("/crop-target/crop-registration-form", {
+    navigate("/crop-target/crop-target-registration-form", {
       state: {
         action: DEF_ACTIONS.VIEW,
         target: selectSubCategory[0] || {},

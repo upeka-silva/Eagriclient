@@ -765,3 +765,19 @@ export const downloadDDSummaryExcel = async (
     }
   }
 };
+
+export const getCropCategoryReport = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payload} = await get(
+      `crop-look/crop-category-report/national-approve/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payload;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

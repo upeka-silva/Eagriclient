@@ -44,16 +44,17 @@ function LandingHeader() {
           style={{ height: "auto", margin: "0 20px 0px 5px", width: "4px" }}
         />
         <Grid>
-          <img width={"290px"} height={"65px"} src={MainLogo} alt="Logo" />
+          <img height={"65px"} src={FAOLogo} alt="Fao Logo" />
         </Grid>
 
       </Grid>
       <Grid sx={{ display: "flex", justifyContent: "flex-end" }}>
         <CardMedia
           component="img"
-          height={70}
-          image={FAOLogo}
-          title="Fao Logo"
+          height={65}
+          image={MainLogo}
+          title="Logo"
+          width={290}
         />
       </Grid>
     </Grid>

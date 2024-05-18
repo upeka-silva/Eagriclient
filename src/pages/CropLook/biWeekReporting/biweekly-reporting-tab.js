@@ -223,7 +223,7 @@ const BiWeeklyReportingTab = ({
 
   const approveCategoryReport = () => {
     changeStatusOfBiWeekCropCategoryReport(
-      savedCropCategoryTarget?.id,
+      cropTargetId,
       BI_WEEK_REPORT_STATUS.AI_COMPLETED,
       onSuccessForApproval,
       onError

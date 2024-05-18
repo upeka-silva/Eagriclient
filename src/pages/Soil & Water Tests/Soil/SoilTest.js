@@ -28,13 +28,16 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const SoilTest = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars;
+  const { addSnackBar } = useSnackBars();
 
   const [selectSoilTest, setSelectSoilTest] = useState([]);
+  const [dialogSelectSoilTest, setDialogSelectSoilTest] = useState([]);
+
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -89,33 +92,12 @@ const SoilTest = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectSoilTest(selectSoilTest);
   };
 
   const close = () => {
     setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectSoilTest.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+    setDialogSelectSoilTest([]);
   };
 
   const onSuccess = () => {
@@ -135,7 +117,7 @@ const SoilTest = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const soilTests of selectSoilTest) {
+      for (const soilTests of dialogSelectSoilTest) {
         await deleteSoilTests(soilTests?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -198,43 +180,29 @@ const SoilTest = () => {
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SOIL_SAMPLE}`}
       >
+        {loading === false && (
         <SoilTestList
           selectedRows={selectSoilTest}
           onRowSelect={toggleSoilTestSelect}
           selectAll={selectAllSoilTests}
           unSelectAll={resetSelectedSoilTests}
         />
+      )}
       </PermissionWrapper>
-      <DialogBox
+
+      <ConfirmationDialog
         open={open}
-        title="Delete Province(s)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <Typography>Are you sure to delete the following items?</Typography>
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectSoilTest}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectSoilTest}
+        dialogSelectedTypes={dialogSelectSoilTest}
+        propertyId="testType"
+        propertyDescription="code"
+      />
+
     </div>
   );
 };
