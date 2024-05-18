@@ -1,10 +1,7 @@
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import {
-  Button,
-  ButtonGroup,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Button, ButtonGroup, Grid, MenuItem, Select } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../../hooks/authentication";
@@ -21,7 +18,15 @@ import PermissionWrapper from "../../../../components/PermissionWrapper/Permissi
 import ProjectReportForm from "./ProjectReportForm";
 import ProjectReportList from "./ProjectReportList";
 import ConfirmationDialog from "../../../../components/ConfirmationDialog/ConfirmationDialog";
-import { deleteProjectReport } from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
+import {
+  deleteProjectReport,
+  getAllProjectDetailsByProjectId,
+  handleProjectReport,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
+import ReportList from "./components/ReportList";
+import { FieldWrapper } from "../../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../../components/FormLayout/FieldName";
+import { get_AgricultureProjectAllList } from "../../../../redux/actions/extension/agricultureProject/action";
 
 const ProjectReport = () => {
   useUserAccessValidation();
@@ -29,16 +34,15 @@ const ProjectReport = () => {
 
   const [loading, setLoading] = useState(false);
   const [selectedProjectReport, setSelectedProjectReport] = useState([]);
-
-  console.log({ selectedProjectReport });
-
-  const [search, setSearch] = useState({});
   const [openProjectReport, setOpenProjectReport] = useState(false);
   const [projectReportData, setProjectReportData] = useState([]);
+  console.log({ projectReportData });
   const [refreshProjectReport, setRefreshProjectReport] = useState(true);
   const [projecrReportAction, setProjecrReportAction] = useState(
     DEF_ACTIONS.ADD
   );
+  const [allProjectData, setAllAgricultureProjectsData] = useState([]);
+  const [projectData, setProjectData] = useState([]);
 
   //delete handlers
   const [openDeleteProjectReport, setOpenDeleteProjectReport] = useState(false);
@@ -107,7 +111,10 @@ const ProjectReport = () => {
     });
   };
 
+
+
   const handleProjectReportData = (value, target) => {
+    allDataFetch(value);
     setProjectReportData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -149,6 +156,33 @@ const ProjectReport = () => {
     }
   };
 
+  useEffect(() => {
+    const getProjectList = async () => {
+      await get_AgricultureProjectAllList().then((res) => {
+        setProjectData(res?.dataList);
+        allDataFetch(res?.dataList[0]?.id);
+      });
+    };
+
+    getProjectList();
+  }, []);
+
+  const allDataFetch = async (id) => {
+    await getAllProjectDetailsByProjectId(id).then((response) => {
+      setAllAgricultureProjectsData(response?.payload);
+      console.log({ response });
+    });
+  };
+  
+
+  useEffect(() => {
+    projectReportData && allDataFetch();
+
+
+  }, []);
+
+  
+
   return (
     <div
       style={{
@@ -158,10 +192,43 @@ const ProjectReport = () => {
         marginTop: "10px",
         height: "90vh",
         overflowY: "scroll",
+        paddingRight: "10px",
       }}
     >
       <ListHeader title="Report A Project" />
-      <ActionWrapper isLeft>
+
+      <Grid container spacing={2} mt={3}>
+        <Grid item sm={6} md={3} lg={3}>
+        <FieldName>Select Project</FieldName>
+          <Select
+            name="projectId"
+            id="projectId"
+            value={projectReportData?.projectId || ""}
+            disabled={projecrReportAction === DEF_ACTIONS.VIEW}
+            onChange={(e) => {
+              handleProjectReportData(e?.target?.value, "projectId");
+            }}
+            fullWidth
+            sx={{
+              borderRadius: "8px",
+            }}
+            size="small"
+          >
+            {projectData?.map((item) => (
+              <MenuItem key={item?.id} value={item?.id}>
+                {item?.description}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
+        <Grid item md={9} display="flex" justifyContent="flex-end">
+          {/* Your second item */}
+          {/* <Button variant="contained" color="success" onClick={saveReportData}>
+            save
+          </Button> */}
+        </Grid>
+      </Grid>
+      {/* <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -208,7 +275,7 @@ const ProjectReport = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-      </ActionWrapper>
+      </ActionWrapper> */}
       {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
       > */}
@@ -216,17 +283,24 @@ const ProjectReport = () => {
         <PermissionWrapper
           permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROJECT_REPORT}`}
         >
-          <ProjectReportList
+          {/* <ProjectReportList
             selectedRows={selectedProjectReport}
             onRowSelect={toggleAgricultureProjectSelect}
             selectAll={selectAllAgricultureProjects}
             unSelectAll={resetSelectedAgricultureProjects}
             advancedSearchData={search}
             refresh={refreshProjectReport}
-          />
+          /> */}
         </PermissionWrapper>
       )}
       {/* </PermissionWrapper> */}
+
+      <Grid mt={4}>
+        <ReportList
+          allProjectData={allProjectData}
+          //saveReportData={saveReportData}
+        />
+      </Grid>
 
       <ProjectReportForm
         open={openProjectReport}

@@ -1,4 +1,4 @@
-import { api_delete, post, put } from "../../../../../services/api";
+import { api_delete, get, post, put } from "../../../../../services/api";
 import { defaultMessages } from "../../../../../utils/constants/apiMessages";
 
 export const handleProjectReport = async (
@@ -110,3 +110,30 @@ export const handleProjectReport = async (
       }
     }
   };
+
+  export const getAllProjectDetailsByProjectId = async (projectId) => {
+
+    try {
+      const response = await get(
+        `extension/agriculture-project/${projectId || ""}`,
+        true
+      );
+      return response;
+    } catch ({ error }) {
+      return error;
+    }
+
+
+  }
+
+  export const getProjectReportsByRelatedUserId = async () => {
+    try {
+      const response = await get(
+        `extension/project-report/get-report-by-user`,
+        true
+      );
+      return response;
+    } catch ({ error }) {
+      return error;
+    }
+  }
