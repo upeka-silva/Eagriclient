@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonGroup,
-  Container,
   Grid,
   TextField,
   Chip,
@@ -11,7 +10,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Autocomplete,
   Select,
   MenuItem,
 } from "@mui/material";
@@ -35,6 +33,7 @@ import PageHeader from "../../../components/PageHeader/PageHeader";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   changeStatus,
+  getNextProjectId,
   handleAgricultureProject,
   updateAgricultureProject,
 } from "../../../redux/actions/extension/agricultureProject/action";
@@ -43,7 +42,6 @@ import AddCropDialog from "../../Crop/Crop/AddCropDialog";
 import {
   assignCrop,
   deleteCropFromProject,
-  get_CropList,
 } from "../../../redux/actions/crop/crop/action";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
@@ -71,7 +69,10 @@ import { Colors } from "../../../utils/constants/Colors";
 import { get_ProvinceList } from "../../../redux/actions/province/action";
 import ProjectIndicatorForm from "./ProjectIndicator/ProjectIndicatorForm";
 import ProjectIndicatorList from "./ProjectIndicator/ProjectIndicatorList";
-import { deleteProjectIndicator } from "../../../redux/actions/extension/agricultureProject/projectIndicator/action";
+import {
+  deleteProjectIndicator,
+  get_IndicatorBySubActivityId,
+} from "../../../redux/actions/extension/agricultureProject/projectIndicator/action";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 
 const AgricultureProjectForm = () => {
@@ -80,7 +81,7 @@ const AgricultureProjectForm = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
-  console.log({ formData });
+  console.log({ state });
 
   const [saving, setSaving] = useState(false);
   const [projectId, setProjectId] = useState(null);
@@ -92,9 +93,7 @@ const AgricultureProjectForm = () => {
   const [openCropAddDialog, setOpenCropAddDialog] = useState(false);
   const [loading, setLoading] = useState(false);
   const [selectCrop, setSelectCrop] = useState([]);
-  const [deleteItem, setDeleteItem] = useState(null);
   const [open, setOpen] = useState(false);
-
 
   //delete handlers
   const [openDeleteActivity, setOpenDeleteActivity] = useState(false);
@@ -118,15 +117,16 @@ const AgricultureProjectForm = () => {
   const [subActivityData, setSubActivityData] = useState();
   const [indicatorData, setIndicatorData] = useState();
 
-  console.log({ subActivityData });
+  console.log({ activityData });
   const [selectedActivity, setSelectedActivity] = useState([]);
-  console.log({ selectedActivity });
+
+  //data list
   const [activityDataList, setActivityDataList] = useState([]);
   const [subActivityDataList, setSubActivityDataList] = useState([]);
-  console.log({ subActivityDataList });
+  const [indicatorDataList, setIndicatorDataList] = useState([]);
+  
+
   const [selectActivityData, setSelectActivityData] = useState([]);
-  console.log({ selectActivityData });
-  console.log({ activityDataList });
 
   //set actions
   const [activityAction, setActivityAction] = useState(DEF_ACTIONS.ADD);
@@ -145,7 +145,7 @@ const AgricultureProjectForm = () => {
   );
   const [selectedIndicatorAllData, setSelectedIndicatorAllData] = useState([]);
 
-  console.log({ selectedIndicatorAllData });
+  console.log("home", indicatorDataList );
 
   console.log({ selectedSubActivityAllData });
   // const [fLOAction, setFlOAction] = useState(DEF_ACTIONS.ADD);
@@ -154,9 +154,10 @@ const AgricultureProjectForm = () => {
   const [refreshActivity, setRefreshActivity] = useState(true);
   const [refreshSubActivity, setRefreshSubActivity] = useState(true);
   const [refreshIndicator, setRefreshIndicator] = useState(true);
+  const [nextProjectId, setNextProjectId] = useState();
 
   const [provinceList, setProvinceList] = useState([]);
-  console.log({ provinceList });
+  console.log({ nextProjectId });
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -168,6 +169,7 @@ const AgricultureProjectForm = () => {
     navigate("/extension/create-project");
   };
   const onCreateActivityData = () => {
+    setActivityData([]);
     setOpenActivity(true);
   };
 
@@ -399,7 +401,6 @@ const AgricultureProjectForm = () => {
     setSelectCrop([]);
   };
   const handleCropDelete = (prop) => (event) => {
-    setDeleteItem(prop);
     setOpen(true);
   };
 
@@ -564,6 +565,20 @@ const AgricultureProjectForm = () => {
       fetchDataForSubActivityByActivityId(selectActivityData?.id);
   }, [refreshSubActivity]);
 
+  const fetchDataForIndicatorBySubActivityId = (activityId) => {
+    
+  }
+
+  useEffect(() => {
+    selectedSubActivityAllData[0]?.id &&
+      get_IndicatorBySubActivityId(selectedSubActivityAllData[0]?.id).then(
+        ({ dataList = [] }) => {
+          console.log("inlist",dataList);
+          setIndicatorDataList(dataList);
+        }
+      );
+  }, [refreshIndicator]);
+
   const fetchDataForSubActivityByActivityId = (activityId) => {
     get_SubActivityByActivityId(activityId).then(({ dataList = [] }) => {
       console.log(dataList);
@@ -575,12 +590,15 @@ const AgricultureProjectForm = () => {
     try {
       if (formData?.id) {
         const resValue = await changeStatus(
-          formData.id,
+          formData?.id,
           "ONGOING",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
-        setFormData(resValue);
+        console.log({ resValue });
+        if (resValue?.payload?.httpCode === "200 OK") {
+          setFormData(resValue?.payload);
+        }
       }
     } catch (error) {}
   };
@@ -591,9 +609,10 @@ const AgricultureProjectForm = () => {
         const resValue = await changeStatus(
           formData.id,
           "CLOSED",
-          onSuccess,
+          onSuccessStatus,
           onError
         );
+        setFormData(resValue?.payload);
       }
     } catch (error) {}
   };
@@ -646,6 +665,14 @@ const AgricultureProjectForm = () => {
     setSaving(false);
   };
 
+  const onSuccessStatus = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Updated Status",
+    });
+    setSaving(false);
+  };
+
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
@@ -661,8 +688,13 @@ const AgricultureProjectForm = () => {
         if (formData?.id) {
           await updateAgricultureProject(formData, onSuccess, onError);
         } else {
+          const nextProjectIds = {
+            ...formData,
+            projectId: nextProjectId,
+          };
+
           const response = await handleAgricultureProject(
-            formData,
+            nextProjectIds,
             onSuccess,
             onError
           );
@@ -675,6 +707,17 @@ const AgricultureProjectForm = () => {
       } catch (error) {}
     }
   };
+
+  useEffect(() => {
+    const fetchNextProjectId = async () => {
+      const response = await getNextProjectId().then((res) => {
+        setNextProjectId(res?.data);
+        console.log("newrr", res);
+      });
+    };
+
+    state?.action === DEF_ACTIONS.ADD && fetchNextProjectId();
+  }, []);
 
   return (
     <FormWrapper>
@@ -707,11 +750,12 @@ const AgricultureProjectForm = () => {
             <TextField
               name="projectId"
               id="projectId"
-              value={formData?.projectId || ""}
+              value={nextProjectId ? nextProjectId : formData?.projectId || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
-                state?.action === DEF_ACTIONS.EDIT
+                state?.action === DEF_ACTIONS.EDIT ||
+                state?.action === DEF_ACTIONS.ADD
               }
               onChange={(e) =>
                 handleChange(e?.target?.value || "", "projectId")
@@ -766,7 +810,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted1}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Ongoing"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -783,7 +830,10 @@ const AgricultureProjectForm = () => {
               <>
                 <Button
                   onClick={setSubmitted2}
-                  disabled={state?.action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    state?.action === DEF_ACTIONS.VIEW ||
+                    formData?.statusType === "Closed"
+                  }
                   color="success"
                   variant="outlined"
                   size="small"
@@ -846,7 +896,7 @@ const AgricultureProjectForm = () => {
                   size="small"
                 >
                   {provinceList?.map((item) => (
-                    <MenuItem value={item?.name}>{item?.name}</MenuItem>
+                    <MenuItem value={item?.id}>{item?.name}</MenuItem>
                   ))}
                 </Select>
               </FieldWrapper>
@@ -900,31 +950,46 @@ const AgricultureProjectForm = () => {
             aria-label="action button group"
             color="success"
           >
-            <Button onClick={onCreateActivityData}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-
-            {selectedProjectActivity.length === 1 && (
-              <Button onClick={onEditActivityData}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              <Button onClick={onCreateActivityData}>
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
-            )}
+            </PermissionWrapper>
 
-            {selectedProjectActivity.length === 1 && (
-              <Button onClick={onViewActivityData}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length === 1 && (
+                <Button onClick={onEditActivityData}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              )}
+            </PermissionWrapper>
 
-            {selectedProjectActivity.length > 0 && (
-              <Button onClick={onDeleteActivityData}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            )}
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length === 1 && (
+                <Button onClick={onViewActivityData}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              )}
+            </PermissionWrapper>
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROJECT_ACTIVITY}`}
+            >
+              {selectedProjectActivity.length > 0 && (
+                <Button onClick={onDeleteActivityData}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              )}
+            </PermissionWrapper>
           </ButtonGroup>
           <ButtonGroup
             variant="outlined"
@@ -946,6 +1011,7 @@ const AgricultureProjectForm = () => {
           setOpenActivity={setOpenActivity}
           action={activityAction}
           onClose={closeActivity}
+          activityData={activityDataList}
           // farmLandData={formData}
           data={activityData}
           onChange={handleFlOData}
@@ -1036,6 +1102,8 @@ const AgricultureProjectForm = () => {
           setOpenActivity={setOpenSubActivity}
           action={subactivityAction}
           onClose={closeSubActivity}
+          subActivityDataList={subActivityDataList}
+          activityDataId={selectActivityData}
           // farmLandData={formData}
           data={subActivityData}
           onChange={handleSubActivityData}
@@ -1110,6 +1178,7 @@ const AgricultureProjectForm = () => {
           open={openIndicator}
           ProjectSubActivityData={selectedSubActivityAllData[0]}
           setOpenActivity={setOpenIndicator}
+          indicatorDataList={indicatorDataList}
           action={indicatorAction}
           onClose={closeIndicator}
           // farmLandData={formData}
@@ -1140,7 +1209,7 @@ const AgricultureProjectForm = () => {
             <Button
               onClick={onAddCrop}
               disabled={
-                formData?.id == undefined || state?.action === DEF_ACTIONS.VIEW
+                formData?.id === undefined || state?.action === DEF_ACTIONS.VIEW
               }
             >
               <Add />

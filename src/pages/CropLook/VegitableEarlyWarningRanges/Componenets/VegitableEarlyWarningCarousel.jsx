@@ -7,30 +7,35 @@ import VegitableEarlyWarningFoodCard from "../../../../components/VegitableEarly
 import { Grid, IconButton } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import styled from "styled-components";
-import './VegitableEarlyWarningCarousel.css'
+import "./VegitableEarlyWarningCarousel.css";
 
 const StyledSlider = styled(Slider)`
   &.slider-container .slider {
     overflow: initial;
-  }`;
+  }
+`;
 
-function VegitableEarlyWarningCarousel({status ,dataList}) {
-
+function VegitableEarlyWarningCarousel({ status, dataList }) {
   return (
     <div>
-      <Grid container spacing={2} display='flex'>
+      <Grid container spacing={2} display="flex">
         {/* Render cards */}
-        {dataList.map((card, index) => (
-          <Grid key={index} item mb={5}>
-            <VegitableEarlyWarningFoodCard
-              image={Brinjol}
-              foodName={card?.cropDTO?.description}
-              status={status}
-              firstText={card.accumulatedExtend}
-              secondText={card.accumulatedExtend}
-            />
-          </Grid>
-        ))}
+
+        {
+        
+        dataList[0]?.isPublished === true
+          && dataList.map((card, index) => (
+              <Grid key={index} item mb={5}>
+                <VegitableEarlyWarningFoodCard
+                  image={card?.cropDTO.prsignedUrl}
+                  foodName={card?.cropDTO?.description}
+                  status={status}
+                  firstText={card.accumulatedExtend}
+                  secondText={card.accumulatedExtend}
+                />
+              </Grid>
+            ))
+         }
       </Grid>
     </div>
   );

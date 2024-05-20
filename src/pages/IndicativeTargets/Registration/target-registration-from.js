@@ -1,9 +1,5 @@
 import React, { useState } from "react";
-import {
-  TextField,
-  Autocomplete,
-  Grid,
-} from "@mui/material";
+import { TextField, Autocomplete, Grid } from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -17,7 +13,11 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { Fonts } from "../../../utils/constants/Fonts";
 import PageHeader from "../../../components/PageHeader/PageHeader";
-import { getAllDDLevelRegions, saveCropRegistrationItems, updateCropRegistrationItems } from "../../../redux/actions/indicativeTargets/actions";
+import {
+  getAllDDLevelRegions,
+  saveCropRegistrationItems,
+  updateCropRegistrationItems,
+} from "../../../redux/actions/indicativeTargets/actions";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";
 import TargetRegistrationTils from "./target-registration-tiles";
 
@@ -49,14 +49,12 @@ const TargetRegistrationForm = () => {
       console.log(dataList);
       console.log(items);
 
-      if(items && dataList) {
-        console.log('item is available');
+      if (items && dataList) {
+        console.log("item is available");
         for (var crop of dataList) {
-          var isAvailable = items.find(
-            (ele) => ele?.crop?.id === crop.id
-          );
-          if(isAvailable) {
-            console.log('crop is available in items');
+          var isAvailable = items.find((ele) => ele?.crop?.id === crop.id);
+          if (isAvailable) {
+            console.log("crop is available in items");
             crop.selected = true;
           }
         }
@@ -70,18 +68,17 @@ const TargetRegistrationForm = () => {
       state?.action === DEF_ACTIONS.VIEW
     ) {
       var ddDivision = {
-                          id: state.target.regionId,
-                          name: state.target.regionName,
-                          parentType: state.target.regionType
-
-                        };
+        id: state.target.regionId,
+        name: state.target.regionName,
+        parentType: state.target.regionType,
+      };
 
       setSelectedDDDivision(ddDivision);
     }
   }, []);
 
   const goBack = () => {
-    navigate("/crop-target/crop-registration");
+    navigate("/crop-target/crop-target-registration");
   };
 
   const handleDDChange = (value) => {
@@ -96,7 +93,7 @@ const TargetRegistrationForm = () => {
     }
   };
 
-  const  enableSave = () => {
+  const enableSave = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
       return true;
     }
@@ -136,7 +133,7 @@ const TargetRegistrationForm = () => {
     for (const crop of cropList) {
       if (crop.selected) {
         items.push({
-          crop: { id: crop.id }
+          crop: { id: crop.id },
         });
       }
     }
@@ -148,7 +145,7 @@ const TargetRegistrationForm = () => {
       items: items,
     };
 
-    if(state.action === DEF_ACTIONS.EDIT) {
+    if (state.action === DEF_ACTIONS.EDIT) {
       payload.id = state.target.id;
 
       try {
@@ -163,8 +160,6 @@ const TargetRegistrationForm = () => {
         console.log(error);
       }
     }
-
-
   };
 
   const handleSelectedCrops = (cropId, selected) => {
@@ -215,7 +210,9 @@ const TargetRegistrationForm = () => {
                 }
                 options={options}
                 value={selectedDDDivision}
-                getOptionLabel={(i) => `${i.name}(${i.parentType})`}
+                getOptionLabel={(i) =>
+                  i.description !== undefined ? `${i.description}` : ""
+                }
                 onChange={(event, value) => {
                   handleDDChange(value);
                 }}
@@ -224,7 +221,9 @@ const TargetRegistrationForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                renderInput={(params) => <TextField {...params} size="small" />}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" placeholder="" />
+                )}
                 fullWidth
               />
             </FieldWrapper>

@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Button, ButtonGroup, Grid, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  Chip,
+  Grid,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
@@ -29,7 +37,6 @@ const BiWeeklyReportingTab = ({
   savedCropCategoryTarget,
 }) => {
   const { addSnackBar } = useSnackBars();
-  const [cropTargets, setCropTargets] = useState([]);
   const [saving, setSaving] = useState(false);
   const [configFields, setConfigFields] = useState([]);
   const [dataLoaded, setDataLoaded] = useState(false);
@@ -37,42 +44,71 @@ const BiWeeklyReportingTab = ({
   const [openDialog, setOpenDialog] = useState(false);
   const [cropTargetId, setCropTargetId] = useState(savedCropCategoryTarget?.id);
 
+  const [newCropTargets, setNewCropTargets] = useState([]);
+  const [savedCropTarget, setSavedCropTarget] = useState([]);
+  const [categoryStatus, setCategoryStatus] = useState("");
+
   useEffect(() => {
     getConfigurationById(cropCategoryId).then((data = {}) => {
       setConfigFields(data ? data.fields : []);
       checkDataLoadStatus();
     });
-    if (
-      (mode === DEF_ACTIONS.VIEW || mode === DEF_ACTIONS.EDIT) &&
-      savedCropCategoryTarget?.biWeekCropReport
-    ) {
-      setCropTargets(savedCropCategoryTarget?.biWeekCropReport);
-    } else {
-      getTargetCropsByAiAndSeasonAndCropCategory(
-        aiRegion.id,
-        seasonId,
-        cropCategoryId,
-        aiRegion.parentType
-      ).then(({ dataList = [] }) => {
-        setCropTargets(dataList);
-        checkDataLoadStatus();
-      });
-    }
+    setSavedCropTarget(savedCropCategoryTarget?.biWeekCropReport);
+    setCategoryStatus(savedCropCategoryTarget?.status);
+    getTargetCropsByAiAndSeasonAndCropCategory(
+      aiRegion.id,
+      seasonId,
+      cropCategoryId,
+      aiRegion.parentType
+    ).then(({ dataList = [] }) => {
+      setNewCropTargets(dataList);
+      checkDataLoadStatus();
+    });
   }, []);
 
-  const checkDataLoadStatus = () => {
-    //if (configFields.length > 0 && cropTargets.length > 0) {
-    setDataLoaded(true);
-    //}
+  const findNewVarieties = (newCropTargets, oldCropTargets) => {
+    if (oldCropTargets === undefined) {
+      oldCropTargets = [];
+    }
+
+    newCropTargets.forEach((newCrop) => {
+      const oldCrop = oldCropTargets?.find(
+        (crop) => crop.cropId === newCrop.cropId
+      );
+
+      if (oldCrop) {
+        newCrop.varietyTargets.forEach((newVariety) => {
+          const existsInOld = oldCrop.varietyTargets.some(
+            (oldVariety) => oldVariety.varietyId === newVariety.varietyId
+          );
+          if (!existsInOld) {
+            oldCrop.varietyTargets.push(newVariety);
+          }
+        });
+      } else {
+        oldCropTargets.push(newCrop);
+      }
+    });
+
+    return oldCropTargets;
   };
 
-  const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
-    const updatedVarietyTargets = [...cropTargets];
+  const getData = findNewVarieties(newCropTargets, savedCropTarget);
+  const checkDataLoadStatus = () => {
+    setDataLoaded(true);
+  };
 
+  const updatedVarietyTargets = [...getData];
+  updatedVarietyTargets.forEach((updateTarget) => {
+    updateTarget.varietyTargets.forEach((updateVariety) => {
+      if (updateVariety.damageExtents === null) {
+        updateVariety.damageExtents = [];
+      }
+    });
+  });
+  const targetedExtentHandler = (cropIndex, varietyIndex, field, value) => {
     updatedVarietyTargets[cropIndex].varietyTargets[varietyIndex][field] =
       value;
-
-    // Calculate total target
     let total = 0;
     if (configFields.length > 0) {
       let target =
@@ -88,12 +124,12 @@ const BiWeeklyReportingTab = ({
       "totalExtent"
     ] = total;
 
-    setCropTargets(updatedVarietyTargets);
+    setSavedCropTarget(updatedVarietyTargets);
     setIsCleared(false);
   };
 
   const handleCropClear = () => {
-    const newCropTargets = [...cropTargets];
+    const newCropTargets = [...getData];
 
     for (const crop of newCropTargets) {
       if (crop.varietyTargets) {
@@ -123,7 +159,7 @@ const BiWeeklyReportingTab = ({
         }
       }
     }
-    setCropTargets(newCropTargets);
+    setSavedCropTarget(newCropTargets);
     setIsCleared(true);
   };
 
@@ -134,7 +170,7 @@ const BiWeeklyReportingTab = ({
       biWeekCropCategoryReport: [
         {
           cropCategory: { id: cropCategoryId },
-          biWeekCropReport: cropTargets,
+          biWeekCropReport: getData,
         },
       ],
     };
@@ -147,7 +183,7 @@ const BiWeeklyReportingTab = ({
         onSuccess,
         onError
       );
-      setCropTargets(dataList?.dataList?.biWeekCropReport);
+      setSavedCropTarget(dataList?.dataList?.biWeekCropReport);
       setCropTargetId(dataList?.dataList?.id);
     } catch (error) {
       console.log(error);
@@ -187,7 +223,7 @@ const BiWeeklyReportingTab = ({
 
   const approveCategoryReport = () => {
     changeStatusOfBiWeekCropCategoryReport(
-      savedCropCategoryTarget?.id,
+      cropTargetId,
       BI_WEEK_REPORT_STATUS.AI_COMPLETED,
       onSuccessForApproval,
       onError
@@ -244,28 +280,50 @@ const BiWeeklyReportingTab = ({
                   <PermissionWrapper
                     permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
                   >
-                    <Button
-                      disabled={
-                        !cropTargetId ||
-                        status?.target?.week?.status === "CLOSE"
-                      }
-                      variant="outlined"
-                      color="success"
-                      onClick={() => setOpenDialog(true)}
-                      size="small"
-                    >
-                      Complete
-                    </Button>
+                    <Tooltip title="Already Completed.">
+                      <span>
+                        <Button
+                          disabled={
+                            !cropTargetId ||
+                            categoryStatus === "AI_COMPLETED" ||
+                            categoryStatus === "ADA_COMPLETED"
+                          }
+                          variant="outlined"
+                          color="success"
+                          onClick={() => setOpenDialog(true)}
+                          size="small"
+                        >
+                          Complete
+                        </Button>
+                      </span>
+                    </Tooltip>
                   </PermissionWrapper>
                 </Grid>
               )}
+              <Grid item sx={{ pt: "8px" }}>
+                {categoryStatus ? (
+                  <Chip
+                    label={categoryStatus}
+                    variant="filled"
+                    style={{
+                      marginTop: "5px",
+                      alignSelf: "flex-end",
+                      position: "absolute",
+                      right: "50px",
+                      backgroundColor: "green",
+                      color: "white",
+                      width: "200px",
+                    }}
+                  />
+                ) : null}
+              </Grid>
             </Stack>
           </div>
         </Grid>
         <Grid item sm={12} md={12} lg={12}>
           {dataLoaded &&
-            cropTargets !== null &&
-            cropTargets?.map((cropTarget, cropIndex) => (
+            getData !== null &&
+            getData?.map((cropTarget, cropIndex) => (
               <BiweeklyCropInput
                 cropTarget={cropTarget}
                 targetedExtentHandler={targetedExtentHandler}

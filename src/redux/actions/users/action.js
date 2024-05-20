@@ -231,3 +231,36 @@ export const getUserProfile = async () => {
     };
   }
 };
+
+export const submitPasswordReset = async (
+  payload = {},
+  onSuccessPassChange = () => {},
+  onErrorPassChange = (_message) => {}
+) => {
+  try {
+    const response = await post("user/self/changePassword", payload, true);
+    if (response?.httpCode === "200 OK") {
+      onSuccessPassChange();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    return response;
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onErrorPassChange(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onErrorPassChange(error);
+    }
+  }
+};

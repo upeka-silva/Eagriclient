@@ -69,7 +69,6 @@ import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
-import VegitableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 
 
 
@@ -218,7 +217,10 @@ import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
 import SummarizeIcon from '@mui/icons-material/Summarize';
-
+import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
+import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
+import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
+import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
 
 export const Routes = [
   {
@@ -1268,7 +1270,7 @@ export const Routes = [
       },
       {
          path: "/create-project",
-         name: "Create Project",
+         name: "Project",
          isSideBar: true,
          element: <AgricultureProject />,
          icon: AssignmentIndIcon,
@@ -1403,7 +1405,7 @@ export const Routes = [
       },
       {
         path: "/biweekly-reporting",
-        name: "Bi Weekly Reporting",
+        name: "Biweekly Reporting",
         isSideBar: true,
         element: <BiWeeklyReporting />,
         icon: Assessment,
@@ -1411,7 +1413,7 @@ export const Routes = [
       },
       {
         path: "/biweekly-reporting-form",
-        name: "Bi Weekly Reporting Form",
+        name: "Biweekly Reporting Form",
         isSideBar: false,
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
@@ -1421,6 +1423,22 @@ export const Routes = [
         name: "Aggrigated Report",
         isSideBar: true,
         element: <AggrigateReport />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/ai-aggrigate-report",
+        name: "Aggrigated Report (AI Level)",
+        isSideBar: true,
+        element: <AggrigateReportAILevel />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/ada-aggrigate-report",
+        name: "Aggrigated Report (ADA Level)",
+        isSideBar: true,
+        element: <AggrigateReportAdaLevel />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
@@ -1478,15 +1496,15 @@ export const Routes = [
         isSideBar: true,
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
-        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING_RANGES,
+        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING,
       },
       {
         path: "/vegitable-early-warning",
-        name: "vegitable early warning ",
+        name: "Vegitable Early Warnings",
         isSideBar: true,
-        element: <VegitableEarlyWarning />,
+        element: <VegetableEarlyWarning />,
         icon: WbSunnyIcon,
-        component: DEF_COMPONENTS.VEGITABLE_EARLY_WARNING,
+        component: DEF_COMPONENTS.VEGETABLE_EARLY_WARNING,
       },
     ],
   },

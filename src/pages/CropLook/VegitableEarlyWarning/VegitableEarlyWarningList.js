@@ -9,10 +9,10 @@ const VegitableEarlyWarningList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-   
     { field: "cropDTO.description", headerName: "Crop" },
-    { field: "accumulatedExtend", headerName: "Accumulated Extend" },
     { field: "vegetableEarlyWarningStatus", headerName: "Status" },
+    { field: "accumulatedExtend", headerName: "Accumulated Extend", type: "float"},
+    { field: "isPublished", headerName: "Published", type: "boolean"},
 
   ];
   return (
@@ -21,7 +21,7 @@ const VegitableEarlyWarningList = ({
         loadingTable
         dataEndPoint={"crop-look/vegetable-early-warnings"}
         columns={columns}
-        selectable
+        // selectable
         selectedRows={selectedRows}
         selectAll={selectAll}
         onRowSelect={onRowSelect}

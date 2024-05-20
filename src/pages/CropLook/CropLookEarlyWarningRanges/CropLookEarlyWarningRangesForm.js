@@ -34,6 +34,7 @@ const CropLookEarlyWarningRangesForm = () => {
   const [subCategoryOptions, setSubCategoryOptions] = useState([]);
   const [cropyOptions, setCropyOptions] = useState([]);
   const [category, setCategory] = useState({ categoryId: "", description: "" });
+  const [crop, setCrop] = useState({ cropId: "", description: "" });
   const [subCategory, setSubCategory] = useState({
     subCategoryId: "",
     description: "",
@@ -214,7 +215,9 @@ const CropLookEarlyWarningRangesForm = () => {
                 getSubCategories(value?.id);
                 setCategory(value);
                 setSubCategory({ subCategoryId: "", description: "" });
+                setCrop({ cropId: "", description: "" });
                 handleChange("", "crop");
+                setFormData({ ...formData, cropDTO: null });
               }}
               disableClearable
               sx={{
@@ -245,12 +248,15 @@ const CropLookEarlyWarningRangesForm = () => {
             <Autocomplete
               options={subCategoryOptions}
               disabled={category.categoryId === ""}
-              getOptionLabel={(i) => `${i.subCategoryId} - ${i.description}`}
+              getOptionLabel={(i) =>
+                i?.subCategoryId ? `${i?.subCategoryId}  -  ${i?.description}` : ""
+              }
               value={subCategory || null}
               onChange={(event, value) => {
                 getCrops(value?.id);
                 setSubCategory(value);
                 handleChange("", "crop");
+                setFormData({ ...formData, cropDTO: null });
               }}
               disableClearable
               sx={{

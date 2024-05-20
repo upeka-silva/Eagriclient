@@ -97,11 +97,12 @@ const Dashboard = () => {
         }
       );
 
-      getTargetExtent(selectCropLookSeason?.id, selectCropCategory?.id).then(
-        (res) => {
-          setAllTargetExtent(res?.dataList);
-        }
-      );
+      // TODO: need to fix performance issue and need to enable
+      // getTargetExtent(selectCropLookSeason?.id, selectCropCategory?.id).then(
+      //   (res) => {
+      //     setAllTargetExtent(res?.dataList);
+      //   }
+      // );
     }
   }, [selectCropLookSeason, selectCropCategory, allCropLookSeason]);
 

@@ -1,16 +1,7 @@
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import {
-  Button,
-  ButtonGroup,
-  CircularProgress,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Button, ButtonGroup, Grid, MenuItem, Select } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSnackBars } from "../../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../../hooks/authentication";
@@ -20,125 +11,97 @@ import {
 } from "../../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
-import { deleteAgricultureProject } from "../../../../redux/actions/extension/agricultureProject/action";
 import { Fonts } from "../../../../utils/constants/Fonts";
 import ListHeader from "../../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../../components/PermissionWrapper/PermissionWrapper";
-import AgricultureProjectList from "../AgricultureProjectList";
-import DialogBox from "../../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../../utils/constants/DeleteMsg";
 import ProjectReportForm from "./ProjectReportForm";
 import ProjectReportList from "./ProjectReportList";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog/ConfirmationDialog";
+import {
+  deleteProjectReport,
+  getAllProjectDetailsByProjectId,
+  handleProjectReport,
+} from "../../../../redux/actions/extension/agricultureProject/ProjectReport/action";
+import ReportList from "./components/ReportList";
+import { FieldWrapper } from "../../../../components/FormLayout/FieldWrapper";
+import { FieldName } from "../../../../components/FormLayout/FieldName";
+import { get_AgricultureProjectAllList } from "../../../../redux/actions/extension/agricultureProject/action";
 
 const ProjectReport = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
 
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [selectedAgricultureProjects, setSelectedAgricultureProjects] =
-    useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
-  const [searchData, setSearchData] = useState({
-    code: "",
-    name: "",
-  });
-  const [search, setSearch] = useState({});
+  const [selectedProjectReport, setSelectedProjectReport] = useState([]);
   const [openProjectReport, setOpenProjectReport] = useState(false);
   const [projectReportData, setProjectReportData] = useState([]);
+  console.log({ projectReportData });
   const [refreshProjectReport, setRefreshProjectReport] = useState(true);
   const [projecrReportAction, setProjecrReportAction] = useState(
     DEF_ACTIONS.ADD
   );
+  const [allProjectData, setAllAgricultureProjectsData] = useState([]);
+  const [projectData, setProjectData] = useState([]);
+
+  //delete handlers
+  const [openDeleteProjectReport, setOpenDeleteProjectReport] = useState(false);
+  const [
+    dialogSelectedProjectReportTypes,
+    setDialogSelectedProjectReportTypes,
+  ] = useState([]);
+
+  console.log({ projectReportData });
 
   const closeSubActivity = () => {
     setOpenProjectReport(false);
   };
 
   const toggleAgricultureProjectSelect = (component) => {
-    setSelectedAgricultureProjects((current = []) => {
-      let newList = [...current];
-      let index = newList.findIndex((c) => c?.id === component?.id);
-      if (index > -1) {
-        newList.splice(index, 1);
-      } else {
-        newList.push(component);
-      }
-      return newList;
-    });
+    const selectedIndex = selectedProjectReport?.findIndex(
+      (selected) => selected.id === component.id
+    );
+
+    let newSelected = [...selectedProjectReport];
+
+    if (selectedIndex === -1) {
+      newSelected.push(component);
+    } else {
+      newSelected.splice(selectedIndex, 1);
+    }
+
+    setSelectedProjectReport(newSelected);
   };
 
   const selectAllAgricultureProjects = (all = []) => {
-    setSelectedAgricultureProjects(all);
+    setSelectedProjectReport(all);
   };
 
   const resetSelectedAgricultureProjects = () => {
-    setSelectedAgricultureProjects([]);
+    setSelectedProjectReport([]);
   };
 
   const onCreate = () => {
+    setProjectReportData([]);
     setOpenProjectReport(true);
-    setAction(DEF_ACTIONS.ADD);
+    setProjecrReportAction(DEF_ACTIONS.ADD);
   };
 
   const onEdit = () => {
-    setAction(DEF_ACTIONS.EDIT);
-    //navigate("/extension/agriculture-project-form", {
-    //  state: {
-    //   action: DEF_ACTIONS.EDIT,
-    //   target: selectedAgricultureProjects[0] || {},
-    //  },
-    // });
+    setProjecrReportAction(DEF_ACTIONS.EDIT);
+    setProjectReportData(selectedProjectReport[0]);
+    setOpenProjectReport(true);
   };
 
   const onView = () => {
-    setAction(DEF_ACTIONS.VIEW);
-    //navigate("/extension/agriculture-project-form", {
-    // state: {
-    //    action: DEF_ACTIONS.VIEW,
-    //     target: selectedAgricultureProjects[0] || {},
-    //   },
-    //  });
+    setOpenProjectReport(true);
+    setProjecrReportAction(DEF_ACTIONS.VIEW);
+    setProjectReportData(selectedProjectReport[0]);
   };
 
   const onDelete = () => {
-    setOpen(true);
-  };
-
-  const close = () => {
-    setOpen(false);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedAgricultureProjects.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.code} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
-
-  const onSuccess = () => {
-    addSnackBar({
-      type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
-    });
+    setOpenDeleteProjectReport(true);
+    setDialogSelectedProjectReportTypes(selectedProjectReport);
   };
 
   const onError = (message) => {
@@ -148,26 +111,10 @@ const ProjectReport = () => {
     });
   };
 
-  const onConfirm = async () => {
-    try {
-      setLoading(true);
-      for (const AgricultureProject of selectedAgricultureProjects) {
-        await deleteAgricultureProject(
-          AgricultureProject?.id,
-          onSuccess,
-          onError
-        );
-      }
-      setLoading(false);
-      close();
-      resetSelectedAgricultureProjects();
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
+
 
   const handleProjectReportData = (value, target) => {
+    allDataFetch(value);
     setProjectReportData((current = {}) => {
       let newData = { ...current };
       newData[target] = value;
@@ -183,6 +130,59 @@ const ProjectReport = () => {
     setRefreshProjectReport(!refreshProjectReport);
   };
 
+  const closeProjecrReportDelete = () => {
+    setOpenDeleteProjectReport(false);
+  };
+
+  const onSuccessDelete = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: `Successfully Deleted`,
+    });
+  };
+
+  const onConfirmDeleteProjectReport = async () => {
+    try {
+      setLoading(true);
+      for (const id of dialogSelectedProjectReportTypes) {
+        await deleteProjectReport(id?.id, onSuccessDelete, onError);
+      }
+      setLoading(false);
+      closeProjecrReportDelete();
+      resetSelectedAgricultureProjects();
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const getProjectList = async () => {
+      await get_AgricultureProjectAllList().then((res) => {
+        setProjectData(res?.dataList);
+        allDataFetch(res?.dataList[0]?.id);
+      });
+    };
+
+    getProjectList();
+  }, []);
+
+  const allDataFetch = async (id) => {
+    await getAllProjectDetailsByProjectId(id).then((response) => {
+      setAllAgricultureProjectsData(response?.payload);
+      console.log({ response });
+    });
+  };
+  
+
+  useEffect(() => {
+    projectReportData && allDataFetch();
+
+
+  }, []);
+
+  
+
   return (
     <div
       style={{
@@ -192,10 +192,43 @@ const ProjectReport = () => {
         marginTop: "10px",
         height: "90vh",
         overflowY: "scroll",
+        paddingRight: "10px",
       }}
     >
       <ListHeader title="Report A Project" />
-      <ActionWrapper isLeft>
+
+      <Grid container spacing={2} mt={3}>
+        <Grid item sm={6} md={3} lg={3}>
+        <FieldName>Select Project</FieldName>
+          <Select
+            name="projectId"
+            id="projectId"
+            value={projectReportData?.projectId || ""}
+            disabled={projecrReportAction === DEF_ACTIONS.VIEW}
+            onChange={(e) => {
+              handleProjectReportData(e?.target?.value, "projectId");
+            }}
+            fullWidth
+            sx={{
+              borderRadius: "8px",
+            }}
+            size="small"
+          >
+            {projectData?.map((item) => (
+              <MenuItem key={item?.id} value={item?.id}>
+                {item?.description}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
+        <Grid item md={9} display="flex" justifyContent="flex-end">
+          {/* Your second item */}
+          {/* <Button variant="contained" color="success" onClick={saveReportData}>
+            save
+          </Button> */}
+        </Grid>
+      </Grid>
+      {/* <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -211,7 +244,7 @@ const ProjectReport = () => {
               {DEF_ACTIONS.ADD}
             </Button>
           </PermissionWrapper>
-          {selectedAgricultureProjects.length === 1 && (
+          {selectedProjectReport.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -221,7 +254,7 @@ const ProjectReport = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAgricultureProjects.length === 1 && (
+          {selectedProjectReport.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -231,7 +264,7 @@ const ProjectReport = () => {
               </Button>
             </PermissionWrapper>
           )}
-          {selectedAgricultureProjects.length > 0 && (
+          {selectedProjectReport.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROJECT_REPORT}`}
             >
@@ -242,7 +275,7 @@ const ProjectReport = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
-      </ActionWrapper>
+      </ActionWrapper> */}
       {/* <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRICULTURE_PROJECT}`}
       > */}
@@ -250,17 +283,24 @@ const ProjectReport = () => {
         <PermissionWrapper
           permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROJECT_REPORT}`}
         >
-          <ProjectReportList
-            selectedRows={selectedAgricultureProjects}
+          {/* <ProjectReportList
+            selectedRows={selectedProjectReport}
             onRowSelect={toggleAgricultureProjectSelect}
             selectAll={selectAllAgricultureProjects}
             unSelectAll={resetSelectedAgricultureProjects}
             advancedSearchData={search}
             refresh={refreshProjectReport}
-          />
+          /> */}
         </PermissionWrapper>
       )}
       {/* </PermissionWrapper> */}
+
+      <Grid mt={4}>
+        <ReportList
+          allProjectData={allProjectData}
+          //saveReportData={saveReportData}
+        />
+      </Grid>
 
       <ProjectReportForm
         open={openProjectReport}
@@ -270,41 +310,24 @@ const ProjectReport = () => {
         onClose={closeSubActivity}
         // farmLandData={formData}
         data={projectReportData}
+        setProjectReportData={setProjectReportData}
         onChange={handleProjectReportData}
         resetData={resetProjectReportData}
         refresh={refreshProjectReportData}
       />
 
-      <DialogBox
-        open={open}
-        title="Delete Agriculture Project(s)"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirm}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={close}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+      <ConfirmationDialog
+        open={openDeleteProjectReport}
+        title="Do you want to delete?"
+        items={selectedProjectReport}
+        loading={loading}
+        onClose={closeProjecrReportDelete}
+        onConfirm={onConfirmDeleteProjectReport}
+        setDialogSelectedTypes={setDialogSelectedProjectReportTypes}
+        dialogSelectedTypes={dialogSelectedProjectReportTypes}
+        propertyId="reportId"
+        propertyDescription="reportValue"
+      />
     </div>
   );
 };

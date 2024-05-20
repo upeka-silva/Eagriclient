@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Avatar, Typography, Grid, Paper, Divider } from "@mui/material";
+import {
+  Avatar,
+  Typography,
+  Grid,
+  Paper,
+  Divider,
+  Button,
+} from "@mui/material";
 import { getUserProfile } from "../../redux/actions/users/action";
 import { Fonts } from "../../utils/constants/Fonts";
 import { stringAvatar } from "../../utils/helpers/stringUtils";
+import { useSnackBars } from "../../context/SnackBarContext";
+import PasswordResetDialog from "./PasswordResetDialog";
 
 const ProfileView = () => {
   const [formData, setFormData] = useState({});
+  const [open, setOpen] = useState(false);
+  const { addSnackBar } = useSnackBars();
+  const [formDataD, setFormDataD] = useState({});
 
   useEffect(() => {
     profile();
@@ -20,6 +32,27 @@ const ProfileView = () => {
       .catch((e) => {
         console.log(e);
       });
+  };
+
+  const handleChange = (value, target) => {
+    setFormDataD((current = {}) => {
+      let newData = { ...current };
+      newData[target] = value;
+      return newData;
+    });
+  };
+
+  const onClose = () => {
+    setOpen(false);
+    setFormDataD(null);
+  };
+
+  const resetPassword = () => {
+    setOpen(true);
+  };
+
+  const resetForm = () => {
+    setFormDataD(null);
   };
 
   return (
@@ -93,11 +126,17 @@ const ProfileView = () => {
               {formData?.email}
             </Typography>
             <Divider style={{ margin: "16px 0", backgroundColor: "#ddd" }} />
-            <Typography fontSize={'17px'} fontWeight={'bold'} variant="subtitle1" style={{ marginBottom: "8px" }}>
+            <Typography
+              fontSize={"17px"}
+              fontWeight={"bold"}
+              variant="subtitle1"
+              style={{ marginBottom: "8px" }}
+            >
               Personal Information
             </Typography>
             <Typography variant="body1" gutterBottom>
-            <b>Date of Birth:</b> {new Date(formData?.dateOfBirth).toLocaleDateString()}
+              <b>Date of Birth:</b>{" "}
+              {new Date(formData?.dateOfBirth).toLocaleDateString()}
             </Typography>
             <Typography variant="body1" gutterBottom>
               <b>Gender:</b> {formData?.gender}
@@ -106,7 +145,12 @@ const ProfileView = () => {
               <b>Language:</b> {formData?.userLanguage}
             </Typography>
             <Divider style={{ margin: "16px 0", backgroundColor: "#ddd" }} />
-            <Typography fontSize={'17px'} fontWeight={'bold'} variant="subtitle1" style={{ marginBottom: "8px" }}>
+            <Typography
+              fontSize={"17px"}
+              fontWeight={"bold"}
+              variant="subtitle1"
+              style={{ marginBottom: "8px" }}
+            >
               Contact Information
             </Typography>
             <Typography variant="body1" gutterBottom>
@@ -118,6 +162,23 @@ const ProfileView = () => {
             <Typography variant="body1" gutterBottom>
               <b>Phone Number:</b> {formData?.phone}
             </Typography>
+            <Button
+              variant="contained"
+              onClick={resetPassword}
+              color="primary"
+              style={{
+                marginTop: "24px",
+              }}
+            >
+              Reset Password
+            </Button>
+            <PasswordResetDialog
+              onOpen={open}
+              onClose={onClose}
+              handleChange={handleChange}
+              data={formDataD}
+              onReset={resetForm}
+            />
           </Paper>
         </Grid>
       </Grid>

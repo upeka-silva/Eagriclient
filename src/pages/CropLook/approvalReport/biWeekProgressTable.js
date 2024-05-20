@@ -37,8 +37,6 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
       );
 
       fetchConfig(category?.categoryId, dataList);
-      console.log('data list --------->');
-      console.log(dataList);
       const groupedData =  dataList?.reduce((acc, obj) => {
         const cropName = obj?.cropName;
         acc[cropName] = acc[cropName] || [];
@@ -59,7 +57,7 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
     }
 
     fetchData(category?.id, season?.id, week?.id);
-  }, [season]);
+  }, [week]);
 
   const handleReportApprove = async () => {
     setLoading(true);
@@ -113,7 +111,7 @@ const BiWeekProgressTale = ({ category, season, week, owner }) => {
         }}
       >
         <h5 style={{ marginRight: "10px" }}>
-          Bi Week Extent For {week.weekDescription}
+          Biweekly Extent For {week.weekDescription}
         </h5>
         <Button
           variant="outlined"

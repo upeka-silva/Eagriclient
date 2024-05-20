@@ -1,4 +1,4 @@
-import { put, get, post, api_delete } from "../../../../services/api";
+import { put, get, post, api_delete, getBlob } from "../../../../services/api";
 import { defaultMessages } from "../../../../utils/constants/apiMessages";
 
 export const createBiWeeklyReport = async (
@@ -296,6 +296,46 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
+export const getAggrigateReportDataAILevel = async (categoryId, seasonId, aiId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/aiId/${aiId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getAggrigateReportDataADALevel = async (categoryId, seasonId, adaId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/adaId/${adaId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getNationalData = async (categoryId, seasonId, weekId) => {
   try {
     const { httpCode, payloadDto } = await get(
@@ -316,19 +356,25 @@ export const getNationalData = async (categoryId, seasonId, weekId) => {
   }
 };
 
-export const approveNationalData = async (categoryId, seasonId, weekId) => {
+export const approveNationalData = async (categoryId, seasonId, weekId,onSuccess = () => { },
+onError = (_message) => { }) => {
+  
   try {
     const { httpCode, payloadDto } = await get(
-      `crop-look/vegetable-early-warnings/publish/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      `crop-look/vegetable-early-warnings/approve/category/${categoryId}/season/${seasonId}/week/${weekId}`,
       true
     );
     if (httpCode === "200 OK") {
+      onSuccess();
       return payloadDto;
     }
     return {
       dataList: [],
     };
   } catch (error) {
+    const { data } = error;
+    const { apiError } = data;
+    onError(apiError?.message || defaultMessages.apiErrorUnknown);
     console.log(error);
     return {
       dataList: [],
@@ -651,5 +697,67 @@ export const deleteBiWeeklyReporting = async (
     } else {
       onError(error);
     }
+  }
+};
+
+export const downloadDDSummaryExcel = async (
+  seasonId,
+  categoryId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const blobData = await getBlob(
+      `crop-look/dd-report/crop-category/${categoryId}/season/${seasonId}/export/excel`,
+      true
+    );
+    if (blobData) {
+      const fileName = `Aggregated_${
+        new Date().toISOString().split("T")[0]
+      }.xlsx`;
+      const url = window.URL.createObjectURL(new Blob([blobData]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: blobData?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const getCropCategoryReport = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payload} = await get(
+      `crop-look/crop-category-report/national-approve/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payload;
+    }
+    return null;
+  } catch (error) {
+    console.log(error);
+    return null;
   }
 };

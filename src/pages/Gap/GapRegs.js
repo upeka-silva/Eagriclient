@@ -20,8 +20,6 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import GapRegList from "./GapRegList";
-import DialogBox from "../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import { getUserPermissionByComponent } from "../../utils/helpers/permission";
@@ -250,8 +248,8 @@ const GapRegs = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectGapReq}
         dialogSelectedTypes={dialogSelectGapReq}
-        propertyId="formType"
-        propertyDescription="formDescription"
+        propertyId="farmerDTO.firstName"
+        propertyDescription="code"
       />
     </div>
   );

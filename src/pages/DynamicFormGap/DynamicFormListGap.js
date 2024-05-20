@@ -341,7 +341,7 @@ const DynamicFormListGap = ({
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              Ok
             </Button>
             <Button
               variant="contained"
@@ -349,13 +349,12 @@ const DynamicFormListGap = ({
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              Cancel
             </Button>
           </ActionWrapper>
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

@@ -13,6 +13,13 @@ import {
   Typography,
   Card,
   Switch,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Checkbox,
+  CircularProgress,
 } from "@mui/material";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import styled from "styled-components";
@@ -55,6 +62,7 @@ import {
   TabContent,
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
+import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 const CropForm = ({
   dataList = [],
   onFormSaveSuccess = false,
@@ -90,6 +98,11 @@ const CropForm = ({
   const [cropId, setCropId] = useState(null);
   const [pestUrl, setPestUrl] = useState(null);
   const [diseaseUrl, setDiseaseUrl] = useState(null);
+  const [action, setAction] = useState(null);
+
+  const [dialogSelectedCropPetsTypes, setDialogSelectedCropPets] = useState([]);
+  const [dialogSelectedCropDieasesTypes, setDialogSelectedCropDieases] = useState([]);
+
 
   useEffect(() => {
     const cropId = formData.id;
@@ -106,19 +119,21 @@ const CropForm = ({
   };
 
   const onAddPest = () => {
-    setCropId(formData.id);
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setCropId(formData.id);
+    }
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropPestAddDialog(true);
-    setPestUrl(`crop/crop-pests/${cropId}/pests`);
   };
 
   const onAddDisease = () => {
-    setCropId(formData.id);
+    if (state?.action === DEF_ACTIONS.EDIT) {
+      setCropId(formData.id);
+    }
     setFormDataD({});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenCropDiseaseAddDialog(true);
-    setDiseaseUrl(`crop/crop-diseases/${cropId}/diseases`);
   };
 
   const toggleCropPestSelect = (component) => {
@@ -182,8 +197,17 @@ const CropForm = ({
     setOpen(false);
   };
 
-  const onDelete = () => {
+  const onDeleteCropPets = () => {
+    setAction("DELETE_CROPPEST")
     setCropId(formData.id);
+    setDialogSelectedCropPets(selectCropPest)
+    setOpen(true);
+  };
+
+  const onDeleteCropdDisease = () => {
+    setAction("DELETE_CROPDISEASE")
+    setCropId(formData.id);
+    setDialogSelectedCropDieases(selectCropDisease)
     setOpen(true);
   };
 
@@ -191,7 +215,7 @@ const CropForm = ({
     if (toggleState === 2) {
       try {
         setLoading(true);
-        for (const cropPest of selectCropPest) {
+        for (const cropPest of dialogSelectedCropPetsTypes) {
           await deletePestFromCrop(cropId, cropPest?.id, onSuccess, onError);
         }
         setLoading(false);
@@ -204,7 +228,7 @@ const CropForm = ({
     } else {
       try {
         setLoading(true);
-        for (const cropDisease of selectCropDisease) {
+        for (const cropDisease of dialogSelectedCropDieasesTypes) {
           await deleteDiseaseFromCrop(
             cropId,
             cropDisease?.id,
@@ -318,6 +342,7 @@ const CropForm = ({
         if (form && state?.action === DEF_ACTIONS.ADD) {
           const response = await handleCrop(formData, onSuccess, onError);
           setFormData(response.payload);
+          setCropId(response?.payload?.id)
           console.log(response);
           const res = await handleCropImageUpload(response.payload?.id);
           console.log(res);
@@ -382,6 +407,7 @@ const CropForm = ({
           );
           setFormData(response.payload);
           console.log(response);
+          setCropId(response?.payload?.id)
         }
         setSaving(false);
         setTabEnabled(true);
@@ -422,6 +448,24 @@ const CropForm = ({
       return response;
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const toggleDialogObjectSelect = (objItem, action) => {
+    if(objItem != null) {
+      if (action === "DELETE_CROPPEST") {
+        const updatedCropPest = selectCropPest.filter((item) => item.id !== objItem.id);
+        setSelectCropPest(updatedCropPest);
+        if (updatedCropPest.length === 0) {
+         setOpen(false);
+        }
+      } else {
+        const updatedCropDisease = selectCropDisease.filter((item) => item.id!== objItem.id);
+        setSelectCropDisease(updatedCropDisease);
+        if (updatedCropDisease.length === 0) {
+         setOpen(false);
+        }
+      }
     }
   };
 
@@ -1343,7 +1387,7 @@ const CropForm = ({
                     cropId={cropId}
                   />
                   {selectCropPest.length > 0 && (
-                    <Button onClick={onDelete}>
+                    <Button onClick={onDeleteCropPets}>
                       <Delete />
                       {DEF_ACTIONS.DELETE}
                     </Button>
@@ -1387,7 +1431,7 @@ const CropForm = ({
                     cropId={cropId}
                   />
                   {selectCropDisease.length > 0 && (
-                    <Button onClick={onDelete}>
+                    <Button onClick={onDeleteCropdDisease}>
                       <Delete />
                       {DEF_ACTIONS.DELETE}
                     </Button>
@@ -1407,30 +1451,33 @@ const CropForm = ({
           </TabContentWrapper>
         </PaperWrapper>
 
-        <DialogBox
-          open={open}
-          title="Delete Crop Disease"
-          actions={
-            <ActionWrapper>
-              <Button
-                variant="contained"
-                color="info"
-                onClick={onConfirm}
-                sx={{ ml: "8px" }}
-              >
-                Confirm
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={close}
-                sx={{ ml: "8px" }}
-              >
-                Close
-              </Button>
-            </ActionWrapper>
-          }
-        ></DialogBox>
+        {
+          action === "DELETE_CROPPEST" ?
+            <ConfirmationDialog
+              open={open}
+              title="Do you want to delete?"
+              items={selectCropPest}
+              loading={loading}
+              onClose={close}
+              onConfirm={onConfirm}
+              setDialogSelectedTypes={setDialogSelectedCropPets}
+              dialogSelectedTypes={dialogSelectedCropPetsTypes}
+              propertyId="pestName"
+              propertyDescription="scientificName"
+            /> :
+            <ConfirmationDialog
+              open={open}
+              title="Do you want to delete?"
+              items={selectCropDisease}
+              loading={loading}
+              onClose={close}
+              onConfirm={onConfirm}
+              setDialogSelectedTypes={setDialogSelectedCropDieases}
+              dialogSelectedTypes={dialogSelectedCropDieasesTypes}
+              propertyId="diseaseName"
+              propertyDescription="type"
+            />
+        }
       </FormWrapper>
     </Box>
   );

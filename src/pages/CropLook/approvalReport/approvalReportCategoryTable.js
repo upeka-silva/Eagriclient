@@ -40,8 +40,8 @@ const ApprovalReportCategoryTable = ({ category, season }) => {
     async function fetchConfig(categoryId, dataList) {
       setConfLoading(true);
       const configs = await getConfigurationById(categoryId);
-      setTargetConfigs(configs?.targetFields);
-      setReportConfigs(configs?.fields);
+      setTargetConfigs(configs?.targetFields || []);
+      setReportConfigs(configs?.fields || []);
 
       setConfLoading(false);
     }

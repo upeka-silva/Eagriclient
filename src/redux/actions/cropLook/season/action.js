@@ -23,7 +23,6 @@ export const handleCropLookSeason = async (
       };
       throw exception;
     }
-    console.log(response);
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

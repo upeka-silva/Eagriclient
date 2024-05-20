@@ -3,11 +3,23 @@ import { useUserAccessValidation } from "../../../hooks/authentication";
 import IsoUnitList from "./IsoUnitList";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useState } from "react";
-import { DEF_ACTIONS, DEF_COMPONENTS } from "../../../utils/constants/permission";
+import {
+  DEF_ACTIONS,
+  DEF_COMPONENTS,
+} from "../../../utils/constants/permission";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
-import { Button, ButtonGroup, CircularProgress, List, ListItem, ListItemIcon, ListItemText, Stack } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  CircularProgress,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+} from "@mui/material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -203,15 +215,15 @@ const IsoUnit = () => {
         </Stack>
       </ActionWrapper>
       <PermissionWrapper
-        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ISO_UNIT}`} 
+        permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.ISO_UNIT}`}
       >
         {loading === false && (
-            <IsoUnitList
-                selectedRows={selectIsoUnit}
-                onRowSelect={toggleIsoUnitSelect}
-                selectAll={selectAllIsoUnit}
-                unSelectAll={resetSelectedIsoUnit}
-             />
+          <IsoUnitList
+            selectedRows={selectIsoUnit}
+            onRowSelect={toggleIsoUnitSelect}
+            selectAll={selectAllIsoUnit}
+            unSelectAll={resetSelectedIsoUnit}
+          />
         )}
       </PermissionWrapper>
 

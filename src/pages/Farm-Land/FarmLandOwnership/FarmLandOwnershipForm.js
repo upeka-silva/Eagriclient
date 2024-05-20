@@ -52,6 +52,25 @@ export default function FarmLandOwnershipForm({
   const [gnDivisionList, setGnDivisionList] = useState([]);
   const [saving, setSaving] = useState(false);
   const [farmerList, setFarmerList] = useState([]);
+  const [isDateSelected, setIsDateSelected] = useState(false);
+
+  const handleDateChange = (value) => {
+    // Update state and set isDateSelected to true if value is not null
+    setIsDateSelected(value !== null);
+    // You can also call the onChange function if needed
+    onChange(value || "", "dateFrom");
+  };
+
+  const handleSubmit = (event) => {
+    // Prevent form submission if date is not selected
+    if (!isDateSelected) {
+      event.preventDefault();
+      // Optionally, you can provide feedback to the user that date is required
+    }
+    // Form submission logic if date is selected
+  };
+
+
 
   const enableSave = () => {
     if (action === DEF_ACTIONS.EDIT) {

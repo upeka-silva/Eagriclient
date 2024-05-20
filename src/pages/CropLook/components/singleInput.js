@@ -12,13 +12,10 @@ const SingleInput = ({
   mode,
   configFields,
 }) => {
-  // This will remove `Target` prefix form field
   const removeTarget = (field) => {
     let prefix = "Target ";
 
-    // Check if the string starts with the prefix
     if (field.startsWith(prefix)) {
-      // Remove the prefix
       let result = field.substring(prefix.length) + " (Ha)";
       return result;
     } else {
@@ -34,6 +31,7 @@ const SingleInput = ({
           label={varietyTarget.varietyName + " (Ha)"}
           variant="outlined"
           sx={{
+            justifyContent: "flex-start",
             mt: "12px",
             bgcolor: "#A7E99C",
             width: "400px",
@@ -91,7 +89,6 @@ const SingleInput = ({
                   e.target.value
                 )
               }
-              //style={{ flex: 1 }}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -108,7 +105,7 @@ const SingleInput = ({
                   borderWidth: "2px",
                 },
                 "& .MuiFormLabel-root.Mui-disabled": {
-                  color: "#33b858", // replace '#yourColor' with your desired color
+                  color: "#33b858",
                 },
               }}
               size="small"

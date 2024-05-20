@@ -1,23 +1,14 @@
 import React from "react";
 import styled from "styled-components";
-import {
-  Card,
-  Box,
-  TextField,
-  Button,
-  Grid,
-  Link,
-  Checkbox,
-  Typography,
-} from "@mui/material/";
-
+import { Card, Box, Button } from "@mui/material/";
 
 const EmailVerificationPage = () => {
   return (
     <CustomCard>
-      <p style={{textAlign: "center", marginBottom: "20px"}}>
-        Please verify your email address for <span style={{color: "green"}}>email@gmail.com</span> by
-        clicked the button below
+      <p style={{ textAlign: "center", marginBottom: "20px" }}>
+        Please verify your email address for{" "}
+        <span style={{ color: "green" }}>email@gmail.com</span> by clicked the
+        button below
       </p>
       <Box
         maxWidth="sm"

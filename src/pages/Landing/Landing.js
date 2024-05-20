@@ -1,6 +1,7 @@
 import {
   Autocomplete,
   Button,
+  CircularProgress,
   Grid,
   InputBase,
   Typography,
@@ -9,10 +10,8 @@ import React, { useEffect, useState } from "react";
 
 //images
 import SearchIcon from "@mui/icons-material/Search";
-import CultivateImg from "../../assets/images/cultivate.png";
 import WeeklyWeather from "./components/WeatherCard";
 import FaoEmergencyMap from "./components/FaoEmergencyMap";
-import CustomCard from "./components/CustomCard";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import PriceLineChart from "./components/PriceLineChart";
 import LandingCarousel from "./components/LandingCarousel";
@@ -27,7 +26,7 @@ function Landing() {
     Latitude: 7.2345496,
   };
   const [selectedLocation, setSelectedLocation] = useState(defaultLocation);
- 
+
   const locations = [
     { district: "Ampara", Longitude: 81.5516024, Latitude: 7.2345496 },
     { district: "Anuradhapura", Longitude: 80.5110764, Latitude: 8.39152674 },
@@ -60,9 +59,7 @@ function Landing() {
     setSelectedLocation(value);
   };
 
-
   //vegetable early warnings
-
 
   const [statusData, setStatusData] = React.useState({
     BestData: [],
@@ -72,7 +69,10 @@ function Landing() {
   });
   console.log({ statusData });
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     get_vegetable_early_warnings().then((response) => {
       const categorizedData = {
         BestData: [],
@@ -81,30 +81,28 @@ function Landing() {
         WorstData: [],
       };
 
-      console.log("bdata", statusData?.BetterData);
-
-      response.dataList?.forEach((item) => {
+      response?.dataList?.forEach((item) => {
+        console.log({ item });
         switch (item?.vegetableEarlyWarningStatus) {
           case "BEST":
-            categorizedData.BestData.push(response);
+            categorizedData.BestData.push(item);
             break;
           case "BETTER":
             categorizedData.BetterData.push(item);
             break;
           case "GOOD":
-            categorizedData.GoodData.push(response);
+            categorizedData.GoodData.push(item);
             break;
           case "WORSE":
             categorizedData.WorstData.push(item);
             break;
-          // You can add cases for other statuses if needed
           default:
-            categorizedData.GoodData.push(item);
         }
       });
 
       setStatusData(categorizedData);
     });
+    setLoading(false);
   }, []);
 
   return (
@@ -201,15 +199,28 @@ function Landing() {
         <Grid item mt={5} spacing={1} px={5}>
           <PriceLineChart />
         </Grid>
+
         <Grid container mt={5} px={5}>
           <Grid item md={8}>
-            <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Better Selection"} data={statusData?.BetterData}/>
-            </Grid>
-            <Grid item md={12} mb={5} pl={5}>
-              <LandingCarousel status={"Worst Selection"} data={statusData?.WorstData}/>
-            </Grid>
-            <Grid
+            {loading ? (
+              <CircularProgress size={16} />
+            ) : (
+              <>
+                <Grid item md={12} mb={5} pl={5}>
+                  <LandingCarousel
+                    status={"Best Selection"}
+                    data={statusData?.BestData}
+                  />
+                </Grid>
+                <Grid item md={12} mb={5} pl={5}>
+                  <LandingCarousel
+                    status={"Worst Selection"}
+                    data={statusData?.WorstData}
+                  />
+                </Grid>
+              </>
+            )}
+            {/* <Grid
               mt={5}
               mb={5}
               style={{ display: "flex", flexWrap: "wrap", height: "10%" }}
@@ -229,7 +240,7 @@ function Landing() {
                 title="Paddy Cultivation Extent"
                 extent={"120 mt"}
               />
-            </Grid>
+            </Grid> */}
           </Grid>
 
           <Grid item md={4}>

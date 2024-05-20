@@ -143,7 +143,7 @@ const DDBiWeeklyReportingForm = () => {
         <PageHeader
           saving={saving}
           state={state}
-          formName="Bi Weekly Report"
+          formName="Biweekly Report"
           goBack={goBack}
         />
         <Grid container>

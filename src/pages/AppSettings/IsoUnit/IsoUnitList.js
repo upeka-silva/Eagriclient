@@ -10,12 +10,15 @@ const IsoUnitList = ({
   const columns = [
     { field: "unitCode", headerName: "Unit Code" },
     { field: "description", headerName: "Description" },
-    { field: "baseUnit", headerName: "Base Unit" },
+    {
+      field: ["baseUnit.unitCode", "baseUnit.description"],
+      headerName: "Base Unit",
+    },
     { field: "multiFactor", headerName: "Multi Factor" },
     { field: "divFactor", headerName: "Div Factor" },
     { field: "tenPower", headerName: "10 To The Power" },
+    { field: "userDefined", headerName: "User Defined" , type: "boolean" },
   ];
-  
 
   return (
     <TableWrapper>
