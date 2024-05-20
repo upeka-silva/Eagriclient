@@ -26,9 +26,9 @@ const Dashboard = () => {
   useUserAccessValidation();
 
   const [cropCategory, setCropCategory] = useState([]);
-  console.log({ cropCategory });
+
   const [selectCropCategory, setSelectCropCategory] = useState();
-  console.log({ selectCropCategory });
+
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
   const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
@@ -53,11 +53,9 @@ const Dashboard = () => {
     totalTarget: [],
   });
 
-  console.log({ allIrrigationModeData });
   const [selectCropLookSeason, setCropLookSeason] = useState();
   const [selectCropList, setSelectCropList] = useState();
   const [selectCrop, setSelectCrop] = useState();
-  console.log({ selectCrop });
 
   useEffect(() => {
     if (allCropLookSeason.length > 0) {
@@ -121,7 +119,6 @@ const Dashboard = () => {
         selectCropCategory?.id,
         selectCrop?.id
       ).then((res) => {
-        console.log({ res });
         setAllVarietyProgressData(res?.dataList);
       });
     }
@@ -141,8 +138,6 @@ const Dashboard = () => {
 
     const totals = filteredData.reduce((acc, item) => acc + item.total, 0);
 
-    console.log({ totals });
-
     const percentageData = sortedData.map((item) => ({
       ...item,
       total: (item.total / totals) * 100,
@@ -151,12 +146,9 @@ const Dashboard = () => {
     const moreThanTwoPercent = percentageData.filter((item) => item.total > 2);
     const length = moreThanTwoPercent.length;
 
-    console.log({ moreThanTwoPercent });
-
     let result = [];
 
     if (length < 4) {
-      console.log("less then 5");
       // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
       const firstItems = moreThanTwoPercent.slice(0, length);
 
@@ -208,8 +200,6 @@ const Dashboard = () => {
         return valueB - valueA;
       });
 
-      console.log({ dataArray });
-
       //const convertedData = dataArray?.map(([name, total]) => ({ name, total }));
 
       const convertedData = dataArray
@@ -228,13 +218,9 @@ const Dashboard = () => {
       );
       const length = moreThanTwoPercent.length;
 
-      console.log("newl", length);
-      console.log({ percentageData });
-
       let result = [];
 
       if (length < 4) {
-        console.log("less then 5");
         // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
         const firstItems = moreThanTwoPercent.slice(0, length);
 
@@ -249,7 +235,6 @@ const Dashboard = () => {
         }
       } else {
         const firstItems = moreThanTwoPercent?.slice(0, 4);
-        console.log({ firstItems });
 
         const othersTotal = percentageData
           .slice(5, convertedData.length - 1)
@@ -266,7 +251,7 @@ const Dashboard = () => {
       const updatedNames = name?.map((item) =>
         item?.startsWith("totalExtent") ? item.replace("totalExtent", "") : item
       );
-      console.log({ updatedNames });
+
       const total = result?.map((item) => item?.total);
 
       setvarietyProgressData({
@@ -289,7 +274,6 @@ const Dashboard = () => {
   }, [allTargetExtent]);
 
   const handleCropLookSeasonChange = (event, value) => {
-    console.log("dd", value);
     setCropLookSeason(value);
   };
 
@@ -392,18 +376,6 @@ const Dashboard = () => {
         fontSize: "15px",
       },
     },
-    // noData: {
-    //   text: "No data available",
-    //   align: 'center',
-    //   verticalAlign: 'middle',
-    //   offsetX: 0,
-    //   offsetY: 0,
-    //   style: {
-    //     color: '#000',
-    //     fontSize: '14px',
-    //     fontFamily: undefined
-    //   }
-    // },
     plotOptions: {
       pie: {
         donut: {
@@ -568,7 +540,6 @@ const Dashboard = () => {
   const url =
     baseURL + "map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1";
 
-  console.log(url);
   const distribution = {
     "1-1": 154915,
     "1-2": 37424,
