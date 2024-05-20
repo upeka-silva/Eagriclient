@@ -1,8 +1,8 @@
 import { get } from "../../../../services/api";
 
-export const getIrrigationModeProgress = async (seasonId, categoryId) => {
+export const getIrrigationModeProgress = async (seasonId, categoryId,cropId) => {
     try {
-      const { httpCode, payloadDto } = await get(`crop-look/dd-report/varietyProgress/category/${categoryId}/season/${seasonId}`, true);
+      const { httpCode, payloadDto } = await get(`crop-look/dd-report/varietyProgress/category/${categoryId}/crop/${cropId}/season/${seasonId}`, true);
       if (httpCode === "200 OK") {
         return {
           dataList: payloadDto,
@@ -20,10 +20,10 @@ export const getIrrigationModeProgress = async (seasonId, categoryId) => {
   };
 
 
-  export const getvarietyProgress = async (seasonId, categoryId) => {
+  export const getvarietyProgress = async (seasonId, categoryId,cropId) => {
     
     try {
-      const { httpCode, payloadDto } = await get(`crop-look/dd-report/irrigationModeProgress/category/${categoryId}/season/${seasonId}`, true);
+      const { httpCode, payloadDto } = await get(`crop-look/dd-report/irrigationModeProgress/category/${categoryId}/crop/${cropId}/season/${seasonId}`, true);
       console.log({payloadDto})
       if (httpCode === "200 OK") {
         return {

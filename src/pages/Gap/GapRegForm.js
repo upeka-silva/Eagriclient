@@ -92,6 +92,8 @@ import {
   TabContent,
   TabWrapper,
 } from "../../components/TabButtons/TabButtons";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -153,7 +155,12 @@ const GapRegForm = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedCrop, setSelectedCrop] = useState([]);
+  const [selectedCropData, setSelectedCropData] = useState([]);
+
+  const [dialogSelectedCrop, setDialogSelectedCrop] = useState([]);
+
   const [cropList, setCropList] = useState([]);
+  console.log({cropList})
   const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
   const [cdFormData, setCdFormData] = useState({ gapRequestDto: formData });
   const [cdAction, setCdAction] = useState(DEF_ACTIONS.ADD);
@@ -199,7 +206,7 @@ const GapRegForm = () => {
   const [openOtherCertificateDialog, setOpenOtherCertificateDialog] =
     useState(false);
 
-  const [nextGapId, setNextGapId] = useState('');  
+  const [nextGapId, setNextGapId] = useState("");
 
   const handleCloseOtherCertificateDialog = () => {
     setOpenOtherCertificateDialog(false);
@@ -255,9 +262,9 @@ const GapRegForm = () => {
   }, [state]);
 
   const randomIdGenerator = async () => {
-    const generatedId = await getNextGapId(); 
-    setNextGapId(generatedId)   
-  }
+    const generatedId = await getNextGapId();
+    setNextGapId(generatedId);
+  };
 
   const goBack = () => {
     navigate("/gap/gap-registration");
@@ -266,7 +273,10 @@ const GapRegForm = () => {
   useEffect(() => {
     setLoading(true);
 
-    getUsersByAdministrativeDivisionAndValue(formData?.scsRegionDTO?.id, "SCSBRANCH").then((data = []) => {
+    getUsersByAdministrativeDivisionAndValue(
+      formData?.scsRegionDTO?.id,
+      "SCSBRANCH"
+    ).then((data = []) => {
       setAuditores(data);
     });
 
@@ -575,7 +585,7 @@ const GapRegForm = () => {
             }
           }
         } else {
-          const savedData = { ...formData, code: nextGapId }; 
+          const savedData = { ...formData, code: nextGapId };
           const response = await handleGap(savedData, onSuccess, onError);
           if (response && response.payload) {
             const gapReqId = response.payload.id;
@@ -618,7 +628,8 @@ const GapRegForm = () => {
   // Implementation Of Crop Details Tab
 
   const fetchCropAreaData = () => {
-    getCropDetailsList(formData?.id).then(({ dataList = {} }) => {
+    getCropDetailsList(formData?.id).then(
+      ({ dataList = {} }) => {
       setCropList(dataList);
     });
   };
@@ -630,6 +641,12 @@ const GapRegForm = () => {
   const toggleCropSelect = (component) => {
     console.log(component);
     setSelectedCrop(component);
+
+    const selectedRowData = cropList?.filter((row) =>
+      component.includes(row.id)
+    );
+    console.log("srows", selectedRowData);
+    setSelectedCropData(selectedRowData);
   };
 
   const resetSelectedCropDetails = () => {
@@ -652,6 +669,7 @@ const GapRegForm = () => {
   };
   const onDeleteCropDetails = () => {
     setOpenDeleteCropDetail(true);
+    setDialogSelectedCrop(selectedCropData);
   };
 
   const onViewCropDetails = () => {
@@ -696,6 +714,7 @@ const GapRegForm = () => {
 
   const closeCropDelete = () => {
     setOpenDeleteCropDetail(false);
+    setDialogSelectedCrop([]);
   };
 
   const renderSelectedItems = () => {
@@ -1012,7 +1031,9 @@ const GapRegForm = () => {
               <TextField
                 name="code"
                 id="code"
-                value={state?.action === DEF_ACTIONS.ADD ? nextGapId : formData?.code}
+                value={
+                  state?.action === DEF_ACTIONS.ADD ? nextGapId : formData?.code
+                }
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   state?.action === DEF_ACTIONS.EDIT ||
@@ -3034,7 +3055,10 @@ const GapRegForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
-        <GapRequestCertificate url={formData.certificatePresignedUrl} gapId ={formData.id} />
+        <GapRequestCertificate
+          url={formData.certificatePresignedUrl}
+          gapId={formData.id}
+        />
       </TabContent>
 
       <TabContent className={toggleState === 7 ? "active-content" : ""}>
@@ -3049,36 +3073,20 @@ const GapRegForm = () => {
         action={cdAction}
         refresh={refreshCropList}
       />
-      <DialogBox
+      
+      <ConfirmationDialog
         open={openDeleteCropDetail}
-        title="Delete Crop Detail"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirmDeleteCropDetail}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={closeCropDelete}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedCropData}
+        loading={loading}
+        onClose={closeCropDelete}
+        onConfirm={onConfirmDeleteCropDetail}
+        setDialogSelectedTypes={setDialogSelectedCrop}
+        dialogSelectedTypes={dialogSelectedCrop}
+        propertyId = "cropVarietyDTO.varietyName"
+        propertyDescription = "cropDTO.description"
+      />
+
       <DialogBox
         open={openConfSubmit}
         title="Submit Gap Request"

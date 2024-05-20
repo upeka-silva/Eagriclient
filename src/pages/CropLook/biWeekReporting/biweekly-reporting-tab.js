@@ -337,7 +337,7 @@ const BiWeeklyReportingTab = ({
       </Grid>
       <DialogBox
         open={openDialog}
-        title="Submit Reporting"
+        title="Complete Crop Category Reporting"
         actions={
           <ActionWrapper>
             <Button

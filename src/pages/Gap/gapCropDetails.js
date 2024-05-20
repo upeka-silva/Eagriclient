@@ -212,7 +212,7 @@ const GapCropDetails = ({actionMode, gapReqId}) => {
                             onClick={onConfirm}
                             sx={{ml: "8px"}}
                         >
-                            Confirm
+                            OK
                         </Button>
                         <Button
                             variant="contained"
@@ -220,13 +220,12 @@ const GapCropDetails = ({actionMode, gapReqId}) => {
                             onClick={close}
                             sx={{ml: "8px"}}
                         >
-                            Close
+                            Cancel
                         </Button>
                     </ActionWrapper>
                 }
             >
                 <>
-                    <DeleteMsg/>
                     <Divider sx={{mt: "16px"}}/>
                     {renderSelectedItems()}
                 </>
