@@ -167,7 +167,7 @@ const TreeComponent = ({ category, season, week }) => {
             translate={{ x: 50, y: 50 }}
             renderCustomNodeElement={renderCustomNode}
             orientation="vertical"
-            nodeSize={{ x: 100, y: 50 }}
+            nodeSize={{ x: 150, y: 200 }}
             //orientation="horizontal"
           />
         ) : (
