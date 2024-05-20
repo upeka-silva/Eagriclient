@@ -199,7 +199,7 @@ const GapRegForm = () => {
   const [openOtherCertificateDialog, setOpenOtherCertificateDialog] =
     useState(false);
 
-  const [nextGapId, setNextGapId] = useState('');  
+  const [nextGapId, setNextGapId] = useState("");
 
   const handleCloseOtherCertificateDialog = () => {
     setOpenOtherCertificateDialog(false);
@@ -255,9 +255,9 @@ const GapRegForm = () => {
   }, [state]);
 
   const randomIdGenerator = async () => {
-    const generatedId = await getNextGapId(); 
-    setNextGapId(generatedId)   
-  }
+    const generatedId = await getNextGapId();
+    setNextGapId(generatedId);
+  };
 
   const goBack = () => {
     navigate("/gap/gap-registration");
@@ -266,7 +266,10 @@ const GapRegForm = () => {
   useEffect(() => {
     setLoading(true);
 
-    getUsersByAdministrativeDivisionAndValue(formData?.scsRegionDTO?.id, "SCSBRANCH").then((data = []) => {
+    getUsersByAdministrativeDivisionAndValue(
+      formData?.scsRegionDTO?.id,
+      "SCSBRANCH"
+    ).then((data = []) => {
       setAuditores(data);
     });
 
@@ -575,7 +578,7 @@ const GapRegForm = () => {
             }
           }
         } else {
-          const savedData = { ...formData, code: nextGapId }; 
+          const savedData = { ...formData, code: nextGapId };
           const response = await handleGap(savedData, onSuccess, onError);
           if (response && response.payload) {
             const gapReqId = response.payload.id;
@@ -1012,7 +1015,9 @@ const GapRegForm = () => {
               <TextField
                 name="code"
                 id="code"
-                value={state?.action === DEF_ACTIONS.ADD ? nextGapId : formData?.code}
+                value={
+                  state?.action === DEF_ACTIONS.ADD ? nextGapId : formData?.code
+                }
                 disabled={
                   state?.action === DEF_ACTIONS.VIEW ||
                   state?.action === DEF_ACTIONS.EDIT ||
@@ -3034,7 +3039,10 @@ const GapRegForm = () => {
       </TabContent>
 
       <TabContent className={toggleState === 6 ? "active-content" : ""}>
-        <GapRequestCertificate url={formData.certificatePresignedUrl} gapId ={formData.id} />
+        <GapRequestCertificate
+          url={formData.certificatePresignedUrl}
+          gapId={formData.id}
+        />
       </TabContent>
 
       <TabContent className={toggleState === 7 ? "active-content" : ""}>

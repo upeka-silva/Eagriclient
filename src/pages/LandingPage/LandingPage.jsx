@@ -1,28 +1,21 @@
 // LandingPage.js
 
-import React, {useContext,useState, useEffect} from "react";
+import React, { useState } from "react";
 
-import {  useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { createTheme, ThemeProvider, styled } from "@mui/material/styles";
-import Farmer from "../../assets/images/farmer.png";
 import { CardWrapper } from "../../components/PageLayout/Card";
-import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
 import ServiceCard from "./ServiceCard"; // Import the ServiceCard component
 
-import { Routes } from "../../routes/routes";
-import { get_DataList } from "../../redux/actions/list/list";
-import {CircularProgress, LinearProgress} from "@mui/material";
+import { CircularProgress, LinearProgress } from "@mui/material";
 const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  height: 60,
-  lineHeight: "60px",
+    ...theme.typography.body2,
+    textAlign: "center",
+    color: theme.palette.text.secondary,
+    height: 60,
+    lineHeight: "60px",
 }));
 
 const lightTheme = createTheme({ palette: { mode: "light" } });
