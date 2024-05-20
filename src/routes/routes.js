@@ -222,6 +222,7 @@ import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/Veget
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
+import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
 
 export const Routes = [
   {
@@ -1448,6 +1449,14 @@ export const Routes = [
         name: "Aggrigated Report (ADA Level)",
         isSideBar: true,
         element: <AggrigateReportAdaLevel />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
+        path: "/ai-aggrigate-report-by-crops",
+        name: "Crop Summary (AI Level)",
+        isSideBar: true,
+        element: <AggrigateReportAILevelByCrop />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
