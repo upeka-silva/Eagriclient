@@ -1,11 +1,11 @@
-import {Button, useTheme} from "@mui/material";
+import { Button, useTheme } from "@mui/material";
 import React from "react";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
-import {Add, Circle, Edit} from "@mui/icons-material";
+import { Add, Circle, Edit } from "@mui/icons-material";
 import { ButtonWrapper } from "../FormLayout/ButtonWrapper";
-import {FieldWrapper} from "../FormLayout/FieldWrapper";
-import {FieldName} from "../FormLayout/FieldName";
-import {tokens} from "../../utils/theme/app-theme";
+import { FieldWrapper } from "../FormLayout/FieldWrapper";
+import { FieldName } from "../FormLayout/FieldName";
+import { tokens } from "../../utils/theme/app-theme";
 import BackToList from "../BackToList/BackToList";
 
 const FormButtonGroup = ({
@@ -14,8 +14,12 @@ const FormButtonGroup = ({
   saving,
   enableSave,
   handleFormSubmit,
-  resetForm, isVerifiedFunctionality, verifyForm, verifiedStatus,
-  
+  resetForm,
+  isVerifiedFunctionality,
+  verifyForm,
+  verifiedStatus,
+  isHideResetButton,
+  isHideUpdateButton,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -43,51 +47,63 @@ const FormButtonGroup = ({
                 onClick={handleFormSubmit}
                 size="small"
                 color="success"
+                sx={{ display: isHideUpdateButton ? "none" : undefined }}
               >
                 {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
                 {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
               </Button>
               <Button
-                disabled={state?.action === DEF_ACTIONS.VIEW}
+                disabled={state?.action === DEF_ACTIONS.VIEW || !enableSave()}
+                hidden
                 onClick={resetForm}
                 color="success"
                 variant="contained"
                 size="small"
-                sx={{ marginLeft: "10px" }}
+                sx={{
+                  marginLeft: "10px",
+                  display: isHideResetButton ? "none" : undefined,
+                }}
               >
                 RESET
               </Button>
-              {isVerifiedFunctionality && (state?.action !== DEF_ACTIONS.ADD) &&
+              {isVerifiedFunctionality && state?.action !== DEF_ACTIONS.ADD && (
                 <Button
-                    onClick={verifyForm}
-                    color="success"
-                    variant="contained"
-                    size="small"
-                    sx={{ marginLeft: "10px" }}
+                  onClick={verifyForm}
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  sx={{ marginLeft: "10px" }}
                 >
-                    <span>VERIFY</span>
+                  <span>VERIFY</span>
                 </Button>
-              }
+              )}
             </>
           )}
         </ActionWrapper>
       )}
-    {isVerifiedFunctionality && (state?.action !== DEF_ACTIONS.ADD) &&
-        <FieldWrapper style={{
+      {isVerifiedFunctionality && state?.action !== DEF_ACTIONS.ADD && (
+        <FieldWrapper
+          style={{
             marginLeft: "auto",
-        }}>
-            {verifiedStatus === true ?
-                <FieldName>Verified <Circle
-                    style={{color: colors.green[400], marginBottom: "-6px"}}/>
-                </FieldName>
-            :
-                <FieldName>Not Verified <Circle
-                    style={{color: colors.yellow[100], marginBottom: "-6px"}}/>
-                </FieldName>
-            }
-
+          }}
+        >
+          {verifiedStatus === true ? (
+            <FieldName>
+              Verified{" "}
+              <Circle
+                style={{ color: colors.green[400], marginBottom: "-6px" }}
+              />
+            </FieldName>
+          ) : (
+            <FieldName>
+              Not Verified{" "}
+              <Circle
+                style={{ color: colors.yellow[100], marginBottom: "-6px" }}
+              />
+            </FieldName>
+          )}
         </FieldWrapper>
-    }
+      )}
     </ButtonWrapper>
   );
 };
