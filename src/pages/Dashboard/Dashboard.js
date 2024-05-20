@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Autocomplete, Chip, Grid, InputBase, TextField } from "@mui/material";
+import {
+  Autocomplete,
+  Chip,
+  CircularProgress,
+  Grid,
+  InputBase,
+  TextField,
+} from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
@@ -12,19 +19,23 @@ import {
   getvarietyProgress,
 } from "../../redux/actions/cropLook/irrigationMode/action";
 import { baseURL } from "../../utils/constants/api";
+import { getCropsByCropCategory } from "../../redux/actions/crop/cropVariety/action";
+import { color } from "d3";
 
 const Dashboard = () => {
   useUserAccessValidation();
 
   const [cropCategory, setCropCategory] = useState([]);
-  console.log({ cropCategory })
+  console.log({ cropCategory });
   const [selectCropCategory, setSelectCropCategory] = useState();
-  console.log({ selectCropCategory })
+  console.log({ selectCropCategory });
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
   const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
   const [allTargetExtent, setAllTargetExtent] = useState([]);
+
   const [loading, setLoading] = useState(true);
+  const [loadingCrop, setLoadingCrop] = useState(false);
 
   const [irrigationSortData, setIrrigationSortData] = useState({
     varietyNames: [],
@@ -36,8 +47,6 @@ const Dashboard = () => {
     value: [],
   });
 
-  console.log("selectone", cropCategory[0]);
-
   const [targetExtentConfigData, setTargetExtentConfigData] = useState({
     district: [],
     totalExtent: [],
@@ -46,7 +55,9 @@ const Dashboard = () => {
 
   console.log({ allIrrigationModeData });
   const [selectCropLookSeason, setCropLookSeason] = useState();
-  console.log({ selectCropLookSeason });
+  const [selectCropList, setSelectCropList] = useState();
+  const [selectCrop, setSelectCrop] = useState();
+  console.log({ selectCrop });
 
   useEffect(() => {
     if (allCropLookSeason.length > 0) {
@@ -56,7 +67,12 @@ const Dashboard = () => {
 
   const cropCategoryChipHandleClick = async (event, value) => {
     setSelectCropCategory(value);
-    console.info("You clicked the Chip: ", value);
+    setLoadingCrop(true);
+    await getCropsByCropCategory(value?.id).then(({ dataList }) => {
+      setSelectCropList(dataList);
+      setSelectCrop(dataList[0]);
+    });
+    setLoadingCrop(false);
   };
 
   useEffect(() => {
@@ -66,6 +82,7 @@ const Dashboard = () => {
       );
       setCropCategory(dataList);
       setSelectCropCategory(dataList[0]);
+      getCropsByCropCategories(dataList[0]?.id);
     };
     const fetchCropLookSeasons = async () => {
       await getCropLookSeasons()
@@ -80,31 +97,41 @@ const Dashboard = () => {
     fetchCropLookSeasons();
   }, []);
 
+  const getCropsByCropCategories = async (cropCategoryId) => {
+    setLoadingCrop(true);
+    await getCropsByCropCategory(cropCategoryId).then(({ dataList }) => {
+      setSelectCropList(dataList);
+      setSelectCrop(dataList[0]);
+    });
+    setLoadingCrop(false);
+  };
+
   useEffect(() => {
     if (selectCropLookSeason?.id && selectCropCategory?.id) {
       getIrrigationModeProgress(
         selectCropLookSeason?.id,
-        selectCropCategory?.id
+        selectCropCategory?.id,
+        selectCrop?.id
       ).then((res) => {
         setAllIrrigationModeData(res?.dataList);
       });
 
-      getvarietyProgress(selectCropLookSeason?.id, selectCropCategory?.id).then(
-        (res) => {
-          console.log({ res });
-          //setAllIrrigationModeData(res?.dataList);
-          setAllVarietyProgressData(res?.dataList);
-        }
-      );
-
-      // TODO: need to fix performance issue and need to enable
-      // getTargetExtent(selectCropLookSeason?.id, selectCropCategory?.id).then(
-      //   (res) => {
-      //     setAllTargetExtent(res?.dataList);
-      //   }
-      // );
+      getvarietyProgress(
+        selectCropLookSeason?.id,
+        selectCropCategory?.id,
+        selectCrop?.id
+      ).then((res) => {
+        console.log({ res });
+        setAllVarietyProgressData(res?.dataList);
+      });
     }
-  }, [selectCropLookSeason, selectCropCategory, allCropLookSeason]);
+  }, [
+    selectCropLookSeason,
+    selectCropCategory,
+    selectCrop,
+    allCropLookSeason,
+    loadingCrop,
+  ]);
 
   useEffect(() => {
     const filteredData = allIrrigationModeData.filter(
@@ -126,34 +153,35 @@ const Dashboard = () => {
 
     console.log({ moreThanTwoPercent });
 
-    const difLength = percentageData.length - length;
-
     let result = [];
 
-    if (length < 5) {
+    if (length < 4) {
       console.log("less then 5");
       // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
       const firstItems = moreThanTwoPercent.slice(0, length);
-      console.log({ firstItems });
-      const check = percentageData.slice(length, percentageData.length);
-
-      console.log("pleng", percentageData.length);
-      console.log({ check });
 
       const othersTotal = percentageData
         .slice(length, percentageData.length)
         .reduce((acc, item) => acc + item.total, 0);
 
-      result = [...firstItems, { varietyName: "others", total: othersTotal }];
+      if (othersTotal === 0) {
+        result = [...firstItems];
+      } else {
+        result = [...firstItems, { varietyName: "others", total: othersTotal }];
+      }
     } else {
       //show first 4 and other varities percentage total show as a others
 
-      const firstFour = moreThanTwoPercent.slice(0, 5);
+      const firstFour = moreThanTwoPercent.slice(0, 4);
       const othersTotal = percentageData
         .slice(5, percentageData.length - 1)
         .reduce((acc, item) => acc + item.total, 0);
 
-      result = [...firstFour, { varietyName: "others", total: othersTotal }];
+      if (othersTotal === 0) {
+        result = [...firstFour];
+      } else {
+        result = [...firstFour, { varietyName: "others", total: othersTotal }];
+      }
     }
 
     const varietyNames = result?.map((item) => item.varietyName);
@@ -167,9 +195,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     const newVar = allVarietyProgressData?.[0];
-
-    let sortedKeysArray = [];
-    let sortedValuesArray = [];
 
     if (newVar) {
       const dataArray = Object.entries(newVar);
@@ -208,7 +233,7 @@ const Dashboard = () => {
 
       let result = [];
 
-      if (length < 5) {
+      if (length < 4) {
         console.log("less then 5");
         // show first length(count of moreThanTwoPercent) and other varities percentage total show as a others
         const firstItems = moreThanTwoPercent.slice(0, length);
@@ -217,16 +242,24 @@ const Dashboard = () => {
           .slice(length, percentageData.length)
           .reduce((acc, item) => acc + item.total, 0);
 
-        result = [...firstItems, { name: "others", total: othersTotal }];
+        if (othersTotal === 0) {
+          result = [...firstItems];
+        } else {
+          result = [...firstItems, { name: "others", total: othersTotal }];
+        }
       } else {
-        const firstItems = moreThanTwoPercent?.slice(0, 5);
+        const firstItems = moreThanTwoPercent?.slice(0, 4);
         console.log({ firstItems });
 
         const othersTotal = percentageData
           .slice(5, convertedData.length - 1)
           .reduce((acc, item) => acc + item.total, 0);
 
-        result = [...firstItems, { name: "others", total: othersTotal }];
+        if (othersTotal === 0) {
+          result = [...firstItems];
+        } else {
+          result = [...firstItems, { name: "others", total: othersTotal }];
+        }
       }
 
       const name = result?.map((item) => item?.name);
@@ -260,10 +293,18 @@ const Dashboard = () => {
     setCropLookSeason(value);
   };
 
-  const series = varietyProgressSortData?.value;
-  const seriestwo = irrigationSortData?.total
-    ? irrigationSortData?.total
-    : null;
+  const handleCropChange = (event, value) => {
+    setSelectCrop(value);
+  };
+
+  const series =
+    varietyProgressSortData?.value.length < 1
+      ? [10, 10]
+      : varietyProgressSortData?.value;
+  const seriestwo =
+    irrigationSortData?.total?.length < 1
+      ? [10, 10]
+      : irrigationSortData?.total;
   const optionssthree = {
     dataLabels: {
       enabled: true,
@@ -285,9 +326,14 @@ const Dashboard = () => {
         },
       },
     },
-    labels: irrigationSortData?.varietyNames
-      ? irrigationSortData?.varietyNames
-      : null,
+    colors:
+      (irrigationSortData?.total?.length < 1 ? ["#e0e0e0", "#e0e0e0"] : null) ??
+      [],
+
+    labels:
+      irrigationSortData?.varietyNames?.length < 1
+        ? ["No Data", "No Data"]
+        : irrigationSortData?.varietyNames,
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
@@ -346,6 +392,18 @@ const Dashboard = () => {
         fontSize: "15px",
       },
     },
+    // noData: {
+    //   text: "No data available",
+    //   align: 'center',
+    //   verticalAlign: 'middle',
+    //   offsetX: 0,
+    //   offsetY: 0,
+    //   style: {
+    //     color: '#000',
+    //     fontSize: '14px',
+    //     fontFamily: undefined
+    //   }
+    // },
     plotOptions: {
       pie: {
         donut: {
@@ -360,10 +418,17 @@ const Dashboard = () => {
         },
       },
     },
-    labels: varietyProgressSortData ? varietyProgressSortData?.keys : [],
+    labels:
+      varietyProgressSortData?.keys?.length < 1
+        ? ["No Data", "No Data"]
+        : varietyProgressSortData?.keys,
     legend: {
       position: "bottom", // Change this to your desired position: top, bottom, left, right
     },
+    colors:
+      (varietyProgressSortData?.keys?.length < 1
+        ? ["#e0e0e0", "#e0e0e0"]
+        : null) ?? [],
     responsive: [
       {
         breakpoint: 3900,
@@ -540,34 +605,33 @@ const Dashboard = () => {
       }}
     >
       <Grid display={"flex"} justifyContent={"flex-end"} my={2}>
-      {loading !== true && (
-        <>
-          <Autocomplete
-          options={allCropLookSeason}
-          getOptionLabel={(option) => option?.agriSeason?.description}
-          value={selectCropLookSeason}
-          onChange={handleCropLookSeasonChange}
-          sx={{ marginRight: "1%" }}
-          renderInput={(params) => (
-            <InputBase
-              {...params.InputProps}
-              inputProps={params.inputProps}
-              sx={{
-                color: "#fff",
-                width: "250px",
-                height: "40px",
-                borderRadius: "20px",
-                padding: "0px 0px 0px 30px",
-                border: "1px solid #DBDBDB",
-                backgroundColor: "#388e3c",
-              }}
-              placeholder="Select season"
+        {loading !== true && (
+          <>
+            <Autocomplete
+              options={allCropLookSeason}
+              getOptionLabel={(option) => option?.agriSeason?.description}
+              value={selectCropLookSeason}
+              onChange={handleCropLookSeasonChange}
+              sx={{ marginRight: "1%" }}
+              renderInput={(params) => (
+                <InputBase
+                  {...params.InputProps}
+                  inputProps={params.inputProps}
+                  sx={{
+                    color: "#fff",
+                    width: "250px",
+                    height: "40px",
+                    borderRadius: "20px",
+                    padding: "0px 0px 0px 30px",
+                    border: "1px solid #DBDBDB",
+                    backgroundColor: "#388e3c",
+                  }}
+                  placeholder="Select season"
+                />
+              )}
             />
-          )}
-        />
-        </>
-      )}
-      
+          </>
+        )}
       </Grid>
       <Grid>
         <Grid container spacing={2}>
@@ -639,57 +703,63 @@ const Dashboard = () => {
 
             <Grid mb={3} sx={{ display: "flex" }}>
               {loading !== true && (
-                  <>
-                    <Autocomplete
-                      options={cropCategory}
-                      getOptionLabel={(option) => option?.description}
-                      value={selectCropCategory}
-                      onChange={cropCategoryChipHandleClick}
-                      sx={{ marginRight: "5px" }}
-                      renderInput={(params) => (
-                        <InputBase
-                          {...params.InputProps}
-                          inputProps={params.inputProps}
-                          sx={{
-                            color: "black",
-                            width: "250px",
-                            height: "40px",
-                            bgcolor: "#ffffff",
-                            borderRadius: "20px",
-                            padding: "0px 0px 0px 30px",
-                            border: "2px solid #DBDBDB",
-                          }}
-                          placeholder="Select Crop Category"
-                          //endAdornment={<SearchIcon />}
-                        />
-                      )}
-                    />
-                  </>
-                )}
-
-              <Autocomplete
-                options={allCropLookSeason}
-                getOptionLabel={(option) => option?.agriSeason?.description}
-                value={loading && selectCropLookSeason}
-                onChange={handleCropLookSeasonChange}
-                renderInput={(params) => (
-                  <InputBase
-                    {...params.InputProps}
-                    inputProps={params.inputProps}
-                    sx={{
-                      color: "black",
-                      width: "250px",
-                      height: "40px",
-                      bgcolor: "#ffffff",
-                      borderRadius: "20px",
-                      padding: "0px 0px 0px 30px",
-                      border: "2px solid #DBDBDB",
-                    }}
-                    placeholder="Select Crop"
-                    //endAdornment={<SearchIcon />}
+                <>
+                  <Autocomplete
+                    options={cropCategory}
+                    getOptionLabel={(option) => option?.description}
+                    value={selectCropCategory}
+                    onChange={cropCategoryChipHandleClick}
+                    sx={{ marginRight: "5px" }}
+                    renderInput={(params) => (
+                      <InputBase
+                        {...params.InputProps}
+                        inputProps={params.inputProps}
+                        sx={{
+                          color: "black",
+                          width: "250px",
+                          height: "40px",
+                          bgcolor: "#ffffff",
+                          borderRadius: "20px",
+                          padding: "0px 0px 0px 30px",
+                          border: "2px solid #DBDBDB",
+                        }}
+                        placeholder="Select Crop Category"
+                        //endAdornment={<SearchIcon />}
+                      />
+                    )}
                   />
-                )}
-              />
+                </>
+              )}
+
+              {loadingCrop !== true && (
+                <>
+                  <Autocomplete
+                    options={selectCropList}
+                    getOptionLabel={(option) =>
+                      selectCrop ? option?.description : ""
+                    }
+                    value={selectCrop}
+                    onChange={handleCropChange}
+                    renderInput={(params) => (
+                      <InputBase
+                        {...params.InputProps}
+                        inputProps={params.inputProps}
+                        sx={{
+                          color: "black",
+                          width: "250px",
+                          height: "40px",
+                          bgcolor: "#ffffff",
+                          borderRadius: "20px",
+                          padding: "0px 0px 0px 30px",
+                          border: "2px solid #DBDBDB",
+                        }}
+                        placeholder="Select Crop"
+                        //endAdornment={<SearchIcon />}
+                      />
+                    )}
+                  />
+                </>
+              )}
             </Grid>
 
             <Grid
@@ -702,12 +772,79 @@ const Dashboard = () => {
               display={"flex"}
               flexDirection={"row"}
             >
-              <ReactApexChart options={optionss} series={series} type="donut" />
-              <ReactApexChart
-                options={optionssthree}
-                series={seriestwo}
-                type="donut"
-              />
+              {loadingCrop === true ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                </>
+              ) : (
+                <>
+                  {varietyProgressSortData?.value.length < 1 ? (
+                    <>
+                      <Grid>
+                        <h3 style={{ textAlign: "center" }}>No Data Found !</h3>
+                        <ReactApexChart
+                          options={optionss}
+                          series={series}
+                          type="donut"
+                        />
+                      </Grid>
+                    </>
+                  ) : (
+                    <ReactApexChart
+                      options={optionss}
+                      series={series}
+                      type="donut"
+                    />
+                  )}
+                </>
+              )}
+
+              {loadingCrop === true ? (
+                <>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                  >
+                    <CircularProgress />
+                  </div>
+                </>
+              ) : (
+                <>
+                  {varietyProgressSortData?.value.length < 1 ? (
+                    <>
+                      <Grid>
+                        <h3 style={{ textAlign: "center" }}>No Data Found !</h3>
+                        <ReactApexChart
+                          options={optionssthree}
+                          series={seriestwo}
+                          type="donut"
+                        />
+                      </Grid>
+                    </>
+                  ) : (
+                    <ReactApexChart
+                      options={optionssthree}
+                      series={seriestwo}
+                      type="donut"
+                    />
+                  )}
+                </>
+              )}
             </Grid>
 
             <Grid
