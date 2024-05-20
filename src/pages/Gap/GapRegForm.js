@@ -92,6 +92,8 @@ import {
   TabContent,
   TabWrapper,
 } from "../../components/TabButtons/TabButtons";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 const GapRegForm = () => {
@@ -153,7 +155,12 @@ const GapRegForm = () => {
   const [loading, setLoading] = useState(false);
 
   const [selectedCrop, setSelectedCrop] = useState([]);
+  const [selectedCropData, setSelectedCropData] = useState([]);
+
+  const [dialogSelectedCrop, setDialogSelectedCrop] = useState([]);
+
   const [cropList, setCropList] = useState([]);
+  console.log({cropList})
   const [openCropAreaAddDlg, setOpenCropAreaAddDlg] = useState(false);
   const [cdFormData, setCdFormData] = useState({ gapRequestDto: formData });
   const [cdAction, setCdAction] = useState(DEF_ACTIONS.ADD);
@@ -618,7 +625,8 @@ const GapRegForm = () => {
   // Implementation Of Crop Details Tab
 
   const fetchCropAreaData = () => {
-    getCropDetailsList(formData?.id).then(({ dataList = {} }) => {
+    getCropDetailsList(formData?.id).then(
+      ({ dataList = {} }) => {
       setCropList(dataList);
     });
   };
@@ -630,6 +638,12 @@ const GapRegForm = () => {
   const toggleCropSelect = (component) => {
     console.log(component);
     setSelectedCrop(component);
+
+    const selectedRowData = cropList?.filter((row) =>
+      component.includes(row.id)
+    );
+    console.log("srows", selectedRowData);
+    setSelectedCropData(selectedRowData);
   };
 
   const resetSelectedCropDetails = () => {
@@ -652,6 +666,7 @@ const GapRegForm = () => {
   };
   const onDeleteCropDetails = () => {
     setOpenDeleteCropDetail(true);
+    setDialogSelectedCrop(selectedCropData);
   };
 
   const onViewCropDetails = () => {
@@ -696,6 +711,7 @@ const GapRegForm = () => {
 
   const closeCropDelete = () => {
     setOpenDeleteCropDetail(false);
+    setDialogSelectedCrop([]);
   };
 
   const renderSelectedItems = () => {
@@ -3049,36 +3065,20 @@ const GapRegForm = () => {
         action={cdAction}
         refresh={refreshCropList}
       />
-      <DialogBox
+      
+      <ConfirmationDialog
         open={openDeleteCropDetail}
-        title="Delete Crop Detail"
-        actions={
-          <ActionWrapper>
-            <Button
-              variant="contained"
-              color="info"
-              onClick={onConfirmDeleteCropDetail}
-              sx={{ ml: "8px" }}
-            >
-              Confirm
-            </Button>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={closeCropDelete}
-              sx={{ ml: "8px" }}
-            >
-              Close
-            </Button>
-          </ActionWrapper>
-        }
-      >
-        <>
-          <DeleteMsg />
-          <Divider sx={{ mt: "16px" }} />
-          {renderSelectedItems()}
-        </>
-      </DialogBox>
+        title="Do you want to delete?"
+        items={selectedCropData}
+        loading={loading}
+        onClose={closeCropDelete}
+        onConfirm={onConfirmDeleteCropDetail}
+        setDialogSelectedTypes={setDialogSelectedCrop}
+        dialogSelectedTypes={dialogSelectedCrop}
+        propertyId = "cropVarietyDTO.varietyName"
+        propertyDescription = "cropDTO.description"
+      />
+
       <DialogBox
         open={openConfSubmit}
         title="Submit Gap Request"
