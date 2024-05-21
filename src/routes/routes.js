@@ -37,7 +37,6 @@ import CropActivityForm from "../pages/Crop/CropActivity/CropActivityForm";
 import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
 
-
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
@@ -70,10 +69,6 @@ import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRa
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
 
-
-
-
-
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -104,7 +99,7 @@ import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from "@mui/icons-material/Group";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import {
   Apple,
   Assessment,
@@ -216,13 +211,14 @@ import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
-import SummarizeIcon from '@mui/icons-material/Summarize';
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
+import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
 
 export const Routes = [
   {
@@ -1271,28 +1267,28 @@ export const Routes = [
         component: DEF_COMPONENTS.AGRICULTURE_POST,
       },
       {
-         path: "/create-project",
-         name: "Project",
-         isSideBar: true,
-         element: <AgricultureProject />,
-         icon: AssignmentIndIcon,
+        path: "/create-project",
+        name: "Project",
+        isSideBar: true,
+        element: <AgricultureProject />,
+        icon: AssignmentIndIcon,
         component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
-         path:"/agriculture-project-form",
-          name: "Agriculture Project Form",
-          isSideBar: false,
-          element: <AgricultureProjectForm />,
-          component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+        path: "/agriculture-project-form",
+        name: "Agriculture Project Form",
+        isSideBar: false,
+        element: <AgricultureProjectForm />,
+        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
-         path:"/report-project",
-         name: "Report Project",
-         isSideBar: true,
-         element: <ProjectReport />,
-         icon: SummarizeIcon,
-         component: DEF_COMPONENTS.PROJECT_REPORT,
-     },
+        path: "/report-project",
+        name: "Report Project",
+        isSideBar: true,
+        element: <ProjectReport />,
+        icon: SummarizeIcon,
+        component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
       {
         path: "/create-post-form",
         isSideBar: false,
@@ -1437,6 +1433,14 @@ export const Routes = [
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
       {
+        path: "/dd-aggrigate-report",
+        name: "Aggrigated Report (DD Level",
+        isSideBar: true,
+        element: <AggrigateReportDDLevel />,
+        icon: Preview,
+        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      },
+      {
         path: "/ai-aggrigate-report",
         name: "Aggrigated Report (AI Level)",
         isSideBar: true,
@@ -1472,7 +1476,7 @@ export const Routes = [
         path: "/approval-report-info-dd",
         name: "Approval Report Info DD",
         isSideBar: true,
-        element: <ApprovalReport owner={'DD'}/>,
+        element: <ApprovalReport owner={"DD"} />,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
       },
@@ -1480,7 +1484,7 @@ export const Routes = [
         path: "/approval-report-info-ada",
         name: "Approval Report Info ADA",
         isSideBar: true,
-        element: <ApprovalReport owner={'ADA'} />,
+        element: <ApprovalReport owner={"ADA"} />,
         icon: Preview,
         component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
       },
@@ -1637,16 +1641,16 @@ export const Routes = [
         element: <EconomicCenter />,
         icon: GroupIcon,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      }, 
+      },
       {
         path: "/getfoodpricedata",
         name: "HARTI Price",
         isSideBar: true,
         element: <HartyPrices />,
-        icon: GroupIcon ,
+        icon: GroupIcon,
         component: DEF_COMPONENTS.LATEST_PRODUCER_PRICE,
-      },            
-     ],
+      },
+    ],
   },
 
   // {

@@ -801,3 +801,24 @@ export const getCropCategoryReport = async (categoryId, seasonId, weekId) => {
     return null;
   }
 };
+
+
+export const getAggrigateReportDataADDLevel = async (categoryId, seasonId, ddId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/aggrigated-report/category/${categoryId}/season/${seasonId}/dd/${ddId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
