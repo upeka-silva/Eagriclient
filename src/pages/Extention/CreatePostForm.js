@@ -3,9 +3,11 @@ import {
   CircularProgress,
   Grid,
   IconButton,
+  MenuItem,
+  Select,
   TextField,
 } from "@mui/material";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../hooks/authentication";
@@ -498,6 +500,47 @@ const CreatePostForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item sm={2} md={2} lg={6}>
+            <FieldWrapper>
+              <FieldName>Media Type</FieldName>
+              <Select
+                name="mediaType"
+                id="mediaType"
+                value={formData?.mediaType || ""}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "mediaType")
+                }
+                fullWidth
+                sx={{
+                  borderRadius: "8px",
+                }}
+                size="small"
+              >
+                <MenuItem value={"VIDEO"}>Video</MenuItem>
+                <MenuItem value={"PHOTO"}>Photo</MenuItem>
+              </Select>
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={12} md={12} lg={6}>
+            <FieldWrapper>
+              <FieldName>Video URL</FieldName>
+              <TextField
+                name="videoUrl"
+                id="videoUrl"
+                value={formData?.videoUrl || ""}
+                fullWidth
+                disabled={state?.action === DEF_ACTIONS.VIEW || formData?.mediaType !== "VIDEO"}
+                onChange={(e) => handleChange(e?.target?.value || "", "videoUrl")}
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
           <Grid item lg={4}>
             <Grid container>
               <Grid item sm={3} md={3} lg={9}>
@@ -518,6 +561,7 @@ const CreatePostForm = () => {
                         id="profile-picture-input1"
                         style={{ display: "none" }}
                         onChange={handleImageChange}
+                        disabled={formData?.mediaType !== "PHOTO"}
                       />
 
                       <Box
@@ -595,6 +639,7 @@ const CreatePostForm = () => {
                         id="profile-picture-input2"
                         style={{ display: "none" }}
                         onChange={handleImageChange2}
+                        disabled={formData?.mediaType !== "PHOTO"}
                       />
 
                       <Box
@@ -672,6 +717,7 @@ const CreatePostForm = () => {
                         id="profile-picture-input3"
                         style={{ display: "none" }}
                         onChange={handleImageChange3}
+                        disabled={formData?.mediaType !== "PHOTO"}
                       />
 
                       <Box
