@@ -51,8 +51,6 @@ import {
   getGapCertificate,
   getNextGapId,
   getUsersByAdministrativeDivisionAndValue,
-  getUsersByRoleCode,
-  getUsersByScsRegion,
   get_GapRequestActionList,
   handleGap,
   saveGapExternalAuditores,
@@ -68,7 +66,6 @@ import {
 import { get_SoilType } from "../../redux/actions/soil/soilType/action";
 import { get } from "../../services/api";
 import { Colors } from "../../utils/constants/Colors";
-import DeleteMsg from "../../utils/constants/DeleteMsg";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
