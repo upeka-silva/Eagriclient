@@ -105,6 +105,8 @@ import GroupIcon from "@mui/icons-material/Group";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import MessageIcon from '@mui/icons-material/Message';
+import SendIcon from '@mui/icons-material/Send';
 import {
   Apple,
   Assessment,
@@ -221,6 +223,7 @@ import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/V
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
+import Chat from "../pages/Communication/Chat";
 
 export const Routes = [
   {
@@ -1630,6 +1633,22 @@ export const Routes = [
       },            
      ],
   },
+  {
+    path: "/communication",
+    name: "COMMUNICATION",
+    isSideBar: true,
+    icon: MessageIcon,
+    children: [
+      {
+        path: "/chat",
+        name: "Chat",
+        isSideBar: true,
+        element: <Chat />,
+        icon: SendIcon,
+        // component: DEF_COMPONENTS.CHAT,
+      }
+    ]
+  }
 
   // {
   //   path: "/map",

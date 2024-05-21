@@ -48,7 +48,10 @@
     "slick-carousel": "^1.8.1",
     "source-map-loader": "^4.0.1",
     "styled-components": "^5.3.9",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "react-stomp-hooks": "^2.1.0",
+    "socket.io-client": "^4.7.2",
+    "sockjs-client": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
