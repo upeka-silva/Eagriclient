@@ -89,15 +89,15 @@ const AggrigateReportAILevel = () => {
         container
         sx={{
           margin: "15px",
-          //width: "97%",
+          // width: "80%",
           borderRadius: "5px",
         }}
       >
         <Grid item md={12}>
           <Grid container>
-            <Grid item md={4}>
+            <Grid item md={3}>
               <Stack direction="row" spacing={1} alignItems="flex-end">
-                <FieldWrapper sx={{ width: "75%" }}>
+                <FieldWrapper sx={{ width: "90%" }}>
                   <FieldName>Season</FieldName>
                   <Autocomplete
                     options={seasons}
