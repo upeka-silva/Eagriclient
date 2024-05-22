@@ -84,7 +84,7 @@ const AggrigateReportAILevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report (AI Level)" />
+      <ListHeader title="Variety Summary - AI Wise" />
       <Grid
         container
         sx={{
