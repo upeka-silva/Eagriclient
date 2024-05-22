@@ -46,7 +46,7 @@ const CategoryReportTabelDDLevel = ({ category, season, ddId }) => {
       setLoading(false);
     }
     fetchData(category?.id, season?.id, ddId);
-  }, [ddId]);
+  }, [ddId,season?.id]);
 
   return (
     <>

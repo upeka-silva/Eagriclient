@@ -42,7 +42,7 @@ const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
       setLoading(false);
     }
     fetchData(category?.id, season?.id, aiId);
-  }, [aiId]);
+  }, [aiId,season?.id]);
 
   return (
     <>
