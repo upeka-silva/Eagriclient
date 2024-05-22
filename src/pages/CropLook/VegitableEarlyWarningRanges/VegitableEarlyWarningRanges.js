@@ -1,11 +1,4 @@
-import {
-  Autocomplete,
-  Button,
-  Grid,
-  InputAdornment,
-  InputBase,
-  Typography,
-} from "@mui/material";
+import { Grid, InputBase, Typography } from "@mui/material";
 import React, { useState } from "react";
 import VegitableEarlyWarningCarousel from "../VegitableEarlyWarningRanges/Componenets/VegitableEarlyWarningCarousel";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -68,8 +61,10 @@ const VegitableEarlyWarningRanges = () => {
 
   var filter = () => {
     if (searchValue !== "") {
-      return vegitableEarlyWarningList.filter(
-        (a) => a?.cropDTO?.description.toLowerCase().includes(searchValue.toLowerCase())
+      return vegitableEarlyWarningList.filter((a) =>
+        a?.cropDTO?.description
+          .toLowerCase()
+          .includes(searchValue.toLowerCase())
       );
     } else {
       return vegitableEarlyWarningList;
