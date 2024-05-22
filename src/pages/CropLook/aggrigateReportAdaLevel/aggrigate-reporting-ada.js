@@ -85,7 +85,7 @@ const AggrigateReportAdaLevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report (ADA Level)" />
+      <ListHeader title="Variety Summary - ADA Wise" />
       <Grid
         container
         sx={{
