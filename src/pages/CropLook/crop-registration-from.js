@@ -47,9 +47,6 @@ const CropRegistrationForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
 
-  // start of crop registration code
-  const isHideResetButton = true;
-  const isHideUpdateButton = true;
   useEffect(() => {
     getDDDivisionsByLogedInUser().then(({ dataList = [] }) => {
       setOptions(dataList);
@@ -242,8 +239,6 @@ const CropRegistrationForm = () => {
             enableSave,
             handleFormSubmit,
             resetForm,
-            isHideResetButton,
-            isHideUpdateButton,
           }}
         />
         <Grid container>
