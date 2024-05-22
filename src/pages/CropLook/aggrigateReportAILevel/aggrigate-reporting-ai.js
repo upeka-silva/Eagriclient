@@ -166,7 +166,7 @@ const AggrigateReportAILevel = () => {
               >
                 {toggleState === index + 1 ? (
                   <PermissionWrapper
-                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_LEVEL}`}
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>

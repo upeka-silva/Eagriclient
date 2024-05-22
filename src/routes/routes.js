@@ -1437,7 +1437,7 @@ export const Routes = [
             isSideBar: true,
             element: <AggrigateReportDDLevel />,
             icon: Preview,
-            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
           },
           {
             path: "/ai-variety-summary",
@@ -1445,7 +1445,7 @@ export const Routes = [
             isSideBar: true,
             element: <AggrigateReportAILevel />,
             icon: Preview,
-            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_LEVEL,
           },
           {
             path: "/ada-variety-summary",
@@ -1453,7 +1453,7 @@ export const Routes = [
             isSideBar: true,
             element: <AggrigateReportAdaLevel />,
             icon: Preview,
-            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_ADA_LEVEL,
           },
           {
             path: "/ai-variety-summary-by-crops",
@@ -1461,7 +1461,7 @@ export const Routes = [
             isSideBar: true,
             element: <AggrigateReportAILevelByCrop />,
             icon: Preview,
-            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL,
           },
         ],
       },
