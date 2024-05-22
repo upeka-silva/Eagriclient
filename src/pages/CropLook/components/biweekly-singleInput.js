@@ -170,6 +170,7 @@ const BiWeeklySingleInput = ({
                       permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_DAMAGE_EXTENT}`}
                     >
                       <Button
+                      disabled={mode === DEF_ACTIONS.VIEW || status === "CLOSE"}
                         variant="outlined"
                         color="success"
                         size="small"
