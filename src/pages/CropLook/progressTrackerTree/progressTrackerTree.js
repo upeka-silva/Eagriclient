@@ -20,6 +20,7 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import TreeComponent from "./treeComponent";
+import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
 
 const ProgressTrackerTree = () => {
   useUserAccessValidation();
@@ -44,6 +45,12 @@ const ProgressTrackerTree = () => {
   const toggleTab = (index) => {
     console.log("toggle state : " + index);
     setToggleState(index);
+  };
+
+  const filterBiWeekList = (biWeekList) => {
+    return biWeekList.filter(
+      (data) => data.status !== BI_WEEK_DATA_STATUS.INIT
+    );
   };
 
   return (
@@ -95,7 +102,7 @@ const ProgressTrackerTree = () => {
                 <FieldWrapper>
                   <FieldName>Week</FieldName>
                   <Autocomplete
-                    options={selectedSeason?.biWeekDataList}
+                    options={filterBiWeekList(selectedSeason?.biWeekDataList)}
                     value={selectedWeek}
                     getOptionLabel={(i) => `${i.weekDescription}`}
                     onChange={(event, value) => {

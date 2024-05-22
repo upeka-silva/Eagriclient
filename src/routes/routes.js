@@ -1464,14 +1464,14 @@ export const Routes = [
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
-      {
-        path: "/national-report",
-        name: "National Report",
-        isSideBar: true,
-        element: <NationalReport />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
+      // {
+      //   path: "/national-report",
+      //   name: "National Report",
+      //   isSideBar: true,
+      //   element: <NationalReport />,
+      //   icon: Preview,
+      //   component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      // },
       {
         path: "/approval-report-info-dd",
         name: "Approval Report Info DD",
