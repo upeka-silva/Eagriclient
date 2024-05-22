@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Autocomplete,
-  Chip,
-  CircularProgress,
-  Grid,
-  InputBase,
-  TextField,
-} from "@mui/material";
+import { Autocomplete, CircularProgress, Grid, InputBase } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
 import StatBoxWithoutImage from "../../components/DashBoardStatBox/StatBoxWithoutImage";
 import { get_CategoryList } from "../../redux/actions/crop/cropCategory/action";
@@ -15,12 +8,11 @@ import ReactApexChart from "react-apexcharts";
 import { getCropLookSeasons } from "../../redux/actions/cropLook/biWeekReporting/actions";
 import {
   getIrrigationModeProgress,
-  getTargetExtent,
+  getProgressBiweekly,
   getvarietyProgress,
 } from "../../redux/actions/cropLook/irrigationMode/action";
 import { baseURL } from "../../utils/constants/api";
 import { getCropsByCropCategory } from "../../redux/actions/crop/cropVariety/action";
-import { color } from "d3";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -32,6 +24,8 @@ const Dashboard = () => {
   const [allCropLookSeason, setAllCropLookSeason] = useState([]);
   const [allIrrigationModeData, setAllIrrigationModeData] = useState([]);
   const [allVarietyProgressData, setAllVarietyProgressData] = useState({});
+  const [biWeekProgressData, setBiWeekProgressData] = useState();
+
   const [allTargetExtent, setAllTargetExtent] = useState([]);
 
   const [loading, setLoading] = useState(true);
@@ -120,6 +114,14 @@ const Dashboard = () => {
         selectCrop?.id
       ).then((res) => {
         setAllVarietyProgressData(res?.dataList);
+      });
+
+      getProgressBiweekly(
+        selectCropLookSeason?.id,
+        selectCropCategory?.id,
+        selectCrop?.id
+      ).then((res) => {
+        setBiWeekProgressData(res?.dataList);
       });
     }
   }, [
@@ -450,39 +452,53 @@ const Dashboard = () => {
     // Add other options as needed
   };
 
+  const weekList = biWeekProgressData?.weekList;
+  const remainingTarget = biWeekProgressData?.remainingTarget;
+  const currentWeekExtent = biWeekProgressData?.currentWeekExtent;
+  const progress = biWeekProgressData?.progress;
+
+  const totalTargetForSeason = biWeekProgressData?.totalTargetForSeason;
+
   const seriesline = [
     {
-      name: "Series 1",
-      data: [30, 40, 35, 50, 49, 60, 70, 91, 125],
+      name: "Progress",
+      data: progress,
     },
     {
-      name: "Series 2",
-      data: [25, 35, 30, 45, 44, 55, 65, 86, 110],
+      name: "Current Week Extent",
+      data: currentWeekExtent,
+    },
+
+    {
+      name: "Remaining Target",
+      data: remainingTarget,
     },
   ];
 
   const lineChartOptions = {
     chart: {
-      id: "line-chart",
-      toolbar: {
-        show: false,
+      type: "bar",
+      stacked: true,
+      stackType: "100%",
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
       },
     },
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-      ],
+      categories: weekList,
     },
-    stroke: {
-      curve: "smooth", // Set the stroke curve to smooth
+    yaxis: {
+      max: totalTargetForSeason,
+    },
+    fill: {
+      opacity: 1,
+    },
+    legend: {
+      position: "top",
+      horizontalAlign: "left",
+      offsetX: 40,
     },
   };
 
@@ -826,12 +842,21 @@ const Dashboard = () => {
               }}
               mt={3}
             >
-              <ReactApexChart
-                options={lineChartOptions}
-                series={seriesline}
-                type="line"
-                height={380}
-              />
+              {biWeekProgressData?.weekList?.length > 0 ? (
+                <>
+                  <ReactApexChart
+                    options={lineChartOptions}
+                    series={seriesline}
+                    type="bar"
+                    height={380}
+                  />
+                </>
+              ) : (
+                <h3 style={{ marginLeft: "20px" }}>
+                  It looks like there is no bi-weekly data available for your
+                  chosen items !
+                </h3>
+              )}
             </Grid>
           </Grid>
 
