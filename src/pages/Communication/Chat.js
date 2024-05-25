@@ -3,7 +3,7 @@ import ChatPage from "./ChatPage";
 const Chat = () => {
   return (
     <div>
-      <h4>this is chat</h4>
+      <h4>Chat Functionality - Beta</h4>
       <ChatPage />
     </div>
   );
