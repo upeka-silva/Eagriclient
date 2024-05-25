@@ -167,7 +167,7 @@ const AggrigateReportDDLevel = () => {
               >
                 {toggleState === index + 1 ? (
                   <PermissionWrapper
-                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL}`}
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>
