@@ -7,7 +7,11 @@ export const createCropTarget = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await post("crop-look/target-seasonal-region", payload, true);
+    const response = await post(
+      "crop-look/target-seasonal-region",
+      payload,
+      true
+    );
     // console.log('after crop look registration action ');
     // console.log(payload);
     if (response?.httpCode === "200 OK") {
@@ -38,45 +42,71 @@ export const createCropTarget = async (
   }
 };
 
-export const getAllAiAndMahaweliUnits = async (
-  ) => {
-    try {
-      const {httpCode, payloadDto} = await get("geo-data/ai-region/all-ai-and-mahaweli-units", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const getAllAiAndMahaweliUnits = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/ai-region/all-ai-and-mahaweli-units",
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
-  export const getAllProAndInterAda = async (
-  ) => {
-    try {
-      const {httpCode, payloadDto} = await get("geo-data/ai-region/all-ada-segments", true);
-      if (httpCode === '200 OK') {
-        return {
-          dataList: payloadDto
-        }
-      }
+export const getAllProAndInterAda = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "geo-data/ai-region/all-ada-segments",
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: []
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        dataList: []
-      }
+        dataList: payloadDto,
+      };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getAllMahawelisysProDDInterProDD = async () => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      "crop-look/dd-report/get-dd-list",
+      true
+    );
+    if (httpCode === "200 OK") {
+      return {
+        dataList: payloadDto,
+      };
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateCropTarget = async (
   id,
@@ -86,7 +116,11 @@ export const updateCropTarget = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await put(`crop-look/target-seasonal-region/${id}/category/${cropCategoryId}/crop-targets`, payload, true);
+    const response = await put(
+      `crop-look/target-seasonal-region/${id}/category/${cropCategoryId}/crop-targets`,
+      payload,
+      true
+    );
     if (response?.httpCode === "200 OK") {
       onSuccess();
       return {
@@ -135,23 +169,26 @@ export const getDDDivisionsByLogedInUser = async () => {
 };
 
 export const getSeasons = async () => {
-    try {
-      const { httpCode, payloadDto } = await get("crop-look/seasons?size=1000", true);
-      if (httpCode === "200 OK") {
-        return {
-          dataList: payloadDto,
-        };
-      }
+  try {
+    const { httpCode, payloadDto } = await get(
+      "crop-look/seasons?size=1000",
+      true
+    );
+    if (httpCode === "200 OK") {
       return {
-        dataList: [],
-      };
-    } catch (error) {
-      console.log(error);
-      return {
-        dataList: [],
+        dataList: payloadDto,
       };
     }
-  };
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
 
 export const updateDistrict = async (
   payload = {},
@@ -190,9 +227,17 @@ export const updateDistrict = async (
   }
 };
 
-export const getTargetCropsByAiAndSeasonAndCropCategory = async (aiId, seasonId, categoryId, type) => {
+export const getTargetCropsByAiAndSeasonAndCropCategory = async (
+  aiId,
+  seasonId,
+  categoryId,
+  type
+) => {
   try {
-    const { httpCode, payloadDto } = await get(`crop-look/crop-registration/region/${aiId}/regionType/${type}/season/${seasonId}/cropCategory/${categoryId}`, true);
+    const { httpCode, payloadDto } = await get(
+      `crop-look/crop-registration/region/${aiId}/regionType/${type}/season/${seasonId}/cropCategory/${categoryId}`,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payloadDto,
@@ -223,8 +268,8 @@ export const updateCropRegistrationItems = async (
     if (response.httpCode === "200 OK") {
       onSuccess();
       return {
-        dataList: response?.payload || {} ,
-      }
+        dataList: response?.payload || {},
+      };
     } else {
       const exception = {
         error: {
@@ -254,7 +299,10 @@ export const DeleteCropTarget = async (
   onError = (_message) => {}
 ) => {
   try {
-    const response = await api_delete(`crop-look/target-seasonal-region/${id || ""}`, true);
+    const response = await api_delete(
+      `crop-look/target-seasonal-region/${id || ""}`,
+      true
+    );
     console.log(response);
     if (response?.httpCode === "200 OK") {
       onSuccess();
@@ -281,10 +329,12 @@ export const DeleteCropTarget = async (
   }
 };
 
-
 export const getTargetSeasonalRegion = async (id) => {
   try {
-    const { httpCode, payload } = await get("crop-look/target-seasonal-region/" + id, true);
+    const { httpCode, payload } = await get(
+      "crop-look/target-seasonal-region/" + id,
+      true
+    );
     if (httpCode === "200 OK") {
       return {
         dataList: payload,

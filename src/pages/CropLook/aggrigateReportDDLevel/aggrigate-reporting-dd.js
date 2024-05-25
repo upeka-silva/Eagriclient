@@ -11,10 +11,11 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
-import CategoryReportTabel from "./categoryReportTable";
-import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
+import {
+  getAllMahawelisysProDDInterProDD,
+  getSeasons,
+} from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, Stack, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -25,8 +26,9 @@ import {
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import CategoryReportTabelDDLevel from "./categoryReportTable-dd";
 
-const AggrigateReport = () => {
+const AggrigateReportDDLevel = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -40,8 +42,14 @@ const AggrigateReport = () => {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [toggleState, setToggleState] = useState(1);
+  const [ddRegions, setDdRegions] = useState([]);
+  const [selectedDDRegion, setSelectedDDRegion] = useState(null);
 
   useEffect(() => {
+    getAllMahawelisysProDDInterProDD().then(({ dataList = [] }) => {
+      setDdRegions(dataList);
+    });
+
     get_CategoryList().then(({ dataList = [] }) => {
       setCropCategoryList(dataList);
     });
@@ -52,7 +60,6 @@ const AggrigateReport = () => {
   }, []);
 
   const toggleTab = (index) => {
-    console.log("toggle state : " + index);
     setToggleState(index);
   };
   const onDownload = async (categoryId) => {
@@ -62,6 +69,10 @@ const AggrigateReport = () => {
       console.error(error);
     }
   };
+  const handleDDRegionChange = (value) => {
+    setSelectedDDRegion(value);
+  };
+
   return (
     <div
       style={{
@@ -73,7 +84,7 @@ const AggrigateReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Variety Summary" />
+      <ListHeader title="Variety Summary - DD Wise" />
       <Grid
         container
         sx={{
@@ -84,9 +95,9 @@ const AggrigateReport = () => {
       >
         <Grid item md={12}>
           <Grid container>
-            <Grid item md={4}>
+            <Grid item md={3}>
               <Stack direction="row" spacing={1} alignItems="flex-end">
-                <FieldWrapper sx={{ width: "75%" }}>
+                <FieldWrapper sx={{ width: "90%" }}>
                   <FieldName>Season</FieldName>
                   <Autocomplete
                     options={seasons}
@@ -107,6 +118,30 @@ const AggrigateReport = () => {
                 </FieldWrapper>
               </Stack>
             </Grid>
+            <Grid item sm={3} md={3} lg={3}>
+              <FieldWrapper>
+                <FieldName>DD Level</FieldName>
+                <Autocomplete
+                  options={ddRegions}
+                  value={selectedDDRegion}
+                  getOptionLabel={(i) =>
+                    `${i.code || i.regionId} - ${i.description}`
+                  }
+                  onChange={(event, value) => {
+                    handleDDRegionChange(value);
+                  }}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: "8px",
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} size="small" />
+                  )}
+                  fullWidth
+                />
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Grid>
         <Grid item sx={{ marginTop: "20px" }}>
@@ -123,27 +158,31 @@ const AggrigateReport = () => {
           </TabWrapper>
 
           {selectedSeason &&
+            selectedDDRegion &&
             cropCategoryList &&
             cropCategoryList.map((category, index) => (
               <TabContent
                 //style={{ marginTop: "10px" }}
                 className={toggleState === index + 1 ? "active-content" : ""}
               >
-                {toggleState === index + 1 ? <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
-                >
-                  <TableWrapper>
-                    <div key={category.categoryId}>
-                      <ExportButton
-                        onDownload={() => onDownload(category.id)}
-                      />
-                      <CategoryReportTabel
-                        category={category}
-                        season={selectedSeason}
-                      />
-                    </div>
-                  </TableWrapper>
-                </PermissionWrapper> : null}
+                {toggleState === index + 1 ? (
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL}`}
+                  >
+                    <TableWrapper>
+                      <div key={category.categoryId}>
+                        <ExportButton
+                          onDownload={() => onDownload(category.id)}
+                        />
+                        <CategoryReportTabelDDLevel
+                          category={category}
+                          season={selectedSeason}
+                          ddId={selectedDDRegion?.id}
+                        />
+                      </div>
+                    </TableWrapper>
+                  </PermissionWrapper>
+                ) : null}
               </TabContent>
             ))}
         </Grid>
@@ -152,4 +191,4 @@ const AggrigateReport = () => {
   );
 };
 
-export default AggrigateReport;
+export default AggrigateReportDDLevel;

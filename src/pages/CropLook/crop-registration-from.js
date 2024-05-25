@@ -47,8 +47,6 @@ const CropRegistrationForm = () => {
   const [toggleState, setToggleState] = useState(1);
   const [tabEnabled, setTabInabled] = useState(false);
 
-  // start of crop registration code
-
   useEffect(() => {
     getDDDivisionsByLogedInUser().then(({ dataList = [] }) => {
       setOptions(dataList);

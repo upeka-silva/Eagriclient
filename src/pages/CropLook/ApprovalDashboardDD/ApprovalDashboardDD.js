@@ -45,7 +45,7 @@ const ApprovalDashboardDD = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report" />
+      <ListHeader title="Approval Report (DD)" />
       <Grid
         container
         sx={{

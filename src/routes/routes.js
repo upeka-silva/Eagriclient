@@ -37,7 +37,6 @@ import CropActivityForm from "../pages/Crop/CropActivity/CropActivityForm";
 import CropPestForm from "../pages/Crop/CropPest/CropPestForm";
 import CropDiseaseForm from "../pages/Crop/CropDisease/CropDiseaseForm";
 
-
 import SoilSubType from "../pages/Soil/Soil-Sub-Type/SoilSubType";
 import SoilSubTypeForm from "../pages/Soil/Soil-Sub-Type/SoilSubTypeForm";
 import InstitutionCategory from "../pages/Institution/InstitutionCategory/InstitutionCategory";
@@ -69,10 +68,6 @@ import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
-
-
-
-
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -107,6 +102,7 @@ import Organization from "../pages/Organization/Organization";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import MessageIcon from '@mui/icons-material/Message';
 import SendIcon from '@mui/icons-material/Send';
+
 import {
   Apple,
   Assessment,
@@ -218,12 +214,15 @@ import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
-import SummarizeIcon from '@mui/icons-material/Summarize';
+import SummarizeIcon from "@mui/icons-material/Summarize";
 import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
 import Chat from "../pages/Communication/Chat";
+import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
+import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
+import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
 
 export const Routes = [
   {
@@ -1272,28 +1271,28 @@ export const Routes = [
         component: DEF_COMPONENTS.AGRICULTURE_POST,
       },
       {
-         path: "/create-project",
-         name: "Project",
-         isSideBar: true,
-         element: <AgricultureProject />,
-         icon: AssignmentIndIcon,
+        path: "/create-project",
+        name: "Project",
+        isSideBar: true,
+        element: <AgricultureProject />,
+        icon: AssignmentIndIcon,
         component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
-         path:"/agriculture-project-form",
-          name: "Agriculture Project Form",
-          isSideBar: false,
-          element: <AgricultureProjectForm />,
-          component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
+        path: "/agriculture-project-form",
+        name: "Agriculture Project Form",
+        isSideBar: false,
+        element: <AgricultureProjectForm />,
+        component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
-         path:"/report-project",
-         name: "Report Project",
-         isSideBar: true,
-         element: <ProjectReport />,
-         icon: SummarizeIcon,
-         component: DEF_COMPONENTS.PROJECT_REPORT,
-     },
+        path: "/report-project",
+        name: "Report Project",
+        isSideBar: true,
+        element: <ProjectReport />,
+        icon: SummarizeIcon,
+        component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
       {
         path: "/create-post-form",
         isSideBar: false,
@@ -1422,69 +1421,112 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
       {
-        path: "/dd-report",
-        name: "Aggrigated Report",
+        path: "/variety-summary",
+        name: "Variety Summary",
         isSideBar: true,
-        element: <AggrigateReport />,
+        parentPath: "/crop-look/variety-summary/dd-wise",
+        icon: Preview,
+        children: [
+          {
+            path: "/dd-wise",
+            name: "Variety Summary",
+            isSideBar: true,
+            element: <AggrigateReport />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+          },
+          {
+            path: "/dd-variety-summary",
+            name: "Variety Summary - DD Wise",
+            isSideBar: true,
+            element: <AggrigateReportDDLevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
+          },
+          {
+            path: "/ai-variety-summary",
+            name: "Variety Summary - AI Wise",
+            isSideBar: true,
+            element: <AggrigateReportAILevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_LEVEL,
+          },
+          {
+            path: "/ada-variety-summary",
+            name: "Variety Summary - ADA Wise",
+            isSideBar: true,
+            element: <AggrigateReportAdaLevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_ADA_LEVEL,
+          },
+          {
+            path: "/ai-variety-summary-by-crops",
+            name: "Crop Summary (AI Level)",
+            isSideBar: true,
+            element: <AggrigateReportAILevelByCrop />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL,
+          },
+        ],
+      },
+      {
+        path: "/approval-report",
+        name: "Approval Report",
+        isSideBar: true,
+        parentPath: "/crop-look/approval-report/approval-report-info-dd",
+        icon: Preview,
+        children: [
+          {
+            path: "/approval-report-info-dd",
+            name: "Approval Report Info DD",
+            isSideBar: true,
+            element: <ApprovalReport owner={"DD"} />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+          },
+          {
+            path: "/approval-report-info-ada",
+            name: "Approval Report Info ADA",
+            isSideBar: true,
+            element: <ApprovalReport owner={"ADA"} />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+          },
+          {
+            path: "/report-approval-ada",
+            name: "Approval Panel (ADA)",
+            isSideBar: true,
+            element: <ApprovalDashboard />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+          },
+          {
+            path: "/report-approval-dd",
+            name: "Approval Panel (DD)",
+            isSideBar: true,
+            element: <ApprovalDashboardDD />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+          },
+        ],
+      },
+      {
+        path: "/progress-tracker",
+        name: "Progress Tracker",
+        isSideBar: true,
+        element: <ProgressTrackerTree />,
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
-      {
-        path: "/ai-aggrigate-report",
-        name: "Aggrigated Report (AI Level)",
-        isSideBar: true,
-        element: <AggrigateReportAILevel />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/ada-aggrigate-report",
-        name: "Aggrigated Report (ADA Level)",
-        isSideBar: true,
-        element: <AggrigateReportAdaLevel />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/national-report",
-        name: "National Report",
-        isSideBar: true,
-        element: <NationalReport />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/approval-report-info-dd",
-        name: "Approval Report Info DD",
-        isSideBar: true,
-        element: <ApprovalReport owner={'DD'}/>,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
-      },
-      {
-        path: "/approval-report-info-ada",
-        name: "Approval Report Info ADA",
-        isSideBar: true,
-        element: <ApprovalReport owner={'ADA'} />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
-      },
-      {
-        path: "/report-approval-ada",
-        name: "Approval Panel (ADA)",
-        isSideBar: true,
-        element: <ApprovalDashboard />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
-      },
-      {
-        path: "/report-approval-dd",
-        name: "Approval Panel (DD)",
-        isSideBar: true,
-        element: <ApprovalDashboardDD />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
-      },
+
+      // {
+      //   path: "/national-report",
+      //   name: "National Report",
+      //   isSideBar: true,
+      //   element: <NationalReport />,
+      //   icon: Preview,
+      //   component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+      // },
       {
         path: "/early-warning-ranges",
         name: "Early Warning Limits",
@@ -1622,16 +1664,16 @@ export const Routes = [
         element: <EconomicCenter />,
         icon: GroupIcon,
         component: DEF_COMPONENTS.ECONOMIC_CENTER,
-      }, 
+      },
       {
         path: "/getfoodpricedata",
         name: "HARTI Price",
         isSideBar: true,
         element: <HartyPrices />,
-        icon: GroupIcon ,
+        icon: GroupIcon,
         component: DEF_COMPONENTS.LATEST_PRODUCER_PRICE,
-      },            
-     ],
+      },
+    ],
   },
   {
     path: "/communication",

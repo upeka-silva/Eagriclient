@@ -42,7 +42,7 @@ const CategoryReportTabelAdaLevel = ({ category, season , adaId}) => {
       setLoading(false);
     }
     fetchData(category?.id, season?.id, adaId);
-  }, [adaId]);
+  }, [adaId,season?.id]);
 
   return (
     <>

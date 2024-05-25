@@ -9,20 +9,24 @@ import {
   Paper,
   CircularProgress,
 } from "@mui/material";
-import { getAggrigateReportData, getAggrigateReportDataAILevel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import AggrigateVarietyCellDDLevel from "./aggrigateVarietyCell-Dd";
+import { getAggrigateReportDataADDLevel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
-import AggrigateVarietyCellAILevel from "./aggrigateVarietyCell-ai";
 
-const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
+const CategoryReportTabelDDLevel = ({ category, season, ddId }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [targetConfigs, setTargetConfigs] = useState([]);
   const [reportConfigs, setReportConfigs] = useState([]);
 
   useEffect(() => {
-    async function fetchData(categoryId, seasonId, aiId) {
+    async function fetchData(categoryId, seasonId, ddId) {
       setLoading(true);
-      const dataList = await getAggrigateReportDataAILevel(categoryId, seasonId, aiId);
+      const dataList = await getAggrigateReportDataADDLevel(
+        categoryId,
+        seasonId,
+        ddId
+      );
       fetchConfig(categoryId, dataList);
 
       const groupedData = dataList?.reduce((acc, obj) => {
@@ -41,8 +45,8 @@ const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
       setReportConfigs(configs?.fields || []);
       setLoading(false);
     }
-    fetchData(category?.id, season?.id, aiId);
-  }, [aiId,season?.id]);
+    fetchData(category?.id, season?.id, ddId);
+  }, [ddId,season?.id]);
 
   return (
     <>
@@ -52,9 +56,7 @@ const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
           <TableHead>
             <TableRow>
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>Crop</TableCell>
-              <TableCell style={{ backgroundColor: "#A8CD9F" }}>
-                Variety
-              </TableCell>
+
               {targetConfigs?.length > 0 &&
                 targetConfigs.map((fieldName, index) => (
                   <TableCell key={index} style={{ backgroundColor: "#A8CD9F" }}>
@@ -81,7 +83,7 @@ const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
           <TableBody>
             {!loading ? (
               Object.keys(data).map((cropName) => (
-                <AggrigateVarietyCellAILevel
+                <AggrigateVarietyCellDDLevel
                   cropName={cropName}
                   cropData={data[cropName]}
                   targetConfigs={targetConfigs}
@@ -98,4 +100,4 @@ const CategoryReportTabelAILevel = ({ category, season , aiId}) => {
   );
 };
 
-export default CategoryReportTabelAILevel;
+export default CategoryReportTabelDDLevel;

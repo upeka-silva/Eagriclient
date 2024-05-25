@@ -316,6 +316,26 @@ export const getAggrigateReportDataAILevel = async (categoryId, seasonId, aiId) 
   }
 };
 
+export const getAggrigateReportDataAILevelByCrop = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/aiViewByCrop/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getAggrigateReportDataADALevel = async (categoryId, seasonId, adaId) => {
   try {
     const { httpCode, payloadDto } = await get(
@@ -344,6 +364,26 @@ export const getNationalData = async (categoryId, seasonId, weekId) => {
     );
     if (httpCode === "200 OK") {
       return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getProgressTrackerNode = async (categoryId, seasonId, weekId) => {
+  try {
+    const { httpCode, payload } = await get(
+      `crop-look/progress-status-tracker/category/${categoryId}/season/${seasonId}/week/${weekId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payload;
     }
     return {
       dataList: [],
@@ -759,5 +799,26 @@ export const getCropCategoryReport = async (categoryId, seasonId, weekId) => {
   } catch (error) {
     console.log(error);
     return null;
+  }
+};
+
+
+export const getAggrigateReportDataADDLevel = async (categoryId, seasonId, ddId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/aggrigated-report/category/${categoryId}/season/${seasonId}/dd/${ddId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
   }
 };

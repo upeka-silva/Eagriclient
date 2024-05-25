@@ -134,7 +134,7 @@ export default function AddCropDetailsDialog({
     if (action === DEF_ACTIONS.EDIT) {
       setFormDataQ(formData || {});
     } else {
-      setFormDataQ(null);
+      setFormDataQ(formData);
       setSelectedCropCategory("");
       setSelectedCrop(null);
       setSelectedCropVariety(null);
