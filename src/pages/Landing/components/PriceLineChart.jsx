@@ -89,7 +89,7 @@ const PriceLineChart = () => {
     },
 
     xaxis: {
-      categories: "", 
+      categories: "",
       labels: {
         show: false, // hide x-axis labels
       },
@@ -140,7 +140,7 @@ const PriceLineChart = () => {
   };
 
   const renderChart = (item) => {
-    const data = item.monthlyPriceAverage.map((entry) =>
+    const data = item.monthlyPriceAverage?.map((entry) =>
       parseFloat(entry.averagePrice)
     );
     const series = [
@@ -198,8 +198,10 @@ const PriceLineChart = () => {
           </Typography>
           <Box display="flex" flexWrap="wrap" sx={{}}>
             {allRiceData.length > 0 &&
-              allRiceData?.map((item) => (
-                <Box marginRight="20px">{renderChart(item)}</Box>
+              allRiceData?.map((item, index) => (
+                <Box key={index} marginRight="20px">
+                  {renderChart(item)}
+                </Box>
               ))}
           </Box>
           <div style={{ textAlign: "right" }}>
@@ -223,8 +225,10 @@ const PriceLineChart = () => {
           </Typography>
           <Box display="flex" flexWrap="wrap" fontWeight={"bold"} sx={{}}>
             {otherFruitsData?.length > 0 &&
-              otherFruitsData?.map((item) => (
-                <Box marginRight="20px">{renderChart(item)}</Box>
+              otherFruitsData?.map((item, index) => (
+                <Box key={index} marginRight="20px">
+                  {renderChart(item)}
+                </Box>
               ))}
           </Box>
           <div style={{ textAlign: "right" }}>

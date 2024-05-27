@@ -123,7 +123,7 @@ function Landing() {
           <Grid item mt={5} display={"flex"}>
             <Autocomplete
               options={locations}
-              getOptionLabel={(option) => option.district}
+              getOptionLabel={(option) => option?.district}
               onChange={handleLocationChange}
               renderInput={(params) => (
                 <InputBase

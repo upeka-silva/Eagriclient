@@ -1465,7 +1465,7 @@ export const Routes = [
             isSideBar: true,
             element: <AggrigateReportAILevelByCrop />,
             icon: Preview,
-            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_BY_CROP_LEVEL,
           },
         ],
       },
