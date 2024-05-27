@@ -84,20 +84,20 @@ const AggrigateReportAILevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report (AI Level)" />
+      <ListHeader title="Variety Summary - AI Wise" />
       <Grid
         container
         sx={{
           margin: "15px",
-          //width: "97%",
+          // width: "80%",
           borderRadius: "5px",
         }}
       >
         <Grid item md={12}>
           <Grid container>
-            <Grid item md={4}>
+            <Grid item md={3}>
               <Stack direction="row" spacing={1} alignItems="flex-end">
-                <FieldWrapper sx={{ width: "75%" }}>
+                <FieldWrapper sx={{ width: "90%" }}>
                   <FieldName>Season</FieldName>
                   <Autocomplete
                     options={seasons}
@@ -166,7 +166,7 @@ const AggrigateReportAILevel = () => {
               >
                 {toggleState === index + 1 ? (
                   <PermissionWrapper
-                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_LEVEL}`}
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>

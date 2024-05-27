@@ -84,7 +84,7 @@ const AggrigateReportDDLevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report (DD Level)" />
+      <ListHeader title="Variety Summary - DD Wise" />
       <Grid
         container
         sx={{
@@ -95,9 +95,9 @@ const AggrigateReportDDLevel = () => {
       >
         <Grid item md={12}>
           <Grid container>
-            <Grid item md={4}>
+            <Grid item md={3}>
               <Stack direction="row" spacing={1} alignItems="flex-end">
-                <FieldWrapper sx={{ width: "75%" }}>
+                <FieldWrapper sx={{ width: "90%" }}>
                   <FieldName>Season</FieldName>
                   <Autocomplete
                     options={seasons}
@@ -167,7 +167,7 @@ const AggrigateReportDDLevel = () => {
               >
                 {toggleState === index + 1 ? (
                   <PermissionWrapper
-                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL}`}
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>

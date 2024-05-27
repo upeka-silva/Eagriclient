@@ -99,7 +99,10 @@ import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from "@mui/icons-material/Group";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import MessageIcon from '@mui/icons-material/Message';
+import SendIcon from '@mui/icons-material/Send';
+
 import {
   Apple,
   Assessment,
@@ -216,6 +219,7 @@ import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/V
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
+import Chat from "../pages/Communication/Chat";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
@@ -1417,6 +1421,96 @@ export const Routes = [
         icon: SouthAmericaIcon,
       },
       {
+        path: "/variety-summary",
+        name: "Variety Summary",
+        isSideBar: true,
+        parentPath: "/crop-look/variety-summary/dd-wise",
+        icon: Preview,
+        children: [
+          {
+            path: "/dd-wise",
+            name: "Variety Summary",
+            isSideBar: true,
+            element: <AggrigateReport />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+          },
+          {
+            path: "/dd-variety-summary",
+            name: "Variety Summary - DD Wise",
+            isSideBar: true,
+            element: <AggrigateReportDDLevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
+          },
+          {
+            path: "/ai-variety-summary",
+            name: "Variety Summary - AI Wise",
+            isSideBar: true,
+            element: <AggrigateReportAILevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_LEVEL,
+          },
+          {
+            path: "/ada-variety-summary",
+            name: "Variety Summary - ADA Wise",
+            isSideBar: true,
+            element: <AggrigateReportAdaLevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_ADA_LEVEL,
+          },
+          {
+            path: "/ai-variety-summary-by-crops",
+            name: "Crop Summary (AI Level)",
+            isSideBar: true,
+            element: <AggrigateReportAILevelByCrop />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL,
+          },
+        ],
+      },
+      {
+        path: "/approval-report",
+        name: "Approval Report",
+        isSideBar: true,
+        parentPath: "/crop-look/approval-report/approval-report-info-dd",
+        icon: Preview,
+        children: [
+          {
+            path: "/approval-report-info-dd",
+            name: "Approval Report Info DD",
+            isSideBar: true,
+            element: <ApprovalReport owner={"DD"} />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+          },
+          {
+            path: "/approval-report-info-ada",
+            name: "Approval Report Info ADA",
+            isSideBar: true,
+            element: <ApprovalReport owner={"ADA"} />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+          },
+          {
+            path: "/report-approval-ada",
+            name: "Approval Panel (ADA)",
+            isSideBar: true,
+            element: <ApprovalDashboard />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+          },
+          {
+            path: "/report-approval-dd",
+            name: "Approval Panel (DD)",
+            isSideBar: true,
+            element: <ApprovalDashboardDD />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+          },
+        ],
+      },
+      {
         path: "/progress-tracker",
         name: "Progress Tracker",
         isSideBar: true,
@@ -1424,46 +1518,7 @@ export const Routes = [
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
-      {
-        path: "/dd-report",
-        name: "Aggrigated Report",
-        isSideBar: true,
-        element: <AggrigateReport />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/dd-aggrigate-report",
-        name: "Aggrigated Report (DD Level",
-        isSideBar: true,
-        element: <AggrigateReportDDLevel />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/ai-aggrigate-report",
-        name: "Aggrigated Report (AI Level)",
-        isSideBar: true,
-        element: <AggrigateReportAILevel />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/ada-aggrigate-report",
-        name: "Aggrigated Report (ADA Level)",
-        isSideBar: true,
-        element: <AggrigateReportAdaLevel />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
-      {
-        path: "/ai-aggrigate-report-by-crops",
-        name: "Crop Summary (AI Level)",
-        isSideBar: true,
-        element: <AggrigateReportAILevelByCrop />,
-        icon: Preview,
-        component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      },
+
       // {
       //   path: "/national-report",
       //   name: "National Report",
@@ -1472,38 +1527,6 @@ export const Routes = [
       //   icon: Preview,
       //   component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       // },
-      {
-        path: "/approval-report-info-dd",
-        name: "Approval Report Info DD",
-        isSideBar: true,
-        element: <ApprovalReport owner={"DD"} />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
-      },
-      {
-        path: "/approval-report-info-ada",
-        name: "Approval Report Info ADA",
-        isSideBar: true,
-        element: <ApprovalReport owner={"ADA"} />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
-      },
-      {
-        path: "/report-approval-ada",
-        name: "Approval Panel (ADA)",
-        isSideBar: true,
-        element: <ApprovalDashboard />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
-      },
-      {
-        path: "/report-approval-dd",
-        name: "Approval Panel (DD)",
-        isSideBar: true,
-        element: <ApprovalDashboardDD />,
-        icon: Preview,
-        component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
-      },
       {
         path: "/early-warning-ranges",
         name: "Early Warning Limits",
@@ -1652,6 +1675,22 @@ export const Routes = [
       },
     ],
   },
+  {
+    path: "/communication",
+    name: "COMMUNICATION",
+    isSideBar: true,
+    icon: MessageIcon,
+    children: [
+      {
+        path: "/chat",
+        name: "Chat",
+        isSideBar: true,
+        element: <Chat />,
+        icon: SendIcon,
+        // component: DEF_COMPONENTS.CHAT,
+      }
+    ]
+  }
 
   // {
   //   path: "/map",

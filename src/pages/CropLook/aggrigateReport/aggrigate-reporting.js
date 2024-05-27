@@ -73,7 +73,7 @@ const AggrigateReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Aggrigated Report" />
+      <ListHeader title="Variety Summary" />
       <Grid
         container
         sx={{
