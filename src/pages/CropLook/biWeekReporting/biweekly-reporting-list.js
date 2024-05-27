@@ -11,14 +11,14 @@ const BiWeeklyReportingList = ({
   unSelectAll = () => {},
 }) => {
   const columns = [
-    { field: "parentType", headerName: "Region Type" },
+    { field: "season.code", headerName: "Season" },
+    { field: "week.weekDescription", headerName: "Week" },
     {
       field: "aiRegionOrMahaweliUnitDisplayName",
       headerName: "Ai Region/ Mahaweli Unit ",
     },
-    { field: "season.code", headerName: "Season" },
-    { field: "week.weekDescription", headerName: "Week" },
     { field: "week.statusLabel", headerName: "Status" },
+    { field: "parentType", headerName: "Region Type" },
   ];
 
   const [id, setId] = useState(null);
