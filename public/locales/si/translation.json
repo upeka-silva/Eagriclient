@@ -1,0 +1,20 @@
+{
+  "crop": "බෝග",
+  "category": "වර්ගය",
+  "crop category": "බෝග වර්ගය",
+  "crop sub category": "බෝග උප කාණ්ඩය",
+  "crop category form": "බෝග වර්ග පෝර්මය",
+  "crop form": "බෝග පෝර්මය",
+  "crop variety": "බෝග ප්‍රභේදය",
+  "crop variety form": "බෝග ප්‍රභේද පෝර්මය",
+  "crop damages": "බෝග හානි",
+  "crop damage form": "බෝග හානි පෝර්මය",
+  "crop calendar": "බෝග දින දර්ශනය",
+  "crop calendar form": "බෝග දින දර්ශනය පෝර්මය",
+  "crop activity": "බෝග කාර්යපටිපාටිය",
+  "crop activity form": "බෝග කාර්යපටිපාටි පෝර්මය",
+  "crop disease form": "බෝග රෝග පෝර්මය",
+  "crop pest": "බෝග උපද්‍රවය",
+  "crop pest form": "බෝග උපද්‍රවය පෝර්මය",
+  "crop disease":"බෝග රෝග"
+}
