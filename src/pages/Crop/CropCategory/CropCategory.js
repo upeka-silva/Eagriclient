@@ -23,7 +23,10 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory, downloadCropCategoryExcel } from "../../../redux/actions/crop/cropCategory/action";
+import {
+  deleteCropCategory,
+  downloadCropCategoryExcel,
+} from "../../../redux/actions/crop/cropCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
   Add,
@@ -41,6 +44,8 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { style } from "d3";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import { useTranslation } from "react-i18next";
+
 const CropCategory = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -50,10 +55,12 @@ const CropCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCategory, setSelectCategory] = useState([]);
-  const [dialogSelectedCategoryTypes,setDialogSelectedCategoryTypes] = useState([]);
+  const [dialogSelectedCategoryTypes, setDialogSelectedCategoryTypes] =
+    useState([]);
 
-  
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const {t} = useTranslation();
 
   const toggleCategorySelect = (component) => {
     setSelectCategory((current = []) => {
@@ -170,69 +177,70 @@ const CropCategory = () => {
       console.error(error);
     }
   };
-  
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <ListHeader title="Crop Category" />
+      <ListHeader title= "crop category"/>
+     
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate} title="add">
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onEdit} title="edit">
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+              <Button onClick={onCreate} title="add">
+                <Add />
+                {DEF_ACTIONS.ADD}
               </Button>
             </PermissionWrapper>
-          )}
-          {selectCategory.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-            >
-              <Button onClick={onView} title="view">
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectCategory.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-            >
-              <Button onClick={onDelete} title="delete">
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
-         </Stack>
+            {selectCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onEdit} title="edit">
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onView} title="view">
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCategory.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onDelete} title="delete">
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
@@ -245,9 +253,9 @@ const CropCategory = () => {
             unSelectAll={resetSelectedCategory}
           />
         )}
-      </PermissionWrapper>      
+      </PermissionWrapper>
 
-<ConfirmationDialog
+      <ConfirmationDialog
         open={open}
         title="Do you want to delete?"
         items={selectCategory}
@@ -256,10 +264,9 @@ const CropCategory = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedCategoryTypes}
         dialogSelectedTypes={dialogSelectedCategoryTypes}
-        propertyId = "categoryId"
-        propertyDescription = "description"
+        propertyId="categoryId"
+        propertyDescription="description"
       />
-
     </div>
   );
 };

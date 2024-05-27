@@ -223,6 +223,9 @@ import Chat from "../pages/Communication/Chat";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
+import { useTranslation } from "react-i18next";
+import ListHeader from "../components/ListHeader/ListHeader";
+import TranslationWrapper from "../components/Translation/Translation";
 
 export const Routes = [
   {
@@ -800,14 +803,14 @@ export const Routes = [
 
   {
     path: "/crop",
-    name: "Crop",
+    name: "crop",
     isSideBar: true,
     icon: SpaIcon,
     isService: "SC",
     children: [
       {
         path: "/category",
-        name: "Crop Category",
+        name: "crop category",
         isSideBar: true,
         element: <CropCategory />,
         icon: Category,
@@ -815,13 +818,13 @@ export const Routes = [
       },
       {
         path: "/category-form",
-        name: "Crop Category Form",
+        name: "crop category form",
         isSideBar: false,
         element: <CropCategoryForm />,
       },
       {
         path: "/sub-category",
-        name: "Crop Sub Category",
+        name: "crop sub category",
         isSideBar: true,
         element: <CropSubCategory />,
         icon: Category,
@@ -830,13 +833,13 @@ export const Routes = [
 
       {
         path: "/sub-category-form",
-        name: "Crop Category Form",
+        name: "frop category form",
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },
       {
         path: "/crop",
-        name: "Crop",
+        name: "crop",
         isSideBar: true,
         element: <Crop />,
         icon: Apple,
@@ -844,13 +847,13 @@ export const Routes = [
       },
       {
         path: "/crop-form",
-        name: "Crop Form",
+        name: "crop form",
         isSideBar: false,
         element: <CropForm />,
       },
       {
         path: "/crop-variety",
-        name: "Crop Variety",
+        name: "crop variety",
         isSideBar: true,
         element: <CropVariety />,
         icon: YardIcon,
@@ -864,7 +867,7 @@ export const Routes = [
       },
       {
         path: "/damages",
-        name: "Crop Damages",
+        name: "crop damages",
         isSideBar: true,
         element: <CropDamage />,
         icon: TrendingDown,
@@ -872,13 +875,13 @@ export const Routes = [
       },
       {
         path: "/damage-form",
-        name: "Crop Damage Form",
+        name: "crop damage form",
         isSideBar: false,
         element: <CropDamageForm />,
       },
       {
         path: "/calendar",
-        name: "Crop Calendar",
+        name: "crop calendar",
         isSideBar: true,
         element: <CropCalendar />,
         icon: CalendarMonth,
@@ -886,13 +889,13 @@ export const Routes = [
       },
       {
         path: "/calendar-form",
-        name: "Crop Calendar Form",
+        name: "crop calendar form",
         isSideBar: false,
         element: <CropCalendarForm />,
       },
       {
         path: "/activity",
-        name: "Crop Activity",
+        name: "crop activity",
         isSideBar: true,
         element: <CropActivity />,
         icon: Rowing,
@@ -900,7 +903,7 @@ export const Routes = [
       },
       {
         path: "/activity-form",
-        name: "Crop Activity Form",
+        name: "crop activity form",
         isSideBar: false,
         element: <CropActivityForm />,
       },
@@ -920,13 +923,13 @@ export const Routes = [
       // },
       {
         path: "/crop-disease-form",
-        name: "Crop Disease Form",
+        name: "crop disease form",
         isSideBar: false,
         element: <CropDiseaseForm />,
       },
       {
         path: "/crop-pest",
-        name: "Crop Pest",
+        name: "crop pest",
         isSideBar: true,
         element: <CropPest />,
         icon: BugReportRounded,
@@ -934,13 +937,13 @@ export const Routes = [
       },
       {
         path: "/crop-pest-form",
-        name: "Crop Pest Form",
+        name: "crop pest form",
         isSideBar: false,
         element: <CropPestForm />,
       },
       {
         path: "/crop-disease",
-        name: "Crop Disease",
+        name: "crop disease",
         isSideBar: true,
         element: <CropDisease />,
         icon: CoronavirusRounded,
@@ -948,7 +951,7 @@ export const Routes = [
       },
       {
         path: "/crop-disease-form",
-        name: "Crop Disease Form",
+        name: "crop disease form",
         isSideBar: false,
         element: <CropDiseaseForm />,
       },

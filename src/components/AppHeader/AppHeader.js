@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
@@ -23,8 +23,10 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { initiateLogout } from "../../redux/actions/login/actions";
 import { useAuthContext } from "../../context/AuthContext";
 import { ColorModeContext, tokens } from "../../utils/theme/app-theme";
-import { DarkModeOutlined, LightModeOutlined } from "@mui/icons-material";
+import { DarkModeOutlined, Lan, LightModeOutlined } from "@mui/icons-material";
 import { stringAvatar } from "../../utils/helpers/stringUtils";
+import { useTranslation } from "react-i18next";
+import { LngLat } from "mapbox-gl";
 
 const AppHeader = () => {
   const theme = useTheme();
@@ -51,22 +53,48 @@ const AppHeader = () => {
     setAnchorEl(null);
   };
 
-  // Change the variant from 'outlined' to 'contained' when the button is clicked
-  const handleClick = (clickedButton) => {
-    const updatedButtonVariant = {};
+  const languages = [
+    { code: "en", lang: "English", variant: variants.button1 },
+    { code: "si", lang: "Sinhala", variant: variants.button2 },
+    { code: "ta", lang: "Tamil", variant: variants.button3 },
+  ];
 
-    // Set the clicked button to 'contained'
-    updatedButtonVariant[clickedButton] = "contained";
+  const { t, i18n } = useTranslation();
 
-    // Set all other buttons to 'outlined'
-    for (const variant in variants) {
-      if (variant !== clickedButton) {
-        updatedButtonVariant[variant] = "outlined";
-      }
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    let newVariants = {};
+    if (lng === "en") {
+      newVariants = {
+        button1: "contained",
+        button2: "outlined",
+        button3: "outlined",
+      };
     }
-
-    setVariants(updatedButtonVariant);
+    if (lng === "si") {
+      newVariants = {
+        button1: "outlined",
+        button2: "contained",
+        button3: "outlined",
+      };
+    }
+    if (lng === "ta") {
+      newVariants = {
+        button1: "outlined",
+        button2: "outlined",
+        button3: "contained",
+      };
+    }
+    localStorage.setItem("variants", JSON.stringify(newVariants));
   };
+
+  useEffect(() => {
+    const savedVariantsString = localStorage.getItem("variants");
+    if (savedVariantsString) {
+      const savedVariants = JSON.parse(savedVariantsString);
+      setVariants(savedVariants);
+    }
+  }, [localStorage.getItem("variants")]);
 
   const id = isProfileOptionsOpen ? "simple-popover" : undefined;
 
@@ -74,6 +102,7 @@ const AppHeader = () => {
   // const handleClick= () =>{
   //   navigate("landing-page");
   // };
+  // console.log({Routes});
   const getCurrentScreenName = () => {
     let screenName = "";
     const r =
@@ -85,13 +114,14 @@ const AppHeader = () => {
             .includes(location.pathname)
       ) || {};
     if (r.children) {
+      console.log("rooooo",r)
       screenName =
-        `${r.name} > ${
-          (
+        `${t(r.name)} > ${
+          t((
             r.children.find(
               (cr) => `${r.path}${cr?.path}` === location.pathname
             ) || {}
-          )?.name
+          )?.name)
         }` || "";
     } else {
       screenName = r?.name || "";
@@ -136,7 +166,7 @@ const AppHeader = () => {
     <Wrapper className="wrapper">
       <ItemWrapper>
         <AppTitle>
-          <Typography variant="h8">{getCurrentScreenName()}</Typography>         
+          <Typography variant="h8">{getCurrentScreenName()}</Typography>
         </AppTitle>
         <IconWrapper>
           <BreakLine>
@@ -234,27 +264,18 @@ const AppHeader = () => {
               {user?.userType} | Colombo
             </Typography>
             <Stack direction="row" spacing={2}>
-              <Button
-                color="success"
-                variant={variants.button1}
-                onClick={() => handleClick("EN")}
-              >
-                EN
-              </Button>
-              <Button
-                color="success"
-                variant={variants.button2}
-                onClick={() => handleClick("SI")}
-              >
-                SI
-              </Button>
-              <Button
-                color="success"
-                variant={variants.button3}
-                onClick={() => handleClick("TA")}
-              >
-                TA
-              </Button>
+              {languages.map((lng) => {
+                return (
+                  <Button
+                    color="success"
+                    variant={lng.variant}
+                    key={lng.code}
+                    onClick={() => changeLanguage(lng.code)}
+                  >
+                    {lng.lang}
+                  </Button>
+                );
+              })}
             </Stack>
             <Stack spacing={2} sx={{ marginTop: "32px !important" }}>
               <Button variant="contained" color="success" onClick={profile}>

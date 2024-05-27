@@ -186,7 +186,7 @@ const CropSubCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Sub Category" />
+      <ListHeader title="crop sub category" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1}>
           <ExportButton onDownload={onDownload} />
