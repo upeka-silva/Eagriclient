@@ -10,6 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from 'dayjs';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect, useState } from "react";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
@@ -52,24 +53,7 @@ export default function FarmLandOwnershipForm({
   const [gnDivisionList, setGnDivisionList] = useState([]);
   const [saving, setSaving] = useState(false);
   const [farmerList, setFarmerList] = useState([]);
-  const [isDateSelected, setIsDateSelected] = useState(false);
-
-  const handleDateChange = (value) => {
-    // Update state and set isDateSelected to true if value is not null
-    setIsDateSelected(value !== null);
-    // You can also call the onChange function if needed
-    onChange(value || "", "dateFrom");
-  };
-
-  const handleSubmit = (event) => {
-    // Prevent form submission if date is not selected
-    if (!isDateSelected) {
-      event.preventDefault();
-      // Optionally, you can provide feedback to the user that date is required
-    }
-    // Form submission logic if date is selected
-  };
-
+  const today = dayjs();
 
 
   const enableSave = () => {
@@ -452,6 +436,7 @@ export default function FarmLandOwnershipForm({
                   <DatePicker
                     onChange={(value) => {
                       onChange(value || "", "dateUntil");
+                      
                     }}
                     sx={{
                       width: "100%",
@@ -466,6 +451,7 @@ export default function FarmLandOwnershipForm({
                     name="dob"
                     id="dob"
                     disabled={action === DEF_ACTIONS.VIEW}
+                    minDate={today}
                   />
                 </LocalizationProvider>
               </FieldWrapper>
