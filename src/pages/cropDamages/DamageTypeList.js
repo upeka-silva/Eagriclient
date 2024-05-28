@@ -1,11 +1,10 @@
-import { Box,Button, } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Colors } from "../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
-
-
+import { useTranslation } from "react-i18next";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: 0,
@@ -83,62 +82,74 @@ const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   "& .css-axafay-MuiDataGrid-virtualScroller": {
     overflow: "hidden",
   },
-
 }));
 
-export default function DamageTyprList({ data,currentFormMode,onEdit,onDelete }) {
-
+export default function DamageTyprList({
+  data,
+  currentFormMode,
+  onEdit,
+  onDelete,
+}) {
+  const { t } = useTranslation();
   const columns = [
     {
       field: "name",
-      headerName: "Name",
+      headerName: t("cropDamagePage.name"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.name,
     },
     {
       field: "description",
-      headerName: "Description",
+      headerName: t("cropDamagePage.description"),
       flex: 2,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.description,
     },
     {
-        field: "edit",
-        headerName: "Action",
-        headerClassName: "super-app-theme--heade",
-        flex: 0.4,
-        sortable: false,
-        renderCell: ({ row }) => {
-
-          return(
-            <><Button sx={{
-              fontSize: 11,
-              border: 1,
-              background: '#2e7d32',
-              marginRight:1,
-              color: 'white',
-              borderRadius: 1.5,
-              maxHeight: '30px', minWidth: '30px', minHeight: '30px'
-            }}  
-            disabled = {currentFormMode === DEF_ACTIONS.VIEW}  onClick={onEdit(row, DEF_ACTIONS.EDIT)}>
-              Edit
-            </Button><Button
+      field: "edit",
+      headerName: t("cropDamagePage.action"),
+      headerClassName: "super-app-theme--heade",
+      flex: 0.4,
+      sortable: false,
+      renderCell: ({ row }) => {
+        return (
+          <>
+            <Button
               sx={{
                 fontSize: 11,
                 border: 1,
-                background: '#2e7d32',
-                color: 'white',
+                background: "#2e7d32",
+                marginRight: 1,
+                color: "white",
                 borderRadius: 1.5,
-                maxHeight: '30px', minWidth: '30px', minHeight: '30px'
+                maxHeight: "30px",
+                minHeight: "30px",
               }}
-              disabled = {currentFormMode === DEF_ACTIONS.VIEW} onClick={onDelete(row)}>
-                Delete
-              </Button></>
-
-          ); }        
+              disabled={currentFormMode === DEF_ACTIONS.VIEW}
+              onClick={onEdit(row, DEF_ACTIONS.EDIT)}
+            >
+              {t("action.edit")}
+            </Button>
+            <Button
+              sx={{
+                fontSize: 11,
+                border: 1,
+                background: "#2e7d32",
+                color: "white",
+                borderRadius: 1.5,
+                maxHeight: "30px",
+                minHeight: "30px",
+              }}
+              disabled={currentFormMode === DEF_ACTIONS.VIEW}
+              onClick={onDelete(row)}
+            >
+              {t("action.delete")}
+            </Button>
+          </>
+        );
       },
-      
+    },
   ];
 
   const getRowHeight = () => 40;

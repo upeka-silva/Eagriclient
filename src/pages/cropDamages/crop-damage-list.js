@@ -2,6 +2,7 @@ import React from "react";
 import { DataTable } from "../../components/PageLayout/Table";
 
 import { TableWrapper } from "../../components/PageLayout/TableWrapper";
+import { useTranslation } from "react-i18next";
 
 const CropDamageList = ({
   selectedRows = [],
@@ -9,9 +10,10 @@ const CropDamageList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const {t} = useTranslation();
   const columns = [
-    { field: "name", headerName: "Category Name" },
-    { field: "description", headerName: "Description" },
+    { field: "name", headerName: t("cropDamagePage.categoryName") },
+    { field: "description", headerName: t("cropDamagePage.description") },
   ];
 
   return (

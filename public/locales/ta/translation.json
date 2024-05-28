@@ -17,6 +17,7 @@
   "cropPest": "பயிர் பூச்சி",
   "cropPestForm": "பயிர் பூச்சி படிவம்",
   "cropDisease": "பயிர் நோய்",
+  "damageTypes":"சேத வகை",
 
   "buttonTooltip": {
     "export": "பதிவிறக்க",
@@ -52,7 +53,10 @@
     "back": "மீண்டும்",
     "ok": "சரி",
     "cancel": "ரத்து செய்",
-    "filter": "வடிகட்டிகள்"
+    "filter": "வடிகட்டிகள்",
+    "confirm": "உறுதிப்படுத்தவும்",
+    "close": "நெருக்கமான",
+    "delete": "அழி"
   },
 
   "message": {
@@ -60,7 +64,9 @@
     "successfullyAdded": "வெற்றிகரமாக சேர்க்கப்பட்டது",
     "successfullyUpdated": "வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
     "successfullyDeleted": "வெற்றிகரமாக நீக்கப்பட்டது",
-    "loginFailed": "உள்நுழைவு தோல்வியடைந்தது"
+    "loginFailed": "உள்நுழைவு தோல்வியடைந்தது",
+    "successfullyExecuted" : "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
+    "deleteQuestion" : "கேள்வியை நீக்கு"
   },
 
   "cropCategoryPage": {
@@ -154,5 +160,16 @@
     "ediblePartShape": "உணவு பகுப்பு வடிவம்",
     "specialCharacteristics": "சிறப்பு பெருக்கங்கள்",
     "selectCropVarietyImage": "பயிர் இன படம் தேர்வு செய்யவும்"
+  },
+  "cropDamagePage": {
+    "categoryName": "பிரிவு பெயர்",
+    "description": "விளக்கம்",
+    "damageTypes": "சேதம் வகைகள்",
+    "code": "குறியீடு",
+    "name": "பெயர்",
+    "action": "நடவடிக்கை",
+    "ADDdamageType": "ADD Damage Type",
+    "EDITdamageType": "EDIT Damage Type"
   }
+  
 }

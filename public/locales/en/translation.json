@@ -17,6 +17,7 @@
   "cropPest": "Crop Pest",
   "cropPestForm": "Crop Pest Form",
   "cropDisease": "Crop Disease",
+  "damageTypes":"Damage Types",
 
   "buttonTooltip": {
     "export": "Export",
@@ -52,7 +53,10 @@
     "back": "BACK",
     "ok": "OK",
     "cancel": "CANCEL",
-    "filter": "FILTER"
+    "filter": "FILTER",
+    "confirm": "Confirm",
+    "close": "Close",
+    "delete": "Delete"
   },
 
   "message": {
@@ -60,7 +64,9 @@
     "successfullyAdded": "Successfully Added",
     "successfullyUpdated": "Successfully Updated",
     "successfullyDeleted": "Successfully Deleted",
-    "loginFailed": "Login Failed"
+    "loginFailed": "Login Failed",
+    "successfullyExecuted" : "Successfully executed !!!",
+    "deleteQuestion" : "Delete Question"
   },
 
   "cropCategoryPage": {
@@ -153,5 +159,15 @@
     "ediblePartShape": "Edible Part Shape",
     "specialCharacteristics": "Special Characteristics",
     "selectCropVarietyImage": "Select Crop Variety Image"
+  },
+  "cropDamagePage": {
+    "categoryName": "Category Name",
+    "description": "Description",
+    "damageTypes": "Damage Types",
+    "code": "Code",
+    "name": "Name",
+    "action": "Action",
+    "ADDdamageType": "ADD Damage Type",
+    "EDITdamageType": "EDIT Damage Type"
   }
 }
