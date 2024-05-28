@@ -44,6 +44,7 @@ const SoilTestFrom = () => {
       let newData = { ...current };
       newData[target] = value;
       return newData;
+
     });
   };
 
@@ -166,16 +167,16 @@ const SoilTestFrom = () => {
           <FieldWrapper>
             <FieldName>Sample ID</FieldName>
             <TextField
-              name="dateSampled"
-              id="dateSampled"
-              value={formData?.dateSampled || ""}
+              name="name"
+              id="name"
+              value={formData?.name || ""}
               fullWidth
               disabled={
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
               onChange={(e) =>
-                handleChange(e?.target?.value || "", "dateSampled")
+                handleChange(e?.target?.value || "", "name")
               }
               sx={{
                 "& .MuiInputBase-root": {
