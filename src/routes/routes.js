@@ -99,9 +99,9 @@ import ExtensionIcon from "@mui/icons-material/Extension";
 import GroupIcon from "@mui/icons-material/Group";
 import SquareFootIcon from "@mui/icons-material/SquareFoot";
 import Organization from "../pages/Organization/Organization";
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
-import MessageIcon from '@mui/icons-material/Message';
-import SendIcon from '@mui/icons-material/Send';
+import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
+import MessageIcon from "@mui/icons-material/Message";
+import SendIcon from "@mui/icons-material/Send";
 
 import {
   Apple,
@@ -212,10 +212,8 @@ import HartyPrices from "../pages/Harty/HartyPrices/HartyPrices";
 import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
-import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
 import SummarizeIcon from "@mui/icons-material/Summarize";
-import VegitableEarlyWarningList from "../pages/CropLook/VegitableEarlyWarning/VegitableEarlyWarningList";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
 import AggrigateReportAdaLevel from "../pages/CropLook/aggrigateReportAdaLevel/aggrigate-reporting-ada";
@@ -223,9 +221,6 @@ import Chat from "../pages/Communication/Chat";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
-import { useTranslation } from "react-i18next";
-import ListHeader from "../components/ListHeader/ListHeader";
-import TranslationWrapper from "../components/Translation/Translation";
 
 export const Routes = [
   {
@@ -861,7 +856,7 @@ export const Routes = [
       },
       {
         path: "/crop-variety-form",
-        name: "CropVarietyForm",
+        name: "cropVarietyForm",
         isSideBar: false,
         element: <CropVarietyForm />,
       },
@@ -1691,9 +1686,9 @@ export const Routes = [
         element: <Chat />,
         icon: SendIcon,
         // component: DEF_COMPONENTS.CHAT,
-      }
-    ]
-  }
+      },
+    ],
+  },
 
   // {
   //   path: "/map",

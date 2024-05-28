@@ -29,8 +29,10 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { MenuItem } from "@mui/material";
 import { Select } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const CropVarietyForm = () => {
+  const {t} = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -116,8 +118,8 @@ const CropVarietyForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+        ? t("message.successfullyAdded")
+        : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -125,7 +127,7 @@ const CropVarietyForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
@@ -264,7 +266,7 @@ const CropVarietyForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName="Crop Variety"
+        formName="cropVariety"
       />
       <FormButtonGroup
         state={state}
@@ -287,7 +289,7 @@ const CropVarietyForm = () => {
           <Grid container>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Variety ID</FieldName>
+                <FieldName>{t("cropVarietyPage.varietyId")}</FieldName>
                 <TextField
                   name="varietyId"
                   id="varietyId"
@@ -310,7 +312,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={8}>
               <FieldWrapper>
-                <FieldName>Variety Name</FieldName>
+                <FieldName>{t("cropVarietyPage.varietyName")}</FieldName>
                 <TextField
                   name="varietyName"
                   id="varietyName"
@@ -333,7 +335,7 @@ const CropVarietyForm = () => {
           <Grid container>
             <Grid item sm={12} md={12} lg={12}>
               <FieldWrapper>
-                <FieldName>Variety Description</FieldName>
+                <FieldName>{t("cropVarietyPage.varietyDescription")}</FieldName>
                 <TextField
                   name="varietyDescription"
                   id="varietyDescription"
@@ -356,7 +358,7 @@ const CropVarietyForm = () => {
           <Grid container>
             <Grid item sm={2} md={2} lg={6}>
               <FieldWrapper>
-                <FieldName>Crop ID</FieldName>
+                <FieldName>{t("cropVarietyPage.cropId")}</FieldName>
                 <Autocomplete
                   disabled={state?.action === DEF_ACTIONS.VIEW}
                   options={options}
@@ -379,7 +381,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={4} md={4} lg={6}>
               <FieldWrapper>
-                <FieldName>Croplook Variety ID</FieldName>
+                <FieldName>{t("cropVarietyPage.croplookVarietyId")}</FieldName>
                 <TextField
                   name="croplookVarietyId"
                   id="croplookVarietyId"
@@ -402,7 +404,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Age Type</FieldName>
+                <FieldName>{t("cropVarietyPage.ageType")}</FieldName>
                 <Select
                   name="ageType"
                   id="ageType"
@@ -435,7 +437,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Variety Type</FieldName>
+                <FieldName>{t("cropVarietyPage.varietyType")}</FieldName>
                 <Select
                   name="varietyType"
                   id="varietyType"
@@ -458,7 +460,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Grain Type</FieldName>
+                <FieldName>{t("cropVarietyPage.grainType")}</FieldName>
                 <Select
                   name="grainType"
                   id="grainType"
@@ -482,7 +484,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Pollination Type</FieldName>
+                <FieldName>{t("cropVarietyPage.pollinationType")}</FieldName>
                 <Select
                   name="pollinationType"
                   id="pollinationType"
@@ -505,7 +507,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
-                <FieldName>Pericarp Color</FieldName>
+                <FieldName>{t("cropVarietyPage.pericarpColor")}</FieldName>
                 <TextField
                   name="pericarpColor"
                   id="pericarpColor"
@@ -526,7 +528,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={4} md={4} lg={4}>
               <FieldWrapper>
-                <FieldName>Pod/Fruit Colour</FieldName>
+                <FieldName>{t("cropVarietyPage.podFruitColour")}</FieldName>
                 <TextField
                   name="podFruitColour"
                   id="podFruitColour"
@@ -547,7 +549,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Grain Color</FieldName>
+                <FieldName>{t("cropVarietyPage.grainColor")}</FieldName>
                 <TextField
                   name="grainColor"
                   id="grainColor"
@@ -568,7 +570,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Grain Quality</FieldName>
+                <FieldName>{t("cropVarietyPage.grainQuality")}</FieldName>
                 <TextField
                   name="grainQuality"
                   id="grainQuality"
@@ -589,7 +591,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Grain Size</FieldName>
+                <FieldName>{t("cropVarietyPage.grainSize")}</FieldName>
                 <TextField
                   name="grainSize"
                   id="grainSize"
@@ -611,7 +613,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName>Research Yield</FieldName>
+                <FieldName>{t("cropVarietyPage.researchYield")}</FieldName>
                 <TextField
                   name="researchYield"
                   id="researchYield"
@@ -638,7 +640,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName>Farmer Yield</FieldName>
+                <FieldName>{t("cropVarietyPage.farmerYield")}</FieldName>
                 <TextField
                   name="farmerYield"
                   id="farmerYield"
@@ -665,7 +667,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName>Average Yield</FieldName>
+                <FieldName>{t("cropVarietyPage.averageYield")}</FieldName>
                 <TextField
                   name="averageYield"
                   id="averageYield"
@@ -692,7 +694,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={3}>
               <FieldWrapper>
-                <FieldName>Number Of Pics</FieldName>
+                <FieldName>{t("cropVarietyPage.numberOfPics")}</FieldName>
                 <TextField
                   name="numberOfPics"
                   id="numberOfPics"
@@ -714,7 +716,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={2} md={2} lg={3}>
               <FieldWrapper>
-                <FieldName>Maturity Time</FieldName>
+                <FieldName>{t("cropVarietyPage.maturityTime")}</FieldName>
                 <TextField
                   name="maturityTime"
                   id="maturityTime"
@@ -741,7 +743,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={2} md={2} lg={6}>
               <FieldWrapper>
-                <FieldName>Commodity</FieldName>
+                <FieldName>{t("cropVarietyPage.commodity")}</FieldName>
                 {isLoading ? (
                   <Autocomplete
                     disabled={state?.action === DEF_ACTIONS.VIEW}
@@ -769,7 +771,7 @@ const CropVarietyForm = () => {
 
             <Grid item sm={2} md={2} lg={3}>
               <FieldWrapper>
-                <FieldName>Duration To Harvest</FieldName>
+                <FieldName>{t("cropVarietyPage.durationToHarvest")}</FieldName>
                 <TextField
                   name="bearingPeriodInDays"
                   id="bearingPeriodInDays"
@@ -796,7 +798,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={2} md={2} lg={3}>
               <FieldWrapper>
-                <FieldName>Duration Between Two Picks</FieldName>
+                <FieldName>{t("cropVarietyPage.durationBetweenTwoPicks")}</FieldName>
                 <TextField
                   name="durationBetweenTwoPicks"
                   id="durationBetweenTwoPicks"
@@ -826,7 +828,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
-                <FieldName>Scientific Name</FieldName>
+                <FieldName>{t("cropVarietyPage.scientificName")}</FieldName>
                 <TextField
                   name="scientificName"
                   id="scientificName"
@@ -847,7 +849,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={4} md={4} lg={3}>
               <FieldWrapper>
-                <FieldName>Seed Requirement</FieldName>
+                <FieldName>{t("cropVarietyPage.seedRequirement")}</FieldName>
                 <TextField
                   name="seedRequirement"
                   id="seedRequirement"
@@ -868,7 +870,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Released Year</FieldName>
+                <FieldName>{t("cropVarietyPage.releasedYear")}</FieldName>
                 <TextField
                   name="releasedYear"
                   id="releasedYear"
@@ -889,7 +891,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={4}>
               <FieldWrapper>
-                <FieldName>Spacing</FieldName>
+                <FieldName>{t("cropVarietyPage.spacing")}</FieldName>
                 <TextField
                   name="spacing"
                   id="spacing"
@@ -910,7 +912,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={4} md={4} lg={4} spacing={0}>
               <FieldWrapper>
-                <FieldName>Imported</FieldName>
+                <FieldName>{t("cropVarietyPage.imported")}</FieldName>
                 <Switch
                   name="isImported"
                   id="isImported"
@@ -926,7 +928,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
-                <FieldName>Soil Problems</FieldName>
+                <FieldName>{t("cropVarietyPage.soilProblems")}</FieldName>
                 <TextField
                   name="soilProblems"
                   id="soilProblems"
@@ -947,7 +949,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
-                <FieldName>Plant Growth</FieldName>
+                <FieldName>{t("cropVarietyPage.plantGrowth")}</FieldName>
                 <TextField
                   name="plantGrowth"
                   id="plantGrowth"
@@ -968,7 +970,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={6}>
               <FieldWrapper>
-                <FieldName>Resistant to Pest & Disease</FieldName>
+                <FieldName>{t("cropVarietyPage.resistantToPestAndDisease")}</FieldName>
                 <TextField
                   name="pestDiseaseResistant"
                   id="pestDiseaseResistant"
@@ -989,7 +991,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
-                <FieldName>Edible Part Shape</FieldName>
+                <FieldName>{t("cropVarietyPage.ediblePartShape")}</FieldName>
                 <TextField
                   name="ediblePartShape"
                   id="ediblePartShape"
@@ -1010,7 +1012,7 @@ const CropVarietyForm = () => {
             </Grid>
             <Grid item sm={3} md={3} lg={12}>
               <FieldWrapper>
-                <FieldName>Special Characteristics</FieldName>
+                <FieldName>{t("cropVarietyPage.specialCharacteristics")}</FieldName>
                 <TextField
                   name="specialCharacteristics"
                   id="specialCharacteristics"
@@ -1038,7 +1040,7 @@ const CropVarietyForm = () => {
           <Grid container>
             <Grid item sm={3} md={3} lg={9}>
               <FieldWrapper>
-                <FieldName>Select Crop Variety Image</FieldName>
+                <FieldName>{t("cropVarietyPage.selectCropVarietyImage")}</FieldName>
                 <div
                   style={{
                     display: "flex",

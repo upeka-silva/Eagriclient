@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
@@ -8,11 +9,12 @@ const CropDiseaseList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const { t } = useTranslation();
   const columns = [
-    { field: "diseaseName", headerName: "Disease Name" },
-    { field: "type", headerName: "Type" },
-    { field: "causalAgent", headerName: "Causal Agent" },
-    { field: "vector", headerName: "Vector" },
+    { field: "diseaseName", headerName: t("cropPage.diseaseName") },
+    { field: "type", headerName: t("cropPage.type") },
+    { field: "causalAgent", headerName: t("cropPage.causalAgent") },
+    { field: "vector", headerName: t("cropPage.vector") },
   ];
 
   return (

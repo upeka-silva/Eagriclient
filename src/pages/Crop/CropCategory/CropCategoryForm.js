@@ -73,7 +73,7 @@ const CropCategoryForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
