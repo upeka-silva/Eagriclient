@@ -1,20 +1,59 @@
 {
-  "crop" : "பயிர்",
+  "crop": "பயிர்",
   "category": "வகை",
   "crop category": "பயிர் வகை",
   "crop sub category": " Crop Sub Category",
-  "crop category form":"Frop Category Form",
-  "crop form":"Crop Form",
+  "crop category form": "Frop Category Form",
+  "crop form": "Crop Form",
   "crop variety": "Crop Variety",
-  "crop variety form":"Crop Variety Form",
-  "crop damages":"Crop Damages",
-  "crop damage form":"Crop Damage Form",
-  "crop calendar":"Crop Calendar",
-  "crop calendar form":"Crop Calendar Form",
-  "crop activity":"Crop Activity",
-  "crop activity form":"Crop Activity Form",
-  "crop disease form":"Crop Disease Form",
-  "crop pest":"Crop Pest",
-  "crop pest form":"Crop Pest Form",
-  "crop disease":"Crop Disease"
+  "crop variety form": "Crop Variety Form",
+  "crop damages": "Crop Damages",
+  "crop damage form": "Crop Damage Form",
+  "crop calendar": "Crop Calendar",
+  "crop calendar form": "Crop Calendar Form",
+  "crop activity": "Crop Activity",
+  "crop activity form": "Crop Activity Form",
+  "crop disease form": "Crop Disease Form",
+  "crop pest": "Crop Pest",
+  "crop pest form": "Crop Pest Form",
+  "crop disease": "Crop Disease",
+  "add": "add",
+
+  "buttontooltip": {
+    "export": "பதிவிறக்க",
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "view": "பார்வை",
+    "delete": "அழி",
+    "view_list": "பார்க்க_பட்டியல்",
+    "approve": "ஒப்புதல்",
+    "assign": "ஒதுக்க",
+    "generate": "உருவாக்க"
+  },
+
+  "crudbutton": {
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "view": "பார்வை",
+    "delete": "அழி",
+    "view_list": "பார்க்க_பட்டியல்",
+    "approve": "ஒப்புதல்",
+    "assign": "ஒதுக்க",
+    "generate": "உருவாக்க"
+  },
+
+  "action": {
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "save": "சேமிக்க",
+    "update": "மேம்படுத்தல்",
+    "reset": "மீட்டமை",
+    "Verify": "சரிபார்க்கவும்",
+    "back": "மீண்டும்"
+  },
+
+  "cropCategory": {
+    "crop category": "Crop Category",
+    "code": "Code"
+  }
 }

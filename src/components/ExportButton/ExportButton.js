@@ -3,8 +3,11 @@ import { Button, ButtonGroup } from "@mui/material";
 import { Download } from "@mui/icons-material";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
 import PermissionWrapper from "../PermissionWrapper/PermissionWrapper";
+import { useTranslation } from "react-i18next";
 
 const ExportButton = ({ onDownload }) => {
+  const { t } = useTranslation();
+
   return (
     <ButtonGroup
       variant="outlined"
@@ -14,7 +17,11 @@ const ExportButton = ({ onDownload }) => {
       color="success"
     >
       <PermissionWrapper>
-        <Button onClick={onDownload} title="export" color="success">
+        <Button
+          onClick={onDownload}
+          title={t("buttontooltip")["export"]}
+          color="success"
+        >
           <Download />
           {DEF_ACTIONS.EXPORT}
         </Button>

@@ -3,19 +3,57 @@
   "category": "Category",
   "crop category": "Crop Category",
   "crop sub category": " Crop Sub Category",
-  "crop category form":"Frop Category Form",
-  "crop form":"Crop Form",
+  "crop category form": "Frop Category Form",
+  "crop form": "Crop Form",
   "crop variety": "Crop Variety",
-  "crop variety form":"Crop Variety Form",
-  "crop damages":"Crop Damages",
-  "crop damage form":"Crop Damage Form",
-  "crop calendar":"Crop Calendar",
-  "crop calendar form":"Crop Calendar Form",
-  "crop activity":"Crop Activity",
-  "crop activity form":"Crop Activity Form",
-  "crop disease form":"Crop Disease Form",
-  "crop pest":"Crop Pest",
-  "crop pest form":"Crop Pest Form",
-  "crop disease":"Crop Disease"
+  "crop variety form": "Crop Variety Form",
+  "crop damages": "Crop Damages",
+  "crop damage form": "Crop Damage Form",
+  "crop calendar": "Crop Calendar",
+  "crop calendar form": "Crop Calendar Form",
+  "crop activity": "Crop Activity",
+  "crop activity form": "Crop Activity Form",
+  "crop disease form": "Crop Disease Form",
+  "crop pest": "Crop Pest",
+  "crop pest form": "Crop Pest Form",
+  "crop disease": "Crop Disease",
+  "add": "ADs",
 
+  "buttontooltip": {
+    "export": "Export",
+    "add": "Add",
+    "view": "View",
+    "view_list": "View_List",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "assign": "Assign",
+    "generate": "Generate"
+  },
+
+  "crudbutton": {
+    "add": "ADD",
+    "edit": "EDIT",
+    "view": "VIEW",
+    "delete": "DELETE",
+    "view_list": "VIEW_LIST",
+    "approve": "APPROVE",
+    "assign": "ASSIGN",
+    "generate": "GENETARE"
+  },
+
+  "action": {
+    "add": "Add",
+    "edit": "Edit",
+    "save": "SAVE",
+    "update": "UPDATE",
+    "reset": "RESET",
+    "Verify": "VERIFY",
+    "back": "BACK"
+  },
+
+  "cropCategory": {
+    "crop category": "Crop Category",
+    "code": "Code"
+  }
 }

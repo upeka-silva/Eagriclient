@@ -4,7 +4,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -19,7 +18,6 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
@@ -28,23 +26,14 @@ import {
   downloadCropCategoryExcel,
 } from "../../../redux/actions/crop/cropCategory/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  CancelOutlined,
-  CheckRounded,
-  Delete,
-  Download,
-  Edit,
-  Margin,
-  Vrpano,
-} from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { style } from "d3";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -59,8 +48,6 @@ const CropCategory = () => {
     useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
-
-  const {t} = useTranslation();
 
   const toggleCategorySelect = (component) => {
     setSelectCategory((current = []) => {
@@ -178,6 +165,8 @@ const CropCategory = () => {
     }
   };
 
+  const { t } = useTranslation(); // Always call this hook at the top
+
   return (
     <div
       style={{
@@ -189,8 +178,8 @@ const CropCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title= "crop category"/>
-     
+      <ListHeader title="crop category" />
+
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -204,18 +193,18 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onCreate} title="add">
+              <Button onClick={onCreate} title={t("buttontooltip")["add"]}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectCategory.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onEdit} title="edit">
+                <Button onClick={onEdit} title={t("buttontooltip")["edit"]}>
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -223,9 +212,9 @@ const CropCategory = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onView} title="view">
+                <Button onClick={onView} title={t("buttontooltip")["view"]}>
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -233,9 +222,9 @@ const CropCategory = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onDelete} title="delete">
+                <Button onClick={onDelete} title={t("buttontooltip")["delete"]}>
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}

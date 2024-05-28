@@ -16,5 +16,43 @@
   "crop disease form": "බෝග රෝග පෝර්මය",
   "crop pest": "බෝග උපද්‍රවය",
   "crop pest form": "බෝග උපද්‍රවය පෝර්මය",
-  "crop disease":"බෝග රෝග"
+  "crop disease": "බෝග රෝග",
+
+  "buttontooltip": {
+    "export": "බාගත කිරීම",
+    "add": "එකතු කරන්න",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "view_list": "ලැයිස්තුව බලන්න",
+    "approve": "අනුමත කරන්න",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය කරන්න"
+  },
+
+  "crudbutton": {
+    "add": "නව",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "view_list": "ලැයිස්තුව",
+    "approve": "අනුමත",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය"
+  },
+
+  "action": {
+    "add": "නව",
+    "edit": "සංස්කරණය",
+    "save":"සුරකින්න",
+    "update":"යාවත්කාලීන",
+    "reset": "යළි පිහිටුවීම",
+    "Verify":"තහවුරු කරන්න",
+    "back": "ආපසු"
+  },
+  
+  "cropCategory": {
+    "crop category": "බෝග වර්ගය",
+    "code": "කේතය"
+  }
 }

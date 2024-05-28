@@ -96,7 +96,12 @@ const CropCategoryForm = () => {
   return (
     <>
       <FormWrapper>
-        <PageHeader saving={saving} state={state} formName="Crop Category" goBack={goBack}/>
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="crop category"
+          goBack={goBack}
+        />
         <FormButtonGroup
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}
@@ -132,7 +137,7 @@ const CropCategoryForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                inputProps={{style: {textTransform: 'uppercase'}}}
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 size="small"
               />
             </FieldWrapper>
