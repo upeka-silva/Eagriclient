@@ -245,7 +245,7 @@ const Crop = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCrop}
         loading={loading}
         onClose={close}

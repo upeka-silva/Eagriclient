@@ -9,6 +9,7 @@ import { FieldWrapper } from "../../components/FormLayout/FieldWrapper";
 import { Colors } from "../../utils/constants/Colors";
 import { Fonts } from "../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { useTranslation } from "react-i18next";
 
 export default function AddDamageTypeDialog({
   open,
@@ -17,6 +18,7 @@ export default function AddDamageTypeDialog({
   formData,
   mode,
 }) {
+  const {t} = useTranslation();
   const [formDataD, setformDataD] = useState({});
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function AddDamageTypeDialog({
           fontFamily: Fonts.fontStyle1,
         }}
       >
-        {mode} Damage Type
+        {t(`cropDamagePage.${mode}`+`damageType`)}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex" }}>
@@ -63,7 +65,7 @@ export default function AddDamageTypeDialog({
                     width: "100%",
                   }}
                 >
-                  Name
+                  {t("cropDamagePage.name")}
                 </FieldName>
                 <TextField
                   name="questionString"
@@ -91,7 +93,7 @@ export default function AddDamageTypeDialog({
                     width: "100%",
                   }}
                 >
-                  Description
+                  {t("cropDamagePage.description")}
                 </FieldName>
                 <TextField
                   name="order"
@@ -124,7 +126,7 @@ export default function AddDamageTypeDialog({
           size="small"
           sx={{ marginLeft: "10px" }}
         >
-          Cancel
+          {t("action.close")}
         </Button>
         <Button
           disabled={mode === DEF_ACTIONS.VIEW}
@@ -134,7 +136,7 @@ export default function AddDamageTypeDialog({
           size="small"
           sx={{ marginLeft: "20px" }}
         >
-          Save
+          {t("action.save")}
         </Button>
       </DialogActions>
     </Dialog>

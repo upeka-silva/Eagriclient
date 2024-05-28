@@ -18,6 +18,7 @@ import {
 } from "../../redux/actions/crop/cropDamage/action";
 import { Add } from "@mui/icons-material";
 import DamageTypeList from "./DamageTypeList";
+import { useTranslation } from "react-i18next";
 
 const DamageTypes = ({
   dataList = [],
@@ -25,6 +26,7 @@ const DamageTypes = ({
   formId = null,
   formMode = null,
 }) => {
+  const {t} = useTranslation();
   const { state } = useLocation();
   //eslint-disable-next-line
   const [saving, setSaving] = useState(false);
@@ -63,7 +65,7 @@ const DamageTypes = ({
   const onSuccess = async (response) => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Successfully executed !!!",
+      message: t("message.successfullyExecuted"),
     });
     getAllDamageTypes(formId).then((data) => {
       setDamageTypes(data);
@@ -74,7 +76,7 @@ const DamageTypes = ({
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
   };
 
@@ -110,7 +112,7 @@ const DamageTypes = ({
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={state} formName="Damage Types" />
+      <CustFormHeader saving={saving} state={state} formName="damageTypes" />
       {((onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
         <Button
           disabled={!formId}
@@ -156,7 +158,7 @@ const DamageTypes = ({
       />
       <DialogBox
         open={open}
-        title={`Delete Question`}
+        title={t("message.deleteQuestion")}
         actions={
           <ActionWrapper>
             <Button
@@ -165,7 +167,7 @@ const DamageTypes = ({
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              {t("action.confirm")}
             </Button>
             <Button
               variant="contained"
@@ -173,7 +175,7 @@ const DamageTypes = ({
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              {t("action.close")}
             </Button>
           </ActionWrapper>
         }

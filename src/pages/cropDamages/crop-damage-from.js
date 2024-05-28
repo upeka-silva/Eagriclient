@@ -18,8 +18,10 @@ import { DEF_ACTIONS } from "../../utils/constants/permission";
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import DamageTypes from "./damage-types";
 import { Fonts } from "../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
 
 const CropDamageForm = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -29,7 +31,6 @@ const CropDamageForm = () => {
   const [isLoading, setIsLoading] = useState(null);
 
   const [formData, setFormData] = useState(state?.target || {});
-  
 
   useEffect(() => {
     if (
@@ -77,8 +78,8 @@ const CropDamageForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -86,7 +87,7 @@ const CropDamageForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
@@ -112,17 +113,22 @@ const CropDamageForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
-        <PageHeader saving={saving} state={state} formName="Crop Damage" goBack={goBack} />
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="cropDamages"
+          goBack={goBack}
+        />
         <FormButtonGroup
           {...{
             state,
@@ -143,13 +149,15 @@ const CropDamageForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Code</FieldName>
+              <FieldName>{t("cropDamagePage.code")}</FieldName>
               <TextField
                 variant="outlined"
                 id="code"
                 name="code"
                 value={formData && formData.code ? formData.code : ""}
-                onChange={(e) => handleChange(e?.target?.value.toUpperCase() || "", "code")}
+                onChange={(e) =>
+                  handleChange(e?.target?.value.toUpperCase() || "", "code")
+                }
                 sx={{
                   "& .MuiInputBase-root": {
                     borderRadius: "8px",
@@ -162,7 +170,7 @@ const CropDamageForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Name</FieldName>
+              <FieldName>{t("cropDamagePage.name")}</FieldName>
               <TextField
                 variant="outlined"
                 id="name"
@@ -181,12 +189,14 @@ const CropDamageForm = () => {
           </Grid>
           <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>Description</FieldName>
+              <FieldName>{t("cropDamagePage.description")}</FieldName>
               <TextField
                 variant="outlined"
                 id="description"
                 name="description"
-                value={formData && formData.description ? formData.description : ""}
+                value={
+                  formData && formData.description ? formData.description : ""
+                }
                 onChange={(e) =>
                   handleChange(e?.target?.value || "", "description")
                 }
@@ -203,7 +213,9 @@ const CropDamageForm = () => {
         </Grid>
         <Grid container>
           <Grid item sm={12} md={12} lg={12}>
-            <Paper style={{ height: "500px", padding:"20px", marginRight:"5px" }}>
+            <Paper
+              style={{ height: "500px", padding: "20px", marginRight: "5px" }}
+            >
               {!isLoading ? (
                 <DamageTypes
                   formMode={state.action}

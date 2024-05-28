@@ -17,6 +17,7 @@
   "cropPest": "බෝග උපද්‍රවය",
   "cropPestForm": "බෝග උපද්‍රවය පෝර්මය",
   "cropDisease": "බෝග රෝග",
+  "damageTypes":"හානි වර්ගය",
 
   "buttonTooltip": {
     "export": "බාගත කිරීම",
@@ -52,7 +53,10 @@
     "back": "ආපසු",
     "ok": "ඔව්",
     "cancel": "අවලංගු කරන්න",
-    "filter": "පෙරන්න"
+    "filter": "පෙරන්න",
+    "confirm": "තහවුරු කරන්න",
+    "close": "වසන්න",
+    "delete": "මකන්න"
   },
 
   "message": {
@@ -60,7 +64,9 @@
     "successfullyAdded": "සාර්ථකව එකතු කරන ලදී",
     "successfullyUpdated": "සාර්ථකව යාවත්කාලීන කරන ලදී",
     "successfullyDeleted": "සාර්ථකව මකා ඇත",
-    "loginFailed": "ඇතුළු වීම අසාර්ථකයි"
+    "loginFailed": "ඇතුළු වීම අසාර්ථකයි",
+    "successfullyExecuted" : "සාර්ථකව ක්‍රියාත්මක විය !!!",
+    "deleteQuestion" : "ප්‍රශ්නය මකන්න"
   },
 
   "cropCategoryPage": {
@@ -154,5 +160,16 @@
     "ediblePartShape": "ආහාරයට ගත හැකි කොටස් හැඩය",
     "specialCharacteristics": "විශේෂ ලක්ෂණ",
     "selectCropVarietyImage": "බෝග ප්‍රභේද රූපය තෝරන්න"
+  },
+  "cropDamagePage": {
+    "categoryName": "ප්‍රවර්ග නාමය",
+    "description": "විස්තර",
+    "damageTypes": "නොමැතිවීමේ වර්ග",
+    "code": "කේතය",
+    "name": "නාමය",
+    "action": "ක්‍රියාව",
+    "ADDdamageType": "ADD වර්ගය එකතු කරන්න",
+    "EDITdamageType": "EDIT වර්ගය එකතු කරන්න"
+    
   }
 }
