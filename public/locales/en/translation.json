@@ -3,7 +3,7 @@
   "category": "Category",
   "crop category": "Crop Category",
   "crop sub category": " Crop Sub Category",
-  "crop category form": "Frop Category Form",
+  "crop category form": "Crop Category Form",
   "crop form": "Crop Form",
   "crop variety": "Crop Variety",
   "crop variety form": "Crop Variety Form",
@@ -45,15 +45,33 @@
   "action": {
     "add": "Add",
     "edit": "Edit",
+    "view": "View",
     "save": "SAVE",
     "update": "UPDATE",
     "reset": "RESET",
     "Verify": "VERIFY",
-    "back": "BACK"
+    "back": "BACK",
+    "ok": "OK",
+    "cancel": "CANCEL"
   },
 
-  "cropCategory": {
+  "message": {
+    "do you want to delete?": "Do you want to delete?"
+  },
+
+  "cropcategory": {
     "crop category": "Crop Category",
-    "code": "Code"
+    "code": "Code",
+    "category code": "Category Code",
+    "description": "Description"
+  },
+
+  "cropsubcategory": {
+    "crop category": "Crop Category",
+    "crop sub category": "Crop Sub Category",
+    "description": "Description",
+    "category id": "Category ID",
+    "code": "Code",
+    "category code": "Category Code"
   }
 }

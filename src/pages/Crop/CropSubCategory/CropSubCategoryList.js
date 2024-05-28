@@ -8,6 +8,7 @@ import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { RestartAlt } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const CropSubCategoryList = ({
   selectedRows = [],
@@ -15,14 +16,16 @@ const CropSubCategoryList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+
+  const {t} = useTranslation();
   const columns = [
     {
       field: ["cropCategoryDTO.categoryId", "cropCategoryDTO.description"],
       join: "-",
-      headerName: "Crop Category ",
+      headerName: t("cropsubcategory")["crop category"],
     },
-    { field: "description", headerName: "Crop Sub Category" },
-    { field: "subCategoryId", headerName: "Code" },
+    { field: "description", headerName:  t("cropsubcategory")["crop sub category"] },
+    { field: "subCategoryId", headerName:  t("cropsubcategory")["code"] },
   ];
 
   const [id, setId] = useState(null);
@@ -71,7 +74,7 @@ const CropSubCategoryList = ({
           <Grid container>
             <Grid item lg={3}>
               <FieldWrapper>
-                <FieldName>Crop Category</FieldName>
+                <FieldName>{t("cropsubcategory")["crop category"]}</FieldName>
                 <Autocomplete
                   options={options}
                   value={data}
@@ -102,7 +105,7 @@ const CropSubCategoryList = ({
                   sx={{ marginTop: "40px" }}
                 >
                   <RestartAlt />
-                  Reset
+                  {t("action.reset")}
                 </Button>
               </FieldWrapper>
             </Grid>

@@ -42,6 +42,8 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -58,6 +60,8 @@ const CropSubCategory = () => {
   ] = useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const { t } = useTranslation();
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -202,7 +206,7 @@ const CropSubCategory = () => {
             >
               <Button onClick={onCreate}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectSubCategory.length === 1 && (
@@ -216,7 +220,7 @@ const CropSubCategory = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -231,7 +235,7 @@ const CropSubCategory = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -246,7 +250,7 @@ const CropSubCategory = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -268,7 +272,7 @@ const CropSubCategory = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="do you want to delete?"
         items={selectSubCategory}
         loading={loading}
         onClose={close}
@@ -278,7 +282,6 @@ const CropSubCategory = () => {
         propertyId="subCategoryId"
         propertyDescription="description"
       />
-        
     </div>
   );
 };

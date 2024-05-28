@@ -833,7 +833,7 @@ export const Routes = [
 
       {
         path: "/sub-category-form",
-        name: "frop category form",
+        name: "crop category form",
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },

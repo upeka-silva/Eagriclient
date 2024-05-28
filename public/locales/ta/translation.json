@@ -3,7 +3,7 @@
   "category": "வகை",
   "crop category": "பயிர் வகை",
   "crop sub category": " Crop Sub Category",
-  "crop category form": "Frop Category Form",
+  "crop category form": "Crop Category Form",
   "crop form": "Crop Form",
   "crop variety": "Crop Variety",
   "crop variety form": "Crop Variety Form",
@@ -17,7 +17,6 @@
   "crop pest": "Crop Pest",
   "crop pest form": "Crop Pest Form",
   "crop disease": "Crop Disease",
-  "add": "add",
 
   "buttontooltip": {
     "export": "பதிவிறக்க",
@@ -45,15 +44,33 @@
   "action": {
     "add": "கூட்டு",
     "edit": "தொகு",
+    "view": "பார்வை",
     "save": "சேமிக்க",
     "update": "மேம்படுத்தல்",
     "reset": "மீட்டமை",
     "Verify": "சரிபார்க்கவும்",
-    "back": "மீண்டும்"
+    "back": "மீண்டும்",
+    "ok": "சரி",
+    "cancel": "ரத்து செய்"
+  },
+
+  "message": {
+    "do you want to delete?": "நீக்க வேண்டுமா?"
   },
 
   "cropCategory": {
-    "crop category": "Crop Category",
-    "code": "Code"
+    "crop category": "பயிர் வகை",
+    "code": "குறியீடு",
+    "category code": "வகை குறியீடு",
+    "description":"விளக்கம்"
+  },
+
+  "cropsubcategory": {
+    "crop category": "பயிர் வகை",
+    "crop sub category": "பயிர் துணை வகை",
+    "description":"விளக்கம்",
+    "category id": "வகை ஐடி",
+    "code": "குறியீடு",
+    "category code": "வகை குறியீடு"
   }
 }

@@ -44,15 +44,33 @@
   "action": {
     "add": "නව",
     "edit": "සංස්කරණය",
-    "save":"සුරකින්න",
-    "update":"යාවත්කාලීන",
+    "save": "සුරකින්න",
+    "view": "දර්ශනය",
+    "update": "යාවත්කාලීන",
     "reset": "යළි පිහිටුවීම",
-    "Verify":"තහවුරු කරන්න",
-    "back": "ආපසු"
+    "Verify": "තහවුරු කරන්න",
+    "back": "ආපසු",
+    "ok": "ඔව්",
+    "cancel": "අවලංගු කරන්න"
   },
-  
-  "cropCategory": {
+
+  "message": {
+    "do you want to delete?": "ඔබට මැකීමට අවශ්‍යද?"
+  },
+
+  "cropcategory": {
     "crop category": "බෝග වර්ගය",
-    "code": "කේතය"
+    "code": "කේතය",
+    "category code": "කාණ්ඩ කේතය",
+    "description": "විස්තරය"
+  },
+
+  "cropsubcategory": {
+    "crop category": "බෝග වර්ගය",
+    "crop sub category": "බෝග උප කාණ්ඩය",
+    "description": "විස්තරය",
+    "category id": "කාණ්ඩ අංකය",
+    "code": "කේතය",
+    "category code": "කාණ්ඩ කේතය"
   }
 }

@@ -246,7 +246,7 @@ const CropCategory = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="do you want to delete?"
         items={selectCategory}
         loading={loading}
         onClose={close}
