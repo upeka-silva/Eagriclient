@@ -51,7 +51,8 @@
     "verify": "VERIFY",
     "back": "BACK",
     "ok": "OK",
-    "cancel": "CANCEL"
+    "cancel": "CANCEL",
+    "filter": "FILTER"
   },
 
   "message": {
