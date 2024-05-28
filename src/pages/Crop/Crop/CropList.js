@@ -10,6 +10,7 @@ import { Button, TextField, Autocomplete, Grid } from "@mui/material";
 import { useEffect, useState } from "react";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
+import { useTranslation } from "react-i18next";
 
 const CropList = ({
   url,
@@ -18,6 +19,8 @@ const CropList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+
+  const {t} = useTranslation();
   const columns = [
     {
       field: [
@@ -26,20 +29,20 @@ const CropList = ({
       ],
       sortCol: ["cropSubCategory.id"],
       joinString: " - ",
-      headerName: "Sub Category",
+      headerName: t("cropPage.subCategory"),
     },
-    { field: "description", headerName: "Crop", sortCol: ["description"] },
+    { field: "description", headerName: t("cropPage.crop"), sortCol: ["description"] },
     {
       field: "scientificName",
       type: "scientific",
-      headerName: "Scientific Name",
+      headerName: t("cropPage.scientificName"),
       sortCol: ["scientificName"],
     },
 
     // { field: "cropType", headerName: "Crop Type" },
     // { field: "family", headerName: "Family" },
     // { field: "havesting", headerName: "Havesting" },
-    { field: "cropId", headerName: "Crop ID", sortCol: ["cropId"] },
+    { field: "cropId", headerName: t("cropPage.cropId"), sortCol: ["cropId"] },
   ];
   const [cats, setCats] = useState([]);
   const [subCats, setSubcats] = useState([]);
@@ -85,7 +88,7 @@ const CropList = ({
         <Grid container>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Crop Category</FieldName>
+              <FieldName>{t("cropPage.cropCategory")}</FieldName>
               <Autocomplete
                 options={cats}
                 value={category}
@@ -115,7 +118,7 @@ const CropList = ({
           </Grid>
           <Grid item lg={3}>
             <FieldWrapper>
-              <FieldName>Crop Sub Category</FieldName>
+              <FieldName>{t("cropPage.cropSubCategory")}</FieldName>
               <Autocomplete
                 disabled={category?.id == null}
                 options={subCats}
@@ -158,7 +161,7 @@ const CropList = ({
                 sx={{ marginTop: "40px" }}
               >
                 <FilterAltIcon />
-                Filter
+                {t("action.filter")}
               </Button>
             </FieldWrapper>
           </Grid>
@@ -171,7 +174,7 @@ const CropList = ({
               sx={{ marginTop: "40px" }}
             >
               <RestartAlt />
-              Reset
+              {t("action.reset")}
             </Button>
           </Grid>
         </Grid>
