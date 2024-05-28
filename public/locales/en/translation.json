@@ -17,7 +17,7 @@
   "cropPest": "Crop Pest",
   "cropPestForm": "Crop Pest Form",
   "cropDisease": "Crop Disease",
-  
+
   "buttonTooltip": {
     "export": "Export",
     "add": "Add",
@@ -57,9 +57,10 @@
 
   "message": {
     "doYouWantToDelete": "Do you want to delete?",
-    "successfullyAdded":"Successfully Added",
-    "successfullyUpdated":"Successfully Updated",
-    "successfullyDeleted" : "Successfully Deleted"
+    "successfullyAdded": "Successfully Added",
+    "successfullyUpdated": "Successfully Updated",
+    "successfullyDeleted": "Successfully Deleted",
+    "loginFailed": "Login Failed"
   },
 
   "cropCategoryPage": {
@@ -113,5 +114,44 @@
     "type": "Type",
     "causalAgent": "Causal Agent",
     "vector": "Vector"
+  },
+  "cropVarietyPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
+    "crop": "Crop",
+    "varietyName": "Variety Name",
+    "avgYield": "Avg. Yeild",
+    "varietyId": "Variety ID",
+    "varietyDescription": "Variety Description",
+    "cropId": "Crop ID",
+    "croplookVarietyId": "Croplook Variety ID",
+    "ageType": "Age Type",
+    "varietyType": "Variety Type",
+    "grainType": "Grain Type",
+    "pollinationType": "Pollination Type",
+    "pericarpColor": "Pericarp Color",
+    "podFruitColour": "Pod/Fruit Colour",
+    "grainColor": "Grain Color",
+    "grainQuality": "Grain Quality",
+    "grainSize": "Grain Size",
+    "researchYield": "Research Yield",
+    "farmerYield": "Farmer Yield",
+    "averageYield": "Average Yield",
+    "numberOfPics": "Number Of Pics",
+    "maturityTime": "Maturity Time",
+    "commodity": "Commodity",
+    "durationToHarvest": "Duration To Harvest",
+    "durationBetweenTwoPicks": "Duration Between Two Picks",
+    "scientificName": "Scientific Name",
+    "seedRequirement": "Seed Requirement",
+    "releasedYear": "Released Year",
+    "spacing": "Spacing",
+    "imported": "Imported",
+    "soilProblems": "Soil Problems",
+    "plantGrowth": "Plant Growth",
+    "resistantToPestAndDisease": "Resistant to Pest & Disease",
+    "ediblePartShape": "Edible Part Shape",
+    "specialCharacteristics": "Special Characteristics",
+    "selectCropVarietyImage": "Select Crop Variety Image"
   }
 }

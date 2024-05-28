@@ -57,9 +57,10 @@
 
   "message": {
     "doYouWantToDelete": "ඔබට මැකීමට අවශ්‍යද?",
-    "successfullyAdded":"සාර්ථකව එකතු කරන ලදී",
-    "successfullyUpdated":"සාර්ථකව යාවත්කාලීන කරන ලදී",
-    "successfullyDeleted" : "සාර්ථකව මකා ඇත"
+    "successfullyAdded": "සාර්ථකව එකතු කරන ලදී",
+    "successfullyUpdated": "සාර්ථකව යාවත්කාලීන කරන ලදී",
+    "successfullyDeleted": "සාර්ථකව මකා ඇත",
+    "loginFailed": "ඇතුළු වීම අසාර්ථකයි"
   },
 
   "cropCategoryPage": {
@@ -113,5 +114,45 @@
     "type": "වර්ගය",
     "causalAgent": "හේතුකාරක නියෝජිතයා",
     "vector": "දෛශිකය"
+  },
+
+  "cropVarietyPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "crop": "බෝග",
+    "varietyName": "විවිධ නාමය",
+    "avgYield": "සාමාන්‍ය අස්වැන්න",
+    "varietyId": "විවිධ හැඳුනුම්පත",
+    "varietyDescription": "විවිධත්වය විස්තර කිරීම",
+    "cropId": "කප්පාදු හැඳුනුම්පත",
+    "croplookVarietyId": "Croplook විවිධ හැඳුනුම්පත",
+    "ageType": "වයස් වර්ගය",
+    "varietyType": "ප්රභේද වර්ගය",
+    "grainType": "ධාන්‍ය වර්ගය",
+    "pollinationType": "පරාගණයේ වර්ගය",
+    "pericarpColor": "Pericarp වර්ණය",
+    "podFruitColour": "කරල්/පළතුරු වර්ණය",
+    "grainColor": "ධාන්ය පාට",
+    "grainQuality": "ධාන්‍ය ගුණාත්මකභාවය",
+    "grainSize": "ධාන්ය ප්රමාණය",
+    "researchYield": "පර්යේෂණ ඵලදාව",
+    "farmerYield": "ගොවි අස්වැන්න",
+    "averageYield": "සාමාන්ය අස්වැන්න",
+    "numberOfPics": "පින්තූර ගණන",
+    "maturityTime": "පරිණත කාලය",
+    "commodity": "භාණ්ඩය",
+    "durationToHarvest": "අස්වනු නෙලීමේ කාලය",
+    "durationBetweenTwoPicks": "තේරීම් දෙකක් අතර කාලසීමාව",
+    "scientificName": "විද්‍යාත්මක නම",
+    "seedRequirement": "බීජ අවශ්යතාවය",
+    "releasedYear": "නිකුත් වූ වසර",
+    "spacing": "පරතරය",
+    "imported": "ආනයනය කරන ලදී",
+    "soilProblems": "පාංශු ගැටළු",
+    "plantGrowth": "ශාක වර්ධනය",
+    "resistantToPestAndDisease": "පළිබෝධ සහ රෝග වලට ප්‍රතිරෝධී වේ",
+    "ediblePartShape": "ආහාරයට ගත හැකි කොටස් හැඩය",
+    "specialCharacteristics": "විශේෂ ලක්ෂණ",
+    "selectCropVarietyImage": "බෝග ප්‍රභේද රූපය තෝරන්න"
   }
 }

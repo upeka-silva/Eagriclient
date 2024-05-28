@@ -52,14 +52,15 @@
     "back": "மீண்டும்",
     "ok": "சரி",
     "cancel": "ரத்து செய்",
-    "filter":"வடிகட்டிகள்"
+    "filter": "வடிகட்டிகள்"
   },
 
   "message": {
     "doYouWantToDelete": "நீக்க வேண்டுமா?",
-    "successfullyAdded":"வெற்றிகரமாக சேர்க்கப்பட்டது",
-    "successfullyUpdated":"வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
-    "successfullyDeleted" : "வெற்றிகரமாக நீக்கப்பட்டது"
+    "successfullyAdded": "வெற்றிகரமாக சேர்க்கப்பட்டது",
+    "successfullyUpdated": "வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
+    "successfullyDeleted": "வெற்றிகரமாக நீக்கப்பட்டது",
+    "loginFailed": "உள்நுழைவு தோல்வியடைந்தது"
   },
 
   "cropCategoryPage": {
@@ -113,5 +114,45 @@
     "type": "வகை",
     "causalAgent": "காரணமான காரணி",
     "vector": "மூலக்கூறு"
+  },
+
+  "cropVarietyPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "crop": "பயிர்",
+    "varietyName": "இன பெயர்",
+    "avgYield": "சராசரி உற்பத்தி",
+    "varietyId": "இன ஐடி",
+    "varietyDescription": "இன விளக்கம்",
+    "cropId": "பயிர் ஐடி",
+    "croplookVarietyId": "பயிர் பார்வை இன ஐடி",
+    "ageType": "வயது வகை",
+    "varietyType": "இன வகை",
+    "grainType": "தானிய வகை",
+    "pollinationType": "பூர்வாழ்வு வகை",
+    "pericarpColor": "உருப்பட நிறம்",
+    "podFruitColour": "பூட் / பழம் நிறம்",
+    "grainColor": "தானிய நிறம்",
+    "grainQuality": "தானிய தரம்",
+    "grainSize": "தானிய அளவு",
+    "researchYield": "ஆராய்ச்சி உற்பத்தி",
+    "farmerYield": "விவசாயி உற்பத்தி",
+    "averageYield": "சராசரி உற்பத்தி",
+    "numberOfPics": "படங்களின் எண்ணிக்கை",
+    "maturityTime": "பயிர் வயது",
+    "commodity": "பொருள்",
+    "durationToHarvest": "அருகேணிப்பு நேரம்",
+    "durationBetweenTwoPicks": "இரண்டு தேர்வுகளுக்கு இடையே நேரம்",
+    "scientificName": "விஞ்ஞானப் பெயர்",
+    "seedRequirement": "விதை தேவை",
+    "releasedYear": "வெளியிடப்பட்ட ஆண்டு",
+    "spacing": "இடைவெளி",
+    "imported": "இறக்குமதி செய்யப்பட்டது",
+    "soilProblems": "மண் சிக்கல்கள்",
+    "plantGrowth": "தாவர வளர்ச்சி",
+    "resistantToPestAndDisease": "பூச்சியம் மற்றும் நோய்க்கு எதிர்பார்ப்பு",
+    "ediblePartShape": "உணவு பகுப்பு வடிவம்",
+    "specialCharacteristics": "சிறப்பு பெருக்கங்கள்",
+    "selectCropVarietyImage": "பயிர் இன படம் தேர்வு செய்யவும்"
   }
 }
