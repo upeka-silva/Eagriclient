@@ -37,6 +37,7 @@ import MahaweliUnitList from "./MahaweliUnitList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const MahaweliUnit = () => {
   useUserAccessValidation();
@@ -183,9 +184,22 @@ const MahaweliUnit = () => {
   };
 
   const getFilteredData = (selectedBlock) => {
-    setDataEndPoint(
-      `geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id
+    // );
+  };
+
+  const filter = () => {
+    if (selectedSystem?.id) {
+      setDataEndPoint(
+        `geo-data/mahaweli-units/mahaweli-structure?mahaSysId=${selectedSystem?.id}`
+      );
+    }
+    if(selectedBlock?.id && selectedSystem?.id){
+      setDataEndPoint(
+        `geo-data/mahaweli-units/mahaweli-structure?mahaBlockId=${selectedBlock?.id}` 
+      );
+    }
   };
 
   const resetFilter = () => {
@@ -379,7 +393,21 @@ const MahaweliUnit = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
@@ -393,7 +421,10 @@ const MahaweliUnit = () => {
               </Button>
             </FieldWrapper>
           </Grid>
-          <SearchBox handleSearch={handleSearch} />
+
+          <Grid item container>
+            <SearchBox handleSearch={handleSearch} />
+          </Grid>
         </Grid>
       </ActionWrapper>
       <PermissionWrapper

@@ -35,6 +35,7 @@ import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincial
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialAdaList from "./ProvicialAdaList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 
 const ProvincialAda = () => {
@@ -61,11 +62,12 @@ const ProvincialAda = () => {
     provincialDdId: "",
     description: "",
   });
+  console.log({ selectedDdoa });
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
     description: "",
   });
-
+  console.log({ selectedDoa });
   const toggleProvincialDoaSelect = (component) => {
     setSelectedProvincialAda((current = []) => {
       let newList = [...current];
@@ -177,12 +179,6 @@ const ProvincialAda = () => {
     }
   };
 
-  const getFilteredData = (selectedDdoa) => {
-    setDataEndPoint(
-      `geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id
-    );
-  };
-
   useEffect(() => {
     get_ProvincialDoaList().then(({ dataList = [] }) => {
       console.log(dataList);
@@ -211,6 +207,18 @@ const ProvincialAda = () => {
       console.log(dataList);
       setDdoas(dataList);
     });
+  };
+
+  const filter = () => {
+    setDataEndPoint(
+      `geo-data/provincial-ada-segments?proDirectorLevelId=${selectedDoa?.proDirectorId}`
+    );
+
+    if (selectedDdoa?.id) {
+      setDataEndPoint(
+        `geo-data/provincial-ada-segments?proDeputyDirectorLevelId=${selectedDdoa?.id}`
+      );
+    }
   };
 
   return (
@@ -320,7 +328,6 @@ const ProvincialAda = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDdoa(value);
-                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable
@@ -336,19 +343,32 @@ const ProvincialAda = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={resetFilter}
+                onClick={filter}
                 sx={{ marginTop: "40px" }}
               >
-                <RestartAlt />
-                Reset
+                <FilterAltIcon />
+                Filter
               </Button>
             </FieldWrapper>
+          </Grid>
+          <Grid item>
+            <Button
+              color="success"
+              variant="contained"
+              size="small"
+              onClick={resetFilter}
+              sx={{ marginTop: "40px" }}
+            >
+              <RestartAlt />
+              Reset
+            </Button>
           </Grid>
         </Grid>
       </ActionWrapper>
