@@ -10,8 +10,8 @@ const CropCategoryList = ({
 }) => {
   const { t } = useTranslation();
   const columns = [
-    { field: "description", headerName: t("cropcategory")["crop category"] },
-    { field: "categoryId", headerName: t("cropcategory")["code"] },
+    { field: "description", headerName: t("cropCategoryPage.cropCategory")},
+    { field: "categoryId", headerName: t("cropCategoryPage.code") },
   ];
 
   return (

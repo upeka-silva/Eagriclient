@@ -82,8 +82,8 @@ const CropSubCategoryForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -130,7 +130,7 @@ const CropSubCategoryForm = () => {
   return (
     <div>
       <FormWrapper>
-        <PageHeader saving={saving} goBack={goBack} formName="crop sub category" state={state} />
+        <PageHeader saving={saving} goBack={goBack} formName="cropSubCategory" state={state} />
         <FormButtonGroup
           {...{
             state,
@@ -152,7 +152,7 @@ const CropSubCategoryForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>{t("cropsubcategory")["crop sub category"]}</FieldName>
+              <FieldName>{t("cropSubCategoryPage.cropSubCategory")}</FieldName>
               <TextField
                 name="subCategoryId"
                 id="subCategoryId"
@@ -177,7 +177,7 @@ const CropSubCategoryForm = () => {
           </Grid>
           <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>{t("cropsubcategory")["description"]}</FieldName>
+              <FieldName>{t("cropSubCategoryPage.description")}</FieldName>
               <TextField
                 name="description"
                 id="description"
@@ -198,7 +198,7 @@ const CropSubCategoryForm = () => {
           </Grid>
           <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>{t("cropsubcategory")["category id"]}</FieldName>
+              <FieldName>{t("cropSubCategoryPage.categoryId")}</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}

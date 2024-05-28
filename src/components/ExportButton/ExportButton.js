@@ -19,7 +19,7 @@ const ExportButton = ({ onDownload }) => {
       <PermissionWrapper>
         <Button
           onClick={onDownload}
-          title={t("buttontooltip")["export"]}
+          title={t("buttonTooltip.export")}
           color="success"
         >
           <Download />

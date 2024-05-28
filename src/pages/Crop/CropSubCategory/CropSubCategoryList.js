@@ -22,10 +22,10 @@ const CropSubCategoryList = ({
     {
       field: ["cropCategoryDTO.categoryId", "cropCategoryDTO.description"],
       join: "-",
-      headerName: t("cropsubcategory")["crop category"],
+      headerName: t("cropSubCategoryPage.cropCategory"),
     },
-    { field: "description", headerName:  t("cropsubcategory")["crop sub category"] },
-    { field: "subCategoryId", headerName:  t("cropsubcategory")["code"] },
+    { field: "description", headerName:  t("cropSubCategoryPage.cropSubCategory") },
+    { field: "subCategoryId", headerName:  t("cropSubCategoryPage.code") },
   ];
 
   const [id, setId] = useState(null);
@@ -74,7 +74,7 @@ const CropSubCategoryList = ({
           <Grid container>
             <Grid item lg={3}>
               <FieldWrapper>
-                <FieldName>{t("cropsubcategory")["crop category"]}</FieldName>
+                <FieldName>{t("cropSubCategoryPage.cropCategory")}</FieldName>
                 <Autocomplete
                   options={options}
                   value={data}

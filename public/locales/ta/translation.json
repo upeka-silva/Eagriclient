@@ -1,41 +1,41 @@
 {
   "crop": "பயிர்",
   "category": "வகை",
-  "crop category": "பயிர் வகை",
-  "crop sub category": " Crop Sub Category",
-  "crop category form": "Crop Category Form",
-  "crop form": "Crop Form",
-  "crop variety": "Crop Variety",
-  "crop variety form": "Crop Variety Form",
-  "crop damages": "Crop Damages",
-  "crop damage form": "Crop Damage Form",
-  "crop calendar": "Crop Calendar",
-  "crop calendar form": "Crop Calendar Form",
-  "crop activity": "Crop Activity",
-  "crop activity form": "Crop Activity Form",
-  "crop disease form": "Crop Disease Form",
-  "crop pest": "Crop Pest",
-  "crop pest form": "Crop Pest Form",
-  "crop disease": "Crop Disease",
+  "cropCategory": "பயிர் வகை",
+  "cropSubCategory": "பயிர் துணை வகை",
+  "cropCategoryForm": "பயிர் வகை படிவம்",
+  "cropForm": "பயிர் படிவம்",
+  "cropVariety": "பயிர் வகை",
+  "cropVarietyForm": "பயிர் வகை படிவம்",
+  "cropDamages": "பயிர் சேதங்கள்",
+  "cropDamageForm": "பயிர் சேதம் படிவம்",
+  "cropCalendar": "பயிர் நாட்காட்டி",
+  "cropCalendarForm": "பயிர் நாட்காட்டி படிவம்",
+  "cropActivity": "பயிர் செயல்பாடு",
+  "cropActivityForm": "பயிர் செயல்பாடு படிவம்",
+  "cropDiseaseForm": "பயிர் நோய் படிவம்",
+  "cropPest": "பயிர் பூச்சி",
+  "cropPestForm": "பயிர் பூச்சி படிவம்",
+  "cropDisease": "பயிர் நோய்",
 
-  "buttontooltip": {
+  "buttonTooltip": {
     "export": "பதிவிறக்க",
     "add": "கூட்டு",
     "edit": "தொகு",
     "view": "பார்வை",
     "delete": "அழி",
-    "view_list": "பார்க்க_பட்டியல்",
+    "viewList": "பார்க்க_பட்டியல்",
     "approve": "ஒப்புதல்",
     "assign": "ஒதுக்க",
     "generate": "உருவாக்க"
   },
 
-  "crudbutton": {
+  "crudButton": {
     "add": "கூட்டு",
     "edit": "தொகு",
     "view": "பார்வை",
     "delete": "அழி",
-    "view_list": "பார்க்க_பட்டியல்",
+    "viewList": "பார்க்க_பட்டியல்",
     "approve": "ஒப்புதல்",
     "assign": "ஒதுக்க",
     "generate": "உருவாக்க"
@@ -44,33 +44,73 @@
   "action": {
     "add": "கூட்டு",
     "edit": "தொகு",
-    "view": "பார்வை",
     "save": "சேமிக்க",
+    "view": "பார்வை",
     "update": "மேம்படுத்தல்",
     "reset": "மீட்டமை",
-    "Verify": "சரிபார்க்கவும்",
+    "verify": "சரிபார்க்கவும்",
     "back": "மீண்டும்",
     "ok": "சரி",
     "cancel": "ரத்து செய்"
   },
 
   "message": {
-    "do you want to delete?": "நீக்க வேண்டுமா?"
+    "doYouWantToDelete": "நீக்க வேண்டுமா?",
+    "successfullyAdded":"வெற்றிகரமாக சேர்க்கப்பட்டது",
+    "successfullyUpdated":"வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
+    "successfullyDeleted" : "வெற்றிகரமாக நீக்கப்பட்டது"
   },
 
-  "cropCategory": {
-    "crop category": "பயிர் வகை",
+  "cropCategoryPage": {
+    "cropCategory": "பயிர் வகை",
     "code": "குறியீடு",
-    "category code": "வகை குறியீடு",
-    "description":"விளக்கம்"
+    "categoryCode": "வகை குறியீடு",
+    "description": "விளக்கம்"
   },
 
-  "cropsubcategory": {
-    "crop category": "பயிர் வகை",
-    "crop sub category": "பயிர் துணை வகை",
-    "description":"விளக்கம்",
-    "category id": "வகை ஐடி",
+  "cropSubCategoryPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "description": "விளக்கம்",
+    "categoryId": "வகை ஐடி",
     "code": "குறியீடு",
-    "category code": "வகை குறியீடு"
+    "categoryCode": "வகை குறியீடு"
+  },
+
+  "cropPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "subCategory": "துணை வகை",
+    "crop": "பயிர்",
+    "scientificName": "அறிவியல் பெயர்",
+    "cropId": "பயிர் ஐடி",
+    "description": "விளக்கம்",
+    "subCategoryId": "துணை வகை ஐடி",
+    "cropType": "பயிர் வகை",
+    "family": "குடும்பம்",
+    "plantationCrop": "நட்டு விளை பயிர்",
+    "selectCropImage": "பயிர் படத்தைத் தேர்ந்தெடுக்கவும்",
+    "general": "பொது",
+    "pest": "பூச்சி",
+    "disease": "நோய்",
+    "climaticRequirements": "வளிமண்டலத் தேவைகள்",
+    "optimumTemperature": "சிறந்த வெப்பநிலை",
+    "annualRainfall": "வருடாந்திர மழைப்பொழிவு",
+    "altitude": "உயர்வு",
+    "soil": "மண்",
+    "soilType": "மண் வகை",
+    "soilCharacteristics": "மண் பண்புகள்",
+    "soilPhRange": "மண் பிஹச் வரம்பு",
+    "other": "மற்றவை",
+    "harvesting": "அறுவடை",
+    "suitableCultivationAreas": "பயிரிட ஏற்ற பகுதிகள்",
+    "nurseryEstablishmentPeriod": "நர்சரி நிறுவும் காலம்",
+    "pestName": "பூச்சி பெயர்",
+    "damageSymptom": "சேதம் அறிகுறி",
+    "management": "மேலாண்மை",
+    "diseaseName": "நோய் பெயர்",
+    "type": "வகை",
+    "causalAgent": "காரணமான காரணி",
+    "vector": "மூலக்கூறு"
   }
 }

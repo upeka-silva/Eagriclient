@@ -64,8 +64,8 @@ const CropCategoryForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+        ? t("message.successfullyAdded")
+        : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -99,7 +99,7 @@ const CropCategoryForm = () => {
         <PageHeader
           saving={saving}
           state={state}
-          formName="crop category"
+          formName="cropCategory"
           goBack={goBack}
         />
         <FormButtonGroup
@@ -119,7 +119,7 @@ const CropCategoryForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>{t("cropcategory")["category code"]}</FieldName>
+              <FieldName>{t("cropCategoryPage.code")}</FieldName>
               <TextField
                 name="categoryId"
                 id="categoryId"
@@ -144,7 +144,7 @@ const CropCategoryForm = () => {
           </Grid>
           <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>{t("cropcategory")["description"]}</FieldName>
+              <FieldName>{t("cropCategoryPage.description")}</FieldName>
               <TextField
                 name="name"
                 id="name"

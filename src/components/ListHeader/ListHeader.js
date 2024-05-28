@@ -13,7 +13,6 @@ const ListHeader = ({ title }) => {
       fontFamily={Fonts.fontStyle1}
     >
       {t(title)}
-      {/* {title} */}
     </Typography>
   );
 };

@@ -131,7 +131,7 @@ const CropCategory = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -178,7 +178,7 @@ const CropCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop category" />
+      <ListHeader title="cropCategory" />
 
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
@@ -193,7 +193,7 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onCreate} title={t("buttontooltip")["add"]}>
+              <Button onClick={onCreate} title={t("buttonTooltip.add")}>
                 <Add />
                 {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
@@ -202,7 +202,7 @@ const CropCategory = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onEdit} title={t("buttontooltip")["edit"]}>
+                <Button onClick={onEdit} title={t("buttonTooltip.edit")}>
                   <Edit />
                   {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
@@ -212,7 +212,7 @@ const CropCategory = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onView} title={t("buttontooltip")["view"]}>
+                <Button onClick={onView} title={t("buttonTooltip.view")}>
                   <Vrpano />
                   {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
@@ -222,7 +222,7 @@ const CropCategory = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onDelete} title={t("buttontooltip")["delete"]}>
+                <Button onClick={onDelete} title={t("buttonTooltip.delete")}>
                   <Delete />
                   {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
@@ -246,7 +246,7 @@ const CropCategory = () => {
 
       <ConfirmationDialog
         open={open}
-        title="do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCategory}
         loading={loading}
         onClose={close}

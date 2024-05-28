@@ -145,7 +145,7 @@ const CropSubCategory = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -190,7 +190,7 @@ const CropSubCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop sub category" />
+      <ListHeader title="cropSubCategory" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1}>
           <ExportButton onDownload={onDownload} />
@@ -204,7 +204,7 @@ const CropSubCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onCreate}>
+              <Button onClick={onCreate} title={t("buttonTooltip.add")}>
                 <Add />
                 {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
@@ -218,6 +218,7 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onEdit}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.edit")}
                 >
                   <Edit />
                   {TranslateActions(t, DEF_ACTIONS.EDIT)}
@@ -233,6 +234,7 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onView}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.view")}
                 >
                   <Vrpano />
                   {TranslateActions(t, DEF_ACTIONS.VIEW)}
@@ -248,6 +250,7 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onDelete}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.delete")}
                 >
                   <Delete />
                   {TranslateActions(t, DEF_ACTIONS.DELETE)}
@@ -272,7 +275,7 @@ const CropSubCategory = () => {
 
       <ConfirmationDialog
         open={open}
-        title="do you want to delete?"
+        title="doYouWantToDelete"
         items={selectSubCategory}
         loading={loading}
         onClose={close}

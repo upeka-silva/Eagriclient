@@ -1,29 +1,28 @@
 {
   "crop": "Crop",
   "category": "Category",
-  "crop category": "Crop Category",
-  "crop sub category": " Crop Sub Category",
-  "crop category form": "Crop Category Form",
-  "crop form": "Crop Form",
-  "crop variety": "Crop Variety",
-  "crop variety form": "Crop Variety Form",
-  "crop damages": "Crop Damages",
-  "crop damage form": "Crop Damage Form",
-  "crop calendar": "Crop Calendar",
-  "crop calendar form": "Crop Calendar Form",
-  "crop activity": "Crop Activity",
-  "crop activity form": "Crop Activity Form",
-  "crop disease form": "Crop Disease Form",
-  "crop pest": "Crop Pest",
-  "crop pest form": "Crop Pest Form",
-  "crop disease": "Crop Disease",
-  "add": "ADs",
-
-  "buttontooltip": {
+  "cropCategory": "Crop Category",
+  "cropSubCategory": "Crop Sub Category",
+  "cropCategoryForm": "Crop Category Form",
+  "cropForm": "Crop Form",
+  "cropVariety": "Crop Variety",
+  "cropVarietyForm": "Crop Variety Form",
+  "cropDamages": "Crop Damages",
+  "cropDamageForm": "Crop Damage Form",
+  "cropCalendar": "Crop Calendar",
+  "cropCalendarForm": "Crop Calendar Form",
+  "cropActivity": "Crop Activity",
+  "cropActivityForm": "Crop Activity Form",
+  "cropDiseaseForm": "Crop Disease Form",
+  "cropPest": "Crop Pest",
+  "cropPestForm": "Crop Pest Form",
+  "cropDisease": "Crop Disease",
+  
+  "buttonTooltip": {
     "export": "Export",
     "add": "Add",
     "view": "View",
-    "view_list": "View_List",
+    "viewList": "View_List",
     "edit": "Edit",
     "delete": "Delete",
     "approve": "Approve",
@@ -31,15 +30,15 @@
     "generate": "Generate"
   },
 
-  "crudbutton": {
+  "crudButton": {
     "add": "ADD",
     "edit": "EDIT",
     "view": "VIEW",
     "delete": "DELETE",
-    "view_list": "VIEW_LIST",
+    "viewList": "VIEW_LIST",
     "approve": "APPROVE",
     "assign": "ASSIGN",
-    "generate": "GENETARE"
+    "generate": "GENERATE"
   },
 
   "action": {
@@ -49,29 +48,69 @@
     "save": "SAVE",
     "update": "UPDATE",
     "reset": "RESET",
-    "Verify": "VERIFY",
+    "verify": "VERIFY",
     "back": "BACK",
     "ok": "OK",
     "cancel": "CANCEL"
   },
 
   "message": {
-    "do you want to delete?": "Do you want to delete?"
+    "doYouWantToDelete": "Do you want to delete?",
+    "successfullyAdded":"Successfully Added",
+    "successfullyUpdated":"Successfully Updated",
+    "successfullyDeleted" : "Successfully Deleted"
   },
 
-  "cropcategory": {
-    "crop category": "Crop Category",
+  "cropCategoryPage": {
+    "cropCategory": "Crop Category",
     "code": "Code",
-    "category code": "Category Code",
+    "categoryCode": "Category Code",
     "description": "Description"
   },
 
-  "cropsubcategory": {
-    "crop category": "Crop Category",
-    "crop sub category": "Crop Sub Category",
+  "cropSubCategoryPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
     "description": "Description",
-    "category id": "Category ID",
+    "categoryId": "Category ID",
     "code": "Code",
-    "category code": "Category Code"
+    "categoryCode": "Category Code"
+  },
+
+  "cropPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
+    "subCategory": "Sub Category",
+    "crop": "Crop",
+    "scientificName": "Scientific Name",
+    "cropId": "Crop ID",
+    "description": "Description",
+    "subCategoryId": "Sub Category ID",
+    "cropType": "Crop Type",
+    "family": "Family",
+    "plantationCrop": "Plantation Crop",
+    "selectCropImage": "Select Crop Image",
+    "general": "GENERAL",
+    "pest": "PEST",
+    "disease": "DISEASE",
+    "climaticRequirements": "Climatic Requirements",
+    "optimumTemperature": "Optimum Temperature",
+    "annualRainfall": "Annual Rainfall",
+    "altitude": "Altitude",
+    "soil": "Soil",
+    "soilType": "Soil Type",
+    "soilCharacteristics": "Soil Characteristics",
+    "soilPhRange": "Soil PH Range",
+    "other": "Other",
+    "harvesting": "Harvesting",
+    "suitableCultivationAreas": "Suitable Cultivation Areas",
+    "nurseryEstablishmentPeriod": "Nursery Establishment Period",
+    "pestName": "Pest Name",
+    "damageSymptom": "Damage Symptom",
+    "management": "Management",
+    "diseaseName": "Disease Name",
+    "type": "Type",
+    "causalAgent": "Causal Agent",
+    "vector": "Vector"
   }
 }
