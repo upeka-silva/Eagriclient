@@ -54,9 +54,9 @@ const AppHeader = () => {
   };
 
   const languages = [
-    { code: "en", lang: "English", variant: variants.button1 },
-    { code: "si", lang: "Sinhala", variant: variants.button2 },
-    { code: "ta", lang: "Tamil", variant: variants.button3 },
+    { code: "en", lang: "EN", variant: variants.button1 },
+    { code: "si", lang: "SI", variant: variants.button2 },
+    { code: "ta", lang: "TA", variant: variants.button3 },
   ];
 
   const { t, i18n } = useTranslation();
