@@ -17,6 +17,7 @@ import {
 } from "../../../redux/actions/crop/cropSubCategory/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useTranslation } from "react-i18next";
 
 const CropSubCategoryForm = () => {
   useUserAccessValidation();
@@ -28,7 +29,7 @@ const CropSubCategoryForm = () => {
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
   const [options, setOptions] = useState([]);
-
+  const {t} = useTranslation();
   const goBack = () => {
     navigate("/crop/sub-category");
   };
@@ -81,8 +82,8 @@ const CropSubCategoryForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -129,7 +130,7 @@ const CropSubCategoryForm = () => {
   return (
     <div>
       <FormWrapper>
-        <PageHeader saving={saving} goBack={goBack} formName="Crop Sub Category" state={state} />
+        <PageHeader saving={saving} goBack={goBack} formName="cropSubCategory" state={state} />
         <FormButtonGroup
           {...{
             state,
@@ -151,7 +152,7 @@ const CropSubCategoryForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Sub Category ID</FieldName>
+              <FieldName>{t("cropSubCategoryPage.cropSubCategory")}</FieldName>
               <TextField
                 name="subCategoryId"
                 id="subCategoryId"
@@ -176,7 +177,7 @@ const CropSubCategoryForm = () => {
           </Grid>
           <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>Description</FieldName>
+              <FieldName>{t("cropSubCategoryPage.description")}</FieldName>
               <TextField
                 name="description"
                 id="description"
@@ -197,7 +198,7 @@ const CropSubCategoryForm = () => {
           </Grid>
           <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>Category ID</FieldName>
+              <FieldName>{t("cropSubCategoryPage.categoryId")}</FieldName>
               <Autocomplete
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 options={options}

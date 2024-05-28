@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import DialogBox from "../PageLayout/DialogBox";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
+import { useTranslation } from "react-i18next";
 
 const ConfirmationDialog = ({
   open,
@@ -38,6 +39,7 @@ const ConfirmationDialog = ({
     setDialogSelectedTypes(newSelected);
   };
 
+  const {t} = useTranslation();
   const getPropertyValue = (obj, path) => {
     const properties = path.split(".");
     let value = obj;
@@ -53,7 +55,7 @@ const ConfirmationDialog = ({
   return (
     <DialogBox
       open={open}
-      title={title && title}
+      title={t("message")[title] && t("message")[title]}
       actions={
         <ActionWrapper>
           <Button
@@ -62,7 +64,7 @@ const ConfirmationDialog = ({
             onClick={onConfirm}
             sx={{ ml: "8px" }}
           >
-            Ok
+            {t("action")["ok"]}
           </Button>
           <Button
             variant="contained"
@@ -70,7 +72,7 @@ const ConfirmationDialog = ({
             onClick={onClose}
             sx={{ ml: "8px" }}
           >
-            Cancel
+            {t("action")["cancel"]}
           </Button>
         </ActionWrapper>
       }

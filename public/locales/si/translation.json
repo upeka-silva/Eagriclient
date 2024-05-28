@@ -1,0 +1,116 @@
+{
+  "crop": "බෝග",
+  "category": "වර්ගය",
+  "cropCategory": "බෝග වර්ගය",
+  "cropSubCategory": "බෝග උප කාණ්ඩය",
+  "cropCategoryForm": "බෝග වර්ග පෝර්මය",
+  "cropForm": "බෝග පෝර්මය",
+  "cropVariety": "බෝග ප්‍රභේදය",
+  "cropVarietyForm": "බෝග ප්‍රභේද පෝර්මය",
+  "cropDamages": "බෝග හානි",
+  "cropDamageForm": "බෝග හානි පෝර්මය",
+  "cropCalendar": "බෝග දින දර්ශනය",
+  "cropCalendarForm": "බෝග දින දර්ශනය පෝර්මය",
+  "cropActivity": "බෝග කාර්යපටිපාටිය",
+  "cropActivityForm": "බෝග කාර්යපටිපාටි පෝර්මය",
+  "cropDiseaseForm": "බෝග රෝග පෝර්මය",
+  "cropPest": "බෝග උපද්‍රවය",
+  "cropPestForm": "බෝග උපද්‍රවය පෝර්මය",
+  "cropDisease": "බෝග රෝග",
+
+  "buttonTooltip": {
+    "export": "බාගත කිරීම",
+    "add": "එකතු කරන්න",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "viewList": "ලැයිස්තුව බලන්න",
+    "approve": "අනුමත කරන්න",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය කරන්න"
+  },
+
+  "crudButton": {
+    "add": "නව",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "viewList": "ලැයිස්තුව",
+    "approve": "අනුමත",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය"
+  },
+
+  "action": {
+    "add": "නව",
+    "edit": "සංස්කරණය",
+    "save": "සුරකින්න",
+    "view": "දර්ශනය",
+    "update": "යාවත්කාලීන",
+    "reset": "යළි පිහිටුවීම",
+    "verify": "තහවුරු කරන්න",
+    "back": "ආපසු",
+    "ok": "ඔව්",
+    "cancel": "අවලංගු කරන්න"
+  },
+
+  "message": {
+    "doYouWantToDelete": "ඔබට මැකීමට අවශ්‍යද?",
+    "successfullyAdded":"සාර්ථකව එකතු කරන ලදී",
+    "successfullyUpdated":"සාර්ථකව යාවත්කාලීන කරන ලදී",
+    "successfullyDeleted" : "සාර්ථකව මකා ඇත"
+  },
+
+  "cropCategoryPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "code": "කේතය",
+    "categoryCode": "කාණ්ඩ කේතය",
+    "description": "විස්තරය"
+  },
+
+  "cropSubCategoryPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "description": "විස්තරය",
+    "categoryId": "කාණ්ඩ අංකය",
+    "code": "කේතය",
+    "categoryCode": "කාණ්ඩ කේතය"
+  },
+
+  "cropPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "subCategory": "උප කාණ්ඩය",
+    "crop": "බෝගය",
+    "scientificName": "විද්‍යාත්මක නම",
+    "cropId": "බෝග අංකය",
+    "description": "විස්තරය",
+    "subCategoryId": "උප කාණ්ඩ අංකය",
+    "cropType": "බෝග වර්ගය",
+    "family": "කුලය",
+    "plantationCrop": "තොටුපල බෝගය",
+    "selectCropImage": "බෝග රූපය තෝරන්න",
+    "general": "සාමාන්‍ය",
+    "pest": "පළිබෝධ",
+    "disease": "රෝගය",
+    "climaticRequirements": "කාලගුණික අවශ්‍යතා",
+    "optimumTemperature": "අපෙක්ෂිත උෂ්ණත්වය",
+    "annualRainfall": "වාර්ෂික වර්ෂාපතනය",
+    "altitude": "උස්සීම",
+    "soil": "පාංශු",
+    "soilType": "පාංශු වර්ගය",
+    "soilCharacteristics": "පාංශු ලක්ෂණ",
+    "soilPhRange": "පාංශු PH පරාසය",
+    "other": "වෙනත්",
+    "harvesting": "නැඹුරු කිරීම",
+    "suitableCultivationAreas": "සුදුසු වගා කලාප",
+    "nurseryEstablishmentPeriod": "තවාන් පිහිටුවීමේ කාලය",
+    "pestName": "පළිබෝධ නාමය",
+    "damageSymptom": "හානි ලක්ෂණ",
+    "management": "කළමනාකරණය",
+    "diseaseName": "රෝග නම",
+    "type": "වර්ගය",
+    "causalAgent": "හේතුකාරක නියෝජිතයා",
+    "vector": "දෛශිකය"
+  }
+}

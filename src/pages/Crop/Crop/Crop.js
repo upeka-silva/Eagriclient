@@ -31,8 +31,11 @@ import {
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const Crop = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -174,7 +177,7 @@ const Crop = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop" />
+      <ListHeader title="crop" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -190,7 +193,7 @@ const Crop = () => {
             >
               <Button onClick={onCreate}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectCrop.length === 1 && (
@@ -199,7 +202,7 @@ const Crop = () => {
               >
                 <Button onClick={onEdit}>
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -209,7 +212,7 @@ const Crop = () => {
               >
                 <Button onClick={onView}>
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -219,7 +222,7 @@ const Crop = () => {
               >
                 <Button onClick={onDelete}>
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}

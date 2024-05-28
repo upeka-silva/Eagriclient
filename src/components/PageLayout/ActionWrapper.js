@@ -12,5 +12,5 @@ export const ActionWrapper = styled(Stack)`
 `;
 
 export const makeCapitalize = (str) => {
-  return str?.charAt(0)?.toUpperCase() + str?.slice(1).toLowerCase();
+  return str?.toLowerCase();
 };

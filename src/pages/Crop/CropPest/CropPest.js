@@ -171,7 +171,7 @@ const CropPest = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Pest" />
+      <ListHeader title="crop pest" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />

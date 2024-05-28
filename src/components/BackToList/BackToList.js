@@ -2,8 +2,10 @@ import { ArrowCircleLeftRounded } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import React from "react";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
+import { useTranslation } from "react-i18next";
 
 function BackToList({ goBack }) {
+  const { t } = useTranslation();
   return (
     <ActionWrapper isLeft>
       <Button
@@ -14,7 +16,6 @@ function BackToList({ goBack }) {
         size="small"
         sx={{
           height: '25px',
-          width: '26px',
           fontSize: '13px',
           textTransform: 'capitalize',
           '& .MuiButton-startIcon': {
@@ -22,7 +23,7 @@ function BackToList({ goBack }) {
           },
         }}
       >
-        Back
+        {t("action").back}
       </Button>
     </ActionWrapper>
   );

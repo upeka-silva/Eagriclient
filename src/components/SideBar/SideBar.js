@@ -23,6 +23,7 @@ import {
   SideBarItemToolTip,
 } from "./Components";
 import { getUserPermissionForLeftNav } from "../../utils/helpers/permission";
+import { useTranslation } from "react-i18next";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -32,6 +33,7 @@ const SideBar = () => {
   const { service } = useServiceContext();
 
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const toggleDrawer = () => {
     setOpen((current) => !current);
@@ -137,7 +139,7 @@ const SideBar = () => {
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
-                        primary={r?.name}
+                        primary={t(r?.name)}
                         sx={{ textDecoration: "none !important" }}
                       />
                       <ListItemIcon sx={{ minWidth: "unset !important" }}>
@@ -167,7 +169,7 @@ const SideBar = () => {
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
-                        primary={r.name}
+                        primary={t(r.name)}
                         sx={{ textDecoration: "none !important" }}
                       />
                     </SideBarItemButton>
@@ -214,7 +216,7 @@ const SideBar = () => {
                 >
                   {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                   <ListItemText
-                    primary={r.name}
+                    primary={t(r.name)}
                     sx={{ textDecoration: "none !important" }}
                   />
                   <ListItemIcon sx={{ minWidth: "unset !important" }}>
@@ -249,7 +251,7 @@ const SideBar = () => {
               >
                 {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                 <ListItemText
-                  primary={r.name}
+                  primary={t(r.name)}
                   sx={{ textDecoration: "none !important" }}
                 />
               </SideBarItemButton>
@@ -288,7 +290,7 @@ const SideBar = () => {
                 >
                   <ListItemIcon />
                   <ListItemText
-                    primary={r.name}
+                    primary={t(r.name)}
                     sx={{ textDecoration: "none !important" }}
                   />
                 </SideBarItemButton>

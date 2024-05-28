@@ -14,7 +14,7 @@ import {
 } from "../../../redux/actions/crop/cropCategory/action";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-
+import { useTranslation } from "react-i18next";
 const CropCategoryForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
@@ -23,7 +23,7 @@ const CropCategoryForm = () => {
   const [formData, setFormData] = useState(state?.target || {});
   const [saving, setSaving] = useState(false);
   const { addSnackBar } = useSnackBars();
-
+  const { t } = useTranslation();
   const goBack = () => {
     navigate("/crop/category");
   };
@@ -64,8 +64,8 @@ const CropCategoryForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+        ? t("message.successfullyAdded")
+        : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -96,7 +96,12 @@ const CropCategoryForm = () => {
   return (
     <>
       <FormWrapper>
-        <PageHeader saving={saving} state={state} formName="Crop Category" goBack={goBack}/>
+        <PageHeader
+          saving={saving}
+          state={state}
+          formName="cropCategory"
+          goBack={goBack}
+        />
         <FormButtonGroup
           state={state}
           DEF_ACTIONS={DEF_ACTIONS}
@@ -114,7 +119,7 @@ const CropCategoryForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Category Code</FieldName>
+              <FieldName>{t("cropCategoryPage.code")}</FieldName>
               <TextField
                 name="categoryId"
                 id="categoryId"
@@ -132,14 +137,14 @@ const CropCategoryForm = () => {
                     borderRadius: "8px",
                   },
                 }}
-                inputProps={{style: {textTransform: 'uppercase'}}}
+                inputProps={{ style: { textTransform: "uppercase" } }}
                 size="small"
               />
             </FieldWrapper>
           </Grid>
           <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>Description</FieldName>
+              <FieldName>{t("cropCategoryPage.description")}</FieldName>
               <TextField
                 name="name"
                 id="name"

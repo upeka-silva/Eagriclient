@@ -1,12 +1,12 @@
 import { Button, useTheme } from "@mui/material";
 import React from "react";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
-import { Add, Circle, Edit } from "@mui/icons-material";
+import { Circle } from "@mui/icons-material";
 import { ButtonWrapper } from "../FormLayout/ButtonWrapper";
 import { FieldWrapper } from "../FormLayout/FieldWrapper";
 import { FieldName } from "../FormLayout/FieldName";
 import { tokens } from "../../utils/theme/app-theme";
-import BackToList from "../BackToList/BackToList";
+import { useTranslation } from "react-i18next";
 
 const FormButtonGroup = ({
   state,
@@ -23,7 +23,7 @@ const FormButtonGroup = ({
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+  const { t } = useTranslation();
   return (
     <ButtonWrapper
       style={{
@@ -50,7 +50,9 @@ const FormButtonGroup = ({
                 sx={{ display: isHideUpdateButton ? "none" : undefined }}
               >
                 {/* {state?.action === DEF_ACTIONS.ADD ? <Add /> : <Edit />} */}
-                {state?.action === DEF_ACTIONS.ADD ? "SAVE" : "UPDATE"}
+                {state?.action === DEF_ACTIONS.ADD
+                  ? t("action").save
+                  : t("action").update}
               </Button>
               <Button
                 disabled={state?.action === DEF_ACTIONS.VIEW || !enableSave()}
@@ -64,7 +66,7 @@ const FormButtonGroup = ({
                   display: isHideResetButton ? "none" : undefined,
                 }}
               >
-                RESET
+                {t("action").reset}
               </Button>
               {isVerifiedFunctionality && state?.action !== DEF_ACTIONS.ADD && (
                 <Button
@@ -74,7 +76,7 @@ const FormButtonGroup = ({
                   size="small"
                   sx={{ marginLeft: "10px" }}
                 >
-                  <span>VERIFY</span>
+                  <span>{t("action").verify}</span>
                 </Button>
               )}
             </>
