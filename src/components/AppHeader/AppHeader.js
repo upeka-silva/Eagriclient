@@ -114,7 +114,6 @@ const AppHeader = () => {
             .includes(location.pathname)
       ) || {};
     if (r.children) {
-      console.log("rooooo",r)
       screenName =
         `${t(r.name)} > ${
           t((

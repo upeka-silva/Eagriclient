@@ -52,8 +52,6 @@ const ConfirmationDialog = ({
     return value;
   };
 
-  console.log("delete", title);
-
   return (
     <DialogBox
       open={open}
