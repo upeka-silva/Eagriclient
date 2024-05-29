@@ -3,22 +3,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import {
-  Autocomplete,
-  Box,
-  Button,
-  Grid,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
-import { Colors } from "../../../utils/constants/Colors";
+import { Autocomplete, Box, Button, Grid, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import Checkbox from "@mui/material/Checkbox";
 import { get_CropDiseaseList } from "../../../redux/actions/crop/CropDisease/action";
+import { useTranslation } from "react-i18next";
 
 export default function AddCropDiseaseDialog({
   open,
@@ -28,6 +19,7 @@ export default function AddCropDiseaseDialog({
   mode,
   cropId,
 }) {
+  const { t } = useTranslation();
   const [formDataD, setformDataD] = useState({});
   const [isDataFetch, setIsDataFetch] = useState({});
   const [cropDisease, setCropDisease] = useState({});
@@ -71,7 +63,7 @@ export default function AddCropDiseaseDialog({
           fontFamily: Fonts.fontStyle1,
         }}
       >
-        {mode} Crop Diseases
+        {t(`cropDiseasePage.${mode}` + `cropDiseases`)}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex" }}>
@@ -85,7 +77,7 @@ export default function AddCropDiseaseDialog({
           >
             <Grid item lg={12} sm={12} sx={12}>
               <FieldWrapper>
-                <FieldName>Disease</FieldName>
+                <FieldName>{t("cropDiseasePage.disease")}</FieldName>
                 <Autocomplete
                   multiple
                   options={cropDisease}
@@ -119,7 +111,7 @@ export default function AddCropDiseaseDialog({
           size="small"
           sx={{ marginLeft: "10px" }}
         >
-          Cancel
+          {t("action.cancel")}
         </Button>
         <Button
           disabled={mode === DEF_ACTIONS.VIEW}
@@ -129,7 +121,7 @@ export default function AddCropDiseaseDialog({
           size="small"
           sx={{ marginLeft: "20px" }}
         >
-          Save
+          {t("action.save")}
         </Button>
       </DialogActions>
     </Dialog>

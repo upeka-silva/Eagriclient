@@ -211,5 +211,17 @@
     "chemicalControl": "රසායනික පාලනය",
     "inStoreChemicalControl": "ගබඩාවේ රසායනික පාලනය",
     "other": "අනෙක්"
+  },
+
+  "cropDiseasePage": {
+    "disease": "රෝගය",
+    "diseaseName": "රෝග නාමය",
+    "type": "වර්ගය",
+    "causalAgent": "හේතුකරු",
+    "vector": "වෙක්ටර්",
+    "diseaseType": "රෝග වර්ගය",
+    "affectedPart": "බලපෑම ඇති කොටස",
+    "symptoms": "රෝග ලක්ෂණ",
+    "management": "කළමනාකරණය"
   }
 }

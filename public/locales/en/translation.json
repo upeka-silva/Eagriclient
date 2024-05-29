@@ -211,5 +211,17 @@
     "chemicalControl": "Chemical Control",
     "inStoreChemicalControl": "In Store Chemical Control",
     "other": "Other"
+  },
+
+  "cropDiseasePage": {
+    "disease": "Disease",
+    "diseaseName": "Disease Name",
+    "type": "Type",
+    "causalAgent": "Causal Agent",
+    "vector": "Vector",
+    "diseaseType": "Disease Type",
+    "affectedPart": "Affected Part",
+    "symptoms": "Symptoms",
+    "management": "Management"
   }
 }
