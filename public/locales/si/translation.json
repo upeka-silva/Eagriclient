@@ -194,10 +194,22 @@
     "startOfWeek": "සතියේ ආරම්භය",
     "action": "ක්‍රියාව"
   },
-  
+
   "cropActivityPage": {
     "name": "නම",
     "activityDescription": "ක්රියාකාරිත්වය විස්තරය",
     "action": "ක්‍රියාව"
+  },
+
+  "cropPestPage": {
+    "cropPests": "බෝගය කෘමි",
+    "pestName": "කෘමි නාමය",
+    "scientificName": "විද්‍යාත්මක නාමය",
+    "damageSymptom": "හානිය ලක්ෂණය",
+    "management": "කළමනාකරණය",
+    "inStore": "ගබඩාවේ",
+    "chemicalControl": "රසායනික පාලනය",
+    "inStoreChemicalControl": "ගබඩාවේ රසායනික පාලනය",
+    "other": "අනෙක්"
   }
 }

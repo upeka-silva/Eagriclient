@@ -41,7 +41,7 @@
     "approve": "ஒப்புதல்",
     "assign": "ஒதுக்க",
     "generate": "உருவாக்க",
-    "export":"பதிவிறக்க"
+    "export": "பதிவிறக்க"
   },
 
   "action": {
@@ -72,7 +72,7 @@
     "successfullyExecuted": "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
     "deleteQuestion": "கேள்வியை நீக்கு",
     "deleteCalendarActivity": "கேலெண்டர் செயல்பாட்டை நீக்கு",
-    "failedToDownloadCropActivityExcel":"பயிர் செயல்பாடு எக்செல் பதிவிறக்க முடியவில்லை"
+    "failedToDownloadCropActivityExcel": "பயிர் செயல்பாடு எக்செல் பதிவிறக்க முடியவில்லை"
   },
 
   "cropCategoryPage": {
@@ -194,10 +194,22 @@
     "startOfWeek": "வாரத்தின் தொடக்கம்",
     "action": "செயல்"
   },
-  
+
   "cropActivityPage": {
     "name": "பெயர்",
     "activityDescription": "செயல்பாடு விளக்கம்",
-    "action":"செயல்"
+    "action": "செயல்"
+  },
+
+  "cropPestPage": {
+    "cropPests": "பயிர் பூச்சி",
+    "pestName": "பூச்சி பெயர்",
+    "scientificName": "அறிவியல் பெயர்",
+    "damageSymptom": "சேதம் அறிகுறி",
+    "management": "மேலாண்மை",
+    "inStore": "கடைசியில்",
+    "chemicalControl": "ரசாயன கட்டுப்பாடு",
+    "inStoreChemicalControl": "கடைசி ரசாயன கட்டுப்பாடு",
+    "other": "மற்றவை"
   }
 }

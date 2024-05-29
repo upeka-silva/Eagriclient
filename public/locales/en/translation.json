@@ -127,7 +127,7 @@
     "causalAgent": "Causal Agent",
     "vector": "Vector"
   },
-  
+
   "cropVarietyPage": {
     "cropCategory": "Crop Category",
     "cropSubCategory": "Crop Sub Category",
@@ -199,5 +199,17 @@
     "name": "Name",
     "activityDescription": "Activity Description",
     "action": "Action"
+  },
+
+  "cropPestPage": {
+    "cropPests": "Crop Pests",
+    "pestName": "Pest Name",
+    "scientificName": "Scientific Name",
+    "damageSymptom": "Damage Symptom",
+    "management": "Management",
+    "inStore": "In Store",
+    "chemicalControl": "Chemical Control",
+    "inStoreChemicalControl": "In Store Chemical Control",
+    "other": "Other"
   }
 }

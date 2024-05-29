@@ -1,11 +1,7 @@
 //my crop pest form
 
-import React, { useState, useEffect } from "react";
-import {
-  TextField,
-  Grid,
-  Button,
-} from "@mui/material";
+import React, { useState } from "react";
+import { TextField, Grid, Button } from "@mui/material";
 import { ButtonWrapper } from "../../../components/FormLayout/ButtonWrapper";
 import { Colors } from "../../../utils/constants/Colors";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -18,10 +14,14 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PageHeader from "../../../components/PageHeader/PageHeader";
-import { saveCropPest, updateCropPest } from "../../../redux/actions/crop/CropPest/action";
+import {
+  saveCropPest,
+  updateCropPest,
+} from "../../../redux/actions/crop/CropPest/action";
+import { useTranslation } from "react-i18next";
 
 const CropPestForm = () => {
-
+  const { t } = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -79,8 +79,8 @@ const CropPestForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -88,27 +88,22 @@ const CropPestForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
 
   const handleFormSubmit = async () => {
-    
     const saveData = {
       formData: formData,
     };
 
     if (enableSave()) {
       setSaving(true);
-  
+
       try {
         if (form && state?.action === DEF_ACTIONS.ADD) {
-          const response = await saveCropPest(
-            formData,
-            onSuccess,
-            onError
-          );
+          const response = await saveCropPest(formData, onSuccess, onError);
           setFormData(response.payload);
           console.log(response);
         }
@@ -121,8 +116,7 @@ const CropPestForm = () => {
             onSuccess,
             onError
           );
-        }
-        else {
+        } else {
           const response = await saveCropPest(
             {
               ...formData,
@@ -139,17 +133,23 @@ const CropPestForm = () => {
       }
     }
   };
-  
-    
+
   return (
     <>
-    <PageHeader saving={saving} state={state} goBack={goBack} formName=" Crop Pest"  />
-    <ButtonWrapper>
+      <PageHeader
+        saving={saving}
+        state={state}
+        goBack={goBack}
+        formName="cropPest"
+      />
+      <ButtonWrapper>
         <ActionWrapper>
           {saving ? (
             <Button variant="contained" size="small">
-              {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-              ADDING...
+              {state?.action === DEF_ACTIONS.ADD
+                ? t("action.adding")
+                : t("action.updating")}
+              t("action.adding")
             </Button>
           ) : (
             <>
@@ -157,14 +157,13 @@ const CropPestForm = () => {
                 variant="outlined"
                 disabled={false}
                 onClick={handleFormSubmit}
-              
                 size="small"
                 color="success"
                 style={{ marginLeft: "10px" }}
               >
                 {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
                 {/* <Add/> */}
-                Save
+                {t("action.save")}
               </Button>
               <Button
                 onClick={resetForm}
@@ -173,214 +172,206 @@ const CropPestForm = () => {
                 size="small"
                 sx={{ marginLeft: "10px" }}
               >
-                RESET
+                {t("action.reset")}
               </Button>
             </>
           )}
         </ActionWrapper>
       </ButtonWrapper>
       {/* <Box sx={{ padding: "20px" }}> */}
-        <Grid
-          container
-          sx={{
-            border: "1px solid #bec0c2",
-            borderRadius: "5px",
-          }}
-        >
-          <Grid item sm={3} md={3} lg={3}>
-            <FieldWrapper>
-              <FieldName>Pest Name</FieldName>
-              <TextField
-                name="pestName"
-                id="pestName"
-                value={formData?.pestName || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "pestName")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-          </Grid>
-          <Grid item sm={3} md={3} lg={5}>
+      <Grid
+        container
+        sx={{
+          border: "1px solid #bec0c2",
+          borderRadius: "5px",
+        }}
+      >
+        <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-              <FieldName>Scientific Name</FieldName>
-              <TextField
-                name="scientificName"
-                id="scientificName"
-                value={formData?.scientificName || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "scientificName")
-                }
-                size="small"
-                fullWidth
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>Damage Symptom</FieldName>
-              <TextField
-                name="damageSymptom"
-                id="damageSymptom"
-                value={formData?.damageSymptom || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "damageSymptom")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>Management</FieldName>
-              <TextField
-                name="management"
-                id="management"
-                value={formData?.management || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "management")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>In Store</FieldName>
-              <TextField
-                name="inStore"
-                id="inStore"
-                value={formData?.inStore || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "inStore")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>Chemical Control</FieldName>
-              <TextField
-                name="chemicalControl"
-                id="chemicalControl"
-                value={formData?.chemicalControl || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "chemicalControl")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>In Store Chemical Control</FieldName>
-              <TextField
-                name="inStoreChemicalControl"
-                id="inStoreChemicalControl"
-                value={formData?.inStoreChemicalControl || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "inStoreChemicalControl")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
-          <Grid item sm={3} md={3} lg={6}>
-          <FieldWrapper>
-              <FieldName>Other</FieldName>
-              <TextField
-                name="other"
-                id="other"
-                value={formData?.other || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "other")
-                }
-                size="small"
-                fullWidth
-                multiline
-                rows={10}
-                sx={{
-                  "& .MuiInputBase-root": {
-                    borderRadius: "8px",
-                    backgroundColor: `${Colors.white}`,
-                  },
-                }}
-              />
-            </FieldWrapper>
-            </Grid>
+            <FieldName>{t("cropPestPage.pestName")}</FieldName>
+            <TextField
+              name="pestName"
+              id="pestName"
+              value={formData?.pestName || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "pestName")}
+              size="small"
+              fullWidth
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
         </Grid>
+        <Grid item sm={3} md={3} lg={5}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.scientificName")}</FieldName>
+            <TextField
+              name="scientificName"
+              id="scientificName"
+              value={formData?.scientificName || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "scientificName")
+              }
+              size="small"
+              fullWidth
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.damageSymptom")}</FieldName>
+            <TextField
+              name="damageSymptom"
+              id="damageSymptom"
+              value={formData?.damageSymptom || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "damageSymptom")
+              }
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.management")}</FieldName>
+            <TextField
+              name="management"
+              id="management"
+              value={formData?.management || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "management")
+              }
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.inStore")}</FieldName>
+            <TextField
+              name="inStore"
+              id="inStore"
+              value={formData?.inStore || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "inStore")}
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.chemicalControl")}</FieldName>
+            <TextField
+              name="chemicalControl"
+              id="chemicalControl"
+              value={formData?.chemicalControl || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "chemicalControl")
+              }
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.inStoreChemicalControl")}</FieldName>
+            <TextField
+              name="inStoreChemicalControl"
+              id="inStoreChemicalControl"
+              value={formData?.inStoreChemicalControl || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) =>
+                handleChange(e?.target?.value || "", "inStoreChemicalControl")
+              }
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+        <Grid item sm={3} md={3} lg={6}>
+          <FieldWrapper>
+            <FieldName>{t("cropPestPage.other")}</FieldName>
+            <TextField
+              name="other"
+              id="other"
+              value={formData?.other || ""}
+              disabled={state?.action === DEF_ACTIONS.VIEW}
+              onChange={(e) => handleChange(e?.target?.value || "", "other")}
+              size="small"
+              fullWidth
+              multiline
+              rows={10}
+              sx={{
+                "& .MuiInputBase-root": {
+                  borderRadius: "8px",
+                  backgroundColor: `${Colors.white}`,
+                },
+              }}
+            />
+          </FieldWrapper>
+        </Grid>
+      </Grid>
       {/* </Box> */}
     </>
-);
-
-
-}
+  );
+};
 
 export default CropPestForm;
