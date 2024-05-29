@@ -7,20 +7,15 @@ import {
   Autocomplete,
   Box,
   Button,
-  Grid,
-  MenuItem,
-  Select,
-  TextField,
+  Grid, TextField
 } from "@mui/material";
-import { Colors } from "../../../utils/constants/Colors";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import Checkbox from "@mui/material/Checkbox";
 import { get_CropPestList } from "../../../redux/actions/crop/CropPest/action";
-import {CircularProgress} from "@mui/material";
-import { assignCropPest } from "../../../redux/actions/crop/CropPest/action";
+import { CircularProgress } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 export default function AddCropPestDialog({
   open,
@@ -32,6 +27,7 @@ export default function AddCropPestDialog({
   const [formDataD, setformDataD] = useState({});
   const [isDataFetch, setIsDataFetch] = useState({});
   const [cropPests, setCropPests] = useState({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsDataFetch(false);
@@ -42,7 +38,7 @@ export default function AddCropPestDialog({
 
     setformDataD(formData);
   }, [formData]);
-  
+
   const handleChange = (value, target) => {
     setformDataD((current = {}) => {
       let newData = { ...current };
@@ -72,7 +68,7 @@ export default function AddCropPestDialog({
           fontFamily: Fonts.fontStyle1,
         }}
       >
-        {mode} Crop Pests
+        {t(`cropPestPage.${mode}` + `cropPests`)}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex" }}>
@@ -87,27 +83,31 @@ export default function AddCropPestDialog({
             <Grid item lg={12} sm={12} sx={12}>
               <FieldWrapper>
                 <FieldName>Pest</FieldName>
-                {
-                isDataFetch ?
-                <Autocomplete
-                  multiple
-                  options={cropPests}
-                  value={formData?.id}
-                  getOptionLabel={(i) => `${i.pestName} - ${i.scientificName}`}
-                  onChange={(event, value) => {
-                    handleChange(value, "cropPest");
-                  }}
-                  disableClearable
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                /> : <CircularProgress/>}
+                {isDataFetch ? (
+                  <Autocomplete
+                    multiple
+                    options={cropPests}
+                    value={formData?.id}
+                    getOptionLabel={(i) =>
+                      `${i.pestName} - ${i.scientificName}`
+                    }
+                    onChange={(event, value) => {
+                      handleChange(value, "cropPest");
+                    }}
+                    disableClearable
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                      },
+                    }}
+                    renderInput={(params) => (
+                      <TextField {...params} size="small" />
+                    )}
+                    fullWidth
+                  />
+                ) : (
+                  <CircularProgress />
+                )}
               </FieldWrapper>
             </Grid>
           </Grid>
@@ -122,7 +122,7 @@ export default function AddCropPestDialog({
           size="small"
           sx={{ marginLeft: "10px" }}
         >
-          Cancel
+          {t("action.cancel")}
         </Button>
         <Button
           disabled={mode === DEF_ACTIONS.VIEW}
@@ -132,7 +132,7 @@ export default function AddCropPestDialog({
           size="small"
           sx={{ marginLeft: "20px" }}
         >
-          Save
+          {t("action.save")}
         </Button>
       </DialogActions>
     </Dialog>

@@ -12,10 +12,10 @@ const CropPestList = ({
 }) => {
   const { t } = useTranslation();
   const columns = [
-    { field: "pestName", headerName: t("cropPage.pestName") },
-    { field: "scientificName", headerName: t("cropPage.scientificName") },
-    { field: "damageSymptom", headerName: t("cropPage.damageSymptom") },
-    { field: "management", headerName: t("cropPage.management") },
+    { field: "pestName", headerName: t("cropPestPage.pestName") },
+    { field: "scientificName", headerName: t("cropPestPage.scientificName") },
+    { field: "damageSymptom", headerName: t("cropPestPage.damageSymptom") },
+    { field: "management", headerName: t("cropPestPage.management") },
   ];
 
   return (
