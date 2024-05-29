@@ -1,25 +1,35 @@
 {
-  "crop": {
-    "crop": "Crop",
-    "category": "Category",
-    "cropCategory": "Crop Category",
-    "cropSubCategory": "Crop Sub Category",
-    "cropCategoryForm": "Crop Category Form",
-    "cropForm": "Crop Form",
-    "cropVariety": "Crop Variety",
-    "cropVarietyForm": "Crop Variety Form",
-    "cropDamages": "Crop Damages",
-    "cropDamageForm": "Crop Damage Form",
-    "cropCalendar": "Crop Calendar",
-    "cropCalendarForm": "Crop Calendar Form",
-    "cropActivity": "Crop Activity",
-    "cropActivityForm": "Crop Activity Form",
-    "cropDiseaseForm": "Crop Disease Form",
-    "cropPest": "Crop Pest",
-    "cropPestForm": "Crop Pest Form",
-    "cropDisease": "Crop Disease",
-    "damageTypes": "Damage Types",
-    "cropActivities": "Crop Activities"
+  "crop": "Crop",
+  "category": "Category",
+  "cropCategory": "Crop Category",
+  "cropSubCategory": "Crop Sub Category",
+  "cropCategoryForm": "Crop Category Form",
+  "cropForm": "Crop Form",
+  "cropVariety": "Crop Variety",
+  "cropVarietyForm": "Crop Variety Form",
+  "cropDamages": "Crop Damages",
+  "cropDamageForm": "Crop Damage Form",
+  "cropCalendar": "Crop Calendar",
+  "cropCalendarForm": "Crop Calendar Form",
+  "cropActivity": "Crop Activity",
+  "cropActivityForm": "Crop Activity Form",
+  "cropDiseaseForm": "Crop Disease Form",
+  "cropPest": "Crop Pest",
+  "cropPestForm": "Crop Pest Form",
+  "cropDisease": "Crop Disease",
+  "damageTypes": "Damage Types",
+  "cropActivities": "Crop Activities",
+  "userProfile": "User Profile",
+
+  "userProfilePage": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "dateOfBirth": "Date Of Birth",
+    "userName": "User Name",
+    "gender": "Gender",
+    "language": "Language",
+    "selectYourProfilePicture": "Select Your Profile Picture"
   },
 
   "buttonTooltip": {
@@ -62,7 +72,8 @@
     "close": "Close",
     "delete": "Delete",
     "adding": "ADDING...",
-    "updating": "UPDATING..."
+    "updating": "UPDATING...",
+    "resetPassword": "Reset Password"
   },
 
   "message": {

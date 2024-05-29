@@ -1,25 +1,35 @@
 {
-  "crop": {
-    "crop": "බෝග",
-    "category": "වර්ගය",
-    "cropCategory": "බෝග වර්ගය",
-    "cropSubCategory": "බෝග උප කාණ්ඩය",
-    "cropCategoryForm": "බෝග වර්ග පෝර්මය",
-    "cropForm": "බෝග පෝර්මය",
-    "cropVariety": "බෝග ප්‍රභේදය",
-    "cropVarietyForm": "බෝග ප්‍රභේද පෝර්මය",
-    "cropDamages": "බෝග හානි",
-    "cropDamageForm": "බෝග හානි පෝර්මය",
-    "cropCalendar": "බෝග දින දර්ශනය",
-    "cropCalendarForm": "බෝග දින දර්ශනය පෝර්මය",
-    "cropActivity": "බෝග කාර්යපටිපාටිය",
-    "cropActivityForm": "බෝග කාර්යපටිපාටි පෝර්මය",
-    "cropDiseaseForm": "බෝග රෝග පෝර්මය",
-    "cropPest": "බෝග උපද්‍රවය",
-    "cropPestForm": "බෝග උපද්‍රවය පෝර්මය",
-    "cropDisease": "බෝග රෝග",
-    "damageTypes": "හානි වර්ගය",
-    "cropActivities": "බෝග කාර්යපටිපාටි"
+  "crop": "බෝග",
+  "category": "වර්ගය",
+  "cropCategory": "බෝග වර්ගය",
+  "cropSubCategory": "බෝග උප කාණ්ඩය",
+  "cropCategoryForm": "බෝග වර්ග පෝර්මය",
+  "cropForm": "බෝග පෝර්මය",
+  "cropVariety": "බෝග ප්‍රභේදය",
+  "cropVarietyForm": "බෝග ප්‍රභේද පෝර්මය",
+  "cropDamages": "බෝග හානි",
+  "cropDamageForm": "බෝග හානි පෝර්මය",
+  "cropCalendar": "බෝග දින දර්ශනය",
+  "cropCalendarForm": "බෝග දින දර්ශනය පෝර්මය",
+  "cropActivity": "බෝග කාර්යපටිපාටිය",
+  "cropActivityForm": "බෝග කාර්යපටිපාටි පෝර්මය",
+  "cropDiseaseForm": "බෝග රෝග පෝර්මය",
+  "cropPest": "බෝග උපද්‍රවය",
+  "cropPestForm": "බෝග උපද්‍රවය පෝර්මය",
+  "cropDisease": "බෝග රෝග",
+  "damageTypes": "හානි වර්ගය",
+  "cropActivities": "බෝග කාර්යපටිපාටි",
+  "userProfile": "පරිශීලක පැතිකඩ",
+
+  "userProfilePage": {
+    "firstName": "මුල් නම",
+    "lastName": "අවසන් නම",
+    "email": "ඊමේල්",
+    "dateOfBirth": "උපන්දිනය",
+    "userName": "පරිශීලක නාමය",
+    "gender": "ස්ත්‍රී පුරුෂ භාවය",
+    "language": "භාෂාව",
+    "selectYourProfilePicture": "ඔබගේ පැතිකඩ පින්තූරය තෝරන්න"
   },
 
   "buttonTooltip": {
@@ -62,7 +72,8 @@
     "close": "වසන්න",
     "delete": "මකන්න",
     "adding": " එකතු කරනවා...",
-    "updating": "යාවත්කාලීන කිරීම..."
+    "updating": "යාවත්කාලීන කිරීම...",
+    "resetPassword": "මුරපදය නැවත සැකසීම"
   },
 
   "message": {
