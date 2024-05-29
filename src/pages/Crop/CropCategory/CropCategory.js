@@ -178,7 +178,7 @@ const CropCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="cropCategory" />
+      <ListHeader title="crop.cropCategory" />
 
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>

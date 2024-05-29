@@ -1,6 +1,4 @@
 {
-  
-
   "crop": "பயிர்",
   "category": "வகை",
   "cropCategory": "பயிர் வகை",
@@ -226,5 +224,16 @@
     "chemicalControl": "ரசாயன கட்டுப்பாடு",
     "inStoreChemicalControl": "கடைசி ரசாயன கட்டுப்பாடு",
     "other": "மற்றவை"
+  },
+  "cropDiseasePage": {
+    "disease": "நோய்",
+    "diseaseName": "நோயின் பெயர்",
+    "type": "வகை",
+    "causalAgent": "காரண காரணி",
+    "vector": "வெக்டர்",
+    "diseaseType": "நோய் வகை",
+    "affectedPart": "பாதிக்கப்பட்ட பகுதி",
+    "symptoms": "அறிகுறிகள்",
+    "management": "மேலாண்மை"
   }
 }
