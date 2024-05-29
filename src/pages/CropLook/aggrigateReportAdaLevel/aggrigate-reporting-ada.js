@@ -145,7 +145,7 @@ const AggrigateReportAdaLevel = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
+        <Grid item container sx={{ marginTop: "20px" }}>
           <TabWrapper style={{ margin: "0px 0px" }}>
             {cropCategoryList.map((category, index) => (
               <TabButton
