@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, ButtonGroup, CircularProgress } from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -20,8 +20,11 @@ import {
 } from "../../../utils/constants/permission";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import { useTranslation } from "react-i18next";
 
 const CropActivity = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -97,7 +100,7 @@ const CropActivity = () => {
       setSelectedActivities([]);
       addSnackBar({
         type: SnackBarTypes.success,
-        message: "Successfully deleted",
+        message: t("message.successfullyDeleted"),
       });
     } catch (error) {
       console.error(error);
@@ -116,7 +119,7 @@ const CropActivity = () => {
       console.error(error);
       addSnackBar({
         type: SnackBarTypes.error,
-        message: "Failed to download crop activity excel",
+        message: t("message.failedToDownloadCropActivityExcel"),
       });
     }
   };
@@ -132,7 +135,7 @@ const CropActivity = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop activity" />
+      <ListHeader title="cropActivity" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
@@ -144,9 +147,9 @@ const CropActivity = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
           >
-            <Button onClick={onCreate} title="Add">
+            <Button onClick={onCreate} title={t("buttonTooltip.add")}>
               <Add />
-              {DEF_ACTIONS.ADD}
+              {TranslateActions(t, DEF_ACTIONS.ADD)}
             </Button>
           </PermissionWrapper>
           {selectedActivities.length === 1 && (
@@ -154,9 +157,9 @@ const CropActivity = () => {
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
               >
-                <Button onClick={onEdit} title="Edit">
+                <Button onClick={onEdit} title={t("buttonTooltip.edit")}>
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             </>
@@ -165,9 +168,9 @@ const CropActivity = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
             >
-              <Button onClick={onView} title="view">
+              <Button onClick={onView} title={t("buttonTooltip.view")}>
                 <Vrpano />
-                {DEF_ACTIONS.VIEW}
+                {TranslateActions(t, DEF_ACTIONS.VIEW)}
               </Button>
             </PermissionWrapper>
           )}
@@ -175,9 +178,9 @@ const CropActivity = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
             >
-              <Button onClick={onDelete} title="Delete">
+              <Button onClick={onDelete} title={t("buttonTooltip.delete")}>
                 <Delete />
-                {DEF_ACTIONS.DELETE}
+                {TranslateActions(t, DEF_ACTIONS.DELETE)}
               </Button>
             </PermissionWrapper>
           )}
@@ -185,12 +188,12 @@ const CropActivity = () => {
         <PermissionWrapper>
           <Button
             onClick={onDownload}
-            title="Export"
+            title={t("buttonTooltip.export")}
             style={{ position: "absolute", right: "30px" }}
             color="success"
           >
             <Download />
-            Export{DEF_ACTIONS.EXPORT}
+            {t("crudButton.export")}
           </Button>
         </PermissionWrapper>
       </ActionWrapper>
@@ -208,7 +211,7 @@ const CropActivity = () => {
       </PermissionWrapper>
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectedActivities}
         loading={loading}
         onClose={close}

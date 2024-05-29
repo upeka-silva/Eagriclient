@@ -20,10 +20,8 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import CustFormHeader from "../../../components/FormHeader/CustFormHeader";
-import { Add, Download } from "@mui/icons-material";
+import { Add } from "@mui/icons-material";
 import AddCropActivityDialog from "./add-crop-activity-dialog";
 
 import {
@@ -37,6 +35,8 @@ import { isEmpty } from "../../../utils/helpers/stringUtils";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 const CropActivity = () => {
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
@@ -56,6 +56,7 @@ const CropActivity = () => {
     []
   );
 
+  const { t } = useTranslation();
   useEffect(() => {
     setIsDataFetch(false);
     getAllCropActivity().then((data) => {
@@ -161,12 +162,12 @@ const CropActivity = () => {
       <CustFormHeader
         saving={saving}
         state={{ action: "Add" }}
-        formName="Crop Activity"
+        formName="cropActivity"
       />
 
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
           <ButtonGroup
             variant="outlined"
             disableElevation
@@ -185,7 +186,7 @@ const CropActivity = () => {
                 aria-label="action button group"
               >
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
           </ButtonGroup>
@@ -202,13 +203,13 @@ const CropActivity = () => {
           <TableHead sx={{ backgroundColor: "#40a845", height: "40px" }}>
             <TableRow>
               <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
-                Name
+                {t("cropActivityPage.name")}
               </TableCell>
               <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
-                Activity Description
+                {t("cropActivityPage.activityDescription")}
               </TableCell>
               <TableCell sx={{ color: "#ffffff", fontSize: "13px" }}>
-                Action
+                {t("cropActivityPage.action")}
               </TableCell>
             </TableRow>
           </TableHead>
@@ -228,7 +229,7 @@ const CropActivity = () => {
                       sx={{ marginLeft: "10px" }}
                       disabled={formMode === DEF_ACTIONS.VIEW}
                     >
-                      EDIT
+                      {TranslateActions(t, DEF_ACTIONS.EDIT)}
                     </Button>
                     <Button
                       onClick={handleCropActivityDelete(row)}
@@ -238,7 +239,7 @@ const CropActivity = () => {
                       sx={{ marginLeft: "10px" }}
                       disabled={formMode === DEF_ACTIONS.VIEW}
                     >
-                      DELETE
+                      {TranslateActions(t, DEF_ACTIONS.DELETE)}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -255,10 +256,10 @@ const CropActivity = () => {
         handleClose={closeDamageAddDialog}
         formData={formData}
         mode={dialogMode}
-      />      
+      />
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={cropActivities}
         loading={loading}
         onClose={close}

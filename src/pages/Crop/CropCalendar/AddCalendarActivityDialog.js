@@ -7,18 +7,15 @@ import {
   Autocomplete,
   Box,
   Button,
-  Grid,
-  MenuItem,
-  Select,
-  TextField,
+  Grid, TextField
 } from "@mui/material";
 import { Colors } from "../../../utils/constants/Colors";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
-import Checkbox from "@mui/material/Checkbox";
 import { getAllCropActivity } from "../../../redux/actions/crop/cropActivity/action";
+import { useTranslation } from "react-i18next";
 
 export default function AddCalendarActivityDialog({
   open,
@@ -27,6 +24,7 @@ export default function AddCalendarActivityDialog({
   formData,
   mode,
 }) {
+  const { t } = useTranslation();
   const [formDataD, setformDataD] = useState({});
   const [cropActions, setCropActions] = useState({});
   const [isDataFetch, setIsDataFetch] = useState({});
@@ -64,7 +62,7 @@ export default function AddCalendarActivityDialog({
           fontFamily: Fonts.fontStyle1,
         }}
       >
-        {mode} Crop Calendar Activities
+        {t(`cropCalendarPage.${mode}` + `cropCalendarActivities`)}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex" }}>
@@ -78,7 +76,7 @@ export default function AddCalendarActivityDialog({
           >
             <Grid item lg={12} sm={12} sx={12}>
               <FieldWrapper>
-                <FieldName>Activity</FieldName>
+                <FieldName>{t("cropCalendarPage.activity")}</FieldName>
                 <Autocomplete
                   options={cropActions}
                   value={formData?.cropActivity}
@@ -106,7 +104,7 @@ export default function AddCalendarActivityDialog({
                     width: "100%",
                   }}
                 >
-                  Cost
+                  {t("cropCalendarPage.cost")}
                 </FieldName>
                 <TextField
                   type="number"
@@ -114,9 +112,7 @@ export default function AddCalendarActivityDialog({
                   id="cost"
                   value={formDataD?.cost || ""}
                   disabled={mode === DEF_ACTIONS.VIEW}
-                  onChange={(e) =>
-                    handleChange(e?.target?.value || "", "cost")
-                  }
+                  onChange={(e) => handleChange(e?.target?.value || "", "cost")}
                   size="small"
                   fullWidth
                   sx={{
@@ -135,7 +131,7 @@ export default function AddCalendarActivityDialog({
                     width: "100%",
                   }}
                 >
-                  Duration
+                  {t("cropCalendarPage.duration")}
                 </FieldName>
                 <TextField
                   type="number"
@@ -159,7 +155,7 @@ export default function AddCalendarActivityDialog({
             </Grid>
             <Grid item lg={6} sm={6} sx={6}>
               <FieldWrapper>
-                <FieldName>Duration Type</FieldName>
+                <FieldName>{t("cropCalendarPage.durationType")}</FieldName>
                 <Autocomplete
                   options={durations}
                   value={formData?.durationType}
@@ -187,7 +183,7 @@ export default function AddCalendarActivityDialog({
                     width: "100%",
                   }}
                 >
-                  Start of Week
+                  {t("cropCalendarPage.startofWeek")}
                 </FieldName>
                 <TextField
                   type="number"
@@ -221,7 +217,7 @@ export default function AddCalendarActivityDialog({
           size="small"
           sx={{ marginLeft: "10px" }}
         >
-          Cancel
+          {t(t("action.cancel"))}
         </Button>
         <Button
           disabled={mode === DEF_ACTIONS.VIEW}
@@ -231,7 +227,7 @@ export default function AddCalendarActivityDialog({
           size="small"
           sx={{ marginLeft: "20px" }}
         >
-          Save
+          {t("action.save")}
         </Button>
       </DialogActions>
     </Dialog>

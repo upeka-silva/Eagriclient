@@ -17,7 +17,8 @@
   "cropPest": "Crop Pest",
   "cropPestForm": "Crop Pest Form",
   "cropDisease": "Crop Disease",
-  "damageTypes":"Damage Types",
+  "damageTypes": "Damage Types",
+  "cropActivities": "Crop Activities",
 
   "buttonTooltip": {
     "export": "Export",
@@ -39,7 +40,8 @@
     "viewList": "VIEW_LIST",
     "approve": "APPROVE",
     "assign": "ASSIGN",
-    "generate": "GENERATE"
+    "generate": "GENERATE",
+    "export": "Export"
   },
 
   "action": {
@@ -56,7 +58,9 @@
     "filter": "FILTER",
     "confirm": "Confirm",
     "close": "Close",
-    "delete": "Delete"
+    "delete": "Delete",
+    "adding": "ADDING...",
+    "updating": "UPDATING..."
   },
 
   "message": {
@@ -65,8 +69,10 @@
     "successfullyUpdated": "Successfully Updated",
     "successfullyDeleted": "Successfully Deleted",
     "loginFailed": "Login Failed",
-    "successfullyExecuted" : "Successfully executed !!!",
-    "deleteQuestion" : "Delete Question"
+    "successfullyExecuted": "Successfully executed !!!",
+    "deleteQuestion": "Delete Question",
+    "deleteCalendarActivity": "Delete Calendar Activity",
+    "failedToDownloadCropActivityExcel": "Failed to download crop activity excel"
   },
 
   "cropCategoryPage": {
@@ -121,6 +127,7 @@
     "causalAgent": "Causal Agent",
     "vector": "Vector"
   },
+  
   "cropVarietyPage": {
     "cropCategory": "Crop Category",
     "cropSubCategory": "Crop Sub Category",
@@ -160,6 +167,7 @@
     "specialCharacteristics": "Special Characteristics",
     "selectCropVarietyImage": "Select Crop Variety Image"
   },
+
   "cropDamagePage": {
     "categoryName": "Category Name",
     "description": "Description",
@@ -169,5 +177,27 @@
     "action": "Action",
     "ADDdamageType": "ADD Damage Type",
     "EDITdamageType": "EDIT Damage Type"
+  },
+
+  "cropCalendarPage": {
+    "name": "Name",
+    "description": "Description",
+    "mediaUrl": "Media Url",
+    "existingCalendarUrl": "Existing Calendar URL",
+    "crop": "Crop",
+    "varietyList": "Variety List",
+    "agricultureZone": "Agriculture Zone",
+    "cropActivities": "Crop Activities",
+    "cost": "Cost",
+    "duration": "Duration",
+    "durationType": "Duration Type",
+    "startOfWeek": "Start Of Week",
+    "action": "Action"
+  },
+
+  "cropActivityPage": {
+    "name": "Name",
+    "activityDescription": "Activity Description",
+    "action": "Action"
   }
 }

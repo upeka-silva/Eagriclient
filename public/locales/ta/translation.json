@@ -17,7 +17,8 @@
   "cropPest": "பயிர் பூச்சி",
   "cropPestForm": "பயிர் பூச்சி படிவம்",
   "cropDisease": "பயிர் நோய்",
-  "damageTypes":"சேத வகை",
+  "damageTypes": "சேத வகை",
+  "cropActivities": "பயிர் நடவடிக்கைகள்",
 
   "buttonTooltip": {
     "export": "பதிவிறக்க",
@@ -39,7 +40,8 @@
     "viewList": "பார்க்க_பட்டியல்",
     "approve": "ஒப்புதல்",
     "assign": "ஒதுக்க",
-    "generate": "உருவாக்க"
+    "generate": "உருவாக்க",
+    "export":"பதிவிறக்க"
   },
 
   "action": {
@@ -56,7 +58,9 @@
     "filter": "வடிகட்டிகள்",
     "confirm": "உறுதிப்படுத்தவும்",
     "close": "நெருக்கமான",
-    "delete": "அழி"
+    "delete": "அழி",
+    "adding": "சேர்த்து...",
+    "updating": "புதுப்பிக்கிறது..."
   },
 
   "message": {
@@ -65,8 +69,10 @@
     "successfullyUpdated": "வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
     "successfullyDeleted": "வெற்றிகரமாக நீக்கப்பட்டது",
     "loginFailed": "உள்நுழைவு தோல்வியடைந்தது",
-    "successfullyExecuted" : "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
-    "deleteQuestion" : "கேள்வியை நீக்கு"
+    "successfullyExecuted": "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
+    "deleteQuestion": "கேள்வியை நீக்கு",
+    "deleteCalendarActivity": "கேலெண்டர் செயல்பாட்டை நீக்கு",
+    "failedToDownloadCropActivityExcel":"பயிர் செயல்பாடு எக்செல் பதிவிறக்க முடியவில்லை"
   },
 
   "cropCategoryPage": {
@@ -161,6 +167,7 @@
     "specialCharacteristics": "சிறப்பு பெருக்கங்கள்",
     "selectCropVarietyImage": "பயிர் இன படம் தேர்வு செய்யவும்"
   },
+
   "cropDamagePage": {
     "categoryName": "பிரிவு பெயர்",
     "description": "விளக்கம்",
@@ -170,6 +177,27 @@
     "action": "நடவடிக்கை",
     "ADDdamageType": "ADD Damage Type",
     "EDITdamageType": "EDIT Damage Type"
-  }
+  },
+
+  "cropCalendarPage": {
+    "name": "பெயர்",
+    "description": "விளக்கம்",
+    "mediaUrl": "மீடியா URL",
+    "existingCalendarUrl": "இருக்கும் நாட்காட்டி URL",
+    "crop": "பயிர்",
+    "varietyList": "வகைப்பட்டியல்",
+    "agricultureZone": "விவசாய மண்டலம்",
+    "cropActivities": "பயிர் செயல்பாடுகள்",
+    "cost": "செலவு",
+    "duration": "காலம்",
+    "durationType": "கால வகை",
+    "startOfWeek": "வாரத்தின் தொடக்கம்",
+    "action": "செயல்"
+  },
   
+  "cropActivityPage": {
+    "name": "பெயர்",
+    "activityDescription": "செயல்பாடு விளக்கம்",
+    "action":"செயல்"
+  }
 }
