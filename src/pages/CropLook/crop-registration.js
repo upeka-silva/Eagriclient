@@ -11,10 +11,7 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useUserAccessValidation } from "../../hooks/authentication";
-import {
-  DEF_ACTIONS,
-  DEF_COMPONENTS,
-} from "../../utils/constants/permission";
+import { DEF_ACTIONS, DEF_COMPONENTS } from "../../utils/constants/permission";
 import { ActionWrapper } from "../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrapper";
 import DialogBox from "../../components/PageLayout/DialogBox";
@@ -34,9 +31,9 @@ import {
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropRegistrationList from "./crop-registration-list";
 import { Fonts } from "../../utils/constants/Fonts";
+import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
 
 const CropRegistration = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -46,6 +43,8 @@ const CropRegistration = () => {
 
   const [selectSubCategory, setSelectSubCategory] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const [dialogSelectSubCategory, setDialogSelectSubCategory] = useState([]);
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -70,7 +69,9 @@ const CropRegistration = () => {
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop-look/crop-registration-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-look/crop-registration-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -95,10 +96,12 @@ const CropRegistration = () => {
 
   const onDelete = () => {
     setOpen(true);
+    setDialogSelectSubCategory(selectSubCategory);
   };
 
   const close = () => {
     setOpen(false);
+    setDialogSelectSubCategory([]);
   };
 
   const renderSelectedItems = () => {
@@ -141,7 +144,7 @@ const CropRegistration = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const cropSubCat of selectSubCategory) {
+      for (const cropSubCat of dialogSelectSubCategory) {
         await deleteCropRegistration(cropSubCat?.id, onSuccess, onError);
       }
       setLoading(false);
@@ -155,14 +158,14 @@ const CropRegistration = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Registration Details" />
       <ActionWrapper isLeft>
@@ -241,7 +244,20 @@ const CropRegistration = () => {
         )}
       </PermissionWrapper>
 
-      <DialogBox
+      <ConfirmationDialog
+        open={open}
+        title="Do you want to delete?"
+        items={selectSubCategory}
+        loading={loading}
+        onClose={close}
+        onConfirm={onConfirm}
+        setDialogSelectedTypes={setDialogSelectSubCategory}
+        dialogSelectedTypes={dialogSelectSubCategory}
+        propertyId="ddLabel"
+        propertyDescription="season.description"
+      />
+
+      {/* <DialogBox
         open={open}
         title="Do You Want to Delete?"
         actions={
@@ -263,8 +279,7 @@ const CropRegistration = () => {
             </ButtonGroup>
           </ActionWrapper>
         }
-      >
-      </DialogBox>
+      ></DialogBox> */}
     </div>
   );
 };
