@@ -916,6 +916,7 @@ const GapRegForm = () => {
                           variant="outlined"
                           size="small"
                           sx={{ marginLeft: "10px" }}
+                          disabled={gapReqStatus.lblState === "MAIN_SCS_REGIONAL_OFFICER_APPROVE"}
                         >
                           ASSIGN AUDITORS
                         </Button>
@@ -3215,7 +3216,7 @@ const GapRegForm = () => {
                   }}
                   sx={{ ml: "8px" }}
                 >
-                  Confirm
+                  Ok
                 </Button>
                 <Button
                   variant="contained"
@@ -3225,7 +3226,7 @@ const GapRegForm = () => {
                   }
                   sx={{ ml: "8px" }}
                 >
-                  Close
+                  Cancel
                 </Button>
               </div>
             </ActionWrapper>
