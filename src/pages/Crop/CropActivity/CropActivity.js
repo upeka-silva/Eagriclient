@@ -135,7 +135,7 @@ const CropActivity = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="cropActivity" />
+      <ListHeader title="crop.cropActivity" />
       <ActionWrapper isLeft>
         <ButtonGroup
           variant="outlined"
