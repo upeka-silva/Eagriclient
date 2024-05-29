@@ -19,6 +19,18 @@
   "cropDisease": "බෝග රෝග",
   "damageTypes": "හානි වර්ගය",
   "cropActivities": "බෝග කාර්යපටිපාටි",
+  "userProfile": "පරිශීලක පැතිකඩ",
+
+  "userProfilePage": {
+    "firstName": "මුල් නම",
+    "lastName": "අවසන් නම",
+    "email": "ඊමේල්",
+    "dateOfBirth": "උපන්දිනය",
+    "userName": "පරිශීලක නාමය",
+    "gender": "ස්ත්‍රී පුරුෂ භාවය",
+    "language": "භාෂාව",
+    "selectYourProfilePicture": "ඔබගේ පැතිකඩ පින්තූරය තෝරන්න"
+  },
 
   "buttonTooltip": {
     "export": "බාගත කිරීම",
@@ -60,7 +72,8 @@
     "close": "වසන්න",
     "delete": "මකන්න",
     "adding": " එකතු කරනවා...",
-    "updating": "යාවත්කාලීන කිරීම..."
+    "updating": "යාවත්කාලීන කිරීම...",
+    "resetPassword": "මුරපදය නැවත සැකසීම"
   },
 
   "message": {
