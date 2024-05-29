@@ -17,7 +17,8 @@
   "cropPest": "Crop Pest",
   "cropPestForm": "Crop Pest Form",
   "cropDisease": "Crop Disease",
-  "damageTypes":"Damage Types",
+  "damageTypes": "Damage Types",
+  "cropActivities": "Crop Activities",
 
   "buttonTooltip": {
     "export": "Export",
@@ -56,7 +57,9 @@
     "filter": "FILTER",
     "confirm": "Confirm",
     "close": "Close",
-    "delete": "Delete"
+    "delete": "Delete",
+    "adding": "ADDING...",
+    "updating": "UPDATING..."
   },
 
   "message": {
@@ -65,8 +68,9 @@
     "successfullyUpdated": "Successfully Updated",
     "successfullyDeleted": "Successfully Deleted",
     "loginFailed": "Login Failed",
-    "successfullyExecuted" : "Successfully executed !!!",
-    "deleteQuestion" : "Delete Question"
+    "successfullyExecuted": "Successfully executed !!!",
+    "deleteQuestion": "Delete Question",
+    "deleteCalendarActivity": "Delete Calendar Activity"
   },
 
   "cropCategoryPage": {
@@ -169,5 +173,20 @@
     "action": "Action",
     "ADDdamageType": "ADD Damage Type",
     "EDITdamageType": "EDIT Damage Type"
+  },
+  "cropCalendarPage": {
+    "name": "Name",
+    "description": "Description",
+    "mediaUrl": "Media Url",
+    "existingCalendarUrl": "Existing Calendar URL",
+    "crop": "Crop",
+    "varietyList": "Variety List",
+    "agricultureZone": "Agriculture Zone",
+    "cropActivities": "Crop Activities",
+    "cost": "Cost",
+    "duration": "Duration",
+    "durationType": "Duration Type",
+    "startOfWeek": "Start Of Week",
+    "action": "Action"
   }
 }

@@ -17,7 +17,8 @@
   "cropPest": "බෝග උපද්‍රවය",
   "cropPestForm": "බෝග උපද්‍රවය පෝර්මය",
   "cropDisease": "බෝග රෝග",
-  "damageTypes":"හානි වර්ගය",
+  "damageTypes": "හානි වර්ගය",
+  "cropActivities": "බෝග කාර්යපටිපාටි",
 
   "buttonTooltip": {
     "export": "බාගත කිරීම",
@@ -56,7 +57,9 @@
     "filter": "පෙරන්න",
     "confirm": "තහවුරු කරන්න",
     "close": "වසන්න",
-    "delete": "මකන්න"
+    "delete": "මකන්න",
+    "adding": " එකතු කරනවා...",
+    "updating": "යාවත්කාලීන කිරීම..."
   },
 
   "message": {
@@ -65,8 +68,9 @@
     "successfullyUpdated": "සාර්ථකව යාවත්කාලීන කරන ලදී",
     "successfullyDeleted": "සාර්ථකව මකා ඇත",
     "loginFailed": "ඇතුළු වීම අසාර්ථකයි",
-    "successfullyExecuted" : "සාර්ථකව ක්‍රියාත්මක විය !!!",
-    "deleteQuestion" : "ප්‍රශ්නය මකන්න"
+    "successfullyExecuted": "සාර්ථකව ක්‍රියාත්මක විය !!!",
+    "deleteQuestion": "ප්‍රශ්නය මකන්න",
+    "deleteCalendarActivity": "දින දර්ශන ක්‍රියාකාරකම් මකන්න"
   },
 
   "cropCategoryPage": {
@@ -170,6 +174,20 @@
     "action": "ක්‍රියාව",
     "ADDdamageType": "ADD වර්ගය එකතු කරන්න",
     "EDITdamageType": "EDIT වර්ගය එකතු කරන්න"
-    
+  },
+  "cropCalendarPage": {
+    "name": "නම",
+    "description": "විස්තර",
+    "mediaUrl": "මාධ්‍ය URL",
+    "existingCalendarUrl": "පවතින දින දර්ශනයේ URL",
+    "crop": "බෝගය",
+    "varietyList": "විවිධත්ව ලැයිස්තුව",
+    "agricultureZone": "කෘෂිකාර්මික කලාපය",
+    "cropActivities": "බෝග කටයුතු",
+    "cost": "පිරිවැය",
+    "duration": "කාලය",
+    "durationType": "කාල වර්ගය",
+    "startOfWeek": "සතියේ ආරම්භය",
+    "action": "ක්‍රියාව"
   }
 }

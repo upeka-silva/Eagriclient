@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { DataTable } from "../../../components/PageLayout/Table";
-
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-
+import { useTranslation } from "react-i18next";
 const CropCalendarList = ({
   selectedRows = [],
   onRowSelect = (_c) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const { t } = useTranslation();
   const columns = [
-    { field: "name", headerName: "Name" },
-    { field: "description", headerName: "Description" },
-    { field: "legacyCalendarUrl", headerName: "Media Url" },
+    { field: "name", headerName: t("cropCalendarPage.name") },
+    { field: "description", headerName: t("cropCalendarPage.description") },
+    { field: "legacyCalendarUrl", headerName: t("cropCalendarPage.mediaUrl") },
   ];
 
   const [id, setId] = useState(null);

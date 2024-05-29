@@ -37,7 +37,9 @@ const FormButtonGroup = ({
         <ActionWrapper>
           {saving ? (
             <Button variant="contained">
-              {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
+              {state?.action === DEF_ACTIONS.ADD
+                ? t("action.adding")
+                : t("action.updating")}
             </Button>
           ) : (
             <>
