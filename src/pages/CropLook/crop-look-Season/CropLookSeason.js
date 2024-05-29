@@ -344,7 +344,7 @@ const CropLookSeason = () => {
               onClick={onConfirmStatusChange}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              ok
             </Button>
             <Button
               variant="contained"
@@ -352,11 +352,17 @@ const CropLookSeason = () => {
               onClick={closeStatusChangeModal}
               sx={{ ml: "8px" }}
             >
-              Close
+              cancel
             </Button>
           </ActionWrapper>
         }
-      ></DialogBox>
+      >
+        <List>
+          <ListItemText>
+            {selectAgriSeason[0]?.code} - {selectAgriSeason[0]?.description}
+          </ListItemText>
+        </List>
+      </DialogBox>
     </div>
   );
 };
