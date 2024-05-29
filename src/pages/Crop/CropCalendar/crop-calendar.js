@@ -11,11 +11,7 @@ import PermissionWrapper from "../../../components/PermissionWrapper/PermissionW
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropCalendarList from "./crop-calendar-list";
 import {
@@ -95,7 +91,7 @@ const CropCalendar = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 

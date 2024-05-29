@@ -40,7 +40,8 @@
     "viewList": "பார்க்க_பட்டியல்",
     "approve": "ஒப்புதல்",
     "assign": "ஒதுக்க",
-    "generate": "உருவாக்க"
+    "generate": "உருவாக்க",
+    "export":"பதிவிறக்க"
   },
 
   "action": {
@@ -70,7 +71,8 @@
     "loginFailed": "உள்நுழைவு தோல்வியடைந்தது",
     "successfullyExecuted": "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
     "deleteQuestion": "கேள்வியை நீக்கு",
-    "deleteCalendarActivity": "கேலெண்டர் செயல்பாட்டை நீக்கு"
+    "deleteCalendarActivity": "கேலெண்டர் செயல்பாட்டை நீக்கு",
+    "failedToDownloadCropActivityExcel":"பயிர் செயல்பாடு எக்செல் பதிவிறக்க முடியவில்லை"
   },
 
   "cropCategoryPage": {
@@ -165,6 +167,7 @@
     "specialCharacteristics": "சிறப்பு பெருக்கங்கள்",
     "selectCropVarietyImage": "பயிர் இன படம் தேர்வு செய்யவும்"
   },
+
   "cropDamagePage": {
     "categoryName": "பிரிவு பெயர்",
     "description": "விளக்கம்",
@@ -190,5 +193,11 @@
     "durationType": "கால வகை",
     "startOfWeek": "வாரத்தின் தொடக்கம்",
     "action": "செயல்"
+  },
+  
+  "cropActivityPage": {
+    "name": "பெயர்",
+    "activityDescription": "செயல்பாடு விளக்கம்",
+    "action":"செயல்"
   }
 }

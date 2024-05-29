@@ -40,7 +40,8 @@
     "viewList": "ලැයිස්තුව",
     "approve": "අනුමත",
     "assign": "පැවරීම",
-    "generate": "උත්පාදනය"
+    "generate": "උත්පාදනය",
+    "export": "බාගත කිරීම"
   },
 
   "action": {
@@ -70,7 +71,8 @@
     "loginFailed": "ඇතුළු වීම අසාර්ථකයි",
     "successfullyExecuted": "සාර්ථකව ක්‍රියාත්මක විය !!!",
     "deleteQuestion": "ප්‍රශ්නය මකන්න",
-    "deleteCalendarActivity": "දින දර්ශන ක්‍රියාකාරකම් මකන්න"
+    "deleteCalendarActivity": "දින දර්ශන ක්‍රියාකාරකම් මකන්න",
+    "failedToDownloadCropActivityExcel": "බෝග ක්‍රියාකාරකම් එක්සෙල් බාගැනීම අසාර්ථක විය"
   },
 
   "cropCategoryPage": {
@@ -165,6 +167,7 @@
     "specialCharacteristics": "විශේෂ ලක්ෂණ",
     "selectCropVarietyImage": "බෝග ප්‍රභේද රූපය තෝරන්න"
   },
+
   "cropDamagePage": {
     "categoryName": "ප්‍රවර්ග නාමය",
     "description": "විස්තර",
@@ -175,6 +178,7 @@
     "ADDdamageType": "ADD වර්ගය එකතු කරන්න",
     "EDITdamageType": "EDIT වර්ගය එකතු කරන්න"
   },
+
   "cropCalendarPage": {
     "name": "නම",
     "description": "විස්තර",
@@ -188,6 +192,12 @@
     "duration": "කාලය",
     "durationType": "කාල වර්ගය",
     "startOfWeek": "සතියේ ආරම්භය",
+    "action": "ක්‍රියාව"
+  },
+  
+  "cropActivityPage": {
+    "name": "නම",
+    "activityDescription": "ක්රියාකාරිත්වය විස්තරය",
     "action": "ක්‍රියාව"
   }
 }
