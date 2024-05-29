@@ -173,7 +173,7 @@ const CropDisease = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop disease" />
+      <ListHeader title="crop.cropDisease" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />

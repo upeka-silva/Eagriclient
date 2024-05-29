@@ -140,7 +140,7 @@ const CropDiseaseForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName=" Crop Disease"
+        formName="crop.cropDisease"
       />
       <ButtonWrapper>
         <ActionWrapper>
