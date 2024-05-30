@@ -17,8 +17,10 @@ import {
   updateCropDisease,
 } from "../../../redux/actions/crop/CropDisease/action";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
 
 const CropDiseaseForm = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -74,8 +76,8 @@ const CropDiseaseForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -83,7 +85,7 @@ const CropDiseaseForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
@@ -140,14 +142,16 @@ const CropDiseaseForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName="crop.cropDisease"
+        formName="cropDisease"
       />
       <ButtonWrapper>
         <ActionWrapper>
           {saving ? (
             <Button variant="contained" size="small">
-              {state?.action === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
-              ADDING...
+              {state?.action === DEF_ACTIONS.ADD
+                ? t("action.adding")
+                : t("action.updating")}
+              t("action.adding")
             </Button>
           ) : (
             <>
@@ -161,7 +165,7 @@ const CropDiseaseForm = () => {
               >
                 {/* {state?.action === DEF_ACTIONS.ADD ? <Add/> : <Edit/>} */}
                 {/* <Add/> */}
-                Save
+                {t("action.save")}
               </Button>
               <Button
                 onClick={resetForm}
@@ -170,7 +174,7 @@ const CropDiseaseForm = () => {
                 size="small"
                 sx={{ marginLeft: "10px" }}
               >
-                RESET
+                {t("action.reset")}
               </Button>
             </>
           )}
@@ -186,7 +190,7 @@ const CropDiseaseForm = () => {
       >
         <Grid item sm={3} md={3} lg={3}>
           <FieldWrapper>
-            <FieldName>Disease Name</FieldName>
+            <FieldName>{t("cropDiseasePage.diseaseName")}</FieldName>
             <TextField
               name="diseaseName"
               id="diseaseName"
@@ -208,7 +212,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={5}>
           <FieldWrapper>
-            <FieldName>Disease Type</FieldName>
+            <FieldName>{t("cropDiseasePage.diseaseType")}</FieldName>
             <TextField
               name="type"
               id="type"
@@ -228,7 +232,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
-            <FieldName>Causal Agent</FieldName>
+            <FieldName>{t("cropDiseasePage.causalAgent")}</FieldName>
             <TextField
               name="causalAgent"
               id="causalAgent"
@@ -252,7 +256,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={5}>
           <FieldWrapper>
-            <FieldName>Vector</FieldName>
+            <FieldName>{t("cropDiseasePage.vector")}</FieldName>
             <TextField
               name="vector"
               id="vector"
@@ -274,7 +278,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={6}>
           <FieldWrapper>
-            <FieldName>Affected Part</FieldName>
+            <FieldName>{t("cropDiseasePage.affectedPart")}</FieldName>
             <TextField
               name="affectedPart"
               id="affectedPart"
@@ -296,7 +300,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={10}>
           <FieldWrapper>
-            <FieldName>Symptoms</FieldName>
+            <FieldName>{t("cropDiseasePage.symptoms")}</FieldName>
             <TextField
               name="symptom"
               id="symptom"
@@ -318,7 +322,7 @@ const CropDiseaseForm = () => {
         </Grid>
         <Grid item sm={3} md={3} lg={10}>
           <FieldWrapper>
-            <FieldName>Management</FieldName>
+            <FieldName>{t("cropDiseasePage.management")}</FieldName>
             <TextField
               name="management"
               id="management"
