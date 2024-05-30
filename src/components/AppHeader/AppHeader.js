@@ -27,6 +27,8 @@ import { DarkModeOutlined, Lan, LightModeOutlined } from "@mui/icons-material";
 import { stringAvatar } from "../../utils/helpers/stringUtils";
 import { useTranslation } from "react-i18next";
 import { LngLat } from "mapbox-gl";
+import { Action } from "@devexpress/dx-react-core";
+import { DEF_ACTIONS } from "../../utils/constants/permission";
 
 const AppHeader = () => {
   const theme = useTheme();
@@ -158,7 +160,7 @@ const AppHeader = () => {
   };
 
   const profile = () => {
-    navigate("/userProfile");
+    navigate("/userProfile", { state: { action : DEF_ACTIONS.EDIT } });
   };
 
   return (

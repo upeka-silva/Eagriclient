@@ -19,6 +19,18 @@
   "cropDisease": "பயிர் நோய்",
   "damageTypes": "சேத வகை",
   "cropActivities": "பயிர் நடவடிக்கைகள்",
+  "userProfile": "பயனர் சுயவிவரம்",
+
+  "userProfilePage": {
+    "firstName": "முதல் பெயர்",
+    "lastName": "கடைசி பெயர்",
+    "email": "மின்னஞ்சல்",
+    "dateOfBirth": "பிறந்த தேதி",
+    "userName": "பயனர் பெயர்",
+    "gender": "பாலினம்",
+    "language": "மொழி",
+    "selectYourProfilePicture": "உங்கள் சுயவிவரப் படத்தைத் தேர்வுசெய்க"
+  },
 
   "buttonTooltip": {
     "export": "பதிவிறக்க",
@@ -60,7 +72,8 @@
     "close": "நெருக்கமான",
     "delete": "அழி",
     "adding": "சேர்த்து...",
-    "updating": "புதுப்பிக்கிறது..."
+    "updating": "புதுப்பிக்கிறது...",
+    "resetPassword": "கடவுச்சொல்லை மீட்டமைக்க"
   },
 
   "message": {
@@ -222,6 +235,6 @@
     "affectedPart": "பாதிக்கப்பட்ட பகுதி",
     "symptoms": "அறிகுறிகள்",
     "management": "மேலாண்மை"
-}
 
+  }
 }

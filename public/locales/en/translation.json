@@ -19,6 +19,18 @@
   "cropDisease": "Crop Disease",
   "damageTypes": "Damage Types",
   "cropActivities": "Crop Activities",
+  "userProfile": "User Profile",
+
+  "userProfilePage": {
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "dateOfBirth": "Date Of Birth",
+    "userName": "User Name",
+    "gender": "Gender",
+    "language": "Language",
+    "selectYourProfilePicture": "Select Your Profile Picture"
+  },
 
   "buttonTooltip": {
     "export": "Export",
@@ -60,7 +72,8 @@
     "close": "Close",
     "delete": "Delete",
     "adding": "ADDING...",
-    "updating": "UPDATING..."
+    "updating": "UPDATING...",
+    "resetPassword": "Reset Password"
   },
 
   "message": {

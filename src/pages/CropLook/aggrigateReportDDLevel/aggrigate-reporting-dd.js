@@ -39,8 +39,6 @@ const AggrigateReportDDLevel = () => {
   const [selectedDDRegion, setSelectedDDRegion] = useState(null);
 
   useEffect(() => {
-   
-
     get_CategoryList().then(({ dataList = [] }) => {
       setCropCategoryList(dataList);
     });
@@ -141,18 +139,20 @@ const AggrigateReportDDLevel = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                key={index}
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  key={index}
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             selectedDDRegion &&
