@@ -30,6 +30,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const WaterTest = () => {
   useUserAccessValidation();
@@ -37,7 +38,6 @@ const WaterTest = () => {
   const { addSnackBar } = useSnackBars();
   const [selectWaterTest, setSelectWaterTest] = useState([]);
   const [dialogSelectWaterTest, setDialogSelectWaterTest] = useState([]);
-
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const [loading, setLoading] = useState(false);
@@ -118,11 +118,11 @@ const WaterTest = () => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      for (const WaterTests of dialogSelectWaterTest	) {
-        console.log("Start",WaterTests?.id)
+      for (const WaterTests of dialogSelectWaterTest) {
+        console.log("Start", WaterTests?.id);
         await deleteWaterTests(WaterTests?.id, onSuccess, onError);
       }
-      console.log("Over")
+      console.log("Over");
       setLoading(false);
       close();
       resetSelectedWaterTests();
@@ -134,14 +134,14 @@ const WaterTest = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Water Test" />
       <ActionWrapper isLeft>
@@ -155,39 +155,27 @@ const WaterTest = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.WATER_SAMPLE}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectWaterTest.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.WATER_SAMPLE}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectWaterTest.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.WATER_SAMPLE}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectWaterTest.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.WATER_SAMPLE}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -213,10 +201,9 @@ const WaterTest = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectWaterTest}
         dialogSelectedTypes={dialogSelectWaterTest}
-        propertyId = "code"
-        propertyDescription = "remarks"
+        propertyId="code"
+        propertyDescription="remarks"
       />
-
     </div>
   );
 };

@@ -1227,10 +1227,7 @@ const AgricultureProjectForm = () => {
               projectId={projectId}
             />
             {selectCrop.length > 0 && (
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             )}
           </ButtonGroup>
         </ActionWrapper>

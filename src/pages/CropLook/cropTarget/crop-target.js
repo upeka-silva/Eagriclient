@@ -33,9 +33,9 @@ import {
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import CropTargetList from "./crop-target-list";
 import { Fonts } from "../../../utils/constants/Fonts";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const CropTarget = () => {
-
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -62,13 +62,15 @@ const CropTarget = () => {
     setSelectCropTarget(all);
   };
 
-  const resetSelectedCropTaget= () => {
+  const resetSelectedCropTaget = () => {
     setSelectCropTarget([]);
   };
 
   const onCreate = () => {
     setAction(DEF_ACTIONS.ADD);
-    navigate("/crop-look/crop-target-form", { state: { action: DEF_ACTIONS.ADD } });
+    navigate("/crop-look/crop-target-form", {
+      state: { action: DEF_ACTIONS.ADD },
+    });
   };
 
   const onEdit = () => {
@@ -153,14 +155,14 @@ const CropTarget = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Crop Target" />
       <ActionWrapper isLeft>
@@ -174,54 +176,27 @@ const CropTarget = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectCropTarget.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onEdit}
-                sx={{ ml: "8px" }}
-              >
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectCropTarget.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onView}
-                sx={{ ml: "8px" }}
-              >
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectCropTarget.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.TARGET_SEASONAL_REGION}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onDelete}
-                sx={{ ml: "8px" }}
-              >
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -261,8 +236,7 @@ const CropTarget = () => {
             </ButtonGroup>
           </ActionWrapper>
         }
-      >
-      </DialogBox>
+      ></DialogBox>
     </div>
   );
 };

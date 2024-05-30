@@ -26,6 +26,7 @@ import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import FarmLandList from "./FarmLandList";
 import { Fonts } from "../../utils/constants/Fonts";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../components/CrudActionButton/CrudActionButton";
 
 const FarmLand = () => {
   useUserAccessValidation();
@@ -97,8 +98,6 @@ const FarmLand = () => {
     setDialogSelectedFarmLand([]);
   };
 
-  
-
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
@@ -130,14 +129,14 @@ const FarmLand = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Farm Land" />
       <ActionWrapper isLeft>
@@ -151,39 +150,27 @@ const FarmLand = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARM_LAND}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectedFarmLand.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.FARM_LAND}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedFarmLand.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARM_LAND}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedFarmLand.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARM_LAND}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -209,10 +196,9 @@ const FarmLand = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedFarmLand}
         dialogSelectedTypes={dialogSelectedFarmLand}
-        propertyId = "code"
-        propertyDescription = "name"
+        propertyId="code"
+        propertyDescription="name"
       />
-     
     </div>
   );
 };

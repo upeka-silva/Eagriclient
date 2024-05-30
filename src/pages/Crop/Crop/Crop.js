@@ -33,6 +33,7 @@ import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { useTranslation } from "react-i18next";
 import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const Crop = () => {
   const { t } = useTranslation();
@@ -191,39 +192,30 @@ const Crop = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
             >
-              <Button onClick={onCreate}>
-                <Add />
-                {TranslateActions(t, DEF_ACTIONS.ADD)}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onEdit}>
-                  <Edit />
-                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onView}>
-                  <Vrpano />
-                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectCrop.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onDelete}>
-                  <Delete />
-                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>

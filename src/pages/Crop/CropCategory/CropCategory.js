@@ -34,6 +34,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog/Confirmat
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import { useTranslation } from "react-i18next";
 import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const CropCategory = () => {
   useUserAccessValidation();
@@ -193,39 +194,30 @@ const CropCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onCreate} title={t("buttonTooltip.add")}>
-                <Add />
-                {TranslateActions(t, DEF_ACTIONS.ADD)}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectCategory.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onEdit} title={t("buttonTooltip.edit")}>
-                  <Edit />
-                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectCategory.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onView} title={t("buttonTooltip.view")}>
-                  <Vrpano />
-                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectCategory.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
               >
-                <Button onClick={onDelete} title={t("buttonTooltip.delete")}>
-                  <Delete />
-                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>

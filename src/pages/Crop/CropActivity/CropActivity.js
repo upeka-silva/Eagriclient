@@ -22,6 +22,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 import { useTranslation } from "react-i18next";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const CropActivity = () => {
   const { t } = useTranslation();
@@ -147,20 +148,14 @@ const CropActivity = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
           >
-            <Button onClick={onCreate} title={t("buttonTooltip.add")}>
-              <Add />
-              {TranslateActions(t, DEF_ACTIONS.ADD)}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectedActivities.length === 1 && (
             <>
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
               >
-                <Button onClick={onEdit} title={t("buttonTooltip.edit")}>
-                  <Edit />
-                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             </>
           )}
@@ -168,20 +163,14 @@ const CropActivity = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
             >
-              <Button onClick={onView} title={t("buttonTooltip.view")}>
-                <Vrpano />
-                {TranslateActions(t, DEF_ACTIONS.VIEW)}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedActivities.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_ACTIVITY}`}
             >
-              <Button onClick={onDelete} title={t("buttonTooltip.delete")}>
-                <Delete />
-                {TranslateActions(t, DEF_ACTIONS.DELETE)}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>

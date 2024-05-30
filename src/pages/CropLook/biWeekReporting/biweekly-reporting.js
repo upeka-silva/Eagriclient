@@ -34,6 +34,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import BiWeeklyReportingList from "./biweekly-reporting-list";
 import { deleteBiWeeklyReporting } from "../../../redux/actions/cropLook/biWeekReporting/actions";
 import { Fonts } from "../../../utils/constants/Fonts";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const BiWeeklyReporting = () => {
   useUserAccessValidation();
@@ -176,54 +177,27 @@ const BiWeeklyReporting = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onEdit}
-                sx={{ ml: "8px" }}
-              >
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectSubCategory.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onView}
-                sx={{ ml: "8px" }}
-              >
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectSubCategory.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.BI_WEEK_REPORT}`}
             >
-              <Button
-                variant="outlined"
-                color="success"
-                onClick={onDelete}
-                sx={{ ml: "8px" }}
-              >
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
