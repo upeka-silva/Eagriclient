@@ -137,7 +137,7 @@ const CropCalendar = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop.cropCalendar" />
+      <ListHeader title="nav.crop.cropCalendar" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />

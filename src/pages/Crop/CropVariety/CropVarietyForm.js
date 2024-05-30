@@ -266,7 +266,7 @@ const CropVarietyForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName="crop.cropVariety"
+        formName="nav.crop.cropVariety"
       />
       <FormButtonGroup
         state={state}

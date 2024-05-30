@@ -174,7 +174,7 @@ const CropVariety = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="crop.cropVariety" />
+      <ListHeader title="nav.crop.cropVariety" />
   
       <ActionWrapper isLeft>
       <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>

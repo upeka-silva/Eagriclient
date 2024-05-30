@@ -122,7 +122,7 @@ const SideBar = () => {
               if (r?.children) {
                 return (
                   <SideBarItemToolTip
-                    title={!open ? r?.name : ""}
+                  title={!open ? t(r?.name) : ""}
                     placement="right"
                     arrow
                     key={key}
@@ -199,7 +199,7 @@ const SideBar = () => {
           return (
             <React.Fragment key={key}>
               <SideBarItemToolTip
-                title={!open ? r.name : ""}
+                title={!open ? t( r.name) : ""}
                 placement="right"
                 arrow
               >
@@ -274,7 +274,7 @@ const SideBar = () => {
         if (r?.isSideBar) {
           return (
             <SideBarItemToolTip
-              title={!openSecondary ? r.name : ""}
+              title={!openSecondary ? t(r.name) : ""}
               placement="right"
               arrow
               key={key}
@@ -367,7 +367,7 @@ const SideBar = () => {
       {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
           <Toolbar>
-            <Typography variant="h7">{selectedSubRoute?.name || ""}</Typography>
+            <Typography variant="h7">{t(selectedSubRoute?.name )|| ""}</Typography>
           </Toolbar>
           <Divider />
           <List component="nav">{loading === true && renderSubRoutes()}</List>
