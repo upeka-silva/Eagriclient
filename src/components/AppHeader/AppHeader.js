@@ -117,17 +117,17 @@ const AppHeader = () => {
       ) || {};
     if (r.children) {
       screenName =
-        `${t(r.name)} > ${
-          t((
+        `${t(r.name)} > ${t(
+          (
             r.children.find(
               (cr) => `${r.path}${cr?.path}` === location.pathname
             ) || {}
-          )?.name)
-        }` || "";
+          )?.name
+        )}` || "";
     } else {
       screenName = r?.name || "";
     }
-    return screenName;
+    return t(screenName);
   };
 
   const getPathName = () => {
@@ -160,7 +160,7 @@ const AppHeader = () => {
   };
 
   const profile = () => {
-    navigate("/userProfile", { state: { action : DEF_ACTIONS.EDIT } });
+    navigate("/userProfile", { state: { action: DEF_ACTIONS.EDIT } });
   };
 
   return (
@@ -280,10 +280,10 @@ const AppHeader = () => {
             </Stack>
             <Stack spacing={2} sx={{ marginTop: "32px !important" }}>
               <Button variant="contained" color="success" onClick={profile}>
-                VIEW PROFILE
+                {t("action.viewProfile")}
               </Button>
               <Button variant="contained" color="success" onClick={logoutFunc}>
-                LOGOUT
+                {t("action.logOut")}
               </Button>
             </Stack>
           </Stack>

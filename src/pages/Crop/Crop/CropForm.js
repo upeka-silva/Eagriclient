@@ -492,7 +492,7 @@ const CropForm = ({
           saving={saving}
           goBack={goBack}
           state={state}
-          formName="crop.crop"
+          formName="nav.crop.name"
         />
         <TabContent
           style={{

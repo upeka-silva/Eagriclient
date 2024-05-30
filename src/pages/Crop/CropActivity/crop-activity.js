@@ -162,7 +162,7 @@ const CropActivity = () => {
       <CustFormHeader
         saving={saving}
         state={{ action: "Add" }}
-        formName="crop.cropActivity"
+        formName="nav.crop.cropActivity"
       />
 
       <ActionWrapper isLeft>

@@ -294,26 +294,26 @@ export const Routes = [
 
   {
     path: "/main-dashboard",
-    name: "Dashboard",
+    name: "nav.dashboard",
     isSideBar: true,
     element: <Dashboard />,
     icon: DashboardIcon,
   },
   {
     path: "/zone",
-    name: "Geological Zone",
+    name: "nav.geologicalZone.name",
     isSideBar: true,
     icon: AccountTreeIcon,
     children: [
       {
         path: "/ga-structure",
-        name: "Administration Structure",
+        name: "nav.geologicalZone.administrationStructure.name",
         isSideBar: true,
         parentPath: "/zone/ga-structure/province",
         children: [
           {
             path: "/province",
-            name: "Province",
+            name: "nav.geologicalZone.administrationStructure.province",
             isSideBar: true,
             element: <Province />,
             icon: CropSquareIcon,
@@ -321,13 +321,13 @@ export const Routes = [
           },
           {
             path: "/province-form",
-            name: "Province Form",
+            name: "nav.geologicalZone.administrationStructure.provinceForm",
             isSideBar: false,
             element: <ProvinceForm />,
           },
           {
             path: "/district",
-            name: "District",
+            name: "nav.geologicalZone.administrationStructure.district",
             isSideBar: true,
             element: <District />,
             icon: StreetviewIcon,
@@ -335,13 +335,13 @@ export const Routes = [
           },
           {
             path: "/district-form",
-            name: "District Form",
+            name: "nav.geologicalZone.administrationStructure.districtForm",
             isSideBar: false,
             element: <DistrictForm />,
           },
           {
             path: "/ds-division",
-            name: "DS Division",
+            name: "nav.geologicalZone.administrationStructure.dsDivision",
             isSideBar: true,
             element: <DsDivision />,
             icon: StreetviewIcon,
@@ -349,13 +349,13 @@ export const Routes = [
           },
           {
             path: "/ds-division-form",
-            name: "DS Division Form",
+            name: "nav.geologicalZone.administrationStructure.dsDivisionForm",
             isSideBar: false,
             element: <DsDivisionForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.administrationStructure.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             component: DEF_COMPONENTS.GN_DIVISION,
@@ -363,7 +363,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.administrationStructure.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -371,13 +371,13 @@ export const Routes = [
       },
       {
         path: "/provincial-structure",
-        name: "Provincial DOA Structure",
+        name: "nav.geologicalZone.provincialDoaStructure.name",
         isSideBar: true,
         parentPath: "/zone/provincial-structure/provincial-director",
         children: [
           {
             path: "/provincial-director",
-            name: "Provincial DOA",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialDoa",
             isSideBar: true,
             element: <ProvincialDoa />,
             icon: MyLocationIcon,
@@ -385,13 +385,13 @@ export const Routes = [
           },
           {
             path: "/provincial-doa-form",
-            name: "Provincial DOA Form",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialDoaForm",
             isSideBar: false,
             element: <ProvincialDoaForm />,
           },
           {
             path: "/provincial-deputy-director",
-            name: "Provincial DDOA",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialDdoa",
             isSideBar: true,
             element: <ProvincialDdoa />,
             icon: MyLocationIcon,
@@ -399,13 +399,13 @@ export const Routes = [
           },
           {
             path: "/provincial-ddoa-form",
-            name: "Provincial DDOA Form",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialDdoaForm",
             isSideBar: false,
             element: <ProvincialDdoaForm />,
           },
           {
             path: "/provincial-ada",
-            name: "Provincial ADA",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialAda",
             isSideBar: true,
             element: <ProvincialAda />,
             icon: MyLocationIcon,
@@ -413,13 +413,13 @@ export const Routes = [
           },
           {
             path: "/provincial-ada-form",
-            name: "Provincial ADA Form",
+            name: "nav.geologicalZone.provincialDoaStructure.provincialAdaForm",
             isSideBar: false,
             element: <ProvincialAdaForm />,
           },
           {
             path: "/ai-region",
-            name: "AI Region",
+            name: "nav.geologicalZone.provincialDoaStructure.aiRegion",
             isSideBar: true,
             element: <ProvincialAiRegion />,
             icon: MyLocationIcon,
@@ -427,13 +427,13 @@ export const Routes = [
           },
           {
             path: "/ai-region-form",
-            name: "ASC Form",
+            name: "nav.geologicalZone.provincialDoaStructure.aiRegionForm",
             isSideBar: false,
             element: <ProvincialAiRegionForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.provincialDoaStructure.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             icon: MyLocationIcon,
@@ -441,7 +441,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.provincialDoaStructure.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -449,14 +449,14 @@ export const Routes = [
       },
       {
         path: "/inter-provincial-structure",
-        name: "Inter Provincial DOA ",
+        name: "nav.geologicalZone.interProvincialDoa.name",
         isSideBar: true,
         parentPath:
           "/zone/inter-provincial-structure/inter-provincial-director",
         children: [
           {
             path: "/inter-provincial-director",
-            name: "Director DOA",
+            name: "nav.geologicalZone.interProvincialDoa.directorDoa",
             isSideBar: true,
             element: <IntProvincialDoa />,
             icon: MyLocationIcon,
@@ -464,13 +464,13 @@ export const Routes = [
           },
           {
             path: "/inter-provincial-doa-form",
-            name: "Provincial DOA Form",
+            name: "nav.geologicalZone.interProvincialDoa.provincialDoaForm",
             isSideBar: false,
             element: <IntProvincialDoaForm />,
           },
           {
             path: "/inter-provincial-deputy-director",
-            name: "Inter Provincial DDOA",
+            name: "nav.geologicalZone.interProvincialDoa.interProvincialDdoa",
             isSideBar: true,
             element: <IntProvincialDdoa />,
             icon: MyLocationIcon,
@@ -478,13 +478,13 @@ export const Routes = [
           },
           {
             path: "/inter-provincial-ddoa-form",
-            name: "Inter Provincial DDOA",
+            name: "nav.geologicalZone.interProvincialDoa.interProvincialDdoaForm",
             isSideBar: false,
             element: <IntProvincialDdoaForm />,
           },
           {
             path: "/inter-provincial-ada",
-            name: "Inter Provincial ADA",
+            name: "nav.geologicalZone.interProvincialDoa.interProvincialAda",
             isSideBar: true,
             element: <IntProvincialAda />,
             icon: MyLocationIcon,
@@ -492,13 +492,13 @@ export const Routes = [
           },
           {
             path: "/inter-provincial-ada-form",
-            name: "Provincial ADA Form",
+            name: "nav.geologicalZone.interProvincialDoa.interProvincialAdaForm",
             isSideBar: false,
             element: <IntProvincialAdaForm />,
           },
           {
             path: "/inter-ai-region",
-            name: "AI Region",
+            name: "nav.geologicalZone.interProvincialDoa.aiRegion",
             isSideBar: true,
             element: <InterProvincialAiRegion />,
             icon: MyLocationIcon,
@@ -506,13 +506,13 @@ export const Routes = [
           },
           {
             path: "/inter-ai-region-form",
-            name: "ASC Form",
+            name: "nav.geologicalZone.interProvincialDoa.aiRegionForm",
             isSideBar: false,
             element: <InterProvincialAiRegionForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.interProvincialDoa.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             icon: MyLocationIcon,
@@ -520,7 +520,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.interProvincialDoa.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -528,13 +528,13 @@ export const Routes = [
       },
       {
         path: "/mahaweli-structure",
-        name: "Mahaweli Structure",
+        name: "nav.geologicalZone.mahaweliStructure.name",
         isSideBar: true,
         parentPath: "/zone/mahaweli-structure/mahaweli-authority",
         children: [
           {
             path: "/mahaweli-authority",
-            name: "Mahaweli Authority",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliAuthority",
             isSideBar: true,
             element: <MahaweliAuthority />,
             icon: CropSquareIcon,
@@ -542,13 +542,13 @@ export const Routes = [
           },
           {
             path: "/mahaweli-authority-form",
-            name: "ARPA Area Form",
+            name: "nav.geologicalZone.mahaweliStructure.arpaAreaForm",
             isSideBar: false,
             element: <MahaweliAuthorityForm />,
           },
           {
             path: "/mahaweli-system",
-            name: "Mahaweli System",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliSystem",
             isSideBar: true,
             element: <MahaweliSystem />,
             icon: CropSquareIcon,
@@ -556,13 +556,13 @@ export const Routes = [
           },
           {
             path: "/mahaweli-system-form",
-            name: "Mahaweli System Form",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliSystemForm",
             isSideBar: false,
             element: <MahaweliSystemForm />,
           },
           {
             path: "/mahaweli-block",
-            name: "Mahaweli Block",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliBlock",
             isSideBar: true,
             element: <MahaweliBlock />,
             icon: CropSquareIcon,
@@ -570,14 +570,14 @@ export const Routes = [
           },
           {
             path: "/mahaweli-block-form",
-            name: "Mahaweli Block Form",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliBlockForm",
             isSideBar: false,
             element: <MahaweliBlockForm />,
           },
 
           {
             path: "/mahaweli-unit",
-            name: "Mahaweli Unit",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliUnit",
             isSideBar: true,
             element: <MahaweliUnit />,
             icon: CropSquareIcon,
@@ -585,13 +585,13 @@ export const Routes = [
           },
           {
             path: "/mahaweli-unit-form",
-            name: "Mahaweli Unit Form",
+            name: "nav.geologicalZone.mahaweliStructure.mahaweliUnitForm",
             isSideBar: false,
             element: <MahaweliUnitForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.mahaweliStructure.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             icon: MyLocationIcon,
@@ -599,7 +599,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.mahaweliStructure.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -607,13 +607,13 @@ export const Routes = [
       },
       {
         path: "/agrarian",
-        name: "Agrarian",
+        name: "nav.geologicalZone.agrarian.name",
         isSideBar: true,
         parentPath: "/zone/agrarian/department-of-agrarian-development",
         children: [
           {
             path: "/department-of-agrarian-development",
-            name: "AgrarDevDept",
+            name: "nav.geologicalZone.agrarian.agrarDevDept",
             isSideBar: true,
             element: <AgrarDevDept />,
             icon: MyLocationIcon,
@@ -621,13 +621,13 @@ export const Routes = [
           },
           {
             path: "/department-of-agrarian-development-form",
-            name: "AgrarDevDept Form",
+            name: "nav.geologicalZone.agrarian.agrarDevDeptForm",
             isSideBar: false,
             element: <AgrarDevDeptForm />,
           },
           {
             path: "/district-commissioner",
-            name: "District Commissioner",
+            name: "nav.geologicalZone.agrarian.districtCommissioner",
             isSideBar: true,
             element: <DistrictComm />,
             icon: MyLocationIcon,
@@ -635,13 +635,13 @@ export const Routes = [
           },
           {
             path: "/district-commissioner-form",
-            name: "District Commissioner Form",
+            name: "nav.geologicalZone.agrarian.districtCommissionerForm",
             isSideBar: false,
             element: <DistrictCommForm />,
           },
           {
             path: "/asc-division",
-            name: "ASC Division",
+            name: "nav.geologicalZone.agrarian.ascDivision",
             isSideBar: true,
             element: <ASC />,
             icon: MyLocationIcon,
@@ -649,13 +649,13 @@ export const Routes = [
           },
           {
             path: "/asc-division-form",
-            name: "ASC Division Form",
+            name: "nav.geologicalZone.agrarian.ascDivisionForm",
             isSideBar: false,
             element: <ASCForm />,
           },
           {
             path: "/arpa-division",
-            name: "ARPA Division",
+            name: "nav.geologicalZone.agrarian.arpaDivision",
             isSideBar: true,
             element: <ARPA />,
             icon: MyLocationIcon,
@@ -663,13 +663,13 @@ export const Routes = [
           },
           {
             path: "/arpa-division-form",
-            name: "ARPA Division Form",
+            name: "nav.geologicalZone.agrarian.arpaDivisionForm",
             isSideBar: false,
             element: <ARPAForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.agrarian.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             icon: MyLocationIcon,
@@ -677,7 +677,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.agrarian.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -686,13 +686,13 @@ export const Routes = [
 
       {
         path: "/ez-structure",
-        name: "Ecological Zone Structure",
+        name: "nav.geologicalZone.ecologicalZoneStructure.name",
         isSideBar: true,
         parentPath: "/zone/ez-structure/agro-eco-zone",
         children: [
           {
             path: "/agro-eco-zone",
-            name: "Agro Eco Zone",
+            name: "nav.geologicalZone.ecologicalZoneStructure.agroEcoZone",
             isSideBar: true,
             element: <AgroEco />,
             icon: AccountTreeIcon,
@@ -700,13 +700,13 @@ export const Routes = [
           },
           {
             path: "/agro-eco-zone-form",
-            name: "Agro Eco Zone",
+            name: "nav.geologicalZone.ecologicalZoneStructure.agroEcoZoneForm",
             isSideBar: false,
             element: <AgroEcoForm />,
           },
           {
             path: "/gn-division",
-            name: "GN Division",
+            name: "nav.geologicalZone.ecologicalZoneStructure.gnDivision",
             isSideBar: true,
             element: <GnDivision />,
             icon: MyLocationIcon,
@@ -714,7 +714,7 @@ export const Routes = [
           },
           {
             path: "/gn-division-form",
-            name: "GN Division Form",
+            name: "nav.geologicalZone.ecologicalZoneStructure.gnDivisionForm",
             isSideBar: false,
             element: <GnDivisionForm />,
           },
@@ -723,13 +723,13 @@ export const Routes = [
 
       {
         path: "/scs-structure",
-        name: "SCS Region",
+        name: "nav.geologicalZone.scsRegion.name",
         isSideBar: true,
         parentPath: "/zone/scs-structure/scs-service",
         children: [
           {
             path: "/scs-service",
-            name: "SCS Service",
+            name: "nav.geologicalZone.scsRegion.scsService",
             isSideBar: true,
             element: <ScsService />,
             icon: AccountTreeIcon,
@@ -737,13 +737,13 @@ export const Routes = [
           },
           {
             path: "/scs-service-form",
-            name: "SCS Service",
+            name: "nav.geologicalZone.scsRegion.scsServiceForm",
             isSideBar: false,
             element: <ScsServiceForm />,
           },
           {
             path: "/scs-region",
-            name: "SCS Region",
+            name: "nav.geologicalZone.scsRegion.scsRegion",
             isSideBar: true,
             element: <ScsRegion />,
             icon: MyLocationIcon,
@@ -751,7 +751,7 @@ export const Routes = [
           },
           {
             path: "/scs-region-form",
-            name: "SCS Region Form",
+            name: "nav.geologicalZone.scsRegion.scsRegionForm",
             isSideBar: false,
             element: <ScsRegionForm />,
           },
@@ -761,13 +761,13 @@ export const Routes = [
   },
   {
     path: "/soil",
-    name: "Soil",
+    name: "nav.soil.name",
     isSideBar: true,
     icon: WaterIcon,
     children: [
       {
         path: "/soil-type",
-        name: "Soil Type",
+        name: "nav.soil.soilType",
         isSideBar: true,
         element: <Soil />,
         icon: WaterIcon,
@@ -775,13 +775,13 @@ export const Routes = [
       },
       {
         path: "/soil-type-form",
-        name: "Soil Type Form",
+        name: "nav.soil.soilTypeForm",
         isSideBar: false,
         element: <SoilForm />,
       },
       {
         path: "/soil-sub-type",
-        name: "Soil Sub Type",
+        name: "nav.soil.soilSubType",
         isSideBar: true,
         element: <SoilSubType />,
         icon: WaterIcon,
@@ -789,7 +789,7 @@ export const Routes = [
       },
       {
         path: "/soil-sub-type-form",
-        name: "Soil Type Form",
+        name: "nav.soil.soilSubTypeForm",
         isSideBar: false,
         element: <SoilSubTypeForm />,
       },
@@ -798,14 +798,14 @@ export const Routes = [
 
   {
     path: "/crop",
-    name: "crop.crop",
+    name: "nav.crop.name",
     isSideBar: true,
     icon: SpaIcon,
     isService: "SC",
     children: [
       {
         path: "/category",
-        name: "crop.cropCategory",
+        name: "nav.crop.cropCategory",
         isSideBar: true,
         element: <CropCategory />,
         icon: Category,
@@ -813,13 +813,13 @@ export const Routes = [
       },
       {
         path: "/category-form",
-        name: "crop.cropCategoryForm",
+        name: "nav.crop.cropCategoryForm",
         isSideBar: false,
         element: <CropCategoryForm />,
       },
       {
         path: "/sub-category",
-        name: "crop.cropSubCategory",
+        name: "nav.crop.cropSubCategory",
         isSideBar: true,
         element: <CropSubCategory />,
         icon: Category,
@@ -828,13 +828,13 @@ export const Routes = [
 
       {
         path: "/sub-category-form",
-        name: "crop.cropCategoryForm",
+        name: "nav.crop.cropCategoryForm",
         isSideBar: false,
         element: <CropSubCategoryForm />,
       },
       {
         path: "/crop",
-        name: "crop.crop",
+        name: "nav.crop.name",
         isSideBar: true,
         element: <Crop />,
         icon: Apple,
@@ -842,13 +842,13 @@ export const Routes = [
       },
       {
         path: "/crop-form",
-        name: "crop.cropForm",
+        name: "nav.crop.cropForm",
         isSideBar: false,
         element: <CropForm />,
       },
       {
         path: "/crop-variety",
-        name: "crop.cropVariety",
+        name: "nav.crop.cropVariety",
         isSideBar: true,
         element: <CropVariety />,
         icon: YardIcon,
@@ -856,13 +856,13 @@ export const Routes = [
       },
       {
         path: "/crop-variety-form",
-        name: "crop.cropVarietyForm",
+        name: "nav.crop.cropVarietyForm",
         isSideBar: false,
         element: <CropVarietyForm />,
       },
       {
         path: "/damages",
-        name: "crop.cropDamages",
+        name: "nav.crop.cropDamages",
         isSideBar: true,
         element: <CropDamage />,
         icon: TrendingDown,
@@ -870,13 +870,13 @@ export const Routes = [
       },
       {
         path: "/damage-form",
-        name: "crop.cropDamageForm",
+        name: "nav.crop.cropDamageForm",
         isSideBar: false,
         element: <CropDamageForm />,
       },
       {
         path: "/calendar",
-        name: "crop.cropCalendar",
+        name: "nav.crop.cropCalendar",
         isSideBar: true,
         element: <CropCalendar />,
         icon: CalendarMonth,
@@ -884,13 +884,13 @@ export const Routes = [
       },
       {
         path: "/calendar-form",
-        name: "crop.cropCalendarForm",
+        name: "nav.crop.cropCalendarForm",
         isSideBar: false,
         element: <CropCalendarForm />,
       },
       {
         path: "/activity",
-        name: "crop.cropActivity",
+        name: "nav.crop.cropActivity",
         isSideBar: true,
         element: <CropActivity />,
         icon: Rowing,
@@ -898,7 +898,7 @@ export const Routes = [
       },
       {
         path: "/activity-form",
-        name: "crop.cropActivityForm",
+        name: "nav.crop.cropActivityForm",
         isSideBar: false,
         element: <CropActivityForm />,
       },
@@ -918,13 +918,13 @@ export const Routes = [
       // },
       {
         path: "/crop-disease-form",
-        name: "crop.cropDiseaseForm",
+        name: "nav.crop.cropDiseaseForm",
         isSideBar: false,
         element: <CropDiseaseForm />,
       },
       {
         path: "/crop-pest",
-        name: "crop.cropPest",
+        name: "nav.crop.cropPest",
         isSideBar: true,
         element: <CropPest />,
         icon: BugReportRounded,
@@ -932,13 +932,13 @@ export const Routes = [
       },
       {
         path: "/crop-pest-form",
-        name: "crop.cropPestForm",
+        name: "nav.crop.cropPestForm",
         isSideBar: false,
         element: <CropPestForm />,
       },
       {
         path: "/crop-disease",
-        name: "crop.cropDisease",
+        name: "nav.crop.cropDisease",
         isSideBar: true,
         element: <CropDisease />,
         icon: CoronavirusRounded,
@@ -946,7 +946,7 @@ export const Routes = [
       },
       {
         path: "/crop-disease-form",
-        name: "crop.cropDiseaseForm",
+        name: "nav.crop.cropDiseaseForm",
         isSideBar: false,
         element: <CropDiseaseForm />,
       },
@@ -954,14 +954,14 @@ export const Routes = [
   },
   {
     path: "/institution",
-    name: "Institution",
+    name: "nav.institution.name",
     isSideBar: true,
     icon: ApartmentIcon,
 
     children: [
       {
         path: "/institution-category",
-        name: "Institution Category",
+        name: "nav.institution.institutionCategory",
         isSideBar: true,
         element: <InstitutionCategory />,
         icon: ApartmentIcon,
@@ -969,13 +969,13 @@ export const Routes = [
       },
       {
         path: "/institution-category-form",
-        name: "Institution Category Form",
+        name: "nav.institution.institutionCategoryForm",
         isSideBar: false,
         element: <InstitutionCategoryForm />,
       },
       {
         path: "/institution",
-        name: "Institution",
+        name: "nav.institution.institution",
         isSideBar: true,
         element: <Institution />,
         icon: ApartmentIcon,
@@ -983,7 +983,7 @@ export const Routes = [
       },
       {
         path: "/institution-form",
-        name: "Institution Form",
+        name: "nav.institution.institutionForm",
         isSideBar: false,
         element: <InstitutionForm />,
       },
@@ -992,13 +992,13 @@ export const Routes = [
 
   {
     path: "/tests",
-    name: "Soil and Water Tests",
+    name: "nav.soilAndWaterTests.name",
     isSideBar: true,
     icon: BiotechIcon,
     children: [
       {
         path: "/soil-test",
-        name: "Soil Test",
+        name: "nav.soilAndWaterTests.soilTest",
         isSideBar: true,
         element: <SoilTest />,
         icon: SouthAmericaIcon,
@@ -1006,13 +1006,13 @@ export const Routes = [
       },
       {
         path: "/soil-test-form",
-        name: "Soil Test Form",
+        name: "nav.soilAndWaterTests.soilTestForm",
         isSideBar: false,
         element: <SoilTestFrom />,
       },
       {
         path: "/water-test",
-        name: "Water Test",
+        name: "nav.soilAndWaterTests.waterTest",
         isSideBar: true,
         element: <WaterTest />,
         icon: WaterDamageIcon,
@@ -1020,7 +1020,7 @@ export const Routes = [
       },
       {
         path: "/water-test-form",
-        name: "Water Test Form",
+        name: "nav.soilAndWaterTests.waterTestForm",
         isSideBar: false,
         element: <WaterTestForm />,
       },
@@ -1028,7 +1028,7 @@ export const Routes = [
   },
   {
     path: "/agri-season",
-    name: "Agriculture Season",
+    name: "nav.agricultureSeason.name",
     element: <AgriSeason />,
     isSideBar: true,
     icon: WbSunnyIcon,
@@ -1036,14 +1036,14 @@ export const Routes = [
   },
   {
     path: "/agri-season-form",
-    name: "Agriculture Season Form",
+    name: "nav.agricultureSeason.agricultureSeasonForm",
     element: <AgriSeasonForm />,
     isSideBar: false,
   },
 
   {
     path: "/farm-land",
-    name: "Farm Land",
+    name: "nav.farmLand.name",
     isSideBar: true,
     icon: InsertPhotoIcon,
     element: <FarmLand />,
@@ -1051,14 +1051,14 @@ export const Routes = [
   },
   {
     path: "farm-land-form/self-assessment",
-    name: "Self Assessment",
+    name: "nav.farmLand.selfAssessment",
     element: <DynamicFormPageFarmLand />,
     isSideBar: false,
     component: DEF_COMPONENTS.SELF_ASSESSMENT,
   },
   {
     path: "farm-land-form/basic-assessment",
-    name: "Basic Assessment",
+    name: "nav.farmLand.basicAssessment",
     element: <DynamicFormPageFarmLand />,
     isSideBar: false,
     component: DEF_COMPONENTS.BASIC_ASSESSMENT,
@@ -1072,13 +1072,13 @@ export const Routes = [
   // },
   {
     path: "/farm-land-form",
-    name: "Farm Land",
+    name: "nav.farmLand.farmLandForm",
     isSideBar: false,
     element: <FarmLandForm />,
   },
   {
     path: "/farmer",
-    name: "Farmer",
+    name: "nav.farmer.name",
     element: <Farmer />,
     isSideBar: true,
     isService: "SC",
@@ -1087,14 +1087,14 @@ export const Routes = [
   },
   {
     path: "/farmer-form",
-    name: "Farmer Form",
+    name: "nav.farmer.farmerForm",
     element: <FarmerForm />,
     isSideBar: false,
   },
 
   {
     path: "/protected-house-type",
-    name: "Protected House Type",
+    name: "nav.protectedHouseType.name",
     element: <ProtectedHouseType />,
     isSideBar: true,
     isService: "SC",
@@ -1103,20 +1103,20 @@ export const Routes = [
   },
   {
     path: "/protected-house-type-form",
-    name: "Protected House Type Form",
+    name: "nav.protectedHouseType.protectedHouseTypeForm",
     element: <ProtectedHouseTypeForm />,
     isSideBar: false,
   },
 
   {
     path: "/user",
-    name: "Users",
+    name: "nav.users.name",
     isSideBar: true,
     icon: GppGoodIcon,
     children: [
       {
         path: "/users",
-        name: "Users",
+        name: "nav.users.users",
         element: <Users />,
         isSideBar: true,
         isService: "SC",
@@ -1125,13 +1125,13 @@ export const Routes = [
       },
       {
         path: "/users-form",
-        name: "New User Form",
+        name: "nav.users.newUserForm",
         element: <UsersForm />,
         isSideBar: false,
       },
       {
         path: "/user-type",
-        name: "User Type",
+        name: "nav.users.userType",
         element: <UserType />,
         isSideBar: true,
         icon: ManageAccountsIcon,
@@ -1139,7 +1139,7 @@ export const Routes = [
       },
       {
         path: "/user-type-form",
-        name: "User Type",
+        name: "nav.users.userTypeForm",
         element: <UserTypeForm />,
         isSideBar: false,
       },
@@ -1147,7 +1147,7 @@ export const Routes = [
   },
   {
     path: "/private-company",
-    name: "Private Company",
+    name: "nav.privateCompany.name",
     element: <PrivateCompaniesList />,
     isSideBar: true,
     icon: AccountBalanceIcon,
@@ -1155,32 +1155,32 @@ export const Routes = [
   },
   {
     path: "/private-company-form",
-    name: "Private Company Form",
+    name: "nav.privateCompany.privateCompanyForm",
     element: <PrivateCompaniesForm />,
     isSideBar: false,
   },
 
   {
     path: "/audit-form",
-    name: "Audit Form",
+    name: "nav.privateCompany.auditForm",
     element: <DynamicFormPage />,
     isSideBar: false,
   },
   {
     path: "/audit-form-edit-view",
-    name: "Audit Form",
+    name: "nav.privateCompany.auditForm",
     element: <FormPageEditView />,
     isSideBar: false,
   },
   {
     path: "/gap",
-    name: "GAP",
+    name: "nav.gap.name",
     isSideBar: true,
     icon: GppGoodIcon,
     children: [
       {
         path: "/gap-registration",
-        name: "GAP Registration",
+        name: "nav.gap.gapRegistration",
         element: <GapRegs />,
         isSideBar: true,
         icon: AppRegistrationIcon,
@@ -1188,13 +1188,13 @@ export const Routes = [
       },
       {
         path: "/gap-reg-form",
-        name: "GAP Regs",
+        name: "nav.gap.gapRegs",
         element: <GapRegForm />,
         isSideBar: false,
       },
       {
         path: "/self-assessment",
-        name: "Self Assessment",
+        name: "nav.gap.selfAssessment",
         isSideBar: true,
         element: <SelfAssessment />,
         icon: SouthAmericaIcon,
@@ -1202,14 +1202,14 @@ export const Routes = [
       },
       {
         path: "/self-assessment-form",
-        name: "Self Assessment Form",
+        name: "nav.gap.selfAssessmentForm",
         isSideBar: false,
         element: <SelfAssessmentForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/basic-assessment",
-        name: "Basic Assessment",
+        name: "nav.gap.basicAssessment",
         isSideBar: true,
         element: <BasicData />,
         icon: SouthAmericaIcon,
@@ -1217,14 +1217,14 @@ export const Routes = [
       },
       {
         path: "/basic-assessment-form",
-        name: "Basic Data Assessment Form",
+        name: "nav.gap.basicDataAssessmentForm",
         isSideBar: false,
         element: <BasicDataForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/internal-audit",
-        name: "Internal Audit",
+        name: "nav.gap.internalAudit",
         isSideBar: true,
         element: <InternalAudit />,
         icon: SouthAmericaIcon,
@@ -1232,14 +1232,14 @@ export const Routes = [
       },
       {
         path: "/internal-audit-form",
-        name: "Internal Audit Form",
+        name: "nav.gap.internalAuditForm",
         isSideBar: false,
         element: <InternalAuditForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/external-audit",
-        name: "Final Audit",
+        name: "nav.gap.finalAudit",
         isSideBar: true,
         element: <ExternalAudit />,
         icon: SouthAmericaIcon,
@@ -1247,7 +1247,7 @@ export const Routes = [
       },
       {
         path: "/external-audit-form",
-        name: "Final Audit Form",
+        name: "nav.gap.finalAuditForm",
         isSideBar: false,
         element: <ExternalAuditForm />,
         icon: SouthAmericaIcon,
@@ -1256,13 +1256,13 @@ export const Routes = [
   },
   {
     path: "/extension",
-    name: "Extension",
+    name: "nav.extension.name",
     isSideBar: true,
     icon: ExtensionIcon,
     children: [
       {
         path: "/create-post",
-        name: "Create Post",
+        name: "nav.extension.createPost",
         isSideBar: true,
         element: <CreatePost />,
         icon: PostAddIcon,
@@ -1270,7 +1270,7 @@ export const Routes = [
       },
       {
         path: "/create-project",
-        name: "Project",
+        name: "nav.extension.project",
         isSideBar: true,
         element: <AgricultureProject />,
         icon: AssignmentIndIcon,
@@ -1278,14 +1278,14 @@ export const Routes = [
       },
       {
         path: "/agriculture-project-form",
-        name: "Agriculture Project Form",
+        name: "nav.extension.agricultureProjectForm",
         isSideBar: false,
         element: <AgricultureProjectForm />,
         component: DEF_COMPONENTS.AGRICULTURE_PROJECT,
       },
       {
         path: "/report-project",
-        name: "Report Project",
+        name: "nav.extension.reportProject",
         isSideBar: true,
         element: <ProjectReport />,
         icon: SummarizeIcon,
@@ -1300,13 +1300,13 @@ export const Routes = [
   },
   {
     path: "/crop-target",
-    name: "Indicative Targets",
+    name: "nav.indicativeTargets.name",
     isSideBar: true,
     icon: ContentPasteSearchIcon,
     children: [
       {
         path: "/crop-target-registration",
-        name: "Crop Setting",
+        name: "nav.indicativeTargets.cropSetting",
         isSideBar: true,
         element: <TargetRegistration />,
         icon: Settings,
@@ -1314,14 +1314,14 @@ export const Routes = [
       },
       {
         path: "/crop-target-registration-form",
-        name: "Crop Target Registration Form",
+        name: "nav.indicativeTargets.cropTargetRegistrationForm",
         isSideBar: false,
         element: <TargetRegistrationForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/dd-summary",
-        name: "DD Summary",
+        name: "nav.indicativeTargets.ddSummary",
         isSideBar: true,
         element: <DDLevelSummary />,
         icon: Plagiarism,
@@ -1329,7 +1329,7 @@ export const Routes = [
       },
       {
         path: "/ai-summary",
-        name: "AI Summary",
+        name: "nav.indicativeTargets.aiSummary",
         isSideBar: true,
         element: <AILevelSummary />,
         icon: Plagiarism,
@@ -1339,13 +1339,13 @@ export const Routes = [
   },
   {
     path: "/crop-look",
-    name: "Crop Look",
+    name: "nav.cropLook.name",
     isSideBar: true,
     icon: ContentPasteSearchIcon,
     children: [
       {
         path: "/crop-configuration",
-        name: "Field Configuration",
+        name: "nav.cropLook.fieldConfiguration",
         isSideBar: true,
         element: <CropConfiguration />,
         icon: Settings,
@@ -1353,14 +1353,14 @@ export const Routes = [
       },
       {
         path: "/crop-configuration-form",
-        name: "Field Configuration Form",
+        name: "nav.cropLook.fieldConfigurationForm",
         isSideBar: false,
         element: <CropConfigurationForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/season",
-        name: "Crop Look Season",
+        name: "nav.cropLook.cropLookSeason",
         isSideBar: true,
         element: <CropLookSeason />,
         icon: WbSunnyIcon,
@@ -1368,14 +1368,14 @@ export const Routes = [
       },
       {
         path: "/season-form",
-        name: "Crop Look Season Form",
+        name: "nav.cropLook.cropLookSeasonForm",
         isSideBar: false,
         element: <CropLookSeasonForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/crop-registration",
-        name: "Crop Registration",
+        name: "nav.cropLook.cropRegistration",
         isSideBar: true,
         element: <CropRegistration />,
         icon: HowToReg,
@@ -1383,14 +1383,14 @@ export const Routes = [
       },
       {
         path: "/crop-registration-form",
-        name: "Crop Registration Form",
+        name: "nav.cropLook.cropRegistrationForm",
         isSideBar: false,
         element: <CropRegistrationForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/crop-target",
-        name: "Crop Target",
+        name: "nav.cropLook.cropTarget",
         isSideBar: true,
         element: <CropTarget />,
         icon: Moving,
@@ -1398,14 +1398,14 @@ export const Routes = [
       },
       {
         path: "/crop-target-form",
-        name: "Crop Targets Form",
+        name: "nav.cropLook.cropTargetsForm",
         isSideBar: false,
         element: <CropTargetForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/biweekly-reporting",
-        name: "Biweekly Reporting",
+        name: "nav.cropLook.biweeklyReporting",
         isSideBar: true,
         element: <BiWeeklyReporting />,
         icon: Assessment,
@@ -1413,21 +1413,21 @@ export const Routes = [
       },
       {
         path: "/biweekly-reporting-form",
-        name: "Biweekly Reporting Form",
+        name: "nav.cropLook.biweeklyReportingForm",
         isSideBar: false,
         element: <BiWeeklyReportingForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/variety-summary",
-        name: "Variety Summary",
+        name: "nav.cropLook.varietySummary.name",
         isSideBar: true,
         parentPath: "/crop-look/variety-summary/dd-wise",
         icon: Preview,
         children: [
           {
             path: "/dd-wise",
-            name: "Variety Summary",
+            name: "nav.cropLook.varietySummary.name",
             isSideBar: true,
             element: <AggrigateReport />,
             icon: Preview,
@@ -1435,7 +1435,7 @@ export const Routes = [
           },
           {
             path: "/dd-variety-summary",
-            name: "Variety Summary - DD Wise",
+            name: "nav.cropLook.varietySummary.varietySummaryDdWise",
             isSideBar: true,
             element: <AggrigateReportDDLevel />,
             icon: Preview,
@@ -1443,7 +1443,7 @@ export const Routes = [
           },
           {
             path: "/ai-variety-summary",
-            name: "Variety Summary - AI Wise",
+            name: "nav.cropLook.varietySummary.varietySummaryAiWise",
             isSideBar: true,
             element: <AggrigateReportAILevel />,
             icon: Preview,
@@ -1451,7 +1451,7 @@ export const Routes = [
           },
           {
             path: "/ada-variety-summary",
-            name: "Variety Summary - ADA Wise",
+            name: "nav.cropLook.varietySummary.varietySummaryAdaWise",
             isSideBar: true,
             element: <AggrigateReportAdaLevel />,
             icon: Preview,
@@ -1459,7 +1459,7 @@ export const Routes = [
           },
           {
             path: "/ai-variety-summary-by-crops",
-            name: "Crop Summary (AI Level)",
+            name: "nav.cropLook.varietySummary.cropSummaryAiLevel",
             isSideBar: true,
             element: <AggrigateReportAILevelByCrop />,
             icon: Preview,
@@ -1469,14 +1469,14 @@ export const Routes = [
       },
       {
         path: "/approval-report",
-        name: "Approval Report",
+        name: "nav.cropLook.approvalReport.name",
         isSideBar: true,
         parentPath: "/crop-look/approval-report/approval-report-info-dd",
         icon: Preview,
         children: [
           {
             path: "/approval-report-info-dd",
-            name: "Approval Report Info DD",
+            name: "nav.cropLook.approvalReport.approvalReportInfoDD",
             isSideBar: true,
             element: <ApprovalReport owner={"DD"} />,
             icon: Preview,
@@ -1484,7 +1484,7 @@ export const Routes = [
           },
           {
             path: "/approval-report-info-ada",
-            name: "Approval Report Info ADA",
+            name: "nav.cropLook.approvalReport.approvalReportInfoADA",
             isSideBar: true,
             element: <ApprovalReport owner={"ADA"} />,
             icon: Preview,
@@ -1492,7 +1492,7 @@ export const Routes = [
           },
           {
             path: "/report-approval-ada",
-            name: "Approval Panel (ADA)",
+            name: "nav.cropLook.approvalReport.approvalPanelADA",
             isSideBar: true,
             element: <ApprovalDashboard />,
             icon: Preview,
@@ -1500,7 +1500,7 @@ export const Routes = [
           },
           {
             path: "/report-approval-dd",
-            name: "Approval Panel (DD)",
+            name: "nav.cropLook.approvalReport.approvalPanelDD",
             isSideBar: true,
             element: <ApprovalDashboardDD />,
             icon: Preview,
@@ -1510,7 +1510,7 @@ export const Routes = [
       },
       {
         path: "/progress-tracker",
-        name: "Progress Tracker",
+        name: "nav.cropLook.progressTracker",
         isSideBar: true,
         element: <ProgressTrackerTree />,
         icon: Preview,
@@ -1527,7 +1527,7 @@ export const Routes = [
       // },
       {
         path: "/early-warning-ranges",
-        name: "Early Warning Limits",
+        name: "nav.cropLook.earlyWarningLimits",
         isSideBar: true,
         element: <CropLookEarlyWarningRanges />,
         icon: Settings,
@@ -1535,7 +1535,7 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning-ranges",
-        name: "Veg Early Warnings",
+        name: "nav.cropLook.vegEarlyWarnings",
         isSideBar: true,
         element: <VegitableEarlyWarningRanges />,
         icon: Settings,
@@ -1543,7 +1543,7 @@ export const Routes = [
       },
       {
         path: "/vegitable-early-warning",
-        name: "Vegitable Early Warnings",
+        name: "nav.cropLook.vegitableEarlyWarnings",
         isSideBar: true,
         element: <VegetableEarlyWarning />,
         icon: WbSunnyIcon,
@@ -1553,13 +1553,13 @@ export const Routes = [
   },
   {
     path: "/app-settings",
-    name: "Application Settings",
+    name: "nav.applicationSettings.name",
     isSideBar: true,
     icon: SettingsIcon,
     children: [
       {
         path: "/roles",
-        name: "Roles",
+        name: "nav.applicationSettings.roles",
         isSideBar: true,
         element: <Role />,
         icon: SouthAmericaIcon,
@@ -1567,14 +1567,14 @@ export const Routes = [
       },
       {
         path: "/role-form",
-        name: "Role Form",
+        name: "nav.applicationSettings.roleForm",
         isSideBar: false,
         element: <RoleForm />,
         icon: SouthAmericaIcon,
       },
       {
         path: "/actions",
-        name: "Actions",
+        name: "nav.applicationSettings.actions",
         isSideBar: true,
         icon: HighlightAltIcon,
         element: <Actions />,
@@ -1582,7 +1582,7 @@ export const Routes = [
       },
       {
         path: "/components",
-        name: "Components",
+        name: "nav.applicationSettings.components",
         isSideBar: true,
         icon: ViewModuleIcon,
         element: <Components />,
@@ -1590,20 +1590,20 @@ export const Routes = [
       },
       {
         path: "/component-form",
-        name: "Component Form",
+        name: "nav.applicationSettings.componentForm",
         isSideBar: false,
         element: <ComponentForm />,
       },
       {
         path: "/permissionss",
-        name: "Permissions",
+        name: "nav.applicationSettings.permissions",
         isSideBar: false,
         icon: KeyIcon,
         element: <Permissions />,
       },
       {
         path: "/permissions",
-        name: "Permissions",
+        name: "nav.applicationSettings.componentForm",
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
@@ -1611,14 +1611,14 @@ export const Routes = [
       },
       {
         path: "/permissions-by-role",
-        name: "Permissions",
+        name: "nav.applicationSettings.permissions",
         isSideBar: false,
         icon: KeyIcon,
         element: <PermissionsByRole />,
       },
       {
         path: "/iso-unit",
-        name: "ISO Unit",
+        name: "nav.applicationSettings.isoUnit",
         isSideBar: true,
         icon: SquareFootIcon,
         element: <IsoUnit />,
@@ -1626,7 +1626,7 @@ export const Routes = [
       },
       {
         path: "/iso-unit-form",
-        name: "ISO Unit Form",
+        name: "nav.applicationSettings.isoUnitForm",
         isSideBar: false,
         element: <IsoUnitForm />,
       },
@@ -1635,13 +1635,13 @@ export const Routes = [
 
   {
     path: "/harti",
-    name: "HARTI",
+    name: "nav.harti.name",
     isSideBar: true,
     icon: WaterIcon,
     children: [
       {
         path: "/commodity-group",
-        name: "Commodity Group",
+        name: "nav.harti.commodityGroup",
         isSideBar: true,
         element: <CommodityGroup />,
         icon: GroupIcon,
@@ -1649,7 +1649,7 @@ export const Routes = [
       },
       {
         path: "/commodity-item",
-        name: "Commodity",
+        name: "nav.harti.commodity",
         isSideBar: true,
         element: <CommodityItem />,
         icon: GroupIcon,
@@ -1657,7 +1657,7 @@ export const Routes = [
       },
       {
         path: "/economic-center",
-        name: "Economic Center",
+        name: "nav.harti.economicCenter",
         isSideBar: true,
         element: <EconomicCenter />,
         icon: GroupIcon,
@@ -1665,7 +1665,7 @@ export const Routes = [
       },
       {
         path: "/getfoodpricedata",
-        name: "HARTI Price",
+        name: "nav.harti.hartiPrice",
         isSideBar: true,
         element: <HartyPrices />,
         icon: GroupIcon,
@@ -1675,13 +1675,13 @@ export const Routes = [
   },
   {
     path: "/communication",
-    name: "COMMUNICATION",
+    name: "nav.communication.name",
     isSideBar: true,
     icon: MessageIcon,
     children: [
       {
         path: "/chat",
-        name: "Chat",
+        name: "nav.communication.chat",
         isSideBar: true,
         element: <Chat />,
         icon: SendIcon,

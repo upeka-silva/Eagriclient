@@ -39,7 +39,7 @@ const ConfirmationDialog = ({
     setDialogSelectedTypes(newSelected);
   };
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const getPropertyValue = (obj, path) => {
     const properties = path.split(".");
     let value = obj;
@@ -52,10 +52,11 @@ const ConfirmationDialog = ({
     return value;
   };
 
+  const message = "doYouWantToDelete";
   return (
     <DialogBox
       open={open}
-      title={t("message")[title] && t("message")[title]}
+      title={t("message")[message] && t("message")[message]}
       actions={
         <ActionWrapper>
           <Button
@@ -93,11 +94,15 @@ const ConfirmationDialog = ({
                   />
                 )}
               </ListItemIcon>
-                <ListItemText>
-                  {getPropertyValue(p, propertyId) &&
-                  getPropertyValue(p, propertyDescription)
-                    ? `${getPropertyValue(p, propertyDescription)} - ${getPropertyValue(p, propertyId)}`                 : "Unknown"}
-                </ListItemText>
+              <ListItemText>
+                {getPropertyValue(p, propertyId) &&
+                getPropertyValue(p, propertyDescription)
+                  ? `${getPropertyValue(
+                      p,
+                      propertyDescription
+                    )} - ${getPropertyValue(p, propertyId)}`
+                  : "Unknown"}
+              </ListItemText>
             </ListItem>
           ))}
         </List>

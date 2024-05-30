@@ -142,7 +142,7 @@ const CropDiseaseForm = () => {
         saving={saving}
         state={state}
         goBack={goBack}
-        formName="cropDisease"
+        formName="nav.crop.cropDisease"
       />
       <ButtonWrapper>
         <ActionWrapper>
