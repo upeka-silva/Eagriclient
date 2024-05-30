@@ -223,6 +223,8 @@ import Chat from "../pages/Communication/Chat";
 import ProgressTrackerTree from "../pages/CropLook/progressTrackerTree/progressTrackerTree";
 import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILevelCrop/aggrigate-reporting-ai-by-crop";
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
+import AiSummaryReport from "../pages/CropLook/aiSummaryReport/ai-summary-report";
+import ADASummaryReport from "../pages/CropLook/adaSummaryReport/ada-summary-report";
 
 export const Routes = [
   {
@@ -1505,6 +1507,22 @@ export const Routes = [
             name: "Approval Panel (DD)",
             isSideBar: true,
             element: <ApprovalDashboardDD />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
+          },
+          {
+            path: "/ai-summary-report",
+            name: "Ai Summary Report",
+            isSideBar: true,
+            element: <AiSummaryReport />,
+            icon: Preview,
+            component: DEF_COMPONENTS.CROP_LOOK_BY_ADA,
+          },
+          {
+            path: "/ada-summary-report",
+            name: "ADA Summary Report",
+            isSideBar: true,
+            element: <ADASummaryReport />,
             icon: Preview,
             component: DEF_COMPONENTS.CROP_LOOK_BY_DD,
           },

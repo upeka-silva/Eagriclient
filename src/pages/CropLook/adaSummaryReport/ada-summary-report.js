@@ -20,9 +20,9 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
-import AiSummaryReportTable from "./ai-summary-report-table";
+import ADASummaryReportTable from "./ada-summary-report-table";
 
-const AiSummaryReport = () => {
+const ADASummaryReport = () => {
   useUserAccessValidation();
   const [loading, setLoading] = useState(false);
 
@@ -150,7 +150,7 @@ const AiSummaryReport = () => {
                       {toggleState === index + 1 &&
                       selectedSeason &&
                       selectedWeek ? (
-                        <AiSummaryReportTable category={category} season={selectedSeason} weekId={selectedWeek?.id}/>
+                        <ADASummaryReportTable category={category} season={selectedSeason} weekId={selectedWeek?.id}/>
                       ) : null}
                     </div>
                   </TableWrapper>
@@ -163,4 +163,4 @@ const AiSummaryReport = () => {
   );
 };
 
-export default AiSummaryReport;
+export default ADASummaryReport;

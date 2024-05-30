@@ -11,13 +11,13 @@ import {
   Button,
 } from "@mui/material";
 import {
-  approveBiWeekCategoryReport
+  approveBiWeekCategoryReportDD,
+  getAdaSummaryReport
 } from "../../../redux/actions/cropLook/aggrigateReport/actions";
-import { getAiSummaryReport } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
 
-const AiSummaryReportTable = ({ category, season, weekId }) => {
+const ADASummaryReportTable = ({ category, season, weekId }) => {
 
   const { addSnackBar } = useSnackBars();
   const [data, setData] = useState([]);
@@ -29,7 +29,7 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
   useEffect(() => {
     async function fetchData(categoryId, seasonId, weekId) {
       setLoading(true);
-      const dataList = await getAiSummaryReport(categoryId, seasonId, weekId);
+      const dataList = await getAdaSummaryReport(categoryId, seasonId, weekId);
       setData(dataList);
       setLoading(false);
     }
@@ -39,7 +39,7 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
 
   const handleReportApprove = async () => {
     try {
-      await approveBiWeekCategoryReport(
+      await approveBiWeekCategoryReportDD(
         season?.id,
         weekId,
         category?.id,
@@ -75,7 +75,7 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
           <TableHead>
             <TableRow>
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
-                AI Region/Mahaweli Block
+                ADA Region/Mahaweli System
               </TableCell>
 
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
@@ -91,11 +91,11 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
           <TableBody>
             {!loading ? (
               data?.map((aiRegionData, index) => {
-                const isNewAiName = aiRegionData?.aiName !== previousAiName;
+                const isNewAiName = aiRegionData?.name !== previousAiName;
                 if (isNewAiName) {
                   // Toggle the color for the new aiName
                   isAlternateColor = !isAlternateColor;
-                  previousAiName = aiRegionData?.aiName;
+                  previousAiName = aiRegionData?.name;
                 }
 
                 // Determine the row color based on the toggle state
@@ -104,7 +104,7 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
                 return (
                   <TableRow key={index} style={{ backgroundColor: rowColor }}>
                     <TableCell>
-                      {isNewAiName ? aiRegionData?.aiName : ""}
+                      {isNewAiName ? aiRegionData?.name : ""}
                     </TableCell>
                     <TableCell>{aiRegionData?.totalTarget || 0.0}</TableCell>
                     <TableCell>{aiRegionData?.totalExtent || 0.0}</TableCell>
@@ -132,4 +132,4 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
   );
 };
 
-export default AiSummaryReportTable;
+export default ADASummaryReportTable;
