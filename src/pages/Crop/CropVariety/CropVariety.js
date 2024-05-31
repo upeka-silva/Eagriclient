@@ -29,8 +29,11 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import { useTranslation } from "react-i18next";
 
 const CropVariety = () => {
+  const {t} = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -127,7 +130,7 @@ const CropVariety = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -171,7 +174,7 @@ const CropVariety = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Variety" />
+      <ListHeader title="nav.crop.cropVariety" />
   
       <ActionWrapper isLeft>
       <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
@@ -188,7 +191,7 @@ const CropVariety = () => {
           >
             <Button onClick={onCreate}>
               <Add />
-              {DEF_ACTIONS.ADD}
+              {TranslateActions(t, DEF_ACTIONS.ADD)}
             </Button>
           </PermissionWrapper>
           {selectCategory.length === 1 && (
@@ -197,7 +200,7 @@ const CropVariety = () => {
             >
               <Button onClick={onEdit}>
                 <Edit />
-                {DEF_ACTIONS.EDIT}
+                {TranslateActions(t, DEF_ACTIONS.EDIT)}
               </Button>
             </PermissionWrapper>
           )}
@@ -207,7 +210,7 @@ const CropVariety = () => {
             >
               <Button onClick={onView}>
                 <Vrpano />
-                {DEF_ACTIONS.VIEW}
+                {TranslateActions(t, DEF_ACTIONS.VIEW)}
               </Button>
             </PermissionWrapper>
           )}
@@ -217,7 +220,7 @@ const CropVariety = () => {
             >
               <Button onClick={onDelete}>
                 <Delete />
-                {DEF_ACTIONS.DELETE}
+                {TranslateActions(t, DEF_ACTIONS.DELETE)}
               </Button>
             </PermissionWrapper>
           )}
@@ -239,7 +242,7 @@ const CropVariety = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCategory}
         loading={loading}
         onClose={close}

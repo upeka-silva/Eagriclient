@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { DataTable } from "../../../components/PageLayout/Table";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 
@@ -10,11 +10,12 @@ const CropPestList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const { t } = useTranslation();
   const columns = [
-    { field: "pestName", headerName: "Pest Name" },
-    { field: "scientificName", headerName: "scientific Name" },
-    { field: "damageSymptom", headerName: "Damage Symptom" },
-    { field: "management", headerName: "Management"},
+    { field: "pestName", headerName: t("cropPestPage.pestName") },
+    { field: "scientificName", headerName: t("cropPestPage.scientificName") },
+    { field: "damageSymptom", headerName: t("cropPestPage.damageSymptom") },
+    { field: "management", headerName: t("cropPestPage.management") },
   ];
 
   return (

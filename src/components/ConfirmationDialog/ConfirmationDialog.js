@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import DialogBox from "../PageLayout/DialogBox";
 import { ActionWrapper } from "../PageLayout/ActionWrapper";
+import { useTranslation } from "react-i18next";
 
 const ConfirmationDialog = ({
   open,
@@ -38,6 +39,7 @@ const ConfirmationDialog = ({
     setDialogSelectedTypes(newSelected);
   };
 
+  const { t } = useTranslation();
   const getPropertyValue = (obj, path) => {
     const properties = path.split(".");
     let value = obj;
@@ -50,10 +52,11 @@ const ConfirmationDialog = ({
     return value;
   };
 
+  const message = "doYouWantToDelete";
   return (
     <DialogBox
       open={open}
-      title={title && title}
+      title={t("message")[message] && t("message")[message]}
       actions={
         <ActionWrapper>
           <Button
@@ -62,7 +65,7 @@ const ConfirmationDialog = ({
             onClick={onConfirm}
             sx={{ ml: "8px" }}
           >
-            Ok
+            {t("action")["ok"]}
           </Button>
           <Button
             variant="contained"
@@ -70,7 +73,7 @@ const ConfirmationDialog = ({
             onClick={onClose}
             sx={{ ml: "8px" }}
           >
-            Cancel
+            {t("action")["cancel"]}
           </Button>
         </ActionWrapper>
       }
@@ -91,11 +94,15 @@ const ConfirmationDialog = ({
                   />
                 )}
               </ListItemIcon>
-                <ListItemText>
-                  {getPropertyValue(p, propertyId) &&
-                  getPropertyValue(p, propertyDescription)
-                    ? `${getPropertyValue(p, propertyDescription)} - ${getPropertyValue(p, propertyId)}`                 : "Unknown"}
-                </ListItemText>
+              <ListItemText>
+                {getPropertyValue(p, propertyId) &&
+                getPropertyValue(p, propertyDescription)
+                  ? `${getPropertyValue(
+                      p,
+                      propertyDescription
+                    )} - ${getPropertyValue(p, propertyId)}`
+                  : "Unknown"}
+              </ListItemText>
             </ListItem>
           ))}
         </List>

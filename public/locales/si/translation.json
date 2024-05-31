@@ -1,0 +1,458 @@
+{
+  "nav": {
+    "dashboard": "පුවරුව",
+    "geologicalZone": {
+      "name": "භූගෝලීය කලාපය",
+      "administrationStructure": {
+        "name": "පරිපාලන ව්‍යුහය",
+        "province": "පළාත",
+        "provinceForm": "පළාතේ පෝරමය",
+        "district": "දිස්ත්‍රික්කය",
+        "districtForm": "දිස්ත්‍රික් පෝරමය",
+        "dsDivision": "ප්‍රා.ලේ. කොට්ඨාසය",
+        "dsDivisionForm": "ප්‍රා.ලේ. කොට්ඨාස පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "provincialDoaStructure": {
+        "name": "පළාත් කෘෂිකාර්මික ව්‍යුහය",
+        "provincialDoa": "පළාත් කෘෂිකාර්මික දෙපාර්තමේන්තුව",
+        "provincialDoaForm": "පළාත් කෘෂිකාර්මික පෝරමය",
+        "provincialDdoa": "පළාත් කෘෂිකාර්මික නිලධාරි (DDOA)",
+        "provincialDdoaForm": "පළාත් කෘෂිකාර්මික නිලධාරි පෝරමය (DDOA)",
+        "provincialAda": "පළාත් කෘෂිකාර්මික සහකාර (ADA)",
+        "provincialAdaForm": "පළාත් කෘෂිකාර්මික සහකාර පෝරමය (ADA)",
+        "aiRegion": "කෘෂිකාර්මික පළාත",
+        "aiRegionForm": "ASC පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "interProvincialDoa": {
+        "name": "අන්තර් පළාත් කෘෂිකාර්මික ව්‍යුහය",
+        "directorDoa": "කෘෂිකාර්මික අධ්‍යක්ෂ",
+        "provincialDoaForm": "පළාත් කෘෂිකාර්මික පෝරමය",
+        "interProvincialDdoa": "අන්තර් පළාත් කෘෂිකාර්මික නිලධාරි (DDOA)",
+        "interProvincialDdoaForm": "අන්තර් පළාත් කෘෂිකාර්මික නිලධාරි පෝරමය (DDOA)",
+        "interProvincialAda": "අන්තර් පළාත් කෘෂිකාර්මික සහකාර (ADA)",
+        "interProvincialAdaForm": "අන්තර් පළාත් කෘෂිකාර්මික සහකාර පෝරමය (ADA)",
+        "aiRegion": "කෘෂිකාර්මික පළාත",
+        "aiRegionForm": "ASC පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "mahaweliStructure": {
+        "name": "මහවැලි ව්‍යුහය",
+        "mahaweliAuthority": "මහවැලි අධිකාරිය",
+        "arpaAreaForm": "ARPA ප්‍රදේශ පෝරමය",
+        "mahaweliSystem": "මහවැලි පද්ධතිය",
+        "mahaweliSystemForm": "මහවැලි පද්ධති පෝරමය",
+        "mahaweliBlock": "මහවැලි කොටස",
+        "mahaweliBlockForm": "මහවැලි කොටස් පෝරමය",
+        "mahaweliUnit": "මහවැලි ඒකකය",
+        "mahaweliUnitForm": "මහවැලි ඒකක පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "agrarian": {
+        "name": "ගොවි ජන සංගමය",
+        "agrarDevDept": "ගොවි සංවර්ධන දෙපාර්තමේන්තුව",
+        "agrarDevDeptForm": "ගොවි සංවර්ධන පෝරමය",
+        "districtCommissioner": "දිස්ත්‍රික් කොමසාරිස්",
+        "districtCommissionerForm": "දිස්ත්‍රික් කොමසාරිස් පෝරමය",
+        "ascDivision": "ASC කොට්ඨාසය",
+        "ascDivisionForm": "ASC කොට්ඨාස පෝරමය",
+        "arpaDivision": "ARPA කොට්ඨාසය",
+        "arpaDivisionForm": "ARPA කොට්ඨාස පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "ecologicalZoneStructure": {
+        "name": "පරිසර කලාප ව්‍යුහය",
+        "agroEcoZone": "කෘෂි පරිසර කලාපය",
+        "agroEcoZoneForm": "කෘෂි පරිසර කලාප පෝරමය",
+        "gnDivision": "ග්‍රා.නි. කොට්ඨාසය",
+        "gnDivisionForm": "ග්‍රා.නි. කොට්ඨාස පෝරමය"
+      },
+      "scsRegion": {
+        "name": "SCS කලාපය",
+        "scsService": "SCS සේවාව",
+        "scsServiceForm": "SCS සේවා පෝරමය",
+        "scsRegion": "SCS කලාපය",
+        "scsRegionForm": "SCS කලාප පෝරමය"
+      }
+    },
+    "soil": {
+      "name": "පස",
+      "soilType": "පස වර්ගය",
+      "soilTypeForm": "පස වර්ගය පෝරමය",
+      "soilSubType": "පස උප වර්ගය",
+      "soilSubTypeForm": "පස උප වර්ගය පෝරමය"
+    },
+    "crop": {
+      "name": "බෝග",
+      "category": "ප්‍රවර්ගය",
+      "cropCategory": "බෝග ප්‍රවර්ගය",
+      "cropSubCategory": "බෝග උප ප්‍රවර්ගය",
+      "cropCategoryForm": "බෝග ප්‍රවර්ගය පෝරමය",
+      "cropForm": "බෝග පෝරමය",
+      "cropVariety": "බෝග විවිධත්වය",
+      "cropVarietyForm": "බෝග විවිධත්වය පෝරමය",
+      "cropDamages": "බෝග හානිය",
+      "cropDamageForm": "බෝග හානිය පෝරමය",
+      "cropCalendar": "බෝග දින දර්ශනය",
+      "cropCalendarForm": "බෝග දින දර්ශන පෝරමය",
+      "cropActivity": "බෝග කටයුතු",
+      "cropActivityForm": "බෝග කටයුතු පෝරමය",
+      "cropDiseaseForm": "බෝග රෝග පෝරමය",
+      "cropPest": "බෝග කෘමි",
+      "cropPestForm": "බෝග කෘමි පෝරමය",
+      "cropDisease": "බෝග රෝග",
+      "damageTypes": "හානිය වර්ග",
+      "cropActivities": "බෝග කටයුතු"
+    },
+    "institution": {
+      "name": "ආයතනය",
+      "institutionCategory": "ආයතන ප්‍රවර්ගය",
+      "institutionCategoryForm": "ආයතන ප්‍රවර්ග පෝරමය",
+      "institution": "ආයතනය",
+      "institutionForm": "ආයතන පෝරමය"
+    },
+    "soilAndWaterTests": {
+      "name": "පස සහ ජල පරීක්ෂණ",
+      "soilTest": "පස පරීක්ෂණ",
+      "soilTestForm": "පස පරීක්ෂණ පෝරමය",
+      "waterTest": "ජල පරීක්ෂණ",
+      "waterTestForm": "ජල පරීක්ෂණ පෝරමය"
+    },
+    "agricultureSeason": {
+      "name": "කෘෂිකාර්මික සමය",
+      "agricultureSeasonForm": "කෘෂිකාර්මික සමය පෝරමය"
+    },
+    "farmLand": {
+      "name": "ගොවි ඉඩම",
+      "selfAssessment": "ස්වයං ඇගයීම",
+      "basicAssessment": "මූලික ඇගයීම",
+      "farmLandForm": "ගොවි ඉඩම පෝරමය"
+    },
+    "farmer": {
+      "name": "ගොවි",
+      "farmerForm": "ගොවි පෝරමය"
+    },
+    "protectedHouseType": {
+      "name": "රැකවුම් නිවාස වර්ගය",
+      "protectedHouseTypeForm": "රැකවුම් නිවාස වර්ග පෝරමය"
+    },
+    "users": {
+      "name": "පරිශීලකයින්",
+      "users": "පරිශීලකයින්",
+      "newUserForm": "අලුත් පරිශීලක පෝරමය",
+      "userType": "පරිශීලක වර්ගය",
+      "userTypeForm": "පරිශීලක වර්ග පෝරමය"
+    },
+    "privateCompany": {
+      "name": "පෞද්ගලික සමාගම",
+      "privateCompanyForm": "පෞද්ගලික සමාගම පෝරමය",
+      "auditForm": "විගණන පෝරමය"
+    },
+    "gap": {
+      "name": "පරතරය",
+      "gapRegistration": "GAP ලියාපදිංචිය",
+      "gapRegs": "GAP නීති",
+      "selfAssessment": "ස්වයං ඇගයීම",
+      "selfAssessmentForm": "ස්වයං ඇගයීමේ පෝරමය",
+      "basicAssessment": "මූලික ඇගයීම",
+      "basicDataAssessmentForm": "මූලික දත්ත ඇගයීමේ පෝරමය",
+      "internalAudit": "අභ්‍යන්තර විගණන",
+      "internalAuditForm": "අභ්‍යන්තර විගණන පෝරමය",
+      "finalAudit": "අවසාන විගණන",
+      "finalAuditForm": "අවසාන විගණන පෝරමය"
+    },
+    "extension": {
+      "name": "දීර්ඝකාලීන",
+      "createPost": "පොස්ට් එකක් තනන්න",
+      "project": "ව්‍යාපෘතිය",
+      "agricultureProjectForm": "කෘෂිකාර්මික ව්‍යාපෘති පෝරමය",
+      "reportProject": "ව්‍යාපෘති වාර්තාව"
+    },
+    "indicativeTargets": {
+      "name": "උදෘෂ්ටම ලක්ෂ්‍ය",
+      "cropSetting": "බෝග සැකසුම",
+      "cropTargetRegistrationForm": "බෝග ලක්ෂ්‍ය ලියාපදිංචි පෝරමය",
+      "ddSummary": "DD සාරාංශය",
+      "aiSummary": "AI සාරාංශය"
+    },
+    "cropLook": {
+      "name": "බෝග පෙනුම",
+      "fieldConfiguration": "ක්ෂේත්‍ර වින්‍යාසය",
+      "fieldConfigurationForm": "ක්ෂේත්‍ර වින්‍යාස පෝරමය",
+      "cropLookSeason": "බෝග පෙනුම් සමය",
+      "cropLookSeasonForm": "බෝග පෙනුම් සමය පෝරමය",
+      "cropRegistration": "බෝග ලියාපදිංචිය",
+      "cropRegistrationForm": "බෝග ලියාපදිංචි පෝරමය",
+      "cropTarget": "බෝග ලක්ෂ්‍ය",
+      "cropTargetsForm": "බෝග ලක්ෂ්‍ය පෝරමය",
+      "biweeklyReporting": "සති දෙකක වාර්තා කිරීම",
+      "biweeklyReportingForm": "සති දෙකක වාර්තා කිරීමේ පෝරමය",
+      "varietySummary": {
+        "name": "විවිධත්ව සාරාංශය",
+        "varietySummaryDdWise": "විවිධත්ව සාරාංශය - DD මට්ටම",
+        "varietySummaryAiWise": "විවිධත්ව සාරාංශය - AI මට්ටම",
+        "varietySummaryAdaWise": "විවිධත්ව සාරාංශය - ADA මට්ටම",
+        "cropSummaryAiLevel": "බෝග සාරාංශය (AI මට්ටම)"
+      },
+      "approvalReport": {
+        "name": "අනුමත වාර්තාව",
+        "approvalReportInfoDD": "අනුමත වාර්තා තොරතුරු DD",
+        "approvalReportInfoADA": "අනුමත වාර්තා තොරතුරු ADA",
+        "approvalPanelADA": "අනුමත පනත් ADA",
+        "approvalPanelDD": "අනුමත පනත් DD"
+      },
+      "progressTracker": "ප්‍රගති හඹායාම",
+      "earlyWarningLimits": "ප්‍රාථමික අවවාද සීමා",
+      "vegEarlyWarnings": "එලවළු ප්‍රාථමික අවවාද",
+      "vegitableEarlyWarnings": "එලවළු ප්‍රාථමික අවවාද"
+    },
+    "applicationSettings": {
+      "name": "යෙදුම් සැකසුම්",
+      "roles": "කාර්ය භාරය",
+      "roleForm": "කාර්ය භාර පෝරමය",
+      "actions": "ක්‍රියා",
+      "components": "සංයුක්ත",
+      "componentForm": "සංයුක්ත පෝරමය",
+      "permissions": "අවසර",
+      "isoUnit": "ISO ඒකකය",
+      "isoUnitForm": "ISO ඒකක පෝරමය"
+    },
+    "harti": {
+      "name": "HARTI",
+      "commodityGroup": "නිෂ්පාදන කණ්ඩායම",
+      "commodity": "නිෂ්පාදන",
+      "economicCenter": "ආර්ථික මධ්‍යස්ථානය",
+      "hartiPrice": "HARTI මිල"
+    },
+    "communication": {
+      "name": "සන්නිවේදනය",
+      "chat": "චැට්"
+    }
+  },
+
+  "buttonTooltip": {
+    "export": "බාගත කිරීම",
+    "add": "එකතු කරන්න",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "viewList": "ලැයිස්තුව බලන්න",
+    "approve": "අනුමත කරන්න",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය කරන්න"
+  },
+
+  "crudButton": {
+    "add": "නව",
+    "edit": "සකසන්න",
+    "view": "දර්ශනය",
+    "delete": "මකන්න",
+    "viewList": "ලැයිස්තුව",
+    "approve": "අනුමත",
+    "assign": "පැවරීම",
+    "generate": "උත්පාදනය",
+    "export": "බාගත කිරීම"
+  },
+
+  "action": {
+    "add": "නව",
+    "edit": "සංස්කරණය",
+    "save": "සුරකින්න",
+    "view": "දර්ශනය",
+    "update": "යාවත්කාලීන",
+    "reset": "යළි පිහිටුවීම",
+    "verify": "තහවුරු කරන්න",
+    "back": "ආපසු",
+    "ok": "ඔව්",
+    "cancel": "අවලංගු කරන්න",
+    "filter": "පෙරන්න",
+    "confirm": "තහවුරු කරන්න",
+    "close": "වසන්න",
+    "delete": "මකන්න",
+    "adding": " එකතු කරනවා...",
+    "updating": "යාවත්කාලීන කිරීම...",
+    "resetPassword": "මුරපදය නැවත සැකසීම",
+    "viewProfile": "පැතිකඩ බලන්න",
+    "logOut": "ඉවත් වන්න"
+  },
+
+  "message": {
+    "doYouWantToDelete": "ඔබට මැකීමට අවශ්‍යද?",
+    "successfullyAdded": "සාර්ථකව එකතු කරන ලදී",
+    "successfullyUpdated": "සාර්ථකව යාවත්කාලීන කරන ලදී",
+    "successfullyDeleted": "සාර්ථකව මකා ඇත",
+    "loginFailed": "ඇතුළු වීම අසාර්ථකයි",
+    "successfullyExecuted": "සාර්ථකව ක්‍රියාත්මක විය !!!",
+    "deleteQuestion": "ප්‍රශ්නය මකන්න",
+    "deleteCalendarActivity": "දින දර්ශන ක්‍රියාකාරකම් මකන්න",
+    "failedToDownloadCropActivityExcel": "බෝග ක්‍රියාකාරකම් එක්සෙල් බාගැනීම අසාර්ථක විය"
+  },
+
+  "userProfilePage": {
+    "userProfile":"පරිශීලක පැතිකඩ",
+    "firstName": "මුල් නම",
+    "lastName": "අවසන් නම",
+    "dateOfBirth": "උපන්දිනය",
+    "userName": "පරිශීලක නාමය",
+    "email": "ඊමේල්",
+    "gender": "ස්ත්‍රී පුරුෂ භාවය",
+    "language": "භාෂාව",
+    "selectYourProfilePicture": "ඔබේ පින්තූරය තෝරන්න"
+  },
+
+  "cropCategoryPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "code": "කේතය",
+    "categoryCode": "කාණ්ඩ කේතය",
+    "description": "විස්තරය"
+  },
+
+  "cropSubCategoryPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "description": "විස්තරය",
+    "categoryId": "කාණ්ඩ අංකය",
+    "code": "කේතය",
+    "categoryCode": "කාණ්ඩ කේතය"
+  },
+
+  "cropPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "subCategory": "උප කාණ්ඩය",
+    "crop": "බෝගය",
+    "scientificName": "විද්‍යාත්මක නම",
+    "cropId": "බෝග අංකය",
+    "description": "විස්තරය",
+    "subCategoryId": "උප කාණ්ඩ අංකය",
+    "cropType": "බෝග වර්ගය",
+    "family": "කුලය",
+    "plantationCrop": "තොටුපල බෝගය",
+    "selectCropImage": "බෝග රූපය තෝරන්න",
+    "general": "සාමාන්‍ය",
+    "pest": "පළිබෝධ",
+    "disease": "රෝගය",
+    "climaticRequirements": "කාලගුණික අවශ්‍යතා",
+    "optimumTemperature": "අපෙක්ෂිත උෂ්ණත්වය",
+    "annualRainfall": "වාර්ෂික වර්ෂාපතනය",
+    "altitude": "උස්සීම",
+    "soil": "පාංශු",
+    "soilType": "පාංශු වර්ගය",
+    "soilCharacteristics": "පාංශු ලක්ෂණ",
+    "soilPhRange": "පාංශු PH පරාසය",
+    "other": "වෙනත්",
+    "harvesting": "නැඹුරු කිරීම",
+    "suitableCultivationAreas": "සුදුසු වගා කලාප",
+    "nurseryEstablishmentPeriod": "තවාන් පිහිටුවීමේ කාලය",
+    "pestName": "පළිබෝධ නාමය",
+    "damageSymptom": "හානි ලක්ෂණ",
+    "management": "කළමනාකරණය",
+    "diseaseName": "රෝග නම",
+    "type": "වර්ගය",
+    "causalAgent": "හේතුකාරක නියෝජිතයා",
+    "vector": "දෛශිකය"
+  },
+
+  "cropVarietyPage": {
+    "cropCategory": "බෝග වර්ගය",
+    "cropSubCategory": "බෝග උප කාණ්ඩය",
+    "crop": "බෝග",
+    "varietyName": "විවිධ නාමය",
+    "avgYield": "සාමාන්‍ය අස්වැන්න",
+    "varietyId": "විවිධ හැඳුනුම්පත",
+    "varietyDescription": "විවිධත්වය විස්තර කිරීම",
+    "cropId": "කප්පාදු හැඳුනුම්පත",
+    "croplookVarietyId": "Croplook විවිධ හැඳුනුම්පත",
+    "ageType": "වයස් වර්ගය",
+    "varietyType": "ප්රභේද වර්ගය",
+    "grainType": "ධාන්‍ය වර්ගය",
+    "pollinationType": "පරාගණයේ වර්ගය",
+    "pericarpColor": "Pericarp වර්ණය",
+    "podFruitColour": "කරල්/පළතුරු වර්ණය",
+    "grainColor": "ධාන්ය පාට",
+    "grainQuality": "ධාන්‍ය ගුණාත්මකභාවය",
+    "grainSize": "ධාන්ය ප්රමාණය",
+    "researchYield": "පර්යේෂණ ඵලදාව",
+    "farmerYield": "ගොවි අස්වැන්න",
+    "averageYield": "සාමාන්ය අස්වැන්න",
+    "numberOfPics": "පින්තූර ගණන",
+    "maturityTime": "පරිණත කාලය",
+    "commodity": "භාණ්ඩය",
+    "durationToHarvest": "අස්වනු නෙලීමේ කාලය",
+    "durationBetweenTwoPicks": "තේරීම් දෙකක් අතර කාලසීමාව",
+    "scientificName": "විද්‍යාත්මක නම",
+    "seedRequirement": "බීජ අවශ්යතාවය",
+    "releasedYear": "නිකුත් වූ වසර",
+    "spacing": "පරතරය",
+    "imported": "ආනයනය කරන ලදී",
+    "soilProblems": "පාංශු ගැටළු",
+    "plantGrowth": "ශාක වර්ධනය",
+    "resistantToPestAndDisease": "පළිබෝධ සහ රෝග වලට ප්‍රතිරෝධී වේ",
+    "ediblePartShape": "ආහාරයට ගත හැකි කොටස් හැඩය",
+    "specialCharacteristics": "විශේෂ ලක්ෂණ",
+    "selectCropVarietyImage": "බෝග ප්‍රභේද රූපය තෝරන්න"
+  },
+
+  "cropDamagePage": {
+    "categoryName": "ප්‍රවර්ග නාමය",
+    "description": "විස්තර",
+    "damageTypes": "නොමැතිවීමේ වර්ග",
+    "code": "කේතය",
+    "name": "නාමය",
+    "action": "ක්‍රියාව",
+    "ADDdamageType": "ADD වර්ගය එකතු කරන්න",
+    "EDITdamageType": "EDIT වර්ගය එකතු කරන්න"
+  },
+
+  "cropCalendarPage": {
+    "name": "නම",
+    "description": "විස්තර",
+    "mediaUrl": "මාධ්‍ය URL",
+    "existingCalendarUrl": "පවතින දින දර්ශනයේ URL",
+    "crop": "බෝගය",
+    "varietyList": "විවිධත්ව ලැයිස්තුව",
+    "agricultureZone": "කෘෂිකාර්මික කලාපය",
+    "cropActivities": "බෝග කටයුතු",
+    "cost": "පිරිවැය",
+    "duration": "කාලය",
+    "durationType": "කාල වර්ගය",
+    "startOfWeek": "සතියේ ආරම්භය",
+    "action": "ක්‍රියාව"
+  },
+
+  "cropActivityPage": {
+    "name": "නම",
+    "activityDescription": "ක්රියාකාරිත්වය විස්තරය",
+    "action": "ක්‍රියාව"
+  },
+
+  "cropPestPage": {
+    "cropPests": "බෝගය කෘමි",
+    "pestName": "කෘමි නාමය",
+    "scientificName": "විද්‍යාත්මක නාමය",
+    "damageSymptom": "හානිය ලක්ෂණය",
+    "management": "කළමනාකරණය",
+    "inStore": "ගබඩාවේ",
+    "chemicalControl": "රසායනික පාලනය",
+    "inStoreChemicalControl": "ගබඩාවේ රසායනික පාලනය",
+    "other": "අනෙක්"
+  },
+
+  "cropDiseasePage": {
+    "disease": "රෝගය",
+    "diseaseName": "රෝග නාමය",
+    "type": "වර්ගය",
+    "causalAgent": "හේතුකරු",
+    "vector": "වෙක්ටර්",
+    "diseaseType": "රෝග වර්ගය",
+    "affectedPart": "බලපෑම ඇති කොටස",
+    "symptoms": "රෝග ලක්ෂණ",
+    "management": "කළමනාකරණය"
+  }
+}

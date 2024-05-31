@@ -15,8 +15,10 @@ import {
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
 
 const CropActivityForm = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -65,8 +67,8 @@ const CropActivityForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
   };
@@ -74,7 +76,7 @@ const CropActivityForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
@@ -109,7 +111,7 @@ const CropActivityForm = () => {
         <PageHeader
           saving={saving}
           state={state}
-          formName="Crop Activity"
+          formName="nav.crop.cropActivity"
           goBack={goBack}
         />
         <FormButtonGroup
@@ -129,7 +131,7 @@ const CropActivityForm = () => {
         >
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Name</FieldName>
+              <FieldName>{t("cropActivityPage.name")}</FieldName>
               <TextField
                 name="name"
                 id="name"
@@ -149,7 +151,7 @@ const CropActivityForm = () => {
           </Grid>
           <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>Activity Description</FieldName>
+              <FieldName>{t("cropActivityPage.activityDescription")}</FieldName>
               <TextField
                 name="description"
                 id="description"

@@ -8,11 +8,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import {
@@ -22,8 +18,11 @@ import {
 import { Fonts } from "../../utils/constants/Fonts";
 import ExportButton from "../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+import { TranslateActions } from "../../utils/constants/CrudActionTranslation";
+import { useTranslation } from "react-i18next";
 
 const CropDamage = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -89,7 +88,7 @@ const CropDamage = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -133,7 +132,7 @@ const CropDamage = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Damages" />
+      <ListHeader title="nav.crop.cropDamages" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -149,7 +148,7 @@ const CropDamage = () => {
             >
               <Button onClick={onCreate}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectSubCategory.length === 1 && (
@@ -163,7 +162,7 @@ const CropDamage = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Vrpano />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -178,7 +177,7 @@ const CropDamage = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -193,7 +192,7 @@ const CropDamage = () => {
                   sx={{ ml: "8px" }}
                 >
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -240,7 +239,7 @@ const CropDamage = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectSubCategory}
         loading={loading}
         onClose={close}

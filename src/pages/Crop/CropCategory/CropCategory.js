@@ -4,7 +4,6 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
@@ -19,28 +18,23 @@ import {
 } from "../../../utils/constants/permission";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteCropCategory, downloadCropCategoryExcel } from "../../../redux/actions/crop/cropCategory/action";
-import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
-  Add,
-  CancelOutlined,
-  CheckRounded,
-  Delete,
-  Download,
-  Edit,
-  Margin,
-  Vrpano,
-} from "@mui/icons-material";
+  deleteCropCategory,
+  downloadCropCategoryExcel,
+} from "../../../redux/actions/crop/cropCategory/action";
+import { defaultMessages } from "../../../utils/constants/apiMessages";
+import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-import { style } from "d3";
 import ExportButton from "../../../components/ExportButton/ExportButton";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+
 const CropCategory = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -50,9 +44,9 @@ const CropCategory = () => {
   const [open, setOpen] = useState(false);
 
   const [selectCategory, setSelectCategory] = useState([]);
-  const [dialogSelectedCategoryTypes,setDialogSelectedCategoryTypes] = useState([]);
+  const [dialogSelectedCategoryTypes, setDialogSelectedCategoryTypes] =
+    useState([]);
 
-  
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const toggleCategorySelect = (component) => {
@@ -137,7 +131,7 @@ const CropCategory = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -170,69 +164,72 @@ const CropCategory = () => {
       console.error(error);
     }
   };
-  
+
+  const { t } = useTranslation(); // Always call this hook at the top
+
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <ListHeader title="Crop Category" />
+      <ListHeader title="nav.crop.cropCategory" />
+
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate} title="add">
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectCategory.length === 1 && (
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_CATEGORY}`}
             >
-              <Button onClick={onEdit} title="edit">
-                <Edit />
-                {DEF_ACTIONS.EDIT}
+              <Button onClick={onCreate} title={t("buttonTooltip.add")}>
+                <Add />
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
-          )}
-          {selectCategory.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-            >
-              <Button onClick={onView} title="view">
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectCategory.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
-            >
-              <Button onClick={onDelete} title="delete">
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
-         </Stack>
+            {selectCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onEdit} title={t("buttonTooltip.edit")}>
+                  <Edit />
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCategory.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onView} title={t("buttonTooltip.view")}>
+                  <Vrpano />
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectCategory.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+              >
+                <Button onClick={onDelete} title={t("buttonTooltip.delete")}>
+                  <Delete />
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.CROP_CATEGORY}`}
@@ -245,21 +242,20 @@ const CropCategory = () => {
             unSelectAll={resetSelectedCategory}
           />
         )}
-      </PermissionWrapper>      
+      </PermissionWrapper>
 
-<ConfirmationDialog
+      <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCategory}
         loading={loading}
         onClose={close}
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedCategoryTypes}
         dialogSelectedTypes={dialogSelectedCategoryTypes}
-        propertyId = "categoryId"
-        propertyDescription = "description"
+        propertyId="categoryId"
+        propertyDescription="description"
       />
-
     </div>
   );
 };

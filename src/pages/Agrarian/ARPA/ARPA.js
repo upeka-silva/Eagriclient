@@ -37,6 +37,7 @@ import { get_DistrictCommList } from "../../../redux/actions/districtComm/action
 import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const ARPA = () => {
   useUserAccessValidation();
@@ -176,8 +177,20 @@ const ARPA = () => {
       ascId: "",
       name: "",
     });
-    setDataEndPoint("geo-data/arpa");
+    setDataEndPoint("geo-data/arpa/agrarian");
   };
+
+  const filter = () => {
+
+    if(selectedDcomm?.id) {
+     setDataEndPoint(`geo-data/arpa/agrarian?distComId=${selectedDcomm?.id}`);
+    }
+
+    if(selectedAscDivision?.id && selectedDcomm?.id) {
+      setDataEndPoint(`geo-data/arpa/agrarian?ascDivId=${selectedAscDivision?.id}`);
+    }
+
+  }
 
   useEffect(() => {
     get_DistrictCommList().then(({ dataList = [] }) => {
@@ -192,8 +205,8 @@ const ARPA = () => {
   };
 
   const getFilteredData = (selectedAscDivision) => {
-    console.log(selectedAscDivision);
-    setDataEndPoint(`geo-data/arpa/AscDivision/` + selectedAscDivision?.id);
+    // console.log(selectedAscDivision);
+    // setDataEndPoint(`geo-data/arpa/AscDivision/` + selectedAscDivision?.id);
   };
 
   return (
@@ -317,7 +330,21 @@ const ARPA = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"

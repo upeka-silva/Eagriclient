@@ -122,17 +122,19 @@ const ApprovalReport = ({ owner = "" }) => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }} width="80%">
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }} width="80%">
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             selectedWeek &&
@@ -164,10 +166,12 @@ const ApprovalReport = ({ owner = "" }) => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
-                      {toggleState === index + 1 ? <ApprovalReportCategoryTable
-                        category={category}
-                        season={selectedSeason}
-                      /> : null}
+                      {toggleState === index + 1 ? (
+                        <ApprovalReportCategoryTable
+                          category={category}
+                          season={selectedSeason}
+                        />
+                      ) : null}
                     </div>
                   </TableWrapper>
                 </TabContent>

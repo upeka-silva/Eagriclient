@@ -31,6 +31,8 @@ import {
 } from "../../../redux/actions/crop/CropPest/action";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropPest = () => {
   useUserAccessValidation();
@@ -44,7 +46,7 @@ const CropPest = () => {
   const [dialogSelectedCropPest, setDialogSelectedCropPest] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const url = `crop/crop-pests`;
-
+  const { t } = useTranslation();
   const toggleCropPestSelect = (component) => {
     setSelectCropPest((current = []) => {
       let newList = [...current];
@@ -127,7 +129,7 @@ const CropPest = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -171,7 +173,7 @@ const CropPest = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Pest" />
+      <ListHeader title="nav.crop.cropPest" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -187,7 +189,7 @@ const CropPest = () => {
             >
               <Button onClick={onCreate}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectCropPest.length === 1 && (
@@ -196,7 +198,7 @@ const CropPest = () => {
               >
                 <Button onClick={onEdit}>
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -206,7 +208,7 @@ const CropPest = () => {
               >
                 <Button onClick={onView}>
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -216,7 +218,7 @@ const CropPest = () => {
               >
                 <Button onClick={onDelete}>
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -238,7 +240,7 @@ const CropPest = () => {
       </PermissionWrapper>
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCropPest}
         loading={loading}
         onClose={close}

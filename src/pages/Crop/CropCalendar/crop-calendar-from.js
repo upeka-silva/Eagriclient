@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { TextField, Autocomplete, Grid, CircularProgress, Paper } from "@mui/material";
+import {
+  TextField,
+  Autocomplete,
+  Grid,
+  CircularProgress,
+  Paper,
+} from "@mui/material";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -21,8 +27,10 @@ import {
 } from "../../../redux/actions/crop/cropCalendar/action";
 import PageHeader from "../../../components/PageHeader/PageHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
 
 const CropCalendarForm = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -50,7 +58,7 @@ const CropCalendarForm = () => {
 
     getCropVarietiesByCropId().then(({ dataList = [] }) => {
       setVarieties(dataList);
-    })
+    });
 
     if (
       state?.action === DEF_ACTIONS.EDIT ||
@@ -64,7 +72,7 @@ const CropCalendarForm = () => {
       getCropVarietiesByCropId(formData.crop.id).then(({ dataList = [] }) => {
         setVarieties(dataList);
       });
-   }
+    }
   }, [state?.action, state?.target]);
 
   const getAllVarieties = (crop) => {
@@ -87,7 +95,7 @@ const CropCalendarForm = () => {
 
   const resetForm = () => {
     if (state?.action === DEF_ACTIONS.EDIT) {
-      setFormData(prevState => ({ ...prevState, ...state?.target }));
+      setFormData((prevState) => ({ ...prevState, ...state?.target }));
     } else {
       setFormData({});
     }
@@ -110,8 +118,8 @@ const CropCalendarForm = () => {
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+          ? t("message.successfullyAdded")
+          : t("message.successfullyUpdated"),
     });
     setSaving(false);
 
@@ -121,7 +129,7 @@ const CropCalendarForm = () => {
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
     setSaving(false);
   };
@@ -141,19 +149,24 @@ const CropCalendarForm = () => {
             onError
           );
 
-          if(response){
-            setFormData(prevState => ({ ...prevState, id: response.id }));
+          if (response) {
+            setFormData((prevState) => ({ ...prevState, id: response.id }));
           }
-        } if (formData?.id && state.action === DEF_ACTIONS.EDIT) {
+        }
+        if (formData?.id && state.action === DEF_ACTIONS.EDIT) {
           const response = await updateCropCalendar(
             {
-              ...formData
+              ...formData,
             },
             onSuccess,
             onError
           );
-          if(response && response.payload){
-            setFormData(prevState => ({ ...prevState, ...response.payload, id: response.id }));
+          if (response && response.payload) {
+            setFormData((prevState) => ({
+              ...prevState,
+              ...response.payload,
+              id: response.id,
+            }));
           }
         }
         setSaving(false);
@@ -165,21 +178,21 @@ const CropCalendarForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <FormWrapper>
         <PageHeader
           saving={saving}
           state={state}
           goBack={goBack}
-          formName="Crop Calender"
+          formName="nav.crop.cropCalendar"
         />
         <Grid container>
           <Grid item sm={12} md={12} lg={12} sx={{ alignItems: "center" }}>
@@ -200,7 +213,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
-              <FieldName>Name</FieldName>
+              <FieldName>{t("cropCalendarPage.name")}</FieldName>
               <TextField
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
@@ -219,7 +232,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Description</FieldName>
+              <FieldName>{t("cropCalendarPage.description")}</FieldName>
               <TextField
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
@@ -240,7 +253,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={2} md={2} lg={2}>
             <FieldWrapper>
-              <FieldName>Existing Calendar URL</FieldName>
+              <FieldName>{t("cropCalendarPage.existingCalendarUrl")}</FieldName>
               <TextField
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 variant="outlined"
@@ -261,7 +274,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={4} md={4} lg={4}>
             <FieldWrapper>
-              <FieldName>Crop</FieldName>
+              <FieldName>{t("cropCalendarPage.crop")}</FieldName>
               <Autocomplete
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 options={crops}
@@ -285,7 +298,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={8} md={8} lg={8}>
             <FieldWrapper>
-              <FieldName>Variety List</FieldName>
+              <FieldName>{t("cropCalendarPage.varietyList")}</FieldName>
               <Autocomplete
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 multiple={true}
@@ -310,7 +323,7 @@ const CropCalendarForm = () => {
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Agriculture Zone</FieldName>
+              <FieldName>{t("cropCalendarPage.agricultureZone")}</FieldName>
               <Autocomplete
                 disabled={state.action === DEF_ACTIONS.VIEW}
                 options={zoneList}
@@ -343,10 +356,10 @@ const CropCalendarForm = () => {
                 }}
               >
                 <Grid item sm={20} md={20} lg={20}>
-                  {(!saving) ? (
+                  {!saving ? (
                     <CalendarActivity
                       formMode={state.action}
-                      formId={formData?.id} 
+                      formId={formData?.id}
                       dataList={formData?.activities}
                       onFormSaveSuccess={saveSuccessful}
                     />

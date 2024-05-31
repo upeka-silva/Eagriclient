@@ -63,6 +63,8 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 const CropForm = ({
   dataList = [],
   onFormSaveSuccess = false,
@@ -70,6 +72,7 @@ const CropForm = ({
   formMode = null,
 }) => {
   useUserAccessValidation();
+  const { t } = useTranslation();
   const { state } = useLocation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -101,8 +104,8 @@ const CropForm = ({
   const [action, setAction] = useState(null);
 
   const [dialogSelectedCropPetsTypes, setDialogSelectedCropPets] = useState([]);
-  const [dialogSelectedCropDieasesTypes, setDialogSelectedCropDieases] = useState([]);
-
+  const [dialogSelectedCropDieasesTypes, setDialogSelectedCropDieases] =
+    useState([]);
 
   useEffect(() => {
     const cropId = formData.id;
@@ -198,16 +201,16 @@ const CropForm = ({
   };
 
   const onDeleteCropPets = () => {
-    setAction("DELETE_CROPPEST")
+    setAction("DELETE_CROPPEST");
     setCropId(formData.id);
-    setDialogSelectedCropPets(selectCropPest)
+    setDialogSelectedCropPets(selectCropPest);
     setOpen(true);
   };
 
   const onDeleteCropdDisease = () => {
-    setAction("DELETE_CROPDISEASE")
+    setAction("DELETE_CROPDISEASE");
     setCropId(formData.id);
-    setDialogSelectedCropDieases(selectCropDisease)
+    setDialogSelectedCropDieases(selectCropDisease);
     setOpen(true);
   };
 
@@ -324,15 +327,15 @@ const CropForm = ({
       type: SnackBarTypes.success,
       message:
         state?.action === DEF_ACTIONS.ADD
-          ? "Successfully Added"
-          : "Successfully Updated",
+        ? t("message.successfullyAdded")
+        : t("message.successfullyUpdated"),
     });
   };
 
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
   };
 
@@ -342,7 +345,7 @@ const CropForm = ({
         if (form && state?.action === DEF_ACTIONS.ADD) {
           const response = await handleCrop(formData, onSuccess, onError);
           setFormData(response.payload);
-          setCropId(response?.payload?.id)
+          setCropId(response?.payload?.id);
           console.log(response);
           const res = await handleCropImageUpload(response.payload?.id);
           console.log(res);
@@ -407,7 +410,7 @@ const CropForm = ({
           );
           setFormData(response.payload);
           console.log(response);
-          setCropId(response?.payload?.id)
+          setCropId(response?.payload?.id);
         }
         setSaving(false);
         setTabEnabled(true);
@@ -452,18 +455,22 @@ const CropForm = ({
   };
 
   const toggleDialogObjectSelect = (objItem, action) => {
-    if(objItem != null) {
+    if (objItem != null) {
       if (action === "DELETE_CROPPEST") {
-        const updatedCropPest = selectCropPest.filter((item) => item.id !== objItem.id);
+        const updatedCropPest = selectCropPest.filter(
+          (item) => item.id !== objItem.id
+        );
         setSelectCropPest(updatedCropPest);
         if (updatedCropPest.length === 0) {
-         setOpen(false);
+          setOpen(false);
         }
       } else {
-        const updatedCropDisease = selectCropDisease.filter((item) => item.id!== objItem.id);
+        const updatedCropDisease = selectCropDisease.filter(
+          (item) => item.id !== objItem.id
+        );
         setSelectCropDisease(updatedCropDisease);
         if (updatedCropDisease.length === 0) {
-         setOpen(false);
+          setOpen(false);
         }
       }
     }
@@ -485,7 +492,7 @@ const CropForm = ({
           saving={saving}
           goBack={goBack}
           state={state}
-          formName="Crop"
+          formName="nav.crop.name"
         />
         <TabContent
           style={{
@@ -510,7 +517,7 @@ const CropForm = ({
                   <Grid container spacing={1}>
                     <Grid item sm={3} md={3} lg={4}>
                       <FieldWrapper>
-                        <FieldName>Crop ID</FieldName>
+                        <FieldName>{t("cropPage.cropId")}</FieldName>
                         <TextField
                           name="cropId"
                           id="cropId"
@@ -533,7 +540,7 @@ const CropForm = ({
                     </Grid>
                     <Grid item sm={4} md={4} lg={8}>
                       <FieldWrapper>
-                        <FieldName>Description</FieldName>
+                        <FieldName>{t("cropPage.description")}</FieldName>
                         <TextField
                           name="description"
                           id="description"
@@ -554,7 +561,7 @@ const CropForm = ({
                     </Grid>
                     <Grid item sm={3} md={3} lg={4}>
                       <FieldWrapper>
-                        <FieldName>Sub Category ID</FieldName>
+                        <FieldName>{t("cropPage.subCategoryId")}</FieldName>
                         <Autocomplete
                           disabled={state?.action === DEF_ACTIONS.VIEW}
                           options={subOptions}
@@ -580,7 +587,7 @@ const CropForm = ({
 
                     <Grid item sm={2} md={2} lg={4}>
                       <FieldWrapper>
-                        <FieldName>Crop Type</FieldName>
+                        <FieldName>{t("cropPage.cropType")}</FieldName>
                         <Select
                           name="cropType"
                           id="cropType"
@@ -603,7 +610,7 @@ const CropForm = ({
                     </Grid>
                     <Grid item sm={2} md={2} lg={4}>
                       <FieldWrapper>
-                        <FieldName>Family</FieldName>
+                        <FieldName>{t("cropPage.family")}</FieldName>
                         <Select
                           name="family"
                           id="family"
@@ -686,7 +693,7 @@ const CropForm = ({
                     <Grid container spacing={1}>
                       <Grid item sm={3} md={3} lg={6}>
                         <FieldWrapper>
-                          <FieldName>Scientific Name</FieldName>
+                          <FieldName>{t("cropPage.scientificName")}</FieldName>
                           <TextField
                             name="scientificName"
                             id="scientificName"
@@ -711,14 +718,17 @@ const CropForm = ({
 
                       <Grid item sm={4} md={4} lg={4} spacing={0}>
                         <FieldWrapper>
-                          <FieldName>Plantation Crop</FieldName>
+                          <FieldName>{t("cropPage.plantationCrop")}</FieldName>
                           <Switch
                             name="isPlantationCrop"
                             id="isPlantationCrop"
                             value={formData?.isPlantationCrop || ""}
                             disabled={state?.action === DEF_ACTIONS.VIEW}
                             onChange={(e) =>
-                              handleChange(e?.target?.checked || "", "isPlantationCrop")
+                              handleChange(
+                                e?.target?.checked || "",
+                                "isPlantationCrop"
+                              )
                             }
                             checked={formData?.isPlantationCrop}
                             aria-label="Switch demo"
@@ -733,7 +743,7 @@ const CropForm = ({
                   <Grid container spacing={1}>
                     <Grid item sm={3} md={3} lg={9}>
                       <FieldWrapper>
-                        <FieldName>Select Crop Image</FieldName>
+                        <FieldName>{t("cropPage.selectCropImage")}</FieldName>
                         <div
                           style={{
                             display: "flex",
@@ -818,7 +828,7 @@ const CropForm = ({
                 onClick={() => toggleTab(1)}
                 disabled={!tabEnabled}
               >
-                General
+                {t("cropPage.general")}
               </TabButton>
               <TabButton
                 variant="contained"
@@ -826,7 +836,7 @@ const CropForm = ({
                 onClick={() => toggleTab(2)}
                 disabled={!tabEnabled}
               >
-                Pest
+                {t("cropPage.pest")}
               </TabButton>
               <TabButton
                 variant="contained"
@@ -834,7 +844,7 @@ const CropForm = ({
                 onClick={() => toggleTab(3)}
                 disabled={!tabEnabled}
               >
-                Disease
+                {t("cropPage.disease")}
               </TabButton>
             </TabWrapper>
 
@@ -854,11 +864,11 @@ const CropForm = ({
                           }}
                         >
                           <Typography variant="h6">
-                            Climatic Requirements
+                            {t("cropPage.climaticRequirements")}
                           </Typography>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Optimum Temperature</FieldName>
+                              <FieldName>{t("cropPage.optimumTemperature")}</FieldName>
                               <TextField
                                 name="optimumTemperature"
                                 id="optimumTemperature"
@@ -882,7 +892,7 @@ const CropForm = ({
                           </Grid>
                           <Grid item sm={3} md={3} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Annual Rainfall</FieldName>
+                              <FieldName>{t("cropPage.annualRainfall")}</FieldName>
                               <TextField
                                 name="annualRainfall"
                                 id="annualRainfall"
@@ -906,7 +916,7 @@ const CropForm = ({
                           </Grid>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Altitude</FieldName>
+                              <FieldName>{t("cropPage.altitude")}</FieldName>
                               <TextField
                                 name="altitude"
                                 id="altitude"
@@ -940,10 +950,10 @@ const CropForm = ({
                             flexDirection: "column",
                           }}
                         >
-                          <Typography variant="h6">Soil</Typography>
+                          <Typography variant="h6">{t("cropPage.soil")}</Typography>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Soil Type</FieldName>
+                              <FieldName>{t("cropPage.soilType")}</FieldName>
                               <Autocomplete
                                 disabled={state?.action === DEF_ACTIONS.VIEW}
                                 options={soilOptions}
@@ -968,7 +978,7 @@ const CropForm = ({
                           </Grid>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Soil Characteristics</FieldName>
+                              <FieldName>{t("cropPage.soilCharacteristics")}</FieldName>
                               <TextField
                                 name="soilCharacteristics"
                                 id="soilCharacteristics"
@@ -992,7 +1002,7 @@ const CropForm = ({
                           </Grid>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Soil PH Range</FieldName>
+                              <FieldName>{t("cropPage.soilPhRange")}</FieldName>
                               <TextField
                                 name="soilPhRange"
                                 id="soilPhRange"
@@ -1030,10 +1040,10 @@ const CropForm = ({
                             flexDirection: "column",
                           }}
                         >
-                          <Typography variant="h6">Other</Typography>
+                          <Typography variant="h6">{t("cropPage.other")}</Typography>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Harvesting</FieldName>
+                              <FieldName>{t("cropPage.harvesting")}</FieldName>
                               <TextField
                                 name="harvesting"
                                 id="harvesting"
@@ -1057,7 +1067,7 @@ const CropForm = ({
                           </Grid>
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
-                              <FieldName>Suitable Cultivation Areas</FieldName>
+                              <FieldName>{t("cropPage.suitableCultivationAreas")}</FieldName>
                               <TextField
                                 name="suitableCultivationAreas"
                                 id="suitableCultivationAreas"
@@ -1082,7 +1092,7 @@ const CropForm = ({
                           <Grid item sm={12} md={12} lg={12}>
                             <FieldWrapper>
                               <FieldName>
-                                Nursery Establishment Period
+                                {t("cropPage.nurseryEstablishmentPeriod")}
                               </FieldName>
                               <TextField
                                 name="nurseryEstablishmentPeriod"
@@ -1374,7 +1384,7 @@ const CropForm = ({
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                   >
                     <Add />
-                    {DEF_ACTIONS.ADD}
+                    {TranslateActions(t, DEF_ACTIONS.ADD)}
                   </Button>
                   <AddCropPestDialog
                     open={openCropPestAddDialog}
@@ -1389,7 +1399,7 @@ const CropForm = ({
                   {selectCropPest.length > 0 && (
                     <Button onClick={onDeleteCropPets}>
                       <Delete />
-                      {DEF_ACTIONS.DELETE}
+                      {TranslateActions(t, DEF_ACTIONS.DELETE)}
                     </Button>
                   )}
                 </ButtonGroup>
@@ -1418,7 +1428,7 @@ const CropForm = ({
                     disabled={state?.action === DEF_ACTIONS.VIEW}
                   >
                     <Add />
-                    {DEF_ACTIONS.ADD}
+                    {TranslateActions(t, DEF_ACTIONS.ADD)}
                   </Button>
                   <AddCropDiseaseDialog
                     open={openCropDiseaseAddDialog}
@@ -1433,7 +1443,7 @@ const CropForm = ({
                   {selectCropDisease.length > 0 && (
                     <Button onClick={onDeleteCropdDisease}>
                       <Delete />
-                      {DEF_ACTIONS.DELETE}
+                      {TranslateActions(t, DEF_ACTIONS.DELETE)}
                     </Button>
                   )}
                 </ButtonGroup>
@@ -1451,33 +1461,33 @@ const CropForm = ({
           </TabContentWrapper>
         </PaperWrapper>
 
-        {
-          action === "DELETE_CROPPEST" ?
-            <ConfirmationDialog
-              open={open}
-              title="Do you want to delete?"
-              items={selectCropPest}
-              loading={loading}
-              onClose={close}
-              onConfirm={onConfirm}
-              setDialogSelectedTypes={setDialogSelectedCropPets}
-              dialogSelectedTypes={dialogSelectedCropPetsTypes}
-              propertyId="pestName"
-              propertyDescription="scientificName"
-            /> :
-            <ConfirmationDialog
-              open={open}
-              title="Do you want to delete?"
-              items={selectCropDisease}
-              loading={loading}
-              onClose={close}
-              onConfirm={onConfirm}
-              setDialogSelectedTypes={setDialogSelectedCropDieases}
-              dialogSelectedTypes={dialogSelectedCropDieasesTypes}
-              propertyId="diseaseName"
-              propertyDescription="type"
-            />
-        }
+        {action === "DELETE_CROPPEST" ? (
+          <ConfirmationDialog
+            open={open}
+            title="doYouWantToDelete"
+            items={selectCropPest}
+            loading={loading}
+            onClose={close}
+            onConfirm={onConfirm}
+            setDialogSelectedTypes={setDialogSelectedCropPets}
+            dialogSelectedTypes={dialogSelectedCropPetsTypes}
+            propertyId="pestName"
+            propertyDescription="scientificName"
+          />
+        ) : (
+          <ConfirmationDialog
+            open={open}
+            title="doYouWantToDelete"
+            items={selectCropDisease}
+            loading={loading}
+            onClose={close}
+            onConfirm={onConfirm}
+            setDialogSelectedTypes={setDialogSelectedCropDieases}
+            dialogSelectedTypes={dialogSelectedCropDieasesTypes}
+            propertyId="diseaseName"
+            propertyDescription="type"
+          />
+        )}
       </FormWrapper>
     </Box>
   );

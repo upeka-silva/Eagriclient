@@ -296,7 +296,8 @@ const CropRegistrationForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sx={{ marginTop: "20px" }}>
+          <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
             <TabWrapper style={{ margin: "0px 0px" }}>
               {cropCategoryList.map((category, index) => (
                 <TabButton
@@ -307,6 +308,7 @@ const CropRegistrationForm = () => {
                 </TabButton>
               ))}
             </TabWrapper>
+            </Grid>
 
             {!isLoading &&
               cropCategoryList.map((category, index) => (

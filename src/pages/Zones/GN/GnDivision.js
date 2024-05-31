@@ -1,4 +1,11 @@
-import { Add, Delete, Edit, RestartAlt, Vrpano,Download } from "@mui/icons-material";
+import {
+  Add,
+  Delete,
+  Edit,
+  RestartAlt,
+  Vrpano,
+  Download,
+} from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
@@ -34,7 +41,10 @@ import { get_ASCLovByComId } from "../../../redux/actions/asc/action";
 import { get_DistrictLovByProvinceId } from "../../../redux/actions/district/action";
 import { get_DistrictCommLov } from "../../../redux/actions/districtComm/action";
 import { get_DsDivisionLovByDistrictId } from "../../../redux/actions/dsDivision/action";
-import { deleteGnDivision,downloadGnDivisionExcel } from "../../../redux/actions/gnDivision/action";
+import {
+  deleteGnDivision,
+  downloadGnDivisionExcel,
+} from "../../../redux/actions/gnDivision/action";
 import { get_InterProvincialAdaLovByDdoaId } from "../../../redux/actions/interProvincialAda/action";
 import { get_InterProvincialDdoaLovByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
 import { get_InterProvincialDoaLov } from "../../../redux/actions/interProvincialDoa/action";
@@ -50,6 +60,7 @@ import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import GnDivisionList from "./GnDivisionList";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -131,14 +142,19 @@ const GnDivision = () => {
     provincialDdId: "",
     description: "",
   });
+  console.log({ selectedPDdoa });
+
   const [selectedPDoa, setSelectedPDoa] = useState({
     proDirectorId: "",
     description: "",
   });
+  console.log({ selectedPDoa });
   const [selectedPAda, setSelectedPAda] = useState({
     provinceSegmentId: "",
     description: "",
   });
+
+  console.log({ selectedPAda });
 
   const [ipdoas, setIpDoas] = useState([]);
   const [ipddoas, setIpDdoas] = useState([]);
@@ -161,6 +177,8 @@ const GnDivision = () => {
     regionId: "",
     description: "",
   });
+
+  console.log({ selectedAiregion });
 
   const [mahaweliSystems, setMahaweliSystems] = useState([]);
   const [mahaweliBlocks, setMahaweliBlocks] = useState([]);
@@ -619,8 +637,21 @@ const GnDivision = () => {
     setSelectedArpa(null);
     setSelectedAiRegion(null);
     if (isAdmin) {
-      setDataEndPoint("geo-data/gn-divisions");
+      setDataEndPoint("geo-data/gn-divisions/administration-structure");
     }
+    if (isProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/provincial-doa`);
+    }
+    if (isIntProvincial) {
+      setDataEndPoint(`geo-data/gn-divisions/inter-provincial-doa`);
+    }
+    if (isMahaweli) {
+      setDataEndPoint(`geo-data/gn-divisions/mahaweli-structure`);
+    }
+    if (isAgrarian) {
+      setDataEndPoint(`geo-data/gn-divisions/agrarian`);
+    }
+
     // setDataEndPoint("geo-data/gn-divisions");
   };
 
@@ -764,22 +795,155 @@ const GnDivision = () => {
   };
 
   const changeDataEndPoint = (id) => {
+    // if (isAdmin) {
+    //   setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`);
+    // }
+    // if (isProvincial) {
+    //   setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
+    // }
+    // if (isIntProvincial) {
+    //   setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
+    // }
+    // if (isMahaweli) {
+    //   setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`);
+    // }
+    // if (isAgrarian) {
+    //   setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
+    // }
+  };
+
+  const filter = () => {
     if (isAdmin) {
-      setDataEndPoint(`geo-data/gn-divisions/ds_division/${id}`);
+      if (selectedProvince?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/administration-structure?provinceId=${selectedProvince?.id}`
+        );
+      }
+
+      if (selectedDistrict?.id && selectedProvince?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/administration-structure?districtId=${selectedDistrict?.id}`
+        );
+      }
+
+      if (
+        selectedDsDevision?.id &&
+        selectedDistrict?.id &&
+        selectedProvince?.id
+      ) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/administration-structure?dsDivisionId=${selectedDsDevision?.id}`
+        );
+      }
     }
+
     if (isProvincial) {
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
+      // setDataEndPoint(
+      //   `geo-data/provincial-ada-segments?proDirectorLevelId=${selectedDoa?.proDirectorId}`
+      // );
+
+      if (selectedPDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/provincial-doa?directorLevelId=${selectedPDoa?.id}`
+        );
+      }
+
+      if (selectedPDdoa?.id && selectedPDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/provincial-doa?deputyDirectorLevelId=${selectedPDdoa?.id}`
+        );
+      }
+
+      if (selectedPAda?.id && selectedPDdoa?.id && selectedPDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/provincial-doa?adaSegmentId=${selectedPAda?.id}`
+        );
+      }
+
+      if (
+        selectedAiregion?.id &&
+        selectedPAda?.id &&
+        selectedPDdoa?.id &&
+        selectedPDoa?.id
+      ) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/provincial-doa?regionId=${selectedAiregion?.id}`
+        );
+      }
     }
+
     if (isIntProvincial) {
-      setDataEndPoint(`geo-data/gn-divisions/ai_region/${id}`);
+      if (selectedIpDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/inter-provincial-doa?directorDoaId=${selectedIpDoa?.id}`
+        );
+      }
+
+      if (selectedIpDdoa?.id && selectedIpDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/inter-provincial-doa?interProDdId=${selectedIpDdoa?.id}`
+        );
+      }
+
+      if (selectedIpAda?.id && selectedIpDdoa?.id && selectedIpDoa?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/inter-provincial-doa?interProAdaSegId=${selectedIpAda?.id}`
+        );
+      }
+
+      if (
+        selectedAiregion?.id &&
+        selectedIpAda?.id &&
+        selectedIpDdoa?.id &&
+        selectedIpDoa?.id
+      ) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/inter-provincial-doa?aiRegionId=${selectedAiregion?.id}`
+        );
+      }
     }
+
     if (isMahaweli) {
-      setDataEndPoint(`geo-data/gn-divisions/mahaweli_unit/${id}`);
+      if (selectedSystem?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/mahaweli-structure?mahaSysId=${selectedSystem?.id}`
+        );
+      }
+
+      if (selectedBlock?.id && selectedSystem?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/mahaweli-structure?mahaBlockId=${selectedBlock?.id}`
+        );
+      }
+
+      if (selectedMahaweliUnit?.id && selectedBlock?.id && selectedSystem?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/mahaweli-structure?mahaUnitId=${selectedMahaweliUnit?.id}`
+        );
+      }
     }
+
     if (isAgrarian) {
-      setDataEndPoint(`geo-data/gn-divisions/agrarian/${id}`);
+      if (selectedDcomm?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/agrarian?distComId=${selectedDcomm?.id}`
+        );
+      }
+
+      if (selectedAscDivision?.id && selectedDcomm?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/agrarian?ascDivId=${selectedAscDivision?.id}`
+        );
+      }
+
+      if (selectedArpa?.id && selectedAscDivision?.id && selectedDcomm?.id) {
+        setDataEndPoint(
+          `geo-data/gn-divisions/agrarian?arpaDivId=${selectedArpa?.id}`
+        );
+      }
     }
   };
+
   const onDownload = async () => {
     try {
       await downloadGnDivisionExcel(onSuccess, onError);
@@ -800,56 +964,56 @@ const GnDivision = () => {
     >
       <ListHeader title="Gn Division" />
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />  
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate}>
-              {" "}
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.GN_DIVISION}`}
+            >
+              <Button onClick={onCreate}>
+                {" "}
+                <Add />
+                {DEF_ACTIONS.ADD}
+              </Button>
+            </PermissionWrapper>
 
-          {selectedGnDivisions.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectedGnDivisions.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectedGnDivisions.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
-            >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
+            {selectedGnDivisions.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+              >
+                <Button onClick={onEdit}>
+                  <Edit />
+                  {DEF_ACTIONS.EDIT}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectedGnDivisions.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.GN_DIVISION}`}
+              >
+                <Button onClick={onView}>
+                  <Vrpano />
+                  {DEF_ACTIONS.VIEW}
+                </Button>
+              </PermissionWrapper>
+            )}
+            {selectedGnDivisions.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.GN_DIVISION}`}
+              >
+                <Button onClick={onDelete}>
+                  <Delete />
+                  {DEF_ACTIONS.DELETE}
+                </Button>
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
         </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
@@ -1125,7 +1289,7 @@ const GnDivision = () => {
                   onChange={(event, value) => {
                     if (isProvincial || isIntProvincial) {
                       setSelectedAiRegion(value);
-                      changeDataEndPoint(value.id);
+                      //changeDataEndPoint(value.id);
                     }
                   }}
                   fullWidth
@@ -1155,6 +1319,36 @@ const GnDivision = () => {
 
           <Grid item>
             <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={resetFilter}
+                sx={{ marginTop: "40px" }}
+              >
+                <RestartAlt />
+                Reset
+              </Button>
+            </FieldWrapper>
+          </Grid>
+
+          <Grid item container>
+            <FieldWrapper>
               <FieldName>.</FieldName>
 
               <TextField
@@ -1175,34 +1369,20 @@ const GnDivision = () => {
                 size="small"
               />
             </FieldWrapper>
-          </Grid>
 
-          <Grid item>
-            <FieldWrapper>
-              <Button
-                color="success"
-                variant="contained"
-                size="small"
-                onClick={handleSearch}
-                sx={{ marginTop: "40px" }}
-              >
-                Search
-              </Button>
-            </FieldWrapper>
-          </Grid>
-          <Grid item>
-            <FieldWrapper>
-              <Button
-                color="success"
-                variant="contained"
-                size="small"
-                onClick={resetFilter}
-                sx={{ marginTop: "40px" }}
-              >
-                <RestartAlt />
-                Reset
-              </Button>
-            </FieldWrapper>
+            <Grid item>
+              <FieldWrapper>
+                <Button
+                  color="success"
+                  variant="contained"
+                  size="small"
+                  onClick={handleSearch}
+                  sx={{ marginTop: "40px" }}
+                >
+                  Search
+                </Button>
+              </FieldWrapper>
+            </Grid>
           </Grid>
         </Grid>
       </ActionWrapper>

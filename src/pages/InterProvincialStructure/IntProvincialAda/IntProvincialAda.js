@@ -53,6 +53,7 @@ import { deleteInterProvincialAda } from "../../../redux/actions/interProvincial
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 const IntProvincialAda = () => {
   useUserAccessValidation();
@@ -196,11 +197,27 @@ const IntProvincialAda = () => {
   };
 
   const getFilteredData = (selectedDdoa) => {
-    setDataEndPoint(
-      `geo-data/interprovincial-ada-segments/inter-province-dd/` +
-        selectedDdoa?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/interprovincial-ada-segments/inter-province-dd/` +
+    //     selectedDdoa?.id
+    // );
   };
+
+  const filter = () => {
+
+    if(selectedDoa?.id){
+      setDataEndPoint(
+        `geo-data/interprovincial-ada-segments?directorDoaId=${selectedDoa?.id}`
+      );
+    }
+ 
+
+    if (selectedDdoa?.id && selectedDoa?.id) {
+      setDataEndPoint(
+        `geo-data/interprovincial-ada-segments?interProDdId=${selectedDdoa?.id}`
+      );
+    }
+  }
 
   useEffect(() => {
     get_InterProvincialDoaList().then(({ dataList = [] }) => {
@@ -351,7 +368,21 @@ const IntProvincialAda = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+          <Grid item >
             <FieldWrapper>
               <Button
                 color="success"

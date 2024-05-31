@@ -31,8 +31,11 @@ import CropDiseaseList from "./CropDiseaseList";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropDisease = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -129,7 +132,7 @@ const CropDisease = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -173,7 +176,7 @@ const CropDisease = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Disease" />
+      <ListHeader title="nav.crop.cropDisease" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -189,7 +192,7 @@ const CropDisease = () => {
             >
               <Button onClick={onCreate}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectCropDisease.length === 1 && (
@@ -198,7 +201,7 @@ const CropDisease = () => {
               >
                 <Button onClick={onEdit}>
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -208,7 +211,7 @@ const CropDisease = () => {
               >
                 <Button onClick={onView}>
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -218,7 +221,7 @@ const CropDisease = () => {
               >
                 <Button onClick={onDelete}>
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -241,7 +244,7 @@ const CropDisease = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCropDisease}
         loading={loading}
         onClose={close}

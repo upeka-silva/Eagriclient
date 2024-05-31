@@ -42,6 +42,8 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropSubCategory = () => {
   useUserAccessValidation();
@@ -58,6 +60,8 @@ const CropSubCategory = () => {
   ] = useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
+
+  const { t } = useTranslation();
 
   const toggleSubCategorySelect = (component) => {
     setSelectSubCategory((current = []) => {
@@ -141,7 +145,7 @@ const CropSubCategory = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -186,7 +190,7 @@ const CropSubCategory = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Sub Category" />
+      <ListHeader title="nav.crop.cropSubCategory" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1}>
           <ExportButton onDownload={onDownload} />
@@ -200,9 +204,9 @@ const CropSubCategory = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onCreate}>
+              <Button onClick={onCreate} title={t("buttonTooltip.add")}>
                 <Add />
-                {DEF_ACTIONS.ADD}
+                {TranslateActions(t, DEF_ACTIONS.ADD)}
               </Button>
             </PermissionWrapper>
             {selectSubCategory.length === 1 && (
@@ -214,9 +218,10 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onEdit}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.edit")}
                 >
                   <Edit />
-                  {DEF_ACTIONS.EDIT}
+                  {TranslateActions(t, DEF_ACTIONS.EDIT)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -229,9 +234,10 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onView}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.view")}
                 >
                   <Vrpano />
-                  {DEF_ACTIONS.VIEW}
+                  {TranslateActions(t, DEF_ACTIONS.VIEW)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -244,9 +250,10 @@ const CropSubCategory = () => {
                   color="success"
                   onClick={onDelete}
                   sx={{ ml: "8px" }}
+                  title={t("buttonTooltip.delete")}
                 >
                   <Delete />
-                  {DEF_ACTIONS.DELETE}
+                  {TranslateActions(t, DEF_ACTIONS.DELETE)}
                 </Button>
               </PermissionWrapper>
             )}
@@ -268,7 +275,7 @@ const CropSubCategory = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectSubCategory}
         loading={loading}
         onClose={close}
@@ -278,7 +285,6 @@ const CropSubCategory = () => {
         propertyId="subCategoryId"
         propertyDescription="description"
       />
-        
     </div>
   );
 };
