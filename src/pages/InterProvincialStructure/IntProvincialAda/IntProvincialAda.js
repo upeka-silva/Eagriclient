@@ -54,6 +54,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const IntProvincialAda = () => {
   useUserAccessValidation();
@@ -204,20 +205,18 @@ const IntProvincialAda = () => {
   };
 
   const filter = () => {
-
-    if(selectedDoa?.id){
+    if (selectedDoa?.id) {
       setDataEndPoint(
         `geo-data/interprovincial-ada-segments?directorDoaId=${selectedDoa?.id}`
       );
     }
- 
 
     if (selectedDdoa?.id && selectedDoa?.id) {
       setDataEndPoint(
         `geo-data/interprovincial-ada-segments?interProDdId=${selectedDdoa?.id}`
       );
     }
-  }
+  };
 
   useEffect(() => {
     get_InterProvincialDoaList().then(({ dataList = [] }) => {
@@ -272,40 +271,28 @@ const IntProvincialAda = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedProvincialAda.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.INTER_PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -382,7 +369,7 @@ const IntProvincialAda = () => {
               </Button>
             </FieldWrapper>
           </Grid>
-          <Grid item >
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"

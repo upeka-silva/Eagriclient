@@ -24,7 +24,7 @@ import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import { Fonts } from "../../utils/constants/Fonts";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
-
+import CrudActionButton from "../../components/CrudActionButton/CrudActionButton";
 
 const Farmer = () => {
   useUserAccessValidation();
@@ -152,14 +152,14 @@ const Farmer = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Farmer" />
       <ActionWrapper isLeft>
@@ -173,39 +173,27 @@ const Farmer = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.FARMER}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectedFarmer.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedFarmer.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.FARMER}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedFarmer.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.FARMER}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -231,10 +219,9 @@ const Farmer = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedFarmer}
         dialogSelectedTypes={dialogSelectedFarmer}
-        propertyId = "farmerId"
-        propertyDescription = "firstName"
+        propertyId="farmerId"
+        propertyDescription="firstName"
       />
-
     </div>
   );
 };

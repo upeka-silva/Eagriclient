@@ -38,6 +38,7 @@ import { get_ASCListByComId } from "../../../redux/actions/asc/action";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const ARPA = () => {
   useUserAccessValidation();
@@ -232,40 +233,28 @@ const ARPA = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ARPA}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedArpa.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedArpa.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ARPA}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedArpa.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ARPA}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>

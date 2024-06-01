@@ -28,6 +28,7 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import ScsRegionList from "./ScsRegionList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const ScsRegionBranch = () => {
   useUserAccessValidation();
@@ -176,40 +177,28 @@ const ScsRegionBranch = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SCS_REGION}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedScsRegion.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SCS_REGION}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedScsRegion.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SCS_REGION}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedScsRegion.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SCS_REGION}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>

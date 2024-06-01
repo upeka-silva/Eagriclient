@@ -30,6 +30,7 @@ import { defaultMessages } from "../../../utils/constants/apiMessages";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const Role = () => {
   useUserAccessValidation();
@@ -146,19 +147,19 @@ const Role = () => {
 
   const onDelete = () => {
     setOpen(true);
-    setDialogSelectedRole(selectedRole)
+    setDialogSelectedRole(selectedRole);
   };
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Roles" />
       <ActionWrapper isLeft>
@@ -172,40 +173,28 @@ const Role = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ROLE}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedRole.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.ROLE}`}
             >
-              <Button onClick={onEdit} sx={{ ml: "8px" }}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedRole.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ROLE}`}
             >
-              <Button onClick={onView} sx={{ ml: "8px" }}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedRole.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ROLE}`}
             >
-              <Button onClick={onDelete} sx={{ ml: "8px" }}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>

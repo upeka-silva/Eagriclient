@@ -1,4 +1,4 @@
-import { Add, Delete, Edit, Vrpano,Download } from "@mui/icons-material";
+import { Add, Delete, Edit, Vrpano, Download } from "@mui/icons-material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Stack
+  Stack,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
@@ -19,7 +19,10 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { deleteProvince,downloadProvincesExcel } from "../../../redux/actions/province/action";
+import {
+  deleteProvince,
+  downloadProvincesExcel,
+} from "../../../redux/actions/province/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import {
@@ -31,6 +34,7 @@ import ProvinceList from "./ProvinceList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const Province = () => {
   useUserAccessValidation();
@@ -164,7 +168,7 @@ const Province = () => {
     } catch (error) {
       console.error(error);
     }
-  };  
+  };
 
   return (
     <div
@@ -179,56 +183,46 @@ const Province = () => {
     >
       <ListHeader title="Province" />
       <ActionWrapper isLeft>
-      <Stack direction="row" spacing={1} sx={{ paddingTop:"2px"}}>
-      <ExportButton onDownload={onDownload} />  
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        ><PermissionWrapper
-        >
-        </PermissionWrapper>
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
-          </PermissionWrapper>
-          {selectedProvinces.length === 1 && (
+            <PermissionWrapper></PermissionWrapper>
             <PermissionWrapper
-              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE}`}
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCE}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
-          )}
-          {selectedProvinces.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
-            >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-            </PermissionWrapper>
-          )}
-          {selectedProvinces.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCE}`}
-            >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
+            {selectedProvinces.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCE}`}
+              >
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
+              </PermissionWrapper>
+            )}
+            {selectedProvinces.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCE}`}
+              >
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
+              </PermissionWrapper>
+            )}
+            {selectedProvinces.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCE}`}
+              >
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
         </Stack>
       </ActionWrapper>
       <PermissionWrapper
@@ -249,7 +243,7 @@ const Province = () => {
         title="Do you want to delete?"
         items={selectedProvinces}
         loading={loading}
-        onClose={close} 
+        onClose={close}
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedProvince}
         dialogSelectedTypes={dialogSelectedProvince}
