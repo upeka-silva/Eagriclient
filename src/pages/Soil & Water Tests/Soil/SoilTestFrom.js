@@ -93,11 +93,22 @@ const SoilTestFrom = () => {
   const handleFormSubmit = async () => {
     if (enableSave()) {
       setSaving(true);
+      let dateSampled = new Date(formData.dateSampled);
+      let dateAnalyzed = new Date(formData.dateAnalyzed);
       try {
         if (formData?.id) {
-          await updateSoilTest(formData, onSuccess, onError);
+          await updateSoilTest({
+            ...formData,
+            dateSampled: dateSampled.valueOf() || null,
+            dateAnalyzed: dateAnalyzed.valueOf() || null,
+          }, onSuccess, onError);
         } else {
-          await handleSoilTest(formData, onSuccess, onError);
+          await handleSoilTest({
+            ...formData,
+            dateSampled: dateSampled.valueOf() || null,
+            dateAnalyzed: dateAnalyzed.valueOf() || null,
+          }, 
+          onSuccess, onError);
         }
       } catch (error) {
         console.log(error);
@@ -252,15 +263,15 @@ const SoilTestFrom = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
-                label=""
                 slotProps={{ textField: { size: "small", error: false } }}
+                in="DD-MM-YYYY"
                 name="dateSampled"
                 id="dateSampled"
                 value={formData?.dateSampled || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "dateSampled")
-                }
+                onChange={(value) => {
+                  handleChange(value || "", "dateSampled");
+                }}
               />
               {/* </DemoContainer> */}
             </LocalizationProvider>
@@ -272,15 +283,15 @@ const SoilTestFrom = () => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
-                label=""
                 slotProps={{ textField: { size: "small", error: false } }}
+                in="DD-MM-YYYY"
                 name="dateAnalyzed"
                 id="dateAnalyzed"
                 value={formData?.dateAnalyzed || ""}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "dateAnalyzed")
-                }
+                onChange={(value) => {
+                  handleChange(value || "", "dateAnalyzed")
+                }}
               />
               {/* </DemoContainer> */}
             </LocalizationProvider>
