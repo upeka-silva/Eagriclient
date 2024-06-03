@@ -3,41 +3,25 @@ import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import ChatMessage from "./ChatMessage";
 import SockJS from "sockjs-client";
-import { style } from "d3";
-import { getUserProfile } from "../../redux/actions/users/action";
 import { getMessageList } from "../../redux/actions/communication/action";
 
 const ChatPage = ({ conversation, user }) => {
   const [messages, setMessages] = useState([]);
-  // const stompClient = useStompClient();
   const messageInputRef = useRef();
   const messagesEndRef = useRef(null);
   const [client, setClient] = useState(null);
   const type = "GROUP";
-  // const value = 2;
-  // const [ type, setType ] = useState("GROUP");
-  // const [ value, setValue ] = useState(null);
   const value = conversation?.id;
-  // const [formData, setFormData] = useState({});
-  // setFormData(conversation);
-  // console.log({formData})
-  console.log({ conversation });
-  console.log("conversation", conversation?.id);
-  console.log({ messages });
-  console.log("userChatPage", user.id);
 
   useEffect(() => {
-    // setValue(conversation?.id);
     setMessages([]);
     fetchMessages();
-    // profile();
     const newClient = new Client({
       webSocketFactory: () => new SockJS("http://localhost:8080/ws-endpoint"),
       onConnect: () => {
         newClient.subscribe(`/topic/${conversation.id}`, (message) => {
           const newMessage = JSON.parse(message.body);
-          setMessages((prevMessages) => [...prevMessages, newMessage]); // Add the received message to the state
-          // console.log("id", formData.id);
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
       },
       onStompError: (frame) => {
@@ -49,20 +33,16 @@ const ChatPage = ({ conversation, user }) => {
     newClient.activate();
     setClient(newClient);
 
-    // Disconnect when the component unmounts
     return () => {
       newClient.deactivate();
-      // setFormData(null);
     };
   }, [conversation?.id]);
 
   useEffect(() => {
-    // Scroll to the bottom whenever messages update
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const fetchMessages = () => {
-    // Fetch messages from the server
     getMessageList(type, value).then(({ dataList = [] }) => {
       setMessages(dataList);
       console.log({ dataList });
@@ -72,19 +52,9 @@ const ChatPage = ({ conversation, user }) => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       publishMessage();
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault();
     }
   };
-  // const profile = () => {
-  //   getUserProfile()
-  //     .then((response) => {
-  //       console.log({ response });
-  //       setFormData(response?.data);
-  //     })
-  //     .catch((e) => {
-  //       console.log(e);
-  //     });
-  // };
 
   const publishMessage = () => {
     if (client) {
