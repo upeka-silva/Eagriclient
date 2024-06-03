@@ -66,4 +66,4 @@ jobs:
           docker pull oneszeros/eagriclientprod:latest
           docker stop agriclient
           docker rm agriclient
-          docker run -d --name agriclient --network nginx_network -p 80:80 -v /var/www/certbot:/var/www/certbot oneszeros/eagriclientprod:latest
+          docker run -d --name agriclient --network nginx_network -p 80:80 -p 443:443 -v /var/www/certbot:/var/www/certbot -v /etc/letsencrypt:/etc/letsencrypt oneszeros/eagriclientprod:latest
