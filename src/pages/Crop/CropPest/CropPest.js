@@ -31,6 +31,9 @@ import {
 } from "../../../redux/actions/crop/CropPest/action";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const CropPest = () => {
   useUserAccessValidation();
@@ -44,7 +47,7 @@ const CropPest = () => {
   const [dialogSelectedCropPest, setDialogSelectedCropPest] = useState([]);
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
   const url = `crop/crop-pests`;
-
+  const { t } = useTranslation();
   const toggleCropPestSelect = (component) => {
     setSelectCropPest((current = []) => {
       let newList = [...current];
@@ -127,7 +130,7 @@ const CropPest = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -171,7 +174,7 @@ const CropPest = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Pest" />
+      <ListHeader title="nav.crop.cropPest" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -185,39 +188,30 @@ const CropPest = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_PEST}`}
             >
-              <Button onClick={onCreate}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectCropPest.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_PEST}`}
               >
-                <Button onClick={onEdit}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectCropPest.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_PEST}`}
               >
-                <Button onClick={onView}>
-                  <Vrpano />
-                  {DEF_ACTIONS.VIEW}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectCropPest.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_PEST}`}
               >
-                <Button onClick={onDelete}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -238,7 +232,7 @@ const CropPest = () => {
       </PermissionWrapper>
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCropPest}
         loading={loading}
         onClose={close}

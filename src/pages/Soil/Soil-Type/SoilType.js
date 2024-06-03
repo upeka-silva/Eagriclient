@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  ButtonGroup,
-} from "@mui/material";
+import { Button, ButtonGroup } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useUserAccessValidation } from "../../../hooks/authentication";
@@ -15,12 +12,16 @@ import { useLocation, useNavigate } from "react-router";
 import SoilTypeList from "./SoilTypeList";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { deleteSoilType, downloadSoilTypeExcel } from "../../../redux/actions/soil/soilType/action";
+import {
+  deleteSoilType,
+  downloadSoilTypeExcel,
+} from "../../../redux/actions/soil/soilType/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { Add, Delete, Download, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const SoilType = () => {
   useUserAccessValidation();
@@ -91,10 +92,10 @@ const SoilType = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: 
-      state?.action === DEF_ACTIONS.DELETE ?
-        "Successfully Deleted" :
-        "Successfully Downloading",
+      message:
+        state?.action === DEF_ACTIONS.DELETE
+          ? "Successfully Deleted"
+          : "Successfully Downloading",
     });
   };
 
@@ -150,58 +151,47 @@ const SoilType = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.SOIL_TYPE}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
           {selectedSoilTypes.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedSoilTypes.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.SOIL_TYPE}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedSoilTypes.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.SOIL_TYPE}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
-          <PermissionWrapper
-            // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        <PermissionWrapper
+        // permission={`${DEF_ACTIONS.EXPORT}_${DEF_COMPONENTS.CROP_CATEGORY}`}
+        >
+          <Button
+            onClick={onDownload}
+            title="export"
+            style={{
+              position: "absolute",
+              right: "30px",
+            }}
+            color="success"
           >
-            <Button onClick={onDownload} title="export" 
-              style={
-                {
-                  position: "absolute",
-                  right: "30px",
-                }
-              }
-              color="success">
-              <Download />
-              Export
-              {DEF_ACTIONS.EXPORT}
-            </Button>
-          </PermissionWrapper>
+            <Download />
+            Export
+            {DEF_ACTIONS.EXPORT}
+          </Button>
+        </PermissionWrapper>
       </ActionWrapper>
       <PermissionWrapper withoutPermissions>
         {loading === false && (
@@ -220,8 +210,8 @@ const SoilType = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedSoilTypes}
         dialogSelectedTypes={dialogSelectedSoilTypes}
-        propertyId = "soilTypeCode"
-        propertyDescription = "description"
+        propertyId="soilTypeCode"
+        propertyDescription="description"
       />
     </div>
   );

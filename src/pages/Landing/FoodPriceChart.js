@@ -11,11 +11,11 @@ function FoodPriceChart() {
   // Extracting data from the state object
   const stateData = state?.data;
 
-  const priceData = stateData?.monthlyPriceAverage.map((entry) =>
+  const priceData = stateData?.monthlyPriceAverage?.map((entry) =>
     parseFloat(entry.averagePrice)
   );
 
-  const dateData = stateData?.monthlyPriceAverage.map((entry) => entry.date);
+  const dateData = stateData?.monthlyPriceAverage?.map((entry) => entry.date);
 
   // ApexCharts options
   const options = {
@@ -84,7 +84,9 @@ function FoodPriceChart() {
             </Button>
           </Grid>
         </Grid>
-        <Grid md={12} mt={1}></Grid>
+        <Grid md={12} mt={1}>
+          <Typography variant="h5">{stateData?.groupName} - {stateData?.foodName} </Typography>
+        </Grid>
         <Grid item container md={12} mt={2} spacing={3}>
           <Grid item md={6}></Grid>
         </Grid>

@@ -14,6 +14,7 @@ import ProtectedHouseTypeList from "./ProtectedHouseTypeList";
 import DeleteDialog from "../../components/DeleteDialog/DeleteDialog";
 import { Fonts } from "../../utils/constants/Fonts";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../components/CrudActionButton/CrudActionButton";
 
 const ProtectedHouseType = () => {
   useUserAccessValidation();
@@ -149,40 +150,28 @@ const ProtectedHouseType = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROTECTED_HOUSE_TYPE}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedProtectedHouseType.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROTECTED_HOUSE_TYPE}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedProtectedHouseType.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROTECTED_HOUSE_TYPE}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedProtectedHouseType.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROTECTED_HOUSE_TYPE}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>

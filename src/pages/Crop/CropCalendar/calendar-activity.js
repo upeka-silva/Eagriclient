@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Button, CircularProgress} from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
@@ -19,6 +19,7 @@ import {
   updateCalendarActivity,
 } from "../../../redux/actions/crop/cropCalendar/action";
 import CalendarActivityList from "./CalendarActivityList";
+import { useTranslation } from "react-i18next";
 
 const CalendarActivity = ({
   dataList = [],
@@ -26,6 +27,7 @@ const CalendarActivity = ({
   formId = null,
   formMode = null,
 }) => {
+  const { t } = useTranslation();
   const { state } = useLocation();
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({});
@@ -44,7 +46,7 @@ const CalendarActivity = ({
     setFormData(prop);
     setDialogMode(mode);
     setOpenCropActivityAddDialog(true);
-  };    
+  };
 
   const handleCalendarActivityDelete = (prop) => (event) => {
     setDeleteItem(prop);
@@ -59,33 +61,34 @@ const CalendarActivity = ({
   const onSuccess = async (response) => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Successfully executed !!!",
+      message: t("message.successfullyExecuted"),
     });
     getAllCalendarActivities(formId).then((data) => {
       setCalendarActivities(...dataList, data);
       setIsDataFetch(true);
-      console.log("data i entered: ",data);
+      console.log("data i entered: ", data);
     });
   };
 
   const onError = (message) => {
     addSnackBar({
       type: SnackBarTypes.error,
-      message: message || "Login Failed",
+      message: message || t("message.loginFailed"),
     });
   };
 
   const handleCalendarActivityAdd = async (event, data, functionMode) => {
     if (functionMode === DEF_ACTIONS.ADD) {
       setIsDataFetch(false);
-      const response = await createCalendarActivity(formId, data, onSuccess, onError);
-      console.log("form ID: ",formId,data);
-      console.log("form response: ",response);
-      console.log("datalist", dataList);
+      const response = await createCalendarActivity(
+        formId,
+        data,
+        onSuccess,
+        onError
+      );
     } else if (functionMode === DEF_ACTIONS.EDIT) {
       setIsDataFetch(false);
       await updateCalendarActivity(data.id, data, onSuccess, onError);
-      console.log("form ID: ",formId,data);
     }
     setOpenCropActivityAddDialog(false);
   };
@@ -111,11 +114,7 @@ const CalendarActivity = ({
 
   return (
     <div>
-      <CustFormHeader
-        saving={saving}
-        state={state} 
-        formName="Crop Activities"
-      />
+      <CustFormHeader saving={saving} state={state} formName="crop.cropActivities" />
       {((onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
         <Button
           disabled={!onFormSaveSuccess}
@@ -127,18 +126,19 @@ const CalendarActivity = ({
         >
           <Add />
         </Button>
-      )) || ((onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
-        <Button
-          disabled={!formId}
-          onClick={() => addDamageType()}
-          color="success"
-          variant="contained"
-          size="small"
-          sx={{ marginBottom: "15px", marginTop: "20px" }}  
-        >
-          <Add />
-        </Button>
-      ))}
+      )) ||
+        ((onFormSaveSuccess || formMode === DEF_ACTIONS.EDIT) && (
+          <Button
+            disabled={!formId}
+            onClick={() => addDamageType()}
+            color="success"
+            variant="contained"
+            size="small"
+            sx={{ marginBottom: "15px", marginTop: "20px" }}
+          >
+            <Add />
+          </Button>
+        ))}
 
       <AddCalendarActivityDialog
         open={openCropActivityAddDialog}
@@ -150,20 +150,20 @@ const CalendarActivity = ({
         mode={dialogMode}
       />
 
-      {
-        isDataFetch ?
-        <CalendarActivityList 
-        data={calendarActivities} 
-        currentFormMode ={formMode}
-        onEdit={handleDamageTypeAdd} 
-        onDelete={handleCalendarActivityDelete}
-      /> :
-        <CircularProgress/>
-      }
-      
+      {isDataFetch ? (
+        <CalendarActivityList
+          data={calendarActivities}
+          currentFormMode={formMode}
+          onEdit={handleDamageTypeAdd}
+          onDelete={handleCalendarActivityDelete}
+        />
+      ) : (
+        <CircularProgress />
+      )}
+
       <DialogBox
         open={open}
-        title={`Delete Calendar Activity`}
+        title={t("message.deleteCalendarActivity")}
         actions={
           <ActionWrapper>
             <Button
@@ -172,7 +172,7 @@ const CalendarActivity = ({
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              Confirm
+              {t("action.confirm")}
             </Button>
             <Button
               variant="contained"
@@ -180,7 +180,7 @@ const CalendarActivity = ({
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              Close
+              {t("action.close")}
             </Button>
           </ActionWrapper>
         }
@@ -190,8 +190,7 @@ const CalendarActivity = ({
         </>
       </DialogBox>
     </div>
-  );  
+  );
 };
 
 export default CalendarActivity;
-

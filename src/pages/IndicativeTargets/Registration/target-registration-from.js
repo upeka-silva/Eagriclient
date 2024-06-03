@@ -69,7 +69,7 @@ const TargetRegistrationForm = () => {
     ) {
       var ddDivision = {
         id: state.target.regionId,
-        name: state.target.regionName,
+        description: state.target.regionName,
         parentType: state.target.regionType,
       };
 
@@ -140,7 +140,7 @@ const TargetRegistrationForm = () => {
 
     const payload = {
       regionId: selectedDDDivision.id,
-      regionName: selectedDDDivision.name,
+      regionName: selectedDDDivision.description,
       regionType: selectedDDDivision.parentType,
       items: items,
     };
@@ -211,7 +211,7 @@ const TargetRegistrationForm = () => {
                 options={options}
                 value={selectedDDDivision}
                 getOptionLabel={(i) =>
-                  i.description !== undefined ? `${i.description}` : ""
+                  i.description !== undefined ? `${i.description}` : "Select"
                 }
                 onChange={(event, value) => {
                   handleDDChange(value);

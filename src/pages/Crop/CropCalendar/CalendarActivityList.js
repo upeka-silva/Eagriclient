@@ -4,6 +4,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import React from "react";
 import { Colors } from "../../../utils/constants/Colors";
 import { DEF_ACTIONS } from "../../../utils/constants/permission";
+import { useTranslation } from "react-i18next";
 
 const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
   border: 0,
@@ -88,53 +89,53 @@ export default function CalendarActivityList({
   onEdit,
   onDelete,
 }) {
-
+  const { t } = useTranslation();
   const columns = [
     {
-      field: "name",  
-      headerName: "Name",
+      field: "name",
+      headerName: t("cropCalendarPage.name"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.cropActivity?.name,
     },
     {
       field: "description",
-      headerName: "Description",
+      headerName: t("cropCalendarPage.description"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.cropActivity?.description,
     },
     {
       field: "cost",
-      headerName: "Cost",
+      headerName: t("cropCalendarPage.cost"),
       flex: 0.7,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.cost,
     },
     {
       field: "duration",
-      headerName: "Duration",
+      headerName: t("cropCalendarPage.duration"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.duration,
     },
     {
       field: "durationType",
-      headerName: "Duration Type",
+      headerName: t("cropCalendarPage.durationType"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.durationType,
     },
     {
       field: "startOfWeek",
-      headerName: "Start Of Week",
+      headerName: t("cropCalendarPage.startOfWeek"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params?.row?.startOfWeek,
     },
     {
       field: "action",
-      headerName: "Action",
+      headerName: t("cropCalendarPage.action"),
       headerClassName: "super-app-theme--heade",
       flex: 0.6,
       sortable: false,
@@ -156,7 +157,7 @@ export default function CalendarActivityList({
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
               onClick={onEdit(row, DEF_ACTIONS.EDIT)}
             >
-              Edit
+              {t("action.edit")}
             </Button>
             <Button
               sx={{
@@ -172,7 +173,7 @@ export default function CalendarActivityList({
               disabled={currentFormMode === DEF_ACTIONS.VIEW}
               onClick={onDelete(row)}
             >
-              Delete
+              {t("action.delete")}
             </Button>
           </>
         );
@@ -181,7 +182,6 @@ export default function CalendarActivityList({
   ];
 
   const getRowHeight = () => 40;
-
 
   return (
     <div style={{ height: 500, width: "100%" }}>

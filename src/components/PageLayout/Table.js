@@ -54,6 +54,7 @@ import { Colors } from "../../utils/constants/Colors";
 import theme from "../../utils/theme/theme.json";
 import { FormElementTypes } from "../../utils/constants/formElementTypes";
 import { tokens } from "../../utils/theme/app-theme";
+import { useTranslation } from "react-i18next";
 
 export const DataTable = ({
   dataRows = [],
@@ -74,7 +75,7 @@ export const DataTable = ({
   onRowSelect = (_r) => {},
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
-  refresh
+  refresh,
 }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -93,6 +94,7 @@ export const DataTable = ({
   const [pageSize, setPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
   const [showPopover, setShowPopover] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (dataEndPoint || filterEndPoint) {
@@ -107,7 +109,7 @@ export const DataTable = ({
     advanceSearchData,
     order,
     orderByTarget,
-    refresh
+    refresh,
   ]);
 
   useEffect(() => {
@@ -197,7 +199,9 @@ export const DataTable = ({
     }
 
     if (searchable) {
-      let targets = columns.filter((c) => c?.searchable).map((c) => c?.field);
+      let targets = columns
+        .filter((c) => c?.searchable)
+        .map((c) => t(c?.field));
       let strKeyword =
         typeof keyword === "string"
           ? keyword.toLowerCase()
@@ -1139,14 +1143,19 @@ export const DataTable = ({
                   if (c?.type === "number") {
                     return (
                       <TableCell
-                      key={`${key}-${key2}`}
-                      sx={{ padding: "2px 20px 2px 20px !important", textAlign: "right" }}
-                    >
-                      <Typography component="div">
-                        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                          {r[c.field]}
-                        </Box>
-                      </Typography>
+                        key={`${key}-${key2}`}
+                        sx={{
+                          padding: "2px 20px 2px 20px !important",
+                          textAlign: "right",
+                        }}
+                      >
+                        <Typography component="div">
+                          <Box
+                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                          >
+                            {r[c.field]}
+                          </Box>
+                        </Typography>
                       </TableCell>
                     );
                   }
@@ -1157,21 +1166,26 @@ export const DataTable = ({
                     } else {
                       content = "null";
                     }
-                    
+
                     return (
                       <TableCell
                         key={`${key}-${key2}`}
-                        sx={{ padding: "2px 20px 2px 20px !important", textAlign: "right" }}
+                        sx={{
+                          padding: "2px 20px 2px 20px !important",
+                          textAlign: "right",
+                        }}
                       >
                         <Typography component="div">
-                          <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                          <Box
+                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                          >
                             {content}
                           </Box>
                         </Typography>
                       </TableCell>
                     );
                   }
-                  
+
                   if (c?.type === "list" || Array.isArray(c?.field)) {
                     return (
                       <TableCell key={`${key}-${key2}`}>

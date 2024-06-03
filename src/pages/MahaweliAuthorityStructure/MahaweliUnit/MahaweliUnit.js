@@ -37,6 +37,8 @@ import MahaweliUnitList from "./MahaweliUnitList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const MahaweliUnit = () => {
   useUserAccessValidation();
@@ -183,9 +185,22 @@ const MahaweliUnit = () => {
   };
 
   const getFilteredData = (selectedBlock) => {
-    setDataEndPoint(
-      `geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/mahaweli-units/by-mahaweli-block/` + selectedBlock?.id
+    // );
+  };
+
+  const filter = () => {
+    if (selectedSystem?.id) {
+      setDataEndPoint(
+        `geo-data/mahaweli-units/mahaweli-structure?mahaSysId=${selectedSystem?.id}`
+      );
+    }
+    if(selectedBlock?.id && selectedSystem?.id){
+      setDataEndPoint(
+        `geo-data/mahaweli-units/mahaweli-structure?mahaBlockId=${selectedBlock?.id}` 
+      );
+    }
   };
 
   const resetFilter = () => {
@@ -256,40 +271,28 @@ const MahaweliUnit = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedMahaweliUnit.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedMahaweliUnit.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedMahaweliUnit.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.MAHAWELI_UNIT}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -379,7 +382,21 @@ const MahaweliUnit = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item lg={2}>
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
@@ -393,7 +410,10 @@ const MahaweliUnit = () => {
               </Button>
             </FieldWrapper>
           </Grid>
-          <SearchBox handleSearch={handleSearch} />
+
+          <Grid item container>
+            <SearchBox handleSearch={handleSearch} />
+          </Grid>
         </Grid>
       </ActionWrapper>
       <PermissionWrapper

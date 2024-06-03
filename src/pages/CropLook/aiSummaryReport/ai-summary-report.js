@@ -19,8 +19,8 @@ import {
   TabContent,
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
-import CategoryReportTabelAILevelByCrop from "./categoryReportTable-ai-by-crop";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
+import AiSummaryReportTable from "./ai-summary-report-table";
 
 const AiSummaryReport = () => {
   useUserAccessValidation();
@@ -64,7 +64,7 @@ const AiSummaryReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Summary (AI Level)" />
+      <ListHeader title="AI Summary" />
       <Grid
         container
         sx={{
@@ -123,17 +123,19 @@ const AiSummaryReport = () => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             cropCategoryList &&
@@ -150,7 +152,7 @@ const AiSummaryReport = () => {
                       {toggleState === index + 1 &&
                       selectedSeason &&
                       selectedWeek ? (
-                        <CategoryReportTabelAILevelByCrop category={category} season={selectedSeason} weekId={selectedWeek?.id}/>
+                        <AiSummaryReportTable category={category} season={selectedSeason} weekId={selectedWeek?.id}/>
                       ) : null}
                     </div>
                   </TableWrapper>

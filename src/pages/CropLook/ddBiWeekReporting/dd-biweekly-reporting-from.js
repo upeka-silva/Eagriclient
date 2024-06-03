@@ -186,18 +186,20 @@ const DDBiWeeklyReportingForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sx={{ marginTop: "20px" }}>
-            <TabWrapper style={{ margin: "0px 0px" }}>
-              {!isLoading &&
-                cropCategoryList.map((category, index) => (
-                  <TabButton
-                    className={toggleState === index + 1 ? "active-tabs" : ""}
-                    onClick={() => toggleTab(index + 1)}
-                  >
-                    {category?.description}
-                  </TabButton>
-                ))}
-            </TabWrapper>
+          <Grid item container sx={{ marginTop: "20px" }}>
+            <Grid md={12}>
+              <TabWrapper style={{ margin: "0px 0px" }}>
+                {!isLoading &&
+                  cropCategoryList.map((category, index) => (
+                    <TabButton
+                      className={toggleState === index + 1 ? "active-tabs" : ""}
+                      onClick={() => toggleTab(index + 1)}
+                    >
+                      {category?.description}
+                    </TabButton>
+                  ))}
+              </TabWrapper>
+            </Grid>
 
             {!isLoading &&
               cropCategoryList.map((category, index) => (

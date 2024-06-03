@@ -23,6 +23,7 @@ import {
   SideBarItemToolTip,
 } from "./Components";
 import { getUserPermissionForLeftNav } from "../../utils/helpers/permission";
+import { useTranslation } from "react-i18next";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -32,6 +33,7 @@ const SideBar = () => {
   const { service } = useServiceContext();
 
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const toggleDrawer = () => {
     setOpen((current) => !current);
@@ -120,7 +122,7 @@ const SideBar = () => {
               if (r?.children) {
                 return (
                   <SideBarItemToolTip
-                    title={!open ? r?.name : ""}
+                  title={!open ? t(r?.name) : ""}
                     placement="right"
                     arrow
                     key={key}
@@ -137,7 +139,7 @@ const SideBar = () => {
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
-                        primary={r?.name}
+                        primary={t(r?.name)}
                         sx={{ textDecoration: "none !important" }}
                       />
                       <ListItemIcon sx={{ minWidth: "unset !important" }}>
@@ -167,7 +169,7 @@ const SideBar = () => {
                     >
                       {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                       <ListItemText
-                        primary={r.name}
+                        primary={t(r.name)}
                         sx={{ textDecoration: "none !important" }}
                       />
                     </SideBarItemButton>
@@ -197,7 +199,7 @@ const SideBar = () => {
           return (
             <React.Fragment key={key}>
               <SideBarItemToolTip
-                title={!open ? r.name : ""}
+                title={!open ? t( r.name) : ""}
                 placement="right"
                 arrow
               >
@@ -214,7 +216,7 @@ const SideBar = () => {
                 >
                   {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                   <ListItemText
-                    primary={r.name}
+                    primary={t(r.name)}
                     sx={{ textDecoration: "none !important" }}
                   />
                   <ListItemIcon sx={{ minWidth: "unset !important" }}>
@@ -249,7 +251,7 @@ const SideBar = () => {
               >
                 {r.icon && <ListItemIcon>{<r.icon />}</ListItemIcon>}
                 <ListItemText
-                  primary={r.name}
+                  primary={t(r.name)}
                   sx={{ textDecoration: "none !important" }}
                 />
               </SideBarItemButton>
@@ -272,7 +274,7 @@ const SideBar = () => {
         if (r?.isSideBar) {
           return (
             <SideBarItemToolTip
-              title={!openSecondary ? r.name : ""}
+              title={!openSecondary ? t(r.name) : ""}
               placement="right"
               arrow
               key={key}
@@ -288,7 +290,7 @@ const SideBar = () => {
                 >
                   <ListItemIcon />
                   <ListItemText
-                    primary={r.name}
+                    primary={t(r.name)}
                     sx={{ textDecoration: "none !important" }}
                   />
                 </SideBarItemButton>
@@ -365,7 +367,7 @@ const SideBar = () => {
       {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
           <Toolbar>
-            <Typography variant="h7">{selectedSubRoute?.name || ""}</Typography>
+            <Typography variant="h7">{t(selectedSubRoute?.name )|| ""}</Typography>
           </Toolbar>
           <Divider />
           <List component="nav">{loading === true && renderSubRoutes()}</List>

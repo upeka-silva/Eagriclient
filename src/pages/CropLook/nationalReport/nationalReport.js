@@ -126,17 +126,19 @@ const NationalReport = () => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             cropCategoryList &&
@@ -150,7 +152,9 @@ const NationalReport = () => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
-                      {(toggleState === index + 1 && selectedSeason && selectedWeek) ? (
+                      {toggleState === index + 1 &&
+                      selectedSeason &&
+                      selectedWeek ? (
                         <NationalReportTable
                           category={category}
                           season={selectedSeason}

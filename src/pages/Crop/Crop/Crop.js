@@ -31,8 +31,12 @@ import {
 import { Fonts } from "../../../utils/constants/Fonts";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const Crop = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -130,7 +134,7 @@ const Crop = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -174,7 +178,7 @@ const Crop = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop" />
+      <ListHeader title="nav.crop.name" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -188,39 +192,30 @@ const Crop = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
             >
-              <Button onClick={onCreate}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onEdit}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectCrop.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onView}>
-                  <Vrpano />
-                  {DEF_ACTIONS.VIEW}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectCrop.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP}`}
               >
-                <Button onClick={onDelete}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -242,7 +237,7 @@ const Crop = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCrop}
         loading={loading}
         onClose={close}

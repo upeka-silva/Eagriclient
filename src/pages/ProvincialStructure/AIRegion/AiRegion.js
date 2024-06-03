@@ -47,6 +47,8 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const ProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -74,14 +76,18 @@ const ProvincialAiRegion = () => {
   const [selectedDdoa, setSelectedDdoa] = useState({
     provincialDdId: "",
     description: "",
+    id: null
   });
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
     description: "",
+    id: null,
   });
+  console.log({ selectedDoa });
   const [selectedAda, setSelectedAda] = useState({
     provinceSegmentId: "",
     description: "",
+    id : null
   });
 
   const toggleProvincialAISelect = (component) => {
@@ -230,9 +236,9 @@ const ProvincialAiRegion = () => {
   };
 
   const getFilteredData = (selectedAda) => {
-    setDataEndPoint(
-      `geo-data/ai-region/get-by-parent/PROVINCIAL/` + selectedAda?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/ai-region/get-by-parent/PROVINCIAL/` + selectedAda?.id
+    // );
   };
 
   const handleSearch = (searchText) => {
@@ -246,6 +252,26 @@ const ProvincialAiRegion = () => {
     }
 
     setDataEndPoint(url);
+  };
+
+  const filter = () => {
+    if (selectedDoa?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/provincial-doa?proDirectorLevelId=${selectedDoa?.id}`
+      );
+    }
+
+    if (selectedDoa?.id && selectedDdoa?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/provincial-doa?proDeputyDirectorLevelId=${selectedDdoa?.id}`
+      );
+    }
+
+    if(selectedDoa?.id && selectedDdoa?.id && selectedAda?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/provincial-doa?provincialAdaSegmentId=${selectedAda?.id}`
+      );
+    }
   };
 
   return (
@@ -271,40 +297,28 @@ const ProvincialAiRegion = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AI_REGION}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -400,21 +414,34 @@ const ProvincialAiRegion = () => {
               />
             </FieldWrapper>
           </Grid>
-          <SearchBox handleSearch={handleSearch} />
-          <Grid item lg={2}>
+
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={resetFilter}
+                onClick={filter}
                 sx={{ marginTop: "40px" }}
               >
-                <RestartAlt />
-                Reset
+                <FilterAltIcon />
+                Filter
               </Button>
             </FieldWrapper>
           </Grid>
+          <Grid item>
+            <Button
+              color="success"
+              variant="contained"
+              size="small"
+              onClick={resetFilter}
+              sx={{ marginTop: "40px" }}
+            >
+              <RestartAlt />
+              Reset
+            </Button>
+          </Grid>
+          <SearchBox handleSearch={handleSearch} />
         </Grid>
       </ActionWrapper>
       <PermissionWrapper

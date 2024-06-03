@@ -1,4 +1,4 @@
-import { put, post, get, api_delete } from "../../../services/api";
+import { put, post, get, api_delete, patch } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { StorageConstants } from "../../../services/storage/constant";
 
@@ -109,6 +109,43 @@ export const updateUsers = async (
   try {
     const response = await put(
       `user/register/${payload?.id || ""}`,
+      payload,
+      true
+    );
+    if (response.httpCode === "200 OK") {
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+
+export const updateUserPartially = async (
+  payload = {},
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const response = await patch(
+      `user/register/partial/${payload?.id || ""}`,
       payload,
       true
     );

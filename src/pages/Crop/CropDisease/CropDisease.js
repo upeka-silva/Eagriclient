@@ -31,8 +31,12 @@ import CropDiseaseList from "./CropDiseaseList";
 import ExportButton from "../../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import { Fonts } from "../../../utils/constants/Fonts";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const CropDisease = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -129,7 +133,7 @@ const CropDisease = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -173,7 +177,7 @@ const CropDisease = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Disease" />
+      <ListHeader title="nav.crop.cropDisease" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -187,39 +191,30 @@ const CropDisease = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_DISEASE}`}
             >
-              <Button onClick={onCreate}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectCropDisease.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_DISEASE}`}
               >
-                <Button onClick={onEdit}>
-                  <Edit />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectCropDisease.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_DISEASE}`}
               >
-                <Button onClick={onView}>
-                  <Vrpano />
-                  {DEF_ACTIONS.VIEW}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectCropDisease.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_DISEASE}`}
               >
-                <Button onClick={onDelete}>
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -241,7 +236,7 @@ const CropDisease = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectCropDisease}
         loading={loading}
         onClose={close}

@@ -8,11 +8,7 @@ import PermissionWrapper from "../../components/PermissionWrapper/PermissionWrap
 import { SnackBarTypes } from "../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../context/SnackBarContext";
 import { defaultMessages } from "../../utils/constants/apiMessages";
-import {
-  Add,
-  Delete,
-  Vrpano
-} from "@mui/icons-material";
+import { Add, Delete, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../components/ListHeader/ListHeader";
 import CropDamageList from "./crop-damage-list";
 import {
@@ -22,8 +18,12 @@ import {
 import { Fonts } from "../../utils/constants/Fonts";
 import ExportButton from "../../components/ExportButton/ExportButton";
 import ConfirmationDialog from "../../components/ConfirmationDialog/ConfirmationDialog";
+import { TranslateActions } from "../../utils/constants/CrudActionTranslation";
+import { useTranslation } from "react-i18next";
+import CrudActionButton from "../../components/CrudActionButton/CrudActionButton";
 
 const CropDamage = () => {
+  const { t } = useTranslation();
   useUserAccessValidation();
   const navigate = useNavigate();
   const { addSnackBar } = useSnackBars();
@@ -89,7 +89,7 @@ const CropDamage = () => {
   const onSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: `Successfully Deleted`,
+      message: t("message.successfullyDeleted"),
     });
   };
 
@@ -133,7 +133,7 @@ const CropDamage = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Damages" />
+      <ListHeader title="nav.crop.cropDamages" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -147,54 +147,30 @@ const CropDamage = () => {
             <PermissionWrapper
               permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
             >
-              <Button onClick={onCreate}>
-                <Add />
-                {DEF_ACTIONS.ADD}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
             </PermissionWrapper>
             {selectSubCategory.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
               >
-                <Button
-                  variant="outlined"
-                  color="success"
-                  onClick={onEdit}
-                  sx={{ ml: "8px" }}
-                >
-                  <Vrpano />
-                  {DEF_ACTIONS.EDIT}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
               </PermissionWrapper>
             )}
             {selectSubCategory.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
               >
-                <Button
-                  variant="outlined"
-                  color="success"
-                  onClick={onView}
-                  sx={{ ml: "8px" }}
-                >
-                  <Vrpano />
-                  {DEF_ACTIONS.VIEW}
-                </Button>
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
               </PermissionWrapper>
             )}
             {selectSubCategory.length > 0 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_SUB_CATEGORY}`}
               >
-                <Button
-                  variant="outlined"
-                  color="success"
-                  onClick={onDelete}
-                  sx={{ ml: "8px" }}
-                >
-                  <Delete />
-                  {DEF_ACTIONS.DELETE}
-                </Button>
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
               </PermissionWrapper>
             )}
           </ButtonGroup>
@@ -240,7 +216,7 @@ const CropDamage = () => {
 
       <ConfirmationDialog
         open={open}
-        title="Do you want to delete?"
+        title="doYouWantToDelete"
         items={selectSubCategory}
         loading={loading}
         onClose={close}

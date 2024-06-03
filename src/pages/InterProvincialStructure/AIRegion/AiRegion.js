@@ -49,6 +49,8 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -64,7 +66,9 @@ const InterProvincialAiRegion = () => {
     "geo-data/ai-region/get-by-parent/INTER_PROVINCIAL"
   );
   const [selectedProvincialAI, setSelectedProvincialAI] = useState([]);
-  const [dialogSelectedProvincialAI, setDialogSelectedProvincialAI] = useState([]);
+  const [dialogSelectedProvincialAI, setDialogSelectedProvincialAI] = useState(
+    []
+  );
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -75,10 +79,12 @@ const InterProvincialAiRegion = () => {
     ddId: "",
     description: "",
   });
+  console.log({ selectedDdoa });
   const [selectedDoa, setSelectedDoa] = useState({
     doaId: "",
     description: "",
   });
+  console.log({ selectedDoa });
   const [selectedAda, setSelectedAda] = useState({
     segmentId: "",
     description: "",
@@ -99,12 +105,12 @@ const InterProvincialAiRegion = () => {
 
   const handleSearch = (searchText) => {
     let url = dataEndPoint;
-    const searchTextParam = 'searchText=' + encodeURIComponent(searchText);
-    
-    if (url.includes('searchText=')) {
-        url = url.replace(/searchText=[^&]+/, searchTextParam);
+    const searchTextParam = "searchText=" + encodeURIComponent(searchText);
+
+    if (url.includes("searchText=")) {
+      url = url.replace(/searchText=[^&]+/, searchTextParam);
     } else {
-      url += (url.includes('?') ? '&' : '?') + searchTextParam;
+      url += (url.includes("?") ? "&" : "?") + searchTextParam;
     }
 
     setDataEndPoint(url);
@@ -190,9 +196,29 @@ const InterProvincialAiRegion = () => {
   };
 
   const getFilteredData = (selectedAda) => {
-    setDataEndPoint(
-      `geo-data/ai-region/get-by-parent/INTER_PROVINCIAL/` + selectedAda?.id
-    );
+    // setDataEndPoint(
+    //   `geo-data/ai-region/get-by-parent/INTER_PROVINCIAL/` + selectedAda?.id
+    // );
+  };
+
+  const filter = () => {
+    if (selectedDoa?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/inter-provincial-doa?directorDoaId=${selectedDoa?.id}`
+      );
+    }
+
+    if (selectedDdoa?.id && selectedDoa?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/inter-provincial-doa?interProDdoaId=${selectedDdoa?.id}`
+      );
+    }
+
+    if (selectedAda?.id && selectedDdoa?.id && selectedDoa?.id) {
+      setDataEndPoint(
+        `geo-data/ai-region/inter-provincial-doa?interProAdaId=${selectedAda?.id}`
+      );
+    }
   };
 
   const renderSelectedItems = () => {
@@ -250,14 +276,14 @@ const InterProvincialAiRegion = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="AI Region" />
       <ActionWrapper isLeft>
@@ -271,40 +297,28 @@ const InterProvincialAiRegion = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.AI_REGION}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedProvincialAI.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.AI_REGION}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -315,7 +329,6 @@ const InterProvincialAiRegion = () => {
             <FieldWrapper>
               <FieldName>Select Director DOA</FieldName>
               <Autocomplete
-                
                 options={doas}
                 value={selectedDoa}
                 getOptionLabel={(i) => `${i?.doaId} - ${i?.description}`}
@@ -395,8 +408,8 @@ const InterProvincialAiRegion = () => {
               />
             </FieldWrapper>
           </Grid>
-          <SearchBox handleSearch={handleSearch} />
-          <Grid item lg={2}>
+
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
@@ -410,8 +423,25 @@ const InterProvincialAiRegion = () => {
               </Button>
             </FieldWrapper>
           </Grid>
+          <Grid item>
+            <FieldWrapper>
+              <Button
+                color="success"
+                variant="contained"
+                size="small"
+                onClick={filter}
+                sx={{ marginTop: "40px" }}
+              >
+                <FilterAltIcon />
+                Filter
+              </Button>
+            </FieldWrapper>
+          </Grid>
         </Grid>
       </ActionWrapper>
+      <Grid container>
+        <SearchBox handleSearch={handleSearch} />
+      </Grid>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AI_REGION}`}
       >
@@ -434,8 +464,8 @@ const InterProvincialAiRegion = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedProvincialAI}
         dialogSelectedTypes={dialogSelectedProvincialAI}
-        propertyId = "regionId"
-        propertyDescription = "description"
+        propertyId="regionId"
+        propertyDescription="description"
       />
     </div>
   );

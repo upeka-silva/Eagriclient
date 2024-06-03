@@ -1,0 +1,458 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "geologicalZone": {
+      "name": "Geological Zone",
+      "administrationStructure": {
+        "name": "Administration Structure",
+        "province": "Province",
+        "provinceForm": "Province Form",
+        "district": "District",
+        "districtForm": "District Form",
+        "dsDivision": "DS Division",
+        "dsDivisionForm": "DS Division Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "provincialDoaStructure": {
+        "name": "Provincial DOA Structure",
+        "provincialDoa": "Provincial DOA",
+        "provincialDoaForm": "Provincial DOA Form",
+        "provincialDdoa": "Provincial DDOA",
+        "provincialDdoaForm": "Provincial DDOA Form",
+        "provincialAda": "Provincial ADA",
+        "provincialAdaForm": "Provincial ADA Form",
+        "aiRegion": "AI Region",
+        "aiRegionForm": "ASC Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "interProvincialDoa": {
+        "name": "Inter Provincial DOA",
+        "directorDoa": "Director DOA",
+        "provincialDoaForm": "Provincial DOA Form",
+        "interProvincialDdoa": "Inter Provincial DDOA",
+        "interProvincialDdoaForm": "Inter Provincial DDOA Form",
+        "interProvincialAda": "Inter Provincial ADA",
+        "interProvincialAdaForm": "Inter Provincial ADA Form",
+        "aiRegion": "AI Region",
+        "aiRegionForm": "ASC Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "mahaweliStructure": {
+        "name": "Mahaweli Structure",
+        "mahaweliAuthority": "Mahaweli Authority",
+        "arpaAreaForm": "ARPA Area Form",
+        "mahaweliSystem": "Mahaweli System",
+        "mahaweliSystemForm": "Mahaweli System Form",
+        "mahaweliBlock": "Mahaweli Block",
+        "mahaweliBlockForm": "Mahaweli Block Form",
+        "mahaweliUnit": "Mahaweli Unit",
+        "mahaweliUnitForm": "Mahaweli Unit Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "agrarian": {
+        "name": "Agrarian",
+        "agrarDevDept": "AgrarDevDept",
+        "agrarDevDeptForm": "AgrarDevDept Form",
+        "districtCommissioner": "District Commissioner",
+        "districtCommissionerForm": "District Commissioner Form",
+        "ascDivision": "ASC Division",
+        "ascDivisionForm": "ASC Division Form",
+        "arpaDivision": "ARPA Division",
+        "arpaDivisionForm": "ARPA Division Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "ecologicalZoneStructure": {
+        "name": "Ecological Zone Structure",
+        "agroEcoZone": "Agro Eco Zone",
+        "agroEcoZoneForm": "Agro Eco Zone Form",
+        "gnDivision": "GN Division",
+        "gnDivisionForm": "GN Division Form"
+      },
+      "scsRegion": {
+        "name": "SCS Region",
+        "scsService": "SCS Service",
+        "scsServiceForm": "SCS Service Form",
+        "scsRegion": "SCS Region",
+        "scsRegionForm": "SCS Region Form"
+      }
+    },
+    "soil": {
+      "name": "Soil",
+      "soilType": "Soil Type",
+      "soilTypeForm": "Soil Type Form",
+      "soilSubType": "Soil Sub Type",
+      "soilSubTypeForm": "Soil Sub Type Form"
+    },
+    "crop": {
+      "name": "Crop",
+      "category": "Category",
+      "cropCategory": "Crop Category",
+      "cropSubCategory": "Crop Sub Category",
+      "cropCategoryForm": "Crop Category Form",
+      "cropForm": "Crop Form",
+      "cropVariety": "Crop Variety",
+      "cropVarietyForm": "Crop Variety Form",
+      "cropDamages": "Crop Damages",
+      "cropDamageForm": "Crop Damage Form",
+      "cropCalendar": "Crop Calendar",
+      "cropCalendarForm": "Crop Calendar Form",
+      "cropActivity": "Crop Activity",
+      "cropActivityForm": "Crop Activity Form",
+      "cropDiseaseForm": "Crop Disease Form",
+      "cropPest": "Crop Pest",
+      "cropPestForm": "Crop Pest Form",
+      "cropDisease": "Crop Disease",
+      "damageTypes": "Damage Types",
+      "cropActivities": "Crop Activities"
+    },
+    "institution": {
+      "name": "Institution",
+      "institutionCategory": "Institution Category",
+      "institutionCategoryForm": "Institution Category Form",
+      "institution": "Institution",
+      "institutionForm": "Institution Form"
+    },
+    "soilAndWaterTests": {
+      "name": "Soil and Water Tests",
+      "soilTest": "Soil Test",
+      "soilTestForm": "Soil Test Form",
+      "waterTest": "Water Test",
+      "waterTestForm": "Water Test Form"
+    },
+    "agricultureSeason": {
+      "name": "Agriculture Season",
+      "agricultureSeasonForm": "Agriculture Season Form"
+    },
+    "farmLand": {
+      "name": "Farm Land",
+      "selfAssessment": "Self Assessment",
+      "basicAssessment": "Basic Assessment",
+      "farmLandForm": "Farm Land Form"
+    },
+    "farmer": {
+      "name": "Farmer",
+      "farmerForm": "Farmer Form"
+    },
+    "protectedHouseType": {
+      "name": "Protected House Type",
+      "protectedHouseTypeForm": "Protected House Type Form"
+    },
+    "users": {
+      "name": "Users",
+      "users": "Users",
+      "newUserForm": "New User Form",
+      "userType": "User Type",
+      "userTypeForm": "User Type Form"
+    },
+    "privateCompany": {
+      "name": "Private Company",
+      "privateCompanyForm": "Private Company Form",
+      "auditForm": "Audit Form"
+    },
+    "gap": {
+      "name": "GAP",
+      "gapRegistration": "GAP Registration",
+      "gapRegs": "GAP Regs",
+      "selfAssessment": "Self Assessment",
+      "selfAssessmentForm": "Self Assessment Form",
+      "basicAssessment": "Basic Assessment",
+      "basicDataAssessmentForm": "Basic Data Assessment Form",
+      "internalAudit": "Internal Audit",
+      "internalAuditForm": "Internal Audit Form",
+      "finalAudit": "Final Audit",
+      "finalAuditForm": "Final Audit Form"
+    },
+    "extension": {
+      "name": "Extension",
+      "createPost": "Create Post",
+      "project": "Project",
+      "agricultureProjectForm": "Agriculture Project Form",
+      "reportProject": "Report Project"
+    },
+    "indicativeTargets": {
+      "name": "Indicative Targets",
+      "cropSetting": "Crop Setting",
+      "cropTargetRegistrationForm": "Crop Target Registration Form",
+      "ddSummary": "DD Summary",
+      "aiSummary": "AI Summary"
+    },
+    "cropLook": {
+      "name": "Crop Look",
+      "fieldConfiguration": "Field Configuration",
+      "fieldConfigurationForm": "Field Configuration Form",
+      "cropLookSeason": "Crop Look Season",
+      "cropLookSeasonForm": "Crop Look Season Form",
+      "cropRegistration": "Crop Registration",
+      "cropRegistrationForm": "Crop Registration Form",
+      "cropTarget": "Crop Target",
+      "cropTargetsForm": "Crop Targets Form",
+      "biweeklyReporting": "Biweekly Reporting",
+      "biweeklyReportingForm": "Biweekly Reporting Form",
+      "varietySummary": {
+        "name": "Variety Summary",
+        "varietySummaryDdWise": "Variety Summary - DD Wise",
+        "varietySummaryAiWise": "Variety Summary - AI Wise",
+        "varietySummaryAdaWise": "Variety Summary - ADA Wise",
+        "cropSummaryAiLevel": "Crop Summary (AI Level)"
+      },
+      "approvalReport": {
+        "name": "Approval Report",
+        "approvalReportInfoDD": "Approval Report Info DD",
+        "approvalReportInfoADA": "Approval Report Info ADA",
+        "approvalPanelADA": "Approval Panel (ADA)",
+        "approvalPanelDD": "Approval Panel (DD)"
+      },
+      "progressTracker": "Progress Tracker",
+      "earlyWarningLimits": "Early Warning Limits",
+      "vegEarlyWarnings": "Veg Early Warnings",
+      "vegitableEarlyWarnings": "Vegetable Early Warnings"
+    },
+    "applicationSettings": {
+      "name": "Application Settings",
+      "roles": "Roles",
+      "roleForm": "Role Form",
+      "actions": "Actions",
+      "components": "Components",
+      "componentForm": "Component Form",
+      "permissions": "Permissions",
+      "isoUnit": "ISO Unit",
+      "isoUnitForm": "ISO Unit Form"
+    },
+    "harti": {
+      "name": "HARTI",
+      "commodityGroup": "Commodity Group",
+      "commodity": "Commodity",
+      "economicCenter": "Economic Center",
+      "hartiPrice": "HARTI Price"
+    },
+    "communication": {
+      "name": "COMMUNICATION",
+      "chat": "Chat"
+    }
+  },
+
+  "buttonTooltip": {
+    "export": "Export",
+    "add": "Add",
+    "view": "View",
+    "viewList": "View_List",
+    "edit": "Edit",
+    "delete": "Delete",
+    "approve": "Approve",
+    "assign": "Assign",
+    "generate": "Generate"
+  },
+
+  "crudButton": {
+    "add": "ADD",
+    "edit": "EDIT",
+    "view": "VIEW",
+    "delete": "DELETE",
+    "viewList": "VIEW_LIST",
+    "approve": "APPROVE",
+    "assign": "ASSIGN",
+    "generate": "GENERATE",
+    "export": "Export"
+  },
+
+  "action": {
+    "add": "Add",
+    "edit": "Edit",
+    "view": "View",
+    "save": "SAVE",
+    "update": "UPDATE",
+    "reset": "RESET",
+    "verify": "VERIFY",
+    "back": "BACK",
+    "ok": "OK",
+    "cancel": "CANCEL",
+    "filter": "FILTER",
+    "confirm": "Confirm",
+    "close": "Close",
+    "delete": "Delete",
+    "adding": "ADDING...",
+    "updating": "UPDATING...",
+    "resetPassword": "Reset Password",
+    "viewProfile": "View Profile",
+    "logOut": "Log Out"
+  },
+
+  "message": {
+    "doYouWantToDelete": "Do you want to delete?",
+    "successfullyAdded": "Successfully Added",
+    "successfullyUpdated": "Successfully Updated",
+    "successfullyDeleted": "Successfully Deleted",
+    "loginFailed": "Login Failed",
+    "successfullyExecuted": "Successfully executed !!!",
+    "deleteQuestion": "Delete Question",
+    "deleteCalendarActivity": "Delete Calendar Activity",
+    "failedToDownloadCropActivityExcel": "Failed to download crop activity excel"
+  },
+
+  "userProfilePage": {
+    "userProfile":"User Profile",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "Date of Birth",
+    "userName": "User Name",
+    "email": "Email",
+    "gender": "Gender",
+    "language": "Language",
+    "selectYourProfilePicture": "Select Your Profile Picture"
+  },
+
+  "cropCategoryPage": {
+    "cropCategory": "Crop Category",
+    "code": "Code",
+    "categoryCode": "Category Code",
+    "description": "Description"
+  },
+
+  "cropSubCategoryPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
+    "description": "Description",
+    "categoryId": "Category ID",
+    "code": "Code",
+    "categoryCode": "Category Code"
+  },
+
+  "cropPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
+    "subCategory": "Sub Category",
+    "crop": "Crop",
+    "scientificName": "Scientific Name",
+    "cropId": "Crop ID",
+    "description": "Description",
+    "subCategoryId": "Sub Category ID",
+    "cropType": "Crop Type",
+    "family": "Family",
+    "plantationCrop": "Plantation Crop",
+    "selectCropImage": "Select Crop Image",
+    "general": "GENERAL",
+    "pest": "PEST",
+    "disease": "DISEASE",
+    "climaticRequirements": "Climatic Requirements",
+    "optimumTemperature": "Optimum Temperature",
+    "annualRainfall": "Annual Rainfall",
+    "altitude": "Altitude",
+    "soil": "Soil",
+    "soilType": "Soil Type",
+    "soilCharacteristics": "Soil Characteristics",
+    "soilPhRange": "Soil PH Range",
+    "other": "Other",
+    "harvesting": "Harvesting",
+    "suitableCultivationAreas": "Suitable Cultivation Areas",
+    "nurseryEstablishmentPeriod": "Nursery Establishment Period",
+    "pestName": "Pest Name",
+    "damageSymptom": "Damage Symptom",
+    "management": "Management",
+    "diseaseName": "Disease Name",
+    "type": "Type",
+    "causalAgent": "Causal Agent",
+    "vector": "Vector"
+  },
+
+  "cropVarietyPage": {
+    "cropCategory": "Crop Category",
+    "cropSubCategory": "Crop Sub Category",
+    "crop": "Crop",
+    "varietyName": "Variety Name",
+    "avgYield": "Avg. Yeild",
+    "varietyId": "Variety ID",
+    "varietyDescription": "Variety Description",
+    "cropId": "Crop ID",
+    "croplookVarietyId": "Croplook Variety ID",
+    "ageType": "Age Type",
+    "varietyType": "Variety Type",
+    "grainType": "Grain Type",
+    "pollinationType": "Pollination Type",
+    "pericarpColor": "Pericarp Color",
+    "podFruitColour": "Pod/Fruit Colour",
+    "grainColor": "Grain Color",
+    "grainQuality": "Grain Quality",
+    "grainSize": "Grain Size",
+    "researchYield": "Research Yield",
+    "farmerYield": "Farmer Yield",
+    "averageYield": "Average Yield",
+    "numberOfPics": "Number Of Pics",
+    "maturityTime": "Maturity Time",
+    "commodity": "Commodity",
+    "durationToHarvest": "Duration To Harvest",
+    "durationBetweenTwoPicks": "Duration Between Two Picks",
+    "scientificName": "Scientific Name",
+    "seedRequirement": "Seed Requirement",
+    "releasedYear": "Released Year",
+    "spacing": "Spacing",
+    "imported": "Imported",
+    "soilProblems": "Soil Problems",
+    "plantGrowth": "Plant Growth",
+    "resistantToPestAndDisease": "Resistant to Pest & Disease",
+    "ediblePartShape": "Edible Part Shape",
+    "specialCharacteristics": "Special Characteristics",
+    "selectCropVarietyImage": "Select Crop Variety Image"
+  },
+
+  "cropDamagePage": {
+    "categoryName": "Category Name",
+    "description": "Description",
+    "damageTypes": "Damage Types",
+    "code": "Code",
+    "name": "Name",
+    "action": "Action",
+    "ADDdamageType": "ADD Damage Type",
+    "EDITdamageType": "EDIT Damage Type"
+  },
+
+  "cropCalendarPage": {
+    "name": "Name",
+    "description": "Description",
+    "mediaUrl": "Media Url",
+    "existingCalendarUrl": "Existing Calendar URL",
+    "crop": "Crop",
+    "varietyList": "Variety List",
+    "agricultureZone": "Agriculture Zone",
+    "cropActivities": "Crop Activities",
+    "cost": "Cost",
+    "duration": "Duration",
+    "durationType": "Duration Type",
+    "startOfWeek": "Start Of Week",
+    "action": "Action"
+  },
+
+  "cropActivityPage": {
+    "name": "Name",
+    "activityDescription": "Activity Description",
+    "action": "Action"
+  },
+
+  "cropPestPage": {
+    "cropPests": "Crop Pests",
+    "pestName": "Pest Name",
+    "scientificName": "Scientific Name",
+    "damageSymptom": "Damage Symptom",
+    "management": "Management",
+    "inStore": "In Store",
+    "chemicalControl": "Chemical Control",
+    "inStoreChemicalControl": "In Store Chemical Control",
+    "other": "Other"
+  },
+
+  "cropDiseasePage": {
+    "disease": "Disease",
+    "diseaseName": "Disease Name",
+    "type": "Type",
+    "causalAgent": "Causal Agent",
+    "vector": "Vector",
+    "diseaseType": "Disease Type",
+    "affectedPart": "Affected Part",
+    "symptoms": "Symptoms",
+    "management": "Management"
+  }
+}

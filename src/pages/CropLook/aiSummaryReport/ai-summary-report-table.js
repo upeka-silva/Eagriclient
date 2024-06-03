@@ -8,10 +8,18 @@ import {
   TableRow,
   Paper,
   CircularProgress,
+  Button,
 } from "@mui/material";
-import { getAggrigateReportDataAILevelByCrop } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import {
+  approveBiWeekCategoryReport
+} from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { getAiSummaryReport } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
+import { useSnackBars } from "../../../context/SnackBarContext";
 
 const AiSummaryReportTable = ({ category, season, weekId }) => {
+
+  const { addSnackBar } = useSnackBars();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -21,17 +29,43 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
   useEffect(() => {
     async function fetchData(categoryId, seasonId, weekId) {
       setLoading(true);
-      const dataList = await getAggrigateReportDataAILevelByCrop(
-        categoryId,
-        seasonId,
-        weekId
-      );
+      const dataList = await getAiSummaryReport(categoryId, seasonId, weekId);
       setData(dataList);
       setLoading(false);
     }
 
     fetchData(category?.id, season?.id, weekId);
   }, [weekId]);
+
+  const handleReportApprove = async () => {
+    try {
+      await approveBiWeekCategoryReport(
+        season?.id,
+        weekId,
+        category?.id,
+        onSuccess,
+        onError
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Successfully Approved",
+    });
+    setLoading(false);
+  };
+
+  const onError = (message) => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: message || "Login Failed",
+    });
+    setLoading(false);
+  };
 
   return (
     <>
@@ -43,7 +77,6 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 AI Region/Mahaweli Block
               </TableCell>
-              <TableCell style={{ backgroundColor: "#A8CD9F" }}>Crop</TableCell>
 
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total Target (ha)
@@ -52,6 +85,7 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
               <TableCell style={{ backgroundColor: "#F5DAD2" }}>
                 Total Extent (ha)
               </TableCell>
+              <TableCell>Approval</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -63,19 +97,28 @@ const AiSummaryReportTable = ({ category, season, weekId }) => {
                   isAlternateColor = !isAlternateColor;
                   previousAiName = aiRegionData?.aiName;
                 }
-                
+
                 // Determine the row color based on the toggle state
-                const rowColor = isAlternateColor ? '#f0f0f0' : '#ffffff'; // Change '#f0f0f0' to your desired color
-        
+                const rowColor = isAlternateColor ? "#f0f0f0" : "#ffffff"; // Change '#f0f0f0' to your desired color
+
                 return (
-                  <TableRow
-                    key={index}
-                    style={{ backgroundColor: rowColor }}
-                  >
-                    <TableCell>{isNewAiName ? aiRegionData?.aiName : ''}</TableCell>
-                    <TableCell>{aiRegionData?.cropName}</TableCell>
-                    <TableCell>{aiRegionData?.totalTarget}</TableCell>
-                    <TableCell>{aiRegionData?.totalExtent}</TableCell>
+                  <TableRow key={index} style={{ backgroundColor: rowColor }}>
+                    <TableCell>
+                      {isNewAiName ? aiRegionData?.aiName : ""}
+                    </TableCell>
+                    <TableCell>{aiRegionData?.totalTarget || 0.0}</TableCell>
+                    <TableCell>{aiRegionData?.totalExtent || 0.0}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="success"
+                        size="small"
+                        onClick={() => handleReportApprove()}
+                        sx={{ marginTop: "10px" }}
+                      >
+                        Approve
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })

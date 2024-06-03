@@ -1,0 +1,457 @@
+{
+  "nav": {
+    "dashboard": "டாஷ்போர்டு",
+    "geologicalZone": {
+      "name": "புவியியல் மண்டலம்",
+      "administrationStructure": {
+        "name": "நிர்வாக அமைப்பு",
+        "province": "மாகாணம்",
+        "provinceForm": "மாகாணம் படிவம்",
+        "district": "மாவட்டம்",
+        "districtForm": "மாவட்ட படிவம்",
+        "dsDivision": "தொ.ந.பிரிவு",
+        "dsDivisionForm": "தொ.ந.பிரிவு படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "provincialDoaStructure": {
+        "name": "மாநில வேளாண்மை அமைப்பு",
+        "provincialDoa": "மாநில வேளாண்மை துறை",
+        "provincialDoaForm": "மாநில வேளாண்மை படிவம்",
+        "provincialDdoa": "மாநில துணை வேளாண்மை அலுவலர்",
+        "provincialDdoaForm": "மாநில துணை வேளாண்மை அலுவலர் படிவம்",
+        "provincialAda": "மாநில உதவி வேளாண்மை அலுவலர்",
+        "provincialAdaForm": "மாநில உதவி வேளாண்மை அலுவலர் படிவம்",
+        "aiRegion": "வேளாண்மை பகுதி",
+        "aiRegionForm": "ASC படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "interProvincialDoa": {
+        "name": "இட மாந்தளை வேளாண்மை அமைப்பு",
+        "directorDoa": "வேளாண்மை இயக்குனர்",
+        "provincialDoaForm": "மாநில வேளாண்மை படிவம்",
+        "interProvincialDdoa": "இட மாந்தளை துணை வேளாண்மை அலுவலர்",
+        "interProvincialDdoaForm": "இட மாந்தளை துணை வேளாண்மை அலுவலர் படிவம்",
+        "interProvincialAda": "இட மாந்தளை உதவி வேளாண்மை அலுவலர்",
+        "interProvincialAdaForm": "இட மாந்தளை உதவி வேளாண்மை அலுவலர் படிவம்",
+        "aiRegion": "வேளாண்மை பகுதி",
+        "aiRegionForm": "ASC படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "mahaweliStructure": {
+        "name": "மகாவலி அமைப்பு",
+        "mahaweliAuthority": "மகாவலி அதிகார சபை",
+        "arpaAreaForm": "ARPA பகுதி படிவம்",
+        "mahaweliSystem": "மகாவலி முறை",
+        "mahaweliSystemForm": "மகாவலி முறை படிவம்",
+        "mahaweliBlock": "மகாவலி பகுதி",
+        "mahaweliBlockForm": "மகாவலி பகுதி படிவம்",
+        "mahaweliUnit": "மகாவலி அலகு",
+        "mahaweliUnitForm": "மகாவலி அலகு படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "agrarian": {
+        "name": "விவசாயம்",
+        "agrarDevDept": "விவசாய மேம்பாட்டு துறை",
+        "agrarDevDeptForm": "விவசாய மேம்பாட்டு படிவம்",
+        "districtCommissioner": "மாவட்ட ஆணையாளர்",
+        "districtCommissionerForm": "மாவட்ட ஆணையாளர் படிவம்",
+        "ascDivision": "ASC பிரிவு",
+        "ascDivisionForm": "ASC பிரிவு படிவம்",
+        "arpaDivision": "ARPA பிரிவு",
+        "arpaDivisionForm": "ARPA பிரிவு படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "ecologicalZoneStructure": {
+        "name": "சுற்றுச்சூழல் மண்டலம் அமைப்பு",
+        "agroEcoZone": "நில வள பகுதிகள்",
+        "agroEcoZoneForm": "நில வள பகுதிகள் படிவம்",
+        "gnDivision": "கிரா.நி.பிரிவு",
+        "gnDivisionForm": "கிரா.நி.பிரிவு படிவம்"
+      },
+      "scsRegion": {
+        "name": "SCS பகுதி",
+        "scsService": "SCS சேவை",
+        "scsServiceForm": "SCS சேவை படிவம்",
+        "scsRegion": "SCS பகுதி",
+        "scsRegionForm": "SCS பகுதி படிவம்"
+      }
+    },
+    "soil": {
+      "name": "மண்",
+      "soilType": "மண் வகை",
+      "soilTypeForm": "மண் வகை படிவம்",
+      "soilSubType": "மண் துணை வகை",
+      "soilSubTypeForm": "மண் துணை வகை படிவம்"
+    },
+    "crop": {
+      "name": "பயிர்",
+      "category": "வகை",
+      "cropCategory": "பயிர் வகை",
+      "cropSubCategory": "பயிர் துணை வகை",
+      "cropCategoryForm": "பயிர் வகை படிவம்",
+      "cropForm": "பயிர் படிவம்",
+      "cropVariety": "பயிர் பல்வகை",
+      "cropVarietyForm": "பயிர் பல்வகை படிவம்",
+      "cropDamages": "பயிர் சேதங்கள்",
+      "cropDamageForm": "பயிர் சேதங்கள் படிவம்",
+      "cropCalendar": "பயிர் நாட்காட்டி",
+      "cropCalendarForm": "பயிர் நாட்காட்டி படிவம்",
+      "cropActivity": "பயிர் செயல்பாடுகள்",
+      "cropActivityForm": "பயிர் செயல்பாடுகள் படிவம்",
+      "cropDiseaseForm": "பயிர் நோய் படிவம்",
+      "cropPest": "பயிர் பூச்சி",
+      "cropPestForm": "பயிர் பூச்சி படிவம்",
+      "cropDisease": "பயிர் நோய்",
+      "damageTypes": "சேதங்கள் வகைகள்",
+      "cropActivities": "பயிர் செயல்பாடுகள்"
+    },
+    "institution": {
+      "name": "நிறுவனம்",
+      "institutionCategory": "நிறுவன வகை",
+      "institutionCategoryForm": "நிறுவன வகை படிவம்",
+      "institution": "நிறுவனம்",
+      "institutionForm": "நிறுவன படிவம்"
+    },
+    "soilAndWaterTests": {
+      "name": "மண் மற்றும் நீர் பரிசோதனைகள்",
+      "soilTest": "மண் பரிசோதனை",
+      "soilTestForm": "மண் பரிசோதனை படிவம்",
+      "waterTest": "நீர் பரிசோதனை",
+      "waterTestForm": "நீர் பரிசோதனை படிவம்"
+    },
+    "agricultureSeason": {
+      "name": "விவசாய பருவம்",
+      "agricultureSeasonForm": "விவசாய பருவம் படிவம்"
+    },
+    "farmLand": {
+      "name": "பண்ணை நிலம்",
+      "selfAssessment": "சுய மதிப்பீடு",
+      "basicAssessment": "அடிப்படை மதிப்பீடு",
+      "farmLandForm": "பண்ணை நிலம் படிவம்"
+    },
+    "farmer": {
+      "name": "விவசாயி",
+      "farmerForm": "விவசாயி படிவம்"
+    },
+    "protectedHouseType": {
+      "name": "பாதுகாக்கப்பட்ட வீட்டு வகை",
+      "protectedHouseTypeForm": "பாதுகாக்கப்பட்ட வீட்டு வகை படிவம்"
+    },
+    "users": {
+      "name": "பயனர்கள்",
+      "users": "பயனர்கள்",
+      "newUserForm": "புதிய பயனர் படிவம்",
+      "userType": "பயனர் வகை",
+      "userTypeForm": "பயனர் வகை படிவம்"
+    },
+    "privateCompany": {
+      "name": "தனியார் நிறுவனம்",
+      "privateCompanyForm": "தனியார் நிறுவனம் படிவம்",
+      "auditForm": "ஆடிட்டிங் படிவம்"
+    },
+    "gap": {
+      "name": "GAP",
+      "gapRegistration": "GAP பதிவு",
+      "gapRegs": "GAP விதிகள்",
+      "selfAssessment": "சுய மதிப்பீடு",
+      "selfAssessmentForm": "சுய மதிப்பீடு படிவம்",
+      "basicAssessment": "அடிப்படை மதிப்பீடு",
+      "basicDataAssessmentForm": "அடிப்படை தரவுத் மதிப்பீடு படிவம்",
+      "internalAudit": "உள் ஆடிட்டிங்",
+      "internalAuditForm": "உள் ஆடிட்டிங் படிவம்",
+      "finalAudit": "இறுதி ஆடிட்டிங்",
+      "finalAuditForm": "இறுதி ஆடிட்டிங் படிவம்"
+    },
+    "extension": {
+      "name": "நீட்டிப்பு",
+      "createPost": "பதிவு உருவாக்கு",
+      "project": "திட்டம்",
+      "agricultureProjectForm": "விவசாய திட்டம் படிவம்",
+      "reportProject": "திட்ட அறிக்கை"
+    },
+    "indicativeTargets": {
+      "name": "குறிக்கோள் இலக்குகள்",
+      "cropSetting": "பயிர் அமைப்பு",
+      "cropTargetRegistrationForm": "பயிர் இலக்கு பதிவு படிவம்",
+      "ddSummary": "DD சுருக்கம்",
+      "aiSummary": "AI சுருக்கம்"
+    },
+    "cropLook": {
+      "name": "பயிர் தோற்றம்",
+      "fieldConfiguration": "களம் கட்டமைப்பு",
+      "fieldConfigurationForm": "களம் கட்டமைப்பு படிவம்",
+      "cropLookSeason": "பயிர் தோற்றம் பருவம்",
+      "cropLookSeasonForm": "பயிர் தோற்றம் பருவம் படிவம்",
+      "cropRegistration": "பயிர் பதிவு",
+      "cropRegistrationForm": "பயிர் பதிவு படிவம்",
+      "cropTarget": "பயிர் இலக்கு",
+      "cropTargetsForm": "பயிர் இலக்கு படிவம்",
+      "biweeklyReporting": "வாரத்திற்கு இருமுறை அறிக்கை",
+      "biweeklyReportingForm": "வாரத்திற்கு இருமுறை அறிக்கை படிவம்",
+      "varietySummary": {
+        "name": "வகை சுருக்கம்",
+        "varietySummaryDdWise": "வகை சுருக்கம் - DD அளவு",
+        "varietySummaryAiWise": "வகை சுருக்கம் - AI அளவு",
+        "varietySummaryAdaWise": "வகை சுருக்கம் - ADA அளவு",
+        "cropSummaryAiLevel": "பயிர் சுருக்கம் (AI அளவு)"
+      },
+      "approvalReport": {
+        "name": "அனுமதி அறிக்கை",
+        "approvalReportInfoDD": "அனுமதி அறிக்கை தகவல் DD",
+        "approvalReportInfoADA": "அனுமதி அறிக்கை தகவல் ADA",
+        "approvalPanelADA": "அனுமதி குழு ADA",
+        "approvalPanelDD": "அனுமதி குழு DD"
+      },
+      "progressTracker": "முன்னேற்றம் கண்காணிப்பான்",
+      "earlyWarningLimits": "ஆரம்ப எச்சரிக்கை எல்லைகள்",
+      "vegEarlyWarnings": "காய்கறி ஆரம்ப எச்சரிக்கைகள்",
+      "vegitableEarlyWarnings": "காய்கறி ஆரம்ப எச்சரிக்கைகள்"
+    },
+    "applicationSettings": {
+      "name": "பயன்பாட்டு அமைப்புகள்",
+      "roles": "பாத்திரங்கள்",
+      "roleForm": "பாத்திரம் படிவம்",
+      "actions": "செயல்கள்",
+      "components": "கூறுகள்",
+      "componentForm": "கூறுகள் படிவம்",
+      "permissions": "அனுமதிகள்",
+      "isoUnit": "ISO அலகு",
+      "isoUnitForm": "ISO அலகு படிவம்"
+    },
+    "harti": {
+      "name": "HARTI",
+      "commodityGroup": "பொருள் குழு",
+      "commodity": "பொருள்",
+      "economicCenter": "அர்த்த மையம்",
+      "hartiPrice": "HARTI விலை"
+    },
+    "communication": {
+      "name": "தொடர்பு",
+      "chat": "அரட்டை"
+    }
+  },
+
+  "buttonTooltip": {
+    "export": "பதிவிறக்க",
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "view": "பார்வை",
+    "delete": "அழி",
+    "viewList": "பார்க்க_பட்டியல்",
+    "approve": "ஒப்புதல்",
+    "assign": "ஒதுக்க",
+    "generate": "உருவாக்க"
+  },
+
+  "crudButton": {
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "view": "பார்வை",
+    "delete": "அழி",
+    "viewList": "பார்க்க_பட்டியல்",
+    "approve": "ஒப்புதல்",
+    "assign": "ஒதுக்க",
+    "generate": "உருவாக்க",
+    "export": "பதிவிறக்க"
+  },
+
+  "action": {
+    "add": "கூட்டு",
+    "edit": "தொகு",
+    "save": "சேமிக்க",
+    "view": "பார்வை",
+    "update": "மேம்படுத்தல்",
+    "reset": "மீட்டமை",
+    "verify": "சரிபார்க்கவும்",
+    "back": "மீண்டும்",
+    "ok": "சரி",
+    "cancel": "ரத்து செய்",
+    "filter": "வடிகட்டிகள்",
+    "confirm": "உறுதிப்படுத்தவும்",
+    "close": "நெருக்கமான",
+    "delete": "அழி",
+    "adding": "சேர்த்து...",
+    "updating": "புதுப்பிக்கிறது...",
+    "resetPassword": "கடவுச்சொல்லை மீட்டமைக்க",
+    "viewProfile": "சுயவிவரம் காண",
+    "logOut": "வெளியேறு"
+  },
+
+  "message": {
+    "doYouWantToDelete": "நீக்க வேண்டுமா?",
+    "successfullyAdded": "வெற்றிகரமாக சேர்க்கப்பட்டது",
+    "successfullyUpdated": "வெற்றிகரமாக புதுப்பிக்கப்பட்டது",
+    "successfullyDeleted": "வெற்றிகரமாக நீக்கப்பட்டது",
+    "loginFailed": "உள்நுழைவு தோல்வியடைந்தது",
+    "successfullyExecuted": "வெற்றிகரமாக செயல்படுத்தப்பட்டது !!!",
+    "deleteQuestion": "கேள்வியை நீக்கு",
+    "deleteCalendarActivity": "கேலெண்டர் செயல்பாட்டை நீக்கு",
+    "failedToDownloadCropActivityExcel": "பயிர் செயல்பாடு எக்செல் பதிவிறக்க முடியவில்லை"
+  },
+
+  "userProfilePage": {
+    "userProfile": "பயனர் சுயவிவரம்",
+    "firstName": "முதல் பெயர்",
+    "lastName": "கடைசி பெயர்",
+    "dateOfBirth": "பிறந்த தேதி",
+    "userName": "பயனர் பெயர்",
+    "email": "மின்னஞ்சல்",
+    "gender": "பாலினம்",
+    "language": "மொழி",
+    "selectYourProfilePicture": "உங்கள் சுயவிவரப் படத்தைத் தேர்வுசெய்க"
+  },
+
+  "cropCategoryPage": {
+    "cropCategory": "பயிர் வகை",
+    "code": "குறியீடு",
+    "categoryCode": "வகை குறியீடு",
+    "description": "விளக்கம்"
+  },
+
+  "cropSubCategoryPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "description": "விளக்கம்",
+    "categoryId": "வகை ஐடி",
+    "code": "குறியீடு",
+    "categoryCode": "வகை குறியீடு"
+  },
+
+  "cropPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "subCategory": "துணை வகை",
+    "crop": "பயிர்",
+    "scientificName": "அறிவியல் பெயர்",
+    "cropId": "பயிர் ஐடி",
+    "description": "விளக்கம்",
+    "subCategoryId": "துணை வகை ஐடி",
+    "cropType": "பயிர் வகை",
+    "family": "குடும்பம்",
+    "plantationCrop": "நட்டு விளை பயிர்",
+    "selectCropImage": "பயிர் படத்தைத் தேர்ந்தெடுக்கவும்",
+    "general": "பொது",
+    "pest": "பூச்சி",
+    "disease": "நோய்",
+    "climaticRequirements": "வளிமண்டலத் தேவைகள்",
+    "optimumTemperature": "சிறந்த வெப்பநிலை",
+    "annualRainfall": "வருடாந்திர மழைப்பொழிவு",
+    "altitude": "உயர்வு",
+    "soil": "மண்",
+    "soilType": "மண் வகை",
+    "soilCharacteristics": "மண் பண்புகள்",
+    "soilPhRange": "மண் பிஹச் வரம்பு",
+    "other": "மற்றவை",
+    "harvesting": "அறுவடை",
+    "suitableCultivationAreas": "பயிரிட ஏற்ற பகுதிகள்",
+    "nurseryEstablishmentPeriod": "நர்சரி நிறுவும் காலம்",
+    "pestName": "பூச்சி பெயர்",
+    "damageSymptom": "சேதம் அறிகுறி",
+    "management": "மேலாண்மை",
+    "diseaseName": "நோய் பெயர்",
+    "type": "வகை",
+    "causalAgent": "காரணமான காரணி",
+    "vector": "மூலக்கூறு"
+  },
+
+  "cropVarietyPage": {
+    "cropCategory": "பயிர் வகை",
+    "cropSubCategory": "பயிர் துணை வகை",
+    "crop": "பயிர்",
+    "varietyName": "இன பெயர்",
+    "avgYield": "சராசரி உற்பத்தி",
+    "varietyId": "இன ஐடி",
+    "varietyDescription": "இன விளக்கம்",
+    "cropId": "பயிர் ஐடி",
+    "croplookVarietyId": "பயிர் பார்வை இன ஐடி",
+    "ageType": "வயது வகை",
+    "varietyType": "இன வகை",
+    "grainType": "தானிய வகை",
+    "pollinationType": "பூர்வாழ்வு வகை",
+    "pericarpColor": "உருப்பட நிறம்",
+    "podFruitColour": "பூட் / பழம் நிறம்",
+    "grainColor": "தானிய நிறம்",
+    "grainQuality": "தானிய தரம்",
+    "grainSize": "தானிய அளவு",
+    "researchYield": "ஆராய்ச்சி உற்பத்தி",
+    "farmerYield": "விவசாயி உற்பத்தி",
+    "averageYield": "சராசரி உற்பத்தி",
+    "numberOfPics": "படங்களின் எண்ணிக்கை",
+    "maturityTime": "பயிர் வயது",
+    "commodity": "பொருள்",
+    "durationToHarvest": "அருகேணிப்பு நேரம்",
+    "durationBetweenTwoPicks": "இரண்டு தேர்வுகளுக்கு இடையே நேரம்",
+    "scientificName": "விஞ்ஞானப் பெயர்",
+    "seedRequirement": "விதை தேவை",
+    "releasedYear": "வெளியிடப்பட்ட ஆண்டு",
+    "spacing": "இடைவெளி",
+    "imported": "இறக்குமதி செய்யப்பட்டது",
+    "soilProblems": "மண் சிக்கல்கள்",
+    "plantGrowth": "தாவர வளர்ச்சி",
+    "resistantToPestAndDisease": "பூச்சியம் மற்றும் நோய்க்கு எதிர்பார்ப்பு",
+    "ediblePartShape": "உணவு பகுப்பு வடிவம்",
+    "specialCharacteristics": "சிறப்பு பெருக்கங்கள்",
+    "selectCropVarietyImage": "பயிர் இன படம் தேர்வு செய்யவும்"
+  },
+
+  "cropDamagePage": {
+    "categoryName": "பிரிவு பெயர்",
+    "description": "விளக்கம்",
+    "damageTypes": "சேதம் வகைகள்",
+    "code": "குறியீடு",
+    "name": "பெயர்",
+    "action": "நடவடிக்கை",
+    "ADDdamageType": "ADD Damage Type",
+    "EDITdamageType": "EDIT Damage Type"
+  },
+
+  "cropCalendarPage": {
+    "name": "பெயர்",
+    "description": "விளக்கம்",
+    "mediaUrl": "மீடியா URL",
+    "existingCalendarUrl": "இருக்கும் நாட்காட்டி URL",
+    "crop": "பயிர்",
+    "varietyList": "வகைப்பட்டியல்",
+    "agricultureZone": "விவசாய மண்டலம்",
+    "cropActivities": "பயிர் செயல்பாடுகள்",
+    "cost": "செலவு",
+    "duration": "காலம்",
+    "durationType": "கால வகை",
+    "startOfWeek": "வாரத்தின் தொடக்கம்",
+    "action": "செயல்"
+  },
+
+  "cropActivityPage": {
+    "name": "பெயர்",
+    "activityDescription": "செயல்பாடு விளக்கம்",
+    "action": "செயல்"
+  },
+
+  "cropPestPage": {
+    "cropPests": "பயிர் பூச்சி",
+    "pestName": "பூச்சி பெயர்",
+    "scientificName": "அறிவியல் பெயர்",
+    "damageSymptom": "சேதம் அறிகுறி",
+    "management": "மேலாண்மை",
+    "inStore": "கடைசியில்",
+    "chemicalControl": "ரசாயன கட்டுப்பாடு",
+    "inStoreChemicalControl": "கடைசி ரசாயன கட்டுப்பாடு",
+    "other": "மற்றவை"
+  },
+  "cropDiseasePage": {
+    "disease": "நோய்",
+    "diseaseName": "நோயின் பெயர்",
+    "type": "வகை",
+    "causalAgent": "காரண காரணி",
+    "vector": "வெக்டர்",
+    "diseaseType": "நோய் வகை",
+    "affectedPart": "பாதிக்கப்பட்ட பகுதி",
+    "symptoms": "அறிகுறிகள்",
+    "management": "மேலாண்மை"
+  }
+}

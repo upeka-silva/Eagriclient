@@ -35,7 +35,9 @@ import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincial
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialAdaList from "./ProvicialAdaList";
 import { Fonts } from "../../../utils/constants/Fonts";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const ProvincialAda = () => {
   useUserAccessValidation();
@@ -61,11 +63,12 @@ const ProvincialAda = () => {
     provincialDdId: "",
     description: "",
   });
+  console.log({ selectedDdoa });
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
     description: "",
   });
-
+  console.log({ selectedDoa });
   const toggleProvincialDoaSelect = (component) => {
     setSelectedProvincialAda((current = []) => {
       let newList = [...current];
@@ -177,12 +180,6 @@ const ProvincialAda = () => {
     }
   };
 
-  const getFilteredData = (selectedDdoa) => {
-    setDataEndPoint(
-      `geo-data/provincial-ada-segments/pro-dd-id/` + selectedDdoa?.id
-    );
-  };
-
   useEffect(() => {
     get_ProvincialDoaList().then(({ dataList = [] }) => {
       console.log(dataList);
@@ -213,6 +210,18 @@ const ProvincialAda = () => {
     });
   };
 
+  const filter = () => {
+    setDataEndPoint(
+      `geo-data/provincial-ada-segments?proDirectorLevelId=${selectedDoa?.proDirectorId}`
+    );
+
+    if (selectedDdoa?.id) {
+      setDataEndPoint(
+        `geo-data/provincial-ada-segments?proDeputyDirectorLevelId=${selectedDdoa?.id}`
+      );
+    }
+  };
+
   return (
     <div
       style={{
@@ -236,40 +245,28 @@ const ProvincialAda = () => {
           <PermissionWrapper
             permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
           >
-            <Button onClick={onCreate}>
-              <Add />
-              {DEF_ACTIONS.ADD}
-            </Button>
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
           </PermissionWrapper>
 
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
             </PermissionWrapper>
           )}
           {selectedProvincialAda.length === 1 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onView}>
-                <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
             </PermissionWrapper>
           )}
           {selectedProvincialAda.length > 0 && (
             <PermissionWrapper
               permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.PROVINCIAL_ADA_SEGMENT}`}
             >
-              <Button onClick={onDelete}>
-                <Delete />
-                {DEF_ACTIONS.DELETE}
-              </Button>
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
             </PermissionWrapper>
           )}
         </ButtonGroup>
@@ -320,7 +317,6 @@ const ProvincialAda = () => {
                 onChange={(event, value) => {
                   console.log(value);
                   setSelectedDdoa(value);
-                  getFilteredData(value);
                 }}
                 fullWidth
                 disableClearable
@@ -336,19 +332,32 @@ const ProvincialAda = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={2} md={2} lg={2}>
+
+          <Grid item>
             <FieldWrapper>
               <Button
                 color="success"
                 variant="contained"
                 size="small"
-                onClick={resetFilter}
+                onClick={filter}
                 sx={{ marginTop: "40px" }}
               >
-                <RestartAlt />
-                Reset
+                <FilterAltIcon />
+                Filter
               </Button>
             </FieldWrapper>
+          </Grid>
+          <Grid item>
+            <Button
+              color="success"
+              variant="contained"
+              size="small"
+              onClick={resetFilter}
+              sx={{ marginTop: "40px" }}
+            >
+              <RestartAlt />
+              Reset
+            </Button>
           </Grid>
         </Grid>
       </ActionWrapper>

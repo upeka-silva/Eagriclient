@@ -1,8 +1,10 @@
 import React from "react";
 import { Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const DeleteMsg = () => {
-  return <Typography>Do you want to delete?</Typography>;
+  const {t} = useTranslation();
+  return <Typography>{t("message.doYouWantToDelete")}</Typography>;
 };
 
 export default DeleteMsg;

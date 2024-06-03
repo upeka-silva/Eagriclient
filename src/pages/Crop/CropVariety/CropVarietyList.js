@@ -8,6 +8,8 @@ import { DataTable } from "../../../components/PageLayout/Table";
 import { get_SubCategoryById } from "../../../redux/actions/crop/crop/action";
 import { get_CategoryList } from "../../../redux/actions/crop/cropCategory/action";
 import { get_CropById } from "../../../redux/actions/crop/cropVariety/action";
+import { useTranslation } from "react-i18next";
+import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
 
 const CropVarietyList = ({
   selectedRows = [],
@@ -15,20 +17,21 @@ const CropVarietyList = ({
   selectAll = (_list = []) => {},
   unSelectAll = () => {},
 }) => {
+  const {t} = useTranslation();
   const columns = [
     {
       field: ["cropDTO.cropId", "cropDTO.description"],
       joinString: " - ",
-      headerName: "Crop",
+      headerName: t("cropVarietyPage.crop"),
     },
-    { field: "varietyName", headerName: "Variety Name" },
+    { field: "varietyName", headerName: t("cropVarietyPage.varietyName") },
     // { field: "releasedYear", headerName: "Released Year" },
     // { field: "grainSize", headerName: "Grain Size" },
     // { field: "pericarpColor", headerName: "Pericarp Color" },
     // { field: "maturityTime", headerName: "Maturity Time" },
-    { field: "averageYield", headerName: "Avg. Yeild" },
+    { field: "averageYield", headerName: t("cropVarietyPage.avgYield")},
     // { field: "spacing", headerName: "Spacing" },
-    { field: ["varietyId"], headerName: "Variety ID" },
+    { field: "varietyId", headerName:t("cropVarietyPage.varietyId")},
   ];
 
   const [cats, setCats] = useState([]);
@@ -84,7 +87,7 @@ const CropVarietyList = ({
         <Grid container>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Crop Category</FieldName>
+              <FieldName>{t("cropVarietyPage.cropCategory")}</FieldName>
               <Autocomplete
                 options={cats}
                 value={category}
@@ -122,7 +125,7 @@ const CropVarietyList = ({
 
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Crop Sub Category</FieldName>
+              <FieldName>{t("cropVarietyPage.cropSubCategory")}</FieldName>
               <Autocomplete
                 disabled={category?.id == null}
                 options={subCats}
@@ -157,7 +160,7 @@ const CropVarietyList = ({
 
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>Crop</FieldName>
+              <FieldName>{t("cropVarietyPage.crop")}</FieldName>
               <Autocomplete
                 disabled={subCategory?.id == null}
                 options={crops}
@@ -196,7 +199,7 @@ const CropVarietyList = ({
                 sx={{ marginTop: "40px" }}
               >
                 <RestartAlt />
-                Reset
+                {t("action.reset")}
               </Button>
             </FieldWrapper>
           </Grid>

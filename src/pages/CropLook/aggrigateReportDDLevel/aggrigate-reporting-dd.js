@@ -30,13 +30,6 @@ import CategoryReportTabelDDLevel from "./categoryReportTable-dd";
 
 const AggrigateReportDDLevel = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
@@ -46,10 +39,6 @@ const AggrigateReportDDLevel = () => {
   const [selectedDDRegion, setSelectedDDRegion] = useState(null);
 
   useEffect(() => {
-    getAllMahawelisysProDDInterProDD().then(({ dataList = [] }) => {
-      setDdRegions(dataList);
-    });
-
     get_CategoryList().then(({ dataList = [] }) => {
       setCropCategoryList(dataList);
     });
@@ -58,6 +47,12 @@ const AggrigateReportDDLevel = () => {
       setSeasons(dataList);
     });
   }, []);
+
+  useEffect(() => {
+    getAllMahawelisysProDDInterProDD().then(({ dataList = [] }) => {
+      setDdRegions(dataList);
+    });
+  }, [selectedSeason]);
 
   const toggleTab = (index) => {
     setToggleState(index);
@@ -122,10 +117,10 @@ const AggrigateReportDDLevel = () => {
               <FieldWrapper>
                 <FieldName>DD Level</FieldName>
                 <Autocomplete
-                  options={ddRegions}
+                  options={ddRegions ? ddRegions : []}
                   value={selectedDDRegion}
                   getOptionLabel={(i) =>
-                    `${i.code || i.regionId} - ${i.description}`
+                    `${i?.code || i?.regionId} - ${i?.description}`
                   }
                   onChange={(event, value) => {
                     handleDDRegionChange(value);
@@ -144,18 +139,20 @@ const AggrigateReportDDLevel = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                key={index}
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  key={index}
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             selectedDDRegion &&

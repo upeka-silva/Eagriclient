@@ -109,18 +109,20 @@ const AggrigateReport = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sx={{ marginTop: "20px" }}>
-          <TabWrapper style={{ margin: "0px 0px" }}>
-            {cropCategoryList.map((category, index) => (
-              <TabButton
-                key={index}
-                className={toggleState === index + 1 ? "active-tabs" : ""}
-                onClick={() => toggleTab(index + 1)}
-              >
-                {category?.description}
-              </TabButton>
-            ))}
-          </TabWrapper>
+        <Grid item container sx={{ marginTop: "20px" }}>
+          <Grid md={12}>
+            <TabWrapper style={{ margin: "0px 0px" }}>
+              {cropCategoryList.map((category, index) => (
+                <TabButton
+                  key={index}
+                  className={toggleState === index + 1 ? "active-tabs" : ""}
+                  onClick={() => toggleTab(index + 1)}
+                >
+                  {category?.description}
+                </TabButton>
+              ))}
+            </TabWrapper>
+          </Grid>
 
           {selectedSeason &&
             cropCategoryList &&
@@ -129,21 +131,23 @@ const AggrigateReport = () => {
                 //style={{ marginTop: "10px" }}
                 className={toggleState === index + 1 ? "active-content" : ""}
               >
-                {toggleState === index + 1 ? <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
-                >
-                  <TableWrapper>
-                    <div key={category.categoryId}>
-                      <ExportButton
-                        onDownload={() => onDownload(category.id)}
-                      />
-                      <CategoryReportTabel
-                        category={category}
-                        season={selectedSeason}
-                      />
-                    </div>
-                  </TableWrapper>
-                </PermissionWrapper> : null}
+                {toggleState === index + 1 ? (
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                  >
+                    <TableWrapper>
+                      <div key={category.categoryId}>
+                        <ExportButton
+                          onDownload={() => onDownload(category.id)}
+                        />
+                        <CategoryReportTabel
+                          category={category}
+                          season={selectedSeason}
+                        />
+                      </div>
+                    </TableWrapper>
+                  </PermissionWrapper>
+                ) : null}
               </TabContent>
             ))}
         </Grid>

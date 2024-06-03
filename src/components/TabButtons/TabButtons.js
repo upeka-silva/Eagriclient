@@ -13,7 +13,7 @@ export const TabWrapper = styled(Stack)`
 export const TabButton = styled(Button)`
   && {
     padding: 15px;
-    width: 200px;
+    //width: 200px;
     position: relative;
     border: none;
     border-radius: 0px;

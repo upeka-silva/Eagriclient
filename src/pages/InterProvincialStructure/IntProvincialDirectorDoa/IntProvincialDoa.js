@@ -35,7 +35,7 @@ import { deleteInterProvincialDoa } from "../../../redux/actions/interProvincial
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
-
+import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 
 const IntProvincialDoa = () => {
   useUserAccessValidation();
@@ -47,9 +47,10 @@ const IntProvincialDoa = () => {
 
   const [search, setSearch] = useState({});
 
-  const [dataEndPoint,setDataEndPoint] = useState("geo-data/director-doa")
+  const [dataEndPoint, setDataEndPoint] = useState("geo-data/director-doa");
   const [selectedProvincialDoa, setSelectedProvincialDoa] = useState([]);
-  const [dialogSelectedProvincialDoa, setDialogSelectedProvincialDoa] = useState([]);
+  const [dialogSelectedProvincialDoa, setDialogSelectedProvincialDoa] =
+    useState([]);
 
   const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
@@ -166,64 +167,51 @@ const IntProvincialDoa = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <ListHeader title="Director DOA" />
       <ActionWrapper isLeft>
-      <ButtonGroup
+        <ButtonGroup
           variant="outlined"
           disableElevation
           size="small"
           aria-label="action button group"
           color="success"
         >
-        <PermissionWrapper
-          permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
-        >
-          <Button  onClick={onCreate}>
-          <Add/>
-            {DEF_ACTIONS.ADD}
-          </Button>
-        </PermissionWrapper>
+          <PermissionWrapper
+            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
+          >
+            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
+          </PermissionWrapper>
 
-        {selectedProvincialDoa.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
-          >
-            <Button onClick={onEdit}>
-                <Edit />
-                {DEF_ACTIONS.EDIT}
-              </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length === 1 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
-          >
-            <Button onClick={onView}>
-              <Vrpano />
-                {DEF_ACTIONS.VIEW}
-              </Button>
-          </PermissionWrapper>
-        )}
-        {selectedProvincialDoa.length > 0 && (
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
-          >
-            <Button onClick={onDelete}>
-                
-                <Delete/>
-                {DEF_ACTIONS.DELETE}
-              </Button>
-          </PermissionWrapper>
-        )}
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
+            >
+              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length === 1 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
+            >
+              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
+            </PermissionWrapper>
+          )}
+          {selectedProvincialDoa.length > 0 && (
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
+            >
+              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
+            </PermissionWrapper>
+          )}
         </ButtonGroup>
       </ActionWrapper>
       <PermissionWrapper
@@ -249,8 +237,8 @@ const IntProvincialDoa = () => {
         onConfirm={onConfirm}
         setDialogSelectedTypes={setDialogSelectedProvincialDoa}
         dialogSelectedTypes={dialogSelectedProvincialDoa}
-        propertyId = "doaId"
-        propertyDescription = "description"
+        propertyId="doaId"
+        propertyDescription="description"
       />
     </div>
   );
