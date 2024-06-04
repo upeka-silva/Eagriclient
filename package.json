@@ -46,17 +46,17 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.7.4",
     "react-slick": "^0.30.2",
+    "react-stomp-hooks": "^2.1.0",
     "recharts": "^2.8.0",
     "redux": "^4.2.1",
     "redux-thunk": "^2.4.2",
     "reselect": "^4.1.7",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.7.2",
+    "sockjs-client": "^1.6.1",
     "source-map-loader": "^4.0.1",
     "styled-components": "^5.3.9",
-    "web-vitals": "^2.1.4",
-    "react-stomp-hooks": "^2.1.0",
-    "socket.io-client": "^4.7.2",
-    "sockjs-client": "^1.6.1"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
