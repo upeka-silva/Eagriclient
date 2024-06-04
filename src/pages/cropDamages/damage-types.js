@@ -112,7 +112,7 @@ const DamageTypes = ({
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={state} formName="crop.damageTypes" />
+      <CustFormHeader saving={saving} state={state} formName="nav.crop.damageTypes" />
       {((onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
         <Button
           disabled={!formId}
