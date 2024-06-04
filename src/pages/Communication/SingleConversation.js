@@ -9,7 +9,7 @@ const SingleConversation = ({
   return (
     <div className="single-conversation">
       <HoverBox
-        sx={{ backgroundColor: isSelected ? "green" : "lightgreen" }}
+        sx={{ backgroundColor: isSelected ? "#1bc247" : "lightgreen" }}
         borderRadius={"10px"}
         backgroundColor={"lightgreen"}
         height={"50px"}

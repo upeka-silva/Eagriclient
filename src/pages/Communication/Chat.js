@@ -174,7 +174,7 @@ const Chat = () => {
               height: "100%",
               overflow: "auto",
 
-              border: "5px solid green",
+              border: "3px solid green",
               borderRadius: "20px",
             }}
           >
