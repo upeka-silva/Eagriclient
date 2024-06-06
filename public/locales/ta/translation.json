@@ -195,7 +195,7 @@
       "biweeklyReportingForm": "வாரத்திற்கு இருமுறை அறிக்கை படிவம்",
       "varietySummary": {
         "name": "வகை சுருக்கம்",
-        "varietySummaryDdWise": "வகை சுருக்கம் - DD அளவு",
+        "cropSummaryDdWise": "வகை சுருக்கம் - DD அளவு",
         "varietySummaryAiWise": "வகை சுருக்கம் - AI அளவு",
         "varietySummaryAdaWise": "வகை சுருக்கம் - ADA அளவு",
         "cropSummaryAiLevel": "பயிர் சுருக்கம் (AI அளவு)"

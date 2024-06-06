@@ -94,37 +94,6 @@ const AggrigateVarietyCellDDLevel = ({
           </TableCell>
         </TableRow>
       ))}
-
-      <TableRow>
-        <TableCell style={{ backgroundColor: "#FCFFE0" }}>Total</TableCell>
-        {targetConfigs.length > 0 &&
-          targetConfigs.map((fieldName, innerIndex) => (
-            <TableCell
-              key={innerIndex}
-              style={{ backgroundColor: "#FCFFE0" }}
-              align="right"
-            >
-              {getRoundValue(irrigationModeTargetMap.get(fieldName))}
-            </TableCell>
-          ))}
-        <TableCell style={{ backgroundColor: "#F5DAD2" }} align="right">
-          {getRoundValue(irrigationModeTargetMap.get("grandTotalTargeted"))}
-        </TableCell>
-        {reportConfigs.length > 0 &&
-          reportConfigs.map((fieldName1, innerIndex1) => (
-            <TableCell
-              key={innerIndex1}
-              style={{ backgroundColor: "#FCFFE0" }}
-              align="right"
-            >
-              {getRoundValue(irrigationModeMap.get(fieldName1))}
-            </TableCell>
-          ))}
-
-        <TableCell style={{ backgroundColor: "#F5DAD2" }} align="right">
-          {getRoundValue(irrigationModeMap.get("grandTotalBiWeek"))}
-        </TableCell>
-      </TableRow>
     </>
   );
 };
