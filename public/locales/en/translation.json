@@ -195,7 +195,7 @@
       "biweeklyReportingForm": "Biweekly Reporting Form",
       "varietySummary": {
         "name": "Variety Summary",
-        "varietySummaryDdWise": "Variety Summary - DD Wise",
+        "cropSummaryDdWise": "Crop Summary - DD Wise",
         "varietySummaryAiWise": "Variety Summary - AI Wise",
         "varietySummaryAdaWise": "Variety Summary - ADA Wise",
         "cropSummaryAiLevel": "Crop Summary (AI Level)"
