@@ -282,6 +282,7 @@ const Dashboard = () => {
   const handleCropLookSeasonChange = (event, value) => {
     setCropLookSeason(value);
   };
+  console.log({selectCropLookSeason});
 
   const handleCropChange = (event, value) => {
     setSelectCrop(value);
@@ -558,13 +559,13 @@ const Dashboard = () => {
   useEffect(() => {
     setLoadingMap(false);
     const fetchCropDamageDistribution = async () => {
-      await cropDamageGnDistribution(1).then((res) => {
+      await cropDamageGnDistribution(selectCropLookSeason.agriSeason.id).then((res) => {
         setMapData(res);
         setLoadingMap(true);
       });
     };
     fetchCropDamageDistribution();
-  }, []);
+  }, [selectCropLookSeason.agriSeason]);
 
   const gnDiviionIds = [];
   mapData?.map((data) => {
