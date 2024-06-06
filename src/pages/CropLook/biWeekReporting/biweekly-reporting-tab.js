@@ -237,7 +237,7 @@ const BiWeeklyReportingTab = ({
           <div style={{ textAlign: "left" }}>
             <Stack direction="row" spacing={1}>
               <ButtonGroup size="small" aria-label="Small button group">
-                <Grid item sx={{ pt: "8px" }}>
+                {/* <Grid item sx={{ pt: "8px" }}>
                   <Button
                     disabled={mode === DEF_ACTIONS.VIEW}
                     variant="outlined"
@@ -247,7 +247,7 @@ const BiWeeklyReportingTab = ({
                   >
                     Clear
                   </Button>
-                </Grid>
+                </Grid> */}
                 {saving ? (
                   <Button variant="contained" size="small">
                     {mode === DEF_ACTIONS.ADD ? "ADDING..." : "UPDATING..."}
