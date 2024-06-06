@@ -13,6 +13,8 @@ import {
 } from "../../redux/actions/cropLook/irrigationMode/action";
 import { baseURL } from "../../utils/constants/api";
 import { getCropsByCropCategory } from "../../redux/actions/crop/cropVariety/action";
+import { cropDamageGnDistribution } from "../../redux/actions/crop/cropDamage/action";
+import setGlobals from "react-map-gl/dist/esm/utils/set-globals";
 
 const Dashboard = () => {
   useUserAccessValidation();
@@ -30,6 +32,8 @@ const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
   const [loadingCrop, setLoadingCrop] = useState(false);
+  const [loadingMap, setLoadingMap] = useState(false);
+  const [mapData, setMapData] = useState(null);
 
   const [irrigationSortData, setIrrigationSortData] = useState({
     varietyNames: [],
@@ -551,22 +555,30 @@ const Dashboard = () => {
     },
   };
 
-  //Sri lanka map url, distribution and type
+  useEffect(() => {
+    setLoadingMap(false);
+    const fetchCropDamageDistribution = async () => {
+      await cropDamageGnDistribution(1).then((res) => {
+        setMapData(res);
+        setLoadingMap(true);
+      });
+    };
+    fetchCropDamageDistribution();
+  }, []);
 
-  const url =
-    baseURL + "map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1";
+  const gnDiviionIds = [];
+  mapData?.map((data) => {
+    gnDiviionIds.push(data.code);
+  });
 
-  const distribution = {
-    "1-1": 154915,
-    "1-2": 37424,
-    "4-3": 21110,
-    "6-0": 111110,
-    "6-2": 32110,
-    "8-1": 12310,
-    "9-1": 86110,
-  };
+  const distribution = {};
 
-  const type = "district";
+  mapData?.map((item) => {
+    distribution[item.code] = item.variation;
+  });
+
+  const url = `map/get-gn-features?object=${gnDiviionIds}`;
+  const type = "gn";
 
   return (
     <div
@@ -861,7 +873,9 @@ const Dashboard = () => {
           </Grid>
 
           <Grid item sm={12} md={4} lg={4}>
-            <SriLankaMap url={url} distribution={distribution} type={type} />
+            {loadingMap ? (
+              <SriLankaMap url={url} distribution={distribution} type={type} />
+            ) : null}
           </Grid>
         </Grid>
         <Grid container spacing={4} sx={{ marginTop: "2px" }}>
