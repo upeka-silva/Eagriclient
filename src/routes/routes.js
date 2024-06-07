@@ -1703,10 +1703,10 @@ export const Routes = [
         isSideBar: true,
         element: <Chat />,
         icon: SendIcon,
-        // component: DEF_COMPONENTS.CHAT,
-      },
-    ],
-  },
+        component: DEF_COMPONENTS.CHAT,
+      }
+    ]
+  }
 
   // {
   //   path: "/map",

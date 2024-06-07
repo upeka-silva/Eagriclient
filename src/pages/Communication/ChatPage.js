@@ -1,60 +1,73 @@
 import { Box, Button, Container, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
-import { Client } from '@stomp/stompjs';
+import { Client } from "@stomp/stompjs";
 import ChatMessage from "./ChatMessage";
 import SockJS from "sockjs-client";
-import { style } from "d3";
+import { getMessageList } from "../../redux/actions/communication/action";
 
-const ChatPage = () => {
+const ChatPage = ({ conversation, user }) => {
   const [messages, setMessages] = useState([]);
-  // const stompClient = useStompClient();
   const messageInputRef = useRef();
   const messagesEndRef = useRef(null);
   const [client, setClient] = useState(null);
-
-  console.log({messages})
+  const type = "GROUP";
+  const value = conversation?.id;
 
   useEffect(() => {
+    setMessages([]);
+    fetchMessages();
     const newClient = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8080/ws-endpoint'),
+      webSocketFactory: () => new SockJS("http://localhost:8080/ws-endpoint"),
       onConnect: () => {
-        newClient.subscribe('/topic/reply', message => {
-          const newMessage = (message.body);
-          setMessages(prevMessages => [...prevMessages, newMessage]); // Add the received message to the state
+        newClient.subscribe(`/topic/${conversation.id}`, (message) => {
+          const newMessage = JSON.parse(message.body);
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
         });
       },
       onStompError: (frame) => {
-        console.log('Broker reported error: ' + frame.headers['message']);
-        console.log('Additional details: ' + frame.body);
+        console.log("Broker reported error: " + frame.headers["message"]);
+        console.log("Additional details: " + frame.body);
       },
     });
 
     newClient.activate();
     setClient(newClient);
 
-    // Disconnect when the component unmounts
     return () => {
       newClient.deactivate();
     };
-  }, []);
+  }, [conversation?.id]);
 
   useEffect(() => {
-    // Scroll to the bottom whenever messages update
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const fetchMessages = () => {
+    getMessageList(type, value).then(({ dataList = [] }) => {
+      setMessages(dataList);
+      console.log({ dataList });
+    });
+  };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
       publishMessage();
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault();
     }
   };
 
   const publishMessage = () => {
     if (client) {
+      const chatMessage = {
+        content: messageInputRef.current.value,
+        recipientType: "GROUP",
+        recipientValue: conversation.id,
+        senderId: user.id,
+        senderName: `${user.firstName} ${user.lastName}`,
+      };
       client.publish({
-        destination: "/app/broadcast",
-        body: messageInputRef.current.value,
+        destination: "/app/chat.send-message",
+        body: JSON.stringify(chatMessage),
         skipContentLengthHeader: true,
       });
       messageInputRef.current.value = "";
@@ -62,61 +75,69 @@ const ChatPage = () => {
   };
 
   return (
-    <Container>
-      {/* <h2>{connectionStatus}</h2> */}
+    <Box
+      className="chat-page"
+      display="flex"
+      flexDirection="column"
+      justifyContent="center"
+      alignItems="left"
+      ml={2}
+    >
       <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-        mt={2}
+        sx={{
+          height: "500px",
+          overflow: "auto",
+          width: "100%",
+          border: "3px solid green",
+          borderRadius: "20px",
+          boxShadow:
+            "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+        }}
       >
-        <Box sx={{ height: "500px", overflow: "auto", width: "50%", border: "5px solid green", borderRadius: "20px" }}>
-          {messages.map((message, index) => (
-            <ChatMessage key={index} message={message} />
-          ))}
-          <div ref={messagesEndRef} />
-        </Box>
-        <Box display="flex" justifyContent="center" alignItems="stretch" mt={2}>
-          <TextField
-            sx={{
-              color: "white",
-              "& .MuiOutlinedInput-notchedOutline": { borderColor: "gray" },
-              width: "300px",
-              height: "10px",
-              "& .MuiOutlinedInput-root": {
-                borderRadius: "36px",
-                "& fieldset": {
-                  borderColor: "gray",
-                },
-                "& input": {
-                  height: "10px",
-                },
+        {messages.map((message, index) => (
+          <ChatMessage key={index} message={message} user={user} />
+        ))}
+        <div ref={messagesEndRef} />
+      </Box>
+      <Box display="flex" justifyContent="left" alignItems="left" mt={2}>
+        <TextField
+          sx={{
+            color: "white",
+            "& .MuiOutlinedInput-notchedOutline": { borderColor: "gray" },
+            width: "100%",
+            height: "10px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "36px",
+              "& fieldset": {
+                borderColor: "gray",
               },
+              "& input": {
+                height: "10px",
+              },
+            },
+          }}
+          inputProps={{ style: { color: "black" } }}
+          inputRef={messageInputRef}
+          variant="outlined"
+          placeholder="Type a message..."
+          onKeyDown={handleKeyDown}
+        />
+        <Box marginLeft={2}>
+          <Button
+            variant="contained"
+            color="success"
+            sx={{
+              width: "94px",
+              height: "42px",
+              borderRadius: "36px",
             }}
-            inputProps={{ style: { color: "black" } }}
-            inputRef={messageInputRef}
-            variant="outlined"
-            placeholder="Type a message..."
-            onKeyDown={handleKeyDown}
-          />
-          <Box marginLeft={2}>
-            <Button
-              variant="contained"
-              color="success"
-              sx={{
-                width: "94px",
-                height: "42px",
-                borderRadius: "36px",
-              }}
-              onClick={publishMessage}
-            >
-              Send
-            </Button>
-          </Box>
+            onClick={publishMessage}
+          >
+            Send
+          </Button>
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 };
 
