@@ -12,7 +12,7 @@ import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import { useTranslation } from "react-i18next";
 
-const CropDamageReportList = ({
+const  CropDamageReportList = ({
   url,
   selectedRows = [],
   onRowSelect = (_c) => {},
