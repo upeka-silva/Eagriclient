@@ -7,13 +7,23 @@ import { getMessageList } from "../../redux/actions/communication/action";
 
 const ChatPage = ({ conversation, user }) => {
   const [messages, setMessages] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const messageInputRef = useRef();
   const messagesEndRef = useRef(null);
   const [client, setClient] = useState(null);
   const type = "GROUP";
   const value = conversation?.id;
 
+  const fetchMessages = () => {
+    getMessageList(type, value, page).then(({ dataList = [], totalPages }) => {
+      setTotalPages(totalPages);
+      setMessages((prevMessages) => [...prevMessages, ...dataList]);
+    });
+  };
+
   useEffect(() => {
+    setPage(0);
     setMessages([]);
     fetchMessages();
     const newClient = new Client({
@@ -38,16 +48,23 @@ const ChatPage = ({ conversation, user }) => {
     };
   }, [conversation?.id]);
 
+  console.log({ page });
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  const fetchMessages = () => {
-    getMessageList(type, value).then(({ dataList = [] }) => {
-      setMessages(dataList);
-      console.log({ dataList });
-    });
-  };
+    const contentElement = document.getElementById("chat-page-content");
+    const handleScroll = () => {
+      const scrollHeight = contentElement.scrollHeight;
+      const currentHeight =
+        contentElement.scrollTop + contentElement.clientHeight;
+      if (currentHeight + 1 >= scrollHeight) {
+        setPage(page + 1);
+      }
+    };
+    if (page < totalPages) {
+      fetchMessages();
+    }
+    contentElement.addEventListener("scroll", handleScroll);
+    return () => contentElement.removeEventListener("scroll", handleScroll);
+  }, [page]);
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -84,6 +101,7 @@ const ChatPage = ({ conversation, user }) => {
       ml={2}
     >
       <Box
+        id="chat-page-content"
         sx={{
           height: "500px",
           overflow: "auto",
