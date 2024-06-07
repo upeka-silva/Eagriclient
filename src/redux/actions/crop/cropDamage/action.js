@@ -278,3 +278,20 @@ export const downloadCropDamageExcel = async () => {
     console.error(error);
   }
 };
+
+export const cropDamageGnDistribution = async (seasonId) => {
+  try {
+    const response = await get(
+      `crop-damage-reporting/crop-damage/season/${seasonId}`,
+      true
+    );
+    console.log({ response });
+    if (response.httpCode === "200 OK") {
+      return response.payloadDto;
+    }
+    return [];
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};

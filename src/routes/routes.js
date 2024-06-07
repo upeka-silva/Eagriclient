@@ -1437,7 +1437,7 @@ export const Routes = [
           },
           {
             path: "/dd-variety-summary",
-            name: "nav.cropLook.varietySummary.varietySummaryDdWise",
+            name: "nav.cropLook.varietySummary.cropSummaryDdWise",
             isSideBar: true,
             element: <AggrigateReportDDLevel />,
             icon: Preview,
