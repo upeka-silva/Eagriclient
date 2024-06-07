@@ -559,13 +559,13 @@ const Dashboard = () => {
   useEffect(() => {
     setLoadingMap(false);
     const fetchCropDamageDistribution = async () => {
-      await cropDamageGnDistribution(selectCropLookSeason.agriSeason.id).then((res) => {
+      await cropDamageGnDistribution(selectCropLookSeason?.agriSeason?.id).then((res) => {
         setMapData(res);
         setLoadingMap(true);
       });
     };
     fetchCropDamageDistribution();
-  }, [selectCropLookSeason.agriSeason]);
+  }, [selectCropLookSeason?.agriSeason]);
 
   const gnDiviionIds = [];
   mapData?.map((data) => {
