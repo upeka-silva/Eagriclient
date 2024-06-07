@@ -863,20 +863,6 @@ export const Routes = [
         element: <CropVarietyForm />,
       },
       {
-        path: "/damages",
-        name: "nav.crop.cropDamages",
-        isSideBar: true,
-        element: <CropDamage />,
-        icon: TrendingDown,
-        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
-      },
-      {
-        path: "/damage-form",
-        name: "nav.crop.cropDamageForm",
-        isSideBar: false,
-        element: <CropDamageForm />,
-      },
-      {
         path: "/calendar",
         name: "nav.crop.cropCalendar",
         isSideBar: true,
@@ -918,6 +904,20 @@ export const Routes = [
       //   isSideBar: false,
       //   element: <CropDamageForm />,
       // },
+      {
+        path: "/damages",
+        name: "nav.crop.cropDamages",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: TrendingDown,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
+      },
+      {
+        path: "/damage-form",
+        name: "nav.crop.cropDamageForm",
+        isSideBar: false,
+        element: <CropDamageForm />,
+      },
       {
         path: "/crop-disease-form",
         name: "nav.crop.cropDiseaseForm",

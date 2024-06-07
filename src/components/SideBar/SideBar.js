@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import styledComponents from "styled-components";
-import { useServiceContext } from "../../context/ServiceContext";
 import {
   Drawer as MuiDrawer,
   Toolbar,
@@ -30,10 +29,9 @@ const SideBar = () => {
   const [openSecondary, setOpenSecondary] = useState(false);
   const [selectedRoute, setSelectedRoute] = useState(null);
   const [selectedSubRoute, setSelectedSubRoute] = useState(null);
-  const { service } = useServiceContext();
 
   const navigate = useNavigate();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const toggleDrawer = () => {
     setOpen((current) => !current);
@@ -122,7 +120,7 @@ const SideBar = () => {
               if (r?.children) {
                 return (
                   <SideBarItemToolTip
-                  title={!open ? t(r?.name) : ""}
+                    title={!open ? t(r?.name) : ""}
                     placement="right"
                     arrow
                     key={key}
@@ -199,7 +197,7 @@ const SideBar = () => {
           return (
             <React.Fragment key={key}>
               <SideBarItemToolTip
-                title={!open ? t( r.name) : ""}
+                title={!open ? t(r.name) : ""}
                 placement="right"
                 arrow
               >
@@ -367,7 +365,9 @@ const SideBar = () => {
       {openSecondary && selectedSubRoute !== null ? (
         <SubDrawer variant="permanent" open={open && selectedSubRoute !== null}>
           <Toolbar>
-            <Typography variant="h7">{t(selectedSubRoute?.name )|| ""}</Typography>
+            <Typography variant="h7">
+              {t(selectedSubRoute?.name) || ""}
+            </Typography>
           </Toolbar>
           <Divider />
           <List component="nav">{loading === true && renderSubRoutes()}</List>
