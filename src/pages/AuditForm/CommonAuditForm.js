@@ -4,7 +4,7 @@ import {
   MenuItem,
   Paper,
   Select,
-  TextField
+  TextField,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -166,20 +166,23 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "5px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <div>
-        <ActionWrapper isLeft>
-          <PageHeader saving={saving} state={state} goBack={goBack} formName={formHeader}/>
-        </ActionWrapper>
-      </div>
+      <ActionWrapper isLeft>
+        <PageHeader
+          saving={saving}
+          state={state}
+          goBack={goBack}
+          formName={formHeader}
+        />
+      </ActionWrapper>
       <ButtonWrapper
         style={{
           width: "95%",
@@ -211,7 +214,6 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
       <Grid
         container
         sx={{
-          marginTop: "10px",
           marginBottom: "10px",
           width: "97%",
           borderRadius: "5px",
@@ -244,7 +246,7 @@ const CommonAuditForm = ({ auditFormType = "" }) => {
         </Grid>
         <Grid item sm={4} md={4} lg={4}>
           <FieldWrapper>
-            <FieldName>Form Description</FieldName>
+            <FieldName>Description</FieldName>
             <TextField
               name="formDescription"
               id="formDescription"

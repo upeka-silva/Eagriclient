@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { loadModules } from "esri-loader";
 import * as d3 from "d3";
 import { handleMapData } from "../../redux/actions/map/action";
+import { baseURL } from "../../utils/constants/api";
 
 const SriLankaMap = ({ url, type, distribution }) => {
   const mapRef = useRef(null);
@@ -43,7 +44,7 @@ const SriLankaMap = ({ url, type, distribution }) => {
           });
 
           const geojsonLayer = new GeoJSONLayer({
-            url: url,
+            url: baseURL + url,
             renderer: {
               type: "unique-value",
               field: code,
@@ -65,7 +66,7 @@ const SriLankaMap = ({ url, type, distribution }) => {
 
           const colorScale = d3
             .scaleSequential()
-            .interpolator(d3.interpolateGreens)
+            .interpolator(d3.interpolateReds)
             .domain([0, d3.max(Object.values(distribution))]);
 
           const getColor = (id) => {
@@ -104,13 +105,13 @@ const SriLankaMap = ({ url, type, distribution }) => {
           };
 
           //pass from backend
-          const mapUrl = `map/get-district-features?object=1-1,1-2,4-3,6-2,6-1,8-1,9-1`;
+          const t = "gn";
+          const mapUrl = url;
 
           const fetchData = async () => {
             try {
               const response = await handleMapData(mapUrl);
               for (let i = 0; i < response.features.length; i++) {
-                console.log(response.features[i]);
                 json.push({
                   value: response.features[i].properties[code],
                   symbol: {
@@ -119,13 +120,12 @@ const SriLankaMap = ({ url, type, distribution }) => {
                       convertCode(type, response.features[i].properties[code])
                     ),
                     outline: {
-                      color: [100, 100, 100],
-                      width: 0.5,
+                      color: [255, 0, 0],
+                      width: 0.3,
                     },
                   },
                 });
               }
-              console.log("sss", json);
               geojsonLayer.renderer.uniqueValueInfos = json;
             } catch (error) {
               console.error("Error fetching data: ", error);

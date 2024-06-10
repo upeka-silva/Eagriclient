@@ -79,7 +79,7 @@ const AggrigateReportDDLevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Variety Summary - DD Wise" />
+      <ListHeader title="Crop Summary - DD Wise" />
       <Grid
         container
         sx={{

@@ -866,20 +866,6 @@ export const Routes = [
         element: <CropVarietyForm />,
       },
       {
-        path: "/damages",
-        name: "nav.crop.cropDamages",
-        isSideBar: true,
-        element: <CropDamage />,
-        icon: TrendingDown,
-        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
-      },
-      {
-        path: "/damage-form",
-        name: "nav.crop.cropDamageForm",
-        isSideBar: false,
-        element: <CropDamageForm />,
-      },
-      {
         path: "/calendar",
         name: "nav.crop.cropCalendar",
         isSideBar: true,
@@ -921,6 +907,20 @@ export const Routes = [
       //   isSideBar: false,
       //   element: <CropDamageForm />,
       // },
+      {
+        path: "/damages",
+        name: "nav.crop.cropDamages",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: TrendingDown,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
+      },
+      {
+        path: "/damage-form",
+        name: "nav.crop.cropDamageForm",
+        isSideBar: false,
+        element: <CropDamageForm />,
+      },
       {
         path: "/crop-disease-form",
         name: "nav.crop.cropDiseaseForm",
@@ -1456,7 +1456,7 @@ export const Routes = [
           },
           {
             path: "/dd-variety-summary",
-            name: "nav.cropLook.varietySummary.varietySummaryDdWise",
+            name: "nav.cropLook.varietySummary.cropSummaryDdWise",
             isSideBar: true,
             element: <AggrigateReportDDLevel />,
             icon: Preview,
@@ -1722,10 +1722,10 @@ export const Routes = [
         isSideBar: true,
         element: <Chat />,
         icon: SendIcon,
-        // component: DEF_COMPONENTS.CHAT,
-      },
-    ],
-  },
+        component: DEF_COMPONENTS.CHAT,
+      }
+    ]
+  }
 
   // {
   //   path: "/map",
