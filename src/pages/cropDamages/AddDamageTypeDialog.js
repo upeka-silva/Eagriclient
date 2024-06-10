@@ -46,7 +46,7 @@ export default function AddDamageTypeDialog({
           fontFamily: Fonts.fontStyle1,
         }}
       >
-        {t(`cropDamagePage.${mode}`+`damageType`)}
+        {t(`cropDamagePage.${mode}`+`cropDamage`)}
       </DialogTitle>
       <DialogContent>
         <Box sx={{ display: "flex" }}>
@@ -65,7 +65,7 @@ export default function AddDamageTypeDialog({
                     width: "100%",
                   }}
                 >
-                  {t("cropDamagePage.name")}
+                  {t("cropDamagePage.damageCode")}
                 </FieldName>
                 <TextField
                   name="questionString"
@@ -93,7 +93,7 @@ export default function AddDamageTypeDialog({
                     width: "100%",
                   }}
                 >
-                  {t("cropDamagePage.description")}
+                  {t("cropDamagePage.courseOfDamage")}
                 </FieldName>
                 <TextField
                   name="order"

@@ -22,7 +22,8 @@ import {
 } from "../../../components/TabButtons/TabButtons";
 import ApprovalReportCategoryTable from "./approvalReportCategoryTable";
 import BiWeekProgressTale from "./biWeekProgressTable";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 const ApprovalReport = ({ owner = "" }) => {
   useUserAccessValidation();
 
@@ -52,6 +53,13 @@ const ApprovalReport = ({ owner = "" }) => {
     setSelectedSeason(value);
   };
 
+  const onDownload2 = async (categoryId) => {
+    try {
+      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <div
       style={{
@@ -166,6 +174,9 @@ const ApprovalReport = ({ owner = "" }) => {
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
+                    <ExportButton
+                          onDownload={() => onDownload2(category.id,selectedSeason.id)}
+                        />
                       {toggleState === index + 1 ? (
                         <ApprovalReportCategoryTable
                           category={category}

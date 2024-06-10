@@ -132,8 +132,8 @@ const CropDamage = () => {
         height: "90vh",
         overflowY: "scroll",
       }}
-    >
-      <ListHeader title="nav.crop.cropDamages" />
+    >      
+    <ListHeader title="nav.crop.damageTypes" />
       <ActionWrapper isLeft>
         <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
           <ExportButton onDownload={onDownload} />
@@ -224,7 +224,7 @@ const CropDamage = () => {
         setDialogSelectedTypes={setDialogSelectedCropDamage}
         dialogSelectedTypes={dialogSelectedCropDamage}
         propertyId="name"
-        propertyDescription="description"
+        propertyDescription="code"
       />
     </div>
   );

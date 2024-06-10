@@ -93,15 +93,15 @@ export default function DamageTyprList({
   const { t } = useTranslation();
   const columns = [
     {
-      field: "name",
-      headerName: t("cropDamagePage.name"),
+      field: "code",
+      headerName: t("cropDamagePage.damageCode"),
       flex: 1,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.name,
     },
     {
       field: "description",
-      headerName: t("cropDamagePage.description"),
+      headerName: t("cropDamagePage.courseOfDamage"),
       flex: 2,
       headerClassName: "super-app-theme--heade",
       renderCell: (params) => params.row.description,

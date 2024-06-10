@@ -26,7 +26,7 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
-import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { downloadDDSummaryADAExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import CategoryReportTabelAdaLevel from "./categoryReportTable-ada";
 
 const AggrigateReportAdaLevel = () => {
@@ -66,7 +66,7 @@ const AggrigateReportAdaLevel = () => {
   };
   const onDownload = async (categoryId) => {
     try {
-      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+      await downloadDDSummaryADAExcel(selectedSeason.id, categoryId,selectedAdaRegion.id);
     } catch (error) {
       console.error(error);
     }
@@ -172,7 +172,7 @@ const AggrigateReportAdaLevel = () => {
                     <TableWrapper>
                       <div key={category.categoryId}>
                         <ExportButton
-                          onDownload={() => onDownload(category.id)}
+                         onDownload={() => onDownload(category.id,selectedSeason.id, selectedAdaRegion.id)}
                         />
                         <CategoryReportTabelAdaLevel
                           category={category}
