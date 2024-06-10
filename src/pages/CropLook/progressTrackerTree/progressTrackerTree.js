@@ -73,7 +73,7 @@ const ProgressTrackerTree = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid item md={12}>
+        <Grid container item md={12}>
           <Grid container>
             <Grid item md={4}>
               <FieldWrapper>
@@ -123,7 +123,7 @@ const ProgressTrackerTree = () => {
             ) : null}
           </Grid>
         </Grid>
-        <Grid item container sx={{ marginTop: "20px" }}>
+        <Grid item container md={12} sx={{ marginTop: "20px" }}>
           <Grid md={12}>
             <TabWrapper style={{ margin: "0px 0px" }}>
               {cropCategoryList.map((category, index) => (
@@ -136,33 +136,34 @@ const ProgressTrackerTree = () => {
               ))}
             </TabWrapper>
           </Grid>
-
-          {selectedSeason &&
-            cropCategoryList &&
-            cropCategoryList.map((category, index) => (
-              <TabContent
-                //style={{ marginTop: "10px" }}
-                className={toggleState === index + 1 ? "active-content" : ""}
-              >
-                <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+          <Grid md={12}>
+            {selectedSeason &&
+              cropCategoryList &&
+              cropCategoryList.map((category, index) => (
+                <TabContent
+                  //style={{ marginTop: "10px" }}
+                  className={toggleState === index + 1 ? "active-content" : ""}
                 >
-                  <TableWrapper>
-                    <div key={category.categoryId}>
-                      {toggleState === index + 1 &&
-                      selectedSeason &&
-                      selectedWeek ? (
-                        <TreeComponent
-                          category={category}
-                          season={selectedSeason}
-                          week={selectedWeek}
-                        />
-                      ) : null}
-                    </div>
-                  </TableWrapper>
-                </PermissionWrapper>
-              </TabContent>
-            ))}
+                  <PermissionWrapper
+                    permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
+                  >
+                    <TableWrapper>
+                      <div key={category.categoryId}>
+                        {toggleState === index + 1 &&
+                        selectedSeason &&
+                        selectedWeek ? (
+                          <TreeComponent
+                            category={category}
+                            season={selectedSeason}
+                            week={selectedWeek}
+                          />
+                        ) : null}
+                      </div>
+                    </TableWrapper>
+                  </PermissionWrapper>
+                </TabContent>
+              ))}
+          </Grid>
         </Grid>
       </Grid>
     </div>
