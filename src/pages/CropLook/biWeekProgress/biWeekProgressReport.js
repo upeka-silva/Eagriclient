@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
+import { useSnackBars } from "../../../context/SnackBarContext";
 
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
-import { Autocomplete, Grid, TextField } from "@mui/material";
+import { Autocomplete, Grid, Stack, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
 import {
@@ -19,18 +21,24 @@ import {
   TabContent,
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
-import TreeComponent from "./treeComponent";
-import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import BiWeekProgressReportTable from "./biWeekProgressReportTable";
 
-const ProgressTrackerTree = () => {
+const BiWeekProgressReport = () => {
   useUserAccessValidation();
+  const navigate = useNavigate();
+  const { addSnackBar } = useSnackBars();
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const [selectSubCategory, setSelectSubCategory] = useState([]);
+  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [toggleState, setToggleState] = useState(1);
-  const [selectedWeek, setSelectedWeek] = useState(null);
 
   useEffect(() => {
     get_CategoryList().then(({ dataList = [] }) => {
@@ -46,11 +54,12 @@ const ProgressTrackerTree = () => {
     console.log("toggle state : " + index);
     setToggleState(index);
   };
-
-  const filterBiWeekList = (biWeekList) => {
-    return biWeekList.filter(
-      (data) => data.status !== BI_WEEK_DATA_STATUS.INIT
-    );
+  const onDownload = async (categoryId) => {
+    try {
+      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -64,7 +73,7 @@ const ProgressTrackerTree = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Progress Tracker" />
+      <ListHeader title="Variety Summary" />
       <Grid
         container
         sx={{
@@ -73,40 +82,17 @@ const ProgressTrackerTree = () => {
           borderRadius: "5px",
         }}
       >
-        <Grid container item md={12}>
+        <Grid item md={12}>
           <Grid container>
             <Grid item md={4}>
-              <FieldWrapper>
-                <FieldName>Season</FieldName>
-                <Autocomplete
-                  options={seasons}
-                  value={selectedSeason}
-                  getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
-                  onChange={(event, value) => {
-                    setSelectedSeason(value);
-                  }}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: "8px",
-                    },
-                  }}
-                  renderInput={(params) => (
-                    <TextField {...params} size="small" />
-                  )}
-                  fullWidth
-                />
-              </FieldWrapper>
-            </Grid>
-            {selectedSeason ? (
-              <Grid item sm={3} md={3} lg={3}>
-                <FieldWrapper>
-                  <FieldName>Week</FieldName>
+              <Stack direction="row" spacing={1} alignItems="flex-end">
+                <FieldWrapper sx={{ width: "75%" }}>
+                  <FieldName>Season</FieldName>
                   <Autocomplete
-                    options={filterBiWeekList(selectedSeason?.biWeekDataList)}
-                    value={selectedWeek}
-                    getOptionLabel={(i) => `${i.weekDescription}`}
+                    options={seasons}
+                    getOptionLabel={(i) => `${i?.code} - ${i?.description}`}
                     onChange={(event, value) => {
-                      setSelectedWeek(value);
+                      setSelectedSeason(value);
                     }}
                     sx={{
                       "& .MuiOutlinedInput-root": {
@@ -119,15 +105,16 @@ const ProgressTrackerTree = () => {
                     fullWidth
                   />
                 </FieldWrapper>
-              </Grid>
-            ) : null}
+              </Stack>
+            </Grid>
           </Grid>
         </Grid>
-        <Grid item container md={12} sx={{ marginTop: "20px" }}>
+        <Grid item container sx={{ marginTop: "20px" }}>
           <Grid md={12}>
             <TabWrapper style={{ margin: "0px 0px" }}>
               {cropCategoryList.map((category, index) => (
                 <TabButton
+                  key={index}
                   className={toggleState === index + 1 ? "active-tabs" : ""}
                   onClick={() => toggleTab(index + 1)}
                 >
@@ -136,38 +123,37 @@ const ProgressTrackerTree = () => {
               ))}
             </TabWrapper>
           </Grid>
-          <Grid md={12}>
-            {selectedSeason &&
-              cropCategoryList &&
-              cropCategoryList.map((category, index) => (
-                <TabContent
-                  //style={{ marginTop: "10px" }}
-                  className={toggleState === index + 1 ? "active-content" : ""}
-                >
+
+          {selectedSeason &&
+            cropCategoryList &&
+            cropCategoryList.map((category, index) => (
+              <TabContent
+                //style={{ marginTop: "10px" }}
+                className={toggleState === index + 1 ? "active-content" : ""}
+              >
+                {toggleState === index + 1 ? (
                   <PermissionWrapper
                     permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>
-                        {toggleState === index + 1 &&
-                        selectedSeason &&
-                        selectedWeek ? (
-                          <TreeComponent
-                            category={category}
-                            season={selectedSeason}
-                            week={selectedWeek}
-                          />
-                        ) : null}
+                        <ExportButton
+                          onDownload={() => onDownload(category.id)}
+                        />
+                        <BiWeekProgressReportTable
+                          category={category}
+                          season={selectedSeason}
+                        />
                       </div>
                     </TableWrapper>
                   </PermissionWrapper>
-                </TabContent>
-              ))}
-          </Grid>
+                ) : null}
+              </TabContent>
+            ))}
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default ProgressTrackerTree;
+export default BiWeekProgressReport;

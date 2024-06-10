@@ -145,7 +145,7 @@ const AggrigateReportAILevelByCrop = () => {
                 className={toggleState === index + 1 ? "active-content" : ""}
               >
                 <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL}`}
+                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>

@@ -296,6 +296,46 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
+export const getBiWeekProgressData = async (categoryId, seasonId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getCropLookProgressByCrop = async (cropId, seasonId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/cropProgress/crop/${cropId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getAggrigateReportDataAILevel = async (categoryId, seasonId, aiId) => {
   try {
     const { httpCode, payloadDto } = await get(

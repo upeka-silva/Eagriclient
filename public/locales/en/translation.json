@@ -405,9 +405,12 @@
     "damageTypes": "Damage Types",
     "code": "Code",
     "name": "Name",
+    "majorCategoryType": "Category Type",
+    "damageCode": "Damage code",
+    "courseOfDamage": "Course of Damage",
     "action": "Action",
-    "ADDdamageType": "ADD Damage Type",
-    "EDITdamageType": "EDIT Damage Type"
+    "ADDcropDamage": "ADD Crop Damage",
+    "EDITcropDamage": "EDIT Crop Damage"
   },
 
   "cropCalendarPage": {

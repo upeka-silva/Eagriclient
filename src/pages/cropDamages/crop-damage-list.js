@@ -12,8 +12,8 @@ const CropDamageList = ({
 }) => {
   const {t} = useTranslation();
   const columns = [
-    { field: "name", headerName: t("cropDamagePage.categoryName") },
-    { field: "description", headerName: t("cropDamagePage.description") },
+    { field: "code", headerName: t("cropDamagePage.code") },
+    { field: "name", headerName: t("cropDamagePage.majorCategoryType") },
   ];
 
   return (
