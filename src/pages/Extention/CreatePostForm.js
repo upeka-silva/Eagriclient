@@ -412,6 +412,75 @@ const CreatePostForm = () => {
               />
             </FieldWrapper>
           </Grid>
+          <Grid item sm={4} md={4} lg={6}>
+            <FieldWrapper>
+              <FieldName>English Title</FieldName>
+              <TextField
+                name="titleEng"
+                id="titleEng"
+                value={formData?.titleEng || ""}
+                fullWidth
+                // multiline
+                rows={6}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "titleEng")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={4} md={4} lg={6}>
+            <FieldWrapper>
+              <FieldName>Sinhala Title</FieldName>
+              <TextField
+                name="titleSin"
+                id="titleSin"
+                value={formData?.titleSin || ""}
+                fullWidth
+                // multiline
+                rows={6}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "titleSin")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
+          <Grid item sm={4} md={4} lg={6}>
+            <FieldWrapper>
+              <FieldName>Tamil Title</FieldName>
+              <TextField
+                name="titleTam"
+                id="titleTam"
+                value={formData?.titleTam || ""}
+                fullWidth
+                // multiline
+                rows={6}
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(e) =>
+                  handleChange(e?.target?.value || "", "titleTam")
+                }
+                sx={{
+                  "& .MuiInputBase-root": {
+                    borderRadius: "8px",
+                  },
+                }}
+                size="small"
+              />
+            </FieldWrapper>
+          </Grid>
           <Grid item sm={4} md={4} lg={12}>
             <FieldWrapper>
               <FieldName>English Content</FieldName>
