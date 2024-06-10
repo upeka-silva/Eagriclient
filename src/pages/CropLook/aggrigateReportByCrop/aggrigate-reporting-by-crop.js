@@ -78,7 +78,7 @@ const AggrigateReportByCrop = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Variety Summary - AI Wise" />
+      <ListHeader title="AI Range Wise Segment Summary" />
       <Grid
         container
         sx={{

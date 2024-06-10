@@ -11,7 +11,6 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import CategoryReportTabel from "./categoryReportTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
