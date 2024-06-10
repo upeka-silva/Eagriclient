@@ -213,6 +213,7 @@ import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
+import DamageReport from "../pages/Extention/CropDamageReport/CropDamageReport";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
@@ -223,9 +224,12 @@ import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILev
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
 import AiSummaryReport from "../pages/CropLook/aiSummaryReport/ai-summary-report";
 import ADASummaryReport from "../pages/CropLook/adaSummaryReport/ada-summary-report";
+import CropDamageReportView from "../pages/Extention/CropDamageReport/CropDamageReportView";
+import ReportProblemIcon from '@mui/icons-material/ReportProblem';
 import BiWeekProgressReportRow from "../pages/CropLook/biWeekProgress/biWeekProgressReportRow";
 import BiWeekProgressReport from "../pages/CropLook/biWeekProgress/biWeekProgressReport";
 import AggrigateReportByCrop from "../pages/CropLook/aggrigateReportByCrop/aggrigate-reporting-by-crop";
+
 
 export const Routes = [
   {
@@ -1295,6 +1299,20 @@ export const Routes = [
         element: <ProjectReport />,
         icon: SummarizeIcon,
         component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
+      {
+        path: "/crop-damage-report",
+        name: "Crop Damage Report",
+        isSideBar: true,
+        element: <DamageReport />,
+        icon: ReportProblemIcon,
+        component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
+      {
+        path: "/crop-damage-report-view",
+        isSideBar: false,
+        element: <CropDamageReportView />,
+        //component: DEF_COMPONENTS.PROJECT_REPORT,
       },
       {
         path: "/create-post-form",
