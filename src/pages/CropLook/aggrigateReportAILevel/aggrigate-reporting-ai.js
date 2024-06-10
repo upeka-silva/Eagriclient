@@ -25,7 +25,7 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
-import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { downloadDDSummaryAiWiseExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import CategoryReportTabelAILevel from "./categoryReportTable-ai";
 
 const AggrigateReportAILevel = () => {
@@ -65,7 +65,7 @@ const AggrigateReportAILevel = () => {
   };
   const onDownload = async (categoryId) => {
     try {
-      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+      await downloadDDSummaryAiWiseExcel(selectedSeason.id, categoryId,selectedAiRegion.id);
     } catch (error) {
       console.error(error);
     }
@@ -174,7 +174,7 @@ const AggrigateReportAILevel = () => {
                     <TableWrapper>
                       <div key={category.categoryId}>
                         <ExportButton
-                          onDownload={() => onDownload(category.id)}
+                          onDownload={() => onDownload(category.id,selectedSeason.id,selectedAiRegion.id)}
                         />
                         <CategoryReportTabelAILevel
                           category={category}
