@@ -52,6 +52,23 @@ export const getConfigurationById = async (id) => {
   }
 };
 
+export const getConfigurationByCropId = async (cropId) => {
+  try {
+    const { httpCode, payload } = await get(`crop-look/configuration/crop/${cropId}`, true);
+    if (httpCode === "200 OK") {
+      return payload;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 
 export const deleteCropConfiguration = async (
   id,

@@ -223,6 +223,9 @@ import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILev
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
 import AiSummaryReport from "../pages/CropLook/aiSummaryReport/ai-summary-report";
 import ADASummaryReport from "../pages/CropLook/adaSummaryReport/ada-summary-report";
+import BiWeekProgressReportRow from "../pages/CropLook/biWeekProgress/biWeekProgressReportRow";
+import BiWeekProgressReport from "../pages/CropLook/biWeekProgress/biWeekProgressReport";
+import AggrigateReportByCrop from "../pages/CropLook/aggrigateReportByCrop/aggrigate-reporting-by-crop";
 
 export const Routes = [
   {
@@ -1434,6 +1437,22 @@ export const Routes = [
             element: <AggrigateReport />,
             icon: Preview,
             component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+          },
+          {
+            path: "/crop-wise",
+            name: "Progess By Crop",
+            isSideBar: true,
+            element: <AggrigateReportByCrop />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+          },
+          {
+            path: "/bi-week-progress",
+            name: "Bi Week Progress Report",
+            isSideBar: true,
+            element: <BiWeekProgressReport />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
           },
           {
             path: "/dd-variety-summary",
