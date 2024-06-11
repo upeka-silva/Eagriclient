@@ -11,20 +11,13 @@ import { useSnackBars } from "../../../context/SnackBarContext";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import {
-  getAllAiAndMahaweliUnits,
   getSeasons,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
 import { Autocomplete, Grid, Stack, TextField } from "@mui/material";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import {
-  TabButton,
-  TabContent,
-  TabWrapper,
-} from "../../../components/TabButtons/TabButtons";
-import ExportButton from "../../../components/ExportButton/ExportButton";
+
 import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import AggrigateReportByCropTable from "./aggrigate-reporting-by-crop-table";
 import { get_CropList } from "../../../redux/actions/crop/crop/action";

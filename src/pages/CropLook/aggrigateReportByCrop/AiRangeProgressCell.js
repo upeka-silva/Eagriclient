@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { convertCropLookFields } from "../../../utils/appUtils";
 import { TableCell, TableRow } from "@mui/material";
 
-const AiRangeProgessCell = ({
+const AiRangeProgressCell = ({
   cropData = [],
   segName = "",
   targetConfigs = {},
   reportConfigs = {},
+  isLast = false,
 }) => {
   const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
   const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
@@ -104,7 +105,9 @@ const AiRangeProgessCell = ({
       <TableRow>
         <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell>
         <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell>
-        <TableCell style={{ backgroundColor: "#FCFFE0" }}>Segment Total</TableCell>
+        <TableCell style={{ backgroundColor: "#FCFFE0" }}>
+          Segment Total
+        </TableCell>
         {targetConfigs.length > 0 &&
           targetConfigs.map((fieldName, innerIndex) => (
             <TableCell
@@ -137,4 +140,4 @@ const AiRangeProgessCell = ({
   );
 };
 
-export default AiRangeProgessCell;
+export default AiRangeProgressCell;

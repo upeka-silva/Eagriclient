@@ -106,6 +106,9 @@ const BiWeekProgressReportTable = ({ category, season }) => {
                   <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                     MARCH (3-4 Week)
                   </TableCell>
+                  <TableCell style={{ backgroundColor: "#A87676" }}>
+                    Total
+                  </TableCell>
                 </>
               ) : (
                 <>
@@ -138,6 +141,9 @@ const BiWeekProgressReportTable = ({ category, season }) => {
                   </TableCell>
                   <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                     AUGUST (3-4 Week)
+                  </TableCell>
+                  <TableCell style={{ backgroundColor: "#A87676" }}>
+                    Total
                   </TableCell>
                 </>
               )}
