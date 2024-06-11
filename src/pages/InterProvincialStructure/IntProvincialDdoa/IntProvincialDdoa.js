@@ -18,6 +18,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -49,13 +50,14 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import IntProvincialDdoaList from "./IntProvincialDdoaList";
 import {
   deleteInterProvincialDoa,
-  get_InterProvincialDoaList,
+  get_InterProvincialDoaList
 } from "../../../redux/actions/interProvincialDoa/action";
-import { deleteInterProvincialDdoa } from "../../../redux/actions/interProvincialDdoa/action";
+import { deleteInterProvincialDdoa,downloadInterProvincialDdoaExcel } from "../../../redux/actions/interProvincialDdoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const IntProvincialDdoa = () => {
   useUserAccessValidation();
@@ -215,7 +217,29 @@ const IntProvincialDdoa = () => {
     setSelectedDoa(null);
     setDataEndPoint("geo-data/interprovincial-dd-levels");
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Download successful",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadInterProvincialDdoaExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -229,6 +253,8 @@ const IntProvincialDdoa = () => {
     >
       <ListHeader title="Inter Provincial DDOA" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -264,6 +290,7 @@ const IntProvincialDdoa = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
