@@ -53,8 +53,8 @@ const ChatPage = ({ conversation, user }) => {
     const contentElement = document.getElementById("chat-page-content");
     const handleScroll = () => {
       const scrollHeight = contentElement.scrollHeight;
-      const currentHeight = contentElement.clientHeight +
-        contentElement.scrollTop * -1;
+      const currentHeight =
+        contentElement.clientHeight + contentElement.scrollTop * -1;
       if (currentHeight + 1 >= scrollHeight) {
         setPage(page + 1);
       }
@@ -113,8 +113,8 @@ const ChatPage = ({ conversation, user }) => {
           borderRadius: "20px",
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-            display: "flex",
-            flexDirection: "column-reverse"
+          display: "flex",
+          flexDirection: "column-reverse",
         }}
       >
         <div ref={messagesEndRef} />
@@ -149,7 +149,7 @@ const ChatPage = ({ conversation, user }) => {
           <Button
             variant="contained"
             color="success"
-          disabled={conversation === null}
+            disabled={conversation === null}
             sx={{
               width: "94px",
               height: "42px",
