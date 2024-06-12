@@ -58,15 +58,14 @@ export const getMessageGroupList = async (
   };
 
   export const getMessageList = async (
-    type,value,
-    onSuccess = () => {},
-    onError = (_message) => {},
+    type,value, page,
   ) => {
     try {
-      const {httpCode, payloadDto} = await get(`communication/messages?recipientType=${type}&recipientValue=${value}`, true);
+      const {httpCode, payloadDto, totalPages} = await get(`communication/messages?recipientType=${type}&recipientValue=${value}&page=${page}&size=10`, true);
       if (httpCode === '200 OK') {
         return {
-          dataList: payloadDto
+          dataList: payloadDto,
+          totalPages: totalPages,
         }
       }
       return {

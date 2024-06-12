@@ -4,24 +4,35 @@ import { Client } from "@stomp/stompjs";
 import ChatMessage from "./ChatMessage";
 import SockJS from "sockjs-client";
 import { getMessageList } from "../../redux/actions/communication/action";
+import { baseURL } from "../../utils/constants/api";
 
 const ChatPage = ({ conversation, user }) => {
   const [messages, setMessages] = useState([]);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const messageInputRef = useRef();
   const messagesEndRef = useRef(null);
   const [client, setClient] = useState(null);
   const type = "GROUP";
   const value = conversation?.id;
 
+  const fetchMessages = () => {
+    getMessageList(type, value, page).then(({ dataList = [], totalPages }) => {
+      setTotalPages(totalPages);
+      setMessages((prevMessages) => [...prevMessages, ...dataList]);
+    });
+  };
+
   useEffect(() => {
+    setPage(0);
     setMessages([]);
     fetchMessages();
     const newClient = new Client({
-      webSocketFactory: () => new SockJS("http://localhost:8080/ws-endpoint"),
+      webSocketFactory: () => new SockJS(`${baseURL}ws-endpoint`),
       onConnect: () => {
         newClient.subscribe(`/topic/${conversation.id}`, (message) => {
           const newMessage = JSON.parse(message.body);
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
+          setMessages((prevMessages) => [newMessage, ...prevMessages]);
         });
       },
       onStompError: (frame) => {
@@ -39,15 +50,24 @@ const ChatPage = ({ conversation, user }) => {
   }, [conversation?.id]);
 
   useEffect(() => {
+    const contentElement = document.getElementById("chat-page-content");
+    const handleScroll = () => {
+      const scrollHeight = contentElement.scrollHeight;
+      const currentHeight =
+        contentElement.clientHeight + contentElement.scrollTop * -1;
+      if (currentHeight + 1 >= scrollHeight) {
+        setPage(page + 1);
+      }
+    };
+    if (page < totalPages) {
+      fetchMessages();
+    }
+    contentElement.addEventListener("scroll", handleScroll);
+    return () => contentElement.removeEventListener("scroll", handleScroll);
+  }, [page]);
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  const fetchMessages = () => {
-    getMessageList(type, value).then(({ dataList = [] }) => {
-      setMessages(dataList);
-      console.log({ dataList });
-    });
-  };
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
@@ -84,6 +104,7 @@ const ChatPage = ({ conversation, user }) => {
       ml={2}
     >
       <Box
+        id="chat-page-content"
         sx={{
           height: "500px",
           overflow: "auto",
@@ -92,12 +113,14 @@ const ChatPage = ({ conversation, user }) => {
           borderRadius: "20px",
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
+          display: "flex",
+          flexDirection: "column-reverse",
         }}
       >
+        <div ref={messagesEndRef} />
         {messages.map((message, index) => (
           <ChatMessage key={index} message={message} user={user} />
         ))}
-        <div ref={messagesEndRef} />
       </Box>
       <Box display="flex" justifyContent="left" alignItems="left" mt={2}>
         <TextField
@@ -126,6 +149,7 @@ const ChatPage = ({ conversation, user }) => {
           <Button
             variant="contained"
             color="success"
+            disabled={conversation === null}
             sx={{
               width: "94px",
               height: "42px",

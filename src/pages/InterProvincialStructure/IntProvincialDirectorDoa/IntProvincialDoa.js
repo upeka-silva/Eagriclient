@@ -16,6 +16,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -31,11 +32,13 @@ import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import IntProvincialDoaList from "./IntProvincialDoaList";
-import { deleteInterProvincialDoa } from "../../../redux/actions/interProvincialDoa/action";
+import { deleteInterProvincialDoa ,downloadInterProvincialDoaExcel} from "../../../redux/actions/interProvincialDoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+
 
 const IntProvincialDoa = () => {
   useUserAccessValidation();
@@ -111,7 +114,29 @@ const IntProvincialDoa = () => {
     setOpen(false);
     setDialogSelectedProvincialDoa([]);
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Download successful",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadInterProvincialDoaExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   const renderSelectedItems = () => {
     return (
       <List>
@@ -178,6 +203,8 @@ const IntProvincialDoa = () => {
     >
       <ListHeader title="Director DOA" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -213,6 +240,7 @@ const IntProvincialDoa = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DIRECTOR_DOA}`}
