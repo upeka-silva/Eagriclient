@@ -1474,7 +1474,7 @@ export const Routes = [
           },
           {
             path: "/bi-week-progress",
-            name: "Crop Report",
+            name: "Bi-Weekly Crop Report",
             isSideBar: true,
             element: <BiWeekProgressReport />,
             icon: Preview,
