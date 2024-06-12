@@ -173,7 +173,7 @@ export const downloadDistrictExcel = async (
   try {
     const blobData = await getBlob("geo-data/districts/export/excel", true);
     if (blobData) {
-      const fileName = `geo-data/districts_${new Date().toISOString().split('T')[0]}.xlsx`;
+      const fileName = `Geo-data/Districts_${new Date().toISOString().split('T')[0]}.xlsx`;
       const url = window.URL.createObjectURL(new Blob([blobData]));
       const link = document.createElement('a');
       link.href = url;

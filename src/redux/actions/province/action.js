@@ -129,7 +129,7 @@ export const downloadProvincesExcel = async (
   try {
     const blobData = await getBlob("geo-data/provinces/export/excel", true);
     if (blobData) {
-      const fileName = `geo-data/provinces_${
+      const fileName = `Geo-data/Provinces_${
         new Date().toISOString().split("T")[0]
       }.xlsx`;
       const url = window.URL.createObjectURL(new Blob([blobData]));
