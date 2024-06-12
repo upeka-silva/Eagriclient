@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -29,7 +30,7 @@ import { FieldName } from "../../../components/FormLayout/FieldName";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import { deleteMahaweliBlock } from "../../../redux/actions/mahaweliBlock/action";
+import { deleteMahaweliBlock,downloadmahaweliBlockExcel } from "../../../redux/actions/mahaweliBlock/action";
 import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliBlockList from "./MahaweliBlockList";
@@ -37,6 +38,7 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const MahaweliBlock = () => {
   useUserAccessValidation();
@@ -216,7 +218,29 @@ const MahaweliBlock = () => {
 
     setDataEndPoint(url);
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Download successful",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadmahaweliBlockExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -230,6 +254,8 @@ const MahaweliBlock = () => {
     >
       <ListHeader title="Mahaweli Block" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -265,6 +291,7 @@ const MahaweliBlock = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
