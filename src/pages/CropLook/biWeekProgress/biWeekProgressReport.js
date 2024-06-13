@@ -73,7 +73,7 @@ const BiWeekProgressReport = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Crop Report" />
+      <ListHeader title="Bi-Weekly Crop Report" />
       <Grid
         container
         sx={{

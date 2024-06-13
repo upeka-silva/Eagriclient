@@ -78,7 +78,7 @@ const SingleInput = ({
               disabled={true}
               variant="outlined"
               id="input5"
-              label="Total Extent"
+              label="Total Target"
               value={varietyTarget["totalExtent"] || 0}
               fullWidth
               onChange={(e) =>
