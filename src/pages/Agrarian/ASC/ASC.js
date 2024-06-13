@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
@@ -24,7 +25,7 @@ import {
 } from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteASC } from "../../../redux/actions/asc/action";
+import { deleteASC ,downloadASCExcel} from "../../../redux/actions/asc/action";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
@@ -36,6 +37,7 @@ import { get_DistrictCommList } from "../../../redux/actions/districtComm/action
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -180,7 +182,29 @@ const ASC = () => {
       setDcomms(dataList);
     });
   }, []);
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadASCExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -194,6 +218,8 @@ const ASC = () => {
     >
       <ListHeader title="ASC Division" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -229,6 +255,7 @@ const ASC = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>

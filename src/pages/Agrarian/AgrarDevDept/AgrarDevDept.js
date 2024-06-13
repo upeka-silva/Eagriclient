@@ -16,6 +16,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
@@ -23,12 +24,13 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import AgrarDevDeptList from "./AgrarDevDeptList";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
-import { deleteAgrarDevDept } from "../../../redux/actions/agrarDevDept/action";
+import { deleteAgrarDevDept,downloadAgrydeptExcel } from "../../../redux/actions/agrarDevDept/action";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const AgrarDevDept = () => {
   useUserAccessValidation();
@@ -155,7 +157,29 @@ const AgrarDevDept = () => {
       console.log(error);
     }
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadAgrydeptExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
     style={{
@@ -169,6 +193,8 @@ const AgrarDevDept = () => {
     >
       <ListHeader title="Department of Agrarian Development" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -204,6 +230,7 @@ const AgrarDevDept = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.DO_AGRARIAN_DEVELOPMENT}`}

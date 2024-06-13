@@ -12,6 +12,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -25,7 +26,7 @@ import {
 import { useSnackBars } from "../../../context/SnackBarContext";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { deleteARPA } from "../../../redux/actions/arpa/action";
+import { deleteARPA,downloadARPAExcel } from "../../../redux/actions/arpa/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
@@ -39,6 +40,7 @@ import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const ARPA = () => {
   useUserAccessValidation();
@@ -209,7 +211,29 @@ const ARPA = () => {
     // console.log(selectedAscDivision);
     // setDataEndPoint(`geo-data/arpa/AscDivision/` + selectedAscDivision?.id);
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadARPAExcel();
+      onDownloadSuccess();
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -223,6 +247,8 @@ const ARPA = () => {
     >
       <ListHeader title="ARPA Division" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -258,6 +284,7 @@ const ARPA = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
