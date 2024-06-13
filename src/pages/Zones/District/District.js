@@ -201,7 +201,7 @@ const District = () => {
   const onDownloadSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Download successful",
+      message: "Downloaded successfully",
     });
   };
   
