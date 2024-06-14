@@ -114,6 +114,7 @@ const CategoryReportTabel = ({ category, season }) => {
           <TableHead>
             <TableRow>
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>Crop</TableCell>
+              {category?.id == 1 ? <TableCell style={{ backgroundColor: "#A8CD9F" }}>Age Type</TableCell> : null}
               <TableCell style={{ backgroundColor: "#A8CD9F" }}>
                 Variety
               </TableCell>
@@ -148,6 +149,7 @@ const CategoryReportTabel = ({ category, season }) => {
                   cropData={data[cropName]}
                   targetConfigs={targetConfigs}
                   reportConfigs={reportConfigs}
+                  categoryId={category?.id}
                 />
               ))
             ) : (
@@ -157,6 +159,7 @@ const CategoryReportTabel = ({ category, season }) => {
             {!loading ? (
               <TableRow>
                 <TableCell style={{ backgroundColor: "#CA8787" }}></TableCell>
+                {category?.id == 1 ? <TableCell style={{ backgroundColor: "#CA8787" }}></TableCell> : null }
                 <TableCell style={{ backgroundColor: "#CA8787" }}>
                   Grand Total
                 </TableCell>
