@@ -201,8 +201,7 @@ const DistrictComm = () => {
   
   const onDownload = async () => {
     try {
-      await downloadDistrictComExcel();
-      onDownloadSuccess();
+      await downloadDistrictComExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

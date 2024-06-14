@@ -175,8 +175,7 @@ const MahaweliAuthority = () => {
   
   const onDownload = async () => {
     try {
-      await downloadmahaweliAuthorityExcel();
-      onDownloadSuccess();
+      await downloadmahaweliAuthorityExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

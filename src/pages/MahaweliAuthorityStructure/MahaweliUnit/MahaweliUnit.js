@@ -265,8 +265,7 @@ const MahaweliUnit = () => {
   
   const onDownload = async () => {
     try {
-      await downloadmahaweliUnitExcel();
-      onDownloadSuccess();
+      await downloadmahaweliUnitExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

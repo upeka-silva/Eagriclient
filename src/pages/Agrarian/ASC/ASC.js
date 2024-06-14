@@ -188,7 +188,6 @@ const ASC = () => {
       message: "Downloaded successfully",
     });
   };
-  
   const onDownloadError = () => {
     addSnackBar({
       type: SnackBarTypes.error,
@@ -198,11 +197,10 @@ const ASC = () => {
   
   const onDownload = async () => {
     try {
-      await downloadASCExcel();
-      onDownloadSuccess();
+      await downloadASCExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
-      onDownloadError();
+      onError();
     }
   };
   return (

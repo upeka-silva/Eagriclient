@@ -159,8 +159,7 @@ const ProvincialDdoa = () => {
   
   const onDownload = async () => {
     try {
-      await downloadProvincialDDoaExcel();
-      onDownloadSuccess();
+      await downloadProvincialDDoaExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

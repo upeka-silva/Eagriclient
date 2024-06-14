@@ -234,8 +234,7 @@ const MahaweliBlock = () => {
   
   const onDownload = async () => {
     try {
-      await downloadmahaweliBlockExcel();
-      onDownloadSuccess();
+      await downloadmahaweliBlockExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

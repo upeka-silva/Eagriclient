@@ -227,8 +227,7 @@ const ARPA = () => {
   
   const onDownload = async () => {
     try {
-      await downloadARPAExcel();
-      onDownloadSuccess();
+      await downloadARPAExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

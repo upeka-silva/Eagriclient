@@ -175,8 +175,7 @@ const ProvincialDoa = () => {
   
   const onDownload = async () => {
     try {
-      await downloadProvincialDoaExcel();
-      onDownloadSuccess();
+      await downloadProvincialDoaExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

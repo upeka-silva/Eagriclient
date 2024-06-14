@@ -265,8 +265,7 @@ const IntProvincialAda = () => {
   
   const onDownload = async () => {
     try {
-      await downloadInterProvincialADAExcel();
-      onDownloadSuccess();
+      await downloadInterProvincialADAExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

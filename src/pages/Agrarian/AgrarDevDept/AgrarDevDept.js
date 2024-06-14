@@ -173,8 +173,7 @@ const AgrarDevDept = () => {
   
   const onDownload = async () => {
     try {
-      await downloadAgrydeptExcel();
-      onDownloadSuccess();
+      await downloadAgrydeptExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

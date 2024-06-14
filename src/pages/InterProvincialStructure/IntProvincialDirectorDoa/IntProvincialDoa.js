@@ -130,8 +130,7 @@ const IntProvincialDoa = () => {
   
   const onDownload = async () => {
     try {
-      await downloadInterProvincialDoaExcel();
-      onDownloadSuccess();
+      await downloadInterProvincialDoaExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();
