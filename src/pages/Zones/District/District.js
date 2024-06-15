@@ -201,7 +201,7 @@ const District = () => {
   const onDownloadSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Download successful",
+      message: "Downloaded successfully",
     });
   };
   
@@ -214,8 +214,7 @@ const District = () => {
   
   const onDownload = async () => {
     try {
-      await downloadDistrictExcel();
-      onDownloadSuccess();
+      await downloadDistrictExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

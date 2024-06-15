@@ -117,7 +117,7 @@ const IntProvincialDoa = () => {
   const onDownloadSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Download successful",
+      message: "Downloaded successfully",
     });
   };
   
@@ -130,8 +130,7 @@ const IntProvincialDoa = () => {
   
   const onDownload = async () => {
     try {
-      await downloadInterProvincialDoaExcel();
-      onDownloadSuccess();
+      await downloadInterProvincialDoaExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

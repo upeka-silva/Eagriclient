@@ -165,7 +165,7 @@ const Province = () => {
   const onDownloadSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Download successful",
+      message: "Downloaded successfully",
     });
   };
   
@@ -178,8 +178,7 @@ const Province = () => {
   
   const onDownload = async () => {
     try {
-      await downloadProvincesExcel();
-      onDownloadSuccess();
+      await downloadProvincesExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();

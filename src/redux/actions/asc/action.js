@@ -1,4 +1,4 @@
-import { put, get, post, api_delete } from "../../../services/api";
+import { put, get, post, api_delete,getBlob } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleAsc = async (
@@ -170,5 +170,45 @@ export const get_ASCLovByComId = async (id, pageSize) => {
     return {
       dataList: [],
     };
+  }
+};
+export const downloadASCExcel = async (
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const blobData = await getBlob("geo-data/asc-divisions/export/excel", true);
+    if (blobData) {
+      const fileName = `geo-data/asc-divisions${
+        new Date().toISOString().split("T")[0]
+      }.xlsx`;
+      const url = window.URL.createObjectURL(new Blob([blobData]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: blobData?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
   }
 };

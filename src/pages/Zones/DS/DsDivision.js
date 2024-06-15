@@ -209,7 +209,7 @@ const DsDivision = () => {
   const onDownloadSuccess = () => {
     addSnackBar({
       type: SnackBarTypes.success,
-      message: "Download successful",
+      message: "Downloaded successfully",
     });
   };
   
@@ -222,8 +222,7 @@ const DsDivision = () => {
   
   const onDownload = async () => {
     try {
-      await downloaddsDivisionsExcel();
-      onDownloadSuccess();
+      await downloaddsDivisionsExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();
