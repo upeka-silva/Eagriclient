@@ -10,7 +10,6 @@ import {
   ListItemText,
   Stack,
 } from "@mui/material";
-//import CropList from "./CropList";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
@@ -20,8 +19,8 @@ import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { useSnackBars } from "../../../context/SnackBarContext";
-import { Add, Delete, Edit, Vrpano,PanTool } from "@mui/icons-material";
-import ListHeader from "../../../components/ListHeader/ListHeader"
+import { Add, Delete, Edit, Vrpano, PanTool } from "@mui/icons-material";
+import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { useTranslation } from "react-i18next";
 import { TranslateActions } from "../../../utils/constants/CrudActionTranslation";
@@ -142,14 +141,6 @@ const DamageReport = () => {
             aria-label="action button group"
             color="success"
           >
-            {/* <PermissionWrapper
-              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.CROP}`}
-            >
-              <Button onClick={onCreate}>
-                <Add />
-                {TranslateActions(t, DEF_ACTIONS.ADD)}
-              </Button>
-            </PermissionWrapper> */}
             {selectCropDamage.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.CROP_DAMAGE_REPORTING}`}
@@ -164,6 +155,24 @@ const DamageReport = () => {
                 )}
               </PermissionWrapper>
             )}
+            {selectCropDamage.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_DAMAGE_REPORTING}`}
+              >
+                {selectCropDamage[0]?.status === "UNAPPROVED" && (
+                  <Button onClick={onDelete}>{"Rejected"}</Button>
+                )}
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
+          >
             {selectCropDamage.length === 1 && (
               <PermissionWrapper
                 permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.CROP_DAMAGE_REPORTING}`}
@@ -174,18 +183,6 @@ const DamageReport = () => {
                 </Button>
               </PermissionWrapper>
             )}
-            {selectCropDamage.length > 0 && (
-              <PermissionWrapper
-                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.CROP_DAMAGE_REPORTING}`}
-              >
-                {selectCropDamage[0]?.status === "UNAPPROVED" && (
-                  <Button onClick={onDelete}>
-                    <PanTool />
-                    {"Rejected"}
-                  </Button>
-                )}
-              </PermissionWrapper>
-            )}
           </ButtonGroup>
         </Stack>
       </ActionWrapper>
@@ -194,7 +191,6 @@ const DamageReport = () => {
       >
         {loading === false && (
           <CropDamageReportList
-            //url={url}
             selectedRows={selectCropDamage}
             onRowSelect={toggleCategorySelect}
             selectAll={selectAllCategories}

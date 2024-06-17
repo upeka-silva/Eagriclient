@@ -405,6 +405,7 @@
     "damageTypes": "Damage Types",
     "code": "Code",
     "name": "Name",
+    "cropDamage": "Crop Damage",
     "majorCategoryType": "Category Type",
     "damageCode": "Damage code",
     "courseOfDamage": "Course of Damage",
