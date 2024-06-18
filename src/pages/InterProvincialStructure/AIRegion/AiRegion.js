@@ -53,7 +53,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog/Confirmat
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
 import ExportButton from "../../../components/ExportButton/ExportButton";
-import { downloadProvincialAIExcel } from "../../../redux/actions/aiRegion/action";
+// import { downloadProvincialAIExcel } from "../../../redux/actions/aiRegion/action";
 
 const InterProvincialAiRegion = () => {
   useUserAccessValidation();
@@ -222,31 +222,7 @@ const InterProvincialAiRegion = () => {
         `geo-data/ai-region/inter-provincial-doa?interProAdaId=${selectedAda?.id}`
       );
     }
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedProvincialAI.map((item) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {" "}
-                {item?.proDirectorId} - {item?.description}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
-  };
+  };  
 
   const onSuccess = () => {
     addSnackBar({
@@ -293,7 +269,7 @@ const InterProvincialAiRegion = () => {
   
   const onDownload = async () => {
     try {
-      await downloadProvincialAIExcel(onDownloadSuccess,onDownloadError);
+      // await downloadProvincialAIExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
       console.error("Download failed:", error);
       onDownloadError();
