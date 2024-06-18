@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { useSnackBars } from "../../../context/SnackBarContext";
 
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -30,13 +28,6 @@ import CategoryReportTabelAILevel from "./categoryReportTable-ai";
 
 const AggrigateReportAILevel = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
