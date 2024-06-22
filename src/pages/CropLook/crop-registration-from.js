@@ -30,7 +30,6 @@ import {
 const CropRegistrationForm = () => {
   useUserAccessValidation();
   const { state } = useLocation();
-  const location = useLocation();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(state?.target || {});
@@ -45,7 +44,6 @@ const CropRegistrationForm = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [toggleState, setToggleState] = useState(1);
-  const [tabEnabled, setTabInabled] = useState(false);
 
   useEffect(() => {
     getDDDivisionsByLogedInUser().then(({ dataList = [] }) => {

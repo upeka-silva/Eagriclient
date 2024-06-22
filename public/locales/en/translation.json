@@ -198,7 +198,8 @@
         "cropSummaryDdWise": "Crop Summary - DD Wise",
         "varietySummaryAiWise": "Variety Summary - AI Wise",
         "varietySummaryAdaWise": "Variety Summary - ADA Wise",
-        "cropSummaryAiLevel": "Crop Summary (AI Level)"
+        "cropSummaryAiLevel": "Crop Summary (AI Level)",
+        "nationalReport": "National Report"
       },
       "approvalReport": {
         "name": "Approval Report",
@@ -295,7 +296,7 @@
   },
 
   "userProfilePage": {
-    "userProfile":"User Profile",
+    "userProfile": "User Profile",
     "firstName": "First Name",
     "lastName": "Last Name",
     "dateOfBirth": "Date of Birth",
