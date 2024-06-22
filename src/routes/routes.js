@@ -1658,7 +1658,7 @@ export const Routes = [
       },
       {
         path: "/permissions",
-        name: "nav.applicationSettings.componentForm",
+        name: "nav.applicationSettings.permissions",
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
