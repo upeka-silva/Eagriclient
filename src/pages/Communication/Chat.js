@@ -184,12 +184,12 @@ const Chat = () => {
       console.log(error);
     }
     setOpen(false);
-    setLoading(false);
     setformData({});
     setFormDataPrivate({});
     setImageForm(null);
     setSelectedImage(null);
     setImageForm(null);
+    setLoading(false);
   };
   const handleOpen = (state) => {
     setAction(DEF_ACTIONS.ADD);
