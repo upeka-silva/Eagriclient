@@ -44,7 +44,7 @@ function LandingCarousel({ status, data }) {
     dots: false,
     infinite: false,
     speed: 500,
-    slidesToShow: 5, // Show 5 cards in the first slide
+    slidesToShow: 4, // Show 5 cards in the first slide
     slidesToScroll: 1,
     initialSlide: 0,
     prevArrow: <CustomPrevArrow />,
@@ -53,8 +53,8 @@ function LandingCarousel({ status, data }) {
       {
         breakpoint: 1840,
         settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
+          slidesToShow: 3,
+          slidesToScroll: 3,
         },
       },
       {
@@ -65,7 +65,7 @@ function LandingCarousel({ status, data }) {
         },
       },
       {
-        breakpoint: 1266,
+        breakpoint: 1360,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 3,

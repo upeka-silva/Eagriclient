@@ -1,16 +1,16 @@
 import { Star } from "@mui/icons-material";
-import {
-  Card,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Card, CardMedia, Grid, Typography } from "@mui/material";
 import React from "react";
 import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
-import MoodBadIcon from '@mui/icons-material/MoodBad';
+import MoodBadIcon from "@mui/icons-material/MoodBad";
+import BestSelection from "../../assets/images/croplook/vegetableearlywarning/bestSelection.png";
+import BetterSelection from "../../assets/images/croplook/vegetableearlywarning/BetterSelection.png";
+import GoodSelection from "../../assets/images/croplook/vegetableearlywarning/GoodSelection.png";
+import BadSelection from "../../assets/images/croplook/vegetableearlywarning/BadSelection.png";
+import WorstSelection from "../../assets/images/croplook/vegetableearlywarning/WorstSelection.png";
 
 function CustomRating({ value }) {
   const stars = [];
@@ -18,7 +18,7 @@ function CustomRating({ value }) {
     stars.push(
       <Star
         key={i}
-        style={{ fontSize: "1.5rem", color: i < value ? "gold" : "grey" }}
+        style={{ fontSize: "1.7rem", color: i < value ? "gold" : "grey" }}
       />
     );
   }
@@ -27,15 +27,50 @@ function CustomRating({ value }) {
 
 function EmojiStatus({ status }) {
   if (status === "Best Selection") {
-    return <SentimentVerySatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return (
+      <CardMedia
+        component="img"
+        image={BestSelection}
+        alt="Best Selection"
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
   } else if (status === "Better Selection") {
-    return <SentimentSatisfiedAltIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return (
+      <CardMedia
+        component="img"
+        image={BetterSelection}
+        alt="Better Selection"
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
   } else if (status === "Good Selection") {
-    return <SentimentSatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return (
+      <CardMedia
+        component="img"
+        image={GoodSelection}
+        alt="Good Selection"
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
   } else if (status === "Bad Selection") {
-    return <SentimentVeryDissatisfiedIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return (
+      <CardMedia
+        component="img"
+        image={BadSelection}
+        alt="Bad Selection"
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
   } else if (status === "Worst Selection") {
-    return <MoodBadIcon style={{ fontSize: 40, color: ColorStatus({ status })?.footerColor, }} />;
+    return (
+      <CardMedia
+        component="img"
+        image={WorstSelection}
+        alt="Worst Selection"
+        style={{ width: "100%", height: "auto" }}
+      />
+    );
   }
 }
 
@@ -82,15 +117,19 @@ function ColorStatus({ status }) {
   }
 }
 
-function LandingFoodCard({ image, foodName, status,firstText, secondText }) {
-  
-
+function LandingFoodCardIconOnly({
+  image,
+  foodName,
+  status,
+  firstText,
+  secondText,
+}) {
   return (
     <div>
       <Grid>
         <Card
           sx={{
-            maxWidth: 220,
+            maxWidth: 200,
             height: 300,
             borderRadius: "15px",
             display: "flex",
@@ -99,31 +138,10 @@ function LandingFoodCard({ image, foodName, status,firstText, secondText }) {
           }}
         >
           <Grid sx={{ padding: 2 }}>
-            <CardMedia
-              sx={{ borderRadius: "15px" }}
-              component="img"
-              height="140"
-              image={image}
-              alt="food image"
-            />
-            <Grid mt={2}>
-              <Typography
-                gutterBottom
-                variant="h7"
-                component="div"
-                fontWeight={"bold"}
-                mb={3}
-              >
-                {foodName}
-              </Typography>
-              {/* <StartStatus status={status} /> */}
+            <EmojiStatus status={status} />
+            <Grid mt={2} textAlign={"center"}>
+              <StartStatus status={status} />
             </Grid>
-            <Typography mt={1} fontSize={"13px"} color="text.secondary">
-              {firstText}
-            </Typography>
-            <Typography mt={1} fontSize={"13px"} color="text.secondary">
-              {secondText}
-            </Typography>
           </Grid>
 
           {/* <Grid
@@ -152,7 +170,7 @@ function LandingFoodCard({ image, foodName, status,firstText, secondText }) {
               borderRadius="0 0 15px 0px"
               sx={{ marginRight: "-12px", padding: "5px" }}
             >
-                <EmojiStatus status={status} />
+              <EmojiStatus status={status} />
             </Grid>
           </Grid> */}
         </Card>
@@ -161,4 +179,4 @@ function LandingFoodCard({ image, foodName, status,firstText, secondText }) {
   );
 }
 
-export default LandingFoodCard;
+export default LandingFoodCardIconOnly;
