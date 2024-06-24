@@ -68,6 +68,7 @@ import EconomicCenter from "../pages/Harty/EconomicCenters/EconomicCenter";
 import CropLookEarlyWarningRanges from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRanges";
 import CropLookEarlyWarningRangesForm from "../pages/CropLook/CropLookEarlyWarningRanges/CropLookEarlyWarningRangesForm";
 import VegitableEarlyWarningRanges from "../pages/CropLook/VegitableEarlyWarningRanges/VegitableEarlyWarningRanges";
+import NationalReport from "../pages/CropLook/nationalReport/nationalReport";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import CropSquareIcon from "@mui/icons-material/CropSquare";
@@ -117,6 +118,7 @@ import {
   TrendingDown,
   BugReportRounded,
   CoronavirusRounded,
+  Summarize,
 } from "@mui/icons-material";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import ProvincialDoa from "../pages/ProvincialStructure/ProvincialDoa/ProvincialDoa";
@@ -213,6 +215,7 @@ import IsoUnit from "../pages/AppSettings/IsoUnit/IsoUnit";
 import IsoUnitForm from "../pages/AppSettings/IsoUnit/IsoUnitForm";
 import GapDetailsPreview from "../pages/Gap/GapDetailsPreview";
 import ProjectReport from "../pages/Extention/AgricultureProject/ProjecReport/ProjectReport";
+import DamageReport from "../pages/Extention/CropDamageReport/CropDamageReport";
 import SummarizeIcon from "@mui/icons-material/Summarize";
 import VegetableEarlyWarning from "../pages/CropLook/VegitableEarlyWarning/VegetableEarlyWarning";
 import AggrigateReportAILevel from "../pages/CropLook/aggrigateReportAILevel/aggrigate-reporting-ai";
@@ -223,6 +226,11 @@ import AggrigateReportAILevelByCrop from "../pages/CropLook/aggrigateReportAILev
 import AggrigateReportDDLevel from "../pages/CropLook/aggrigateReportDDLevel/aggrigate-reporting-dd";
 import AiSummaryReport from "../pages/CropLook/aiSummaryReport/ai-summary-report";
 import ADASummaryReport from "../pages/CropLook/adaSummaryReport/ada-summary-report";
+import CropDamageReportView from "../pages/Extention/CropDamageReport/CropDamageReportView";
+import ReportProblemIcon from "@mui/icons-material/ReportProblem";
+import BiWeekProgressReportRow from "../pages/CropLook/biWeekProgress/biWeekProgressReportRow";
+import BiWeekProgressReport from "../pages/CropLook/biWeekProgress/biWeekProgressReport";
+import AggrigateReportByCrop from "../pages/CropLook/aggrigateReportByCrop/aggrigate-reporting-by-crop";
 
 export const Routes = [
   {
@@ -863,20 +871,6 @@ export const Routes = [
         element: <CropVarietyForm />,
       },
       {
-        path: "/damages",
-        name: "nav.crop.cropDamages",
-        isSideBar: true,
-        element: <CropDamage />,
-        icon: TrendingDown,
-        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
-      },
-      {
-        path: "/damage-form",
-        name: "nav.crop.cropDamageForm",
-        isSideBar: false,
-        element: <CropDamageForm />,
-      },
-      {
         path: "/calendar",
         name: "nav.crop.cropCalendar",
         isSideBar: true,
@@ -918,6 +912,20 @@ export const Routes = [
       //   isSideBar: false,
       //   element: <CropDamageForm />,
       // },
+      {
+        path: "/damages",
+        name: "nav.crop.cropDamages",
+        isSideBar: true,
+        element: <CropDamage />,
+        icon: TrendingDown,
+        component: DEF_COMPONENTS.DAMAGE_CATEGORY,
+      },
+      {
+        path: "/damage-form",
+        name: "nav.crop.cropDamageForm",
+        isSideBar: false,
+        element: <CropDamageForm />,
+      },
       {
         path: "/crop-disease-form",
         name: "nav.crop.cropDiseaseForm",
@@ -1294,6 +1302,20 @@ export const Routes = [
         component: DEF_COMPONENTS.PROJECT_REPORT,
       },
       {
+        path: "/crop-damage-report",
+        name: "Crop Damage Report",
+        isSideBar: true,
+        element: <DamageReport />,
+        icon: ReportProblemIcon,
+        component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
+      {
+        path: "/crop-damage-report-view",
+        isSideBar: false,
+        element: <CropDamageReportView />,
+        //component: DEF_COMPONENTS.PROJECT_REPORT,
+      },
+      {
         path: "/create-post-form",
         isSideBar: false,
         element: <CreatePostForm />,
@@ -1428,6 +1450,22 @@ export const Routes = [
         icon: Preview,
         children: [
           {
+            path: "/dd-variety-summary",
+            name: "nav.cropLook.varietySummary.cropSummaryDdWise",
+            isSideBar: true,
+            element: <AggrigateReportDDLevel />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
+          },
+          {
+            path: "/crop-wise",
+            name: "AI Range Wise Segment Summary",
+            isSideBar: true,
+            element: <AggrigateReportByCrop />,
+            icon: Preview,
+            component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
+          },
+          {
             path: "/dd-wise",
             name: "nav.cropLook.varietySummary.name",
             isSideBar: true,
@@ -1436,10 +1474,10 @@ export const Routes = [
             component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
           },
           {
-            path: "/dd-variety-summary",
-            name: "nav.cropLook.varietySummary.varietySummaryDdWise",
+            path: "/bi-week-progress",
+            name: "Bi-Weekly Crop Report",
             isSideBar: true,
-            element: <AggrigateReportDDLevel />,
+            element: <BiWeekProgressReport />,
             icon: Preview,
             component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_DD_LEVEL,
           },
@@ -1466,6 +1504,14 @@ export const Routes = [
             element: <AggrigateReportAILevelByCrop />,
             icon: Preview,
             component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AI_BY_CROP_LEVEL,
+          },
+          {
+            path: "/national-report",
+            name: "nav.cropLook.varietySummary.nationalReport",
+            isSideBar: true,
+            element: <NationalReport />,
+            icon: Summarize,
+            component: DEF_COMPONENTS.CROP_LOOK_NATIONAL_REPORT,
           },
         ],
       },
@@ -1534,15 +1580,6 @@ export const Routes = [
         icon: Preview,
         component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
       },
-
-      // {
-      //   path: "/national-report",
-      //   name: "National Report",
-      //   isSideBar: true,
-      //   element: <NationalReport />,
-      //   icon: Preview,
-      //   component: DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT,
-      // },
       {
         path: "/early-warning-ranges",
         name: "nav.cropLook.earlyWarningLimits",
@@ -1621,7 +1658,7 @@ export const Routes = [
       },
       {
         path: "/permissions",
-        name: "nav.applicationSettings.componentForm",
+        name: "nav.applicationSettings.permissions",
         isSideBar: true,
         icon: KeyIcon,
         element: <Permission />,
@@ -1704,9 +1741,9 @@ export const Routes = [
         element: <Chat />,
         icon: SendIcon,
         component: DEF_COMPONENTS.CHAT,
-      }
-    ]
-  }
+      },
+    ],
+  },
 
   // {
   //   path: "/map",

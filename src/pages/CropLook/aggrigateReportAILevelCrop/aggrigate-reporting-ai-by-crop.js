@@ -21,6 +21,8 @@ import {
 } from "../../../components/TabButtons/TabButtons";
 import CategoryReportTabelAILevelByCrop from "./categoryReportTable-ai-by-crop";
 import { BI_WEEK_DATA_STATUS } from "../../../utils/constants/bi-week-data-status";
+import ExportButton from "../../../components/ExportButton/ExportButton";
+import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 
 const AggrigateReportAILevelByCrop = () => {
   useUserAccessValidation();
@@ -51,6 +53,13 @@ const AggrigateReportAILevelByCrop = () => {
     return biWeekList.filter(
       (data) => data.status !== BI_WEEK_DATA_STATUS.INIT
     );
+  };
+  const onDownload = async (categoryId) => {
+    try {
+      await downloadDDSummaryExcel(selectedSeason.id, categoryId,selectedWeek.id);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -145,10 +154,13 @@ const AggrigateReportAILevelByCrop = () => {
                 className={toggleState === index + 1 ? "active-content" : ""}
               >
                 <PermissionWrapper
-                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT_AIByCrop_LEVEL}`}
+                  permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGGREGATE_BI_WEEK_REPORT}`}
                 >
                   <TableWrapper>
                     <div key={category.categoryId}>
+                    <ExportButton
+                          onDownload={() => onDownload(category.id,selectedSeason.id,selectedWeek.id)}
+                        />
                       {toggleState === index + 1 &&
                       selectedSeason &&
                       selectedWeek ? (

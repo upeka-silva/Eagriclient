@@ -194,11 +194,12 @@
       "biweeklyReporting": "Biweekly Reporting",
       "biweeklyReportingForm": "Biweekly Reporting Form",
       "varietySummary": {
-        "name": "Variety Summary",
-        "varietySummaryDdWise": "Variety Summary - DD Wise",
+        "name": "Summary Reports",
+        "cropSummaryDdWise": "Crop Summary - DD Wise",
         "varietySummaryAiWise": "Variety Summary - AI Wise",
         "varietySummaryAdaWise": "Variety Summary - ADA Wise",
-        "cropSummaryAiLevel": "Crop Summary (AI Level)"
+        "cropSummaryAiLevel": "Crop Summary (AI Level)",
+        "nationalReport": "National Report"
       },
       "approvalReport": {
         "name": "Approval Report",
@@ -295,7 +296,7 @@
   },
 
   "userProfilePage": {
-    "userProfile":"User Profile",
+    "userProfile": "User Profile",
     "firstName": "First Name",
     "lastName": "Last Name",
     "dateOfBirth": "Date of Birth",
@@ -405,9 +406,13 @@
     "damageTypes": "Damage Types",
     "code": "Code",
     "name": "Name",
+    "cropDamage": "Crop Damage",
+    "majorCategoryType": "Category Type",
+    "damageCode": "Damage code",
+    "courseOfDamage": "Course of Damage",
     "action": "Action",
-    "ADDdamageType": "ADD Damage Type",
-    "EDITdamageType": "EDIT Damage Type"
+    "ADDcropDamage": "ADD Crop Damage",
+    "EDITcropDamage": "EDIT Crop Damage"
   },
 
   "cropCalendarPage": {

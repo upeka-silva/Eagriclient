@@ -1,4 +1,4 @@
-import { post, put, api_delete, get } from "../../../services/api";
+import { post, put, api_delete, get,getBlob } from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleScsService = async (
@@ -112,6 +112,46 @@ export const updateScsService = async (
       throw exception;
     }
     console.log(response);
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
+  }
+};
+export const downloadScsExcel = async (
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const blobData = await getBlob("geo-data/scs-services/export/excel", true);
+    if (blobData) {
+      const fileName = `geo-data/scs-services${
+        new Date().toISOString().split("T")[0]
+      }.xlsx`;
+      const url = window.URL.createObjectURL(new Blob([blobData]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: blobData?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
   } catch ({ error }) {
     if (typeof error === "object") {
       const { data } = error;

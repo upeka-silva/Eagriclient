@@ -11,8 +11,9 @@ RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine AS server
+
 COPY --from=builder ./app/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=builder ./app/nginx/ssl /etc/nginx
+#COPY --from=builder ./app/nginx/ssl /etc/nginx
 
 RUN chmod 600 /etc/nginx/*
 

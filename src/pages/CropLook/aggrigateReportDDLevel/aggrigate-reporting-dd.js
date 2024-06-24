@@ -25,7 +25,7 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
-import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { downloadDDWiseSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import CategoryReportTabelDDLevel from "./categoryReportTable-dd";
 
 const AggrigateReportDDLevel = () => {
@@ -59,7 +59,7 @@ const AggrigateReportDDLevel = () => {
   };
   const onDownload = async (categoryId) => {
     try {
-      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+      await downloadDDWiseSummaryExcel(selectedSeason.id, categoryId,selectedDDRegion.id);
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +79,7 @@ const AggrigateReportDDLevel = () => {
         overflowY: "scroll",
       }}
     >
-      <ListHeader title="Variety Summary - DD Wise" />
+      <ListHeader title="Crop Summary - DD Wise" />
       <Grid
         container
         sx={{
@@ -168,9 +168,10 @@ const AggrigateReportDDLevel = () => {
                   >
                     <TableWrapper>
                       <div key={category.categoryId}>
-                        <ExportButton
-                          onDownload={() => onDownload(category.id)}
+                      <ExportButton
+                          onDownload={() => onDownload(category.id,selectedSeason.id, selectedDDRegion.id)}
                         />
+
                         <CategoryReportTabelDDLevel
                           category={category}
                           season={selectedSeason}

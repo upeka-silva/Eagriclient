@@ -18,6 +18,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -40,12 +41,12 @@ import {
 import ProvincialDdoaList from "./ProvincialDdoaList";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
-import { deleteProvincialDdoa } from "../../../redux/actions/provincialDdoa/action";
+import { deleteProvincialDdoa,  downloadProvincialDDoaExcel } from "../../../redux/actions/provincialDdoa/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
-
+import ExportButton from "../../../components/ExportButton/ExportButton";
 const ProvincialDdoa = () => {
   useUserAccessValidation();
   const navigate = useNavigate();
@@ -142,6 +143,28 @@ const ProvincialDdoa = () => {
         selectedDoa?.id
     );
   };
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadProvincialDDoaExcel(onDownloadSuccess,onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
 
   const renderSelectedItems = () => {
     return (
@@ -214,6 +237,8 @@ const ProvincialDdoa = () => {
     >
       <ListHeader title="Provincial DDOA" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -249,6 +274,7 @@ const ProvincialDdoa = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>

@@ -296,6 +296,46 @@ export const getAggrigateReportData = async (categoryId, seasonId) => {
   }
 };
 
+export const getBiWeekProgressData = async (categoryId, seasonId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/biWeekProgress/category/${categoryId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
+export const getCropLookProgressByCrop = async (cropId, seasonId) => {
+  try {
+    const { httpCode, payloadDto } = await get(
+      `crop-look/dd-report/cropProgress/crop/${cropId}/season/${seasonId}`,
+      true
+    );
+    if (httpCode === "200 OK") {
+      return payloadDto;
+    }
+    return {
+      dataList: [],
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      dataList: [],
+    };
+  }
+};
+
 export const getAggrigateReportDataAILevel = async (categoryId, seasonId, aiId) => {
   try {
     const { httpCode, payloadDto } = await get(
@@ -825,6 +865,120 @@ export const downloadDDSummaryExcel = async (
     }
   }
 };
+const getBlobData = async (url) => {
+  try {
+    const response = await getBlob(url, true);
+    if (!response) {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: response?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const downloadFile = (blobData, fileName) => {
+  const url = window.URL.createObjectURL(new Blob([blobData]));
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", fileName);
+  document.body.appendChild(link);
+  link.click();
+  link.parentNode.removeChild(link);
+};
+
+const handleError = (error, onError) => {
+  if (typeof error === "object") {
+    const { data } = error;
+    const { apiError } = data;
+    onError(apiError?.message || defaultMessages.apiErrorUnknown);
+  } else {
+    onError(error);
+  }
+};
+export const downloadDDWiseSummaryExcel = async (
+  seasonId,
+  categoryId,
+  ddId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const url = `crop-look/dd-report/aggrigated-report/category/${categoryId}/season/${seasonId}/dd/${ddId}/export/excel`;
+    const blobData = await getBlobData(url);
+    const fileName = `Aggregated_DD_${new Date().toISOString().split("T")[0]}.xlsx`;
+    downloadFile(blobData, fileName);
+    onSuccess();
+  } catch (error) {
+    handleError(error, onError);
+  }
+};
+
+export const downloadDDSummaryAiWiseExcel = async (
+  seasonId,
+  categoryId,
+  aiId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const url = `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/aiId/${aiId}/export/excel`;
+    const blobData = await getBlobData(url);
+    const fileName = `Aggregated_Ai_Wise_${new Date().toISOString().split("T")[0]}.xlsx`;
+    downloadFile(blobData, fileName);
+    onSuccess();
+  } catch (error) {
+    handleError(error, onError);
+  }
+};
+
+export const downloadDDSummaryADAExcel = async (
+  seasonId,
+  categoryId,
+  adaId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const url = `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/adaId/${adaId}/export/excel`;
+    const blobData = await getBlobData(url);
+    const fileName = `Aggregated_ADA_Wise_${new Date().toISOString().split("T")[0]}.xlsx`;
+    downloadFile(blobData, fileName);
+    onSuccess();
+  } catch (error) {
+    handleError(error, onError);
+  }
+};
+
+export const downloadDDSummaryAiLevelExcel = async (
+  seasonId,
+  categoryId,
+  weekId,
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const url = `crop-look/dd-report/varietySummary/category/${categoryId}/season/${seasonId}/weekId/${weekId}/export/excel`;
+    const blobData = await getBlobData(url);
+    const fileName = `Aggregated_ADA_Wise_${new Date().toISOString().split("T")[0]}.xlsx`;
+    downloadFile(blobData, fileName);
+    onSuccess();
+  } catch (error) {
+    handleError(error, onError);
+  }
+};
+
+
+
 
 export const getCropCategoryReport = async (categoryId, seasonId, weekId) => {
   try {

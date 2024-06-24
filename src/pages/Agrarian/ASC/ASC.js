@@ -6,12 +6,12 @@ import {
   Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   Grid,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
@@ -24,11 +24,9 @@ import {
 } from "../../../utils/constants/permission";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
-import { deleteASC } from "../../../redux/actions/asc/action";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
+import { deleteASC, downloadASCExcel } from "../../../redux/actions/asc/action";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { RestartAlt } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { FieldWrapper } from "../../../components/FormLayout/FieldWrapper";
 import { FieldName } from "../../../components/FormLayout/FieldName";
@@ -36,6 +34,7 @@ import { get_DistrictCommList } from "../../../redux/actions/districtComm/action
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const ASC = () => {
   useUserAccessValidation();
@@ -180,7 +179,27 @@ const ASC = () => {
       setDcomms(dataList);
     });
   }, []);
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
 
+  const onDownload = async () => {
+    try {
+      await downloadASCExcel(onDownloadSuccess, onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onError();
+    }
+  };
   return (
     <div
       style={{
@@ -194,41 +213,47 @@ const ASC = () => {
     >
       <ListHeader title="ASC Division" />
       <ActionWrapper isLeft>
-        <ButtonGroup
-          variant="outlined"
-          disableElevation
-          size="small"
-          aria-label="action button group"
-          color="success"
-        >
-          <PermissionWrapper
-            permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC_DIVISION}`}
+        <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+          <ExportButton onDownload={onDownload} />
+          <ButtonGroup
+            variant="outlined"
+            disableElevation
+            size="small"
+            aria-label="action button group"
+            color="success"
           >
-            <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
-          </PermissionWrapper>
+            <PermissionWrapper
+              permission={`${DEF_ACTIONS.ADD}_${DEF_COMPONENTS.ASC_DIVISION}`}
+            >
+              <CrudActionButton action={DEF_ACTIONS.ADD} handle={onCreate} />
+            </PermissionWrapper>
 
-          {selectedAsc.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
-            >
-              <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
-            </PermissionWrapper>
-          )}
-          {selectedAsc.length === 1 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
-            >
-              <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
-            </PermissionWrapper>
-          )}
-          {selectedAsc.length > 0 && (
-            <PermissionWrapper
-              permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ASC_DIVISION}`}
-            >
-              <CrudActionButton action={DEF_ACTIONS.DELETE} handle={onDelete} />
-            </PermissionWrapper>
-          )}
-        </ButtonGroup>
+            {selectedAsc.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
+              >
+                <CrudActionButton action={DEF_ACTIONS.EDIT} handle={onEdit} />
+              </PermissionWrapper>
+            )}
+            {selectedAsc.length === 1 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.VIEW}_${DEF_COMPONENTS.ASC_DIVISION}`}
+              >
+                <CrudActionButton action={DEF_ACTIONS.VIEW} handle={onView} />
+              </PermissionWrapper>
+            )}
+            {selectedAsc.length > 0 && (
+              <PermissionWrapper
+                permission={`${DEF_ACTIONS.DELETE}_${DEF_COMPONENTS.ASC_DIVISION}`}
+              >
+                <CrudActionButton
+                  action={DEF_ACTIONS.DELETE}
+                  handle={onDelete}
+                />
+              </PermissionWrapper>
+            )}
+          </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>

@@ -124,8 +124,6 @@ export const convertCropLookFields = (field) => {
         return "totalExtentGreenHouse";
       case "Non-Bearing HG Removed Extent":
         return "";
-      case "Extent Highland Rainfed":
-        return "";
       case "HG Newly Planted Extent":
         return "totalHgNewlyPlantedExtent";
       case "Non-Bearing Comm Removed Extent":

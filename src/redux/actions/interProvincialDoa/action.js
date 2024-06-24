@@ -1,4 +1,4 @@
-import { put, post, api_delete, get } from "../../../services/api";
+import { put, post, api_delete, get,getBlob} from "../../../services/api";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 
 export const handleInterProvincialDoa = async (
@@ -145,5 +145,45 @@ export const get_InterProvincialDoaLov = async () => {
     return {
       dataList: [],
     };
+  }
+};
+export const downloadInterProvincialDoaExcel = async (
+  onSuccess = () => {},
+  onError = (_message) => {}
+) => {
+  try {
+    const blobData = await getBlob("geo-data/director-doa/export/excel", true);
+    if (blobData) {
+      const fileName = `geo-data/director-doa_${
+        new Date().toISOString().split("T")[0]
+      }.xlsx`;
+      const url = window.URL.createObjectURL(new Blob([blobData]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", fileName);
+      document.body.appendChild(link);
+      link.click();
+      link.parentNode.removeChild(link);
+      onSuccess();
+    } else {
+      const exception = {
+        error: {
+          data: {
+            apiError: {
+              message: blobData?.message || defaultMessages.apiErrorUnknown,
+            },
+          },
+        },
+      };
+      throw exception;
+    }
+  } catch ({ error }) {
+    if (typeof error === "object") {
+      const { data } = error;
+      const { apiError } = data;
+      onError(apiError?.message || defaultMessages.apiErrorUnknown);
+    } else {
+      onError(error);
+    }
   }
 };

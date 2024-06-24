@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
@@ -31,7 +32,7 @@ import ListHeader from "../../../components/ListHeader/ListHeader";
 import DialogBox from "../../../components/PageLayout/DialogBox";
 import { get_MahaweliBlockListBySystemId } from "../../../redux/actions/mahaweliBlock/action";
 import { get_MahaweliSystemList } from "../../../redux/actions/mahaweliSystem/action";
-import { deleteMahaweliUnit } from "../../../redux/actions/mahaweliUnit/action";
+import { deleteMahaweliUnit,downloadmahaweliUnitExcel } from "../../../redux/actions/mahaweliUnit/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import MahaweliUnitList from "./MahaweliUnitList";
 import { Fonts } from "../../../utils/constants/Fonts";
@@ -39,6 +40,7 @@ import SearchBox from "../../../components/SearchBox/SearchBox";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const MahaweliUnit = () => {
   useUserAccessValidation();
@@ -247,7 +249,28 @@ const MahaweliUnit = () => {
 
     setDataEndPoint(url);
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadmahaweliUnitExcel(onDownloadSuccess,onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -261,6 +284,8 @@ const MahaweliUnit = () => {
     >
       <ListHeader title="Mahaweli Unit" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -296,6 +321,7 @@ const MahaweliUnit = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>

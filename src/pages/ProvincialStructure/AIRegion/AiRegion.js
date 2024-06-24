@@ -6,37 +6,19 @@ import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
-import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import {
   Autocomplete,
   Button,
   ButtonGroup,
-  CircularProgress,
-  Divider,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { ActionButton } from "../../../components/ActionButtons/ActionButton";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
-
-import {
-  deleteProvincialDoa,
-  get_ProvincialDoaList,
-} from "../../../redux/actions/ProvincialDoa/action";
-import { Add, Delete, Edit, RestartAlt, Vrpano } from "@mui/icons-material";
+import { get_ProvincialDoaList } from "../../../redux/actions/ProvincialDoa/action";
+import { RestartAlt } from "@mui/icons-material";
 import ProvincialAiRegionList from "./AiRegionList";
 import { deleteProvincialAI } from "../../../redux/actions/provincialAI/action";
 import { get_ProvincialDdoaListByDoaId } from "../../../redux/actions/provincialDdoa/action";
@@ -58,8 +40,6 @@ const ProvincialAiRegion = () => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
-  const [search, setSearch] = useState({});
-
   const [dataEndPoint, setDataEndPoint] = useState(
     "geo-data/ai-region/get-by-parent/PROVINCIAL"
   );
@@ -76,7 +56,7 @@ const ProvincialAiRegion = () => {
   const [selectedDdoa, setSelectedDdoa] = useState({
     provincialDdId: "",
     description: "",
-    id: null
+    id: null,
   });
   const [selectedDoa, setSelectedDoa] = useState({
     proDirectorId: "",
@@ -87,7 +67,7 @@ const ProvincialAiRegion = () => {
   const [selectedAda, setSelectedAda] = useState({
     provinceSegmentId: "",
     description: "",
-    id : null
+    id: null,
   });
 
   const toggleProvincialAISelect = (component) => {
@@ -146,30 +126,6 @@ const ProvincialAiRegion = () => {
   const onClose = () => {
     setOpen(false);
     setDialogSelectedProvincialAI([]);
-  };
-
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedProvincialAI.map((item) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={20} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {" "}
-                {item?.proDirectorId} - {item?.description}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
   };
 
   const onSuccess = () => {
@@ -267,7 +223,7 @@ const ProvincialAiRegion = () => {
       );
     }
 
-    if(selectedDoa?.id && selectedDdoa?.id && selectedAda?.id) {
+    if (selectedDoa?.id && selectedDdoa?.id && selectedAda?.id) {
       setDataEndPoint(
         `geo-data/ai-region/provincial-doa?provincialAdaSegmentId=${selectedAda?.id}`
       );

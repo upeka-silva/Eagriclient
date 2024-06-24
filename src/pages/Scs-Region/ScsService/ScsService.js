@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +19,7 @@ import DialogBox from "../../../components/PageLayout/DialogBox";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import { useUserAccessValidation } from "../../../hooks/authentication";
-import { deleteScsService } from "../../../redux/actions/scsService/action";
+import { deleteScsService,downloadScsExcel } from "../../../redux/actions/scsService/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import {
   DEF_ACTIONS,
@@ -29,6 +30,7 @@ import ScsServiceList from "./ScsServiceList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const ScsService = () => {
   useUserAccessValidation();
@@ -153,7 +155,28 @@ const ScsService = () => {
       console.log(error);
     }
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadScsExcel(onDownloadSuccess,onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
   return (
     <div
       style={{
@@ -167,6 +190,8 @@ const ScsService = () => {
     >
       <ListHeader title="Scs Service" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -202,6 +227,7 @@ const ScsService = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.SCS_SERVICE}`}

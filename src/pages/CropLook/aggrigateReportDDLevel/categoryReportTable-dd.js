@@ -12,6 +12,7 @@ import {
 import AggrigateVarietyCellDDLevel from "./aggrigateVarietyCell-Dd";
 import { getAggrigateReportDataADDLevel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import { getConfigurationById } from "../../../redux/actions/cropLook/cropConfiguration/action";
+import { convertCropLookFields } from "../../../utils/appUtils";
 
 const CategoryReportTabelDDLevel = ({ category, season, ddId }) => {
   const [data, setData] = useState([]);
@@ -46,7 +47,11 @@ const CategoryReportTabelDDLevel = ({ category, season, ddId }) => {
       setLoading(false);
     }
     fetchData(category?.id, season?.id, ddId);
-  }, [ddId,season?.id]);
+  }, [ddId, season?.id]);
+
+  const getRoundValue = (value) => {
+    return value?.toFixed(3);
+  };
 
   return (
     <>
@@ -82,14 +87,95 @@ const CategoryReportTabelDDLevel = ({ category, season, ddId }) => {
           </TableHead>
           <TableBody>
             {!loading ? (
-              Object.keys(data).map((cropName) => (
-                <AggrigateVarietyCellDDLevel
-                  cropName={cropName}
-                  cropData={data[cropName]}
-                  targetConfigs={targetConfigs}
-                  reportConfigs={reportConfigs}
-                />
-              ))
+              <>
+                {Object.keys(data).map((cropName) => (
+                  <AggrigateVarietyCellDDLevel
+                    cropName={cropName}
+                    cropData={data[cropName]}
+                    targetConfigs={targetConfigs}
+                    reportConfigs={reportConfigs}
+                  />
+                ))}
+                <TableRow>
+                  <TableCell style={{ backgroundColor: "#FCFFE0" }}>
+                    Total
+                  </TableCell>
+                  {targetConfigs.length > 0 &&
+                    targetConfigs.map((fieldName, innerIndex) => (
+                      <TableCell
+                        key={innerIndex}
+                        align="right"
+                        style={{ backgroundColor: "#FCFFE0" }}
+                      >
+                        {getRoundValue(
+                          Object.values(data).reduce((acc, cropArray) => {
+                            return (
+                              acc +
+                              cropArray.reduce((cropSum, obj) => {
+                                return (
+                                  cropSum +
+                                  (obj[convertCropLookFields(fieldName)] || 0)
+                                );
+                              }, 0)
+                            );
+                          }, 0)
+                        )}
+                      </TableCell>
+                    ))}
+                  <TableCell
+                    style={{ backgroundColor: "#F5DAD2" }}
+                    align="right"
+                  >
+                    {getRoundValue(
+                      Object.values(data).reduce((acc, cropArray) => {
+                        return (
+                          acc +
+                          cropArray.reduce((cropSum, obj) => {
+                            return cropSum + (obj.grandTotalTargeted || 0);
+                          }, 0)
+                        );
+                      }, 0)
+                    )}
+                  </TableCell>
+                  {reportConfigs.length > 0 &&
+                    reportConfigs.map((fieldName, innerIndex) => (
+                      <TableCell
+                        key={innerIndex}
+                        align="right"
+                        style={{ backgroundColor: "#FCFFE0" }}
+                      >
+                        {getRoundValue(
+                          Object.values(data).reduce((acc, cropArray) => {
+                            return (
+                              acc +
+                              cropArray.reduce((cropSum, obj) => {
+                                return (
+                                  cropSum +
+                                  (obj[convertCropLookFields(fieldName)] || 0)
+                                );
+                              }, 0)
+                            );
+                          }, 0)
+                        )}
+                      </TableCell>
+                    ))}
+                  <TableCell
+                    style={{ backgroundColor: "#F5DAD2" }}
+                    align="right"
+                  >
+                    {getRoundValue(
+                      Object.values(data).reduce((acc, cropArray) => {
+                        return (
+                          acc +
+                          cropArray.reduce((cropSum, obj) => {
+                            return cropSum + (obj.grandTotalBiWeek || 0);
+                          }, 0)
+                        );
+                      }, 0)
+                    )}
+                  </TableCell>
+                </TableRow>
+              </>
             ) : (
               <CircularProgress />
             )}

@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { useSnackBars } from "../../../context/SnackBarContext";
 
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
-import { DataTable } from "../../../components/PageLayout/Table";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import CategoryReportTabel from "./categoryReportTable";
 import { getSeasons } from "../../../redux/actions/cropLook/cropTarget/actions";
@@ -28,13 +25,6 @@ import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigat
 
 const AggrigateReport = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);

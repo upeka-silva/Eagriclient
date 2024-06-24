@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import {
   DEF_ACTIONS,
   DEF_COMPONENTS,
 } from "../../../utils/constants/permission";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
-import { useSnackBars } from "../../../context/SnackBarContext";
 
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import { TableWrapper } from "../../../components/PageLayout/TableWrapper";
 import { get_CategoryList } from "../../../redux/actions/crop/cropVariety/action";
 import {
-  getAllAiAndMahaweliUnits,
   getAllProAndInterAda,
   getSeasons,
 } from "../../../redux/actions/cropLook/cropTarget/actions";
@@ -26,18 +23,11 @@ import {
   TabWrapper,
 } from "../../../components/TabButtons/TabButtons";
 import ExportButton from "../../../components/ExportButton/ExportButton";
-import { downloadDDSummaryExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
+import { downloadDDSummaryADAExcel } from "../../../redux/actions/cropLook/aggrigateReport/actions";
 import CategoryReportTabelAdaLevel from "./categoryReportTable-ada";
 
 const AggrigateReportAdaLevel = () => {
   useUserAccessValidation();
-  const navigate = useNavigate();
-  const { addSnackBar } = useSnackBars();
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  const [selectSubCategory, setSelectSubCategory] = useState([]);
-  const [action, setAction] = useState(DEF_ACTIONS.ADD);
 
   const [cropCategoryList, setCropCategoryList] = useState([]);
   const [seasons, setSeasons] = useState([]);
@@ -66,7 +56,7 @@ const AggrigateReportAdaLevel = () => {
   };
   const onDownload = async (categoryId) => {
     try {
-      await downloadDDSummaryExcel(selectedSeason.id, categoryId);
+      await downloadDDSummaryADAExcel(selectedSeason.id, categoryId,selectedAdaRegion.id);
     } catch (error) {
       console.error(error);
     }
@@ -172,7 +162,7 @@ const AggrigateReportAdaLevel = () => {
                     <TableWrapper>
                       <div key={category.categoryId}>
                         <ExportButton
-                          onDownload={() => onDownload(category.id)}
+                         onDownload={() => onDownload(category.id,selectedSeason.id, selectedAdaRegion.id)}
                         />
                         <CategoryReportTabelAdaLevel
                           category={category}

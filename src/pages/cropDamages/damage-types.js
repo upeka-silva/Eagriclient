@@ -93,9 +93,11 @@ const DamageTypes = ({
 
   const addDamageType = () => {
     setFormData({});
+    console.log({formData});
     setDialogMode(DEF_ACTIONS.ADD);
     setOpenDamageTypeAddDialog(true);
   };
+
 
   const onConfirm = async () => {
     await deleteDamageType(formId, deleteItem?.id, onSuccess, onError);
@@ -112,7 +114,7 @@ const DamageTypes = ({
 
   return (
     <div>
-      <CustFormHeader saving={saving} state={state} formName="crop.damageTypes" />
+      <CustFormHeader saving={saving} state={state} formName="nav.crop.cropDamages" />
       {((onFormSaveSuccess || formMode === DEF_ACTIONS.ADD) && (
         <Button
           disabled={!formId}
@@ -167,7 +169,7 @@ const DamageTypes = ({
               onClick={onConfirm}
               sx={{ ml: "8px" }}
             >
-              {t("action.confirm")}
+              {t("action.ok")}
             </Button>
             <Button
               variant="contained"
@@ -175,13 +177,12 @@ const DamageTypes = ({
               onClick={close}
               sx={{ ml: "8px" }}
             >
-              {t("action.close")}
+              {t("action.cancel")}
             </Button>
           </ActionWrapper>
         }
       >
         <>
-          <DeleteMsg />
           <Divider sx={{ mt: "16px" }} />
           {renderSelectedItems()}
         </>

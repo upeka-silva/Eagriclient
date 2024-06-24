@@ -184,7 +184,7 @@ const CropTargetTab = ({
           permission={`${DEF_ACTIONS.EDIT}_${DEF_COMPONENTS.SEASONAL_CROP_TARGET}`}
         >
           <div style={{ textAlign: "left" }}>
-            <Button
+            {/* <Button
               disabled={mode === DEF_ACTIONS.VIEW}
               style={{ marginRight: "10px" }}
               variant="contained"
@@ -194,7 +194,7 @@ const CropTargetTab = ({
               sx={{ marginTop: "10px" }}
             >
               Clear
-            </Button>
+            </Button> */}
 
             {saving ? (
               <Button variant="contained" size="small">

@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,12 +25,13 @@ import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import DialogBox from "../../../components/PageLayout/DialogBox";
-import { deleteProvincialDoa } from "../../../redux/actions/ProvincialDoa/action";
+import { deleteProvincialDoa,downloadProvincialDoaExcel } from "../../../redux/actions/ProvincialDoa/action";
 import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import ProvincialDoaList from "./ProvincialDoaList";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const ProvincialDoa = () => {
   useUserAccessValidation();
@@ -157,7 +159,29 @@ const ProvincialDoa = () => {
       console.log(error);
     }
   };
-
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadProvincialDoaExcel(onDownloadSuccess,onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
+  
   return (
     <div
       style={{
@@ -171,6 +195,8 @@ const ProvincialDoa = () => {
     >
       <ListHeader title="Provincial DOA" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -206,6 +232,7 @@ const ProvincialDoa = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.PROVINCIAL_DIRECTOR_LEVEL}`}

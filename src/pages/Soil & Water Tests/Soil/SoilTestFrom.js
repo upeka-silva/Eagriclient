@@ -22,6 +22,7 @@ import {
 
 import FormButtonGroup from "../../../components/FormButtonGroup/FormButtonGroup";
 import PageHeader from "../../../components/PageHeader/PageHeader";
+import dayjs from "dayjs";
 
 const SoilTestFrom = () => {
   useUserAccessValidation();
@@ -44,7 +45,6 @@ const SoilTestFrom = () => {
       let newData = { ...current };
       newData[target] = value;
       return newData;
-
     });
   };
 
@@ -97,18 +97,25 @@ const SoilTestFrom = () => {
       let dateAnalyzed = new Date(formData.dateAnalyzed);
       try {
         if (formData?.id) {
-          await updateSoilTest({
-            ...formData,
-            dateSampled: dateSampled.valueOf() || null,
-            dateAnalyzed: dateAnalyzed.valueOf() || null,
-          }, onSuccess, onError);
+          await updateSoilTest(
+            {
+              ...formData,
+              dateSampled: dateSampled.valueOf() || null,
+              dateAnalyzed: dateAnalyzed.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         } else {
-          await handleSoilTest({
-            ...formData,
-            dateSampled: dateSampled.valueOf() || null,
-            dateAnalyzed: dateAnalyzed.valueOf() || null,
-          }, 
-          onSuccess, onError);
+          await handleSoilTest(
+            {
+              ...formData,
+              dateSampled: dateSampled.valueOf() || null,
+              dateAnalyzed: dateAnalyzed.valueOf() || null,
+            },
+            onSuccess,
+            onError
+          );
         }
       } catch (error) {
         console.log(error);
@@ -122,18 +129,24 @@ const SoilTestFrom = () => {
       : location.pathname;
   };
 
+  console.log("value", formData?.dateSampled);
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
-      <PageHeader saving={saving} state={state} formName="Soil Test" goBack={goBack} />
+      <PageHeader
+        saving={saving}
+        state={state}
+        formName="Soil Test"
+        goBack={goBack}
+      />
       <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
@@ -186,9 +199,7 @@ const SoilTestFrom = () => {
                 state?.action === DEF_ACTIONS.VIEW ||
                 state?.action === DEF_ACTIONS.EDIT
               }
-              onChange={(e) =>
-                handleChange(e?.target?.value || "", "name")
-              }
+              onChange={(e) => handleChange(e?.target?.value || "", "name")}
               sx={{
                 "& .MuiInputBase-root": {
                   borderRadius: "8px",
@@ -264,13 +275,15 @@ const SoilTestFrom = () => {
               {/* <DemoContainer components={["DatePicker"]}> */}
               <DatePicker
                 slotProps={{ textField: { size: "small", error: false } }}
-                in="DD-MM-YYYY"
+                format="DD-MM-YYYY"
                 name="dateSampled"
                 id="dateSampled"
-                value={formData?.dateSampled || ""}
+                defaultValue={
+                  formData?.dateSampled ? dayjs(formData.dateSampled) : null
+                }
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(value) => {
-                  handleChange(value || "", "dateSampled");
+                  handleChange(value ? value.toISOString() : "", "dateSampled");
                 }}
               />
               {/* </DemoContainer> */}
@@ -287,10 +300,15 @@ const SoilTestFrom = () => {
                 in="DD-MM-YYYY"
                 name="dateAnalyzed"
                 id="dateAnalyzed"
-                value={formData?.dateAnalyzed || ""}
+                defaultValue={
+                  formData?.dateAnalyzed ? dayjs(formData.dateAnalyzed) : null
+                }
                 disabled={state?.action === DEF_ACTIONS.VIEW}
                 onChange={(value) => {
-                  handleChange(value || "", "dateAnalyzed")
+                  handleChange(
+                    value ? value.toISOString() : "",
+                    "dateAnalyzed"
+                  );
                 }}
               />
               {/* </DemoContainer> */}

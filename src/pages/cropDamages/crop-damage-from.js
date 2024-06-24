@@ -126,7 +126,7 @@ const CropDamageForm = () => {
         <PageHeader
           saving={saving}
           state={state}
-          formName="nav.crop.cropDamages"
+          formName="nav.crop.damageTypes"
           goBack={goBack}
         />
         <FormButtonGroup
@@ -164,13 +164,13 @@ const CropDamageForm = () => {
                   },
                 }}
                 size="small"
-                fullWidth
+                fullWidth 
               />
             </FieldWrapper>
           </Grid>
           <Grid item sm={3} md={3} lg={3}>
             <FieldWrapper>
-              <FieldName>{t("cropDamagePage.name")}</FieldName>
+              <FieldName>{t("cropDamagePage.majorCategoryType")}</FieldName>
               <TextField
                 variant="outlined"
                 id="name"
@@ -187,9 +187,9 @@ const CropDamageForm = () => {
               />
             </FieldWrapper>
           </Grid>
-          <Grid item sm={6} md={6} lg={6}>
+          {/* <Grid item sm={6} md={6} lg={6}>
             <FieldWrapper>
-              <FieldName>{t("cropDamagePage.description")}</FieldName>
+              <FieldName>{t("cropDamagePage.majorCategoryType")}</FieldName>
               <TextField
                 variant="outlined"
                 id="description"
@@ -209,7 +209,7 @@ const CropDamageForm = () => {
                 fullWidth
               />
             </FieldWrapper>
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid container>
           <Grid item sm={12} md={12} lg={12}>

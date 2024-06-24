@@ -20,6 +20,7 @@ import {
   handleWaterTest,
   updateWaterTest,
 } from "../../../redux/actions/soil & water tests/water/action";
+import dayjs from "dayjs";
 
 const WaterTestForm = () => {
   useUserAccessValidation();
@@ -139,14 +140,14 @@ const WaterTestForm = () => {
 
   return (
     <div
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      fontFamily: `${Fonts.fontStyle1}`,
-      marginTop: "10px",
-      height: "90vh",
-      overflowY: "scroll",
-    }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        fontFamily: `${Fonts.fontStyle1}`,
+        marginTop: "10px",
+        height: "90vh",
+        overflowY: "scroll",
+      }}
     >
       <PageHeader
         saving={saving}
@@ -154,7 +155,7 @@ const WaterTestForm = () => {
         formName="Water Test"
         goBack={goBack}
       />
-     <FormButtonGroup
+      <FormButtonGroup
         state={state}
         DEF_ACTIONS={DEF_ACTIONS}
         saving={saving}
@@ -272,11 +273,18 @@ const WaterTestForm = () => {
                 slotProps={{ textField: { size: "small", error: false } }}
                 name="dateOfCollection"
                 id="dateOfCollection"
-                value={formData?.dateOfCollection || ""}
-                disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "dateOfCollection")
+                value={
+                  formData?.dateOfCollection
+                    ? dayjs(formData?.dateOfCollection)
+                    : null
                 }
+                disabled={state?.action === DEF_ACTIONS.VIEW}
+                onChange={(value) => {
+                  handleChange(
+                    value ? value.toISOString() : "",
+                    "dateOfCollection"
+                  );
+                }}
               />
               {/* </DemoContainer> */}
             </LocalizationProvider>
@@ -292,10 +300,10 @@ const WaterTestForm = () => {
                 slotProps={{ textField: { size: "small", error: false } }}
                 name="testDate"
                 id="testDate"
-                value={formData?.testDate || ""}
+                value={formData?.testDate ? dayjs(formData?.testDate) : null}
                 disabled={state?.action === DEF_ACTIONS.VIEW}
-                onChange={(e) =>
-                  handleChange(e?.target?.value || "", "testDate")
+                onChange={(value) =>
+                  handleChange(value ? value.toISOString() : "", "testDate")
                 }
               />
               {/* </DemoContainer> */}

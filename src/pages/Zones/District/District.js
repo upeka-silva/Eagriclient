@@ -198,11 +198,26 @@ const District = () => {
     console.log(selectedProvince);
     setDataEndPoint("geo-data/districts");
   };
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
   const onDownload = async () => {
     try {
-      await downloadDistrictExcel(onSuccess, onError);
+      await downloadDistrictExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
-      console.error(error);
+      console.error("Download failed:", error);
+      onDownloadError();
     }
   };
 

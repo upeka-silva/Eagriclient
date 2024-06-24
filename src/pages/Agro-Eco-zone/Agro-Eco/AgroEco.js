@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useUserAccessValidation } from "../../../hooks/authentication";
 import { useNavigate } from "react-router-dom";
 import {
-  Button,
   ButtonGroup,
   CircularProgress,
-  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
+  Stack,
 } from "@mui/material";
 import {
   DEF_ACTIONS,
@@ -19,18 +17,16 @@ import {
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
 import PermissionWrapper from "../../../components/PermissionWrapper/PermissionWrapper";
 import AgroEcoList from "./AgroEcoList";
-import DialogBox from "../../../components/PageLayout/DialogBox";
-import DeleteMsg from "../../../utils/constants/DeleteMsg";
 import { deleteAgroEco } from "../../../redux/actions/agroEco/action";
 import { SnackBarTypes } from "../../../utils/constants/snackBarTypes";
 import { defaultMessages } from "../../../utils/constants/apiMessages";
 import { useSnackBars } from "../../../context/SnackBarContext";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
-import { Add, Delete, Edit, Vrpano } from "@mui/icons-material";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const AgroEco = () => {
   useUserAccessValidation();
@@ -130,29 +126,29 @@ const AgroEco = () => {
     setDialogSelectedAgroEco([]);
   };
 
-  const renderSelectedItems = () => {
-    return (
-      <List>
-        {selectedAgroEco.map((p, key) => {
-          return (
-            <ListItem>
-              <ListItemIcon>
-                {loading ? (
-                  <CircularProgress size={16} />
-                ) : (
-                  <RadioButtonCheckedIcon color="info" />
-                )}
-              </ListItemIcon>
-              <ListItemText>
-                {p.aeZoneId} - {p.name}
-              </ListItemText>
-            </ListItem>
-          );
-        })}
-      </List>
-    );
+ 
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
   };
-
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  // const onDownload = async () => {
+  //   try {
+  //     await downloadEcoZoneExcel(onDownloadSuccess,onDownloadError);
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //     onDownloadError();
+  //   }
+  // };
   return (
     <div
       style={{
@@ -166,6 +162,8 @@ const AgroEco = () => {
     >
       <ListHeader title="Agro Eco Zone" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      {/* <ExportButton onDownload={onDownload} /> */}
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -200,6 +198,7 @@ const AgroEco = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <PermissionWrapper
         permission={`${DEF_ACTIONS.VIEW_LIST}_${DEF_COMPONENTS.AGRO_ECOLOGICAL_ZONE}`}

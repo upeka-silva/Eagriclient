@@ -155,7 +155,7 @@
       "auditForm": "විගණන පෝරමය"
     },
     "gap": {
-      "name": "පරතරය",
+      "name": "GAP",
       "gapRegistration": "GAP ලියාපදිංචිය",
       "gapRegs": "GAP නීති",
       "selfAssessment": "ස්වයං ඇගයීම",
@@ -195,7 +195,7 @@
       "biweeklyReportingForm": "සති දෙකක වාර්තා කිරීමේ පෝරමය",
       "varietySummary": {
         "name": "විවිධත්ව සාරාංශය",
-        "varietySummaryDdWise": "විවිධත්ව සාරාංශය - DD මට්ටම",
+        "cropSummaryDdWise": "විවිධත්ව සාරාංශය - DD මට්ටම",
         "varietySummaryAiWise": "විවිධත්ව සාරාංශය - AI මට්ටම",
         "varietySummaryAdaWise": "විවිධත්ව සාරාංශය - ADA මට්ටම",
         "cropSummaryAiLevel": "බෝග සාරාංශය (AI මට්ටම)"

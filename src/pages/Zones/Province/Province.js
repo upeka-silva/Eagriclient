@@ -162,11 +162,26 @@ const Province = () => {
       setLoading(false);
     }
   };
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
   const onDownload = async () => {
     try {
-      await downloadProvincesExcel(onSuccess, onError);
+      await downloadProvincesExcel(onDownloadSuccess,onDownloadError);
     } catch (error) {
-      console.error(error);
+      console.error("Download failed:", error);
+      onDownloadError();
     }
   };
 

@@ -7,6 +7,7 @@ const AggrigateVarietyCell = ({
   cropName = "",
   targetConfigs = {},
   reportConfigs = {},
+  categoryId = 0,
 }) => {
   const [irrigationModeMap, setirrIgationModeMap] = useState(new Map());
   const [irrigationModeTargetMap, setirrIgationModeTargetMap] = useState(
@@ -73,6 +74,11 @@ const AggrigateVarietyCell = ({
           <TableCell style={{ backgroundColor: "#A8CD9F" }}>
             {cropName}
           </TableCell>
+          {categoryId == 1  ? (
+            <TableCell style={{ backgroundColor: "#A8CD9F" }}>
+              {row?.ageType}
+            </TableCell>
+          ) : null}
           <TableCell style={{ backgroundColor: "#A8CD9F" }}>
             {row.varietyName}
           </TableCell>
@@ -100,6 +106,7 @@ const AggrigateVarietyCell = ({
 
       <TableRow>
         <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell>
+        { categoryId == 1 ? <TableCell style={{ backgroundColor: "#FCFFE0" }}></TableCell> : null }
         <TableCell style={{ backgroundColor: "#FCFFE0" }}>Total</TableCell>
         {targetConfigs.length > 0 &&
           targetConfigs.map((fieldName, innerIndex) => (

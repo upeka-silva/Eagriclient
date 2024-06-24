@@ -18,6 +18,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Stack,
   TextField,
 } from "@mui/material";
 import { ActionWrapper } from "../../../components/PageLayout/ActionWrapper";
@@ -49,12 +50,13 @@ import { get_ProvincialDdoaList } from "../../../redux/actions/provincialDdoa/ac
 import IntProvincialAdaList from "./IntProvincialAdaList";
 import { get_InterProvincialDoaList } from "../../../redux/actions/interProvincialDoa/action";
 import { get_InterProvincialDdoaListByDoaId } from "../../../redux/actions/interProvincialDdoa/action";
-import { deleteInterProvincialAda } from "../../../redux/actions/interProvincialAda/action";
+import { deleteInterProvincialAda ,downloadInterProvincialADAExcel} from "../../../redux/actions/interProvincialAda/action";
 import ListHeader from "../../../components/ListHeader/ListHeader";
 import { Fonts } from "../../../utils/constants/Fonts";
 import ConfirmationDialog from "../../../components/ConfirmationDialog/ConfirmationDialog";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import CrudActionButton from "../../../components/CrudActionButton/CrudActionButton";
+import ExportButton from "../../../components/ExportButton/ExportButton";
 
 const IntProvincialAda = () => {
   useUserAccessValidation();
@@ -247,6 +249,28 @@ const IntProvincialAda = () => {
       setDdoas(dataList);
     });
   };
+  const onDownloadSuccess = () => {
+    addSnackBar({
+      type: SnackBarTypes.success,
+      message: "Downloaded successfully",
+    });
+  };
+  
+  const onDownloadError = () => {
+    addSnackBar({
+      type: SnackBarTypes.error,
+      message: "Download failed",
+    });
+  };
+  
+  const onDownload = async () => {
+    try {
+      await downloadInterProvincialADAExcel(onDownloadSuccess,onDownloadError);
+    } catch (error) {
+      console.error("Download failed:", error);
+      onDownloadError();
+    }
+  };
 
   return (
     <div
@@ -261,6 +285,8 @@ const IntProvincialAda = () => {
     >
       <ListHeader title="Inter Provincial ADA" />
       <ActionWrapper isLeft>
+      <Stack direction="row" spacing={1} sx={{ paddingTop: "2px" }}>
+      <ExportButton onDownload={onDownload} />
         <ButtonGroup
           variant="outlined"
           disableElevation
@@ -296,6 +322,7 @@ const IntProvincialAda = () => {
             </PermissionWrapper>
           )}
         </ButtonGroup>
+        </Stack>
       </ActionWrapper>
       <ActionWrapper isLeft>
         <Grid container>
