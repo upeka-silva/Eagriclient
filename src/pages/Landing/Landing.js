@@ -17,6 +17,12 @@ import PriceLineChart from "./components/PriceLineChart";
 import LandingCarousel from "./components/LandingCarousel";
 import LandingHeader from "./components/LandingHeader";
 import { get_vegetable_early_warnings } from "../../redux/actions/vegwarning/action";
+import LandingFoodCard from "../../components/LandingFoodCard/LandingFoodCard";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import LandingFoodCardIconOnly from "../../components/LandingFoodCard/LandingFoodCardIconOnly";
 
 function Landing() {
   useUserAccessValidation();
@@ -201,22 +207,44 @@ function Landing() {
         </Grid>
 
         <Grid container mt={5} px={5}>
-          <Grid item md={8}>
+          <Grid item md={9}>
             {loading ? (
               <CircularProgress size={16} />
             ) : (
               <>
-                <Grid item md={12} mb={5} pl={5}>
-                  <LandingCarousel
-                    status={"Best Selection"}
-                    data={statusData?.BestData}
-                  />
+                <Grid item container md={12} mb={5} spacing={2}>
+                  <Grid item md={3}>
+                    <LandingFoodCardIconOnly
+                      image={SentimentVerySatisfiedIcon}
+                      foodName={"Paddy"}
+                      status={"Best Selection"}
+                      firstText={"Available Cul.Ext - 750000 ha"}
+                      secondText={"Available Cul.Ext - "}
+                    />
+                  </Grid>
+                  <Grid item md={9}>
+                    <LandingCarousel
+                      status={"Best Selection"}
+                      data={statusData?.BestData}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item md={12} mb={5} pl={5}>
-                  <LandingCarousel
-                    status={"Worst Selection"}
-                    data={statusData?.WorstData}
-                  />
+                <Grid item container md={12} mb={5} spacing={2}>
+                  <Grid item md={3}>
+                    <LandingFoodCardIconOnly
+                      image={SentimentVerySatisfiedIcon}
+                      foodName={"Paddy"}
+                      status={"Worst Selection"}
+                      firstText={"Available Cul.Ext - 750000 ha"}
+                      secondText={"Available Cul.Ext - "}
+                    />
+                  </Grid>
+                  <Grid item md={9}>
+                    <LandingCarousel
+                      status={"Worst Selection"}
+                      data={statusData?.WorstData}
+                    />
+                  </Grid>
                 </Grid>
               </>
             )}
@@ -243,8 +271,8 @@ function Landing() {
             </Grid> */}
           </Grid>
 
-          <Grid item md={4}>
-            <Grid sx={{ width: "70%", paddingLeft: "190px" }}>
+          <Grid item md={3}>
+            <Grid sx={{ width: "70%", paddingLeft: "120px" }}>
               <FaoEmergencyMap />
             </Grid>
           </Grid>

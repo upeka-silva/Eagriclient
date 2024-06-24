@@ -5,13 +5,13 @@
     display: flex;
     width: 50px;
     position: absolute;
-    top: 160px;
+    top: 130px;
 }
 
 .arrow-right{
-    right: -50px;
+    right: -25px;
 }
 
 .arrow-left{
-    left: -60px
+    left: -50px
 }
