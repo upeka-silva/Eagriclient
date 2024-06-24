@@ -12,9 +12,9 @@ const CreatePostList = ({
 }) => {
   const columns = [
     { field: "code", headerName: "Post Code" },
-    { field: "contentEng", headerName: "English Description" },
-    { field: "contentSin", headerName: "Sinhala Description" },
-    { field: "contentTam", headerName: "Tamil Description" },
+    { field: "titleEng", headerName: "Title" },
+    { field: "contentEng", headerName: "Content" },
+    { field: "mediaType", headerName: "Media Type" },
     { field: "tags", headerName: "Tags" },
   ];
 

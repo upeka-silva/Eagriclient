@@ -1,4 +1,4 @@
-import { Box, Button, Container, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { Client } from "@stomp/stompjs";
 import ChatMessage from "./ChatMessage";
@@ -6,34 +6,49 @@ import SockJS from "sockjs-client";
 import { getMessageList } from "../../redux/actions/communication/action";
 import { baseURL } from "../../utils/constants/api";
 
-const ChatPage = ({ conversation, user }) => {
+const ChatPage = ({ conversation, user, value }) => {
   const [messages, setMessages] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const messageInputRef = useRef();
   const messagesEndRef = useRef(null);
   const [client, setClient] = useState(null);
-  const type = "GROUP";
-  const value = conversation?.id;
+  let type = "";
+  value === 0 ? (type = "GROUP") : (type = "PRIVATE");
 
   const fetchMessages = () => {
-    getMessageList(type, value, page).then(({ dataList = [], totalPages }) => {
-      setTotalPages(totalPages);
-      setMessages((prevMessages) => [...prevMessages, ...dataList]);
-    });
+    getMessageList(type, conversation?.id, page).then(
+      ({ dataList = [], totalPages }) => {
+        setTotalPages(totalPages);
+        setMessages((prevMessages) => [...prevMessages, ...dataList]);
+      }
+    );
   };
 
   useEffect(() => {
     setPage(0);
     setMessages([]);
-    fetchMessages();
+    if (conversation?.id) {
+      fetchMessages();
+    }
+
     const newClient = new Client({
       webSocketFactory: () => new SockJS(`${baseURL}ws-endpoint`),
       onConnect: () => {
-        newClient.subscribe(`/topic/${conversation.id}`, (message) => {
-          const newMessage = JSON.parse(message.body);
-          setMessages((prevMessages) => [newMessage, ...prevMessages]);
-        });
+        if (value === 0) {
+          newClient.subscribe(`/topic/group/${conversation.id}`, (message) => {
+            const newMessage = JSON.parse(message.body);
+            setMessages((prevMessages) => [newMessage, ...prevMessages]);
+          });
+        } else {
+          newClient.subscribe(
+            `/topic/private/${conversation.id}`,
+            (message) => {
+              const newMessage = JSON.parse(message.body);
+              setMessages((prevMessages) => [newMessage, ...prevMessages]);
+            }
+          );
+        }
       },
       onStompError: (frame) => {
         console.log("Broker reported error: " + frame.headers["message"]);
@@ -47,7 +62,7 @@ const ChatPage = ({ conversation, user }) => {
     return () => {
       newClient.deactivate();
     };
-  }, [conversation?.id]);
+  }, [conversation?.id, value]);
 
   useEffect(() => {
     const contentElement = document.getElementById("chat-page-content");
@@ -80,7 +95,7 @@ const ChatPage = ({ conversation, user }) => {
     if (client) {
       const chatMessage = {
         content: messageInputRef.current.value,
-        recipientType: "GROUP",
+        recipientType: type,
         recipientValue: conversation.id,
         senderId: user.id,
         senderName: `${user.firstName} ${user.lastName}`,
@@ -109,7 +124,7 @@ const ChatPage = ({ conversation, user }) => {
           height: "500px",
           overflow: "auto",
           width: "100%",
-          border: "3px solid green",
+          border: "0px",
           borderRadius: "20px",
           boxShadow:
             "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
@@ -144,16 +159,21 @@ const ChatPage = ({ conversation, user }) => {
           variant="outlined"
           placeholder="Type a message..."
           onKeyDown={handleKeyDown}
+          disabled={conversation === null}
         />
         <Box marginLeft={2}>
           <Button
             variant="contained"
-            color="success"
             disabled={conversation === null}
             sx={{
               width: "94px",
               height: "42px",
               borderRadius: "36px",
+              background: "#B3C8CF",
+              "&:hover": {
+                background: "#8b9695",
+                border: "0px",
+              },
             }}
             onClick={publishMessage}
           >

@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
+  IconButton,
   MenuItem,
   Select,
   Switch,
@@ -21,6 +22,7 @@ import { getAllAiAndMahaweliUnits } from "../../redux/actions/cropLook/cropTarge
 import { get_CropList } from "../../redux/actions/crop/crop/action";
 import { get_GnDivisionListWithoutPage } from "../../redux/actions/gnDivision/action";
 import { DEF_ACTIONS } from "../../utils/constants/permission";
+import { PhotoCamera } from "@mui/icons-material";
 
 const CreateGroupDialog = ({
   open,
@@ -30,6 +32,8 @@ const CreateGroupDialog = ({
   mode,
   handleChange,
   action,
+  handleImageChange,
+  selectedImage,
 }) => {
   const [options, setOptions] = useState([]);
   const [cropOptions, setCropOptions] = useState([]);
@@ -81,12 +85,78 @@ const CreateGroupDialog = ({
           >
             <Grid item sm={12} md={12} lg={12}>
               <FieldWrapper>
+                <FieldName>Select Group Image</FieldName>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="profile-picture-input"
+                    style={{ display: "none" }}
+                    onChange={handleImageChange}
+                    // disabled={state?.action === DEF_ACTIONS.VIEW}
+                  />
+
+                  <Box
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                    sx={{ position: "relative" }}
+                  >
+                    <label
+                      htmlFor="profile-picture-input"
+                      style={{
+                        width: "182px",
+                        height: "182px",
+                        border: "1px solid #7a879d",
+                        borderRadius: "8px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundColor: "rgb(46,125,50,0.1)",
+                      }}
+                    >
+                      <IconButton component="span" style={{ zIndex: "2" }}>
+                        <PhotoCamera />
+                      </IconButton>
+                    </label>
+                    {selectedImage && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          zIndex: "1",
+                          backgroundColor: "rgb(46,125,50,0.1)",
+                          width: "182px",
+                          height: "182px",
+                          borderRadius: "8px",
+                        }}
+                      >
+                        <img
+                          src={selectedImage}
+                          alt="Crop"
+                          style={{
+                            width: "182px",
+                            height: "182px",
+                            borderRadius: "8px",
+                          }}
+                        />
+                      </div>
+                    )}
+                  </Box>
+                </div>
+              </FieldWrapper>
+              <FieldWrapper>
                 <FieldName
                   style={{
                     width: "100%",
                   }}
                 >
-                  Group Id
+                  Group Name
                 </FieldName>
                 <TextField
                   name="groupId"
@@ -134,8 +204,7 @@ const CreateGroupDialog = ({
                   }}
                 />
               </FieldWrapper>
-              <FieldWrapper 
-                className="autocomplete">
+              <FieldWrapper className="autocomplete">
                 <FieldName>AI Region/ Mahaweli Block</FieldName>
                 <Autocomplete
                   // multiple
@@ -172,7 +241,11 @@ const CreateGroupDialog = ({
                 />
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Is Default</FieldName>
+                <FieldName>Make this default group?</FieldName>
+                <FieldName>
+                  you can have only one default group per region with all the
+                  farmers in the region
+                </FieldName>
                 <Switch
                   name="isDefault"
                   id="isDefault"
@@ -186,12 +259,17 @@ const CreateGroupDialog = ({
                 />
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Is Custom</FieldName>
+                <FieldName>Make this custom group?</FieldName>
+                <FieldName>
+                  You can target specific farmers based on crop or region
+                </FieldName>
                 <Switch
                   name="isCustom"
                   id="isCustom"
                   value={formData?.isCustom || ""}
-                  disabled={action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    action === DEF_ACTIONS.VIEW || formData?.isDefault === true
+                  }
                   onChange={(e) =>
                     handleChange(e?.target?.checked || "", "isCustom")
                   }
@@ -200,12 +278,16 @@ const CreateGroupDialog = ({
                 />
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Filter Type</FieldName>
+                <FieldName>
+                  Specify the target type, crop or Grama Niladhari division
+                </FieldName>
                 <Select
                   name="filterType"
                   id="filterType"
                   value={formData?.filterType || ""}
-                  disabled={action === DEF_ACTIONS.VIEW}
+                  disabled={
+                    action === DEF_ACTIONS.VIEW || formData?.isDefault === true
+                  }
                   onChange={(e) =>
                     handleChange(e?.target?.value || "", "filterType")
                   }
@@ -220,12 +302,15 @@ const CreateGroupDialog = ({
                 </Select>
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Crop</FieldName>
+                <FieldName>
+                  Select crop to target specific farmers based on the crop
+                </FieldName>
                 <Autocomplete
                   multiple
                   disabled={
                     formData?.filterType !== "CROP" ||
-                    formData?.filterType === null || action === DEF_ACTIONS.VIEW
+                    formData?.filterType === null ||
+                    action === DEF_ACTIONS.VIEW
                   }
                   options={cropOptions}
                   value={
@@ -250,12 +335,16 @@ const CreateGroupDialog = ({
                 />
               </FieldWrapper>
               <FieldWrapper>
-                <FieldName>Gn</FieldName>
+                <FieldName>
+                  Select Grama Niladhari division to target specific farmers
+                  based on the division
+                </FieldName>
                 <Autocomplete
                   multiple
                   disabled={
                     formData?.filterType !== "GN" ||
-                    formData?.filterType === null || action === DEF_ACTIONS.VIEW
+                    formData?.filterType === null ||
+                    action === DEF_ACTIONS.VIEW
                   }
                   options={gnOptions}
                   value={
