@@ -10,7 +10,6 @@ import {
 } from "@mui/material";
 import ChatPage from "./ChatPage";
 import SingleConversation from "./SingleConversation";
-import { useEffect, useRef, useState } from "react";
 import { getUserProfile } from "../../redux/actions/users/action";
 import {
   createGroup,
@@ -33,6 +32,7 @@ import DeleteMsg from "../../utils/constants/DeleteMsg";
 import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from "@mui/icons-material/Person";
 import CreatePrivateChat from "./CreatePrivateChat";
+import { useEffect, useState } from "react";
 
 const Chat = () => {
   const [conversation, setConversation] = useState(null);
