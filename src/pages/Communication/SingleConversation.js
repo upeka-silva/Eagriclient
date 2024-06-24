@@ -1,30 +1,43 @@
-import { Box, Grid } from "@mui/material";
+import { Avatar, Box, Grid } from "@mui/material";
 import styled from "styled-components";
 
 const SingleConversation = ({
   conversation,
   handleConversation,
   isSelected,
+  user,
+  privateConversation,
 }) => {
   return (
     <div className="single-conversation">
       <HoverBox
-        sx={{ backgroundColor: isSelected ? "#1bc247" : "lightgreen" }}
-        borderRadius={"10px"}
-        backgroundColor={"lightgreen"}
-        height={"50px"}
-        border={"1px solid green"}
+        sx={{ backgroundColor: isSelected ? "#8b9695" : "#EEF7FF" }}
+        borderRadius={"0px"}
+        height={"auto"}
+        border={"0px"}
         onClick={handleConversation}
-        margin={"5px"}
+        margin={"0px"}
       >
         <Grid
           container
           direction="row"
           alignItems={"center"}
-          justifyContent={"space-around"}
+          textAlign={"left"}
         >
-          <h4>{conversation?.groupId}</h4>
-          {/* <p >{conversation?.description}</p> */}
+          <Grid sm={2} md={2} lg={2} xl={2} p={1}>
+            <Avatar
+              src={
+                conversation?.presignedUrl ||
+                privateConversation?.userValueDTO?.profileImage
+              }
+            />
+          </Grid>
+          <Grid sm={7} md={6} lg={6} xl={6} pl={1}>
+            <p>
+              {conversation?.groupId ||
+                privateConversation?.userValueDTO?.userName}
+            </p>
+          </Grid>
         </Grid>
       </HoverBox>
     </div>
@@ -33,14 +46,14 @@ const SingleConversation = ({
 
 const HoverBox = styled(Box)`
   border-radius: 10px;
-  background-color: lightgreen;
+  background-color: #b6c7aa;
   height: 50px;
-  border: 1px solid green;
-  margin: 5px;
+  border: 0px;
+  margin: 0px;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: green;
+    background-color: #8b9695;
     cursor: pointer;
   }
 `;
